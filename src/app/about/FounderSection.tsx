@@ -22,7 +22,12 @@ const FounderSection: React.FC = () => {
         <img
           src="/about-us/gradient2.png"
           alt="Gradient Decoration 2"
-          className="absolute pointer-events-none w-[400px] h-[1400px] md:w-[750px] md:h-[1400px] z-40 left-[800px] top-[50px] rotate-[-38.2deg]"
+          className="absolute pointer-events-none w-[400px] h-[1400px] md:w-[750px] md:h-[1400px] z-40 left-[798px] top-[50px] rotate-[-38.2deg]"
+        />
+        <img
+          src="/about-us/gradient3.png"
+          alt="Gradient Decoration 2"
+          className="absolute pointer-events-none w-[400px] h-[1400px] md:w-[750px] md:h-[1400px] z-40 left-[1430px] top-[-360px] rotate-[-38.2deg]"
         />
 
         {/* Text Overlay inside the circle */}

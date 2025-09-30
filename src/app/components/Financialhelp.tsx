@@ -3019,7 +3019,7 @@ const FinancialPlanInterface: React.FC = () => {
                 style={{ transform: `translateX(-${currentCard * 100}%)` }}
               >
                 {cards.map((card, cardIndex) => (
-                  <div key={cardIndex} className={`w-full flex-shrink-0 ${cardIndex === 1 || cardIndex === 2 ? 'flex justify-center' : ''}`}>
+                  <div id="f" key={cardIndex} className={`w-full flex-shrink-0 ${cardIndex === 1 || cardIndex === 2 ? 'flex justify-center' : ''}`}>
                     <div
                       className={`bg-transparent backdrop-blur-sm rounded-[56px] p-10 w-full flex items-stretch relative z-10 ${cardIndex === 1 || cardIndex === 2 ? 'max-w-4xl' : 'max-w-6xl'}`}
                       style={{
