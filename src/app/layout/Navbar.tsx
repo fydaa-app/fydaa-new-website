@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
 import router from "next/router";
@@ -7,7 +7,27 @@ import router from "next/router";
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [deviceType, setDeviceType] = useState<'ios' | 'android' | 'desktop'>('desktop');
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Device detection
+  useEffect(() => {
+    const detectDevice = () => {
+      if (typeof window !== 'undefined') {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        
+        if (/iphone|ipad|ipod/.test(userAgent)) {
+          setDeviceType('ios');
+        } else if (/android/.test(userAgent)) {
+          setDeviceType('android');
+        } else {
+          setDeviceType('desktop');
+        }
+      }
+    };
+
+    detectDevice();
+  }, []);
 
   // Clear any existing timeout
   const clearDropdownTimeout = () => {
@@ -60,6 +80,21 @@ const Navbar: React.FC = () => {
         window.history.pushState(null, "", `/#${id}`);
         scrollToWithOffset(id, 80);
       }
+    }
+  };
+
+  // Handler for download app button
+  const handleDownloadApp = () => {
+    const iosUrl = "https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190";
+    const androidUrl = "https://play.google.com/store/apps/details?id=com.app.fydaa&hl=en";
+    
+    if (deviceType === 'ios') {
+      window.open(iosUrl, '_blank');
+    } else if (deviceType === 'android') {
+      window.open(androidUrl, '_blank');
+    } else {
+      // For desktop users, show both options or default to iOS
+      window.open(iosUrl, '_blank');
     }
   };
 
@@ -313,7 +348,10 @@ const Navbar: React.FC = () => {
 
           {/* CTA */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            <button className="bg-black text-white px-6 py-2 rounded-full font-medium cursor-pointer hover:bg-gray-800 transition-all duration-200 shadow-sm">
+            <button 
+              onClick={handleDownloadApp}
+              className="bg-black text-white px-6 py-2 rounded-full font-medium cursor-pointer hover:bg-gray-800 transition-all duration-200 shadow-sm"
+            >
               Download App
             </button>
             <button
