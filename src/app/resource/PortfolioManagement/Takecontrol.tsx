@@ -4,18 +4,22 @@ const TakeControl: React.FC = () => {
   return (
     <main className="w-full h-full m-0 p-0 relative">
       {/* Top Section - Light Background */}
-      <section className="relative py-20 px-4 lg:px-8">
-        <div className="max-w-7xl mx-auto relative">
+      <section className="relative py-32 px-0 mx-0">
+        <div className="w-full mx-0 px-0 relative">
 
-          <div className="text-left mt-16">
+          <div className="text-left mt-16 mx-0 px-0">
             {/* Left Content */}
-            <div className="space-y-6 relative z-20">
-              <div className="flex justify-between items-start">
-                <div className="flex-1 relative z-30">
-                  <h1 className="text-6xl font-bold text-gray-900 leading-tight font-gilroy">
+            <div className="space-y-6 relative z-20 mx-0 px-0">
+              <div className="flex justify-between items-start mx-0 px-0">
+                <div className="flex-1 relative z-30 mx-0 px-0">
+                  <h1 className="text-6xl font-bold text-gray-900 pl-[50px] leading-tight font-gilroy">
                   Your Money, Managed <br /> Professionally
                   </h1>
-                
+                  <p className="text-lg text-gray-700 pl-[50px] leading-relaxed font-inter">
+                  From tracking to growing, we handle it all. We monitor your investments, rebalance your <br />
+                  portfolio, and suggest changes based on market trends and your evolving needs. All you <br />
+                   need to do is watch your wealth grow.
+                  </p>
                 </div>
                 <div className="absolute -top-[500px] -left-8 -right-8 -z-10 flex gap-0">
                   <img
@@ -35,29 +39,29 @@ const TakeControl: React.FC = () => {
             {/* Blue circle image - positioned below content */}
             {/* Width options: w-full, w-screen, w-[800px], w-[1000px], w-[1200px], w-[1400px], w-[1600px] */}
             {/* Height options: h-auto, h-[200px], h-[300px], h-[400px], h-[500px], h-[600px], h-[800px], h-[1000px] */}
-            <div className="mt-96 relative z-0 flex justify-center overflow-visible">
-              <div className="relative overflow-visible">
+            <div className="mt-[200px] relative z-0 flex justify-center overflow-visible mx-0 px-0 w-full">
+              <div className="relative overflow-visible w-full mx-0 px-0">
                 <img
-                  src="/resource/oval.png"
+                  src="/resource/blue.png"
                   alt="Blue Circle"
-                  className="w-[8000px] h-[1000px] scale-150"
+                  className="w-full h-auto object-contain mx-0 px-0"
                 />
                 {/* Text overlay on blue circle */}
-                <div className="absolute inset-0 flex flex-col items-center justify-start text-center px-8 -pt-24">
-                  <h2 className="text-5xl font-bold text-white mb-6 leading-tight font-gilroy">
-                  From Tracking to Growing,We Handle It All
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center pt-[100px] pb-[60px]">
+                  <h2 className="text-[44px] font-bold text-white mb-[16px] leading-tight font-gilroy">
+                  From Tracking to Growing, We Handle It All
                   </h2>
-                  <p className="text-lg text-gray-200 max-w-6xl leading-loose mb-12 font-inter">
+                  <p className="text-[16px] text-gray-200 max-w-[1100px] leading-relaxed mb-[40px] font-inter">
                   We monitor your investments, rebalance your portfolio, and suggest changes based on market trends and your evolving needs. All you need to do is watch your wealth grow.
                   </p>
                   
                   {/* Video Placeholder */}
-                  <div className="bg-gray-800 rounded-2xl p-8 shadow-2xl relative overflow-hidden w-[776px]">
+                  <div className="bg-gray-800 rounded-2xl p-[24px] shadow-2xl relative overflow-hidden w-[700px] mb-[30px]">
                     {/* Video Screen */}
-                    <div className="bg-gray-700 rounded-xl h-[400px] flex items-center justify-center relative mb-6">
+                    <div className="bg-gray-700 rounded-xl h-[350px] flex items-center justify-center relative mb-[16px]">
                       {/* Play Button */}
-                      <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform cursor-pointer">
-                        <div className="w-0 h-0 border-l-[24px] border-l-blue-600 border-t-[14px] border-t-transparent border-b-[14px] border-b-transparent ml-1"></div>
+                      <div className="w-[80px] h-[80px] bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform cursor-pointer">
+                        <div className="w-0 h-0 border-l-[20px] border-l-blue-600 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent ml-1"></div>
                       </div>
                       
                       {/* Subtle Glow Effect */}

@@ -5,7 +5,7 @@ import React from 'react';
 const HeroSection: React.FC = () => {
   return (
     <section
-      className="w-full h-screen bg-[#F7F7F7] m-0 p-0 relative overflow-hidden flex items-center justify-center"
+      className="w-full h-screen pb-20 bg-[#F7F7F7] m-0 p-0 relative overflow-hidden flex items-center justify-center"
     >
       {/* First gradient overlay - positioned absolutely for easy control */}
       <div 

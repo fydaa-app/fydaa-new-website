@@ -2,7 +2,7 @@ import React from 'react';
 
 const AdvisoryFydaa: React.FC = () => {
   return (
-    <div className="w-full min-h-screen relative bg-white overflow-visible">
+    <div className="w-full pb-20 relative bg-white overflow-visible">
         {/* Left Top Gradient */}
         <img 
           src="/advisory/leftgradient.png" 
