@@ -15,14 +15,13 @@ const MissionSection: React.FC = () => {
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
     }, 5000);
-
     return () => clearInterval(interval);
   }, [images.length]);
 
   return (
     <main className="w-full h-full m-0 p-0 relative">
       {/* Mission Section - Light Gray Background with Gradient */}
-      <section className="relative py-20 px-4 lg:px-8 bg-[#F7F7F7] min-h-screen pb-[600px]">
+      <section className="relative py-16 px-4 sm:px-6 md:px-8 bg-[#F7F7F7] min-h-screen pb-[400px] md:pb-[600px]">
         {/* First gradient overlay */}
         <div
           className="absolute inset-0 pointer-events-none z-10"
@@ -62,34 +61,34 @@ const MissionSection: React.FC = () => {
 
         <div className="max-w-7xl mx-auto relative h-full">
           {/* Two Equal Halves Container */}
-          <div className="flex items-center justify-center min-h-screen relative z-20">
+          <div className="flex flex-col md:flex-row items-center justify-center min-h-screen relative z-20 gap-8 md:gap-0">
             {/* Left Half - Rotating Images */}
-            <div className="w-1/2 flex items-center justify-center relative z-30">
+            <div className="w-full md:w-1/2 flex items-center justify-center relative z-30">
               <div
-                className="relative flex items-center justify-center p-[38px]"
-                style={{ width: 593, height: 511 }}
+                className="relative flex items-center justify-center p-8 sm:p-10"
+                style={{ width: "100%", maxWidth: 593, height: "auto", maxHeight: 511 }}
               >
                 <img
                   src={images[currentImageIndex]}
                   alt={`Pie Chart ${currentImageIndex + 1}`}
-                  className="w-[593px] h-[511px] object-contain"
+                  className="w-full max-w-[593px] h-auto max-h-[511px] object-contain"
                   key={currentImageIndex}
                 />
               </div>
             </div>
 
             {/* Right Half - Mission Text */}
-            <div className="w-1/2 flex items-center justify-center relative z-30 ">
-              <div className="text-left max-w-xl">
+            <div className="w-full md:w-1/2 flex items-center justify-center relative z-30">
+              <div className="text-left max-w-xl px-4 sm:px-0">
                 <h1
-                  className="text-[56px] font-semibold text-gray-900 leading-tight font-gilroy mb-6"
-                  style={{ letterSpacing: "-2.24px" }}
+                  className="text-4xl sm:text-5xl md:text-[56px] font-semibold text-gray-900 leading-tight font-gilroy mb-6"
+                  style={{ letterSpacing: "-1.5px" }}
                 >
                   Our Mission
                 </h1>
                 <p
-                  className="text-[18px] text-gray-700 font-inter font-normal mb-8"
-                  style={{ lineHeight: "24.8px", letterSpacing: "-0.36px" }}
+                  className="text-base sm:text-lg md:text-[18px] text-gray-700 font-inter font-normal mb-8"
+                  style={{ lineHeight: "1.5rem", letterSpacing: "-0.2px" }}
                 >
                   Fydaa's mission is to break the barriers of geography, jargon,
                   and high fees. Whether you're in a Tier 1 city or a Tier 3
@@ -98,14 +97,14 @@ const MissionSection: React.FC = () => {
                   yours.
                 </p>
                 <h2
-                  className="text-[32px] font-medium text-gray-900 font-gilroy mb-4"
-                  style={{ lineHeight: "40px", letterSpacing: "-1.28px" }}
+                  className="text-2xl sm:text-3xl md:text-[32px] font-medium text-gray-900 font-gilroy mb-4"
+                  style={{ lineHeight: "2.5rem", letterSpacing: "-1px" }}
                 >
                   Different People, Different Portfolios
                 </h2>
                 <p
-                  className="text-[32px] text-gray-700 font-inter font-thin italic"
-                  style={{ lineHeight: "36px", letterSpacing: "-2.24px" }}
+                  className="text-2xl sm:text-3xl md:text-[32px] text-gray-700 font-inter font-thin italic"
+                  style={{ lineHeight: "2.25rem", letterSpacing: "-1.5px" }}
                 >
                   Fydaa is an investment app that adapts to your appetite for
                   investing
@@ -132,8 +131,6 @@ const MissionSection: React.FC = () => {
                     />
                   </svg>
                 </button>
-
-                <div className="flex items-center space-x-2 group cursor-pointer"></div>
               </div>
             </div>
           </div>

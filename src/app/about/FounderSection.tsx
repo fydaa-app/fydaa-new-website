@@ -10,6 +10,21 @@ const FounderSection: React.FC = () => {
           className="w-[8000px] h-[880px] scale-150 rounded-[45%_45%_50%_50%]"
         />
 
+        {/* Gradient overlays */}
+
+        <img
+          src="/about-us/gradient2.png"
+          alt="Gradient Decoration 2"
+          className="absolute pointer-events-none w-[400px] h-[1400px] md:w-[750px] md:h-[1400px] z-40 left-[-500px] top-[-100px] rotate-[38.2deg]"
+        />
+      
+
+        <img
+          src="/about-us/gradient2.png"
+          alt="Gradient Decoration 2"
+          className="absolute pointer-events-none w-[400px] h-[1400px] md:w-[750px] md:h-[1400px] z-40 left-[800px] top-[50px] rotate-[-38.2deg]"
+        />
+
         {/* Text Overlay inside the circle */}
         <div className="absolute inset-0 flex flex-col items-center text-center px-4">
           {/* Centered "How it Started" Section */}
@@ -26,7 +41,6 @@ const FounderSection: React.FC = () => {
 
           {/* Split section beginning below the above text */}
           <div className="mt-16 flex flex-col lg:flex-row justify-center max-w-full lg:max-w-[1170px] w-full gap-12 mx-auto">
-            {/* Left side */}
             {/* Left side */}
             <div className="flex-1 flex justify-center items-center relative z-50">
               <img
