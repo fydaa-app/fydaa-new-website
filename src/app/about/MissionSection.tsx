@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 
+
+
 const MissionSection: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = [
@@ -8,6 +10,8 @@ const MissionSection: React.FC = () => {
     "/about-us/pie2.png",
     "/about-us/pie3.png",
   ];
+
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,6 +21,8 @@ const MissionSection: React.FC = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, [images.length]);
+
+
 
   return (
     <main className="w-full h-full m-0 p-0 relative">
@@ -35,6 +41,8 @@ const MissionSection: React.FC = () => {
           }}
         ></div>
 
+
+
         {/* Second gradient overlay */}
         <div
           className="absolute -left-20 -bottom-40 w-1/3 h-1/2 pointer-events-none z-10 hidden md:block"
@@ -47,6 +55,8 @@ const MissionSection: React.FC = () => {
           }}
         ></div>
 
+
+
         {/* Third gradient overlay */}
         <div
           className="absolute -right-20 -bottom-40 w-1/3 h-1/2 pointer-events-none z-10 hidden md:block"
@@ -58,6 +68,8 @@ const MissionSection: React.FC = () => {
             opacity: 0.3,
           }}
         ></div>
+
+
 
         <div className="max-w-7xl mx-auto relative h-full">
           {/* Two Equal Halves Container */}
@@ -76,6 +88,8 @@ const MissionSection: React.FC = () => {
                 />
               </div>
             </div>
+
+
 
             {/* Right Half - Mission Text */}
             <div className="w-full md:w-1/2 flex items-center justify-center relative z-30">
@@ -110,6 +124,8 @@ const MissionSection: React.FC = () => {
                   investing
                 </p>
 
+
+
                 <button className="bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-full font-medium cursor-pointer transition-all duration-200 shadow-sm flex items-center space-x-2 mt-8 group">
                   <span className="font-medium text-[16px] font-inter group-hover:text-white">
                     Start Investing Now
@@ -139,5 +155,7 @@ const MissionSection: React.FC = () => {
     </main>
   );
 };
+
+
 
 export default MissionSection;

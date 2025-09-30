@@ -21,12 +21,7 @@ const HeroSection: React.FC = () => {
                     />
                   </div>
                   
-                  <h1 className="text-6xl text-center font-bold text-gray-900 leading-tight font-gilroy">
-                  Bharosa Humara, Fydaa Aapka
-                  </h1>
-                  <p className="text-lg text-gray-700 text-center leading-relaxed font-inter mb-8">
-                  Our trust, your gain – helping everyday Indians build wealth with confidence.
-                  </p>
+                 
                   
                   {/* Download App Button */}
                   <div className="flex justify-center">
