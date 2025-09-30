@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 const FinancialPlanInterface: React.FC = () => {
+  const [currentCard, setCurrentCard] = useState(0);
   return (
     <div className="p-0 bg-black flex flex-col items-center justify-start min-h-[2400px] m-0 rounded-[56px] relative overflow-hidden">
       {/* Gradient Image - positioned left of title */}
@@ -62,8 +63,8 @@ const FinancialPlanInterface: React.FC = () => {
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
                       <img
-                        src="/FinancialPlan/card1.png"
-                        alt="Calculator and coin icon"
+                        src="/FinancialPlan/debtmanagement.png"
+                        alt="Investment Planning icon"
                         width={80}
                         height={100}
                         className="object-contain"
@@ -210,8 +211,8 @@ const FinancialPlanInterface: React.FC = () => {
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
                       <img
-                        src="/FinancialPlan/card2.png"
-                        alt="Calculator and coin icon"
+                        src="/FinancialPlan/expensemanagement.png"
+                        alt="Expense Management icon"
                         width={80}
                         height={100}
                         className="object-contain"
@@ -357,8 +358,8 @@ const FinancialPlanInterface: React.FC = () => {
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
                       <img
-                        src="/FinancialPlan/card3.png"
-                        alt="Calculator and coin icon"
+                        src="/FinancialPlan/personalbudget.png"
+                        alt="Portfolio Management icon"
                         width={80}
                         height={100}
                         className="object-contain"
@@ -501,13 +502,13 @@ const FinancialPlanInterface: React.FC = () => {
                    />
                    
                    <div className="flex flex-col items-start space-y-16 relative z-10">
-                     <div className="w-[80px] h-[100px] relative mt-4">
+                     <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-1">
                        <img
-                         src="/FinancialPlan/card2.png"
+                         src="/FinancialPlan/Tax1Consultancy.png"
                          alt="Tax consultancy icon"
-                         width={80}
-                         height={100}
-                         className="object-contain"
+                         width={180}
+                         height={220}
+                         className="object-contain scale-150"
                        />
                      </div>
                      <div className="space-y-2">
@@ -647,13 +648,13 @@ const FinancialPlanInterface: React.FC = () => {
                    />
                    
                    <div className="flex flex-col items-start space-y-16 relative z-10">
-                     <div className="w-[80px] h-[100px] relative mt-4">
+                     <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-1">
                        <img
-                         src="/FinancialPlan/card3.png"
+                         src="/FinancialPlan/Financialhealth.png"
                          alt="Financial health checkup icon"
-                         width={80}
-                         height={100}
-                         className="object-contain"
+                         width={180}
+                         height={220}
+                         className="object-contain scale-150"
                        />
                      </div>
                      <div className="space-y-2">
@@ -795,7 +796,7 @@ const FinancialPlanInterface: React.FC = () => {
                    <div className="flex flex-col items-start space-y-16 relative z-10">
                      <div className="w-[80px] h-[100px] relative mt-4">
                        <img
-                         src="/FinancialPlan/card1.png"
+                         src="/FinancialPlan/personalbudget.png"
                          alt="Personalized budgeting plan icon"
                          width={80}
                          height={100}
@@ -941,7 +942,7 @@ const FinancialPlanInterface: React.FC = () => {
                    <div className="flex flex-col items-start space-y-16 relative z-10">
                      <div className="w-[80px] h-[100px] relative mt-4">
                        <img
-                         src="/FinancialPlan/card2.png"
+                         src="/FinancialPlan/debtmanagement.png"
                          alt="Debt management and refinancing icon"
                          width={80}
                          height={100}
@@ -1085,13 +1086,13 @@ const FinancialPlanInterface: React.FC = () => {
                    />
                    
                    <div className="flex flex-col items-start space-y-16 relative z-10">
-                     <div className="w-[80px] h-[100px] relative mt-4">
+                     <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-2">
                        <img
-                         src="/FinancialPlan/card3.png"
+                         src="/FinancialPlan/Emergency1FundSetup.png"
                          alt="Emergency fund setup and guidance icon"
-                         width={80}
-                         height={100}
-                         className="object-contain"
+                         width={180}
+                         height={220}
+                         className="object-contain scale-150"
                        />
                      </div>
                      <div className="space-y-2">
@@ -1233,7 +1234,7 @@ const FinancialPlanInterface: React.FC = () => {
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card1.png" alt="Calculator and coin icon" width={80} height={100} className="object-contain" />
+                      <img src="/FinancialPlan/debtmanagement.png" alt="Investment Planning icon" width={80} height={100} className="object-contain" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Investment Planning</h2>
@@ -1338,7 +1339,7 @@ const FinancialPlanInterface: React.FC = () => {
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card2.png" alt="Calculator and coin icon" width={80} height={100} className="object-contain" />
+                      <img src="/FinancialPlan/expensemanagement.png" alt="Expense Management icon" width={80} height={100} className="object-contain" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Expense Management</h2>
@@ -1443,7 +1444,7 @@ const FinancialPlanInterface: React.FC = () => {
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card3.png" alt="Calculator and coin icon" width={80} height={100} className="object-contain" />
+                      <img src="/FinancialPlan/personalbudget.png" alt="Portfolio Management icon" width={80} height={100} className="object-contain" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Portfolio Management</h2>
@@ -1547,8 +1548,8 @@ const FinancialPlanInterface: React.FC = () => {
                     }}
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card2.png" alt="Tax consultancy icon" width={80} height={100} className="object-contain" />
+                    <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-1">
+                      <img src="/FinancialPlan/Tax1Consultancy.png" alt="Tax consultancy icon" width={180} height={220} className="object-contain scale-150" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Tax Consultancy</h2>
@@ -1652,8 +1653,8 @@ const FinancialPlanInterface: React.FC = () => {
                     }}
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card3.png" alt="Financial health checkup icon" width={80} height={100} className="object-contain" />
+                    <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-1">
+                      <img src="/FinancialPlan/Financialhealth.png" alt="Financial health checkup icon" width={180} height={220} className="object-contain scale-150" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Financial Health Checkup</h2>
@@ -1758,7 +1759,7 @@ const FinancialPlanInterface: React.FC = () => {
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card1.png" alt="Personalized budgeting plan icon" width={80} height={100} className="object-contain" />
+                      <img src="/FinancialPlan/personalbudget.png" alt="Personalized budgeting plan icon" width={80} height={100} className="object-contain" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Personalized Budgeting Plan</h2>
@@ -1863,7 +1864,7 @@ const FinancialPlanInterface: React.FC = () => {
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card2.png" alt="Debt management and refinancing icon" width={80} height={100} className="object-contain" />
+                      <img src="/FinancialPlan/debtmanagement.png" alt="Debt management and refinancing icon" width={80} height={100} className="object-contain" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Debt Management & Refinancing</h2>
@@ -1967,8 +1968,8 @@ const FinancialPlanInterface: React.FC = () => {
                     }}
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card3.png" alt="Emergency fund setup and guidance icon" width={80} height={100} className="object-contain" />
+                    <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-2">
+                      <img src="/FinancialPlan/Emergency1FundSetup.png" alt="Emergency fund setup and guidance icon" width={180} height={220} className="object-contain scale-150" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Emergency Fund Setup & Guidance</h2>
@@ -2075,7 +2076,7 @@ const FinancialPlanInterface: React.FC = () => {
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card1.png" alt="Calculator and coin icon" width={80} height={100} className="object-contain" />
+                      <img src="/FinancialPlan/debtmanagement.png" alt="Investment Planning icon" width={80} height={100} className="object-contain" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Investment Planning</h2>
@@ -2180,7 +2181,7 @@ const FinancialPlanInterface: React.FC = () => {
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card2.png" alt="Calculator and coin icon" width={80} height={100} className="object-contain" />
+                      <img src="/FinancialPlan/expensemanagement.png" alt="Expense Management icon" width={80} height={100} className="object-contain" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Expense Management</h2>
@@ -2285,7 +2286,7 @@ const FinancialPlanInterface: React.FC = () => {
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card3.png" alt="Calculator and coin icon" width={80} height={100} className="object-contain" />
+                      <img src="/FinancialPlan/personalbudget.png" alt="Portfolio Management icon" width={80} height={100} className="object-contain" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Portfolio Management</h2>
@@ -2389,8 +2390,8 @@ const FinancialPlanInterface: React.FC = () => {
                     }}
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card2.png" alt="Tax consultancy icon" width={80} height={100} className="object-contain" />
+                    <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-1">
+                      <img src="/FinancialPlan/Tax1Consultancy.png" alt="Tax consultancy icon" width={180} height={220} className="object-contain scale-150" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Tax Consultancy</h2>
@@ -2494,8 +2495,8 @@ const FinancialPlanInterface: React.FC = () => {
                     }}
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card3.png" alt="Financial health checkup icon" width={80} height={100} className="object-contain" />
+                    <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-1">
+                      <img src="/FinancialPlan/Financialhealth.png" alt="Financial health checkup icon" width={180} height={220} className="object-contain scale-150" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Financial Health Checkup</h2>
@@ -2600,7 +2601,7 @@ const FinancialPlanInterface: React.FC = () => {
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card1.png" alt="Personalized budgeting plan icon" width={80} height={100} className="object-contain" />
+                      <img src="/FinancialPlan/personalbudget.png" alt="Personalized budgeting plan icon" width={80} height={100} className="object-contain" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Personalized Budgeting Plan</h2>
@@ -2705,7 +2706,7 @@ const FinancialPlanInterface: React.FC = () => {
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card2.png" alt="Debt management and refinancing icon" width={80} height={100} className="object-contain" />
+                      <img src="/FinancialPlan/debtmanagement.png" alt="Debt management and refinancing icon" width={80} height={100} className="object-contain" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Debt Management & Refinancing</h2>
@@ -2809,8 +2810,8 @@ const FinancialPlanInterface: React.FC = () => {
                     }}
                   />
                   <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/card3.png" alt="Emergency fund setup and guidance icon" width={80} height={100} className="object-contain" />
+                    <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-2">
+                      <img src="/FinancialPlan/Emergency1FundSetup.png" alt="Emergency fund setup and guidance icon" width={180} height={220} className="object-contain scale-150" />
                     </div>
                     <div className="space-y-2">
                       <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Emergency Fund Setup & Guidance</h2>
@@ -2940,84 +2941,174 @@ const FinancialPlanInterface: React.FC = () => {
         />
       </div>
       
-      <div
-       className="bg-transparent backdrop-blur-sm  rounded-[56px] mt-16 p-10 max-w-6xl w-full flex items-stretch relative z-10"
-       style={{
-        background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
-      }}>
-        {/* Stroke/Border Effect */}
-                       <div 
-               className="absolute inset-0 rounded-[56px] pointer-events-none"
-               style={{
-                 background: 'linear-gradient(135deg, #FFFFFF 0%, #0E0E0E 50%)',
-                 padding: '2px',
-                 mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                 maskComposite: 'xor',
-                 WebkitMaskComposite: 'xor'
-               }}
-             />
-        {/* Left Section */}
-        <div className="flex-1">
-          {/* Header */}
-          <div className="text-left mb-10">
-            <h1 className="text-[30px] font-semibold text-white mb-2 tracking-tight font-['Gilroy']">
-              Wealth Growth Plan
-            </h1>
-            <p className="text-white/70 text-[12px] font-normal font-['Gilroy']">
-              Accelerate growth, maximize your potential
-            </p>
-          </div>
+      {/* Carousel Container */}
+      <div className="relative max-w-6xl w-full mt-16">
+        {/* Navigation Arrows */}
+        <button 
+          onClick={() => setCurrentCard((prev) => prev === 0 ? 2 : prev - 1)}
+          className="absolute left-[-50px] top-1/2 transform -translate-y-1/2 z-[100] w-12 h-12 flex items-center justify-center transition-all duration-300 cursor-pointer hover:scale-110"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-white">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+        
+        <button 
+          onClick={() => setCurrentCard((prev) => prev === 2 ? 0 : prev + 1)}
+          className="absolute right-[-50px] top-1/2 transform -translate-y-1/2 z-[100] w-12 h-12 flex items-center justify-center transition-all duration-300 cursor-pointer hover:scale-110"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-white">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
 
-          {/* Services Grid */}
-          <div className="grid grid-cols-6 grid-rows-2 gap-6">
-            {[
-              { img: "card1.png", text: "Debt Management & Refinancing" },
-              { img: "card2.png", text: "Expense Management" },
-              { img: "card3.png", text: "Emergency Fund Setup & Guidance" },
-              { img: "card1.png", text: "Investment Planning" },
-              { img: "card2.png", text: "Portfolio Management" },
-              { img: "card3.png", text: "Tax Consultancy" },
-              { img: "card1.png", text: "Personalized Budgeting Plan" },
-              { img: "card2.png", text: "Disciplined Saving Planning (SIP)" },
-              { img: "card3.png", text: "Financial Health Checkup" },
-              { img: "card1.png", text: "Retirement Planning" },
-              { img: "card2.png", text: "Insurance" },
-              { img: "card3.png", text: "Educational Content" },
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 mb-3">
-                  <img
-                    src={`/FinancialPlan/${item.img}`}
-                    alt={item.text}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <p
-                  className="text-white text-xs font-semibold leading-tight"
-                  style={{ fontFamily: "Gilroy, Inter, sans-serif", fontSize: "10px" }}
-                >
-                  {item.text}
-                </p>
+        {/* Card Data */}
+        {(() => {
+          const cards = [
+            {
+              title: "Wealth Growth Plan",
+              subtitle: "Accelerate growth, maximize your potential",
+              services: [
+                { img: "debtmanagement.png", text: "Debt Management & Refinancing" },
+                { img: "expensemanagement.png", text: "Expense Management" },
+                { img: "emergencyfund.png", text: "Emergency Fund Setup & Guidance" },
+                { img: "InvestmentStrategy.png", text: "Investment Planning" },
+                { img: "PortfolioManagement.png", text: "Portfolio Management" },
+                { img: "TaxConsultancy.png", text: "Tax Consultancy" },
+                { img: "personalbudget.png", text: "Personalized Budgeting Plan" },
+                { img: "discplan.png", text: "Disciplined Saving Planning (SIP)" },
+                { img: "Financialhealth.png", text: "Financial Health Checkup" },
+                { img: "Retirementplanning.png", text: "Retirement Planning" },
+                { img: "Insurance.png", text: "Insurance" },
+                { img: "Educationalcontent.png", text: "Educational Content" },
+              ]
+            },
+            {
+              title: "Financial Foundation Plan",
+              subtitle: "Start saving smart, build long-term wealth",
+              services: [
+                { img: "debtmanagement.png", text: "Debt Management & Refinancing" },
+                { img: "discplan.png", text: "Disciplined Saving Strategy (SIP)" },
+                { img: "emergencyfund.png", text: "Emergency Fund Setup & Guidance" },
+                { img: "InvestmentStrategy.png", text: "Investment Planning" },
+                { img: "personalbudget.png", text: "Goals setup" },
+                { img: "Insurance.png", text: "Insurance" },
+                { img: "Financialhealth.png", text: "Financial Health Monitoring" },
+                { img: "Educationalcontent.png", text: "Educational Content" },
+               
+              ]
+            },
+            {
+              title: "Financial Fresh Start Plan",
+              subtitle: "Regain balance, build a strong base",
+              services: [
+                { img: "debtmanagement.png", text: "Debt Management & Refinancing" },
+                { img: "expensemanagement.png", text: "Expense Optimization" },
+                { img: "Financialhealth.png", text: "1:1 Financial Counselling" },
+                { img: "personalbudget.png", text: "Smart Budgeting" },
+                { img: "expensemanagement.png", text: "Expense-Saving Balance" },
+                { img: "Educationalcontent.png", text: "Educational Content" },  
+              ]
+            }
+          ];
+
+          return (
+            <div className="relative overflow-hidden">
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${currentCard * 100}%)` }}
+              >
+                {cards.map((card, cardIndex) => (
+                  <div key={cardIndex} className={`w-full flex-shrink-0 ${cardIndex === 1 || cardIndex === 2 ? 'flex justify-center' : ''}`}>
+                    <div
+                      className={`bg-transparent backdrop-blur-sm rounded-[56px] p-10 w-full flex items-stretch relative z-10 ${cardIndex === 1 || cardIndex === 2 ? 'max-w-4xl' : 'max-w-6xl'}`}
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
+                      }}
+                    >
+                      {/* Stroke/Border Effect */}
+                      <div 
+                        className="absolute inset-0 rounded-[56px] pointer-events-none"
+                        style={{
+                          background: 'linear-gradient(135deg, #FFFFFF 0%, #0E0E0E 50%)',
+                          padding: '2px',
+                          mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                          maskComposite: 'xor',
+                          WebkitMaskComposite: 'xor'
+                        }}
+                      />
+                      
+                      {/* Left Section */}
+                      <div className="flex-1">
+                        {/* Header */}
+                        <div className="text-left mb-10">
+                          <h1 className="text-[30px] font-semibold text-white mb-2 tracking-tight font-['Gilroy']">
+                            {card.title}
+                          </h1>
+                          <p className="text-white/70 text-[12px] font-normal font-['Gilroy']">
+                            {card.subtitle}
+                          </p>
+                        </div>
+
+                        {/* Services Grid */}
+                        <div className={`grid ${cardIndex === 1 ? 'grid-cols-4 grid-rows-2 gap-6' : cardIndex === 2 ? 'grid-cols-3 grid-rows-2 gap-4' : 'grid-cols-6 grid-rows-2 gap-6'}`}>
+                          {card.services.map((item, i) => (
+                            <div key={i} className="flex flex-col items-center text-center">
+                              <div className="w-12 h-12 mb-3">
+                                <img
+                                  src={`/FinancialPlan/${item.img}`}
+                                  alt={item.text}
+                                  className="w-full h-full object-contain"
+                                />
+                              </div>
+                              <p
+                                className="text-white text-xs font-semibold leading-tight"
+                                style={{ fontFamily: "Gilroy, Inter, sans-serif", fontSize: "10px" }}
+                              >
+                                {item.text}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Right Section (Human + Circles) */}
+                      <div className="flex flex-col items-center justify-center w-1/3 relative">
+                        {/* 3 Circles - positioned at top right */}
+                        <div className="absolute top-0 right-0 flex flex-col gap-3">
+                          <div className="w-5 h-5 rounded-full bg-white"></div>
+                          <div className="w-5 h-5 rounded-full bg-white"></div>
+                          <div className="w-5 h-5 rounded-full bg-white"></div>
+                        </div>
+                        
+                        {/* Human shape */}
+                        <div className="flex flex-col items-center">
+                          <div className="w-16 h-16 rounded-full bg-white mb-4"></div>
+                          <div className="w-20 h-28 rounded-3xl bg-white"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          );
+        })()}
+      </div>
 
-        {/* Right Section (Human + Circles) */}
-        <div className="flex flex-col items-center justify-center w-1/3 relative">
-          {/* 3 Circles - positioned at top right */}
-          <div className="absolute top-0 right-0 flex flex-col gap-3">
-            <div className="w-5 h-5 rounded-full bg-white"></div>
-            <div className="w-5 h-5 rounded-full bg-white"></div>
-            <div className="w-5 h-5 rounded-full bg-white"></div>
-          </div>
-          
-          {/* Human shape */}
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 rounded-full bg-white mb-4"></div>
-            <div className="w-20 h-28 rounded-3xl bg-white"></div>
-          </div>
-        </div>
+      {/* Pagination Dots */}
+      <div className="flex justify-center space-x-3 mt-8">
+        {[0, 1, 2].map((index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentCard(index)}
+            className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+              currentCard === index 
+                ? 'bg-white scale-125' 
+                : 'bg-white/30 hover:bg-white/50'
+            }`}
+          />
+        ))}
       </div>
 
     
