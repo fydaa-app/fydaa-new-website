@@ -4,7 +4,7 @@ import React from 'react';
 
 const Testimonials = () => {
   return (
-    <section className="relative bg-[#101828] text-white py-24 min-h-screen z-20">
+    <section className="relative bg-[#101828] text-white py-12 pb-20 z-20">
 
       
       {/* Green Strip Image */}
@@ -35,12 +35,12 @@ const Testimonials = () => {
       
       <div className="max-w-[1400px] mx-auto px-12 relative z-20">
         {/* Title */}
-        <h2 className="text-[48px] font-['Gilroy'] font-bold text-center mb-20">
+        <h2 className="text-[48px] font-['Gilroy'] font-bold text-center mb-12">
           What Our Clients Says
         </h2>
         
         {/* Testimonials Container */}
-        <div className="relative flex items-center justify-center">
+        <div className="relative flex items-center justify-center mt-8 sm:mt-12 md:mt-16 lg:mt-20">
           {/* Left Navigation Arrow */}
           <button className="absolute left-0 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors z-30">
             <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,7 +49,7 @@ const Testimonials = () => {
           </button>
           
           {/* Testimonials Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl">
             {/* Testimonial Card 1 */}
             <div className="bg-[#101828]/10 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-300/20 flex flex-col relative" style={{ width: '450px', height: '400px' }}>
               {/* Cut-in Card Image - Positioned at bottom */}

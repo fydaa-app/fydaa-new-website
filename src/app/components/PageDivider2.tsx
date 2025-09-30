@@ -58,7 +58,7 @@ const PageDivider2: React.FC = () => {
   return (
     <div 
       ref={containerRef}
-      className={`w-full bg-[#000000] rounded-[15px] sm:rounded-[20px] md:rounded-[25px] lg:rounded-[30px] xl:rounded-[35px] flex items-center justify-center px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10 relative z-30 py-6 sm:py-8 md:py-10 lg:py-8 mb-0 overflow-hidden transition-all duration-1000 ease-out transform cursor-pointer ${
+      className={`w-full bg-[#000000] rounded-[15px] sm:rounded-[20px] md:rounded-[25px] lg:rounded-[30px] xl:rounded-[35px] flex items-center justify-center px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10 relative z-30 py-6 sm:py-8 md:py-10 lg:py-8 pb-20 mb-0 overflow-hidden transition-all duration-1000 ease-out transform cursor-pointer ${
         isVisible 
           ? 'opacity-100 scale-100 rotate-0 blur-0' 
           : 'opacity-0 scale-75 rotate-12 blur-sm'

@@ -12,7 +12,7 @@ const Fydaaexperience = () => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div className="bg-white w-full min-h-screen h-auto flex flex-col items-center pt-28 pb-20 mb-16">
+    <div className="bg-white w-full pb-20 h-auto flex flex-col items-center pt-28 mb-16">
       <h1 className="text-[56px] font-semibold font-['Gilroy'] text-center">
         The Fydaa Experience
       </h1>

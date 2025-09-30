@@ -13,34 +13,51 @@ const FAQ: React.FC = () => {
   const faqData: FAQItem[] = [
     {
       id: 1,
-      question: "What is GlassFlow?",
-      answer: "GlassFlow is a modern data streaming platform that enables real-time data processing and analytics with seamless integration capabilities."
+      question: "Is fydaa registered with any financial regulators in India?",
+      answer: "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser. Click here to verify."
     },
     {
       id: 2,
-      question: "What is the difference to Kafka/Lambda/Beam/Flink, etc.?",
-      answer: "GlassFlow provides a unified approach that combines the best features of traditional streaming platforms while offering enhanced performance and easier management."
+      question: "How fydaa is different from a broker or mutual fund distributor?",
+      answer: "Unlike your broker, fydaa do not execute the trades but advice on which securities to buy/sell on periodic basis based on your risk profile. Your broker charges brokerage on every transaction. Mutual fund distributors on the other hand help invest by selling schemes of Asset Management companies for a distributor fee."
     },
     {
       id: 3,
-      question: "How much does GlassFlow cost?",
-      answer: "GlassFlow offers flexible pricing plans starting from $99/month for basic usage, with enterprise plans available for larger deployments."
+      question: "How fydaa makes money?",
+      answer: "Fydaa have no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There are no other revenue or commission from brokers or mutual fund houses."
     },
     {
       id: 4,
-      question: "Where does GlassFlow fit in my data architecture?",
-      answer: "GlassFlow can be integrated as a middleware layer between your data sources and analytics platforms, providing real-time streaming capabilities."
+      question: "What is the advisory fee of fydaa?",
+      answer: "Fydaa charges a nominal fee of 0.4% per year of Asset under management. That mean for every 10000 rupees worth of investment, you are charged just INR 40 as advisory fee. This is fraction of what other advisor charges. (Traditional mutual funds and advisor's charges in excess of 1.5 - 2 %)"
     },
     {
       id: 5,
-      question: "What if I don't find the connector that I am looking for?",
-      answer: "We offer custom connector development services and can work with you to build connectors for your specific data sources and requirements."
+      question: "Can I get my fee refund?",
+      answer: "No. However, you can discontinue your fydaa subscription anytime with just a click."
     },
     {
       id: 6,
-      question: "How good does GlassFlow perform compared to other solutions?",
-      answer: "GlassFlow consistently outperforms traditional solutions with up to 3x faster processing speeds and 50% lower latency in real-world benchmarks."
-    }
+      question: "Is there any account minimum to avail services from fydaa?",
+      answer: "There are no account minimums but since fydaa creates a portfolio of securities, the minimum amount can vary anywhere from INR 100 to 10000."
+    },
+    {
+      id: 7,
+      question: "Your question here",
+      answer: "Your answer here"
+    },
+    {
+      id: 8,
+      question: "What if I don't have any broker/demat account?",
+      answer: "No worries, our platform provides you a seamless account opening with any broker of your choice in just few clicks."
+    },
+    {
+      id: 9,
+      question: "How do I add or withdraw my investments from my fydaa account?",
+      answer: "Fydaa tech platform provides a seamless few click to add or withdraw money from your broker/ demat account. Please note, fydaa never keeps money nor securities of any investors. All your money and securities are always with your respective bank and broker account."
+    },
+ 
+ 
   ];
 
   const toggleItem = (id: number) => {
@@ -52,7 +69,7 @@ const FAQ: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#ffffff] min-h-screen py-20 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#ffffff] py-20 pb-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Main Heading */}
         <div className="text-center mb-16">
