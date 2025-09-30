@@ -5,6 +5,7 @@ const TestimonialPage: React.FC = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [typedText, setTypedText] = useState('');
   const [hasTyped, setHasTyped] = useState(false);
+  const [deviceType, setDeviceType] = useState<'ios' | 'android' | 'desktop'>('desktop');
   const inflationTextRef = useRef<HTMLDivElement>(null);
   const typewriterIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -24,7 +25,39 @@ const TestimonialPage: React.FC = () => {
     setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
+  // Device detection
+  useEffect(() => {
+    const detectDevice = () => {
+      if (typeof window !== 'undefined') {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        
+        if (/iphone|ipad|ipod/.test(userAgent)) {
+          setDeviceType('ios');
+        } else if (/android/.test(userAgent)) {
+          setDeviceType('android');
+        } else {
+          setDeviceType('desktop');
+        }
+      }
+    };
 
+    detectDevice();
+  }, []);
+
+  // Handler for download app button
+  const handleDownloadApp = () => {
+    const iosUrl = "https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190";
+    const androidUrl = "https://play.google.com/store/apps/details?id=com.app.fydaa&hl=en";
+    
+    if (deviceType === 'ios') {
+      window.open(iosUrl, '_blank');
+    } else if (deviceType === 'android') {
+      window.open(androidUrl, '_blank');
+    } else {
+      // For desktop users, show both options or default to iOS
+      window.open(iosUrl, '_blank');
+    }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -210,7 +243,10 @@ const TestimonialPage: React.FC = () => {
           
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-6">
-            <button className="bg-white text-black px-4 sm:px-6 py-2 sm:py-2 rounded-full text-xs sm:text-sm font-medium font-['Inter'] hover:bg-gray-100 transition-colors">
+            <button 
+              onClick={handleDownloadApp}
+              className="bg-white text-black px-4 sm:px-6 py-2 sm:py-2 rounded-full text-xs sm:text-sm font-medium font-['Inter'] hover:bg-gray-100 transition-colors"
+            >
               Download Our App
             </button>
             <div className="flex items-center space-x-2 text-white text-xs sm:text-sm font-medium font-['Inter'] cursor-pointer hover:text-gray-300 transition-colors">
