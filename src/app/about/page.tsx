@@ -5,6 +5,7 @@ import FounderSection from './FounderSection';
 import ServiceSection from './ServiceSection';
 import FAQ from '../components/FAQ';
 import BannerSection from './BannerSection';
+import FaqSection from './FaqSection';
 
 const AboutPage = () => {
   return (
@@ -14,7 +15,7 @@ const AboutPage = () => {
       <ServiceSection/>
       <BannerSection/>
       {/* <HeroSection /> */}
-      <FAQ />
+      <FaqSection />
     </div>
   );
 };

@@ -300,14 +300,16 @@ const Navbar: React.FC = () => {
                                 {renderDropdown('calculators')}
                             </li> */}
 
-              <li>
+              {/* <li>
                 <a
-                  href="#"
+                  href="https://www.blog.fydaa.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-black font-medium hover:text-gray-600 transition-colors duration-200"
                 >
                   Blogs
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
 

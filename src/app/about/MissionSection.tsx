@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 
-
-
 const MissionSection: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = [
@@ -10,8 +8,6 @@ const MissionSection: React.FC = () => {
     "/about-us/pie2.png",
     "/about-us/pie3.png",
   ];
-
-
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,12 +18,10 @@ const MissionSection: React.FC = () => {
     return () => clearInterval(interval);
   }, [images.length]);
 
-
-
   return (
     <main className="w-full h-full m-0 p-0 relative">
       {/* Mission Section - Light Gray Background with Gradient */}
-      <section className="relative py-16 px-4 sm:px-6 md:px-8 bg-[#F7F7F7] min-h-screen pb-[400px] md:pb-[600px]">
+      <section className="relative py-12 px-3 sm:px-6 md:px-12 lg:px-16 bg-[#F7F7F7] min-h-[80vh] md:min-h-screen pb-[300px] sm:pb-[400px] md:pb-[600px] lg:pb-[700px]">
         {/* First gradient overlay */}
         <div
           className="absolute inset-0 pointer-events-none z-10"
@@ -41,8 +35,6 @@ const MissionSection: React.FC = () => {
           }}
         ></div>
 
-
-
         {/* Second gradient overlay */}
         <div
           className="absolute -left-20 -bottom-40 w-1/3 h-1/2 pointer-events-none z-10 hidden md:block"
@@ -54,8 +46,6 @@ const MissionSection: React.FC = () => {
             opacity: 0.7,
           }}
         ></div>
-
-
 
         {/* Third gradient overlay */}
         <div
@@ -69,39 +59,31 @@ const MissionSection: React.FC = () => {
           }}
         ></div>
 
-
-
         <div className="max-w-7xl mx-auto relative h-full">
           {/* Two Equal Halves Container */}
-          <div className="flex flex-col md:flex-row items-center justify-center min-h-screen relative z-20 gap-8 md:gap-0">
+          <div className="flex flex-col sm:flex-col md:flex-row items-center justify-center min-h-[70vh] md:min-h-screen relative z-20 gap-6 sm:gap-8 md:gap-12 lg:gap-16">
             {/* Left Half - Rotating Images */}
-            <div className="w-full md:w-1/2 flex items-center justify-center relative z-30">
-              <div
-                className="relative flex items-center justify-center p-8 sm:p-10"
-                style={{ width: "100%", maxWidth: 593, height: "auto", maxHeight: 511 }}
-              >
+            <div className="w-full sm:w-11/12 md:w-1/2 flex items-center justify-center relative z-30 max-w-full md:max-w-none">
+              <div className="w-full sm:w-11/12 md:w-4/5 lg:w-4/5 xl:w-4/6 max-w-[1400px] max-h-[1150px] h-auto flex items-center justify-center relative z-30 p-4 sm:p-6 md:p-8 lg:p-10">
                 <img
                   src={images[currentImageIndex]}
                   alt={`Pie Chart ${currentImageIndex + 1}`}
-                  className="w-full max-w-[593px] h-auto max-h-[511px] object-contain"
+                  className="w-full max-w-[1400px] h-auto max-h-[1150px] object-contain min-w-[450px]"
                   key={currentImageIndex}
                 />
               </div>
             </div>
-
-
-
             {/* Right Half - Mission Text */}
-            <div className="w-full md:w-1/2 flex items-center justify-center relative z-30">
+            <div className="w-full sm:w-11/12 md:w-1/2 flex items-center justify-center relative z-30 max-w-xl px-4 sm:px-6 md:px-0">
               <div className="text-left max-w-xl px-4 sm:px-0">
                 <h1
-                  className="text-4xl sm:text-5xl md:text-[56px] font-semibold text-gray-900 leading-tight font-gilroy mb-6"
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-semibold text-gray-900 leading-tight font-gilroy mb-6"
                   style={{ letterSpacing: "-1.5px" }}
                 >
                   Our Mission
                 </h1>
                 <p
-                  className="text-base sm:text-lg md:text-[18px] text-gray-700 font-inter font-normal mb-8"
+                  className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 font-inter font-normal mb-8"
                   style={{ lineHeight: "1.5rem", letterSpacing: "-0.2px" }}
                 >
                   Fydaa's mission is to break the barriers of geography, jargon,
@@ -111,23 +93,21 @@ const MissionSection: React.FC = () => {
                   yours.
                 </p>
                 <h2
-                  className="text-2xl sm:text-3xl md:text-[32px] font-medium text-gray-900 font-gilroy mb-4"
+                  className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-medium text-gray-900 font-gilroy mb-4"
                   style={{ lineHeight: "2.5rem", letterSpacing: "-1px" }}
                 >
                   Different People, Different Portfolios
                 </h2>
                 <p
-                  className="text-2xl sm:text-3xl md:text-[32px] text-gray-700 font-inter font-thin italic"
+                  className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] text-gray-700 font-inter font-thin italic"
                   style={{ lineHeight: "2.25rem", letterSpacing: "-1.5px" }}
                 >
                   Fydaa is an investment app that adapts to your appetite for
                   investing
                 </p>
 
-
-
-                <button className="bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-full font-medium cursor-pointer transition-all duration-200 shadow-sm flex items-center space-x-2 mt-8 group">
-                  <span className="font-medium text-[16px] font-inter group-hover:text-white">
+                <button className="bg-black hover:bg-gray-800 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium cursor-pointer transition-all duration-200 shadow-sm flex items-center space-x-2 mt-8 group">
+                  <span className="font-medium text-[16px] sm:text-[18px] font-inter group-hover:text-white">
                     Start Investing Now
                   </span>
                   <svg
@@ -155,7 +135,5 @@ const MissionSection: React.FC = () => {
     </main>
   );
 };
-
-
 
 export default MissionSection;
