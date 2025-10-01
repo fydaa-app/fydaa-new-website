@@ -68,7 +68,7 @@ const MissionSection: React.FC = () => {
                 <img
                   src={images[currentImageIndex]}
                   alt={`Pie Chart ${currentImageIndex + 1}`}
-                  className="w-full max-w-[1400px] h-auto max-h-[1150px] object-contain min-w-[450px]"
+                  className="w-full max-w-[1400px] h-auto max-h-[1150px] object-contain sm:min-w-[450px]"
                   key={currentImageIndex}
                 />
               </div>
