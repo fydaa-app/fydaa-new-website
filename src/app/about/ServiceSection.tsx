@@ -46,7 +46,7 @@ const ServiceSection: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#F7F7F7] min-h-screen rounded-[56px] overflow-visible relative -mt-52 pb-52 z-40 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-48">
+    <div className="bg-[#F7F7F7] min-h-screen rounded-[56px] overflow-visible relative -mt-[600px] sm:-mt-[800px] md:-mt-[800px] lg:-mt-[900px] xl:-mt-[1000px] pb-52 z-40 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-48">
       <div className="max-w-4xl mx-auto text-center pt-16 px-4 sm:px-0">
         {/* Main Heading - Gilroy SemiBold */}
         <h1 className="font-gilroy-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[56px] leading-tight sm:leading-snug md:leading-normal lg:leading-[68px] tracking-normal text-[#000000] mb-8">
@@ -61,24 +61,29 @@ const ServiceSection: React.FC = () => {
         </p>
       </div>
 
-      {/* Services Grid - MOVED OUTSIDE the max-w-4xl container */}
+      {/* Services Grid - */}
       <div className="w-full flex justify-center mb-16 px-4 md:px-0">
-        <div className="grid grid-cols-3 gap-0 w-full max-w-[1320px]">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-0 w-full max-w-[1320px]">
           {services.map((service, index) => (
             <div
               key={service.id}
               className={`
-              bg-[#F7F7F7] 
-              flex 
-              flex-col 
-              items-start 
-              justify-start 
-              px-8 
-              pt-16
-              pb-12 
-              ${(index + 1) % 3 !== 0 ? "border-r border-[#217AA7]/20" : ""} 
-              ${index < 6 ? "border-b border-[#217AA7]/20" : ""}
-            `}
+          bg-[#F7F7F7] 
+          flex 
+          flex-col 
+          items-start 
+          justify-start 
+          px-8 
+          pt-16
+          pb-12 
+          ${(index + 1) % 2 !== 0 ? "border-r border-[#217AA7]/20" : ""} 
+          ${
+            (index + 1) % 3 !== 0
+              ? "md:border-r md:border-[#217AA7]/20"
+              : "md:border-r-0"
+          } 
+          ${index < 6 ? "border-b border-[#217AA7]/20" : ""}
+        `}
             >
               {/* Service Icon */}
               <div className="h-[96px] flex items-center mb-6">

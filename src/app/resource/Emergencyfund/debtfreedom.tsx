@@ -100,7 +100,7 @@ const DebtFreedom: React.FC = () => {
             {/* Top Left */}
             <div className="text-center">
                               <div className="flex justify-center mx-auto mb-3">
-                  <img src="/resource/lowcost.png" alt="Lower Interest" className="w-24 h-24" />
+                  <img src="/resource/Emergencyfund/familysupport.png" alt="Lower Interest" className="w-24 h-24" />
                 </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Financial Protection</h3>
               <p className="text-[18px] font-['Inter'] font-normal text-gray-600">Ensure your loved ones are secure even in your absence</p>
@@ -109,7 +109,7 @@ const DebtFreedom: React.FC = () => {
             {/* Top Right */}
             <div className="text-center">
                               <div className="flex justify-center mx-auto mb-3">
-                  <img src="/resource/finance.png" alt="Simplified Finances" className="w-24 h-24" />
+                  <img src="/resource/Emergencyfund/peace.png" alt="Simplified Finances" className="w-24 h-24" />
                 </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Peace of Mind</h3>
               <p className="text-gray-600 text-lg">Live life knowing you’re covered for emergencies</p>
@@ -118,7 +118,7 @@ const DebtFreedom: React.FC = () => {
             {/* Bottom Left */}
             <div className="text-center">
               <div className="flex justify-center mx-auto mb-3">
-                <img src="/resource/creditscore.png" alt="Better Credit Score" className="w-28 h-24" />
+                <img src="/resource/Emergencyfund/smart.png" alt="Better Credit Score" className="w-28 h-24" />
               </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Smart Premiums</h3>
               <p className="text-gray-600 text-lg">Get maximum cover without overpaying</p>
@@ -127,7 +127,7 @@ const DebtFreedom: React.FC = () => {
             {/* Bottom Right */}
             <div className="text-center">
               <div className="flex justify-center mx-auto mb-3">
-              <img src="/resource/stress.png" alt="Less Stress" className="w-24 h-24" />
+              <img src="/resource/Emergencyfund/claim.png" alt="Less Stress" className="w-24 h-24" />
               </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Claim Assistance</h3>
               <p className="text-gray-600 text-lg">We help you navigate claims smoothly</p>

@@ -100,7 +100,8 @@ const DebtFreedom: React.FC = () => {
             {/* Top Left */}
             <div className="text-center">
               <div className="flex justify-center mx-auto mb-3">
-                <img src="/resource/service1/lowcost.png" alt="Lower Interest" className="w-24 h-24" />
+                <img src="/resource/DebtManagement&Refinancing/lowcost.png" alt="Lower Interest" className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 2xl:w-36 2xl:h-36 object-contain mx-auto"
+ />
               </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Lower Interest Costs</h3>
               <p className="text-[18px] font-['Inter'] font-normal text-gray-600">Save Thousands Over Your Loan Tenure</p>
@@ -109,7 +110,8 @@ const DebtFreedom: React.FC = () => {
             {/* Top Right */}
             <div className="text-center">
               <div className="flex justify-center mx-auto mb-3">
-                <img src="/resource/service1/finance.png" alt="Simplified Finances" className="w-24 h-24" />
+                <img src="/resource/DebtManagement&Refinancing/payment.png" alt="Simplified Finances" className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 2xl:w-36 2xl:h-36 object-contain mx-auto"
+ />
               </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Simplified Finances</h3>
               <p className="text-gray-600 text-lg">One Manageable Payment Instead Of Juggling Multiple</p>
@@ -118,7 +120,8 @@ const DebtFreedom: React.FC = () => {
             {/* Bottom Left */}
             <div className="text-center">
               <div className="flex justify-center mx-auto mb-3">
-                <img src="/resource/service1/creditscore.png" alt="Better Credit Score" className="w-28 h-24" />
+                <img src="/resource/DebtManagement&Refinancing/creditscore.png" alt="Better Credit Score" className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 2xl:w-36 2xl:h-36 object-contain mx-auto"
+ />
               </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Better Credit Score</h3>
               <p className="text-gray-600 text-lg">Opens The Door For Future Opportunities</p>
@@ -127,7 +130,8 @@ const DebtFreedom: React.FC = () => {
             {/* Bottom Right */}
             <div className="text-center">
               <div className="flex justify-center mx-auto mb-3">
-                <img src="/resource/service1/stress.png" alt="Less Stress" className="w-24 h-24" />
+                <img src="/resource/DebtManagement&Refinancing/stress.png" alt="Less Stress" className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 2xl:w-36 2xl:h-36 object-contain mx-auto"
+ />
               </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Less Stress</h3>
               <p className="text-gray-600 text-lg">Sleep Better Knowing Your Finances Are In Control</p>
