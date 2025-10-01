@@ -191,38 +191,38 @@ export default function Dreams() {
   }, [isLottieLoaded]);
 
   return (
-    <div className="pb-20 bg-white relative">
+    <div className="bg-white relative my-5 sm:my-6 md:my-7 lg:my-8 xl:my-9 2xl:my-10">
       {/* Header */}
-      <header className="relative z-30 px-6 pt-16 pb-8">
+      <header className="relative z-30 px-4 sm:px-6 pt-12 sm:pt-16 pb-6 sm:pb-8">
         <div className="max-w-4xl mx-auto text-center">
           <h1
             ref={headerTitleRef}
-            className="text-[56px] font-semibold text-gray-900 mb-6 font-gilroy leading-tight"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[56px] font-semibold text-gray-900 mb-4 sm:mb-6 font-gilroy leading-tight"
           >
             For Your Dreams And Aspirations
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto text-[18px] font-normal leading-relaxed font-inter">
+          <p className="text-gray-600 max-w-xs sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto text-sm sm:text-base md:text-lg lg:text-[18px] font-normal leading-relaxed font-inter px-2">
             At Fydala, we help you direct every rupee with purpose - whether
             you&apos;re spending on today, saving for tomorrow, or investing for
             the future.
           </p>
         </div>
         {/* Bottom spacing */}
-        <div className="h-16"></div>
+        <div className="h-0 sm:h-2 md:h-4"></div>
       </header>
 
       {/* Main Container with Pipe Background and Content */}
-      <div className="relative w-full max-w-5xl mx-auto px-6">
+      <div className="relative w-full max-w-full md:max-w-5xl mx-auto px-0 md:px-4 lg:px-6">
         {/* Pipe Background + Animation */}
         <div
           ref={animationContainerRef}
-          className="relative w-full h-[1400px] md:h-[1600px]"
+          className="relative w-full min-h-[800px] md:min-h-[1200px] sm:min-h-[1400px] md:min-h-[1600px] pb-0 sm:pb-2 md:pb-3 lg:pb-4 xl:pb-6"
         >
-          {/* Pipe background */}
+          {/* Pipe background - hidden on mobile */}
           <img
             src="/dreams/pipe.png"
             alt="Pipe Background"
-            className="absolute h-full object-contain transform scale-110 md:scale-125"
+            className="absolute h-full object-contain transform scale-110 md:scale-125 hidden md:block"
             style={{
               top: "-300px",
               left: "45%",
@@ -231,10 +231,10 @@ export default function Dreams() {
             }}
           />
 
-          {/* Lottie animation overlay */}
+          {/* Lottie animation overlay - hidden on mobile */}
           <div
             ref={containerRef}
-            className="absolute w-full h-full z-30 pointer-events-none"
+            className="absolute w-full h-full z-30 pointer-events-none hidden md:block"
             style={{
               top: "-300px",
               left: "45%",
@@ -249,28 +249,28 @@ export default function Dreams() {
             {/* Consume Mindfully */}
             <div
               id="short-term"
-              className="absolute top-[50px] md:top-[50px] left-0 md:left-8 lg:left-16 w-full max-w-md animate-slide-in-left"
+              className="md:absolute top-[30px] sm:top-[50px] left-0 sm:left-4 md:left-8 lg:left-16 w-full max-w-full md:max-w-[300px] lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[550px] animate-slide-in-left px-4 md:px-0 pt-20 md:pt-0 mb-24 md:mb-0 text-center md:text-left"
             >
-              <h2 className="text-[32px] font-medium text-gray-900 mb-4 font-gilroy">
+              <h2 className="text-sm sm:text-sm md:text-lg lg:text-2xl xl:text-2xl 2xl:text-3xl font-medium text-gray-900 mb-1 sm:mb-1 font-gilroy">
                 Consume Mindfully
               </h2>
               <p
-                className="text-gray-500 mb-6 italic font-inter"
-                style={{ fontSize: "24px", fontWeight: 100 }}
+                className="text-gray-500 mb-2 sm:mb-2 italic font-inter text-xs sm:text-xs md:text-base lg:text-xl xl:text-xl 2xl:text-2xl"
+                style={{ fontWeight: 100 }}
               >
                 Fulfil dreams without draining your future
               </p>
-              <p className="text-gray-700 mb-8 leading-relaxed text-base font-inter">
+              <p className="text-gray-700 mb-4 sm:mb-4 leading-relaxed text-xs sm:text-xs md:text-base lg:text-xl xl:text-xl 2xl:text-2xl font-inter">
                 We help you plan for your car, wedding, or that solo trip
                 without falling into high-interest EMIs. With Fydala, you set
                 the goal, build a plan, and reach it on your terms.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-black text-white px-4 md:px-6 py-1.5 md:py-2 rounded-full font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm text-[12px] md:text-[14px] font-gilroy">
+              <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
+                <button className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]">
                   Start Planning
                 </button>
-                <button className="text-black hover:text-gray-800 transition-colors flex items-center gap-2 text-[12px] md:text-[14px] font-gilroy">
-                  Talk to us <ArrowRight className="w-4 h-4 text-black" />
+                <button className="text-black hover:text-gray-800 transition-colors flex items-center gap-1 sm:gap-2 font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]">
+                  Talk to us <ArrowRight className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 text-black" />
                 </button>
               </div>
             </div>
@@ -278,28 +278,28 @@ export default function Dreams() {
             {/* Strategic Saving */}
             <div
               id="medium-term"
-              className="absolute top-[600px] md:top-[700px] right-0 md:right-0 lg:right-48 w-full max-w-md animate-slide-in-right delay-200"
+              className="md:absolute top-[400px] sm:top-[600px] md:top-[700px] right-0 sm:right-0 md:right-0 lg:right-48 w-full max-w-full md:max-w-[300px] lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[550px] animate-slide-in-right delay-200 px-4 md:px-0 mb-24 md:mb-0 text-center md:text-left"
             >
-              <h2 className="text-[32px] font-medium text-gray-900 mb-4 font-gilroy">
+              <h2 className="text-sm sm:text-sm md:text-lg lg:text-2xl xl:text-2xl 2xl:text-3xl font-medium text-gray-900 mb-1 sm:mb-1 font-gilroy">
                 Strategic Saving
               </h2>
               <p
-                className="text-gray-500 mb-6 italic font-inter"
-                style={{ fontSize: "24px", fontWeight: 100 }}
+                className="text-gray-500 mb-2 sm:mb-2 italic font-inter text-xs sm:text-xs md:text-base lg:text-xl xl:text-xl 2xl:text-2xl"
+                style={{ fontWeight: 100 }}
               >
                 Be ready for life&apos;s curveballs
               </p>
-              <p className="text-gray-700 mb-8 leading-relaxed text-base font-inter">
+              <p className="text-gray-700 mb-4 sm:mb-4 leading-relaxed text-xs sm:text-xs md:text-base lg:text-xl xl:text-xl 2xl:text-2xl font-inter">
                 From emergency funds to marriage funds - we help you create
                 savings pockets that keep you stress-free. Small, consistent
                 action beats last-minute panic.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-black text-white px-4 md:px-6 py-1.5 md:py-2 rounded-full font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm text-[12px] md:text-[14px] font-gilroy">
+              <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
+                <button className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]">
                   Start Planning
                 </button>
-                <button className="text-black hover:text-gray-800 transition-colors flex items-center gap-2 text-[12px] md:text-[14px] font-gilroy">
-                  Talk to us <ArrowRight className="w-4 h-4 text-black" />
+                <button className="text-black hover:text-gray-800 transition-colors flex items-center gap-1 sm:gap-2 font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]">
+                  Talk to us <ArrowRight className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 text-black" />
                 </button>
               </div>
             </div>
@@ -307,37 +307,38 @@ export default function Dreams() {
             {/* Invest to Build Wealth */}
             <div
               id="long-term"
-              className="absolute top-[1000px] md:top-[1320px] left-0 md:left-8 lg:left-16 w-full max-w-md animate-slide-in-left delay-300"
+              className="md:absolute top-[700px] sm:top-[1000px] md:top-[1320px] left-0 sm:left-4 md:left-8 lg:left-16 w-full max-w-full md:max-w-[300px] lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[550px] animate-slide-in-left delay-300 px-4 md:px-0 mb-24 md:mb-0 text-center md:text-left"
             >
-              <h2 className="text-[32px] font-medium text-gray-900 mb-4 font-gilroy">
+              <h2 className="text-sm sm:text-sm md:text-lg lg:text-2xl xl:text-2xl 2xl:text-3xl font-medium text-gray-900 mb-1 sm:mb-1 font-gilroy">
                 Invest to Build Wealth
               </h2>
               <p
-                className="text-gray-500 mb-6 italic font-inter"
-                style={{ fontSize: "24px", fontWeight: 100 }}
+                className="text-gray-500 mb-2 sm:mb-2 italic font-inter text-xs sm:text-xs md:text-base lg:text-xl xl:text-xl 2xl:text-2xl"
+                style={{ fontWeight: 100 }}
               >
                 Your money should work while you sleep
               </p>
-              <p className="text-gray-700 mb-8 leading-relaxed text-base font-inter">
+              <p className="text-gray-700 mb-4 sm:mb-4 leading-relaxed text-xs sm:text-xs md:text-base lg:text-xl xl:text-xl 2xl:text-2xl font-inter">
                 Investing isn&apos;t just for the rich. Start small, start smart
                 — and compound your way to financial freedom. Fydala gives you
                 expert-backed plans for your goals and profile.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-black text-white px-4 md:px-6 py-1.5 md:py-2 rounded-full font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm text-[12px] md:text-[14px] font-gilroy">
-                  Start planning
+              <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
+                <button className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]">
+                  Start Planning
                 </button>
-                <button className="text-black hover:text-gray-800 transition-colors flex items-center gap-2 text-[12px] md:text-[14px] font-gilroy">
-                  Talk to us <ArrowRight className="w-4 h-4 text-black" />
+                <button className="text-black hover:text-gray-800 transition-colors flex items-center gap-1 sm:gap-2 font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]">
+                  Talk to us <ArrowRight className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 text-black" />
                 </button>
               </div>
+
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom spacing */}
-      <div className="h-48"></div>
+      {/* Bottom spacing at exact end */}
+      <div className="h-0 sm:h-2 md:h-4 lg:h-6 xl:h-8 2xl:h-10"></div>
     </div>
   );
 }
