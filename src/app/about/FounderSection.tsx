@@ -3,13 +3,13 @@ import React from "react";
 
 const FounderSection: React.FC = () => {
   return (
-    <section className="relative z-30 -mt-100 sm:-mt-60 md:-mt-96 lg:-mt-96 xl:-mt-[400px] flex justify-center overflow-visible pointer-events-none pb-[650px] sm:pb-[750px] md:pb-[850px] lg:pb-[500px]">
-      <div className="relative overflow-visible w-full max-w-screen-4xl mx-auto min-h-[800px] sm:min-h-[1000px] md:min-h-[1200px] lg:min-h-[1000px]">
+    <section className="relative z-30 -mt-40 sm:-mt-60 md:-mt-96 lg:-mt-96 xl:-mt-[400px] flex justify-center overflow-visible pointer-events-none">
+      <div className="relative overflow-visible w-full max-w-screen-4xl mx-auto">
         <div className="relative w-full flex justify-center overflow-visible">
           <img
             src="/about-us/blue.png"
             alt="Blue Circle"
-            className="mx-auto w-[2000px] max-w-[125vw] min-h-[800px] sm:min-h-[1000px] md:min-h-[1200px] lg:min-h-[1000px] scale-[1.5] sm:scale-150 rounded-[45%_45%_50%_50%] object-cover"
+            className="mx-auto w-[2000px] max-w-[95vw] h-[220px] sm:h-[440px] md:h-[660px] lg:h-[880px] xl:h-[880px] 2xl:h-[880px] scale-[1.5] sm:scale-150 rounded-[45%_45%_50%_50%]"
           />
         </div>
 
@@ -35,7 +35,7 @@ const FounderSection: React.FC = () => {
 
 
         {/* Text Overlay inside the circle */}
-        <div className="absolute top-[-60px] sm:top-[-80px] md:top-[-100px] lg:top-[-80px] left-0 right-0 bottom-0 flex flex-col items-center text-center px-2 sm:px-4 md:px-6 lg:px-8">
+        <div className="absolute inset-0 flex flex-col items-center text-center px-2 sm:px-4 md:px-6 lg:px-8">
           {/* Centered "How it Started" Section */}
           <div className="flex flex-col items-center max-w-full sm:max-w-[600px] md:max-w-[700px] lg:max-w-[900px] mx-auto px-4">
             <h2 className="text-white font-gilroy font-semibold text-[28px] sm:text-[40px] md:text-[48px] lg:text-[56px] leading-[32px] sm:leading-[44px] md:leading-[56px] tracking-[0px] mb-4">
