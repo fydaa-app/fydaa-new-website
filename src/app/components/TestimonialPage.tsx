@@ -15,7 +15,7 @@ const TestimonialPage: React.FC = () => {
     {
       name: "Abhishek Misra",
       image: "/testimonial/misra.jpg", // You'll need to add this image
-      video: "/testimonial/Abhishek.MOV", //Link from AWSgit 
+      video: "https://fydaa-v2.s3.ap-south-1.amazonaws.com/public/webVideos/IMG_2372.mp4", //Link from AWSgit 
       text: "Hello, my name is Abhishek Misra, and I am a CS professional. I have been using the Fyda app since 2022. I chose the Fyda app because investing through it is very effortless, and more importantly, it allows me to invest in multiple asset classes like gold, real estate, and equity—all within a single app. I would definitely recommend using the Fyda app if you are looking for a disciplined way of investing. Thank you for letting me share my journey with Fyda, and I hope it inspires you to begin your own investment journey.",
     },
   ];
