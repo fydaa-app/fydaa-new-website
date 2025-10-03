@@ -108,7 +108,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -125,32 +125,32 @@ const FinancialPlanInterface: React.FC = () => {
                     }}
                   />
                   
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Personalized tax-saving report
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Investment-linked deductions
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Capital gains advice
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Year-end tax planning session
                         </p>
                       </div>
@@ -185,13 +185,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Card 2 */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -208,8 +208,8 @@ const FinancialPlanInterface: React.FC = () => {
                     }}
                   />
                   
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                    <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
                       <img
                         src="/FinancialPlan/expensemanagement.png"
                         alt="Expense Management icon"
@@ -255,7 +255,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -272,32 +272,32 @@ const FinancialPlanInterface: React.FC = () => {
                     }}
                   />
                   
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Expense tracking & categorization
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Monthly spending analysis
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Budget recommendations
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Cost optimization tips
                         </p>
                       </div>
@@ -332,13 +332,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Card 3 */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -355,8 +355,8 @@ const FinancialPlanInterface: React.FC = () => {
                     }}
                   />
                   
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                    <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
                       <img
                         src="/FinancialPlan/personalbudget.png"
                         alt="Portfolio Management icon"
@@ -402,7 +402,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -419,32 +419,32 @@ const FinancialPlanInterface: React.FC = () => {
                     }}
                   />
                   
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Investment tracking dashboard
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Health score of your portfolio
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Rebalancing tips
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Alerts on overexposure or underperformance
                         </p>
                       </div>
@@ -478,13 +478,13 @@ const FinancialPlanInterface: React.FC = () => {
           </div>
         </div>
          {/* Card 4 */}
-         <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
            <div className="card-flip-container">
              <div className="card-flip-inner">
                {/* Front of Card */}
                <div className="card-front">
                  <div 
-                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                    style={{
                      background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                    }}
@@ -501,7 +501,7 @@ const FinancialPlanInterface: React.FC = () => {
                      }}
                    />
                    
-                   <div className="flex flex-col items-start space-y-16 relative z-10">
+                   <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
                      <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-1">
                        <img
                          src="/FinancialPlan/Tax1Consultancy.png"
@@ -548,7 +548,7 @@ const FinancialPlanInterface: React.FC = () => {
                {/* Back of Card */}
                <div className="card-back">
                  <div 
-                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                    style={{
                      background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                    }}
@@ -565,32 +565,32 @@ const FinancialPlanInterface: React.FC = () => {
                      }}
                    />
                    
-                   <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
+                   <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
                      <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy']">
                        HERE'S WHAT YOU GET
                      </h2>
                      <div className="space-y-3 w-full">
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Personalized tax-saving report
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Investment-linked deductions
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Capital gains advice
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Year-end tax planning session
                          </p>
                        </div>
@@ -624,13 +624,13 @@ const FinancialPlanInterface: React.FC = () => {
            </div>
          </div>
          {/* Card 5 */}
-         <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
            <div className="card-flip-container">
              <div className="card-flip-inner">
                {/* Front of Card */}
                <div className="card-front">
                  <div 
-                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                    style={{
                      background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                    }}
@@ -647,7 +647,7 @@ const FinancialPlanInterface: React.FC = () => {
                      }}
                    />
                    
-                   <div className="flex flex-col items-start space-y-16 relative z-10">
+                   <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
                      <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-1">
                        <img
                          src="/FinancialPlan/Financialhealth.png"
@@ -694,7 +694,7 @@ const FinancialPlanInterface: React.FC = () => {
                {/* Back of Card */}
                <div className="card-back">
                  <div 
-                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                    style={{
                      background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                    }}
@@ -711,32 +711,32 @@ const FinancialPlanInterface: React.FC = () => {
                      }}
                    />
                    
-                   <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
+                   <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
                      <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy']">
                        HERE'S WHAT YOU GET
                      </h2>
                      <div className="space-y-3 w-full">
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Net worth snapshot
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Savings-to-expense ratio
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Risk exposure analysis
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Report with expert suggestions
                          </p>
                        </div>
@@ -770,13 +770,13 @@ const FinancialPlanInterface: React.FC = () => {
            </div>
          </div>
          {/* Card 6 */}
-         <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
            <div className="card-flip-container">
              <div className="card-flip-inner">
                {/* Front of Card */}
                <div className="card-front">
                  <div 
-                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                    style={{
                      background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                    }}
@@ -793,8 +793,8 @@ const FinancialPlanInterface: React.FC = () => {
                      }}
                    />
                    
-                   <div className="flex flex-col items-start space-y-16 relative z-10">
-                     <div className="w-[80px] h-[100px] relative mt-4">
+                   <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                     <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
                        <img
                          src="/FinancialPlan/personalbudget.png"
                          alt="Personalized budgeting plan icon"
@@ -840,7 +840,7 @@ const FinancialPlanInterface: React.FC = () => {
                {/* Back of Card */}
                <div className="card-back">
                  <div 
-                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                    style={{
                      background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                    }}
@@ -857,32 +857,32 @@ const FinancialPlanInterface: React.FC = () => {
                      }}
                    />
                    
-                   <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
+                   <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
                      <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy']">
                        HERE'S WHAT YOU GET
                      </h2>
                      <div className="space-y-3 w-full">
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Income-expense allocation plan
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Dynamic budgeting tracker
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Realistic savings goals
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Monthly report card
                          </p>
                        </div>
@@ -916,13 +916,13 @@ const FinancialPlanInterface: React.FC = () => {
            </div>
          </div>
          {/* Card 7 */}
-         <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
            <div className="card-flip-container">
              <div className="card-flip-inner">
                {/* Front of Card */}
                <div className="card-front">
                  <div 
-                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                    style={{
                      background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                    }}
@@ -939,8 +939,8 @@ const FinancialPlanInterface: React.FC = () => {
                      }}
                    />
                    
-                   <div className="flex flex-col items-start space-y-16 relative z-10">
-                     <div className="w-[80px] h-[100px] relative mt-4">
+                   <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                     <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
                        <img
                          src="/FinancialPlan/debtmanagement.png"
                          alt="Debt management and refinancing icon"
@@ -986,7 +986,7 @@ const FinancialPlanInterface: React.FC = () => {
                {/* Back of Card */}
                <div className="card-back">
                  <div 
-                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                    style={{
                      background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                    }}
@@ -1003,32 +1003,32 @@ const FinancialPlanInterface: React.FC = () => {
                      }}
                    />
                    
-                   <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
+                   <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
                      <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy']">
                        HERE'S WHAT YOU GET
                      </h2>
                      <div className="space-y-3 w-full">
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Personalized debt repayment roadmap
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Refinance suggestions to reduce EMI burden
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Consolidation options for multiple loans
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Monthly progress tracking
                          </p>
                        </div>
@@ -1062,13 +1062,13 @@ const FinancialPlanInterface: React.FC = () => {
            </div>
          </div>
          {/* Card 8 */}
-         <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
            <div className="card-flip-container">
              <div className="card-flip-inner">
                {/* Front of Card */}
                <div className="card-front">
                  <div 
-                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                    style={{
                      background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                    }}
@@ -1085,7 +1085,7 @@ const FinancialPlanInterface: React.FC = () => {
                      }}
                    />
                    
-                   <div className="flex flex-col items-start space-y-16 relative z-10">
+                   <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
                      <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-2">
                        <img
                          src="/FinancialPlan/Emergency1FundSetup.png"
@@ -1132,7 +1132,7 @@ const FinancialPlanInterface: React.FC = () => {
                {/* Back of Card */}
                <div className="card-back">
                  <div 
-                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                   className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                    style={{
                      background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                    }}
@@ -1149,32 +1149,32 @@ const FinancialPlanInterface: React.FC = () => {
                      }}
                    />
                    
-                   <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
+                   <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
                      <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy']">
                        HERE'S WHAT YOU GET
                      </h2>
                      <div className="space-y-3 w-full">
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Personalized emergency fund target
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Savings options for liquidity
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Monthly reminders to build the corpus
                          </p>
                        </div>
                        <div className="flex items-start space-x-3">
                          <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                         <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                         <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                            Guidance on fund placement (FDs, liquid funds)
                          </p>
                        </div>
@@ -1211,13 +1211,13 @@ const FinancialPlanInterface: React.FC = () => {
         {/* Duplicate cards for seamless loop - All 8 cards */}
         
         {/* Duplicate Card 1 - Investment Planning */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1232,19 +1232,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/debtmanagement.png" alt="Investment Planning icon" width={80} height={100} className="object-contain" />
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                    <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
+                      <img src="/FinancialPlan/debtmanagement.png" alt="Investment Planning icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Investment Planning</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Align your investment with your time horizon and risk appetite.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Investment Planning</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Align your investment with your time horizon and risk appetite.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1255,7 +1255,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1270,41 +1270,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Risk assessment test
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Asset allocation strategy
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Suggested mutual funds/ETFs
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Periodic rebalancing reminders
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1316,13 +1316,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 2 - Expense Management */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1337,19 +1337,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/expensemanagement.png" alt="Expense Management icon" width={80} height={100} className="object-contain" />
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                    <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
+                      <img src="/FinancialPlan/expensemanagement.png" alt="Expense Management icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Expense Management</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Gain clarity on where your money goes every month.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Expense Management</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Gain clarity on where your money goes every month.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1360,7 +1360,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1375,41 +1375,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Smart categorization of expenses
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Expense-saving tips
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Monthly budget deviation alerts
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Spending summary dashboard
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1421,13 +1421,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 3 - Portfolio Management */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1442,19 +1442,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/personalbudget.png" alt="Portfolio Management icon" width={80} height={100} className="object-contain" />
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                    <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
+                      <img src="/FinancialPlan/personalbudget.png" alt="Portfolio Management icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Portfolio Management</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Track, optimize, and enhance your overall investment performance.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Portfolio Management</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Track, optimize, and enhance your overall investment performance.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1465,7 +1465,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1480,41 +1480,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Investment tracking dashboard
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Health score of your portfolio
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Rebalancing tips
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Alerts on overexposure or underperformance
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1526,13 +1526,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 4 - Tax Consultancy */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1547,19 +1547,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-1">
-                      <img src="/FinancialPlan/Tax1Consultancy.png" alt="Tax consultancy icon" width={180} height={220} className="object-contain scale-150" />
+                      <img src="/FinancialPlan/Tax1Consultancy.png" alt="Tax consultancy icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Tax Consultancy</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Expert help in planning your taxes and maximizing exemptions.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Tax Consultancy</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Expert help in planning your taxes and maximizing exemptions.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1570,7 +1570,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1585,41 +1585,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Personalized tax-saving report
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Investment-linked deductions
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Capital gains advice
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Year-end tax planning session
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1631,13 +1631,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 5 - Financial Health Checkup */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1652,19 +1652,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-1">
-                      <img src="/FinancialPlan/Financialhealth.png" alt="Financial health checkup icon" width={180} height={220} className="object-contain scale-150" />
+                      <img src="/FinancialPlan/Financialhealth.png" alt="Financial health checkup icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Financial Health Checkup</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">A complete diagnostic of your current financial condition.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Financial Health Checkup</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">A complete diagnostic of your current financial condition.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1675,7 +1675,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1690,41 +1690,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Net worth snapshot
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Savings-to-expense ratio
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Risk exposure analysis
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Report with expert suggestions
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1736,13 +1736,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 6 - Personalized Budgeting Plan */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1757,19 +1757,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                    <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
                       <img src="/FinancialPlan/personalbudget.png" alt="Personalized budgeting plan icon" width={80} height={100} className="object-contain" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Personalized Budgeting Plan</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">A custom budget, created around your income, lifestyle, and future goals.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Personalized Budgeting Plan</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">A custom budget, created around your income, lifestyle, and future goals.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1780,7 +1780,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1795,41 +1795,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Income-expense allocation plan
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Dynamic budgeting tracker
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Realistic savings goals
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Monthly report card
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1841,13 +1841,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 7 - Debt Management & Refinancing */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1862,19 +1862,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/debtmanagement.png" alt="Debt management and refinancing icon" width={80} height={100} className="object-contain" />
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                    <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
+                      <img src="/FinancialPlan/debtmanagement.png" alt="Debt management and refinancing icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Debt Management & Refinancing</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Pay off your liabilities smarter with expert-backed strategies tailored for your financial health.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Debt Management & Refinancing</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Pay off your liabilities smarter with expert-backed strategies tailored for your financial health.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1885,7 +1885,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1900,41 +1900,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Personalized debt repayment roadmap
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Refinance suggestions to reduce EMI burden
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Consolidation options for multiple loans
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Monthly progress tracking
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1946,13 +1946,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 8 - Emergency Fund Setup & Guidance */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -1967,19 +1967,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-2">
-                      <img src="/FinancialPlan/Emergency1FundSetup.png" alt="Emergency fund setup and guidance icon" width={180} height={220} className="object-contain scale-150" />
+                      <img src="/FinancialPlan/Emergency1FundSetup.png" alt="Emergency fund setup and guidance icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Emergency Fund Setup & Guidance</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Build a reliable financial cushion for emergencies, job loss, or medical needs.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Emergency Fund Setup & Guidance</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Build a reliable financial cushion for emergencies, job loss, or medical needs.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -1990,7 +1990,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2005,41 +2005,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Personalized emergency fund target
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Savings options for liquidity
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Monthly reminders to build the corpus
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Guidance on fund placement (FDs, liquid funds)
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2053,13 +2053,13 @@ const FinancialPlanInterface: React.FC = () => {
         {/* Second Set of Duplicate Cards for Even Smoother Loop */}
         
         {/* Duplicate Card 9 - Investment Planning */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2074,19 +2074,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/debtmanagement.png" alt="Investment Planning icon" width={80} height={100} className="object-contain" />
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                    <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
+                      <img src="/FinancialPlan/debtmanagement.png" alt="Investment Planning icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Investment Planning</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Align your investment with your time horizon and risk appetite.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Investment Planning</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Align your investment with your time horizon and risk appetite.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2097,7 +2097,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2112,41 +2112,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Risk assessment test
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Asset allocation strategy
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Suggested mutual funds/ETFs
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Periodic rebalancing reminders
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2158,13 +2158,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 10 - Expense Management */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2179,19 +2179,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/expensemanagement.png" alt="Expense Management icon" width={80} height={100} className="object-contain" />
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                    <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
+                      <img src="/FinancialPlan/expensemanagement.png" alt="Expense Management icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Expense Management</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Gain clarity on where your money goes every month.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Expense Management</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Gain clarity on where your money goes every month.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2202,7 +2202,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2217,41 +2217,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Smart categorization of expenses
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Expense-saving tips
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Monthly budget deviation alerts
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Spending summary dashboard
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2263,13 +2263,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 11 - Portfolio Management */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2284,19 +2284,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/personalbudget.png" alt="Portfolio Management icon" width={80} height={100} className="object-contain" />
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                    <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
+                      <img src="/FinancialPlan/personalbudget.png" alt="Portfolio Management icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Portfolio Management</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Track, optimize, and enhance your overall investment performance.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Portfolio Management</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Track, optimize, and enhance your overall investment performance.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2307,7 +2307,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2322,41 +2322,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Investment tracking dashboard
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Health score of your portfolio
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Rebalancing tips
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Alerts on overexposure or underperformance
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2368,13 +2368,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 12 - Tax Consultancy */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2389,19 +2389,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-1">
-                      <img src="/FinancialPlan/Tax1Consultancy.png" alt="Tax consultancy icon" width={180} height={220} className="object-contain scale-150" />
+                      <img src="/FinancialPlan/Tax1Consultancy.png" alt="Tax consultancy icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Tax Consultancy</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Expert help in planning your taxes and maximizing exemptions.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Tax Consultancy</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Expert help in planning your taxes and maximizing exemptions.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2412,7 +2412,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2427,41 +2427,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Personalized tax-saving report
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Investment-linked deductions
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Capital gains advice
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Year-end tax planning session
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2473,13 +2473,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 13 - Financial Health Checkup */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2494,19 +2494,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-1">
-                      <img src="/FinancialPlan/Financialhealth.png" alt="Financial health checkup icon" width={180} height={220} className="object-contain scale-150" />
+                      <img src="/FinancialPlan/Financialhealth.png" alt="Financial health checkup icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Financial Health Checkup</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">A complete diagnostic of your current financial condition.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Financial Health Checkup</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">A complete diagnostic of your current financial condition.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2517,7 +2517,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2532,41 +2532,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Net worth snapshot
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Savings-to-expense ratio
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Risk exposure analysis
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Report with expert suggestions
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2578,13 +2578,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 14 - Personalized Budgeting Plan */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2599,19 +2599,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                    <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
                       <img src="/FinancialPlan/personalbudget.png" alt="Personalized budgeting plan icon" width={80} height={100} className="object-contain" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Personalized Budgeting Plan</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">A custom budget, created around your income, lifestyle, and future goals.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Personalized Budgeting Plan</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">A custom budget, created around your income, lifestyle, and future goals.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2622,7 +2622,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2637,41 +2637,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Income-expense allocation plan
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Dynamic budgeting tracker
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Realistic savings goals
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Monthly report card
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2683,13 +2683,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 15 - Debt Management & Refinancing */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2704,19 +2704,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
-                    <div className="w-[80px] h-[100px] relative mt-4">
-                      <img src="/FinancialPlan/debtmanagement.png" alt="Debt management and refinancing icon" width={80} height={100} className="object-contain" />
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                    <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
+                      <img src="/FinancialPlan/debtmanagement.png" alt="Debt management and refinancing icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Debt Management & Refinancing</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Pay off your liabilities smarter with expert-backed strategies tailored for your financial health.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Debt Management & Refinancing</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Pay off your liabilities smarter with expert-backed strategies tailored for your financial health.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2727,7 +2727,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2742,41 +2742,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Personalized debt repayment roadmap
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Refinance suggestions to reduce EMI burden
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Consolidation options for multiple loans
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Monthly progress tracking
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2788,13 +2788,13 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
 
         {/* Duplicate Card 16 - Emergency Fund Setup & Guidance */}
-        <div className="w-80 h-[425px] relative flex-shrink-0 cursor-pointer">
+        <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2809,19 +2809,19 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-16 relative z-10">
+                  <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
                     <div className="w-[80px] h-[100px] relative mt-4 pl-1 pt-2">
-                      <img src="/FinancialPlan/Emergency1FundSetup.png" alt="Emergency fund setup and guidance icon" width={180} height={220} className="object-contain scale-150" />
+                      <img src="/FinancialPlan/Emergency1FundSetup.png" alt="Emergency fund setup and guidance icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[24px] font-semibold leading-tight font-['Gilroy']">Emergency Fund Setup & Guidance</h2>
-                      <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Build a reliable financial cushion for emergencies, job loss, or medical needs.</p>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Emergency Fund Setup & Guidance</h2>
+                      <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Build a reliable financial cushion for emergencies, job loss, or medical needs.</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -2832,7 +2832,7 @@ const FinancialPlanInterface: React.FC = () => {
               {/* Back of Card */}
               <div className="card-back">
                 <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
                   style={{
                     background: 'linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)'
                   }}
@@ -2847,41 +2847,41 @@ const FinancialPlanInterface: React.FC = () => {
                       WebkitMaskComposite: 'xor'
                     }}
                   />
-                  <div className="flex flex-col items-start space-y-6 relative z-10 mt-8">
-                    <h2 className="text-white text-[20px] font-semibold text-center font-['Gilroy'] w-full">
+                  <div className="flex flex-col items-start space-y-4 sm:space-y-5 md:space-y-6 relative z-10 mt-4 sm:mt-6 md:mt-8">
+                    <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-semibold text-center font-['Gilroy'] w-full">
                       HERE'S WHAT YOU GET
                     </h2>
                     <div className="space-y-3 w-full">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Personalized emergency fund target
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Savings options for liquidity
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Monthly reminders to build the corpus
                         </p>
                       </div>
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-white rounded-sm mt-1.5"></div>
-                        <p className="text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
+                        <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium text-gray-200 font-['Gilroy'] text-left">
                           Guidance on fund placement (FDs, liquid funds)
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">Rs. 199</div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
