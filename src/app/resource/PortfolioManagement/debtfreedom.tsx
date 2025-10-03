@@ -100,7 +100,7 @@ const DebtFreedom: React.FC = () => {
             {/* Top Left */}
             <div className="text-center">
                               <div className="flex justify-center mx-auto mb-3">
-                  <img src="/resource/lowcost.png" alt="Lower Interest" className="w-24 h-24" />
+                  <img src="/resource/PortfolioManagement/returns.png" alt="Lower Interest" className="w-24 h-24" />
                 </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Maximise Returns</h3>
               <p className="text-[18px] font-['Inter'] font-normal text-gray-600">Make the most of your capital</p>
@@ -109,7 +109,7 @@ const DebtFreedom: React.FC = () => {
             {/* Top Right */}
             <div className="text-center">
                               <div className="flex justify-center mx-auto mb-3">
-                  <img src="/resource/finance.png" alt="Simplified Finances" className="w-24 h-24" />
+                  <img src="/resource/PortfolioManagement/risk.png" alt="Simplified Finances" className="w-24 h-24" />
                 </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Reduce Risk</h3>
               <p className="text-gray-600 text-lg">Avoid overexposure to a single asset</p>
@@ -118,7 +118,7 @@ const DebtFreedom: React.FC = () => {
             {/* Bottom Left */}
             <div className="text-center">
               <div className="flex justify-center mx-auto mb-3">
-                <img src="/resource/creditscore.png" alt="Better Credit Score" className="w-28 h-24" />
+                <img src="/resource/PortfolioManagement/time.png" alt="Better Credit Score" className="w-28 h-24" />
               </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Save Time</h3>
               <p className="text-gray-600 text-lg">Let professionals handle the tracking and adjustments</p>
@@ -127,7 +127,7 @@ const DebtFreedom: React.FC = () => {
             {/* Bottom Right */}
             <div className="text-center">
               <div className="flex justify-center mx-auto mb-3">
-              <img src="/resource/stress.png" alt="Less Stress" className="w-24 h-24" />
+              <img src="/resource/PortfolioManagement/love.png" alt="Less Stress" className="w-24 h-24" />
               </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Stay Aligned</h3>
               <p className="text-gray-600 text-lg">Keep your portfolio in sync with your changing goals</p>

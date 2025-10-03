@@ -100,7 +100,7 @@ const DebtFreedom: React.FC = () => {
             {/* Top Left */}
             <div className="text-center">
                               <div className="flex justify-center mx-auto mb-3">
-                  <img src="/resource/service1/lowcost.png" alt="Lower cost" className="w-24 h-24" />
+                  <img src="/resource/ExpenseManagement/stress.png" alt="Lower cost" className="w-24 h-24" />
                 </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Avoid End-of-Month Stress</h3>
               <p className="text-[18px] font-['Inter'] font-normal text-gray-600">No more scrambling for cash.</p>
@@ -109,7 +109,7 @@ const DebtFreedom: React.FC = () => {
             {/* Top Right */}
             <div className="text-center">
                               <div className="flex justify-center mx-auto mb-3">
-                  <img src="/resource/service2/moresaving.png" alt="Savings" className="w-16 h-24" />
+                  <img src="/resource/ExpenseManagement/moresaving.png" alt="Savings" className="w-16 h-24" />
                 </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">More Savings</h3>
               <p className="text-gray-600 text-lg">Extra funds for investments or emergencies.</p>
@@ -118,7 +118,7 @@ const DebtFreedom: React.FC = () => {
             {/* Bottom Left */}
             <div className="text-center">
               <div className="flex justify-center mx-auto mb-3">
-                <img src="/resource/service2/spending.png" alt="spending" className="w-20 h-24" />
+                <img src="/resource/ExpenseManagement/spending.png" alt="spending" className="w-20 h-24" />
               </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Better Spending Habits</h3>
               <p className="text-gray-600 text-lg">Mindful choices lead to long-term wealth</p>
@@ -127,7 +127,7 @@ const DebtFreedom: React.FC = () => {
             {/* Bottom Right */}
             <div className="text-center">
               <div className="flex justify-center mx-auto mb-3">
-              <img src="/resource/service2/financialconfi.png" alt="confidence" className="w-24 h-24" />
+              <img src="/resource/ExpenseManagement/financialconfi.png" alt="confidence" className="w-24 h-24" />
               </div>
               <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Financial Confidence</h3>
               <p className="text-gray-600 text-lg">Know exactly where you stand, always</p>
