@@ -10,7 +10,7 @@ const DebtFreedom: React.FC = () => {
             {/* Left Side - Content */}
             <div className="flex-1 max-w-[650px]">
               <h1 className="text-[48px] font-['Gilroy'] font-bold leading-tight mb-16 ml-8">
-                 Your 5-Step Path to the Right Insurance Plan
+                How We Help You Get <span className="text-gray-400 font-normal italic">Debt-Free</span> Smarter & Faster
               </h1>
               
               
@@ -21,8 +21,8 @@ const DebtFreedom: React.FC = () => {
                     1
                   </div>
                   <div>
-                    <h3 className="font-['Inter'] font-normal text-[20px]">Understand Your Needs</h3>
-                    <p className="font-['Inter'] text-[16px] text-gray-600">Identify risks based on your family, lifestyle, and goals.</p>
+                    <h3 className="font-['Inter'] font-normal text-[20px]">Assess Your Debt Profile</h3>
+                    <p className="font-['Inter'] text-[16px] text-gray-600">Understand Your Loans, Interest Rates, And Repayment Terms.</p>
                   </div>
                 </div>
                 
@@ -31,8 +31,8 @@ const DebtFreedom: React.FC = () => {
                     2
                   </div>
                   <div>
-                    <h3 className="font-['Inter'] font-normal text-[20px]">Choose the Right Cover</h3>
-                    <p className="font-['Inter'] text-[16px] text-gray-600">Select between term, health, life, or asset insurance.</p>
+                    <h3 className="font-['Inter'] font-normal text-[20px]">Choose The Right Strategy</h3>
+                    <p className="font-['Inter'] text-[16px] text-gray-600">Snowball, Avalanche, Or Consolidation. We'll Guide You On The Best Fit.</p>
                   </div>
                 </div>
                 
@@ -41,8 +41,8 @@ const DebtFreedom: React.FC = () => {
                     3
                   </div>
                   <div>
-                    <h3 className="font-['Inter'] font-normal text-[20px]">Decide the Coverage Amount</h3>
-                    <p className="font-['Inter'] text-[16px] text-gray-600">Ensure it’s enough to handle emergencies.</p>
+                    <h3 className="font-['Inter'] font-normal text-[20px]">Refinance For Savings</h3>
+                    <p className="font-['Inter'] text-[16px] text-gray-600">Lower Interest Rates And Better Terms Mean Less Burden.</p>
                   </div>
                 </div>
                 
@@ -51,8 +51,8 @@ const DebtFreedom: React.FC = () => {
                     4
                   </div>
                   <div>
-                    <h3 className="font-['Inter'] font-normal text-[20px]">Compare & Select</h3>
-                    <p className="font-['Inter'] text-[16px] text-gray-600">We shortlist the best policies with competitive premiums.</p>
+                    <h3 className="font-['Inter'] font-normal text-[20px]">Automate Payments</h3>
+                    <p className="font-['Inter'] text-[16px] text-gray-600">Never Miss An EMI And Protect Your Credit Score.</p>
                   </div>
                 </div>
                 
@@ -61,8 +61,8 @@ const DebtFreedom: React.FC = () => {
                     5
                   </div>
                   <div>
-                    <h3 className="font-['Inter'] font-normal text-[20px]">Review Annually</h3>
-                    <p className="font-['Inter'] text-[16px] text-gray-600">Update coverage as your life and income change</p>
+                    <h3 className="font-['Inter'] font-normal text-[20px]">Stay On Track</h3>
+                    <p className="font-['Inter'] text-[16px] text-gray-600">Regular Reviews And Tweaks To Your Repayment Plan.</p>
                   </div>
                 </div>
               </div>
@@ -87,54 +87,55 @@ const DebtFreedom: React.FC = () => {
       </section>
       
       {/* Bottom Section - Light Background */}
-              <section className="bg-white text-black py-12 pb-24 px-12 relative">
+      <section className="bg-white text-black py-12 pb-24 px-12 relative">
 
         
         <div className="max-w-[1400px] mx-auto">
           <h2 className="text-[44px] font-['Gilroy'] font-bold text-center mb-20 leading-tight">
-             Because your family’s future deserves more than luck 
+            Debt Freedom Isn't Just A Number, It's A New Beginning
           </h2>
           
           {/* Four Feature Blocks */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-6xl mx-auto">
             {/* Top Left */}
             <div className="text-center">
-                              <div className="flex justify-center mx-auto mb-3">
-                  <img src="/resource/Emergencyfund/familysupport.png" alt="Lower Interest" className="w-24 h-24" />
-                </div>
-              <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Financial Protection</h3>
-              <p className="text-[18px] font-['Inter'] font-normal text-gray-600">Ensure your loved ones are secure even in your absence</p>
+              <div className="flex justify-center mx-auto mb-3">
+                <img src="/resource/DebtManagement&Refinancing/lowcost.png" alt="Lower Interest" className="w-24 h-24" />
+              </div>
+              <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Lower Interest Costs</h3>
+              <p className="text-[18px] font-['Inter'] font-normal text-gray-600">Save Thousands Over Your Loan Tenure</p>
             </div>
             
             {/* Top Right */}
             <div className="text-center">
-                              <div className="flex justify-center mx-auto mb-3">
-                  <img src="/resource/Emergencyfund/peace.png" alt="Simplified Finances" className="w-24 h-24" />
-                </div>
-              <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Peace of Mind</h3>
-              <p className="text-gray-600 text-lg">Live life knowing you’re covered for emergencies</p>
+              <div className="flex justify-center mx-auto mb-3">
+                <img src="/resource/DebtManagement&Refinancing/payment.png" alt="Simplified Finances" className="w-24 h-24" />
+              </div>
+              <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Simplified Finances</h3>
+              <p className="text-gray-600 text-lg">One Manageable Payment Instead Of Juggling Multiple</p>
             </div>
             
             {/* Bottom Left */}
             <div className="text-center">
               <div className="flex justify-center mx-auto mb-3">
-                <img src="/resource/Emergencyfund/smart.png" alt="Better Credit Score" className="w-28 h-24" />
+                <img src="/resource/DebtManagement&Refinancing/creditscore.png" alt="Better Credit Score" className="w-28 h-24" />
               </div>
-              <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Smart Premiums</h3>
-              <p className="text-gray-600 text-lg">Get maximum cover without overpaying</p>
+              <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Better Credit Score</h3>
+              <p className="text-gray-600 text-lg">Opens The Door For Future Opportunities</p>
             </div>
             
             {/* Bottom Right */}
             <div className="text-center">
               <div className="flex justify-center mx-auto mb-3">
-              <img src="/resource/Emergencyfund/claim.png" alt="Less Stress" className="w-24 h-24" />
+                <img src="/resource/DebtManagement&Refinancing/stress.png" alt="Less Stress" className="w-24 h-24" />
               </div>
-              <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Claim Assistance</h3>
-              <p className="text-gray-600 text-lg">We help you navigate claims smoothly</p>
+              <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Less Stress</h3>
+              <p className="text-gray-600 text-lg">Sleep Better Knowing Your Finances Are In Control</p>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* Bottom Gradient Border - Full viewport width */}
       <div className="w-screen -mb-8 relative z-0" style={{ marginLeft: 'calc(-50vw + 50%)' }}>
@@ -148,4 +149,4 @@ const DebtFreedom: React.FC = () => {
   );
 };
 
-export default DebtFreedom
+export default DebtFreedom;

@@ -7,22 +7,24 @@ import router from "next/router";
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [deviceType, setDeviceType] = useState<'ios' | 'android' | 'desktop'>('desktop');
+  const [deviceType, setDeviceType] = useState<"ios" | "android" | "desktop">(
+    "desktop"
+  );
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Device detection
   useEffect(() => {
     const detectDevice = () => {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         const userAgent = window.navigator.userAgent.toLowerCase();
-        
+
         if (/iphone|ipad|ipod/.test(userAgent)) {
-          setDeviceType('ios');
+          setDeviceType("ios");
         } else if (/android/.test(userAgent)) {
-          setDeviceType('android');
+          setDeviceType("android");
         } else {
-          setDeviceType('desktop');
+          setDeviceType("desktop");
         }
       }
     };
@@ -86,16 +88,18 @@ const Navbar: React.FC = () => {
 
   // Handler for download app button
   const handleDownloadApp = () => {
-    const iosUrl = "https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190";
-    const androidUrl = "https://play.google.com/store/apps/details?id=com.app.fydaa&hl=en";
-    
-    if (deviceType === 'ios') {
-      window.open(iosUrl, '_blank');
-    } else if (deviceType === 'android') {
-      window.open(androidUrl, '_blank');
+    const iosUrl =
+      "https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190";
+    const androidUrl =
+      "https://play.google.com/store/apps/details?id=com.app.fydaa&hl=en";
+
+    if (deviceType === "ios") {
+      window.open(iosUrl, "_blank");
+    } else if (deviceType === "android") {
+      window.open(androidUrl, "_blank");
     } else {
       // For desktop users, show both options or default to iOS
-      window.open(iosUrl, '_blank');
+      window.open(iosUrl, "_blank");
     }
   };
 
@@ -138,7 +142,9 @@ const Navbar: React.FC = () => {
         <div className="fixed top-[60px] sm:top-[70px] md:top-[80px] left-1/2 -translate-x-1/2 w-[95vw] sm:w-[80vw] md:w-[650px] lg:w-[700px] xl:w-[750px] bg-white/30 backdrop-blur-lg border border-white/20 rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] shadow-xl p-4 sm:p-6 md:p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-10 z-[9999] max-h-[80vh] overflow-y-auto">
           {/* Dreams */}
           <div>
-            <h3 className="text-black font-bold text-sm sm:text-base md:text-[16px] mb-2 sm:mb-3 md:mb-4">Dreams</h3>
+            <h3 className="text-black font-bold text-sm sm:text-base md:text-[16px] mb-2 sm:mb-3 md:mb-4">
+              Dreams
+            </h3>
             <ul className="space-y-1.5 sm:space-y-2 md:space-y-2.5">
               {whatWeOfferItems.Dreams.map((item) => (
                 <li key={item}>
@@ -175,7 +181,9 @@ const Navbar: React.FC = () => {
 
           {/* Services */}
           <div>
-            <h3 className="text-black font-bold text-sm sm:text-base md:text-[16px] mb-2 sm:mb-3 md:mb-4">Services</h3>
+            <h3 className="text-black font-bold text-sm sm:text-base md:text-[16px] mb-2 sm:mb-3 md:mb-4">
+              Services
+            </h3>
             <ul className="space-y-1.5 sm:space-y-2 md:space-y-2.5">
               {whatWeOfferItems.Services.map((item) => (
                 <li key={item}>
@@ -210,7 +218,9 @@ const Navbar: React.FC = () => {
 
           {/* Packages */}
           <div>
-            <h3 className="text-black font-bold text-sm sm:text-base md:text-[16px] mb-2 sm:mb-3 md:mb-4">Packages</h3>
+            <h3 className="text-black font-bold text-sm sm:text-base md:text-[16px] mb-2 sm:mb-3 md:mb-4">
+              Packages
+            </h3>
             <ul className="space-y-1.5 sm:space-y-2 md:space-y-2.5">
               {whatWeOfferItems.Packages.map((item) => {
                 const targetIdMap: Record<string, string> = {
@@ -299,6 +309,17 @@ const Navbar: React.FC = () => {
           {/* Navigation */}
           <div className="hidden sm:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
             <ul className="flex items-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 xl:gap-7">
+
+              {/* Home */}
+              <li>
+                <a
+                  href="/"
+                  className="text-black font-medium hover:text-gray-600 transition-colors duration-200 text-xs sm:text-sm md:text-base"
+                >
+                  Home
+                </a>
+              </li>
+
               {/* What we offer */}
               <li
                 className="relative"
@@ -351,7 +372,7 @@ const Navbar: React.FC = () => {
 
           {/* CTA */}
           <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-            <button 
+            <button
               onClick={handleDownloadApp}
               className="bg-black text-white px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full font-medium cursor-pointer hover:bg-gray-800 transition-all duration-200 shadow-sm text-xs sm:text-sm md:text-base"
             >
@@ -384,20 +405,28 @@ const Navbar: React.FC = () => {
                 {/* What we Offer Mobile */}
                 <div>
                   <button
-                    onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
+                    onClick={() =>
+                      setIsMobileDropdownOpen(!isMobileDropdownOpen)
+                    }
                     className="flex items-center justify-between w-full text-left text-black font-medium text-base py-2"
                   >
                     What we Offer
-                    <span className={`transition-transform duration-200 ${isMobileDropdownOpen ? 'rotate-180' : ''}`}>
+                    <span
+                      className={`transition-transform duration-200 ${
+                        isMobileDropdownOpen ? "rotate-180" : ""
+                      }`}
+                    >
                       ▼
                     </span>
                   </button>
-                  
+
                   {isMobileDropdownOpen && (
                     <div className="mt-3 space-y-4 bg-gray-50/50 rounded-lg p-4">
                       {/* Dreams */}
                       <div>
-                        <h4 className="text-black font-semibold text-sm mb-2">Dreams</h4>
+                        <h4 className="text-black font-semibold text-sm mb-2">
+                          Dreams
+                        </h4>
                         <ul className="space-y-2">
                           {whatWeOfferItems.Dreams.map((item) => (
                             <li key={item}>
@@ -446,7 +475,9 @@ const Navbar: React.FC = () => {
 
                       {/* Services */}
                       <div>
-                        <h4 className="text-black font-semibold text-sm mb-2">Services</h4>
+                        <h4 className="text-black font-semibold text-sm mb-2">
+                          Services
+                        </h4>
                         <ul className="space-y-2">
                           {whatWeOfferItems.Services.map((item) => (
                             <li key={item}>
@@ -485,7 +516,9 @@ const Navbar: React.FC = () => {
 
                       {/* Packages */}
                       <div>
-                        <h4 className="text-black font-semibold text-sm mb-2">Packages</h4>
+                        <h4 className="text-black font-semibold text-sm mb-2">
+                          Packages
+                        </h4>
                         <ul className="space-y-2">
                           {whatWeOfferItems.Packages.map((item) => {
                             const targetIdMap: Record<string, string> = {
