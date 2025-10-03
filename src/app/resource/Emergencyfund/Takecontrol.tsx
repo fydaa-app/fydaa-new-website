@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const TakeControl: React.FC = () => {
   return (
@@ -6,37 +6,55 @@ const TakeControl: React.FC = () => {
       {/* Top Section - Light Background */}
       <section className="relative py-32 px-0 mx-0">
         <div className="w-full mx-0 px-0 relative">
-
           <div className="text-left mt-16 mx-0 px-0">
             {/* Left Content */}
             <div className="space-y-6 relative z-20 mx-0 px-0">
-              <div className="flex justify-between items-start mx-0 px-0">
-                <div className="flex-1 relative z-30 mx-0 px-0">
+              {/* Remove the justify-between wrapper */}
+              <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+                {/* Text Content */}
+                <div className="flex-1">
                   <h1 className="text-6xl font-bold text-gray-900 pl-[50px] leading-tight font-gilroy">
-                  Protect What Matters Most, <br />
-                   Plan Your Insurance the Smart Way
+                    Protect What Matters Most, <br />
+                    Plan Your Insurance the Smart Way
                   </h1>
-                  <p className="text-lg text-gray-700 pl-[50px] leading-relaxed font-inter">
-                  Life is unpredictable, but your family's financial security doesn't have to be. Fydaa helps <br />
-                   you choose the right insurance cover for your needs, so you can protect your health, <br />
+                  <p className="text-lg text-gray-700 pl-[50px] leading-relaxed font-inter mt-4">
+                    Life is unpredictable, but your family's financial security
+                    doesn't have to be. Fydaa helps <br />
+                    you choose the right insurance cover for your needs, so you
+                    can protect your health, <br />
                     income, and future.
                   </p>
+
+                  <button className="bg-black text-white px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full font-medium cursor-pointer hover:bg-gray-800 transition-all duration-200 shadow-sm text-xs sm:text-sm md:text-base ml-[50px] mt-6">
+                    Book a Free Call
+                  </button>
                 </div>
-                <div className="absolute -top-[500px] -left-8 -right-8 -z-10 flex gap-0">
+
+                {/* Image - Now properly aligned to right and top */}
+                <div className="flex-shrink-0 -mt-[150px]">
                   <img
-                    src="/resource/gradient.png"
-                    alt="Gradient"
-                    className="h-screen w-1/2 object-cover opacity-60"
-                  />
-                  <img
-                    src="/resource/gradient.png"
-                    alt="Gradient"
-                    className="h-screen w-1/2 object-cover opacity-60"
+                    src="/resource/Emergencyfund/icon.png"
+                    alt="Insurance Planning"
+                    className="p-4 sm:p-5 md:p-6 lg:p-8 xl:p-10 2xl:p-12 w-full max-w-md"
                   />
                 </div>
               </div>
+
+              {/* Gradient - Keep absolute positioning */}
+              <div className="absolute -top-[500px] -left-8 -right-8 -z-10 flex gap-0">
+                <img
+                  src="/resource/gradient.png"
+                  alt="Gradient"
+                  className="h-screen w-1/2 object-cover opacity-60"
+                />
+                <img
+                  src="/resource/gradient.png"
+                  alt="Gradient"
+                  className="h-screen w-1/2 object-cover opacity-60"
+                />
+              </div>
             </div>
-            
+
             {/* Blue circle image - positioned below content */}
             {/* Width options: w-full, w-screen, w-[800px], w-[1000px], w-[1200px], w-[1400px], w-[1600px] */}
             {/* Height options: h-auto, h-[200px], h-[300px], h-[400px], h-[500px], h-[600px], h-[800px], h-[1000px] */}
@@ -50,12 +68,16 @@ const TakeControl: React.FC = () => {
                 {/* Text overlay on blue circle */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center pt-[100px] pb-[60px]">
                   <h2 className="text-[44px] font-bold text-white mb-[16px] leading-tight font-gilroy">
-                     Insurance Isn't Just a Policy, It's Peace of Mind
+                    Insurance Isn't Just a Policy, It's Peace of Mind
                   </h2>
                   <p className="text-[16px] text-gray-200 max-w-[1100px] leading-relaxed mb-[40px] font-inter">
-                  Whether it's life, health, term, or asset insurance, Fydaa ensures you get the right cover, the right premium, and the right claim process. We analyse your needs, compare the best options in the market, and guide you towards the most cost-effective, comprehensive protection.
+                    Whether it's life, health, term, or asset insurance, Fydaa
+                    ensures you get the right cover, the right premium, and the
+                    right claim process. We analyse your needs, compare the best
+                    options in the market, and guide you towards the most
+                    cost-effective, comprehensive protection.
                   </p>
-                  
+
                   {/* Video Placeholder */}
                   <div className="bg-gray-800 rounded-2xl p-[24px] shadow-2xl relative overflow-hidden w-[700px] mb-[30px]">
                     {/* Video Screen */}
@@ -64,42 +86,73 @@ const TakeControl: React.FC = () => {
                       <div className="w-[80px] h-[80px] bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform cursor-pointer">
                         <div className="w-0 h-0 border-l-[20px] border-l-blue-600 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent ml-1"></div>
                       </div>
-                      
+
                       {/* Subtle Glow Effect */}
                       <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-50"></div>
                     </div>
-                    
+
                     {/* Video Controls */}
                     <div className="flex items-center justify-between bg-gray-700 rounded-lg p-4">
                       <div className="flex items-center space-x-4">
                         <button className="text-white hover:text-blue-400 transition-colors">
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                          <svg
+                            className="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                              clipRule="evenodd"
+                            />
                           </svg>
                         </button>
                         <button className="text-white hover:text-blue-400 transition-colors">
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <svg
+                            className="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
                             <path d="M8.445 14.832A1 1 0 0010 14v-2.798l5.445 3.63A1 1 0 0017 14V6a1 1 0 00-1.555-.832L10 8.798V6a1 1 0 00-1.555-.832l-6 4a1 1 0 000 1.664l6 4z" />
                           </svg>
                         </button>
                       </div>
-                      
+
                       {/* Progress Bar */}
                       <div className="flex-1 mx-4">
                         <div className="w-full bg-gray-600 rounded-full h-2">
-                          <div className="bg-red-500 h-2 rounded-full" style={{ width: '45%' }}></div>
+                          <div
+                            className="bg-red-500 h-2 rounded-full"
+                            style={{ width: "45%" }}
+                          ></div>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center space-x-4">
                         <button className="text-white hover:text-blue-400 transition-colors">
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.533 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.372-.836 2.942-2.106 2.106-1.372a1.533 1.533 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+                          <svg
+                            className="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.533 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.372-.836 2.942-2.106 2.106-1.372a1.533 1.533 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                              clipRule="evenodd"
+                            />
                           </svg>
                         </button>
                         <button className="text-white hover:text-blue-400 transition-colors">
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 11-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12z" clipRule="evenodd" />
+                          <svg
+                            className="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 11-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12z"
+                              clipRule="evenodd"
+                            />
                           </svg>
                         </button>
                       </div>
@@ -111,8 +164,6 @@ const TakeControl: React.FC = () => {
           </div>
         </div>
       </section>
-
-      
     </main>
   );
 };

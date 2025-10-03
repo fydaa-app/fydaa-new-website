@@ -89,26 +89,12 @@ const DebtFreedom: React.FC = () => {
 
             {/* Right Side - Placeholder */}
             <div className="flex-1 flex justify-end mt-12">
-              <div className="w-96 h-[700px] bg-gray-100 rounded-3xl flex items-center justify-center shadow-lg">
-                <div className="text-center text-gray-500">
-                  <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-6 flex items-center justify-center">
-                    <svg
-                      className="w-10 h-10 text-gray-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                  <p className="text-xl font-medium">Mobile App</p>
-                  <p className="text-base text-gray-400">Placeholder</p>
-                </div>
+              <div className="w-96 h-[700px] ">
+                <img
+                  src="/resource/app.png"
+                  alt="Mobile App"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
