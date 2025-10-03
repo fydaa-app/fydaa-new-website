@@ -46,7 +46,7 @@ const ServiceSection: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#F7F7F7] min-h-screen rounded-[56px] overflow-visible relative -mt-52 pb-52 z-40 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-48">
+    <div className="bg-[#F7F7F7] min-h-screen rounded-[56px] overflow-visible relative -mt-[56px] pb-52 z-40 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-48">
       <div className="max-w-4xl mx-auto text-center pt-16 px-4 sm:px-0">
         {/* Main Heading - Gilroy SemiBold */}
         <h1 className="font-gilroy-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[56px] leading-tight sm:leading-snug md:leading-normal lg:leading-[68px] tracking-normal text-[#000000] mb-8">
