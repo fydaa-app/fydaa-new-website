@@ -7,7 +7,7 @@ const TakeControl: React.FC = () => {
       <section className="relative py-32 px-0 mx-0">
         <div className="w-full mx-0 px-0 relative">
 
-          <div className="text-left mt-16 mx-0 px-0">
+           <div className="text-left mt-16 mx-0 px-0">
             {/* Left Content */}
             <div className="space-y-6 relative z-20 mx-0 px-0">
               <div className="flex justify-between items-start mx-0 px-0">
