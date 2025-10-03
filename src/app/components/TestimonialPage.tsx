@@ -15,7 +15,8 @@ const TestimonialPage: React.FC = () => {
     {
       name: "Abhishek Misra",
       image: "/testimonial/misra.jpg", // You'll need to add this image
-      video: "https://fydaa-v2.s3.ap-south-1.amazonaws.com/public/webVideos/IMG_2372.mp4", //Link from AWSgit 
+      video:
+        "https://fydaa-v2.s3.ap-south-1.amazonaws.com/public/webVideos/IMG_2372.mp4", //Link from AWSgit
       text: "Hello, my name is Abhishek Misra, and I am a CS professional. I have been using the Fyda app since 2022. I chose the Fyda app because investing through it is very effortless, and more importantly, it allows me to invest in multiple asset classes like gold, real estate, and equity—all within a single app. I would definitely recommend using the Fyda app if you are looking for a disciplined way of investing. Thank you for letting me share my journey with Fyda, and I hope it inspires you to begin your own investment journey.",
     },
   ];
@@ -160,7 +161,7 @@ const TestimonialPage: React.FC = () => {
                       controls
                       muted
                       loop
-                      className="w-full h-full object-cover rounded-2xl"
+                      className="w-full h-full object-cover rounded-2xl [&:fullscreen]:!object-contain"
                       onPlay={handleVideoPlay}
                       onPause={handleVideoPause}
                     />
@@ -334,7 +335,7 @@ const TestimonialPage: React.FC = () => {
                         controls
                         muted
                         loop
-                        className="w-full h-full object-cover rounded-2xl"
+                        className="w-full h-full object-cover rounded-2xl [&:fullscreen]:!object-contain"
                         onPlay={handleVideoPlay}
                         onPause={handleVideoPause}
                       />
@@ -342,11 +343,17 @@ const TestimonialPage: React.FC = () => {
                       {/* Transparent Click Overlay - Always Present */}
                       <div
                         onClick={handleVideoPlayPause}
-                        className="absolute inset-0 cursor-pointer rounded-2xl z-10 flex items-center justify-center"
+                        className="absolute inset-0 rounded-2xl z-10 flex items-center justify-center"
+                        style={{
+                          pointerEvents: isVideoPlaying ? "none" : "auto",
+                        }}
                       >
-                        {/* Custom Play Button - Only Shows When Paused */}
+                        {/* Custom Play Button - Enable pointer events only on this */}
                         {!isVideoPlaying && (
-                          <div className="bg-white/90 hover:bg-white rounded-full p-4 sm:p-5 md:p-6 transition-all duration-200 hover:scale-110 pointer-events-none">
+                          <div
+                            className="bg-white/90 hover:bg-white rounded-full p-4 sm:p-5 md:p-6 transition-all duration-200 hover:scale-110"
+                            style={{ pointerEvents: "auto" }}
+                          >
                             <svg
                               className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-black"
                               fill="currentColor"
