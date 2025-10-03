@@ -41,18 +41,18 @@ const HeroSection: React.FC = () => {
       ></div>
       
       {/* Main Content Container */}
-      <div className="relative z-30 flex flex-col px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10 pt-16 pb-16 sm:pt-20 sm:pb-20 md:pt-24 md:pb-24 lg:pt-28 lg:pb-28 xl:pt-32 xl:pb-32 2xl:pt-36 2xl:pb-36">
+      <div className="relative z-30 flex flex-col px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 pt-16 pb-20 sm:pt-20 sm:pb-24 md:pt-24 md:pb-28 lg:pt-28 lg:pb-32 xl:pt-32 xl:pb-36 2xl:pt-40 2xl:pb-48">
         
         {/* Hero Text Content */}
-        <div className="text-center mb-6 sm:mb-8 md:mb-12 lg:mb-16">
-          <div className="space-y-1 sm:space-y-2 md:space-y-3 lg:space-y-4 xl:space-y-6">
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-semibold text-black font-gilroy leading-tight">
+        <div className="text-center mb-12 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 2xl:mb-20">
+          <div className="space-y-6 sm:space-y-4 md:space-y-5 lg:space-y-6 xl:space-y-8 2xl:space-y-10">
+            <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-semibold text-black font-gilroy leading-tight">
               Wealth Shouldn't Be a Privilege
             </h1>
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-light text-black font-gilroy leading-tight">
+            <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-5xl 2xl:text-6xl font-light text-black font-gilroy leading-tight">
               It Should Be a Possibility For All
             </h2>
-            <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-gray-600 font-inter font-normal max-w-xs sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto px-2 sm:px-4">
+            <p className="text-sm sm:text-sm md:text-base lg:text-sm xl:text-lg 2xl:text-xl text-gray-600 font-inter font-normal max-w-sm sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto px-2 sm:px-4">
               We're on a mission to make smart investing accessible, understandable,
               <br className="hidden sm:block" />
               and achievable - no matter your income, background, or experience.
@@ -61,22 +61,22 @@ const HeroSection: React.FC = () => {
         </div>
         
         {/* People Icons with continuous horizontal scrolling animation */}
-        <div className="w-full overflow-hidden mb-6 sm:mb-8 md:mb-12 lg:mb-12">
+        <div className="w-full overflow-hidden mb-10 sm:mb-8 md:mb-10 lg:mb-8 xl:mb-12 2xl:mb-16">
           <div className="animate-scroll-seamless">
             <img 
               src="/Heropage/diverse-people.png" 
               alt="Diverse people icons" 
-              className="h-[60px] sm:h-[80px] md:h-[100px] lg:h-[120px] xl:h-[140px] 2xl:h-[160px] opacity-80 object-contain"
+              className="h-[80px] sm:h-[70px] md:h-[80px] lg:h-[90px] xl:h-[120px] 2xl:h-[140px] opacity-80 object-contain"
             />
             <img 
               src="/Heropage/diverse-people.png" 
               alt="Diverse people icons" 
-              className="h-[60px] sm:h-[80px] md:h-[100px] lg:h-[120px] xl:h-[140px] 2xl:h-[160px] opacity-80 object-contain"
+              className="h-[80px] sm:h-[70px] md:h-[80px] lg:h-[90px] xl:h-[120px] 2xl:h-[140px] opacity-80 object-contain"
             />
             <img 
               src="/Heropage/diverse-people.png" 
               alt="Diverse people icons" 
-              className="h-[60px] sm:h-[80px] md:h-[100px] lg:h-[120px] xl:h-[140px] 2xl:h-[160px] opacity-80 object-contain"
+              className="h-[80px] sm:h-[70px] md:h-[80px] lg:h-[90px] xl:h-[120px] 2xl:h-[140px] opacity-80 object-contain"
             />
           </div>
         </div>
@@ -85,28 +85,28 @@ const HeroSection: React.FC = () => {
         <div className="text-center">
           <div className="max-w-4xl mx-auto">
             {/* Three Feature Highlights */}
-            <div className="flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-2 md:space-x-4 lg:space-x-6 xl:space-x-8 mb-3 sm:mb-4 md:mb-6 lg:mb-8">
-              <div className="flex items-center space-x-1 sm:space-x-2">
-                <img src="/Heropage/sebi.png" alt="SEBI" className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
-                <span className="text-black font-gilroy font-light text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">SEBI-registered</span>
+            <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-2 md:space-x-3 lg:space-x-4 xl:space-x-6 2xl:space-x-8 mb-6 sm:mb-5 md:mb-6 lg:mb-6 xl:mb-8 2xl:mb-10">
+              <div className="flex items-center space-x-2 sm:space-x-2">
+                <img src="/Heropage/sebi.png" alt="SEBI" className="w-4 h-4 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7" />
+                <span className="text-black font-gilroy font-light text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">SEBI-registered</span>
               </div>
               
-              <div className="flex items-center space-x-1 sm:space-x-2">
-                <img src="/Heropage/bank.png" alt="Security" className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
-                <span className="text-black font-gilroy font-light text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">Bank-grade security</span>
+              <div className="flex items-center space-x-2 sm:space-x-2">
+                <img src="/Heropage/bank.png" alt="Security" className="w-4 h-4 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7" />
+                <span className="text-black font-gilroy font-light text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">Bank-grade security</span>
               </div>
               
-              <div className="flex items-center space-x-1 sm:space-x-2">
-                <img src="/Heropage/transplant.png" alt="Fees" className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
-                <span className="text-black font-gilroy font-light text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">Transparent fees</span>
+              <div className="flex items-center space-x-2 sm:space-x-2">
+                <img src="/Heropage/transplant.png" alt="Fees" className="w-4 h-4 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7" />
+                <span className="text-black font-gilroy font-light text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">Transparent fees</span>
               </div>
             </div>
             
             {/* Start Investing Now Button */}
             <div className="flex justify-center">
-              <button className="bg-black text-white px-4 sm:px-5 md:px-6 lg:px-8 xl:px-10 py-2 sm:py-2.5 md:py-3 lg:py-3.5 xl:py-4 rounded-full font-gilroy font-medium flex items-center space-x-1 sm:space-x-2 hover:bg-gray-800 transition-colors text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
+              <button className="bg-black text-white px-5 sm:px-5 md:px-6 lg:px-6 xl:px-8 2xl:px-10 py-2.5 sm:py-2.5 md:py-3 lg:py-3 xl:py-4 2xl:py-5 rounded-full font-gilroy font-medium flex items-center space-x-2 sm:space-x-2 hover:bg-gray-800 transition-colors text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">
                 <span>Start Investing Now</span>
-                <svg className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5 2xl:w-6 2xl:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </button>
