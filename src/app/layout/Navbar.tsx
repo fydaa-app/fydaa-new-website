@@ -267,12 +267,12 @@ const Navbar: React.FC = () => {
           <ul className="space-y-1">
             {calculatorItems.map((item) => (
               <li key={item}>
-                <a
+                <Link
                   href="/"
                   className="text-[#484848] hover:text-black hover:bg-gray-100/20 text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg transition-all duration-200 whitespace-nowrap"
                 >
                   {item}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -290,7 +290,7 @@ const Navbar: React.FC = () => {
       <nav className="bg-[#FFFFFF]/30 backdrop-blur-lg border-b-2 border-b-gray-200/20 rounded-b-[20px] sm:rounded-b-[30px] lg:rounded-b-[40px] shadow-sm">
         <div className="relative flex items-center justify-between px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-2 sm:py-3 w-full max-w-[2400px] mx-auto">
           {/* Logo */}
-          <a
+          <Link
             href="/"
             className="flex items-center gap-1 sm:gap-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
           >
@@ -304,7 +304,7 @@ const Navbar: React.FC = () => {
               alt="Fydaa"
               className="h-6 sm:h-7 md:h-8 lg:h-8 xl:h-9 object-contain"
             />
-          </a>
+          </Link>
 
           {/* Navigation */}
           <div className="hidden sm:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
@@ -312,12 +312,12 @@ const Navbar: React.FC = () => {
 
               {/* Home */}
               <li>
-                <a
+                <Link
                   href="/"
                   className="text-black font-medium hover:text-gray-600 transition-colors duration-200 text-xs sm:text-sm md:text-base"
                 >
                   Home
-                </a>
+                </Link>
               </li>
 
               {/* What we offer */}

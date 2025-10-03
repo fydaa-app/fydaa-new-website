@@ -13,7 +13,7 @@ const TestimonialPage: React.FC = () => {
 
   const testimonials = [
     {
-      name: "Abhishek Misra",
+      name: "Abhishek Mishra",
       image: "/testimonial/misra.jpg", // You'll need to add this image
       video:
         "https://fydaa-v2.s3.ap-south-1.amazonaws.com/public/webVideos/IMG_2372.mp4", //Link from AWSgit

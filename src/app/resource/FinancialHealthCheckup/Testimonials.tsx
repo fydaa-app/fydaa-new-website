@@ -74,11 +74,8 @@ const Testimonials = () => {
                 </div>
                 
                 {/* Quote */}
-                <blockquote className="text-center text-xl mb-6 italic leading-relaxed flex-grow">
-                  "Orci Vel Eget In Eu. Integer Amet<br />
-                  Porttitor Hendrerit Etiam Arcu, Aliquet<br />
-                  Duis Pretium Consequat. Semper Sed<br />
-                  Viverra Enim Ut Nunc."
+                <blockquote className="text-center text-base mb-6 italic leading-relaxed flex-grow">
+                “I’ve been using the Fyda app since 2022, and it makes investing effortless. I can easily invest across gold, real estate, and equity—all in one place. I’d definitely recommend Fyda for anyone looking to build a disciplined investment journey.”
                 </blockquote>
                 
                 {/* Author */}
@@ -88,7 +85,7 @@ const Testimonials = () => {
                       <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <p className="font-['Inter'] font-medium text-[14px]">Courtney Henry</p>
+                  <p className="font-['Inter'] font-medium text-[14px]">Abhishek Mishra</p>
                 </div>
               </div>
             </div>
@@ -117,11 +114,8 @@ const Testimonials = () => {
                 </div>
                 
                 {/* Quote */}
-                <blockquote className="text-center text-xl mb-6 italic leading-relaxed flex-grow">
-                  "Orci Vel Eget In Eu. Integer Amet<br />
-                  Porttitor Hendrerit Etiam Arcu, Aliquet<br />
-                  Duis Pretium Consequat. Semper Sed<br />
-                  Viverra Enim Ut Nunc."
+                <blockquote className="text-center text-base mb-6 italic leading-relaxed flex-grow">
+                “I’ve been using the Fyda app since 2022, and it makes investing effortless. I can easily invest across gold, real estate, and equity—all in one place. I’d definitely recommend Fyda for anyone looking to build a disciplined investment journey.”
                 </blockquote>
                 
                 {/* Author */}
@@ -131,7 +125,7 @@ const Testimonials = () => {
                       <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 0 1114 0H3z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <p className="font-['Inter'] font-medium text-[14px]">Courtney Henry</p>
+                  <p className="font-['Inter'] font-medium text-[14px]">Abhishek Mishra</p>
                 </div>
               </div>
             </div>
