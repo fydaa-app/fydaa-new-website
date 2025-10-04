@@ -58,7 +58,7 @@ const FaqSection: React.FC = () => {
 
         {/* FAQ Items */}
         <div className="space-y-0 mt-24">
-          {faqData.map((item, index) => (
+          {faqData.map((item) => (
             <div key={item.id} className="border-b border-gray-200 last:border-b-0">
               <button
                 onClick={() => toggleItem(item.id)}

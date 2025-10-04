@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
 import animationData from "../../animations/homepage_animation.json";
 
 export default function Dreams() {
@@ -268,8 +267,7 @@ export default function Dreams() {
               <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
                 <button 
                   className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]"
-                  data-cal-link="fydaaadvisorybooking/knowfydaa"
-                  data-cal-config='{"theme":"dark","layout":"month_view"}'
+                  onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}
                 >
                   Start Planning
                 </button>
@@ -298,8 +296,7 @@ export default function Dreams() {
               <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
                 <button 
                   className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]"
-                  data-cal-link="fydaaadvisorybooking/knowfydaa"
-                  data-cal-config='{"theme":"dark","layout":"month_view"}'
+                  onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}
                 >
                   Start Planning
                 </button>
@@ -328,8 +325,7 @@ export default function Dreams() {
               <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
                 <button 
                   className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]"
-                  data-cal-link="fydaaadvisorybooking/knowfydaa"
-                  data-cal-config='{"theme":"dark","layout":"month_view"}'
+                  onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}
                 >
                   Start Planning
                 </button>

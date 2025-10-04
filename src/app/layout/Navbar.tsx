@@ -2,7 +2,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
-import router from "next/router";
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

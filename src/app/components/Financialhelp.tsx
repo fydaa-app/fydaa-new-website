@@ -2897,7 +2897,8 @@ const FinancialPlanInterface: React.FC = () => {
       {/* Action Buttons */}
       <div className="flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8 mt-12 sm:mt-14 md:mt-16 px-4">
         {/* Create Your Custom Plan Button */}
-        <button className="px-4 py-1.5 sm:px-5 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[13px] md:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+        <button className="px-4 py-1.5 sm:px-5 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[13px] md:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+        onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}>
           Create Your Custom Plan
         </button>
       </div>
@@ -3089,7 +3090,8 @@ const FinancialPlanInterface: React.FC = () => {
         {/* Buttons positioned on top of the image */}
         <div className="absolute inset-0 flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8 -mt-8 sm:-mt-12 md:-mt-16 lg:-mt-20 px-4">
           {/* Book a Free Call Button */}
-          <button className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+          <button className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+          onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}>
             Book a Free Call
           </button>
           
@@ -3138,7 +3140,8 @@ const FinancialPlanInterface: React.FC = () => {
            {/* Action buttons */}
            <div className="flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8">
              {/* Start a SIP Button */}
-             <button className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+             <button className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+             onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}>
                Start a SIP
              </button>
              
