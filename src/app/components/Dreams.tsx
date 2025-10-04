@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
 import animationData from "../../animations/homepage_animation.json";
 
 export default function Dreams() {

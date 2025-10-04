@@ -1,5 +1,3 @@
-import react from "react";
-import HeroSection from "./herosection";
 import MissionSection from "./MissionSection";
 import FounderSection from "./FounderSection";
 import ServiceSection from "./ServiceSection";
