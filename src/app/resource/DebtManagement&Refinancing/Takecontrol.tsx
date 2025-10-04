@@ -23,7 +23,7 @@ const TakeControl: React.FC = () => {
                   so you can breathe easy again.
                 </p>
 
-                <button className="bg-black text-white px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-7 lg:py-3.5 xl:px-8 xl:py-4 2xl:px-10 2xl:py-5 3xl:px-12 3xl:py-6 rounded-full font-medium cursor-pointer hover:bg-gray-800 transition-all duration-200 shadow-sm text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl 3xl:text-3xl ml-4 sm:ml-6 md:ml-8 lg:ml-10 xl:ml-12 2xl:ml-16 3xl:ml-20 mt-4 sm:mt-5 md:mt-6 lg:mt-7 xl:mt-8 2xl:mt-10 3xl:mt-12">
+                <button className="bg-black text-white px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full font-medium cursor-pointer hover:bg-gray-800 transition-all duration-200 shadow-sm text-xs sm:text-sm md:text-base ml-4 sm:ml-6 md:ml-8 lg:ml-10 xl:ml-12 2xl:ml-16 3xl:ml-20 mt-4 sm:mt-5 md:mt-6 lg:mt-7 xl:mt-8 2xl:mt-10 3xl:mt-12">
                   Book a Free Call
                 </button>
               </div>

@@ -4,7 +4,7 @@ const DebtFreedom: React.FC = () => {
   return (
     <div className="w-full bg-[#ffffff] -mt-48">
       {/* Top Section - White Background */}
-      <section className="bg-[#ffffff] text-black py-40 relative z-40 rounded-t-[56px] mt-[200px] overflow-visible pb-52 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-48">
+      <section className="bg-[#ffffff] text-black py-16 sm:py-24 md:py-32 lg:py-40 xl:py-48 2xl:py-56 relative z-40 rounded-t-[24px] sm:rounded-t-[32px] md:rounded-t-[40px] lg:rounded-t-[56px] xl:rounded-t-[64px] 2xl:rounded-t-[72px] mt-[200px] overflow-visible pb-32 sm:pb-40 md:pb-44 lg:pb-52 xl:pb-60 2xl:pb-72 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-48">
         <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-16">
             {/* Left Side - Content */}
@@ -106,11 +106,11 @@ const DebtFreedom: React.FC = () => {
 
             {/* Right Side - Placeholder - Desktop only */}
             <div className="hidden lg:flex flex-1 justify-end mt-12">
-              <div className="w-96 h-[700px]">
+              <div className="w-64 h-[500px] sm:w-72 sm:h-[550px] md:w-80 md:h-[600px] lg:w-96 lg:h-[700px] xl:w-[28rem] xl:h-[750px] 2xl:w-[32rem] 2xl:h-[800px]">
                 <img
                   src="/resource/app.png"
                   alt="Mobile App"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
@@ -119,7 +119,7 @@ const DebtFreedom: React.FC = () => {
       </section>
 
       {/* Bottom Section - Light Background */}
-      <section className="bg-white text-black py-6 sm:py-8 md:py-10 lg:py-11 xl:py-12 2xl:py-16 3xl:py-20 pb-12 sm:pb-16 md:pb-20 lg:pb-22 xl:pb-24 2xl:pb-32 3xl:pb-40 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 3xl:px-20 relative">
+      <section className="bg-white text-black pb-12 sm:pb-16 md:pb-20 lg:pb-22 xl:pb-24 2xl:pb-32 3xl:pb-40 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 3xl:px-20 relative">
         <div className="max-w-[1400px] mx-auto">
           <h2 className="text-[26px] sm:text-[30px] md:text-[34px] lg:text-[39px] xl:text-[44px] 2xl:text-[52px] 3xl:text-[60px] font-['Gilroy'] font-bold text-center mb-10 sm:mb-12 md:mb-14 lg:mb-17 xl:mb-20 2xl:mb-24 3xl:mb-28 leading-tight">
             Debt Freedom Isn't Just A Number, It's A New Beginning
