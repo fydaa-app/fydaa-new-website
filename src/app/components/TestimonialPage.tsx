@@ -509,22 +509,6 @@ const TestimonialPage: React.FC = () => {
             >
               Download Our App
             </button>
-            <div className="flex items-center space-x-1 sm:space-x-2 text-white text-[10px] sm:text-[11px] md:text-[12px] lg:text-xs xl:text-sm 2xl:text-base font-medium font-['Inter'] cursor-pointer hover:text-gray-300 transition-colors">
-              <span>Watch Demo</span>
-              <svg
-                className="w-2 h-2 sm:w-3 sm:h-3 md:w-3 md:h-3 lg:w-3 lg:h-3 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </div>
           </div>
         </div>
       </div>

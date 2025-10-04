@@ -256,7 +256,7 @@ export default function Dreams() {
               </h2>
               <p
                 className="text-gray-500 mb-2 sm:mb-2 italic font-inter text-xs sm:text-xs md:text-base lg:text-xl xl:text-xl 2xl:text-2xl"
-                style={{ fontWeight: 100 }}
+                style={{ fontWeight: 400 }}
               >
                 Fulfil dreams without draining your future
               </p>
@@ -266,11 +266,12 @@ export default function Dreams() {
                 the goal, build a plan, and reach it on your terms.
               </p>
               <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
-                <button className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]">
+                <button 
+                  className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]"
+                  data-cal-link="fydaaadvisorybooking/knowfydaa"
+                  data-cal-config='{"theme":"dark","layout":"month_view"}'
+                >
                   Start Planning
-                </button>
-                <button className="text-black hover:text-gray-800 transition-colors flex items-center gap-1 sm:gap-2 font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]">
-                  Talk to us <ArrowRight className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 text-black" />
                 </button>
               </div>
             </div>
@@ -285,7 +286,7 @@ export default function Dreams() {
               </h2>
               <p
                 className="text-gray-500 mb-2 sm:mb-2 italic font-inter text-xs sm:text-xs md:text-base lg:text-xl xl:text-xl 2xl:text-2xl"
-                style={{ fontWeight: 100 }}
+                style={{ fontWeight: 400 }}
               >
                 Be ready for life&apos;s curveballs
               </p>
@@ -295,11 +296,12 @@ export default function Dreams() {
                 action beats last-minute panic.
               </p>
               <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
-                <button className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]">
+                <button 
+                  className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]"
+                  data-cal-link="fydaaadvisorybooking/knowfydaa"
+                  data-cal-config='{"theme":"dark","layout":"month_view"}'
+                >
                   Start Planning
-                </button>
-                <button className="text-black hover:text-gray-800 transition-colors flex items-center gap-1 sm:gap-2 font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]">
-                  Talk to us <ArrowRight className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 text-black" />
                 </button>
               </div>
             </div>
@@ -314,7 +316,7 @@ export default function Dreams() {
               </h2>
               <p
                 className="text-gray-500 mb-2 sm:mb-2 italic font-inter text-xs sm:text-xs md:text-base lg:text-xl xl:text-xl 2xl:text-2xl"
-                style={{ fontWeight: 100 }}
+                style={{ fontWeight: 400 }}
               >
                 Your money should work while you sleep
               </p>
@@ -324,11 +326,12 @@ export default function Dreams() {
                 expert-backed plans for your goals and profile.
               </p>
               <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
-                <button className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]">
+                <button 
+                  className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]"
+                  data-cal-link="fydaaadvisorybooking/knowfydaa"
+                  data-cal-config='{"theme":"dark","layout":"month_view"}'
+                >
                   Start Planning
-                </button>
-                <button className="text-black hover:text-gray-800 transition-colors flex items-center gap-1 sm:gap-2 font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]">
-                  Talk to us <ArrowRight className="w-3 h-3 sm:w-3 sm:h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 text-black" />
                 </button>
               </div>
 

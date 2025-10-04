@@ -24,7 +24,7 @@ const FAQ: React.FC = () => {
     {
       id: 3,
       question: "How fydaa makes money?",
-      answer: "Fydaa have no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There are no other revenue or commission from brokers or mutual fund houses."
+      answer: "Fydaa charges a nominal fixed fee per month starting from Rs. 20 only."
     },
     {
       id: 4,
@@ -43,16 +43,11 @@ const FAQ: React.FC = () => {
     },
     {
       id: 7,
-      question: "Your question here",
-      answer: "Your answer here"
-    },
-    {
-      id: 8,
       question: "What if I don't have any broker/demat account?",
       answer: "No worries, our platform provides you a seamless account opening with any broker of your choice in just few clicks."
     },
     {
-      id: 9,
+      id: 8,
       question: "How do I add or withdraw my investments from my fydaa account?",
       answer: "Fydaa tech platform provides a seamless few click to add or withdraw money from your broker/ demat account. Please note, fydaa never keeps money nor securities of any investors. All your money and securities are always with your respective bank and broker account."
     },
