@@ -5,12 +5,12 @@ const VideoSection: React.FC = () => {
     <section
       className="
     relative z-30 
-    -mt-1 
-    sm:mt-12 
-    md:mt-20 
-    lg:mt-32 
-    xl:mt-40 
-    2xl:mt-48
+    mt-20 
+    sm:mt-20 
+    md:mt-28 
+    lg:mt-40 
+    xl:mt-48 
+    2xl:mt-56
     flex justify-center overflow-visible pointer-events-none
     pb-[60px] sm:pb-[80px] md:pb-[100px] lg:pb-[120px] xl:pb-[140px]
   "

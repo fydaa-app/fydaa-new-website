@@ -6,7 +6,7 @@ const DebtFreedom: React.FC = () => {
       {/* Top Section - White Background */}
       <section className="bg-[#ffffff] text-black py-40 relative z-40 rounded-t-[56px] mt-[200px] overflow-visible pb-52 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-48">
         <div className="max-w-[1400px] mx-auto">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
+          <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-16">
             {/* Left Side - Content */}
             <div className="flex-1 max-w-[650px]">
               <h1 className="text-[28px] sm:text-[32px] md:text-[36px] lg:text-[42px] xl:text-[48px] 2xl:text-[56px] 3xl:text-[64px] font-['Gilroy'] font-bold leading-tight mb-8 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 2xl:mb-20 3xl:mb-24 ml-4 sm:ml-5 md:ml-6 lg:ml-7 xl:ml-8 2xl:ml-10 3xl:ml-12">
@@ -16,6 +16,17 @@ const DebtFreedom: React.FC = () => {
                 </span>{" "}
                 Smarter & Faster
               </h1>
+
+              {/* Mobile Image - Shows below h1 on mobile only */}
+              <div className="lg:hidden flex justify-center my-8">
+                <div className="w-96 h-[700px]">
+                  <img
+                    src="/resource/app.png"
+                    alt="Mobile App"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
 
               {/* Numbered Feature List */}
               <div className="space-y-6 sm:space-y-8 md:space-y-9 lg:space-y-10 xl:space-y-12 2xl:space-y-14 3xl:space-y-16">
@@ -93,9 +104,9 @@ const DebtFreedom: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Side - Placeholder */}
-            <div className="flex-1 flex justify-end mt-12">
-              <div className="w-96 h-[700px] ">
+            {/* Right Side - Placeholder - Desktop only */}
+            <div className="hidden lg:flex flex-1 justify-end mt-12">
+              <div className="w-96 h-[700px]">
                 <img
                   src="/resource/app.png"
                   alt="Mobile App"
