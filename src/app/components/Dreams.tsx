@@ -201,7 +201,7 @@ export default function Dreams() {
             For Your Dreams And Aspirations
           </h1>
           <p className="text-gray-600 max-w-xs sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto text-sm sm:text-base md:text-lg lg:text-[18px] font-normal leading-relaxed font-inter px-2">
-            At Fydala, we help you direct every rupee with purpose - whether
+            At Fydaa, we help you direct every rupee with purpose - whether
             you&apos;re spending on today, saving for tomorrow, or investing for
             the future.
           </p>
@@ -261,7 +261,7 @@ export default function Dreams() {
               </p>
               <p className="text-gray-700 mb-4 sm:mb-4 leading-relaxed text-xs sm:text-xs md:text-base lg:text-xl xl:text-xl 2xl:text-2xl font-inter">
                 We help you plan for your car, wedding, or that solo trip
-                without falling into high-interest EMIs. With Fydala, you set
+                without falling into high-interest EMIs. With Fydaa, you set
                 the goal, build a plan, and reach it on your terms.
               </p>
               <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
@@ -319,7 +319,7 @@ export default function Dreams() {
               </p>
               <p className="text-gray-700 mb-4 sm:mb-4 leading-relaxed text-xs sm:text-xs md:text-base lg:text-xl xl:text-xl 2xl:text-2xl font-inter">
                 Investing isn&apos;t just for the rich. Start small, start smart
-                — and compound your way to financial freedom. Fydala gives you
+                — and compound your way to financial freedom. Fydaa gives you
                 expert-backed plans for your goals and profile.
               </p>
               <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
