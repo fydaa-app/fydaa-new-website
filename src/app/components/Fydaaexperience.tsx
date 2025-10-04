@@ -4,8 +4,28 @@ import React, { useState, useEffect, useRef } from "react";
 const Fydaaexperience = () => {
   const [activeFeature, setActiveFeature] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [deviceType, setDeviceType] = useState<"ios" | "android" | "desktop">("desktop");
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  // Device detection
+  useEffect(() => {
+    const detectDevice = () => {
+      if (typeof window !== "undefined") {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+
+        if (/iphone|ipad|ipod/.test(userAgent)) {
+          setDeviceType("ios");
+        } else if (/android/.test(userAgent)) {
+          setDeviceType("android");
+        } else {
+          setDeviceType("desktop");
+        }
+      }
+    };
+
+    detectDevice();
+  }, []);
 
   // Intersection Observer to detect when section is visible
   useEffect(() => {
@@ -50,6 +70,23 @@ const Fydaaexperience = () => {
 
     return () => clearInterval(interval);
   }, [isVisible]);
+
+  // Handler for download app button
+  const handleDownloadApp = () => {
+    const iosUrl =
+      "https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190";
+    const androidUrl =
+      "https://play.google.com/store/apps/details?id=com.app.fydaa&hl=en";
+
+    if (deviceType === "ios") {
+      window.open(iosUrl, "_blank");
+    } else if (deviceType === "android") {
+      window.open(androidUrl, "_blank");
+    } else {
+      // For desktop users, show both options or default to iOS
+      window.open(iosUrl, "_blank");
+    }
+  };
 
   return (
     <div
@@ -221,25 +258,12 @@ const Fydaaexperience = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 mt-8 sm:mt-10 md:mt-12">
-            <button className="bg-black text-white px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 rounded-full text-[12px] sm:text-[13px] md:text-sm font-medium font-['Inter'] hover:bg-gray-800 transition-colors w-full sm:w-auto">
+            <button 
+              onClick={handleDownloadApp}
+              className="bg-black text-white px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 rounded-full text-[12px] sm:text-[13px] md:text-sm font-medium font-['Inter'] hover:bg-gray-800 transition-colors w-full sm:w-auto"
+            >
               Download Our App
             </button>
-            <div className="flex items-center space-x-2 text-black text-[12px] sm:text-[13px] md:text-sm font-medium font-['Inter'] cursor-pointer hover:text-gray-700 transition-colors">
-              <span>Watch Demo</span>
-              <svg
-                className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </div>
           </div>
         </div>
       </div>

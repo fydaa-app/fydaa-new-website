@@ -133,7 +133,7 @@ const PageDivider2: React.FC = () => {
                 className={`text-white text-sm font-inter font-normal leading-relaxed transition-all duration-700 ease-out transform ${
                   textVisible 
                     ? 'opacity-100 translate-y-0' 
-                    : 'opacity-0 translate-y-6'
+                    : 'opacity-0 translate-y-6' 
                 }`}
               >
                 Regular agents or platforms often take 1.5-2% yearly as trail commission, silently eating away your compounding.
@@ -145,7 +145,7 @@ const PageDivider2: React.FC = () => {
                     : 'opacity-0 translate-y-6'
                 }`}
               >
-                Fydaa charges just ₹20 per month with full transparency,<br />
+                Fydaa charges a nominal fixed fee per month with full transparency, <br />
                 so you grow more, keep more.
               </p>
             
@@ -160,24 +160,6 @@ const PageDivider2: React.FC = () => {
               <button className="bg-white text-black px-6 py-1.5 rounded-full font-gilroy-medium text-sm hover:bg-gray-100 hover:scale-105 transition-all duration-300 transform">
                 Start a SIP
               </button>
-              <div className="flex items-center space-x-2 group cursor-pointer">
-                <span className="text-white font-medium text-[16px] font-['Inter'] hover:text-gray-300 transition-colors duration-300">Read More</span>
-                <svg 
-                  width="20" 
-                  height="20" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  className="text-white group-hover:translate-x-1 transition-transform duration-300"
-                >
-                  <path 
-                    d="M5 12H19M19 12L12 5M19 12L12 19" 
-                    stroke="currentColor" 
-                    strokeWidth="2" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
             </div>
           </div>
         </div>

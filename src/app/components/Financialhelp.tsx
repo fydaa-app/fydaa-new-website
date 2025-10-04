@@ -2900,26 +2900,6 @@ const FinancialPlanInterface: React.FC = () => {
         <button className="px-4 py-1.5 sm:px-5 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[13px] md:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
           Create Your Custom Plan
         </button>
-        
-        {/* Talk to Us Link */}
-        <div className="flex items-center space-x-2 group cursor-pointer">
-          <span className="text-white font-medium text-[14px] sm:text-[15px] md:text-[16px] font-['Inter'] hover:text-gray-300 transition-colors duration-300">Talk to Us</span>
-          <svg 
-            width="16" 
-            height="16" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            className="text-white sm:w-4 sm:h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300"
-          >
-            <path 
-              d="M5 12H19M19 12L12 5M19 12L12 19" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
       </div>
       
       {/* Text Section */}
@@ -3162,27 +3142,8 @@ const FinancialPlanInterface: React.FC = () => {
                Start a SIP
              </button>
              
-             {/* Read More Link */}
-             <div className="flex items-center space-x-2 group cursor-pointer">
-               <span className="text-white font-medium text-[14px] sm:text-[16px] font-['Inter'] hover:text-gray-300 transition-colors duration-300">Read More</span>
-               <svg 
-                 width="16" 
-                 height="16" 
-                 viewBox="0 0 24 24" 
-                 fill="none" 
-                 className="text-white sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300"
-               >
-                 <path 
-                   d="M5 12H19M19 12L12 5M19 12L12 19" 
-                   stroke="currentColor" 
-                   strokeWidth="2" 
-                   strokeLinecap="round" 
-                   strokeLinejoin="round"
-                 />
-               </svg>
-             </div>
-           </div>
-         </div>
+          </div>
+         </div> 
        </div>
     </div>
   );

@@ -99,7 +99,7 @@ const MissionSection: React.FC = () => {
                   Different People, Different Portfolios
                 </h2>
                 <p
-                  className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] text-gray-700 font-inter font-thin italic"
+                  className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] text-gray-700 font-inter font-normal italic"
                   style={{ lineHeight: "2.25rem", letterSpacing: "-1.5px" }}
                 >
                   Fydaa is an investment app that adapts to your appetite for
