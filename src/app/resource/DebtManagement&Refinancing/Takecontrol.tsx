@@ -2,13 +2,13 @@ import React from "react";
 
 const TakeControl: React.FC = () => {
   return (
-    <section className="relative py-32 px-0 mx-0">
+    <section className="relative py-12 lg:py-32 px-0 mx-0">
       <div className="w-full mx-0 px-0 relative">
-        <div className="text-left mt-16 mx-0 px-0">
+        <div className="text-left mt-6 lg:mt-16 mx-0 px-0">
           {/* Left Content */}
           <div className="space-y-6 relative z-20 mx-0 px-0">
             {/* Remove the justify-between wrapper */}
-            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+            <div className="flex flex-col-reverse lg:flex-row gap-6 lg:gap-8 items-start">
               {/* Text Content */}
               <div className="flex-1">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl 3xl:text-8xl font-bold text-gray-900 pl-4 sm:pl-6 md:pl-8 lg:pl-10 xl:pl-12 2xl:pl-16 3xl:pl-20 leading-tight font-gilroy pr-[10px]">
@@ -33,7 +33,7 @@ const TakeControl: React.FC = () => {
                 <img
                   src="/resource/DebtManagement&Refinancing/icon.png"
                   alt="DebtManagement"
-                  className="p-4 sm:p-5 md:p-6 lg:p-8 xl:p-10 2xl:p-12 w-full max-w-md"
+                  className="lg:p-8 xl:p-10 2xl:p-12 w-full max-w-md h-[150px] lg:h-auto"
                 />
               </div>
             </div>
