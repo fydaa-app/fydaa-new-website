@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 const TakeControl: React.FC = () => {
@@ -23,7 +24,10 @@ const TakeControl: React.FC = () => {
                   so you can breathe easy again.
                 </p>
 
-                <button className="bg-black text-white px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full font-medium cursor-pointer hover:bg-gray-800 transition-all duration-200 shadow-sm text-xs sm:text-sm md:text-base ml-4 sm:ml-6 md:ml-8 lg:ml-10 xl:ml-12 2xl:ml-16 3xl:ml-20 mt-4 sm:mt-5 md:mt-6 lg:mt-7 xl:mt-8 2xl:mt-10 3xl:mt-12">
+                <button
+                  onClick={() => window.open("https://cal.com/fydaa-backend-zr5zm3/30min", "_blank")}
+                  className="bg-black text-white px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full font-medium cursor-pointer hover:bg-gray-800 transition-all duration-200 shadow-sm text-xs sm:text-sm md:text-base ml-4 sm:ml-6 md:ml-8 lg:ml-10 xl:ml-12 2xl:ml-16 3xl:ml-20 mt-4 sm:mt-5 md:mt-6 lg:mt-7 xl:mt-8 2xl:mt-10 3xl:mt-12"
+                >
                   Book a Free Call
                 </button>
               </div>
@@ -59,3 +63,4 @@ const TakeControl: React.FC = () => {
 };
 
 export default TakeControl;
+
