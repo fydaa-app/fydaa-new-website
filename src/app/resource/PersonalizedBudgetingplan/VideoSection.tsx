@@ -31,7 +31,7 @@ const VideoSection: React.FC = () => {
           <img
             src="/resource/square.png"
             alt="Square Background"
-            className="absolute inset-x-0 top-0 w-full h-[1800px] object-cover pointer-events-none -z-10"
+            className="absolute inset-x-0 top-0 w-full h-[1700px] object-cover pointer-events-none -z-10"
           />
 
           {/* Content container */}
