@@ -8,9 +8,35 @@ const testimonialsData = [
     name: "Abhishek Mishra",
     profileImage: null,
     reviewText:
-      "I've been using the Fyda app since 2022, and it makes investing effortless. I can easily invest across gold, real estate, and equity—all in one place. I'd definitely recommend Fyda for anyone looking to build a disciplined investment journey.",
+      "I've been using the Fydaa app since 2022, and it makes investing effortless. I can easily invest across gold, real estate, and equity—all in one place. I'd definitely recommend Fydaa for anyone looking to build a disciplined investment journey.",
     rating: 5,
   },
+  
+  {
+    id: 2,
+    name: "Dikshita Jain",
+    profileImage: null,
+    reviewText:
+      "Fydaa has transformed the way I manage my investments. The interface is intuitive and the multi-asset approach helps me diversify my portfolio seamlessly.",
+    rating: 5,
+  },
+  {
+    id: 3,
+    name: "Rinku Das",
+    profileImage: null,
+    reviewText:
+      "As a busy professional, I appreciate how Fydaa makes investing simple and accessible. The automated features save me time while building wealth systematically.",
+    rating: 5,
+  }
+  ,
+  {
+    id: 4,
+    name: "Sami Garde",
+    profileImage: null,
+    reviewText:
+      "The best investment platform I've used. Fydaa's approach to disciplined investing across multiple asset classes has helped me achieve my financial goals faster.",
+    rating: 5,
+  }
   //,
   // {
   //   id: 2,
