@@ -1,143 +1,205 @@
-import React from 'react';
+import React from "react";
 
 const DebtFreedom: React.FC = () => {
   return (
     <div className="w-full bg-[#ffffff] -mt-48">
       {/* Top Section - White Background */}
-      <section className="bg-[#ffffff] text-black py-40 px-12 relative z-10 rounded-t-[56px]">
+      <section className="bg-[#ffffff] text-black py-16 sm:py-24 md:py-32 lg:py-40 xl:py-48 2xl:py-56 relative z-40 rounded-t-[24px] sm:rounded-t-[32px] md:rounded-t-[40px] lg:rounded-t-[56px] xl:rounded-t-[64px] 2xl:rounded-t-[72px] mt-[200px] overflow-visible pb-32 sm:pb-40 md:pb-44 lg:pb-52 xl:pb-60 2xl:pb-72 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-48">
         <div className="max-w-[1400px] mx-auto">
-          <div className="flex items-center justify-between gap-16">
+          <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-16">
             {/* Left Side - Content */}
             <div className="flex-1 max-w-[650px]">
-              <h1 className="text-[48px] font-['Gilroy'] font-bold leading-tight mb-16 ml-8">
-                How We Help You Get <span className="text-gray-400 font-normal italic">Debt-Free</span> Smarter & Faster
+              <h1 className="text-[28px] sm:text-[32px] md:text-[36px] lg:text-[42px] xl:text-[48px] 2xl:text-[56px] 3xl:text-[64px] font-['Gilroy'] font-bold leading-tight mb-8 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 2xl:mb-20 3xl:mb-24 ml-4 sm:ml-5 md:ml-6 lg:ml-7 xl:ml-8 2xl:ml-10 3xl:ml-12">
+                Your 5-Step Path to the Right Insurance Plan
               </h1>
-              
-              
+
+              {/* Mobile Image - Shows below h1 on mobile only */}
+              <div className="lg:hidden flex justify-center my-8">
+                <div className="w-96 h-[700px]">
+                  <img
+                    src="/resource/app.png"
+                    alt="Mobile App"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
               {/* Numbered Feature List */}
-              <div className="space-y-12">
-                <div className="flex items-start gap-6">
-                  <div className="bg-white text-gray-700 w-[50px] h-[50px] rounded-full flex items-center justify-center font-['Inter'] font-semibold text-[22px] flex-shrink-0 mt-1 shadow-md">
+              <div className="space-y-6 sm:space-y-8 md:space-y-9 lg:space-y-10 xl:space-y-12 2xl:space-y-14 3xl:space-y-16">
+                <div className="flex items-start gap-3 sm:gap-4 md:gap-4 lg:gap-5 xl:gap-6 2xl:gap-7 3xl:gap-8">
+                  <div className="bg-white text-gray-700 w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] md:w-[44px] md:h-[44px] lg:w-[47px] lg:h-[47px] xl:w-[50px] xl:h-[50px] 2xl:w-[58px] 2xl:h-[58px] 3xl:w-[66px] 3xl:h-[66px] rounded-full flex items-center justify-center font-['Inter'] font-semibold text-[16px] sm:text-[18px] md:text-[19px] lg:text-[20px] xl:text-[22px] 2xl:text-[26px] 3xl:text-[30px] flex-shrink-0 mt-1 shadow-md">
                     1
                   </div>
                   <div>
-                    <h3 className="font-['Inter'] font-normal text-[20px]">Assess Your Debt Profile</h3>
-                    <p className="font-['Inter'] text-[16px] text-gray-600">Understand Your Loans, Interest Rates, And Repayment Terms.</p>
+                    <h3 className="font-['Inter'] font-normal text-[14px] sm:text-[16px] md:text-[17px] lg:text-[18px] xl:text-[20px] 2xl:text-[24px] 3xl:text-[28px]">
+                      Understand Your Needs{" "}
+                    </h3>
+                    <p className="font-['Inter'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[16px] 2xl:text-[19px] 3xl:text-[22px] text-gray-600">
+                      Identify risks based on your family, lifestyle, and goals.
+                    </p>
                   </div>
                 </div>
-                
-                <div className="flex items-start gap-6">
-                  <div className="bg-white text-gray-700 w-[50px] h-[50px] rounded-full flex items-center justify-center font-['Inter'] font-semibold text-[22px] flex-shrink-0 mt-1 shadow-md">
+
+                <div className="flex items-start gap-3 sm:gap-4 md:gap-4 lg:gap-5 xl:gap-6 2xl:gap-7 3xl:gap-8">
+                  <div className="bg-white text-gray-700 w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] md:w-[44px] md:h-[44px] lg:w-[47px] lg:h-[47px] xl:w-[50px] xl:h-[50px] 2xl:w-[58px] 2xl:h-[58px] 3xl:w-[66px] 3xl:h-[66px] rounded-full flex items-center justify-center font-['Inter'] font-semibold text-[16px] sm:text-[18px] md:text-[19px] lg:text-[20px] xl:text-[22px] 2xl:text-[26px] 3xl:text-[30px] flex-shrink-0 mt-1 shadow-md">
                     2
                   </div>
                   <div>
-                    <h3 className="font-['Inter'] font-normal text-[20px]">Choose The Right Strategy</h3>
-                    <p className="font-['Inter'] text-[16px] text-gray-600">Snowball, Avalanche, Or Consolidation. We'll Guide You On The Best Fit.</p>
+                    <h3 className="font-['Inter'] font-normal text-[14px] sm:text-[16px] md:text-[17px] lg:text-[18px] xl:text-[20px] 2xl:text-[24px] 3xl:text-[28px]">
+                      Choose the Right Cover{" "}
+                    </h3>
+                    <p className="font-['Inter'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[16px] 2xl:text-[19px] 3xl:text-[22px] text-gray-600">
+                      Select between term, health, life, or asset insurance.
+                    </p>
                   </div>
                 </div>
-                
-                <div className="flex items-start gap-6">
-                  <div className="bg-white text-gray-700 w-[50px] h-[50px] rounded-full flex items-center justify-center font-['Inter'] font-semibold text-[22px] flex-shrink-0 mt-1 shadow-md">
+
+                <div className="flex items-start gap-3 sm:gap-4 md:gap-4 lg:gap-5 xl:gap-6 2xl:gap-7 3xl:gap-8">
+                  <div className="bg-white text-gray-700 w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] md:w-[44px] md:h-[44px] lg:w-[47px] lg:h-[47px] xl:w-[50px] xl:h-[50px] 2xl:w-[58px] 2xl:h-[58px] 3xl:w-[66px] 3xl:h-[66px] rounded-full flex items-center justify-center font-['Inter'] font-semibold text-[16px] sm:text-[18px] md:text-[19px] lg:text-[20px] xl:text-[22px] 2xl:text-[26px] 3xl:text-[30px] flex-shrink-0 mt-1 shadow-md">
                     3
                   </div>
                   <div>
-                    <h3 className="font-['Inter'] font-normal text-[20px]">Refinance For Savings</h3>
-                    <p className="font-['Inter'] text-[16px] text-gray-600">Lower Interest Rates And Better Terms Mean Less Burden.</p>
+                    <h3 className="font-['Inter'] font-normal text-[14px] sm:text-[16px] md:text-[17px] lg:text-[18px] xl:text-[20px] 2xl:text-[24px] 3xl:text-[28px]">
+                      Decide the Coverage Amount{" "}
+                    </h3>
+                    <p className="font-['Inter'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[16px] 2xl:text-[19px] 3xl:text-[22px] text-gray-600">
+                      Ensure it’s enough to handle emergencies.{" "}
+                    </p>
                   </div>
                 </div>
-                
-                <div className="flex items-start gap-6">
-                  <div className="bg-white text-gray-700 w-[50px] h-[50px] rounded-full flex items-center justify-center font-['Inter'] font-semibold text-[22px] flex-shrink-0 mt-1 shadow-md">
+
+                <div className="flex items-start gap-3 sm:gap-4 md:gap-4 lg:gap-5 xl:gap-6 2xl:gap-7 3xl:gap-8">
+                  <div className="bg-white text-gray-700 w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] md:w-[44px] md:h-[44px] lg:w-[47px] lg:h-[47px] xl:w-[50px] xl:h-[50px] 2xl:w-[58px] 2xl:h-[58px] 3xl:w-[66px] 3xl:h-[66px] rounded-full flex items-center justify-center font-['Inter'] font-semibold text-[16px] sm:text-[18px] md:text-[19px] lg:text-[20px] xl:text-[22px] 2xl:text-[26px] 3xl:text-[30px] flex-shrink-0 mt-1 shadow-md">
                     4
                   </div>
                   <div>
-                    <h3 className="font-['Inter'] font-normal text-[20px]">Automate Payments</h3>
-                    <p className="font-['Inter'] text-[16px] text-gray-600">Never Miss An EMI And Protect Your Credit Score.</p>
+                    <h3 className="font-['Inter'] font-normal text-[14px] sm:text-[16px] md:text-[17px] lg:text-[18px] xl:text-[20px] 2xl:text-[24px] 3xl:text-[28px]">
+                      Compare & Select{" "}
+                    </h3>
+                    <p className="font-['Inter'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[16px] 2xl:text-[19px] 3xl:text-[22px] text-gray-600">
+                      We shortlist the best policies with competitive premiums.{" "}
+                    </p>
                   </div>
                 </div>
-                
-                <div className="flex items-start gap-6">
-                  <div className="bg-white text-gray-700 w-[50px] h-[50px] rounded-full flex items-center justify-center font-['Inter'] font-semibold text-[22px] flex-shrink-0 mt-1 shadow-md">
+
+                <div className="flex items-start gap-3 sm:gap-4 md:gap-4 lg:gap-5 xl:gap-6 2xl:gap-7 3xl:gap-8">
+                  <div className="bg-white text-gray-700 w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] md:w-[44px] md:h-[44px] lg:w-[47px] lg:h-[47px] xl:w-[50px] xl:h-[50px] 2xl:w-[58px] 2xl:h-[58px] 3xl:w-[66px] 3xl:h-[66px] rounded-full flex items-center justify-center font-['Inter'] font-semibold text-[16px] sm:text-[18px] md:text-[19px] lg:text-[20px] xl:text-[22px] 2xl:text-[26px] 3xl:text-[30px] flex-shrink-0 mt-1 shadow-md">
                     5
                   </div>
                   <div>
-                    <h3 className="font-['Inter'] font-normal text-[20px]">Stay On Track</h3>
-                    <p className="font-['Inter'] text-[16px] text-gray-600">Regular Reviews And Tweaks To Your Repayment Plan.</p>
+                    <h3 className="font-['Inter'] font-normal text-[14px] sm:text-[16px] md:text-[17px] lg:text-[18px] xl:text-[20px] 2xl:text-[24px] 3xl:text-[28px]">
+                      Review Annually{" "}
+                    </h3>
+                    <p className="font-['Inter'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[16px] 2xl:text-[19px] 3xl:text-[22px] text-gray-600">
+                      Update coverage as your life and income change{" "}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            
-            {/* Right Side - Placeholder */}
-            <div className="flex-1 flex justify-end mt-12">
-              <div className="w-96 h-[700px] ">
+
+            {/* Right Side - Placeholder - Desktop only */}
+            <div className="hidden lg:flex flex-1 justify-end mt-12">
+              <div className="w-64 h-[500px] sm:w-72 sm:h-[550px] md:w-80 md:h-[600px] lg:w-96 lg:h-[700px] xl:w-[28rem] xl:h-[750px] 2xl:w-[32rem] 2xl:h-[800px]">
                 <img
                   src="/resource/app.png"
                   alt="Mobile App"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
           </div>
         </div>
       </section>
-      
-      {/* Bottom Section - Light Background */}
-      <section className="bg-white text-black py-12 pb-24 px-12 relative">
 
-        
+      {/* Bottom Section - Light Background */}
+      <section className="bg-white text-black pb-12 sm:pb-16 md:pb-20 lg:pb-22 xl:pb-24 2xl:pb-32 3xl:pb-40 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 3xl:px-20 relative">
         <div className="max-w-[1400px] mx-auto">
-          <h2 className="text-[44px] font-['Gilroy'] font-bold text-center mb-20 leading-tight">
-            Debt Freedom Isn't Just A Number, It's A New Beginning
+          <h2 className="text-[26px] sm:text-[30px] md:text-[34px] lg:text-[39px] xl:text-[44px] 2xl:text-[52px] 3xl:text-[60px] font-['Gilroy'] font-bold text-center mb-10 sm:mb-12 md:mb-14 lg:mb-17 xl:mb-20 2xl:mb-24 3xl:mb-28 leading-tight">
+            Because your family’s future deserves more than luck
           </h2>
-          
+
           {/* Four Feature Blocks */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-14 xl:gap-16 2xl:gap-20 3xl:gap-24 max-w-6xl mx-auto">
             {/* Top Left */}
             <div className="text-center">
-              <div className="flex justify-center mx-auto mb-3">
-                <img src="/resource/DebtManagement&Refinancing/lowcost.png" alt="Lower Interest" className="w-24 h-24" />
+              <div className="flex justify-center mx-auto mb-2 sm:mb-2 md:mb-2.5 lg:mb-2.5 xl:mb-3 2xl:mb-4 3xl:mb-5">
+                <img
+                  src="/resource/Emergencyfund/familysupport.png"
+                  alt="Lower Interest"
+                  className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 3xl:w-32 3xl:h-32"
+                />
               </div>
-              <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Lower Interest Costs</h3>
-              <p className="text-[18px] font-['Inter'] font-normal text-gray-600">Save Thousands Over Your Loan Tenure</p>
+              <h3 className="text-[20px] sm:text-[22px] md:text-[26px] lg:text-[29px] xl:text-[32px] 2xl:text-[38px] 3xl:text-[44px] font-['Inter'] font-normal mb-2 sm:mb-2 md:mb-2.5 lg:mb-2.5 xl:mb-3 2xl:mb-4 3xl:mb-5">
+                Financial Protection
+              </h3>
+              <p className="text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] xl:text-[18px] 2xl:text-[21px] 3xl:text-[24px] font-['Inter'] font-normal text-gray-600">
+                Ensure your loved ones are secure even in your absence
+              </p>
             </div>
-            
+
             {/* Top Right */}
             <div className="text-center">
-              <div className="flex justify-center mx-auto mb-3">
-                <img src="/resource/DebtManagement&Refinancing/payment.png" alt="Simplified Finances" className="w-24 h-24" />
+              <div className="flex justify-center mx-auto mb-2 sm:mb-2 md:mb-2.5 lg:mb-2.5 xl:mb-3 2xl:mb-4 3xl:mb-5">
+                <img
+                  src="/resource/Emergencyfund/peace.png"
+                  alt="Simplified Finances"
+                  className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 3xl:w-32 3xl:h-32"
+                />
               </div>
-              <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Simplified Finances</h3>
-              <p className="text-gray-600 text-lg">One Manageable Payment Instead Of Juggling Multiple</p>
+              <h3 className="text-[20px] sm:text-[22px] md:text-[26px] lg:text-[29px] xl:text-[32px] 2xl:text-[38px] 3xl:text-[44px] font-['Inter'] font-normal mb-2 sm:mb-2 md:mb-2.5 lg:mb-2.5 xl:mb-3 2xl:mb-4 3xl:mb-5">
+                Peace of Mind{" "}
+              </h3>
+              <p className="text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] xl:text-[18px] 2xl:text-[21px] 3xl:text-[24px] font-['Inter'] font-normal text-gray-600">
+                Live life knowing you’re covered for emergencies{" "}
+              </p>
             </div>
-            
+
             {/* Bottom Left */}
             <div className="text-center">
-              <div className="flex justify-center mx-auto mb-3">
-                <img src="/resource/DebtManagement&Refinancing/creditscore.png" alt="Better Credit Score" className="w-28 h-24" />
+              <div className="flex justify-center mx-auto mb-2 sm:mb-2 md:mb-2.5 lg:mb-2.5 xl:mb-3 2xl:mb-4 3xl:mb-5">
+                <img
+                  src="/resource/Emergencyfund/smart.png"
+                  alt="Better Credit Score"
+                  className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 3xl:w-32 3xl:h-32"
+                />
               </div>
-              <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Better Credit Score</h3>
-              <p className="text-gray-600 text-lg">Opens The Door For Future Opportunities</p>
+              <h3 className="text-[20px] sm:text-[22px] md:text-[26px] lg:text-[29px] xl:text-[32px] 2xl:text-[38px] 3xl:text-[44px] font-['Inter'] font-normal mb-2 sm:mb-2 md:mb-2.5 lg:mb-2.5 xl:mb-3 2xl:mb-4 3xl:mb-5">
+                Smart Premiums{" "}
+              </h3>
+              <p className="text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] xl:text-[18px] 2xl:text-[21px] 3xl:text-[24px] font-['Inter'] font-normal text-gray-600">
+                Get maximum cover without overpaying{" "}
+              </p>
             </div>
-            
+
             {/* Bottom Right */}
             <div className="text-center">
-              <div className="flex justify-center mx-auto mb-3">
-                <img src="/resource/DebtManagement&Refinancing/stress.png" alt="Less Stress" className="w-24 h-24" />
+              <div className="flex justify-center mx-auto mb-2 sm:mb-2 md:mb-2.5 lg:mb-2.5 xl:mb-3 2xl:mb-4 3xl:mb-5">
+                <img
+                  src="/resource/Emergencyfund/claim.png"
+                  alt="Less Stress"
+                  className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 3xl:w-32 3xl:h-32"
+                />
               </div>
-              <h3 className="text-[32px] font-['Inter'] font-normal mb-3">Less Stress</h3>
-              <p className="text-gray-600 text-lg">Sleep Better Knowing Your Finances Are In Control</p>
+              <h3 className="text-[20px] sm:text-[22px] md:text-[26px] lg:text-[29px] xl:text-[32px] 2xl:text-[38px] 3xl:text-[44px] font-['Inter'] font-normal mb-2 sm:mb-2 md:mb-2.5 lg:mb-2.5 xl:mb-3 2xl:mb-4 3xl:mb-5">
+                Claim Assistance{" "}
+              </h3>
+              <p className="text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] xl:text-[18px] 2xl:text-[21px] 3xl:text-[24px] font-['Inter'] font-normal text-gray-600">
+                We help you navigate claims smoothly{" "}
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-
       {/* Bottom Gradient Border - Full viewport width */}
-      <div className="w-screen -mb-8 relative z-0" style={{ marginLeft: 'calc(-50vw + 50%)' }}>
-        <img 
-          src="/resource/gradientborder.png" 
-          alt="Gradient Border" 
+      <div
+        className="w-screen -mb-8 relative z-0"
+        style={{ marginLeft: "calc(-50vw + 50%)" }}
+      >
+        <img
+          src="/resource/gradientborder.png"
+          alt="Gradient Border"
           className="w-full h-full object-cover"
         />
       </div>

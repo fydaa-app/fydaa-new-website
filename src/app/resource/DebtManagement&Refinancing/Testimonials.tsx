@@ -155,7 +155,7 @@ const Testimonials = () => {
 
         {/* Author - Positioned in center of cutincard */}
         <div className="absolute bottom-2 sm:bottom-[18px] md:bottom-5 lg:bottom-[23px] xl:bottom-6 2xl:bottom-7 left-0 right-0 z-20 flex flex-col items-center">
-          <div className="w-[42px] h-[42px] sm:w-12 sm:h-12 md:w-[54px] md:h-[54px] lg:w-[61px] lg:h-[61px] xl:w-16 xl:h-16 2xl:w-[77px] 2xl:h-[77px] bg-gray-600 rounded-full mb-1 sm:mb-1.5 lg:mb-2 xl:mb-2 2xl:mb-2.5 flex items-center justify-center overflow-hidden border-2 border-white shadow-xl">
+          <div className="w-[42px] h-[42px] sm:w-12 sm:h-12 md:w-[54px] md:h-[54px] lg:w-[61px] lg:h-[61px] xl:w-16 xl:h-16 2xl:w-[77px] 2xl:h-[77px] bg-gray-600 rounded-full mb-1 sm:mb-1.5 lg:mb-2 xl:mb-2 2xl:mb-2.5 flex items-center justify-center overflow-hidden shadow-xl">
             {testimonial.profileImage ? (
               <img
                 src={testimonial.profileImage}
@@ -187,16 +187,16 @@ const Testimonials = () => {
   return (
     <section className="relative bg-[#101828] text-white py-6 pb-10 sm:py-8 sm:pb-12 md:py-10 md:pb-16 lg:py-12 lg:pb-20 xl:py-14 xl:pb-24 2xl:py-16 2xl:pb-28 z-20">
       {/* Green Strip Image */}
-      <div className="absolute top-0 left-0 z-10">
+      {/* <div className="absolute top-0 left-0 z-10">
         <img
           src="/resource/greenstrip.png"
           alt="Green Strip"
           className="w-auto h-32 sm:h-40 md:h-52 lg:h-72 xl:h-80 2xl:h-96 object-contain"
         />
-      </div>
+      </div> */}
 
       {/* Commas Decorative Image */}
-      <div className="absolute z-10" style={{ top: "180px", left: "70px" }}>
+      {/* <div className="absolute z-10" style={{ top: "180px", left: "70px" }}>
         <img
           src="/resource/commas.png"
           alt="Decorative Commas"
@@ -209,7 +209,7 @@ const Testimonials = () => {
           alt="Decorative Commas"
           className="w-8 h-8 object-contain opacity-80"
         />
-      </div>
+      </div> */}
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-8 md:px-12 relative z-20">
         {/* Title */}

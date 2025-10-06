@@ -1,3 +1,4 @@
+
 import React from "react";
 
 const VideoSection: React.FC = () => {
@@ -37,15 +38,15 @@ const VideoSection: React.FC = () => {
             {/* Heading and description */}
             <div className="flex flex-col items-center max-w-full sm:max-w-[600px] md:max-w-[800px] lg:max-w-[1100px] mx-auto px-4 pt-8 sm:pt-12 md:pt-16 lg:pt-[100px] xl:pt-24 2xl:pt-32">
               <h2 className="text-white font-gilroy font-semibold text-[20px] sm:text-[28px] md:text-[36px] lg:text-[44px] xl:text-[48px] 2xl:text-[56px] 3xl:text-[64px] leading-[24px] sm:leading-[32px] md:leading-[40px] lg:leading-[48px] xl:leading-[52px] 2xl:leading-[60px] 3xl:leading-[68px] mb-3 sm:mb-4 md:mb-[16px] lg:mb-[18px] xl:mb-[20px] 2xl:mb-[24px]">
-                Make Your Debt Work for You, Not Against You
+                    Insurance Isn't Just a Policy, It's Peace of Mind
               </h2>
 
               <p className="text-[#E6E6E6] font-inter font-normal text-[12px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[16px] 2xl:text-[18px] 3xl:text-[20px] leading-[18px] sm:leading-[19px] md:leading-[20px] lg:leading-[22px] xl:leading-[24px] 2xl:leading-[26px] 3xl:leading-[28px] tracking-[-0.36px] max-w-[280px] sm:max-w-[400px] md:max-w-[550px] lg:max-w-[800px] xl:max-w-[1100px] 2xl:max-w-[1400px] 3xl:max-w-[1800px] mx-auto mb-3 sm:mb-4 md:mb-6 lg:mb-[32px] xl:mb-[40px] 2xl:mb-[48px] 3xl:mb-[56px]">
-                Debt management and refinancing are not just about paying off
-                what you owe, they're about creating a repayment plan that works
-                for your lifestyle and future goals. At Fydaa, we guide you
-                through smart repayment strategies, consolidation options, and
-                refinancing deals so you save more and stress less.
+                 Whether it's life, health, term, or asset insurance, Fydaa
+                    ensures you get the right cover, the right premium, and the
+                    right claim process. We analyse your needs, compare the best
+                    options in the market, and guide you towards the most
+                    cost-effective, comprehensive protection.
               </p>
             </div>
 
@@ -137,6 +138,9 @@ const VideoSection: React.FC = () => {
 };
 
 export default VideoSection;
+
+
+
 
 
 
