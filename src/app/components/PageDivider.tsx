@@ -73,7 +73,7 @@ const PageDivider: React.FC = () => {
           <div className="text-center">
             <div className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] 2xl:text-[48px] font-thin text-white mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8 leading-tight">70%</div>
             <p className="text-white text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px] font-inter font-normal leading-tight max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-[240px] mx-auto">
-              70% rely on unverified advice or random app
+             Rely on unverified advice or random app
             </p>
           </div>
 
@@ -81,7 +81,7 @@ const PageDivider: React.FC = () => {
           <div className="text-center">
             <div className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] 2xl:text-[48px] font-thin text-white mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8 leading-tight">92%</div>
             <p className="text-white text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px] font-inter font-normal leading-tight max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-[240px] mx-auto">
-              92% of millennials say they want to invest but don't know how
+               Millennials say they want to invest but don't know how
             </p>
           </div>
 
@@ -89,7 +89,7 @@ const PageDivider: React.FC = () => {
           <div className="text-center">
             <div className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] 2xl:text-[48px] font-thin text-white mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8 leading-tight">27%</div>
             <p className="text-white text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px] font-inter font-normal leading-tight max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-[240px] mx-auto">
-              Financial literacy rate in India is 27% and the global avg: 35%
+              Financial literacy rate in India 
             </p>
           </div>
 
@@ -97,7 +97,7 @@ const PageDivider: React.FC = () => {
           <div className="text-center">
             <div className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] 2xl:text-[48px] font-thin text-white mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8 leading-tight">3%</div>
             <p className="text-white text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px] font-inter font-normal leading-tight max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-[240px] mx-auto">
-              Only 3% of Indians invest in mutual funds
+              Indians invest in mutual funds
             </p>
           </div>
         </div>

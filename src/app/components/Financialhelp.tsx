@@ -98,28 +98,6 @@ const FinancialPlanInterface: React.FC = () => {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">
-                      Rs. 199
-                    </div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg 
-                        width="20" 
-                        height="20" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        className="text-white"
-                      >
-                        <path 
-                          d="M5 12H19M19 12L12 5M19 12L12 19" 
-                          stroke="currentColor" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
               </div>
 
@@ -174,28 +152,6 @@ const FinancialPlanInterface: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">
-                      Rs. 199
-                    </div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg 
-                        width="20" 
-                        height="20" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        className="text-white"
-                      >
-                        <path 
-                          d="M5 12H19M19 12L12 5M19 12L12 19" 
-                          stroke="currentColor" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -243,28 +199,6 @@ const FinancialPlanInterface: React.FC = () => {
                       <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">
                         Gain clarity on where your money goes every month.
                       </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">
-                      Rs. 199
-                    </div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg 
-                        width="20" 
-                        height="20" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        className="text-white"
-                      >
-                        <path 
-                          d="M5 12H19M19 12L12 5M19 12L12 19" 
-                          stroke="currentColor" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        />
-                      </svg>
                     </div>
                   </div>
                 </div>
@@ -321,28 +255,6 @@ const FinancialPlanInterface: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">
-                      Rs. 199
-                    </div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg 
-                        width="20" 
-                        height="20" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        className="text-white"
-                      >
-                        <path 
-                          d="M5 12H19M19 12L12 5M19 12L12 19" 
-                          stroke="currentColor" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -390,28 +302,6 @@ const FinancialPlanInterface: React.FC = () => {
                       <p className="text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">
                         Track, Optimize, and enhance your overall investment performance.
                       </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">
-                      Rs. 199
-                    </div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg 
-                        width="20" 
-                        height="20" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        className="text-white"
-                      >
-                        <path 
-                          d="M5 12H19M19 12L12 5M19 12L12 19" 
-                          stroke="currentColor" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        />
-                      </svg>
                     </div>
                   </div>
                 </div>
@@ -468,28 +358,6 @@ const FinancialPlanInterface: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-3xl font-light">
-                      Rs. 199
-                    </div>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <svg 
-                        width="20" 
-                        height="20" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        className="text-white"
-                      >
-                        <path 
-                          d="M5 12H19M19 12L12 5M19 12L12 19" 
-                          stroke="currentColor" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -539,26 +407,6 @@ const FinancialPlanInterface: React.FC = () => {
                      </div>
                    </div>
                    <div className="flex items-center justify-between relative z-10">
-                     <div className="text-white text-3xl font-light">
-                       Rs. 199
-                     </div>
-                     <div className="w-10 h-10 flex items-center justify-center">
-                       <svg 
-                         width="20" 
-                         height="20" 
-                         viewBox="0 0 24 24" 
-                         fill="none" 
-                         className="text-white"
-                       >
-                         <path 
-                           d="M5 12H19M19 12L12 5M19 12L12 19" 
-                           stroke="currentColor" 
-                           strokeWidth="2" 
-                           strokeLinecap="round" 
-                           strokeLinejoin="round"
-                         />
-                       </svg>
-                     </div>
                    </div>
                  </div>
                </div>
@@ -615,26 +463,6 @@ const FinancialPlanInterface: React.FC = () => {
                      </div>
                    </div>
                    <div className="flex items-center justify-between relative z-10">
-                     <div className="text-white text-3xl font-light">
-                       Rs. 199
-                     </div>
-                     <div className="w-10 h-10 flex items-center justify-center">
-                       <svg 
-                         width="20" 
-                         height="20" 
-                         viewBox="0 0 24 24" 
-                         fill="none" 
-                         className="text-white"
-                       >
-                         <path 
-                           d="M5 12H19M19 12L12 5M19 12L12 19" 
-                           stroke="currentColor" 
-                           strokeWidth="2" 
-                           strokeLinecap="round" 
-                           strokeLinejoin="round"
-                         />
-                       </svg>
-                     </div>
                    </div>
                  </div>
                </div>
@@ -685,26 +513,6 @@ const FinancialPlanInterface: React.FC = () => {
                      </div>
                    </div>
                    <div className="flex items-center justify-between relative z-10">
-                     <div className="text-white text-3xl font-light">
-                       Rs. 199
-                     </div>
-                     <div className="w-10 h-10 flex items-center justify-center">
-                       <svg 
-                         width="20" 
-                         height="20" 
-                         viewBox="0 0 24 24" 
-                         fill="none" 
-                         className="text-white"
-                       >
-                         <path 
-                           d="M5 12H19M19 12L12 5M19 12L12 19" 
-                           stroke="currentColor" 
-                           strokeWidth="2" 
-                           strokeLinecap="round" 
-                           strokeLinejoin="round"
-                         />
-                       </svg>
-                     </div>
                    </div>
                  </div>
                </div>
@@ -761,26 +569,6 @@ const FinancialPlanInterface: React.FC = () => {
                      </div>
                    </div>
                    <div className="flex items-center justify-between relative z-10">
-                     <div className="text-white text-3xl font-light">
-                       Rs. 199
-                     </div>
-                     <div className="w-10 h-10 flex items-center justify-center">
-                       <svg 
-                         width="20" 
-                         height="20" 
-                         viewBox="0 0 24 24" 
-                         fill="none" 
-                         className="text-white"
-                       >
-                         <path 
-                           d="M5 12H19M19 12L12 5M19 12L12 19" 
-                           stroke="currentColor" 
-                           strokeWidth="2" 
-                           strokeLinecap="round" 
-                           strokeLinejoin="round"
-                         />
-                       </svg>
-                     </div>
                    </div>
                  </div>
                </div>
@@ -831,26 +619,6 @@ const FinancialPlanInterface: React.FC = () => {
                      </div>
                    </div>
                    <div className="flex items-center justify-between relative z-10">
-                     <div className="text-white text-3xl font-light">
-                       Rs. 199
-                     </div>
-                     <div className="w-10 h-10 flex items-center justify-center">
-                       <svg 
-                         width="20" 
-                         height="20" 
-                         viewBox="0 0 24 24" 
-                         fill="none" 
-                         className="text-white"
-                       >
-                         <path 
-                           d="M5 12H19M19 12L12 5M19 12L12 19" 
-                           stroke="currentColor" 
-                           strokeWidth="2" 
-                           strokeLinecap="round" 
-                           strokeLinejoin="round"
-                         />
-                       </svg>
-                     </div>
                    </div>
                  </div>
                </div>
@@ -907,26 +675,6 @@ const FinancialPlanInterface: React.FC = () => {
                      </div>
                    </div>
                    <div className="flex items-center justify-between relative z-10">
-                     <div className="text-white text-3xl font-light">
-                       Rs. 199
-                     </div>
-                     <div className="w-10 h-10 flex items-center justify-center">
-                       <svg 
-                         width="20" 
-                         height="20" 
-                         viewBox="0 0 24 24" 
-                         fill="none" 
-                         className="text-white"
-                       >
-                         <path 
-                           d="M5 12H19M19 12L12 5M19 12L12 19" 
-                           stroke="currentColor" 
-                           strokeWidth="2" 
-                           strokeLinecap="round" 
-                           strokeLinejoin="round"
-                         />
-                       </svg>
-                     </div>
                    </div>
                  </div>
                </div>
@@ -977,26 +725,6 @@ const FinancialPlanInterface: React.FC = () => {
                      </div>
                    </div>
                    <div className="flex items-center justify-between relative z-10">
-                     <div className="text-white text-3xl font-light">
-                       Rs. 199
-                     </div>
-                     <div className="w-10 h-10 flex items-center justify-center">
-                       <svg 
-                         width="20" 
-                         height="20" 
-                         viewBox="0 0 24 24" 
-                         fill="none" 
-                         className="text-white"
-                       >
-                         <path 
-                           d="M5 12H19M19 12L12 5M19 12L12 19" 
-                           stroke="currentColor" 
-                           strokeWidth="2" 
-                           strokeLinecap="round" 
-                           strokeLinejoin="round"
-                         />
-                       </svg>
-                     </div>
                    </div>
                  </div>
                </div>
@@ -1053,26 +781,6 @@ const FinancialPlanInterface: React.FC = () => {
                      </div>
                    </div>
                    <div className="flex items-center justify-between relative z-10">
-                     <div className="text-white text-3xl font-light">
-                       Rs. 199
-                     </div>
-                     <div className="w-10 h-10 flex items-center justify-center">
-                       <svg 
-                         width="20" 
-                         height="20" 
-                         viewBox="0 0 24 24" 
-                         fill="none" 
-                         className="text-white"
-                       >
-                         <path 
-                           d="M5 12H19M19 12L12 5M19 12L12 19" 
-                           stroke="currentColor" 
-                           strokeWidth="2" 
-                           strokeLinecap="round" 
-                           strokeLinejoin="round"
-                         />
-                       </svg>
-                     </div>
                    </div>
                  </div>
                </div>
@@ -1123,26 +831,6 @@ const FinancialPlanInterface: React.FC = () => {
                      </div>
                    </div>
                    <div className="flex items-center justify-between relative z-10">
-                     <div className="text-white text-3xl font-light">
-                       Rs. 199
-                     </div>
-                     <div className="w-10 h-10 flex items-center justify-center">
-                       <svg 
-                         width="20" 
-                         height="20" 
-                         viewBox="0 0 24 24" 
-                         fill="none" 
-                         className="text-white"
-                       >
-                         <path 
-                           d="M5 12H19M19 12L12 5M19 12L12 19" 
-                           stroke="currentColor" 
-                           strokeWidth="2" 
-                           strokeLinecap="round" 
-                           strokeLinejoin="round"
-                         />
-                       </svg>
-                     </div>
                    </div>
                  </div>
                </div>
@@ -1199,26 +887,6 @@ const FinancialPlanInterface: React.FC = () => {
                      </div>
                    </div>
                    <div className="flex items-center justify-between relative z-10">
-                     <div className="text-white text-3xl font-light">
-                       Rs. 199
-                     </div>
-                     <div className="w-10 h-10 flex items-center justify-center">
-                       <svg 
-                         width="20" 
-                         height="20" 
-                         viewBox="0 0 24 24" 
-                         fill="none" 
-                         className="text-white"
-                       >
-                         <path 
-                           d="M5 12H19M19 12L12 5M19 12L12 19" 
-                           stroke="currentColor" 
-                           strokeWidth="2" 
-                           strokeLinecap="round" 
-                           strokeLinejoin="round"
-                         />
-                       </svg>
-                     </div>
                    </div>
                  </div>
                </div>
@@ -1260,10 +928,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1320,10 +986,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1365,10 +1029,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1425,10 +1087,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1470,10 +1130,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1530,10 +1188,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1575,10 +1231,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1635,10 +1289,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1680,10 +1332,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1740,10 +1390,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1785,10 +1433,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1845,10 +1491,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1890,10 +1534,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1950,10 +1592,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -1995,10 +1635,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2055,10 +1693,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2102,10 +1738,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2162,10 +1796,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2207,10 +1839,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2267,10 +1897,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2312,10 +1940,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2372,10 +1998,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2417,10 +2041,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2477,10 +2099,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2522,10 +2142,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2582,10 +2200,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2627,10 +2243,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2687,10 +2301,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2732,10 +2344,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2792,10 +2402,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2837,10 +2445,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2897,10 +2503,8 @@ const FinancialPlanInterface: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between relative z-10">
-                    <div className="text-white text-xl sm:text-2xl md:text-3xl font-light">Rs. 199</div>
                     <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-5 sm:h-5 md:w-5 sm:h-5 lg:w-5 lg:h-5">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
@@ -2975,7 +2579,7 @@ const FinancialPlanInterface: React.FC = () => {
                 { img: "PortfolioManagement.png", text: "Portfolio Management" },
                 { img: "TaxConsultancy.png", text: "Tax Consultancy" },
                 { img: "personalbudget.png", text: "Personalized Budgeting Plan" },
-                { img: "discplan.png", text: "Disciplined Saving Planning (SIP)" },
+                { img: "discplan.png", text: "Disciplined Saving Planning (Fydaa SIP)" },
                 { img: "Financialhealth.png", text: "Financial Health Checkup" },
                 { img: "Retirementplanning.png", text: "Retirement Planning" },
                 { img: "Insurance.png", text: "Insurance" },
@@ -2987,7 +2591,7 @@ const FinancialPlanInterface: React.FC = () => {
               subtitle: "Start saving smart, build long-term wealth",
               services: [
                 { img: "debtmanagement.png", text: "Debt Management & Refinancing" },
-                { img: "discplan.png", text: "Disciplined Saving Strategy (SIP)" },
+                { img: "discplan.png", text: "Disciplined Saving Strategy (Fydaa SIP)" },
                 { img: "emergencyfund.png", text: "Emergency Fund Setup & Guidance" },
                 { img: "InvestmentStrategy.png", text: "Investment Planning" },
                 { img: "personalbudget.png", text: "Goals setup" },
@@ -3106,7 +2710,7 @@ const FinancialPlanInterface: React.FC = () => {
         />
         
         {/* Buttons positioned on top of the image */}
-        <div className="absolute inset-0 flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8 -mt-8 sm:-mt-12 md:-mt-16 lg:-mt-20 px-4 z-50">
+        <div className="absolute inset-0 flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8 -mt-12 sm:-mt-16 md:-mt-20 lg:-mt-24 px-4 z-50">
           {/* Book a Free Call Button */}
           <button className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
           onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}>
@@ -3152,12 +2756,12 @@ const FinancialPlanInterface: React.FC = () => {
          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 pt-48 sm:pt-64 md:pt-72 lg:pt-80">
            {/* Main heading */}
            <h1 className="text-white text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-normal italic leading-tight mb-2 max-w-xs sm:max-w-md md:max-w-lg lg:max-w-4xl xl:max-w-7xl font-['Inter']">
-             EMI nahi SIP se achieve karo apne sapne.
+             EMI nahi Fydaa SIP se achieve karo apne sapne.
            </h1>
            
            {/* Subtitle */}
            <p className="text-white/80 text-[14px] sm:text-[16px] md:text-[17px] lg:text-[18px] font-normal leading-relaxed mb-6 sm:mb-8 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-4xl font-['Inter']">
-             EMIs often mean borrowing for things you can't afford yet, adding stress and interest. SIPs help you build wealth gradually, giving you control and peace of mind while you plan your dreams.
+             EMIs often mean borrowing for things you can't afford yet, adding stress and interest. Fydaa SIPs help you build wealth gradually, giving you control and peace of mind while you plan your dreams.
            </p>
            
            {/* Action buttons */}
@@ -3165,7 +2769,7 @@ const FinancialPlanInterface: React.FC = () => {
              {/* Start a SIP Button */}
              <button className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
              onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}>
-               Start a SIP
+               Start a Fydaa SIP
              </button>
              
           </div>

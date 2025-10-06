@@ -326,7 +326,7 @@ const Navbar: React.FC = () => {
                 onMouseLeave={handleMouseLeave}
               >
                 <button className="text-black font-medium flex items-center gap-1 hover:text-gray-600 transition-colors duration-200 text-xs sm:text-sm md:text-base">
-                  What we Offer
+                  What We Offer
                   <span className="text-xs ml-1 transition-transform duration-200">
                     ▼
                   </span>
@@ -420,7 +420,7 @@ const Navbar: React.FC = () => {
                     }
                     className="flex items-center justify-between w-full text-left text-black font-medium text-base py-2"
                   >
-                    What we Offer
+                    What We Offer
                     <span
                       className={`transition-transform duration-200 ${
                         isMobileDropdownOpen ? "rotate-180" : ""

@@ -1,6 +1,9 @@
-import React from 'react';
+'use client'
+import React, { useState } from 'react';
 
 const Footer: React.FC = () => {
+    const [showEmailModal, setShowEmailModal] = useState(false);
+
     return (
         <footer className="bg-black text-white py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-24 relative z-50">
             <div className="w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1800px] mx-auto">
@@ -44,9 +47,19 @@ const Footer: React.FC = () => {
 
                     {/* Right Column - Quick Links */}
                     <div className="lg:col-span-1">
-                        <h3 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-inter font-semibold mb-4">
-                            Quick Links
-                        </h3>
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-inter font-semibold">
+                                Quick Links
+                            </h3>
+                            
+                            {/* UPI Handles Button */}
+                            <button
+                                onClick={() => setShowEmailModal(true)}
+                                className="flex items-center justify-center cursor-pointer transition-transform duration-300 ease-in-out w-full max-w-[120px] sm:max-w-[130px] md:max-w-[140px] lg:max-w-[140px] xl:max-w-[150px] h-[40px] sm:h-[42px] md:h-[45px] lg:h-[45px] xl:h-[48px] ml-0 mt-[10px] bg-black rounded-lg border border-white text-white font-semibold text-[12px] sm:text-[13px] md:text-[14px] lg:text-[12px] xl:text-[16px] shadow-lg hover:scale-105"
+                            >
+                                UPI Handles
+                            </button>
+                        </div>
                         <div className="space-y-3">
                             <a href="/quicklinks/Terms&Conditions" className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium">
                                 Terms & Conditions
@@ -120,6 +133,52 @@ const Footer: React.FC = () => {
                     </p>
                 </div>
             </div>
+
+            {/* UPI Handles Modal */}
+            {showEmailModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999] p-4">
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95%] sm:w-[350px] md:w-[380px] lg:w-[380px] xl:w-[420px] max-w-[95vw] max-h-[90vh] border border-white bg-black rounded-lg shadow-2xl p-4 sm:p-5 md:p-6 lg:p-6 xl:p-7 outline-none overflow-auto">
+                        <h2 className="text-center text-white font-semibold mb-4 sm:mb-5 md:mb-6 lg:mb-6 xl:mb-7 text-[20px] sm:text-[22px] md:text-[24px] lg:text-[24px] xl:text-[26px]">
+                            Verified UPI Handles
+                        </h2>
+
+                        <div className="flex flex-col gap-3 sm:gap-4 md:gap-4 lg:gap-4 xl:gap-5">
+                            <div className="p-3 sm:p-4 md:p-4 lg:p-4 xl:p-5 bg-[#1a1a1a] rounded border border-[#333]">
+                                <p className="text-white text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] font-medium break-all">
+                                    multistrato.capitaladvisors.ia@validyes
+                                </p>
+                            </div>
+
+                            <div className="p-3 sm:p-4 md:p-4 lg:p-4 xl:p-5 bg-[#1a1a1a] rounded border border-[#333]">
+                                <p className="text-white text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] font-medium break-all">
+                                    multistrato.ia@validyes
+                                </p>
+                            </div>
+
+                            <div className="p-3 sm:p-4 md:p-4 lg:p-4 xl:p-5 bg-[#1a1a1a] rounded border border-[#333]">
+                                <p className="text-white text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] font-medium break-all">
+                                    savestment.ia@validyes
+                                </p>
+                            </div>
+
+                            <div className="p-3 sm:p-4 md:p-4 lg:p-4 xl:p-5 bg-[#1a1a1a] rounded border border-[#333]">
+                                <p className="text-white text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] font-medium break-all">
+                                    fydaa.ia@validyes
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 sm:mt-7 md:mt-8 lg:mt-8 xl:mt-9 flex justify-center">
+                            <button
+                                onClick={() => setShowEmailModal(false)}
+                                className="bg-white text-black text-[14px] sm:text-[15px] md:text-[16px] lg:text-[16px] xl:text-[17px] px-6 sm:px-7 md:px-8 lg:px-8 xl:px-8 py-2 sm:py-2 md:py-2 lg:py-2 xl:py-3 min-w-[80px] sm:min-w-[90px] md:min-w-[100px] lg:min-w-[100px] xl:min-w-[110px] font-medium border border-white rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </footer>
     );
 };
