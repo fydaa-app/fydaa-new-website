@@ -6,7 +6,25 @@ const FinancialPlanInterface: React.FC = () => {
   const [currentCard, setCurrentCard] = useState(0);
   return (
     <div className="p-2 sm:p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12 bg-black flex flex-col items-center justify-start min-h-[1400px] sm:min-h-[1800px] md:min-h-[2200px] lg:min-h-[2600px] mb-20 sm:mb-0 m-0 rounded-[16px] sm:rounded-[24px] md:rounded-[32px] lg:rounded-[40px] xl:rounded-[48px] 2xl:rounded-[56px] relative overflow-hidden">
-      {/* Gradient Image - positioned left of title */}
+      {/* Mobile Gradient - positioned left of title */}
+      <div className="absolute left-0 top-10 w-[150px] h-[100px] -translate-x-1/2 z-20 block sm:hidden">
+        <img
+          src="/FinancialPlan/Gradient.png"
+          alt="Decorative gradient"
+          className="w-full h-full object-cover opacity-60"
+        />
+      </div>
+      
+      {/* Mobile Gradient - positioned right of title */}
+      <div className="absolute right-0 top-20 w-[150px] h-[100px] translate-x-1/2 z-20 block sm:hidden">
+        <img
+          src="/FinancialPlan/Gradient.png"
+          alt="Decorative gradient"
+          className="w-full h-full object-cover opacity-60"
+        />
+      </div>
+      
+      {/* Desktop Gradient Image - positioned left of title */}
       <div className="absolute left-0 top-10 sm:top-16 md:top-20 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[850px] lg:h-[600px] -translate-x-1/2 z-20 hidden sm:block">
         <img
           src="/FinancialPlan/Gradient.png"
@@ -15,7 +33,7 @@ const FinancialPlanInterface: React.FC = () => {
         />
       </div>
       
-      {/* Gradient Image - positioned right of title */}
+      {/* Desktop Gradient Image - positioned right of title */}
       <div className="absolute right-0 top-20 sm:top-32 md:top-48 lg:top-96 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[950px] lg:h-[800px] translate-x-1/2 z-20 hidden sm:block">
         <img
           src="/FinancialPlan/Gradient.png"
@@ -2914,7 +2932,7 @@ const FinancialPlanInterface: React.FC = () => {
       </div>
       
       {/* Gradient positioned left of the Wealth Growth Plan card */}
-      <div className="absolute left-[-253px] top-[1050px] w-[800px] h-[950px] -rotate-[100deg] z-30">
+      <div className="absolute left-[-253px] top-[900px] w-[800px] h-[950px] -rotate-[100deg] z-30 hidden sm:block">
         <img
           src="/FinancialPlan/Gradient.png"
           alt="Decorative gradient"
@@ -3080,7 +3098,7 @@ const FinancialPlanInterface: React.FC = () => {
     
       
       {/* Cover Image with Buttons Overlay */}
-      <div className="w-full mt-0 relative z-20">
+      <div className="w-full mt-0 relative z-40">
         <img 
           src="/FinancialPlan/covercut.png" 
           alt="Cover image" 
@@ -3088,15 +3106,20 @@ const FinancialPlanInterface: React.FC = () => {
         />
         
         {/* Buttons positioned on top of the image */}
-        <div className="absolute inset-0 flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8 -mt-8 sm:-mt-12 md:-mt-16 lg:-mt-20 px-4">
+        <div className="absolute inset-0 flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8 -mt-8 sm:-mt-12 md:-mt-16 lg:-mt-20 px-4 z-50">
           {/* Book a Free Call Button */}
-          <button className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+          <button className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
           onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}>
             Book a Free Call
           </button>
           
           {/* Chat on WhatsApp Link */}
-          <div className="flex items-center space-x-2 group cursor-pointer">
+          <div 
+            className="flex items-center space-x-2 group cursor-pointer pointer-events-auto"
+            onClick={() => {
+              window.open('https://wa.me/9136935300', '_blank');
+            }}
+          >
             <span className="text-white font-medium text-[14px] sm:text-[16px] font-['Inter'] hover:text-gray-300 transition-colors duration-300">Chat on WhatsApp</span>
             <svg 
               width="16" 
