@@ -14,17 +14,17 @@ const FAQ: React.FC = () => {
     {
       id: 1,
       question: "Is fydaa registered with any financial regulators in India?",
-      answer: "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser. Click here to verify."
+      answer: "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser."
     },
     {
       id: 2,
       question: "How fydaa is different from a broker or mutual fund distributor?",
-      answer: "Unlike your broker, fydaa do not execute the trades but advice on which securities to buy/sell on periodic basis based on your risk profile. Your broker charges brokerage on every transaction. Mutual fund distributors on the other hand help invest by selling schemes of Asset Management companies for a distributor fee."
+      answer: "Unlike your broker, fydaa does not execute the trades but advises on which securities to buy/sell on periodic basis based on your risk profile. Your broker charges brokerage on every transaction. Mutual fund distributors on the other hand help invest by selling schemes of Asset Management companies for a distributor fee."
     },
     {
       id: 3,
       question: "How fydaa makes money?",
-      answer: "Fydaa have no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There are no other revenue or commission from brokers or mutual fund houses."
+      answer: "Fydaa has no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There is no other revenue or commission from brokers or mutual fund houses."
     },
     {
       id: 4,
@@ -34,7 +34,7 @@ const FAQ: React.FC = () => {
     {
       id: 5,
       question: "Can I get my fee refund?",
-      answer: "No. However, you can discontinue your fydaa subscription anytime with just a click."
+      answer: "No, however, you can discontinue your fydaa subscription anytime with just a click."
     },
     {
       id: 6,
@@ -49,7 +49,7 @@ const FAQ: React.FC = () => {
     {
       id: 8,
       question: "How do I add or withdraw my investments from my fydaa account?",
-      answer: "Fydaa tech platform provides a seamless few click to add or withdraw money from your broker/ demat account. Please note, fydaa never keeps money nor securities of any investors. All your money and securities are always with your respective bank and broker account."
+      answer: "Fydaa tech platform provides seamless few clicks to add or withdraw money from your broker/ demat account. Please note, fydaa never keeps money nor securities of any investors. All your money and securities are always with your respective bank and broker account."
     },
  
  
