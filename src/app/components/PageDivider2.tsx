@@ -159,7 +159,7 @@ const PageDivider2: React.FC = () => {
             >
               <button className="bg-white text-black px-6 py-1.5 rounded-full font-gilroy-medium text-sm hover:bg-gray-100 hover:scale-105 transition-all duration-300 transform"
               onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}>
-                Start a SIP
+                Start a Fydaa SIP
               </button>
             </div>
           </div>

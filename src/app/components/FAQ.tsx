@@ -24,12 +24,12 @@ const FAQ: React.FC = () => {
     {
       id: 3,
       question: "How fydaa makes money?",
-      answer: "Fydaa charges a nominal fixed fee per month starting from Rs. 20 only."
+      answer: "Fydaa have no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There are no other revenue or commission from brokers or mutual fund houses."
     },
     {
       id: 4,
       question: "What is the advisory fee of fydaa?",
-      answer: "Fydaa charges a nominal fee of 0.4% per year of Asset under management. That mean for every 10000 rupees worth of investment, you are charged just INR 40 as advisory fee. This is fraction of what other advisor charges. (Traditional mutual funds and advisor's charges in excess of 1.5 - 2 %)"
+      answer: "Fydaa charges a nominal fixed fee per month starting from Rs. 20 only."
     },
     {
       id: 5,
