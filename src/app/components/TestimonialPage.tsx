@@ -167,23 +167,26 @@ const TestimonialPage: React.FC = () => {
                     />
 
                     {/* Transparent Click Overlay - Always Present */}
-                    <div
-                      onClick={handleVideoPlayPause}
-                      className="absolute inset-0 cursor-pointer rounded-2xl z-10 flex items-center justify-center"
-                    >
-                      {/* Custom Play Button - Only Shows When Paused */}
-                      {!isVideoPlaying && (
-                        <div className="bg-white/90 hover:bg-white rounded-full p-4 sm:p-5 md:p-6 transition-all duration-200 hover:scale-110 pointer-events-none">
-                          <svg
-                            className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-black"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </div>
-                      )}
-                    </div>
+                    {/* Transparent Click Overlay - Only Render on Desktop */}
+                    {deviceType === "desktop" && (
+                      <div
+                        onClick={handleVideoPlayPause}
+                        className="absolute inset-0 cursor-pointer rounded-2xl z-10 flex items-center justify-center"
+                      >
+                        {/* Custom Play Button - Only Shows When Paused */}
+                        {!isVideoPlaying && (
+                          <div className="bg-white/90 hover:bg-white rounded-full p-4 sm:p-5 md:p-6 transition-all duration-200 hover:scale-110 pointer-events-auto">
+                            <svg
+                              className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-black"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </>
                 ) : (
                   <div className="text-white text-sm text-center">
