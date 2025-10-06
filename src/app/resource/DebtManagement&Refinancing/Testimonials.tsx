@@ -11,38 +11,39 @@ const testimonialsData = [
       "I've been using the Fyda app since 2022, and it makes investing effortless. I can easily invest across gold, real estate, and equity—all in one place. I'd definitely recommend Fyda for anyone looking to build a disciplined investment journey.",
     rating: 5,
   },
-  {
-    id: 2,
-    name: "Priya Sharma",
-    profileImage: null,
-    reviewText:
-      "Fyda has transformed the way I manage my investments. The interface is intuitive and the multi-asset approach helps me diversify my portfolio seamlessly.",
-    rating: 5,
-  },
-  {
-    id: 3,
-    name: "Rajesh Kumar",
-    profileImage: null,
-    reviewText:
-      "As a busy professional, I appreciate how Fyda makes investing simple and accessible. The automated features save me time while building wealth systematically.",
-    rating: 5,
-  },
-  {
-    id: 4,
-    name: "Sneha Patel",
-    profileImage: null,
-    reviewText:
-      "The best investment platform I've used. Fyda's approach to disciplined investing across multiple asset classes has helped me achieve my financial goals faster.",
-    rating: 5,
-  },
-  {
-    id: 5,
-    name: "Amit Verma",
-    profileImage: null,
-    reviewText:
-      "Outstanding platform for long-term wealth building. The user-friendly interface and diverse investment options make it perfect for beginners and experienced investors alike.",
-    rating: 5,
-  },
+  //,
+  // {
+  //   id: 2,
+  //   name: "Priya Sharma",
+  //   profileImage: null,
+  //   reviewText:
+  //     "Fyda has transformed the way I manage my investments. The interface is intuitive and the multi-asset approach helps me diversify my portfolio seamlessly.",
+  //   rating: 5,
+  // },
+  // {
+  //   id: 3,
+  //   name: "Rajesh Kumar",
+  //   profileImage: null,
+  //   reviewText:
+  //     "As a busy professional, I appreciate how Fyda makes investing simple and accessible. The automated features save me time while building wealth systematically.",
+  //   rating: 5,
+  // },
+  // {
+  //   id: 4,
+  //   name: "Sneha Patel",
+  //   profileImage: null,
+  //   reviewText:
+  //     "The best investment platform I've used. Fyda's approach to disciplined investing across multiple asset classes has helped me achieve my financial goals faster.",
+  //   rating: 5,
+  // },
+  // {
+  //   id: 5,
+  //   name: "Amit Verma",
+  //   profileImage: null,
+  //   reviewText:
+  //     "Outstanding platform for long-term wealth building. The user-friendly interface and diverse investment options make it perfect for beginners and experienced investors alike.",
+  //   rating: 5,
+  // },
 ];
 
 const Testimonials = () => {
@@ -103,7 +104,7 @@ const Testimonials = () => {
     return [...Array(rating)].map((_, i) => (
       <svg
         key={i}
-        className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-yellow-400 mx-0.5 sm:mx-1"
+        className="w-2 h-2 sm:w-3.5 sm:h-3.5 md:w-[17px] md:h-[17px] lg:w-[22px] lg:h-[22px] xl:w-7 xl:h-7 2xl:w-[42px] 2xl:h-[42px] text-yellow-400 mx-0.5 lg:mx-1 2xl:mx-1.5"
         fill="currentColor"
         viewBox="0 0 20 20"
       >
@@ -122,20 +123,18 @@ const Testimonials = () => {
       className="w-full md:w-1/2 flex-shrink-0 px-3"
     >
       <div
-        className="bg-[#101828]/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg border border-gray-300/20 flex flex-col relative transition-all duration-500 ease-in-out mx-auto overflow-hidden"
-        style={{
-          maxWidth: "450px",
-          height: "300px",
-        }}
+        className="bg-[#101828]/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg border border-gray-300/20 flex flex-col relative transition-all duration-500 ease-in-out mx-auto overflow-hidden 
+    h-[220px] sm:h-[260px] md:h-[300px] lg:h-[340px] xl:h-[370px] 2xl:h-[450px]
+    max-w-[280px] sm:max-w-[320px] md:max-w-[360px] lg:max-w-[400px] xl:max-w-[450px] 2xl:max-w-[550px]"
       >
         {/* Cut-in Card Image - Positioned at bottom */}
         <div className="absolute bottom-0 left-0 right-0 flex justify-center">
           <img
             src="/resource/cutincard.png"
             alt="Cut-in Card"
-            className="w-full h-auto object-cover"
+            className="w-full object-cover h-[100px] sm:h-[120px] md:h-[140px] lg:h-[160px] xl:h-[175px] 2xl:h-[210px]"
             style={{
-              maxHeight: "180px",
+              maxHeight: "480px",
               borderRadius: "0 0 16px 16px",
             }}
           />
@@ -144,19 +143,19 @@ const Testimonials = () => {
         {/* Content positioned above the cut-in image */}
         <div className="relative z-10 flex flex-col h-full">
           {/* Rating Stars */}
-          <div className="flex justify-center mb-3 sm:mb-4 md:mb-6">
+          <div className="flex justify-center mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-9">
             {renderStars(testimonial.rating)}
           </div>
 
           {/* Quote */}
-          <blockquote className="text-center text-xs sm:text-sm md:text-base mb-0 italic leading-relaxed flex-1 overflow-auto px-2 pb-0 sm:pb-20">
+          <blockquote className="text-center text-[10px] sm:text-xs md:text-sm lg:text-[15px] xl:text-base 2xl:text-xl mb-0 italic leading-relaxed flex-1 overflow-auto px-2 pb-0 sm:pb-20">
             "{testimonial.reviewText}"
           </blockquote>
         </div>
 
         {/* Author - Positioned in center of cutincard */}
-        <div className="absolute bottom-16 sm:bottom-20 left-0 right-0 z-20 flex flex-col items-center">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gray-600 rounded-full mb-1 sm:mb-2 flex items-center justify-center overflow-hidden border-2 border-white shadow-xl">
+        <div className="absolute bottom-2 sm:bottom-[18px] md:bottom-5 lg:bottom-[23px] xl:bottom-6 2xl:bottom-7 left-0 right-0 z-20 flex flex-col items-center">
+          <div className="w-[42px] h-[42px] sm:w-12 sm:h-12 md:w-[54px] md:h-[54px] lg:w-[61px] lg:h-[61px] xl:w-16 xl:h-16 2xl:w-[77px] 2xl:h-[77px] bg-gray-600 rounded-full mb-1 sm:mb-1.5 lg:mb-2 xl:mb-2 2xl:mb-2.5 flex items-center justify-center overflow-hidden border-2 border-white shadow-xl">
             {testimonial.profileImage ? (
               <img
                 src={testimonial.profileImage}
@@ -165,7 +164,7 @@ const Testimonials = () => {
               />
             ) : (
               <svg
-                className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-gray-400"
+                className="w-[21px] h-[21px] sm:w-6 sm:h-6 md:w-[27px] md:h-[27px] lg:w-[30px] lg:h-[30px] xl:w-8 xl:h-8 2xl:w-[38px] 2xl:h-[38px] text-gray-400"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -177,7 +176,7 @@ const Testimonials = () => {
               </svg>
             )}
           </div>
-          <p className="font-['Inter'] font-semibold text-xs sm:text-sm md:text-base text-white drop-shadow-lg">
+          <p className="font-['Inter'] font-semibold text-[10px] sm:text-xs md:text-sm lg:text-[15px] xl:text-base 2xl:text-lg text-white drop-shadow-lg">
             {testimonial.name}
           </p>
         </div>
@@ -224,7 +223,7 @@ const Testimonials = () => {
           <button
             onClick={handlePrevious}
             disabled={isTransitioning}
-            className="absolute left-[-20px] sm:left-[-30px] md:left-[-40px] lg:left-[-50px] top-1/2 transform -translate-y-1/2 z-30 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-black/50 rounded-full backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer disabled:opacity-50"
+            className="absolute left-[-12px] sm:left-[-16px] md:left-[-20px] lg:left-[-28px] xl:left-[-40px] 2xl:left-[-64px] top-1/2 transform -translate-y-1/2 z-30 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-black/50 rounded-full backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer disabled:opacity-50"
             aria-label="Previous testimonials"
           >
             <svg
@@ -268,7 +267,7 @@ const Testimonials = () => {
           <button
             onClick={handleNext}
             disabled={isTransitioning}
-            className="absolute right-[-20px] sm:right-[-30px] md:right-[-40px] lg:right-[-50px] top-1/2 transform -translate-y-1/2 z-30 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-black/50 rounded-full backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer disabled:opacity-50"
+            className="absolute right-[-12px] sm:right-[-16px] md:right-[-20px] lg:right-[-28px] xl:right-[-40px] 2xl:right-[-64px] top-1/2 transform -translate-y-1/2 z-30 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-black/50 rounded-full backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer disabled:opacity-50"
             aria-label="Next testimonials"
           >
             <svg
