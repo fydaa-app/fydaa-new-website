@@ -139,7 +139,7 @@ const TestimonialPage: React.FC = () => {
   const handleVideoPause = () => setIsVideoPlaying(false);
 
   return (
-    <div className="bg-[#000000] pb-8 sm:pb-12 md:pb-16 lg:pb-20 xl:pb-24 2xl:pb-28 rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] 2xl:rounded-[64px] overflow-hidden">
+    <div className="bg-[#000000]  rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] 2xl:rounded-[64px] overflow-hidden">
       {/* Top Section: Real People, Real Progress */}
       <div className="bg-black pt-8 sm:pt-12 md:pt-16 lg:pt-20 xl:pt-24 2xl:pt-28 pb-8 sm:pb-12 md:pb-14 lg:pb-16 xl:pb-18 2xl:pb-20 px-4 sm:px-6 md:px-8 lg:px-8 xl:px-10 2xl:px-12">
         <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-6xl xl:max-w-7xl 2xl:max-w-8xl mx-auto text-center">
@@ -493,25 +493,70 @@ const TestimonialPage: React.FC = () => {
 
       {/* Bottom Section: Call to Action */}
       <div className="bg-black pb-8 sm:pb-12 md:pb-16 lg:pb-20 xl:pb-24 2xl:pb-28 px-4 sm:px-6 md:px-8 mt-8 sm:mt-10 md:mt-12 lg:mt-28 xl:mt-32 2xl:mt-36">
-        <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto text-center lg:text-left">
-          <h2 className="text-[16px] sm:text-[18px] md:text-[20px] lg:text-2xl xl:text-3xl 2xl:text-4xl text-white font-semibold mb-2 sm:mb-3 md:mb-4 font-gilroy">
-            Start Early, Start Small
-          </h2>
-          <h3 className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-6xl xl:text-7xl 2xl:text-8xl text-white font-light mb-3 sm:mb-4 md:mb-5 lg:mb-4 xl:mb-6 2xl:mb-8 font-gilroy">
-            JUST START
-          </h3>
-          <p className="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] text-white font-inter font-normal mb-6 sm:mb-8 md:mb-10 lg:mb-8 xl:mb-10 2xl:mb-12">
-            Every day you delay costs you money.
-          </p>
+        <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-7xl xl:max-w-7xl 2xl:max-w-7xl mx-auto">
+          {/* Grid Layout: Single column on mobile, Two columns on large screens */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 2xl:gap-20 items-center overflow-visible">
+            {/* Left Side: Text Content */}
+            <div className="text-center lg:text-left order-2 lg:order-1">
+              <h2 className="text-[16px] sm:text-[18px] md:text-[20px] lg:text-2xl xl:text-3xl 2xl:text-4xl text-white font-semibold mb-2 sm:mb-3 md:mb-4 font-gilroy">
+                Start Early, Start Small
+              </h2>
+              <h3 className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-6xl xl:text-7xl 2xl:text-8xl text-white font-light mb-3 sm:mb-4 md:mb-5 lg:mb-4 xl:mb-6 2xl:mb-8 font-gilroy">
+                JUST START
+              </h3>
+              <p className="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] text-white font-inter font-normal mb-6 sm:mb-8 md:mb-10 lg:mb-8 xl:mb-10 2xl:mb-12">
+                Every day you delay costs you money.
+              </p>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 md:gap-5 lg:gap-4 xl:gap-6 2xl:gap-8">
-            <button
-              onClick={handleDownloadApp}
-              className="bg-white text-black px-3 sm:px-4 md:px-5 lg:px-4 xl:px-6 2xl:px-8 py-1.5 sm:py-2 md:py-2.5 lg:py-2 xl:py-2.5 2xl:py-3 rounded-full text-[10px] sm:text-[11px] md:text-[12px] lg:text-xs xl:text-sm 2xl:text-base font-medium font-['Inter'] hover:bg-gray-100 transition-colors"
-            >
-              Download Our App
-            </button>
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 md:gap-5 lg:gap-4 xl:gap-6 2xl:gap-8">
+                <button
+                  onClick={handleDownloadApp}
+                  className="bg-white text-black px-3 sm:px-4 md:px-5 lg:px-4 xl:px-6 2xl:px-8 py-1.5 sm:py-2 md:py-2.5 lg:py-2 xl:py-2.5 2xl:py-3 rounded-full text-[10px] sm:text-[11px] md:text-[12px] lg:text-xs xl:text-sm 2xl:text-base font-medium font-['Inter'] hover:bg-gray-100 transition-colors"
+                >
+                  Download Our App
+                </button>
+
+                {/* Book a Free Call Link */}
+                <div
+                  className="flex items-center space-x-2 group cursor-pointer pointer-events-auto"
+                  onClick={() => {
+                    window.open(
+                      "https://cal.com/fydaa-backend-zr5zm3/30min",
+                      "_blank"
+                    );
+                  }}
+                >
+                  <span className="text-white font-medium text-[10px] sm:text-[11px] md:text-[12px] lg:text-xs xl:text-sm 2xl:text-base font-['Inter'] hover:text-gray-300 transition-colors duration-300">
+                    Book a Free Call
+                  </span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="text-white w-3 h-3 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 group-hover:translate-x-1 transition-transform duration-300"
+                  >
+                    <path
+                      d="M5 12H19M19 12L12 5M19 12L12 19"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side: Image */}
+            <div className="flex items-center justify-center lg:justify-center order-1 lg:order-2 relative h-[400px] lg:h-[500px] -mb-32 lg:mb-0 -top-10 lg:top-0">
+              <img
+                src="/testimonial/call2action.png"
+                alt="Fydaa App"
+                className="absolute w-[170%] max-w-none h-auto object-contain rounded-lg"
+              />
+            </div>
           </div>
         </div>
       </div>
