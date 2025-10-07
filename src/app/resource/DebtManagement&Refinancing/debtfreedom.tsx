@@ -133,7 +133,7 @@ const DebtFreedom: React.FC = () => {
                 <img
                   src="/resource/DebtManagement&Refinancing/lowcost.png"
                   alt="Lower Interest"
-                  className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 3xl:w-32 3xl:h-32"
+                  className="h-16 sm:h-18 md:h-20 lg:h-22 xl:h-24 2xl:h-28 3xl:h-32 w-auto"
                 />
               </div>
               <h3 className="text-[20px] sm:text-[22px] md:text-[26px] lg:text-[29px] xl:text-[32px] 2xl:text-[38px] 3xl:text-[44px] font-['Inter'] font-normal mb-2 sm:mb-2 md:mb-2.5 lg:mb-2.5 xl:mb-3 2xl:mb-4 3xl:mb-5">
@@ -150,7 +150,7 @@ const DebtFreedom: React.FC = () => {
                 <img
                   src="/resource/DebtManagement&Refinancing/payment.png"
                   alt="Simplified Finances"
-                  className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 3xl:w-32 3xl:h-32"
+                  className="h-16 sm:h-18 md:h-20 lg:h-22 xl:h-24 2xl:h-28 3xl:h-32 w-auto"
                 />
               </div>
               <h3 className="text-[20px] sm:text-[22px] md:text-[26px] lg:text-[29px] xl:text-[32px] 2xl:text-[38px] 3xl:text-[44px] font-['Inter'] font-normal mb-2 sm:mb-2 md:mb-2.5 lg:mb-2.5 xl:mb-3 2xl:mb-4 3xl:mb-5">
@@ -167,7 +167,7 @@ const DebtFreedom: React.FC = () => {
                 <img
                   src="/resource/DebtManagement&Refinancing/creditscore.png"
                   alt="Better Credit Score"
-                  className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 3xl:w-32 3xl:h-32"
+                  className="h-16 sm:h-18 md:h-20 lg:h-22 xl:h-24 2xl:h-28 3xl:h-32 w-auto"
                 />
               </div>
               <h3 className="text-[20px] sm:text-[22px] md:text-[26px] lg:text-[29px] xl:text-[32px] 2xl:text-[38px] 3xl:text-[44px] font-['Inter'] font-normal mb-2 sm:mb-2 md:mb-2.5 lg:mb-2.5 xl:mb-3 2xl:mb-4 3xl:mb-5">
@@ -184,7 +184,7 @@ const DebtFreedom: React.FC = () => {
                 <img
                   src="/resource/DebtManagement&Refinancing/stress.png"
                   alt="Less Stress"
-                  className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-22 lg:h-22 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 3xl:w-32 3xl:h-32"
+                  className="h-16 sm:h-18 md:h-20 lg:h-22 xl:h-24 2xl:h-28 3xl:h-32 w-auto"
                 />
               </div>
               <h3 className="text-[20px] sm:text-[22px] md:text-[26px] lg:text-[29px] xl:text-[32px] 2xl:text-[38px] 3xl:text-[44px] font-['Inter'] font-normal mb-2 sm:mb-2 md:mb-2.5 lg:mb-2.5 xl:mb-3 2xl:mb-4 3xl:mb-5">
