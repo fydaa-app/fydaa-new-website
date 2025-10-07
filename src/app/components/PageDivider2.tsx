@@ -124,7 +124,7 @@ const PageDivider2: React.FC = () => {
                 : 'opacity-0 translate-y-8'
             }`}
           >
-            You Loss Crores... Just in Hidden Fees
+            You Lose Crores... Just in Hidden Fees
           </h2>
           
                       {/* Text Content - Staggered reveal */}
