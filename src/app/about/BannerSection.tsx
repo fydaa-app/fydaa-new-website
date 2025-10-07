@@ -1,14 +1,51 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const BannerSection: React.FC = () => {
+  const [deviceType, setDeviceType] = useState<"ios" | "android" | "desktop">(
+    "desktop"
+  );
+
+  useEffect(() => {
+    const detectDevice = () => {
+      if (typeof window !== "undefined") {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+
+        if (/iphone|ipad|ipod/.test(userAgent)) {
+          setDeviceType("ios");
+        } else if (/android/.test(userAgent)) {
+          setDeviceType("android");
+        } else {
+          setDeviceType("desktop");
+        }
+      }
+    };
+
+    detectDevice();
+  }, []);
+
+  const handleDownloadApp = () => {
+    const iosUrl =
+      "https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190";
+    const androidUrl =
+      "https://play.google.com/store/apps/details?id=com.app.fydaa&hl=en";
+
+    if (deviceType === "ios") {
+      window.open(iosUrl, "_blank");
+    } else if (deviceType === "android") {
+      window.open(androidUrl, "_blank");
+    } else {
+      window.open(iosUrl, "_blank");
+    }
+  };
+
   return (
     <div className="bg-[#101828] min-h-[320px] sm:min-h-[380px] md:min-h-[440px] rounded-[56px] -mt-20 sm:-mt-24 md:-mt-28 relative z-50 overflow-hidden flex flex-col items-center justify-center pb-8 sm:pb-12 md:pb-14">
       {/* Gradient aligned at top */}
       <img
         src="/about-us/RectangleGradient.png"
         alt="Gradient"
-        className="absolute top-0 left-0 w-full h-full object-cover"
+        className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
       />
 
       <div className="relative flex flex-col items-center justify-center px-4 sm:px-8 md:px-0">
@@ -36,20 +73,28 @@ const BannerSection: React.FC = () => {
 
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-6 mt-8 sm:mt-12 px-4 sm:px-0 max-w-full">
-        <button className="px-5 py-2 bg-white text-black font-medium text-[13px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-          Download our App
+        <button
+          onClick={handleDownloadApp}
+          className="bg-white text-black px-3 sm:px-4 md:px-5 lg:px-4 xl:px-6 2xl:px-8 py-1.5 sm:py-2 md:py-2.5 lg:py-2 xl:py-2.5 2xl:py-3 rounded-full text-[10px] sm:text-[11px] md:text-[12px] lg:text-xs xl:text-sm 2xl:text-base font-medium font-['Inter'] hover:bg-gray-100 transition-colors"
+        >
+          Download Our App
         </button>
 
-        <div className="inline-flex items-center space-x-2 cursor-pointer group select-none">
-          <span className="text-white font-medium text-[14px] font-['Inter'] group-hover:text-gray-300 transition-colors duration-300 px-2">
+        <div
+          className="flex items-center space-x-2 group cursor-pointer pointer-events-auto"
+          onClick={() => {
+            window.open("https://cal.com/fydaa-backend-zr5zm3/30min", "_blank");
+          }}
+        >
+          <span className="text-white font-medium text-[10px] sm:text-[11px] md:text-[12px] lg:text-xs xl:text-sm 2xl:text-base font-['Inter'] hover:text-gray-300 transition-colors duration-300">
             Talk to Us
           </span>
           <svg
-            width="18"
-            height="18"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
             fill="none"
-            className="text-white transform transition-transform duration-300 group-hover:translate-x-1"
+            className="text-white w-3 h-3 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 group-hover:translate-x-1 transition-transform duration-300"
           >
             <path
               d="M5 12H19M19 12L12 5M19 12L12 19"
