@@ -18,6 +18,10 @@ const MissionSection: React.FC = () => {
     return () => clearInterval(interval);
   }, [images.length]);
 
+  const handleClick = () => {
+    window.open("https://cal.com/fydaa-backend-zr5zm3/30min", "_blank");
+  };
+
   return (
     <main className="w-full h-full m-0 p-0 relative">
       {/* Mission Section - Light Gray Background with Gradient */}
@@ -106,7 +110,15 @@ const MissionSection: React.FC = () => {
                   investing
                 </p>
 
-                <button className="bg-black hover:bg-gray-800 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium cursor-pointer transition-all duration-200 shadow-sm flex items-center space-x-2 mt-8 group">
+                <button
+                  onClick={handleClick}
+                  style={{
+                    pointerEvents: "auto",
+                    position: "relative",
+                    zIndex: 1000,
+                  }}
+                  className="bg-black hover:bg-gray-800 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium cursor-pointer transition-all duration-200 shadow-sm flex items-center space-x-2 mt-8 group"
+                >
                   <span className="font-medium text-[16px] sm:text-[18px] font-inter group-hover:text-white">
                     Start Investing Now
                   </span>

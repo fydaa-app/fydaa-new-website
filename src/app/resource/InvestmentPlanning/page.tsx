@@ -4,7 +4,7 @@ import DebtFreedom from './debtfreedom';
 import Testimonials from './Testimonials';
 import FAQ from './FAQ';
 import FinancialSafety from './FinancialSafety';
-import VideoSection from '../DebtManagement&Refinancing/VideoSection';
+import VideoSection from './VideoSection';
 
 export default function ResourcesPage() {
   return (
