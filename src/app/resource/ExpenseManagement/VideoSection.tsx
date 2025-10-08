@@ -35,7 +35,7 @@ const VideoSection: React.FC = () => {
           {/* Content container */}
           <div className="relative z-20 flex flex-col items-center text-center px-2 sm:px-4 md:px-6 lg:px-8 pointer-events-auto">
             {/* Heading and description */}
-            <div className="flex flex-col items-center max-w-full sm:max-w-[600px] md:max-w-[800px] lg:max-w-[1100px] mx-auto px-4 pt-8 sm:pt-12 md:pt-16 lg:pt-[100px] xl:pt-24 2xl:pt-32 pb-[30px] sm:pb-[50px] md:pb-[60px] lg:pb-[80px] xl:pb-[100px] 2xl:pb-[120px] 3xl:pb-[150px]">
+            <div className="flex flex-col items-center max-w-full sm:max-w-[600px] md:max-w-[800px] lg:max-w-[1100px] mx-auto px-4 2xl:pt-32 pb-[30px] sm:pb-[50px] md:pb-[60px] lg:pb-[80px] xl:pb-[100px] 2xl:pb-[120px] 3xl:pb-[150px]">
               <h2 className="text-white font-gilroy font-semibold text-[20px] sm:text-[28px] md:text-[36px] lg:text-[44px] xl:text-[48px] 2xl:text-[56px] 3xl:text-[64px] leading-[24px] sm:leading-[32px] md:leading-[40px] lg:leading-[48px] xl:leading-[52px] 2xl:leading-[60px] 3xl:leading-[68px] mb-3 sm:mb-4 md:mb-[16px] lg:mb-[18px] xl:mb-[20px] 2xl:mb-[24px]">
                 Your Money, Your Rules
               </h2>

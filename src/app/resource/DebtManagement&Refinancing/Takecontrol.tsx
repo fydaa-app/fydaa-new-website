@@ -13,7 +13,8 @@ const TakeControl: React.FC = () => {
               {/* Text Content */}
               <div className="flex-1">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl 3xl:text-8xl font-bold text-gray-900 pl-4 sm:pl-6 md:pl-8 lg:pl-10 xl:pl-12 2xl:pl-16 3xl:pl-20 leading-tight font-gilroy pr-[10px]">
-                  Take Control of Your Debt, <br /> Regain Your Peace of Mind
+                                      Take Control of Your Debt, <br /> Regain Your Peace of Mind
+
                 </h1>
 
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl 3xl:text-3xl text-gray-700 pl-4 sm:pl-6 md:pl-8 lg:pl-10 xl:pl-12 2xl:pl-16 3xl:pl-20 leading-relaxed font-inter mt-2 sm:mt-3 md:mt-4 lg:mt-5 xl:mt-6 2xl:mt-8 3xl:mt-10 pr-[10px]">
@@ -63,4 +64,6 @@ const TakeControl: React.FC = () => {
 };
 
 export default TakeControl;
+
+
 
