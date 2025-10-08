@@ -26,42 +26,19 @@ const MissionSection: React.FC = () => {
     <main className="w-full h-full m-0 p-0 relative">
       {/* Mission Section - Light Gray Background with Gradient */}
       <section className="relative py-12 px-3 sm:px-6 md:px-12 lg:px-16 bg-[#F7F7F7] min-h-[80vh] md:min-h-screen pb-[300px] sm:pb-[400px] md:pb-[600px] lg:pb-[700px]">
-        {/* First gradient overlay */}
-        <div
-          className="absolute inset-0 pointer-events-none z-10"
-          style={{
-            backgroundImage: "url(/gradient/gradient.png)",
-            backgroundSize: "cover",
-            backgroundPosition: "bottom 0% center",
-            backgroundRepeat: "no-repeat",
-            opacity: 1,
-            transform: "translateY(-40px)",
-          }}
-        ></div>
-
-        {/* Second gradient overlay */}
-        <div
-          className="absolute -left-20 -bottom-40 w-1/3 h-1/2 pointer-events-none z-10 hidden md:block"
-          style={{
-            backgroundImage: "url(/gradient/gradient.png)",
-            backgroundSize: "cover",
-            backgroundPosition: "left bottom",
-            backgroundRepeat: "no-repeat",
-            opacity: 0.7,
-          }}
-        ></div>
-
-        {/* Third gradient overlay */}
-        <div
-          className="absolute -right-20 -bottom-40 w-1/3 h-1/2 pointer-events-none z-10 hidden md:block"
-          style={{
-            backgroundImage: "url(/gradient/gradient.png)",
-            backgroundSize: "cover",
-            backgroundPosition: "right bottom",
-            backgroundRepeat: "no-repeat",
-            opacity: 0.3,
-          }}
-        ></div>
+        {/* Gradient - Keep absolute positioning */}
+        <div className="absolute -top-[300px] -left-8 -right-8 z-10 flex gap-0">
+          <img
+            src="/resource/gradient.png"
+            alt="Gradient"
+            className="h-screen w-1/2 object-cover opacity-60"
+          />
+          <img
+            src="/resource/gradient.png"
+            alt="Gradient"
+            className="h-screen w-1/2 object-cover opacity-60"
+          />
+        </div>
 
         <div className="max-w-7xl mx-auto relative h-full">
           {/* Two Equal Halves Container */}
