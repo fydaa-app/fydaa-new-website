@@ -216,7 +216,7 @@ const Testimonials = () => {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-8 md:px-12 relative z-20">
         {/* Title */}
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-['Gilroy'] font-bold text-center mb-8 sm:mb-10 md:mb-12">
-          What Our Clients Says
+          What Our Clients Say
         </h2>
 
         {/* Testimonials Container */}
