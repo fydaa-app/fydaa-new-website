@@ -1,9 +1,28 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+
+const cards = [
+  { id: 1, title: "Investment Planning", path: "/resource/InvestmentPlanning" },
+  { id: 2, title: "Debt Management & Refinancing", path: "/resource/DebtManagement&Refinancing" },
+  { id: 3, title: "Emergency Fund", path: "/resource/Emergencyfund" },
+  { id: 4, title: "Expense Management", path: "/resource/ExpenseManagement" },
+  { id: 5, title: "Financial Health Checkup", path: "/resource/FinancialHealthCheckup" },
+  { id: 6, title: "Personalized Budgeting Plan", path: "/resource/PersonalizedBudgetingplan" },
+  { id: 7, title: "Portfolio Management", path: "/resource/PortfolioManagement" },
+  { id: 8, title: "Tax Consultancy", path: "/resource/TaxConsultancy" },
+];
 
 const FinancialPlanInterface: React.FC = () => {
   const [currentCard, setCurrentCard] = useState(0);
+  const router = useRouter()
+  const handleClick = (cardId: number) => {
+    const card = cards.find((c) => c.id === cardId);
+    if (card) {
+      router.push(card.path);
+    }
+  };
   return (
     <div className="p-2 sm:p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12 bg-black flex flex-col items-center justify-start min-h-[1400px] sm:min-h-[1800px] md:min-h-[2200px] lg:min-h-[2600px] mb-20 sm:mb-0 m-0 rounded-[16px] sm:rounded-[24px] md:rounded-[32px] lg:rounded-[40px] xl:rounded-[48px] 2xl:rounded-[56px] relative overflow-hidden">
       {/* Mobile Gradient - positioned left of title */}
@@ -56,7 +75,7 @@ const FinancialPlanInterface: React.FC = () => {
         <div className="animate-scroll-seamless-cards gap-12">
         {/* Card 1 */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(1)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -161,7 +180,7 @@ const FinancialPlanInterface: React.FC = () => {
         {/* Card 2 */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
           <div className="card-flip-container">
-            <div className="card-flip-inner">
+            <div className="card-flip-inner" onClick={() => handleClick(4)}>
               {/* Front of Card */}
               <div className="card-front">
                 <div 
@@ -263,7 +282,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Card 3 */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(7)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -365,7 +384,7 @@ const FinancialPlanInterface: React.FC = () => {
         </div>
          {/* Card 4 */}
          <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-           <div className="card-flip-container">
+           <div className="card-flip-container" onClick={() => handleClick(8)}>
              <div className="card-flip-inner">
                {/* Front of Card */}
                <div className="card-front">
@@ -471,7 +490,7 @@ const FinancialPlanInterface: React.FC = () => {
          </div>
          {/* Card 5 */}
          <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-           <div className="card-flip-container">
+           <div className="card-flip-container" onClick={() => handleClick(5)}>
              <div className="card-flip-inner">
                {/* Front of Card */}
                <div className="card-front">
@@ -577,7 +596,7 @@ const FinancialPlanInterface: React.FC = () => {
          </div>
          {/* Card 6 */}
          <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-           <div className="card-flip-container">
+           <div className="card-flip-container" onClick={() => handleClick(6)}>
              <div className="card-flip-inner">
                {/* Front of Card */}
                <div className="card-front">
@@ -683,7 +702,7 @@ const FinancialPlanInterface: React.FC = () => {
          </div>
          {/* Card 7 */}
          <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-           <div className="card-flip-container">
+           <div className="card-flip-container"  onClick={() => handleClick(2)}>
              <div className="card-flip-inner">
                {/* Front of Card */}
                <div className="card-front">
@@ -789,7 +808,7 @@ const FinancialPlanInterface: React.FC = () => {
          </div>
          {/* Card 8 */}
          <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-           <div className="card-flip-container">
+           <div className="card-flip-container" onClick={() => handleClick(3)}>
              <div className="card-flip-inner">
                {/* Front of Card */}
                <div className="card-front">
@@ -898,7 +917,7 @@ const FinancialPlanInterface: React.FC = () => {
         
         {/* Duplicate Card 1 - Investment Planning */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(1)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -923,7 +942,7 @@ const FinancialPlanInterface: React.FC = () => {
                       <img src="/FinancialPlan/debtmanagement.png" alt="Investment Planning icon" width={50} height={60} className="object-contain sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Investment Planning</h2>
+                      <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] font-semibold leading-tight font-['Gilroy']">Investment Planning </h2>
                       <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">Align your investment with your time horizon and risk appetite.</p>
                     </div>
                   </div>
@@ -999,7 +1018,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 2 - Expense Management */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(4)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -1100,7 +1119,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 3 - Portfolio Management */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(7)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -1201,7 +1220,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 4 - Tax Consultancy */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(8)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -1302,7 +1321,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 5 - Financial Health Checkup */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(5)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -1403,7 +1422,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 6 - Personalized Budgeting Plan */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(6)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -1504,7 +1523,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 7 - Debt Management & Refinancing */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container"  onClick={() => handleClick(2)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -1605,7 +1624,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 8 - Emergency Fund Setup & Guidance */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(3)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -1708,7 +1727,7 @@ const FinancialPlanInterface: React.FC = () => {
         
         {/* Duplicate Card 9 - Investment Planning */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(1)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -1809,7 +1828,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 10 - Expense Management */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(4)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -1910,7 +1929,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 11 - Portfolio Management */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(7)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -2011,7 +2030,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 12 - Tax Consultancy */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(8)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -2112,7 +2131,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 13 - Financial Health Checkup */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(5)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -2213,7 +2232,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 14 - Personalized Budgeting Plan */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(6)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -2314,7 +2333,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 15 - Debt Management & Refinancing */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(2)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -2415,7 +2434,7 @@ const FinancialPlanInterface: React.FC = () => {
 
         {/* Duplicate Card 16 - Emergency Fund Setup & Guidance */}
         <div className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer">
-          <div className="card-flip-container">
+          <div className="card-flip-container" onClick={() => handleClick(3)}>
             <div className="card-flip-inner">
               {/* Front of Card */}
               <div className="card-front">
@@ -2581,9 +2600,9 @@ const FinancialPlanInterface: React.FC = () => {
                 { img: "personalbudget.png", text: "Personalized Budgeting Plan" },
                 { img: "discplan.png", text: "Disciplined Saving Planning (Fydaa SIP)" },
                 { img: "Financialhealth.png", text: "Financial Health Checkup" },
-                { img: "Retirementplanning.png", text: "Retirement Planning" },
+                { img: "RetirementPlanning.png", text: "Retirement Planning" },
                 { img: "Insurance.png", text: "Insurance" },
-                { img: "Educationalcontent.png", text: "Educational Content" },
+                { img: "EducationalContent.png", text: "Educational Content" },
               ]
             },
             {
@@ -2597,7 +2616,7 @@ const FinancialPlanInterface: React.FC = () => {
                 { img: "personalbudget.png", text: "Goals setup" },
                 { img: "Insurance.png", text: "Insurance" },
                 { img: "Financialhealth.png", text: "Financial Health Monitoring" },
-                { img: "Educationalcontent.png", text: "Educational Content" },
+                { img: "EducationalContent.png", text: "Educational Content" },
                
               ]
             },
@@ -2610,7 +2629,7 @@ const FinancialPlanInterface: React.FC = () => {
                 { img: "Financialhealth.png", text: "1:1 Financial Counselling" },
                 { img: "personalbudget.png", text: "Smart Budgeting" },
                 { img: "expensemanagement.png", text: "Expense-Saving Balance" },
-                { img: "Educationalcontent.png", text: "Educational Content" },  
+                { img: "EducationalContent.png", text: "Educational Content" },  
               ]
             }
           ];
