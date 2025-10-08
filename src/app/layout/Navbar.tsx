@@ -150,26 +150,26 @@ const Navbar: React.FC = () => {
                   {item === "Short Term" ? (
                     <button
                       onClick={() => handleClick("short-term")}
-                      className="text-[#484848] hover:text-black text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap bg-transparent border-0 p-0 cursor-pointer"
+                      className="text-black hover:text-[#484848] text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap bg-transparent border-0 p-0 cursor-pointer"
                     >
                       {item}
                     </button>
                   ) : item === "Medium Term" ? (
                     <button
                       onClick={() => handleClick("medium-term")}
-                      className="text-[#484848] hover:text-black text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap bg-transparent border-0 p-0 cursor-pointer"
+                      className="text-black hover:text-[#484848] text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap bg-transparent border-0 p-0 cursor-pointer"
                     >
                       {item}
                     </button>
                   ) : item === "Long Term" ? (
                     <button
                       onClick={() => handleClick("long-term")}
-                      className="text-[#484848] hover:text-black text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap bg-transparent border-0 p-0 cursor-pointer"
+                      className="text-black hover:text-[#484848] text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap bg-transparent border-0 p-0 cursor-pointer"
                     >
                       {item}
                     </button>
                   ) : (
-                    <span className="text-[#484848] hover:text-black text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap">
+                    <span className="text-black hover:text-[#484848]  text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap">
                       {item}
                     </span>
                   )}
@@ -206,7 +206,7 @@ const Navbar: React.FC = () => {
                         ? "/resource/Emergencyfund"
                         : "#"
                     }
-                    className="text-[#484848] hover:text-black text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap"
+                    className="text-black hover:text-[#484848]  text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap"
                   >
                     {item}
                   </a>
@@ -238,14 +238,14 @@ const Navbar: React.FC = () => {
                           e.preventDefault();
                           handleClick(targetId);
                         }}
-                        className="text-[#484848] hover:text-black text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap cursor-pointer bg-transparent border-0 p-0"
+                        className="text-black hover:text-[#484848]  text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap cursor-pointer bg-transparent border-0 p-0"
                       >
                         {item}
                       </button>
                     ) : (
                       <a
                         href="#"
-                        className="text-[#484848] hover:text-black text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap"
+                        className="text-black hover:text-[#484848]  text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block transition-colors duration-200 whitespace-nowrap"
                       >
                         {item}
                       </a>
@@ -268,7 +268,7 @@ const Navbar: React.FC = () => {
               <li key={item}>
                 <Link
                   href="/"
-                  className="text-[#484848] hover:text-black hover:bg-gray-100/20 text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg transition-all duration-200 whitespace-nowrap"
+                  className="text-black hover:text-[#484848]  hover:bg-gray-100/20 text-[10px] sm:text-[11px] md:text-[12px] font-medium font-inter block py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg transition-all duration-200 whitespace-nowrap"
                 >
                   {item}
                 </Link>
