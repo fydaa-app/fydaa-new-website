@@ -139,7 +139,52 @@ const TestimonialPage: React.FC = () => {
   const handleVideoPause = () => setIsVideoPlaying(false);
 
   return (
-    <div className="bg-[#000000]  rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] 2xl:rounded-[64px] overflow-hidden">
+    <div className="relative bg-[#000000]  rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] 2xl:rounded-[64px] overflow-hidden">
+      {/* Mobile Gradient - positioned left of title */}
+<div className="absolute left-0 top-10 w-[150px] h-[100px] -translate-x-1/2 z-20 block sm:hidden">
+  <img
+    src="/FinancialPlan/Gradient.png"
+    alt="Decorative gradient"
+    className="w-full h-full object-cover opacity-60"
+  />
+</div>
+
+{/* Mobile Gradient - positioned right of title */}
+<div className="absolute right-0 top-20 w-[150px] h-[100px] translate-x-1/2 z-20 block sm:hidden">
+  <img
+    src="/FinancialPlan/Gradient.png"
+    alt="Decorative gradient"
+    className="w-full h-full object-cover opacity-60"
+  />
+</div>
+
+{/* Desktop Gradient Image - positioned left of title */}
+<div className="absolute left-0 top-10 sm:top-16 md:top-20 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[850px] lg:h-[600px] -translate-x-1/2 z-20 hidden sm:block">
+  <img
+    src="/FinancialPlan/Gradient.png"
+    alt="Decorative gradient"
+    className="w-full h-full object-cover"
+  />
+</div>
+
+{/* Desktop Gradient Image - positioned right of title */}
+<div className="absolute right-0 top-20 sm:top-32 md:top-48 lg:top-96 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[950px] lg:h-[800px] translate-x-1/2 z-20 hidden sm:block">
+  <img
+    src="/FinancialPlan/Gradient.png"
+    alt="Decorative gradient"
+    className="w-full h-full object-cover"
+  />
+</div>
+
+{/* Gradient positioned left of the Wealth Growth Plan card */}
+<div className="absolute left-[-253px] top-[900px] w-[800px] h-[950px] -rotate-[100deg] z-30 hidden sm:block">
+  <img
+    src="/FinancialPlan/Gradient.png"
+    alt="Decorative gradient"
+    className="w-full h-full object-cover opacity-70"
+  />
+</div>
+
       {/* Top Section: Real People, Real Progress */}
       <div className="bg-black pt-8 sm:pt-12 md:pt-16 lg:pt-20 xl:pt-24 2xl:pt-28 pb-8 sm:pb-12 md:pb-14 lg:pb-16 xl:pb-18 2xl:pb-20 px-4 sm:px-6 md:px-8 lg:px-8 xl:px-10 2xl:px-12">
         <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-6xl xl:max-w-7xl 2xl:max-w-8xl mx-auto text-center">
