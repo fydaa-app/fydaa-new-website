@@ -190,7 +190,7 @@ export default function Dreams() {
   }, [isLottieLoaded]);
 
   return (
-    <div className="bg-white relative my-5 sm:my-6 md:my-7 lg:my-8 xl:my-9 2xl:my-10">
+    <div className="bg-[#F7F7F7] relative my-5 sm:my-6 md:my-7 lg:my-8 xl:my-9 2xl:my-10">
       {/* Header */}
       <header className="relative z-30 px-4 sm:px-6 pt-12 sm:pt-16 pb-6 sm:pb-8">
         <div className="max-w-4xl mx-auto text-center">
