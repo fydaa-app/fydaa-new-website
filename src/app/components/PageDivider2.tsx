@@ -89,7 +89,7 @@ const PageDivider2: React.FC = () => {
       />
       
       {/* Mouse-following hover gradient effect */}
-      {isHovering && (
+      {/* {isHovering && (
         <div 
           className="absolute pointer-events-none transition-opacity duration-200"
           style={{
@@ -111,7 +111,7 @@ const PageDivider2: React.FC = () => {
             }}
           />
         </div>
-      )}
+      )} */}
       
       <div className="w-full max-w-7xl mx-auto">
         {/* Content with animations */}
