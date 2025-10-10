@@ -91,7 +91,7 @@ const Fydaaexperience = () => {
   return (
     <div
       ref={sectionRef}
-      className="bg-white w-full pb-8 sm:pb-12 md:pb-16 lg:pb-20 h-auto flex flex-col items-center pt-12 sm:pt-16 md:pt-20 lg:pt-28 mb-8 sm:mb-12 md:mb-16"
+      className="bg-[#F7F7F7] w-full pb-8 sm:pb-12 md:pb-16 lg:pb-20 h-auto flex flex-col items-center pt-12 sm:pt-16 md:pt-20 lg:pt-28 mb-8 sm:mb-12 md:mb-16"
     >
       <h1 className="text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-semibold font-['Gilroy'] text-center px-4 sm:px-6 md:px-8">
         The Fydaa Experience
@@ -103,7 +103,7 @@ const Fydaaexperience = () => {
       {/* Main Content Section */}
       <div className="flex flex-col md:flex-row items-center justify-center md:justify-between w-full max-w-xs sm:max-w-md md:max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 mt-8 sm:mt-12 md:mt-16 lg:mt-20 space-y-8 md:space-y-0 md:gap-8 lg:gap-12">
         {/* Left Side - Mobile Device with Video */}
-        <div className="w-[185px] h-[382px] sm:w-[205px] sm:h-[422px] md:w-[225px] md:h-[462px] lg:w-[251px] lg:h-[504px] bg-black rounded-[20px] sm:rounded-[25px] md:rounded-[30px] lg:rounded-[39px] order-1 md:order-1 lg:order-1 md:ml-24 lg:ml-28 xl:ml-40 overflow-hidden">
+        <div className="w-[185px] h-[382px] sm:w-[205px] sm:h-[422px] md:w-[225px] md:h-[462px] lg:w-[251px] lg:h-[504px] bg-black rounded-[20px] sm:rounded-[25px] md:rounded-[30px] lg:rounded-[39px] order-1 md:order-1 lg:order-1 md:ml-24 lg:ml-28 xl:ml-40 ">
           <video
             ref={videoRef}
             muted

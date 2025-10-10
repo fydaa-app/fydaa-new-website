@@ -2,7 +2,7 @@ import React from "react";
 
 const AdvisoryFydaa: React.FC = () => {
   return (
-    <div className="w-full pb-8 sm:pb-12 md:pb-16 lg:pb-20 xl:pb-24 2xl:pb-28 relative bg-white overflow-visible">
+    <div className="w-full pb-8 sm:pb-12 md:pb-16 lg:pb-20 xl:pb-24 2xl:pb-28 relative bg-[#F7F7F7] overflow-visible">
       {/* Left Top Gradient */}
       <img
         src="/advisory/leftgradient.png"
