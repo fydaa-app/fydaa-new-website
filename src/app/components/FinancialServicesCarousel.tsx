@@ -40,7 +40,7 @@ const FinancialServicesCarousel = () => {
         "Consolidation options for multiple loans",
         "Monthly progress tracking",
       ],
-      path: "/resource/DebtManagement&Refinancing",
+      path: "/resource/DebtManagement",
     },
     {
       title: "Emergency Fund Setup & Guidance",
