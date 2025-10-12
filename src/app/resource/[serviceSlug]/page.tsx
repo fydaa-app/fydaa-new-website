@@ -1,14 +1,14 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
-// import ServiceLayout from '@/components/services/ServiceLayout';
 import { servicesData } from '@/data/services';
 import type { Metadata } from 'next';
 import ServiceLayout from '@/app/resource/services/ServiceLayout';
 
+// ✅ Update: params is now a Promise
 interface ServicePageProps {
-  params: {
+  params: Promise<{
     serviceSlug: string;
-  };
+  }>;
 }
 
 // Generate static paths for all services at build time
@@ -18,8 +18,9 @@ export async function generateStaticParams() {
   }));
 }
 
-// Generate metadata for SEO
-export async function generateMetadata({ params }: ServicePageProps): Promise<Metadata> {
+// ✅ Update: await params before accessing properties
+export async function generateMetadata(props: ServicePageProps): Promise<Metadata> {
+  const params = await props.params; // Await the params Promise
   const serviceData = servicesData[params.serviceSlug];
 
   if (!serviceData) {
@@ -34,7 +35,9 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
   };
 }
 
-export default function ServicePage({ params }: ServicePageProps) {
+// ✅ Update: Make component async and await params
+export default async function ServicePage(props: ServicePageProps) {
+  const params = await props.params; // Await the params Promise
   const serviceData = servicesData[params.serviceSlug];
 
   if (!serviceData) {
