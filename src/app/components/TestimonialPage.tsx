@@ -10,6 +10,7 @@ const TestimonialPage: React.FC = () => {
   );
   const inflationTextRef = useRef<HTMLDivElement>(null);
   const typewriterIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const testimonials = [
     {
@@ -52,6 +53,10 @@ const TestimonialPage: React.FC = () => {
 
     detectDevice();
   }, []);
+
+  useEffect(() => {
+    setIsExpanded(false);
+  }, [currentTestimonial]);
 
   // Handler for download app button
   const handleDownloadApp = () => {
@@ -141,49 +146,49 @@ const TestimonialPage: React.FC = () => {
   return (
     <div className="relative bg-[#000000]  rounded-[20px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[48px] xl:rounded-[56px] 2xl:rounded-[64px] overflow-hidden">
       {/* Mobile Gradient - positioned left of title */}
-<div className="absolute left-0 top-10 w-[150px] h-[100px] -translate-x-1/2 z-20 block sm:hidden">
-  <img
-    src="/FinancialPlan/Gradient.png"
-    alt="Decorative gradient"
-    className="w-full h-full object-cover opacity-60"
-  />
-</div>
+      <div className="absolute left-0 top-10 w-[150px] h-[100px] -translate-x-1/2 z-20 block sm:hidden">
+        <img
+          src="/FinancialPlan/Gradient.png"
+          alt="Decorative gradient"
+          className="w-full h-full object-cover opacity-60"
+        />
+      </div>
 
-{/* Mobile Gradient - positioned right of title */}
-<div className="absolute right-0 top-20 w-[150px] h-[100px] translate-x-1/2 z-20 block sm:hidden">
-  <img
-    src="/FinancialPlan/Gradient.png"
-    alt="Decorative gradient"
-    className="w-full h-full object-cover opacity-60"
-  />
-</div>
+      {/* Mobile Gradient - positioned right of title */}
+      <div className="absolute right-0 top-20 w-[150px] h-[100px] translate-x-1/2 z-20 block sm:hidden">
+        <img
+          src="/FinancialPlan/Gradient.png"
+          alt="Decorative gradient"
+          className="w-full h-full object-cover opacity-60"
+        />
+      </div>
 
-{/* Desktop Gradient Image - positioned left of title */}
-<div className="absolute left-0 top-10 sm:top-16 md:top-20 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[850px] lg:h-[600px] -translate-x-1/2 z-20 hidden sm:block">
-  <img
-    src="/FinancialPlan/Gradient.png"
-    alt="Decorative gradient"
-    className="w-full h-full object-cover"
-  />
-</div>
+      {/* Desktop Gradient Image - positioned left of title */}
+      <div className="absolute left-0 top-10 sm:top-16 md:top-20 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[850px] lg:h-[600px] -translate-x-1/2 z-20 hidden sm:block">
+        <img
+          src="/FinancialPlan/Gradient.png"
+          alt="Decorative gradient"
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-{/* Desktop Gradient Image - positioned right of title */}
-<div className="absolute right-0 top-20 sm:top-32 md:top-48 lg:top-96 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[950px] lg:h-[800px] translate-x-1/2 z-20 hidden sm:block">
-  <img
-    src="/FinancialPlan/Gradient.png"
-    alt="Decorative gradient"
-    className="w-full h-full object-cover"
-  />
-</div>
+      {/* Desktop Gradient Image - positioned right of title */}
+      <div className="absolute right-0 top-20 sm:top-32 md:top-48 lg:top-96 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[950px] lg:h-[800px] translate-x-1/2 z-20 hidden sm:block">
+        <img
+          src="/FinancialPlan/Gradient.png"
+          alt="Decorative gradient"
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-{/* Gradient positioned left of the Wealth Growth Plan card */}
-<div className="absolute left-[-253px] top-[900px] w-[800px] h-[950px] -rotate-[100deg] z-30 hidden sm:block">
-  <img
-    src="/FinancialPlan/Gradient.png"
-    alt="Decorative gradient"
-    className="w-full h-full object-cover opacity-70"
-  />
-</div>
+      {/* Gradient positioned left of the Wealth Growth Plan card */}
+      <div className="absolute left-[-253px] top-[900px] w-[800px] h-[950px] -rotate-[100deg] z-30 hidden sm:block">
+        <img
+          src="/FinancialPlan/Gradient.png"
+          alt="Decorative gradient"
+          className="w-full h-full object-cover opacity-70"
+        />
+      </div>
 
       {/* Top Section: Real People, Real Progress */}
       <div className="bg-black pt-8 sm:pt-12 md:pt-16 lg:pt-20 xl:pt-24 2xl:pt-28 pb-8 sm:pb-12 md:pb-14 lg:pb-16 xl:pb-18 2xl:pb-20 px-4 sm:px-6 md:px-8 lg:px-8 xl:px-10 2xl:px-12">
@@ -195,6 +200,7 @@ const TestimonialPage: React.FC = () => {
           {/* Navigation Arrows and Testimonial Content */}
           <div className="flex flex-col lg:flex-row justify-between items-center mb-8 sm:mb-10 md:mb-12 lg:mb-24 xl:mb-28 2xl:mb-32 gap-6 sm:gap-8 md:gap-10 lg:gap-0">
             {/* Mobile Layout - Different order */}
+
             <div className="flex flex-col lg:hidden items-center gap-6 sm:gap-8 w-full">
               {/* Video */}
               <div className="w-full max-w-[280px] sm:max-w-[320px] h-[280px] sm:h-[350px] bg-gray-600 rounded-2xl flex-shrink-0 flex items-center justify-center overflow-hidden relative">
@@ -211,7 +217,6 @@ const TestimonialPage: React.FC = () => {
                       onPause={handleVideoPause}
                     />
 
-                    {/* Transparent Click Overlay - Always Present */}
                     {/* Transparent Click Overlay - Only Render on Desktop */}
                     {deviceType === "desktop" && (
                       <div
@@ -253,63 +258,9 @@ const TestimonialPage: React.FC = () => {
                 )}
               </div>
 
-              {/* Testimonial Card */}
-              <div className="w-full max-w-[500px] sm:max-w-[550px] h-[280px] sm:h-[320px] relative">
-                <div
-                  className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)",
-                  }}
-                >
-                  {/* Stroke/Border Effect */}
-                  <div
-                    className="absolute inset-0 rounded-[56px] pointer-events-none"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, #FFFFFF 0%, #0E0E0E 65%)",
-                      padding: "2px",
-                      mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                      maskComposite: "xor",
-                      WebkitMaskComposite: "xor",
-                    }}
-                  />
-
-                  <div className="flex flex-col items-start space-y-4 sm:space-y-6 relative z-10">
-                    <div className="relative w-full">
-                      <span className="text-white text-2xl sm:text-3xl absolute -top-1 sm:-top-2 left-0">
-                        "
-                      </span>
-                      <p className="text-white text-sm sm:text-base font-normal leading-relaxed font-['Gilroy'] pl-6 sm:pl-8 pr-2 sm:pr-4">
-                        {testimonials[currentTestimonial].text}
-                      </p>
-                      <span className="text-white text-2xl sm:text-3xl absolute bottom-0 right-0">
-                        "
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Name */}
-              <div className="text-center">
-                <h3
-                  className="text-xl sm:text-2xl font-semibold font-['Gilroy']"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, #A8A8A8 20%, #FFFFFF 81%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    color: "transparent",
-                  }}
-                >
-                  {testimonials[currentTestimonial].name}
-                </h3>
-              </div>
-
-              {/* Navigation Arrows */}
-              <div className="flex items-center justify-center gap-8">
+              {/* Testimonial Card + Navigation Arrows - Wrapped together */}
+              <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 w-full">
+                {/* Left Arrow */}
                 <button
                   onClick={prevTestimonial}
                   className="text-white hover:text-gray-300 transition-colors duration-200"
@@ -328,6 +279,66 @@ const TestimonialPage: React.FC = () => {
                     />
                   </svg>
                 </button>
+
+                {/* Testimonial Card - Dynamic Height */}
+                <div
+                  className={`w-full max-w-[500px] sm:max-w-[550px] ${
+                    isExpanded
+                      ? "min-h-[280px] sm:min-h-[320px]"
+                      : "h-[280px] sm:h-[320px]"
+                  } relative transition-all duration-300`}
+                >
+                  <div
+                    className="w-full h-full bg-gradient-to-br from-gray-800/30 via-gray-900/20 to-black/40 backdrop-blur-xl rounded-[56px] p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, rgba(181, 164, 249, 0.4) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)",
+                    }}
+                  >
+                    {/* Stroke/Border Effect */}
+                    <div
+                      className="absolute inset-0 rounded-[56px] pointer-events-none"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #FFFFFF 0%, #0E0E0E 65%)",
+                        padding: "2px",
+                        mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                        maskComposite: "xor",
+                        WebkitMaskComposite: "xor",
+                      }}
+                    />
+
+                    <div className="flex flex-col items-start space-y-4 sm:space-y-6 relative z-10">
+                      <div className="relative w-full">
+                        <span className="text-white text-2xl sm:text-3xl absolute -top-1 sm:-top-2 left-0">
+                          "
+                        </span>
+                        <p
+                          className={`text-white text-sm sm:text-base font-normal leading-relaxed font-['Gilroy'] pl-6 sm:pl-8 pr-2 sm:pr-4 ${
+                            !isExpanded ? "line-clamp-6" : ""
+                          }`}
+                        >
+                          {testimonials[currentTestimonial].text}
+                        </p>
+                        <span className="text-white text-2xl sm:text-3xl absolute bottom-0 right-0">
+                          "
+                        </span>
+                      </div>
+
+                      {/* Read More / Read Less Button */}
+                      {testimonials[currentTestimonial].text.length > 200 && (
+                        <button
+                          onClick={() => setIsExpanded(!isExpanded)}
+                          className="text-purple-400 hover:text-purple-300 text-xs sm:text-sm font-medium transition-colors duration-200 self-start pl-6 sm:pl-8"
+                        >
+                          {isExpanded ? "Read less" : "Read more"}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Arrow */}
                 <button
                   onClick={nextTestimonial}
                   className="text-white hover:text-gray-300 transition-colors duration-200"
@@ -346,6 +357,23 @@ const TestimonialPage: React.FC = () => {
                     />
                   </svg>
                 </button>
+              </div>
+
+              {/* Name */}
+              <div className="text-center">
+                <h3
+                  className="text-xl sm:text-2xl font-semibold font-['Gilroy']"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #A8A8A8 20%, #FFFFFF 81%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    color: "transparent",
+                  }}
+                >
+                  {testimonials[currentTestimonial].name}
+                </h3>
               </div>
             </div>
 

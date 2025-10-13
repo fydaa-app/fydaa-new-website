@@ -16,7 +16,7 @@ const FounderSection: React.FC = () => {
           <img
             src="/about-us/oval.png"
             alt="Blue Circle"
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[95vw] h-[220px] sm:h-[440px] md:h-[660px] lg:h-[880px] xl:h-[880px] 2xl:h-[880px] scale-[1.5] sm:scale-150 z-10"
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[70vw] h-[220px] sm:h-[440px] md:h-[660px] lg:h-[880px] xl:h-[880px] 2xl:h-[880px] scale-[1.5] sm:scale-150 z-10"
           />
           
           {/* Square image - background layer */}
