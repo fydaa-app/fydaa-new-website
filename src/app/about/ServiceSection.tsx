@@ -68,25 +68,32 @@ const ServiceSection: React.FC = () => {
             <div
               key={service.id}
               className={`
-          bg-[#F7F7F7] 
-          flex 
-          flex-col 
-          items-start 
-          justify-start 
-          px-8 
-          pt-16
-          pb-12 
-          ${(index + 1) % 2 !== 0 ? "border-r border-[#217AA7]/20" : ""} 
-          ${
-            (index + 1) % 3 !== 0
-              ? "md:border-r md:border-[#217AA7]/20"
-              : "md:border-r-0"
-          } 
-          ${index < 6 ? "border-b border-[#217AA7]/20" : ""}
-        `}
+    bg-[#F7F7F7] 
+    flex 
+    flex-col 
+    items-start 
+    justify-start 
+    px-4
+    sm:px-6
+    md:px-8 
+    pt-12
+    sm:pt-14
+    md:pt-16
+    pb-12 
+    min-h-[240px]
+    sm:min-h-[260px]
+    md:min-h-[280px]
+    ${(index + 1) % 2 !== 0 ? "border-r border-[#217AA7]/20" : ""} 
+    ${
+      (index + 1) % 3 !== 0
+        ? "md:border-r md:border-[#217AA7]/20"
+        : "md:border-r-0"
+    } 
+    ${index < 6 ? "border-b border-[#217AA7]/20" : ""}
+  `}
             >
               {/* Service Icon */}
-              <div className="h-[96px] flex items-center mb-6">
+              <div className="h-[80px] sm:h-[88px] md:h-[96px] flex items-center mb-4 sm:mb-5 md:mb-6">
                 <img
                   src={service.icon}
                   alt={service.title}
@@ -95,11 +102,8 @@ const ServiceSection: React.FC = () => {
               </div>
 
               {/* Service Title */}
-              <div
-                className="flex flex-col"
-                style={{ minHeight: "3.5rem" /* approx 2 lines of text */ }}
-              >
-                <h3 className="font-inter font-normal text-lg sm:text-xl md:text-2xl leading-7 sm:leading-8 md:leading-[31.68px] tracking-wide text-[#1D2939] text-left">
+              <div className="flex flex-col flex-grow">
+                <h3 className="font-inter font-normal text-base sm:text-lg md:text-xl lg:text-2xl leading-6 sm:leading-7 md:leading-8 lg:leading-[31.68px] tracking-normal sm:tracking-wide text-[#1D2939] text-left">
                   {service.title}
                 </h3>
               </div>

@@ -3,20 +3,39 @@ import React, { useState, useEffect } from "react";
 
 const MissionSection: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
   const images = [
     "/about-us/pie1.png",
     "/about-us/pie2.png",
     "/about-us/pie3.png",
   ];
 
+  // Preload all images
   useEffect(() => {
+    const imagePromises = images.map((src) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = resolve;
+        img.onerror = reject;
+      });
+    });
+
+    Promise.all(imagePromises)
+      .then(() => setIsLoaded(true))
+      .catch((err) => console.error("Failed to preload images", err));
+  }, []);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) =>
         prev === images.length - 1 ? 0 : prev + 1
       );
     }, 5000);
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, [images.length, isLoaded]);
 
   const handleClick = () => {
     window.open("https://cal.com/fydaa-backend-zr5zm3/30min", "_blank");
@@ -24,7 +43,7 @@ const MissionSection: React.FC = () => {
 
   return (
     <main className="w-full h-full m-0 p-0 relative ">
-      <section className="relative bg-[#F7F7F7] pt-16 pb-28 sm:pt-20 sm:pb-36 md:pt-24 md:pb-40 lg:pt-28 lg:pb-48 xl:pt-32 xl:pb-56 2xl:pt-40 2xl:pb-72 3xl:pt-48 3xl:pb-80 px-5 overflow-hidden">
+      <section className="relative bg-[#F7F7F7] pt-16 pb-36 sm:pt-20 sm:pb-44 md:pt-24 md:pb-52 lg:pt-28 lg:pb-60 xl:pt-32 xl:pb-72 2xl:pt-40 2xl:pb-80 3xl:pt-48 3xl:pb-96 px-5 overflow-hidden">
         {/* Gradient Background Full Width Full Height */}
         <div className="absolute -top-[300px] -left-8 -right-8 z-10 flex gap-0">
           <img
@@ -41,25 +60,37 @@ const MissionSection: React.FC = () => {
 
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-8">
           {/* Left side: Pie image only on md+ */}
-          <div className="hidden md:flex md:w-1/2 justify-center">
-            <img
-              src={images[currentImageIndex]}
-              alt={`Pie Chart ${currentImageIndex + 1}`}
-              className="max-w-full max-h-[600px] object-contain"
-              key={currentImageIndex}
-            />
+          <div className="hidden md:flex md:w-1/2 justify-center relative">
+            {images.map((src, index) => (
+              <img
+                key={index}
+                src={src}
+                alt={`Pie Chart ${index + 1}`}
+                className="absolute max-w-full max-h-[600px] object-contain transition-opacity duration-1000 ease-in-out"
+                style={{
+                  opacity: currentImageIndex === index ? 1 : 0,
+                  pointerEvents: currentImageIndex === index ? "auto" : "none",
+                }}
+              />
+            ))}
           </div>
 
           {/* Right side: Text and on mobile the image above text */}
           <div className="w-full md:w-1/2 relative">
             {/* Image above text on mobile only */}
-            <div className="block md:hidden mb-6 w-full flex justify-center">
-              <img
-                src={images[currentImageIndex]}
-                alt={`Pie Chart ${currentImageIndex + 1}`}
-                className="max-w-[400px] w-full object-contain"
-                key={`mobile-${currentImageIndex}`}
-              />
+            <div className="block md:hidden mb-6 w-full flex justify-center relative min-h-[300px]">
+              {images.map((src, index) => (
+                <img
+                  key={`mobile-${index}`}
+                  src={src}
+                  alt={`Pie Chart ${index + 1}`}
+                  className="absolute max-w-[400px] w-full object-contain transition-opacity duration-1000 ease-in-out"
+                  style={{
+                    opacity: currentImageIndex === index ? 1 : 0,
+                    pointerEvents: currentImageIndex === index ? "auto" : "none",
+                  }}
+                />
+              ))}
             </div>
 
             <h1
