@@ -261,16 +261,61 @@ export default function Dreams() {
               </p>
               <p className="text-gray-700 mb-4 sm:mb-4 leading-relaxed text-xs sm:text-xs md:text-base lg:text-xl xl:text-xl 2xl:text-2xl font-inter">
                 We help you plan for your car, wedding, or that solo trip
-                without falling into high-interest EMIs. With Fydaa, you set
-                the goal, build a plan, and reach it on your terms.
+                without falling into high-interest EMIs. With Fydaa, you set the
+                goal, build a plan, and reach it on your terms.
               </p>
               <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
-                <button 
+                {/* <button
                   className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]"
-                  onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}
+                  onClick={() =>
+                    window.open(
+                      "https://cal.com/fydaa-backend-zr5zm3/30min",
+                      "_blank"
+                    )
+                  }
                 >
                   Start Planning
+                </button> */}
+                {/* Book a Free Call Button */}
+
+                <button
+                  className="px-4 py-2 sm:px-6 sm:py-2 bg-black text-white font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
+                  onClick={() =>
+                    window.open(
+                      "https://cal.com/fydaa-backend-zr5zm3/30min",
+                      "_blank"
+                    )
+                  }
+                >
+                  Book a Free Call
                 </button>
+
+                {/* Chat on WhatsApp Link */}
+                <div
+                  className="flex items-center space-x-2 group cursor-pointer pointer-events-auto"
+                  onClick={() => {
+                    window.open("https://wa.me/9136935300", "_blank");
+                  }}
+                >
+                  <span className="text-black font-medium text-[14px] sm:text-[16px] font-['Inter'] hover:text-gray-700 transition-colors duration-300">
+                    Chat on WhatsApp
+                  </span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="text-black sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300"
+                  >
+                    <path
+                      d="M5 12H19M19 12L12 5M19 12L12 19"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
 
@@ -294,12 +339,53 @@ export default function Dreams() {
                 action beats last-minute panic.
               </p>
               <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
-                <button 
+                {/*<button 
                   className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]"
                   onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}
                 >
                   Start Planning
+                </button> */}
+
+                {/* Book a Free Call Button */}
+
+                <button
+                  className="px-4 py-2 sm:px-6 sm:py-2 bg-black text-white font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
+                  onClick={() =>
+                    window.open(
+                      "https://cal.com/fydaa-backend-zr5zm3/30min",
+                      "_blank"
+                    )
+                  }
+                >
+                  Book a Free Call
                 </button>
+
+                {/* Chat on WhatsApp Link */}
+                <div
+                  className="flex items-center space-x-2 group cursor-pointer pointer-events-auto"
+                  onClick={() => {
+                    window.open("https://wa.me/9136935300", "_blank");
+                  }}
+                >
+                  <span className="text-black font-medium text-[14px] sm:text-[16px] font-['Inter'] hover:text-gray-700 transition-colors duration-300">
+                    Chat on WhatsApp
+                  </span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="text-black sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300"
+                  >
+                    <path
+                      d="M5 12H19M19 12L12 5M19 12L12 19"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
 
@@ -323,14 +409,58 @@ export default function Dreams() {
                 expert-backed plans for your goals and profile.
               </p>
               <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
-                <button 
+                {/* <button
                   className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]"
-                  onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}
+                  onClick={() =>
+                    window.open(
+                      "https://cal.com/fydaa-backend-zr5zm3/30min",
+                      "_blank"
+                    )
+                  }
                 >
                   Start Planning
-                </button>
-              </div>
+                </button> */}
+                {/* Book a Free Call Button */}
 
+                <button
+                  className="px-4 py-2 sm:px-6 sm:py-2 bg-black text-white font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
+                  onClick={() =>
+                    window.open(
+                      "https://cal.com/fydaa-backend-zr5zm3/30min",
+                      "_blank"
+                    )
+                  }
+                >
+                  Book a Free Call
+                </button>
+
+                {/* Chat on WhatsApp Link */}
+                <div
+                  className="flex items-center space-x-2 group cursor-pointer pointer-events-auto"
+                  onClick={() => {
+                    window.open("https://wa.me/9136935300", "_blank");
+                  }}
+                >
+                  <span className="text-black font-medium text-[14px] sm:text-[16px] font-['Inter'] hover:text-gray-700 transition-colors duration-300">
+                    Chat on WhatsApp
+                  </span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="text-black sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300"
+                  >
+                    <path
+                      d="M5 12H19M19 12L12 5M19 12L12 19"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
         </div>
