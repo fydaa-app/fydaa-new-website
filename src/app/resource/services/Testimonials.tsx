@@ -11,6 +11,8 @@ const Testimonials: React.FC<TestimonialsProps> = ({ testimonials }) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const sliderRef = useRef<HTMLDivElement | null>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   // Detect screen size
   useEffect(() => {
@@ -56,6 +58,30 @@ const Testimonials: React.FC<TestimonialsProps> = ({ testimonials }) => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setCurrentIndex((prev) => prev - 1);
+  };
+
+  // Touch event handlers for swipe functionality
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      handleNext();
+    } else if (isRightSwipe) {
+      handlePrevious();
+    }
   };
 
   // Render star rating
@@ -213,6 +239,9 @@ const Testimonials: React.FC<TestimonialsProps> = ({ testimonials }) => {
                 transform: `translateX(-${currentIndex * (isMobile ? 100 : 50)}%)`,
               }}
               onTransitionEnd={handleTransitionEnd}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
               {extendedTestimonials.map((testimonial, index) =>
                 renderTestimonialCard(testimonial, index)

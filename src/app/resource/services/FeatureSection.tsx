@@ -25,18 +25,18 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({ data }) => {
               </h1>
 
               {/* Mobile Image - Shows below h1 on mobile only */}
-              <div className="lg:hidden flex justify-center my-8">
-                <div className="w-96 h-[700px]">
+              <div className="lg:hidden flex justify-center my-4">
+                <div className="w-64 h-[350px] sm:w-80 sm:h-[450px]">
                   <img
                     src="/resource/app.png"
                     alt="Mobile App"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
               </div>
 
               {/* Numbered Feature List */}
-              <div className="space-y-6 sm:space-y-8 md:space-y-9 lg:space-y-10 xl:space-y-12 2xl:space-y-14 3xl:space-y-16">
+              <div className="space-y-6 sm:space-y-8 md:space-y-9 lg:space-y-10 xl:space-y-12 2xl:space-y-14 3xl:space-y-16 pl-4 sm:pl-0">
                 {data.steps.map((step) => (
                   <div
                     key={step.number}
@@ -73,7 +73,7 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({ data }) => {
       </section>
 
       {/* Bottom Section - Light Background */}
-      <section className="bg-white text-black py-8 sm:py-10 md:py-12 lg:py-14 xl:py-16 2xl:py-20 3xl:py-24 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 3xl:px-20 relative">
+      <section className="bg-white text-black z-40 py-8 sm:py-10 md:py-12 lg:py-14 xl:py-16 2xl:py-20 3xl:py-24 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 3xl:px-20 relative -mt-1">
         <div className="max-w-full mx-auto">
           <h2 className="text-[26px] sm:text-[30px] md:text-[34px] lg:text-[39px] xl:text-[44px] 2xl:text-[52px] 3xl:text-[60px] font-['Gilroy'] font-bold text-center pb-8 sm:pb-10 md:pb-12 lg:pb-14 xl:pb-16 2xl:pb-20 3xl:pb-24 ">
             {data.bottomSection.heading}
