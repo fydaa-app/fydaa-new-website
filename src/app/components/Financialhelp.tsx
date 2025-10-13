@@ -375,7 +375,7 @@ const FinancialPlanInterface: React.FC = () => {
       </div>
 
       {/* Pagination Dots */}
-      <div className="flex justify-center space-x-3 mt-8">
+      <div className="flex justify-center space-x-3 mt-8 mb-6 sm:mb-8">
         {[0, 1, 2].map((index) => (
           <button
             key={index}
