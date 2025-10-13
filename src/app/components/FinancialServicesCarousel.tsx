@@ -134,7 +134,7 @@ const FinancialServicesCarousel = () => {
   const renderCard = (service: ServiceFeature, index: number) => (
     <div
       key={index}
-      className="w-[250px] h-[300px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer"
+      className="w-[250px] h-[290px] sm:w-[320px] sm:h-[360px] md:w-[360px] md:h-[400px] lg:w-80 lg:h-[425px] relative flex-shrink-0 cursor-pointer"
     >
       <div
         className={`card-flip-container ${
@@ -164,8 +164,8 @@ const FinancialServicesCarousel = () => {
                 }}
               />
 
-              <div className="flex flex-col items-start space-y-8 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
-                <div className="w-[50px] h-[60px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
+              <div className="flex flex-col items-start space-y-10 sm:space-y-12 md:space-y-14 lg:space-y-16 relative z-10">
+                <div className="w-[65px] h-[75px] sm:w-[70px] sm:h-[85px] md:w-[75px] md:h-[90px] lg:w-[80px] lg:h-[100px] relative mt-2 sm:mt-3 md:mt-4">
                   <img
                     src={service.icon}
                     alt={`${service.title} icon`}

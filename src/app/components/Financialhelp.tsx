@@ -6,9 +6,35 @@ import FinancialServicesCarousel from "./FinancialServicesCarousel";
 
 const FinancialPlanInterface: React.FC = () => {
   const [currentCard, setCurrentCard] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  // Touch event handlers for swipe functionality
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      setCurrentCard((prev) => (prev === 2 ? 0 : prev + 1));
+    } else if (isRightSwipe) {
+      setCurrentCard((prev) => (prev === 0 ? 2 : prev - 1));
+    }
+  };
 
   return (
-    <div className="p-2 sm:p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12 bg-black flex flex-col items-center justify-start min-h-[1400px] sm:min-h-[1800px] md:min-h-[2200px] lg:min-h-[2600px] mb-20 sm:mb-0 m-0 rounded-[16px] sm:rounded-[24px] md:rounded-[32px] lg:rounded-[40px] xl:rounded-[48px] 2xl:rounded-[56px] relative overflow-hidden">
+    <div className="p-2 sm:p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12 bg-black flex flex-col items-center justify-start min-h-[1400px] sm:min-h-[1800px] md:min-h-[2200px] lg:min-h-[2600px] mb-20 sm:mb-0 m-0 rounded-[16px] sm:rounded-[24px] md:rounded-[32px] lg:rounded-[40px] xl:rounded-[48px] 2xl:rounded-[56px] relative overflow-hidden z-50">
       {/* Mobile Gradient - positioned left of title */}
       <div className="absolute left-0 top-10 w-[150px] h-[100px] -translate-x-1/2 z-20 block sm:hidden">
         <img
@@ -45,7 +71,7 @@ const FinancialPlanInterface: React.FC = () => {
         />
       </div>
 
-      <div className="text-center mt-8 sm:mt-16 md:mt-20 lg:mt-28 relative z-10 px-4 sm:px-6 md:px-8">
+      <div className="text-center mt-8 sm:mt-16 md:mt-20 lg:mt-28 relative z-60 px-4 sm:px-6 md:px-8">
         <h1 className="text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-semibold text-white text-center font-['Gilroy'] leading-tight">
           One Hand for All Your Financial Help
         </h1>
@@ -56,10 +82,12 @@ const FinancialPlanInterface: React.FC = () => {
       </div>
 
       {/* Cards Container with Infinite Scroll Animation */}
-      <FinancialServicesCarousel />
+      <div className="relative z-60">
+        <FinancialServicesCarousel />
+      </div>
 
       {/* Action Buttons */}
-      <div className="flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8 mt-12 sm:mt-14 md:mt-16 px-4">
+      <div className="flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8 mt-12 sm:mt-14 md:mt-16 px-4 relative z-60">
         {/* Create Your Custom Plan Button */}
         {/* <button className="px-4 py-1.5 sm:px-5 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[13px] md:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
         onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}>
@@ -105,7 +133,7 @@ const FinancialPlanInterface: React.FC = () => {
       </div>
 
       {/* Text Section */}
-      <div className="text-center mt-16 sm:mt-24 md:mt-28 lg:mt-32 px-4 sm:px-6 md:px-8">
+      <div className="text-center mt-16 sm:mt-24 md:mt-28 lg:mt-32 px-4 sm:px-6 md:px-8 relative z-60">
         <h2 className="text-[28px] sm:text-[36px] md:text-[44px] lg:text-[52px] xl:text-[56px] font-semibold text-white font-['Gilroy'] leading-tight">
           Unsure About Your Needs?
         </h2>
@@ -261,6 +289,9 @@ const FinancialPlanInterface: React.FC = () => {
               <div
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentCard * 100}%)` }}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
               >
                 {cards.map((card, cardIndex) => (
                   <div
