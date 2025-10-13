@@ -46,8 +46,8 @@ const ServiceSection: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#F7F7F7] min-h-screen rounded-[56px] overflow-visible relative -mt-[56px] pb-52 z-40 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-48">
-      <div className="max-w-4xl mx-auto text-center pt-16 px-4 sm:px-0">
+    <div className="bg-[#F7F7F7] min-h-screen rounded-t-[24px] sm:rounded-t-[32px] md:rounded-t-[40px] lg:rounded-t-[56px] xl:rounded-t-[64px] 2xl:rounded-t-[72px] overflow-visible relative -mt-[56px] pb-52 z-40 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-48">
+      <div className="max-w-4xl mx-auto text-center pt-8 sm:pt-10 md:pt-12 lg:pt-14 xl:pt-16 2xl:pt-20 3xl:pt-24 px-4 sm:px-0">
         {/* Main Heading - Gilroy SemiBold */}
         <h1 className="font-gilroy-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[56px] leading-tight sm:leading-snug md:leading-normal lg:leading-[68px] tracking-normal text-[#000000] mb-8">
           Why Choose Fydaa?
