@@ -16,7 +16,8 @@ export interface ServiceData {
   };
   featureSection: {
     mainHeading: string;
-    mainHeadingItalic: string;
+    mainHeadingItalic?: string; // Make optional
+    mainHeadingRegular?: string; // Add new field for non-italic continuation
     steps: Array<{
       number: number;
       title: string;

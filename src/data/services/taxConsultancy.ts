@@ -24,7 +24,7 @@ export const taxConsultancyData: ServiceData = {
 
   featureSection: {
     mainHeading: "Smart Tax Planning in",
-    mainHeadingItalic: "5 Simple Steps",
+    mainHeadingRegular: "5 Simple Steps",
     steps: [
       {
         number: 1,

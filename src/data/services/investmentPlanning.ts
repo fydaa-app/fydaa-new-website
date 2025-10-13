@@ -24,7 +24,7 @@ export const investmentPlanningData: ServiceData = {
 
   featureSection: {
     mainHeading: "Smart Steps to Turn",
-    mainHeadingItalic: "Your Money into Wealth",
+    mainHeadingRegular: "Your Money into Wealth",
     steps: [
       {
         number: 1,

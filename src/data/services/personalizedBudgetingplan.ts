@@ -21,7 +21,7 @@ export const personalizedBudgetingData: ServiceData = {
   
   featureSection: {
     mainHeading: 'How Fydaa Creates Your',
-    mainHeadingItalic: 'Perfect Budget',
+    mainHeadingRegular: 'Perfect Budget',
     steps: [
       {
         number: 1,

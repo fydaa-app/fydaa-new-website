@@ -24,7 +24,7 @@ export const portfolioManagementData: ServiceData = {
 
   featureSection: {
     mainHeading: "Your Roadmap to a",
-    mainHeadingItalic: "Stronger, Safer Portfolio",
+    mainHeadingRegular: "Stronger, Safer Portfolio",
     steps: [
       {
         number: 1,

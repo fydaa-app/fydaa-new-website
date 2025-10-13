@@ -24,7 +24,7 @@ export const financialHealthCheckupData: ServiceData = {
 
   featureSection: {
     mainHeading: "Your Step-by-Step Path to",
-    mainHeadingItalic: "Better Financial Health",
+    mainHeadingRegular: "Better Financial Health",
     steps: [
       {
         number: 1,

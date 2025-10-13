@@ -16,9 +16,12 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({ data }) => {
             <div className="flex-1 max-w-[650px]">
               <h1 className="text-[28px] sm:text-[32px] md:text-[36px] lg:text-[42px] xl:text-[48px] 2xl:text-[56px] 3xl:text-[64px] font-['Gilroy'] font-bold leading-tight mb-8 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 2xl:mb-20 3xl:mb-24 ml-4 sm:ml-5 md:ml-6 lg:ml-7 xl:ml-8 2xl:ml-10 3xl:ml-12">
                 {data.mainHeading}{" "}
-                <span className="text-gray-400 font-normal italic">
-                  {data.mainHeadingItalic}
-                </span>{" "}
+                {data.mainHeadingItalic && (
+                  <span className="text-gray-400 font-normal italic">
+                    {data.mainHeadingItalic}
+                  </span>
+                )}{" "}
+                {data.mainHeadingRegular}
               </h1>
 
               {/* Mobile Image - Shows below h1 on mobile only */}

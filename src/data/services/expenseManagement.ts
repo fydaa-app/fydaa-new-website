@@ -21,7 +21,7 @@ export const expenseManagementData: ServiceData = {
   
   featureSection: {
     mainHeading: 'How We Help You Master',
-    mainHeadingItalic: 'Your Monthly Budget',
+    mainHeadingRegular: "Your Monthly Budget",
     steps: [
       {
         number: 1,
