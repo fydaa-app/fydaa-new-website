@@ -30,19 +30,6 @@ const FinancialServicesCarousel = () => {
       path: "/resource/InvestmentPlanning",
     },
     {
-      title: "Debt Management & Refinancing",
-      description:
-        "Pay off your liabilities smarter with expert-backed strategies tailored for your financial health.",
-      icon: "/FinancialPlan/debtmanagement.png",
-      features: [
-        "Personalized debt repayment roadmap",
-        "Refinance suggestions to reduce EMI burden",
-        "Consolidation options for multiple loans",
-        "Monthly progress tracking",
-      ],
-      path: "/resource/DebtManagement",
-    },
-    {
       title: "Emergency Fund Setup & Guidance",
       description:
         "Build a reliable financial cushion for emergencies, job loss, or medical needs.",
@@ -54,6 +41,19 @@ const FinancialServicesCarousel = () => {
         "Guidance on fund placement (FDs, liquid funds)",
       ],
       path: "/resource/Emergencyfund",
+    },
+    {
+      title: "Debt Management & Refinancing",
+      description:
+        "Pay off your liabilities smarter with expert-backed strategies tailored for your financial health.",
+      icon: "/FinancialPlan/debtmanagement.png",
+      features: [
+        "Personalized debt repayment roadmap",
+        "Refinance suggestions to reduce EMI burden",
+        "Consolidation options for multiple loans",
+        "Monthly progress tracking",
+      ],
+      path: "/resource/DebtManagement",
     },
     {
       title: "Expense Management",
@@ -93,19 +93,6 @@ const FinancialServicesCarousel = () => {
       path: "/resource/PersonalizedBudgetingplan",
     },
     {
-      title: "Portfolio Management",
-      description:
-        "Track, Optimize, and enhance your overall investment performance.",
-      icon: "/FinancialPlan/personalbudget.png",
-      features: [
-        "Investment tracking dashboard",
-        "Health score of your portfolio",
-        "Rebalancing tips",
-        "Alerts on overexposure or underperformance",
-      ],
-      path: "/resource/PortfolioManagement",
-    },
-    {
       title: "Tax Consultancy",
       description:
         "Expert help in planning your taxes and maximizing exemptions.",
@@ -117,6 +104,19 @@ const FinancialServicesCarousel = () => {
         "Year-end tax planning session",
       ],
       path: "/resource/TaxConsultancy",
+    },
+    {
+      title: "Portfolio Management",
+      description:
+        "Track, Optimize, and enhance your overall investment performance.",
+      icon: "/FinancialPlan/personalbudget.png",
+      features: [
+        "Investment tracking dashboard",
+        "Health score of your portfolio",
+        "Rebalancing tips",
+        "Alerts on overexposure or underperformance",
+      ],
+      path: "/resource/PortfolioManagement",
     },
   ];
 

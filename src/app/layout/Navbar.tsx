@@ -284,7 +284,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50">
+    <div className="fixed top-0 left-0 right-0 z-[100]">
       {/* Main navbar with glass effect */}
       <nav className="bg-[#FFFFFF]/30 backdrop-blur-lg border-b-2 border-b-gray-200/20 rounded-b-[20px] sm:rounded-b-[30px] lg:rounded-b-[40px] shadow-sm">
         <div className="relative flex items-center justify-between px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-2 sm:py-3 w-full max-w-[2400px] mx-auto">
