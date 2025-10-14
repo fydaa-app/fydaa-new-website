@@ -4,9 +4,10 @@ const FounderSection: React.FC = () => {
   return (
     <section
       className="
-    relative z-30 -mt-40 sm:-mt-60 md:-mt-96 lg:-mt-96 xl:-mt-[400px]
+    relative z-30 
     flex justify-center overflow-visible pointer-events-none
-    pb-[60px] sm:pb-[102px] md:pb-[123px] lg:pb-[164px] xl:pb-[205px]
+    pb-[3.25rem] sm:pb-16 md:pb-[4.75rem] lg:pb-[5.25rem] xl:pb-[6.25rem] 2xl:pb-[7.75rem] 3xl:pb-[14.25rem]
+
   "
     >
       <div className="relative w-full max-w-screen-4xl mx-auto">
