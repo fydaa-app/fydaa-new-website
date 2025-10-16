@@ -1,51 +1,57 @@
+"use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const ServiceSection: React.FC = () => {
+  const router = useRouter();
   const serviceList = [
     {
       serviceId: "investment-planning",
       serviceTitle: "Investment Planning",
       serviceIconPath: "/about-us/investment-planning.png",
-    },
-    {
-      serviceId: "financial-health",
-      serviceTitle: "Financial Health Monitoring",
-      serviceIconPath: "/about-us/financial-health-monitoring.png",
-    },
-    {
-      serviceId: "debt-management",
-      serviceTitle: "Debt Management",
-      serviceIconPath: "/about-us/debt-management.png",
-    },
-    {
-      serviceId: "smart-budgeting",
-      serviceTitle: "Smart Budgeting",
-      serviceIconPath: "/about-us/smart-budgeting.png",
-    },
-    {
-      serviceId: "expense-management",
-      serviceTitle: "Expense-Management",
-      serviceIconPath: "/about-us/expense-management.png",
+      path: "/resource/InvestmentPlanning",
     },
     {
       serviceId: "emergency-fund",
       serviceTitle: "Emergency Fund Setup & Guidance",
       serviceIconPath: "/about-us/emergency-fund-setup.png",
+      path: "/resource/Emergencyfund",
+    },
+    {
+      serviceId: "debt-management",
+      serviceTitle: "Debt Management",
+      serviceIconPath: "/about-us/debt-management.png",
+      path: "/resource/DebtManagement",
+    },
+    {
+      serviceId: "expense-management",
+      serviceTitle: "Expense-Management",
+      serviceIconPath: "/about-us/expense-management.png",
+      path: "/resource/ExpenseManagement",
+    },
+    {
+      serviceId: "financial-health",
+      serviceTitle: "Financial Health Monitoring",
+      serviceIconPath: "/about-us/financial-health-monitoring.png",
+      path: "/resource/FinancialHealthCheckup",
+    },
+    {
+      serviceId: "smart-budgeting",
+      serviceTitle: "Smart Budgeting",
+      serviceIconPath: "/about-us/smart-budgeting.png",
+      path: "/resource/PersonalizedBudgetingplan",
     },
     {
       serviceId: "tax-consulting",
       serviceTitle: "Tax Consulting",
       serviceIconPath: "/about-us/tax-consulting.png",
-    },
-    {
-      serviceId: "insurance",
-      serviceTitle: "Insurance",
-      serviceIconPath: "/about-us/insurance.png",
+      path: "/resource/TaxConsultancy",
     },
     {
       serviceId: "portfolio-management",
       serviceTitle: "Portfolio Management",
       serviceIconPath: "/about-us/portfolio-management.png",
+      path: "/resource/PortfolioManagement",
     },
   ];
 
@@ -72,32 +78,43 @@ const ServiceSection: React.FC = () => {
             <div
               key={serviceItem.serviceId}
               className={`
-                bg-[#F7F7F7] 
-                flex 
-                flex-col 
-                items-start 
-                justify-start 
-                px-4
-                sm:px-6
-                md:px-8 
-                pt-12
-                sm:pt-14
-                md:pt-16
-                pb-12 
-                min-h-[240px]
-                sm:min-h-[260px]
-                md:min-h-[280px]
-                ${(index + 1) % 2 !== 0 ? "border-r border-[#217AA7]/20" : ""} 
-                ${
-                  (index + 1) % 3 !== 0
-                    ? "md:border-r md:border-[#217AA7]/20"
-                    : "md:border-r-0"
-                } 
-                ${index < 6 ? "border-b border-[#217AA7]/20" : ""}
-              `}
+    cursor-default
+    bg-[#F7F7F7] 
+    flex 
+    flex-col 
+    items-start 
+    justify-start 
+    px-4
+    sm:px-6
+    md:px-8 
+    pt-12
+    sm:pt-14
+    md:pt-16
+    pb-12 
+    min-h-[240px]
+    sm:min-h-[260px]
+    md:min-h-[280px]
+    ${(index + 1) % 2 !== 0 ? "border-r border-[#217AA7]/20" : ""} 
+    ${
+      (index + 1) % 3 !== 0
+        ? "md:border-r md:border-[#217AA7]/20"
+        : "md:border-r-0"
+    } 
+    ${index < 6 ? "border-b border-[#217AA7]/20" : ""}
+  `}
             >
               {/* Service Icon */}
-              <div className="h-[80px] sm:h-[88px] md:h-[96px] flex items-center mb-4 sm:mb-5 md:mb-6">
+              <div
+                onClick={() => router.push(serviceItem.path)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    router.push(serviceItem.path);
+                  }
+                }}
+                className="h-[80px] sm:h-[88px] md:h-[96px] flex items-center mb-4 sm:mb-5 md:mb-6 transition-transform duration-300 ease-in-out hover:scale-110 cursor-pointer"
+              >
                 <img
                   src={serviceItem.serviceIconPath}
                   alt={serviceItem.serviceTitle}
@@ -107,7 +124,17 @@ const ServiceSection: React.FC = () => {
 
               {/* Service Title */}
               <div className="flex flex-col flex-grow">
-                <h3 className="font-inter font-normal text-base sm:text-lg md:text-xl lg:text-2xl leading-6 sm:leading-7 md:leading-8 lg:leading-[31.68px] tracking-normal sm:tracking-wide text-[#1D2939] text-left">
+                <h3
+                  onClick={() => router.push(serviceItem.path)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      router.push(serviceItem.path);
+                    }
+                  }}
+                  className="font-inter font-normal text-base sm:text-lg md:text-xl lg:text-2xl leading-6 sm:leading-7 md:leading-8 lg:leading-[31.68px] tracking-normal sm:tracking-wide text-[#1D2939] text-left transition-transform duration-300 ease-in-out hover:scale-110 cursor-pointer"
+                >
                   {serviceItem.serviceTitle}
                 </h3>
               </div>
