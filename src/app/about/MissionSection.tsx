@@ -2,51 +2,51 @@
 import React, { useState, useEffect } from "react";
 
 const MissionSection: React.FC = () => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const images = [
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [imagesPreloaded, setImagesPreloaded] = useState(false);
+  const pieChartImageSources = [
     "/about-us/pie1.png",
     "/about-us/pie2.png",
     "/about-us/pie3.png",
   ];
 
-  // Preload all images
+  // Preload all pie chart images
   useEffect(() => {
-    const imagePromises = images.map((src) => {
+    const preloadImagePromises = pieChartImageSources.map((source) => {
       return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.src = src;
-        img.onload = resolve;
-        img.onerror = reject;
+        const image = new Image();
+        image.src = source;
+        image.onload = resolve;
+        image.onerror = reject;
       });
     });
 
-    Promise.all(imagePromises)
-      .then(() => setIsLoaded(true))
-      .catch((err) => console.error("Failed to preload images", err));
+    Promise.all(preloadImagePromises)
+      .then(() => setImagesPreloaded(true))
+      .catch((error) => console.error("Failed to preload images", error));
   }, []);
 
   // Cycle through images every 5 seconds once preloaded
   useEffect(() => {
-    if (!isLoaded) return;
-    
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) =>
-        prev === images.length - 1 ? 0 : prev + 1
+    if (!imagesPreloaded) return;
+
+    const imageRotationInterval = setInterval(() => {
+      setActiveImageIndex((previousIndex) =>
+        previousIndex === pieChartImageSources.length - 1 ? 0 : previousIndex + 1
       );
     }, 5000);
-    return () => clearInterval(interval);
-  }, [images.length, isLoaded]);
+
+    return () => clearInterval(imageRotationInterval);
+  }, [pieChartImageSources.length, imagesPreloaded]);
 
   const handleStartInvestingClick = () => {
     window.open("https://cal.com/fydaa-backend-zr5zm3/30min", "_blank");
   };
 
   return (
-    <main className="w-full h-full m-0 p-0 relative">
-      {/* Mission Section - Light Gray Background with Gradient */}
-      <section className="relative py-12 px-3 sm:px-6 md:px-12 lg:px-16 bg-[#F7F7F7] min-h-[80vh] md:min-h-screen pb-[300px] sm:pb-[400px] md:pb-[600px] lg:pb-[700px]">
-        {/* Gradient - Keep absolute positioning */}
+    <main className="w-full h-full m-0 p-0 relative ">
+      <section className="relative bg-[#F7F7F7] pt-16 pb-36 sm:pt-20 sm:pb-44 md:pt-24 md:pb-52 lg:pt-28 lg:pb-60 xl:pt-32 xl:pb-72 2xl:pt-40 2xl:pb-80 3xl:pt-48 3xl:pb-96 px-5 overflow-hidden">
+        {/* Gradient Background Full Width Full Height */}
         <div className="absolute -top-[300px] -left-8 -right-8 z-10 flex gap-0">
           <img
             src="/resource/gradient.png"
@@ -61,17 +61,17 @@ const MissionSection: React.FC = () => {
         </div>
 
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-8">
-          {/* Left side: Pie image only on md+ */}
+          {/* Left side: Pie chart images only visible on md+ */}
           <div className="hidden md:flex md:w-1/2 justify-center relative">
-            {images.map((src, index) => (
+            {pieChartImageSources.map((source, index) => (
               <img
                 key={index}
-                src={src}
+                src={source}
                 alt={`Pie Chart ${index + 1}`}
                 className="absolute max-w-full max-h-[600px] object-contain transition-opacity duration-1000 ease-in-out"
                 style={{
-                  opacity: currentImageIndex === index ? 1 : 0,
-                  pointerEvents: currentImageIndex === index ? "auto" : "none",
+                  opacity: activeImageIndex === index ? 1 : 0,
+                  pointerEvents: activeImageIndex === index ? "auto" : "none",
                 }}
               />
             ))}
@@ -81,54 +81,52 @@ const MissionSection: React.FC = () => {
           <div className="w-full md:w-1/2 relative">
             {/* Image above text on mobile only */}
             <div className="block md:hidden mb-6 w-full flex justify-center relative min-h-[300px]">
-              {images.map((src, index) => (
+              {pieChartImageSources.map((source, index) => (
                 <img
                   key={`mobile-${index}`}
-                  src={src}
+                  src={source}
                   alt={`Pie Chart ${index + 1}`}
                   className="absolute max-w-[400px] w-full object-contain transition-opacity duration-1000 ease-in-out"
                   style={{
-                    opacity: currentImageIndex === index ? 1 : 0,
-                    pointerEvents: currentImageIndex === index ? "auto" : "none",
+                    opacity: activeImageIndex === index ? 1 : 0,
+                    pointerEvents: activeImageIndex === index ? "auto" : "none",
                   }}
                 />
-              </div>
+              ))}
             </div>
-            {/* Right Half - Mission Text */}
-            <div className="w-full sm:w-11/12 md:w-1/2 flex items-center justify-center relative z-30 max-w-xl px-4 sm:px-6 md:px-0">
-              <div className="text-left max-w-xl px-4 sm:px-0">
-                <h1
-                  className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-semibold text-gray-900 leading-tight font-gilroy mb-6"
-                  style={{ letterSpacing: "-1.5px" }}
-                >
-                  Our Mission
-                </h1>
-                <p
-                  className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 font-inter font-normal mb-8"
-                  style={{ lineHeight: "1.5rem", letterSpacing: "-0.2px" }}
-                >
-                  Fydaa's mission is to break the barriers of geography, jargon,
-                  and high fees. Whether you're in a Tier 1 city or a Tier 3
-                  town, our SEBI-registered advisors and intelligent tools make
-                  expert financial planning simple, transparent, and truly
-                  yours.
-                </p>
-                <h2
-                  className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-medium text-gray-900 font-gilroy mb-4"
-                  style={{ lineHeight: "2.5rem", letterSpacing: "-1px" }}
-                >
-                  Different People, Different Portfolios
-                </h2>
-                <p
-                  className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] text-gray-700 font-inter font-normal italic"
-                  style={{ lineHeight: "2.25rem", letterSpacing: "-1.5px" }}
-                >
-                  Fydaa is an investment app that adapts to your appetite for
-                  investing
-                </p>
+
+            <h1
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-semibold text-gray-900 leading-tight font-gilroy mb-6"
+              style={{ letterSpacing: "-1.5px" }}
+            >
+              Our Mission
+            </h1>
+            <p
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 font-inter mb-8"
+              style={{ lineHeight: "1.5rem", letterSpacing: "-0.2px" }}
+            >
+              Fydaa's mission is to break the barriers of geography, jargon, and
+              high fees. Whether you're in a Tier 1 city or a Tier 3 town, our
+              SEBI-registered advisors and intelligent tools make expert
+              financial planning simple, transparent, and truly yours.
+            </p>
+
+            <h2
+              className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-medium text-gray-900 font-gilroy mb-4"
+              style={{ lineHeight: "2.5rem", letterSpacing: "-1px" }}
+            >
+              Different People, Different Portfolios
+            </h2>
+            <p
+              className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] text-gray-700 font-inter italic"
+              style={{ lineHeight: "2.25rem", letterSpacing: "-1.5px" }}
+            >
+              Fydaa is an investment app that adapts to your appetite for
+              investing
+            </p>
 
             <button
-              onClick={handleClick}
+              onClick={handleStartInvestingClick}
               style={{
                 pointerEvents: "auto",
                 position: "relative",
@@ -162,5 +160,4 @@ const MissionSection: React.FC = () => {
     </main>
   );
 };
-
 export default MissionSection;
