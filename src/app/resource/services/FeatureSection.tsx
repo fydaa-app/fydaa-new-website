@@ -42,7 +42,7 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({ data }) => {
                     key={step.number}
                     className="flex items-start gap-3 sm:gap-4 md:gap-4 lg:gap-5 xl:gap-6 2xl:gap-7 3xl:gap-8"
                   >
-                    <div className="bg-white text-gray-700 w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] md:w-[44px] md:h-[44px] lg:w-[47px] lg:h-[47px] xl:w-[50px] xl:h-[50px] 2xl:w-[58px] 2xl:h-[58px] 3xl:w-[66px] 3xl:h-[66px] rounded-full flex items-center justify-center font-['Inter'] font-semibold text-[16px] sm:text-[18px] md:text-[19px] lg:text-[20px] xl:text-[22px] 2xl:text-[26px] 3xl:text-[30px] flex-shrink-0 mt-1 shadow-md">
+                    <div className="bg-white text-gray-700 w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] md:w-[44px] md:h-[44px] lg:w-[47px] lg:h-[47px] xl:w-[50px] xl:h-[50px] 2xl:w-[58px] 2xl:h-[58px] 3xl:w-[66px] 3xl:h-[66px] rounded-full flex items-center justify-center font-['Inter'] font-semibold text-[16px] sm:text-[18px] md:text-[19px] lg:text-[20px] xl:text-[22px] 2xl:text-[26px] 3xl:text-[30px] flex-shrink-0 mt-1 shadow-md ml-4 sm:ml-5 md:ml-6 lg:ml-7 xl:ml-8 2xl:ml-10 3xl:ml-12">
                       {step.number}
                     </div>
                     <div>
