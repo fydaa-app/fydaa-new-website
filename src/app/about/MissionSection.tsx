@@ -2,42 +2,44 @@
 import React, { useState, useEffect } from "react";
 
 const MissionSection: React.FC = () => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const images = [
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [imagesPreloaded, setImagesPreloaded] = useState(false);
+  const pieChartImageSources = [
     "/about-us/pie1.png",
     "/about-us/pie2.png",
     "/about-us/pie3.png",
   ];
 
-  // Preload all images
+  // Preload all pie chart images
   useEffect(() => {
-    const imagePromises = images.map((src) => {
+    const preloadImagePromises = pieChartImageSources.map((source) => {
       return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.src = src;
-        img.onload = resolve;
-        img.onerror = reject;
+        const image = new Image();
+        image.src = source;
+        image.onload = resolve;
+        image.onerror = reject;
       });
     });
 
-    Promise.all(imagePromises)
-      .then(() => setIsLoaded(true))
-      .catch((err) => console.error("Failed to preload images", err));
+    Promise.all(preloadImagePromises)
+      .then(() => setImagesPreloaded(true))
+      .catch((error) => console.error("Failed to preload images", error));
   }, []);
 
+  // Cycle through images every 5 seconds once preloaded
   useEffect(() => {
-    if (!isLoaded) return;
-    
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) =>
-        prev === images.length - 1 ? 0 : prev + 1
+    if (!imagesPreloaded) return;
+
+    const imageRotationInterval = setInterval(() => {
+      setActiveImageIndex((previousIndex) =>
+        previousIndex === pieChartImageSources.length - 1 ? 0 : previousIndex + 1
       );
     }, 5000);
-    return () => clearInterval(interval);
-  }, [images.length, isLoaded]);
 
-  const handleClick = () => {
+    return () => clearInterval(imageRotationInterval);
+  }, [pieChartImageSources.length, imagesPreloaded]);
+
+  const handleStartInvestingClick = () => {
     window.open("https://cal.com/fydaa-backend-zr5zm3/30min", "_blank");
   };
 
@@ -59,17 +61,17 @@ const MissionSection: React.FC = () => {
         </div>
 
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-8">
-          {/* Left side: Pie image only on md+ */}
+          {/* Left side: Pie chart images only visible on md+ */}
           <div className="hidden md:flex md:w-1/2 justify-center relative">
-            {images.map((src, index) => (
+            {pieChartImageSources.map((source, index) => (
               <img
                 key={index}
-                src={src}
+                src={source}
                 alt={`Pie Chart ${index + 1}`}
                 className="absolute max-w-full max-h-[600px] object-contain transition-opacity duration-1000 ease-in-out"
                 style={{
-                  opacity: currentImageIndex === index ? 1 : 0,
-                  pointerEvents: currentImageIndex === index ? "auto" : "none",
+                  opacity: activeImageIndex === index ? 1 : 0,
+                  pointerEvents: activeImageIndex === index ? "auto" : "none",
                 }}
               />
             ))}
@@ -79,15 +81,15 @@ const MissionSection: React.FC = () => {
           <div className="w-full md:w-1/2 relative">
             {/* Image above text on mobile only */}
             <div className="block md:hidden mb-6 w-full flex justify-center relative min-h-[300px]">
-              {images.map((src, index) => (
+              {pieChartImageSources.map((source, index) => (
                 <img
                   key={`mobile-${index}`}
-                  src={src}
+                  src={source}
                   alt={`Pie Chart ${index + 1}`}
                   className="absolute max-w-[400px] w-full object-contain transition-opacity duration-1000 ease-in-out"
                   style={{
-                    opacity: currentImageIndex === index ? 1 : 0,
-                    pointerEvents: currentImageIndex === index ? "auto" : "none",
+                    opacity: activeImageIndex === index ? 1 : 0,
+                    pointerEvents: activeImageIndex === index ? "auto" : "none",
                   }}
                 />
               ))}
@@ -124,7 +126,7 @@ const MissionSection: React.FC = () => {
             </p>
 
             <button
-              onClick={handleClick}
+              onClick={handleStartInvestingClick}
               style={{
                 pointerEvents: "auto",
                 position: "relative",
