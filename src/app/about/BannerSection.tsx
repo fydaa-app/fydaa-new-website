@@ -2,40 +2,40 @@
 import React, { useState, useEffect } from "react";
 
 const BannerSection: React.FC = () => {
-  const [deviceType, setDeviceType] = useState<"ios" | "android" | "desktop">(
+  const [currentDeviceType, setCurrentDeviceType] = useState<"ios" | "android" | "desktop">(
     "desktop"
   );
 
   useEffect(() => {
-    const detectDevice = () => {
+    const detectCurrentDeviceType = () => {
       if (typeof window !== "undefined") {
-        const userAgent = window.navigator.userAgent.toLowerCase();
+        const userAgentString = window.navigator.userAgent.toLowerCase();
 
-        if (/iphone|ipad|ipod/.test(userAgent)) {
-          setDeviceType("ios");
-        } else if (/android/.test(userAgent)) {
-          setDeviceType("android");
+        if (/iphone|ipad|ipod/.test(userAgentString)) {
+          setCurrentDeviceType("ios");
+        } else if (/android/.test(userAgentString)) {
+          setCurrentDeviceType("android");
         } else {
-          setDeviceType("desktop");
+          setCurrentDeviceType("desktop");
         }
       }
     };
 
-    detectDevice();
+    detectCurrentDeviceType();
   }, []);
 
-  const handleDownloadApp = () => {
-    const iosUrl =
+  const handleAppDownloadClick = () => {
+    const iosAppStoreUrl =
       "https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190";
-    const androidUrl =
+    const androidPlayStoreUrl =
       "https://play.google.com/store/apps/details?id=com.app.fydaa&hl=en";
 
-    if (deviceType === "ios") {
-      window.open(iosUrl, "_blank");
-    } else if (deviceType === "android") {
-      window.open(androidUrl, "_blank");
+    if (currentDeviceType === "ios") {
+      window.open(iosAppStoreUrl, "_blank");
+    } else if (currentDeviceType === "android") {
+      window.open(androidPlayStoreUrl, "_blank");
     } else {
-      window.open(iosUrl, "_blank");
+      window.open(iosAppStoreUrl, "_blank");
     }
   };
 
@@ -74,7 +74,7 @@ const BannerSection: React.FC = () => {
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-6 mt-8 sm:mt-12 px-4 sm:px-0 max-w-full">
         <button
-          onClick={handleDownloadApp}
+          onClick={handleAppDownloadClick}
           className="bg-white text-black px-3 sm:px-4 md:px-5 lg:px-4 xl:px-6 2xl:px-8 py-1.5 sm:py-2 md:py-2.5 lg:py-2 xl:py-2.5 2xl:py-3 rounded-full text-[10px] sm:text-[11px] md:text-[12px] lg:text-xs xl:text-sm 2xl:text-base font-medium font-['Inter'] hover:bg-gray-100 transition-colors"
         >
           Download Our App
