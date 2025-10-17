@@ -12,10 +12,10 @@ const ServiceSection: React.FC = () => {
       path: "/resource/InvestmentPlanning",
     },
     {
-      serviceId: "emergency-fund",
-      serviceTitle: "Emergency Fund Setup & Guidance",
-      serviceIconPath: "/about-us/emergency-fund-setup.png",
-      path: "/resource/Emergencyfund",
+      serviceId: "financial-health",
+      serviceTitle: "Financial Health Monitoring",
+      serviceIconPath: "/about-us/financial-health-monitoring.png",
+      path: "/resource/FinancialHealthCheckup",
     },
     {
       serviceId: "debt-management",
@@ -23,23 +23,26 @@ const ServiceSection: React.FC = () => {
       serviceIconPath: "/about-us/debt-management.png",
       path: "/resource/DebtManagement",
     },
+    
+    {
+      serviceId: "smart-budgeting",
+      serviceTitle: "Smart Budgeting",
+      serviceIconPath: "/about-us/smart-budgeting.png",
+      path: "/resource/PersonalizedBudgetingplan",
+    },
+    
     {
       serviceId: "expense-management",
       serviceTitle: "Expense-Management",
       serviceIconPath: "/about-us/expense-management.png",
       path: "/resource/ExpenseManagement",
     },
+    
     {
-      serviceId: "financial-health",
-      serviceTitle: "Financial Health Monitoring",
-      serviceIconPath: "/about-us/financial-health-monitoring.png",
-      path: "/resource/FinancialHealthCheckup",
-    },
-    {
-      serviceId: "smart-budgeting",
-      serviceTitle: "Smart Budgeting",
-      serviceIconPath: "/about-us/smart-budgeting.png",
-      path: "/resource/PersonalizedBudgetingplan",
+      serviceId: "emergency-fund",
+      serviceTitle: "Emergency Fund Setup & Guidance",
+      serviceIconPath: "/about-us/emergency-fund-setup.png",
+      path: "/resource/Emergencyfund",
     },
     {
       serviceId: "tax-consulting",
@@ -48,17 +51,18 @@ const ServiceSection: React.FC = () => {
       path: "/resource/TaxConsultancy",
     },
     {
+      serviceId: "insurance",
+      serviceTitle: "Insurance",
+      serviceIconPath: "/about-us/insurance.png",
+      path: "/resource/Emergencyfund",
+    },
+    {
       serviceId: "portfolio-management",
       serviceTitle: "Portfolio Management",
       serviceIconPath: "/about-us/portfolio-management.png",
       path: "/resource/PortfolioManagement",
     },
-    {
-      serviceId: "insurance",
-      serviceTitle: "Insurance",
-      serviceIconPath: "/about-us/insurance.png",
-      path: "/resource/Insurance",
-    },
+    
   ];
 
   return (
