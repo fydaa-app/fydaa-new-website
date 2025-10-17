@@ -11,14 +11,13 @@ const FounderSection: React.FC = () => {
     >
       <div className="relative w-full max-w-screen-4xl mx-auto">
         <div className="relative w-full">
-
           {/* Oval image - top layer */}
           <img
             src="/about-us/oval.png"
             alt="Blue Circle"
             className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[70vw] h-[220px] sm:h-[440px] md:h-[660px] lg:h-[880px] xl:h-[880px] 2xl:h-[880px] scale-[1.5] sm:scale-150 z-10"
           />
-          
+
           {/* Square image - background layer */}
           <img
             src="/about-us/square.png"
@@ -59,15 +58,25 @@ const FounderSection: React.FC = () => {
 
                 {/* Paragraphs */}
                 <p className="font-gilroy font-normal mb-6 text-[#999999] text-[14px] sm:text-[16px] md:text-[18px] leading-[20px] sm:leading-[22px] md:leading-[24.8px] tracking-[-0.36px] max-w-full sm:max-w-[450px] md:max-w-[500px] mx-auto lg:mx-0">
-                  founderStartCareerDescription
+                  Kuntal Bhansali started his journey more than 20 years back as
+                  an Equity Research Analyst and went on to become a fund
+                  manager with Reliance Capital PMS very early on in his career
+                  where he got hands-on experience managing money for
+                  high-networth individuals.
                 </p>
 
                 <p className="font-gilroy font-normal mb-6 text-[#999999] text-[14px] sm:text-[16px] md:text-[18px] leading-[20px] sm:leading-[22px] md:leading-[24.8px] tracking-[-0.36px] max-w-full sm:max-w-[450px] md:max-w-[500px] mx-auto lg:mx-0">
-                  founderEntrepreneurJourneyDescription
+                  He started his entrepreneurial journey almost 10 years back
+                  delving into the field of Investment Banking and Fund
+                  management. This journey took him to unchartered territories
+                  of Tech startups where he learned the ropes of technologies
+                  and how they can empower people at a mass level.
                 </p>
 
                 <p className="font-gilroy font-normal mb-6 text-[#999999] text-[14px] sm:text-[16px] md:text-[18px] leading-[20px] sm:leading-[22px] md:leading-[24.8px] tracking-[-0.36px] max-w-full sm:max-w-[450px] md:max-w-[500px] mx-auto lg:mx-0">
-                  fydaaOriginStory
+                  Fydaa was born out of this combination of domain knowledge of
+                  managing money and an understanding of tech learned while
+                  advising Tech startups.
                 </p>
               </div>
             </div>

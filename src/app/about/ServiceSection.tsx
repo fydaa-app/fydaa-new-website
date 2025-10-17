@@ -53,6 +53,12 @@ const ServiceSection: React.FC = () => {
       serviceIconPath: "/about-us/portfolio-management.png",
       path: "/resource/PortfolioManagement",
     },
+    {
+      serviceId: "insurance",
+      serviceTitle: "Insurance",
+      serviceIconPath: "/about-us/insurance.png",
+      path: "/resource/Insurance",
+    },
   ];
 
   return (
