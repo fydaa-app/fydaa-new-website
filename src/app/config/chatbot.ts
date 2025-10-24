@@ -3,7 +3,7 @@
 
 export const CHATBOT_CONFIG = {
   // API endpoint - update this to point to your FastAPI backend
-  API_ENDPOINT: process.env.NEXT_PUBLIC_CHATBOT_API_URL || "http://localhost:8000/api/chat",
+  API_ENDPOINT: process.env.NEXT_PUBLIC_CHATBOT_API_URL || "http://localhost:8000/chat",
   
   // Request timeout in milliseconds
   TIMEOUT: 30000,
