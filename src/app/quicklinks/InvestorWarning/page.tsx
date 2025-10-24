@@ -46,7 +46,7 @@ const InvestorWarning: React.FC = () => {
               <section>
                 <h2 className="text-2xl font-semibold text-black mb-4 font-gilroy">2. Our Official Contact Information</h2>
                 <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <p className="text-base leading-relaxed mb-2"><strong>Official Email:</strong> support@fydaa.com</p>
+                  <p className="text-base leading-relaxed mb-2"><strong>Official Email:</strong> <a href="mailto:support@fydaa.com" className="text-base leading-relaxed">support@fydaa.com</a></p>
                   <p className="text-base leading-relaxed mb-2"><strong>Official Phone:</strong> +91 9136935300</p>
                   <p className="text-base leading-relaxed mb-2"><strong>Official Website:</strong> www.fydaa.com</p>
                   <p className="text-base leading-relaxed"><strong>Registered Office:</strong> #903, Ecostar Building, Off Aarey Road, Churi Wadi, Goregaon (East), Mumbai, Maharashtra - 400063</p>
@@ -61,7 +61,7 @@ const InvestorWarning: React.FC = () => {
                 <ol className="list-decimal pl-6 space-y-2 text-base leading-relaxed">
                   <li>Do not respond or provide any personal information</li>
                   <li>Do not transfer any money or make payments</li>
-                  <li>Contact us immediately at support@fydaa.com</li>
+                  <li>Contact us immediately at <a href="mailto:support@fydaa.com" className="text-base leading-relaxed">support@fydaa.com</a></li>
                   <li>Report to local police and cybercrime authorities</li>
                   <li>Inform SEBI about the fraudulent activity</li>
                   <li>Keep records of all suspicious communications</li>
@@ -88,9 +88,9 @@ const InvestorWarning: React.FC = () => {
                   If you encounter fraudulent misuse of our details, please report it immediately:
                 </p>
                 <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                  <p className="text-base"><strong>Email:</strong> support@fydaa.com</p>
-                  <p className="text-base"><strong>Phone:</strong>+91 9136935300</p>
-                  <p className="text-base"><strong>SEBI:</strong>sebi@sebi.gov.in</p>
+                  <p className="text-base"><strong>Email:</strong> <a href="mailto:support@fydaa.com" className="text-base"> support@fydaa.com</a></p>
+                  <p className="text-base"><strong>Phone:</strong> +91 9136935300</p>
+                  <p className="text-base"><strong>SEBI:</strong> sebi@sebi.gov.in</p>
                 </div>
               </section>
 
