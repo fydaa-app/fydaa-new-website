@@ -88,7 +88,7 @@ const InvestorWarning: React.FC = () => {
                   If you encounter fraudulent misuse of our details, please report it immediately:
                 </p>
                 <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                  <p className="text-base"><strong>Email:</strong> fraud@fydaa.com</p>
+                  <p className="text-base"><strong>Email:</strong> support@fydaa.com</p>
                   <p className="text-base"><strong>Phone:</strong> +91 9136935300</p>
                   <p className="text-base"><strong>SEBI:</strong> sebi@sebi.gov.in</p>
                 </div>
