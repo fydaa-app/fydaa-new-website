@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-black text-white py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-24 relative z-50 overflow-hidden">
       {/* Mobile Gradient - positioned right of title */}
-      <div className="absolute right-0 top-20 w-[150px] h-[100px] translate-x-1/2 z-20 block sm:hidden">
+      <div className="absolute right-0 top-20 w-[150px] h-[100px] translate-x-1/2 z-20 block sm:hidden pointer-events-none">
         <img
           src="/FinancialPlan/Gradient.png"
           alt="Decorative gradient"
@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Desktop Gradient Image - positioned left of title */}
-      <div className="absolute left-0 top-10 sm:top-16 md:top-20 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[850px] lg:h-[600px] -translate-x-1/2 z-20 hidden sm:block">
+      <div className="absolute left-0 top-10 sm:top-16 md:top-20 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[850px] lg:h-[600px] -translate-x-1/2 z-20 hidden sm:block pointer-events-none">
         <img
           src="/FinancialPlan/Gradient.png"
           alt="Decorative gradient"
@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Desktop Gradient Image - positioned right of title */}
-      <div className="absolute right-0 top-20 sm:top-32 md:top-48 lg:top-96 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[950px] lg:h-[800px] translate-x-1/2 z-20 hidden sm:block">
+      <div className="absolute right-0 top-20 sm:top-32 md:top-48 lg:top-96 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[950px] lg:h-[800px] translate-x-1/2 z-20 hidden sm:block pointer-events-none">
         <img
           src="/FinancialPlan/Gradient.png"
           alt="Decorative gradient"
@@ -151,6 +151,12 @@ const Footer: React.FC = () => {
                 className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
               >
                 Investor Warning - Fraudulent Misuse of Our Details
+              </a>
+              <a
+                href="/quicklinks/VigilanceAwarenessWeek"
+                className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
+              >
+                Vigilance Awareness Week
               </a>
               <a
                 href="/quicklinks/Disclosure"
