@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { CHATBOT_CONFIG } from "../config/chatbot";
+// import { CHATBOT_CONFIG } from "../config/chatbot";
 
 interface Message {
   id: string;
@@ -19,28 +19,62 @@ const Chatbot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Hello! I'm Fydaa's AI assistant. How can I help you with your financial planning today?",
+      text: "Hello! I'm Fydaa's AI assistant. Choose a topic below to get a quick answer.",
       isUser: false,
       timestamp: new Date(),
     },
   ]);
-  const [inputValue, setInputValue] = useState("");
+  // const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [previousChat, setPreviousChat] = useState<Message[] | null>(null);
   const [previousChatTimestamp, setPreviousChatTimestamp] = useState<Date | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  // const inputRef = useRef<HTMLInputElement>(null);
   const clearTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Get conversation history (last 10 messages)
-  const getConversationHistory = () => {
-    return messages.slice(-CHATBOT_CONFIG.MAX_HISTORY).map(msg => ({
-      role: msg.isUser ? "user" : "assistant",
-      content: msg.text
-    }));
-  };
+  // Predefined FAQ options
+  const faqOptions: { id: string; question: string; answer: string }[] = [
+    {
+      id: "opt1",
+      question: "What is fydaa?",
+      answer:
+        "Fydaa is a SEBI-registered investment advisory platform by Multistrato Capital Advisors Private Limited, based in Mumbai. It offers personalized wealth management through a mobile app, helping users build multi-asset portfolios . After KYC and a risk assessment, Fydaa creates tailored portfolios for long-term growth, supports goal-based planning, and provides analytics.",
+    },
+    {
+      id: "opt2",
+      question: "What is sip? ",
+      answer:
+        "SIP stands for Systematic Investment Plan.It’s a disciplined method of investing in mutual funds, where you invest a fixed amount regularly like monthly or quarterly instead of investing a lump sum at once.",
+    },
+    {
+      id: "opt3",
+      question: "What is mutual fund?",
+      answer:
+        "A Mutual Fund is a type of investment vehicle that collects money from many investors and invests it in a diversified portfolio of assets like stocks, bonds, gold, or other securities — all managed by professional fund managers.",
+    },
+    {
+      id: "opt4",
+      question: "What does Fydaa provide?",
+      answer:
+        "Fydaa provides personalized wealth management through a mobile app, helping users build multi-asset portfolios . After KYC and a risk assessment, Fydaa creates tailored portfolios for long-term growth, supports goal-based planning, and provides analytics.",
+    },
+    {
+      id: "opt5",
+      question: "How can I contact support?",
+      answer:
+        "You can reach Fydaa support at support@fydaa.com or call +91 9136935300.",
+    },
+  ];
+
+  // // Get conversation history (last 10 messages)
+  // const getConversationHistory = () => {
+  //   return messages.slice(-CHATBOT_CONFIG.MAX_HISTORY).map(msg => ({
+  //     role: msg.isUser ? "user" : "assistant",
+  //     content: msg.text
+  //   }));
+  // };
 
   // Clear chat after 3 minutes of inactivity
   const resetClearTimeout = () => {
@@ -83,107 +117,87 @@ const Chatbot: React.FC = () => {
 
   // Focus input when chat opens and reset timeout
   useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
+    // if (isOpen && inputRef.current) {
+    //   inputRef.current.focus();
+    // }
     resetClearTimeout();
   }, [isOpen]);
 
-  const handleSendMessage = async () => {
-    if (!inputValue.trim() || isLoading) return;
+  // const handleSendMessage = async () => {
+  //   if (!inputValue.trim() || isLoading) return;
+  //   const userMessage: Message = {
+  //     id: Date.now().toString(),
+  //     text: inputValue.trim(),
+  //     isUser: true,
+  //     timestamp: new Date(),
+  //   };
+  //   setMessages((prev) => [...prev, userMessage]);
+  //   const currentInput = inputValue.trim();
+  //   setInputValue("");
+  //   setIsTyping(true);
+  //   setIsLoading(true);
+  //   setError(null);
+  //   resetClearTimeout();
+  //   try {
+  //     const controller = new AbortController();
+  //     const timeoutId = setTimeout(() => controller.abort(), CHATBOT_CONFIG.TIMEOUT);
+  //     const response = await fetch(CHATBOT_CONFIG.API_ENDPOINT, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({
+  //         message: currentInput,
+  //         conversation_history: getConversationHistory(),
+  //       }),
+  //       signal: controller.signal,
+  //     });
+  //     clearTimeout(timeoutId);
+  //     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+  //     const data: ApiResponse = await response.json();
+  //     const aiResponse: Message = {
+  //       id: (Date.now() + 1).toString(),
+  //       text:
+  //         data.message ||
+  //         "I'm sorry, I couldn't process your request. Please try again.",
+  //       isUser: false,
+  //       timestamp: new Date(),
+  //     };
+  //     setMessages((prev) => [...prev, aiResponse]);
+  //     resetClearTimeout();
+  //   } catch (error) {
+  //     console.error("Error calling chatbot API:", error);
+  //     let errorMessage =
+  //       "I'm sorry, I'm having trouble connecting right now. Please try again later or contact our support team.";
+  //     if (error instanceof Error) {
+  //       if (error.name === "AbortError") {
+  //         errorMessage = "Request timed out. Please try again with a shorter message.";
+  //       } else if (error.message.includes("Failed to fetch")) {
+  //         errorMessage =
+  //           "Unable to connect to the server. Please check your internet connection.";
+  //       } else if (error.message.includes("HTTP error")) {
+  //         errorMessage = "Server error occurred. Please try again later.";
+  //       }
+  //     }
+  //     setError(errorMessage);
+  //     const errorResponse: Message = {
+  //       id: (Date.now() + 1).toString(),
+  //       text: errorMessage,
+  //       isUser: false,
+  //       timestamp: new Date(),
+  //     };
+  //     setMessages((prev) => [...prev, errorResponse]);
+  //     resetClearTimeout();
+  //   } finally {
+  //     setIsTyping(false);
+  //     setIsLoading(false);
+  //   }
+  // };
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      text: inputValue.trim(),
-      isUser: true,
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    const currentInput = inputValue.trim();
-    setInputValue("");
-    setIsTyping(true);
-    setIsLoading(true);
-    setError(null);
-    
-    // Reset the clear timeout when user sends a message
-    resetClearTimeout();
-
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), CHATBOT_CONFIG.TIMEOUT);
-
-      const response = await fetch(CHATBOT_CONFIG.API_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: currentInput,
-          conversation_history: getConversationHistory()
-        }),
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data: ApiResponse = await response.json();
-      
-      const aiResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        text: data.message || "I'm sorry, I couldn't process your request. Please try again.",
-        isUser: false,
-        timestamp: new Date(),
-      };
-      
-      setMessages((prev) => [...prev, aiResponse]);
-      
-      // Reset the clear timeout when AI responds
-      resetClearTimeout();
-    } catch (error) {
-      console.error("Error calling chatbot API:", error);
-      
-      let errorMessage = "I'm sorry, I'm having trouble connecting right now. Please try again later or contact our support team.";
-      
-      if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          errorMessage = "Request timed out. Please try again with a shorter message.";
-        } else if (error.message.includes('Failed to fetch')) {
-          errorMessage = "Unable to connect to the server. Please check your internet connection.";
-        } else if (error.message.includes('HTTP error')) {
-          errorMessage = "Server error occurred. Please try again later.";
-        }
-      }
-      
-      setError(errorMessage);
-      
-      const errorResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        text: errorMessage,
-        isUser: false,
-        timestamp: new Date(),
-      };
-      
-      setMessages((prev) => [...prev, errorResponse]);
-      
-      // Reset the clear timeout even on error
-      resetClearTimeout();
-    } finally {
-      setIsTyping(false);
-      setIsLoading(false);
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey && !isLoading) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
+  // const handleKeyPress = (e: React.KeyboardEvent) => {
+  //   if (e.key === "Enter" && !e.shiftKey && !isLoading) {
+  //     e.preventDefault();
+  //     handleSendMessage();
+  //   }
+  // };
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
@@ -205,6 +219,23 @@ const Chatbot: React.FC = () => {
       },
     ]);
     setError(null);
+    resetClearTimeout();
+  };
+
+  const selectOption = (option: { question: string; answer: string }) => {
+    const userMessage: Message = {
+      id: `${Date.now()}-q`,
+      text: option.question,
+      isUser: true,
+      timestamp: new Date(),
+    };
+    const aiMessage: Message = {
+      id: `${Date.now()}-a`,
+      text: option.answer,
+      isUser: false,
+      timestamp: new Date(),
+    };
+    setMessages((prev) => [...prev, userMessage, aiMessage]);
     resetClearTimeout();
   };
 
@@ -371,41 +402,19 @@ const Chatbot: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
-          <div className="p-4 border-t border-white/20 bg-white/10">
-            <div className="flex gap-2">
-              <input
-                ref={inputRef}
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
-                className="flex-1 px-3 py-2 bg-white/40 border border-white/30 rounded-[12px] text-sm font-inter placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-transparent"
-              />
-              <button
-                onClick={handleSendMessage}
-                disabled={!inputValue.trim() || isLoading}
-                className="px-3 py-2 bg-black text-white rounded-[12px] hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
-              >
-                {isLoading ? (
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                ) : (
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                    />
-                  </svg>
-                )}
-              </button>
+          {/* Options - compact, in a row, wrapping */}
+          <div className="px-4 py-2 border-t border-white/20 bg-white/10">
+            <div className="grid grid-cols-2 gap-2">
+              {faqOptions.map((opt) => (
+                <button
+                  key={opt.id}
+                  onClick={() => selectOption(opt)}
+                  className="w-full px-3 py-1.5 text-xs bg-white/70 text-black border border-white/40 rounded-[10px] hover:bg-white transition-colors duration-200 whitespace-nowrap"
+                  title={opt.question}
+                >
+                  {opt.question}
+                </button>
+              ))}
             </div>
           </div>
         </div>
