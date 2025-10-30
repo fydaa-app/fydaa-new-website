@@ -5,6 +5,7 @@ import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
 import Chatbot from "./components/Chatbot";
 
+
 // Load Google fonts with CSS variable support
 const geistSans = Geist({
   variable: "--font-geist-sans",
