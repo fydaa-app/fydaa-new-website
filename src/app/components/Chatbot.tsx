@@ -62,7 +62,7 @@ const Chatbot: React.FC = () => {
     },
     {
       id: "opt5",
-      question: "How can I contact support?",
+      question: "Contact support?",
       answer:
         "You can reach Fydaa support at support@fydaa.com or call +91 9136935300.",
     },
@@ -409,7 +409,7 @@ const Chatbot: React.FC = () => {
                 <button
                   key={opt.id}
                   onClick={() => selectOption(opt)}
-                  className="w-full px-3 py-1.5 text-xs bg-white/70 text-black border border-white/40 rounded-[10px] hover:bg-white transition-colors duration-200 whitespace-nowrap"
+                  className="w-full px-2 py-1 text-[10px] sm:text-[11px] bg-white/70 text-black border border-white/40 rounded-[10px] hover:bg-white transition-colors duration-200 text-left whitespace-normal break-words leading-tight min-w-0"
                   title={opt.question}
                 >
                   {opt.question}
