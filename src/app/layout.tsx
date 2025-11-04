@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
+import LeadCapturePopup from "./components/LeadCapturePopup";
 
 
 // Load Google fonts with CSS variable support
@@ -43,7 +44,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
-       
+        <LeadCapturePopup />
       </body>
     </html>
   );
