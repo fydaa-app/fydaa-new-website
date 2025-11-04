@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
+import Chatbot from "./components/Chatbot";
 import LeadCapturePopup from "./components/LeadCapturePopup";
 
 
@@ -44,7 +45,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
-        <LeadCapturePopup />
+        <Chatbot /> <LeadCapturePopup />
       </body>
     </html>
   );
