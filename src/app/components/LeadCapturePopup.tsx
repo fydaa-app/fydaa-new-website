@@ -40,7 +40,7 @@ const LeadCapturePopup = () => {
     setSubmitMessage('');
 
     try {
-      const apiUrl = process.env.baseurl + '/api/referrals/website-lead';
+      const apiUrl = process.env.NEXT_PUBLIC_BASE_URL + 'referrals/website-lead';
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
