@@ -343,6 +343,15 @@ const Navbar: React.FC = () => {
                 </a>
               </li>
 
+              <li>
+                <a
+                  href="https://www.blog.fydaa.com/"
+                  className="text-black font-medium hover:text-gray-600 transition-colors duration-200 text-xs sm:text-sm md:text-base"
+                >
+                  Blog
+                </a>
+              </li>
+
               {/* Calculators */}
               {/* <li
                                 className="relative"

@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
 import Chatbot from "./components/Chatbot";
+import LeadCapturePopup from "./components/LeadCapturePopup";
 
 
 // Load Google fonts with CSS variable support
@@ -44,7 +45,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
-        <Chatbot />
+        <Chatbot /> <LeadCapturePopup />
       </body>
     </html>
   );
