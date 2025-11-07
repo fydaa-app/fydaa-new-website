@@ -1,8 +1,11 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const HeroSection: React.FC = () => {
+  const router = useRouter();
+  
   return (
     <section className="w-full bg-[#F7F7F7] relative overflow-hidden">
       {/* Background Gradients */}
@@ -149,15 +152,13 @@ const HeroSection: React.FC = () => {
                 Book a Free Call
               </button>
 
-              {/* Chat on WhatsApp Link */}
+              {/* Start Investing Link */}
               <div
                 className="flex items-center space-x-2 group cursor-pointer pointer-events-auto"
-                onClick={() => {
-                  window.open("https://wa.me/9136935300", "_blank");
-                }}
+                onClick={() => router.push('/start-investing')}
               >
                 <span className="text-black font-medium text-[14px] sm:text-[16px] font-['Inter'] hover:text-gray-700 transition-colors duration-300">
-                  Chat on WhatsApp
+                  Start Investing
                 </span>
                 <svg
                   width="16"
