@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "./layout/Navbar";
-import Footer from "./layout/Footer";
+import ConditionalLayout from "./components/ConditionalLayout";
 import Chatbot from "./components/Chatbot";
 import LeadCapturePopup from "./components/LeadCapturePopup";
 
@@ -42,9 +41,9 @@ export default function RootLayout({
       <body
         className={`text-black font-sans m-0 p-0 ${geistSans.variable} ${geistMono.variable} ${inter.variable}`}
       >
-        <Navbar />
-        {children}
-        <Footer />
+        <ConditionalLayout>
+          {children}
+        </ConditionalLayout>
         <Chatbot /> <LeadCapturePopup />
       </body>
     </html>

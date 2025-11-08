@@ -12,7 +12,7 @@ export default function Questionnaire() {
 
     useEffect(() => {
         (async () => {
-            const questions = await fetch('https://onboarding.fydaa.com/risk-profile-questionnaire/getRiskProfileQuestionnaire').then(data => data.json())
+            const questions = await fetch(`${process.env.NEXT_PUBLIC_ONBOARD_BASE_URL}risk-profile-questionnaire/getRiskProfileQuestionnaire`).then(data => data.json())
             setQuestionList(questions)
 
             const _answer: Record<string, any> = {}
@@ -33,8 +33,8 @@ export default function Questionnaire() {
         questionList.length > 0 ?
             (<div className="flex flex-row w-full min-h-screen">
                 <div className="w-1/2 bg-brandblack-100 p-12 lg:flex flex-col justify-between hidden">
-                    <div className="w-full">
-                        <Image src="/fydaalogo.png" height={68} width={226} alt="Fydaa Investment Adviser Logo" className="mb-12" />
+                    <div className="w-full mt-12">
+                        <Image src="/start-investing/fydaalogo.png" height={68} width={226} alt="Fydaa Investment Adviser Logo" className="mb-12" />
                         <div className="w-full flex flex-row justify-center items-center mb-12">
                             <Image src={questionList[currentQuestionIndex]?.['backgroundImageUrl'] ?? ''} alt="Background Image Url" width={620} height={583} className="object-contain" />
                         </div>
@@ -53,13 +53,9 @@ export default function Questionnaire() {
                         {questionList[currentQuestionIndex]?.['questionCategory'] == 'FINANCIAL' ? 'Financial Info' : 'Personal Info'}
                     </h2>
                     <p className="text-xs font-medium text-brandblack-500 mb-12">{`Question ${currentQuestionIndex + 1} of ${questionList.length}`}</p>
-                    <Image src={'/questiontop.png'} alt="question bar cards" width={352} height={30} />
+                    <Image src={'/start-investing/questiontop.png'} alt="question bar cards" width={352} height={30} />
                     <div className={`w-full max-w-[360px] min-h-[471px] -mt-2 pl-4 pr-4 pt-6 pb-6 rounded-xl flex flex-col items-center ${questionList[currentQuestionIndex]?.['questionCategory'] == 'FINANCIAL' ? 'bg-brandorange' : 'bg-brandblue'}`}>
-                        {
-                            questionList[currentQuestionIndex]?.['imageUrl'] &&
-                            <Image src={questionList[currentQuestionIndex]['imageUrl']} alt="question image" height={120} width={125} className="object-contain w-auto" />
-                        }
-                        <p className="text-white font-bold text-center pt-6 mb-8">{questionList[currentQuestionIndex]?.['question']}</p>
+                        <p className="text-brandblack-900 font-bold text-center pt-6 mb-8 text-lg">{questionList[currentQuestionIndex]?.['question']}</p>
                         {
                             questionList[currentQuestionIndex]?.['questionType'] == 'RANGE' ? (
                                 <div className="pt-4 w-full">
@@ -102,7 +98,7 @@ export default function Questionnaire() {
                                 <div className="w-full mt-4">
                                     {
                                         questionList[currentQuestionIndex]['option'].map((option: any, index: number) => (
-                                            <div key={option.answer} className={`w-full flex flex-row justify-between items-center pl-4 pr-4 pt-3 pb-3 border rounded-xl border-white border-opacity-30 mb-2 cursor-pointer ${(answer[questionList[currentQuestionIndex]['id']]?.['answerId'] == index + 1) ? 'bg-white text-brandblack-900' : 'bg-brandblack-900 bg-opacity-10 text-white'}`} onClick={() => {
+                                            <div key={option.answer} className={`w-full flex flex-row justify-between items-center pl-4 pr-4 pt-3 pb-3 border rounded-xl mb-2 cursor-pointer transition-all duration-200 ${(answer[questionList[currentQuestionIndex]['id']]?.['answerId'] == index + 1) ? 'bg-white text-brandblack-900 font-semibold text-lg border-[1px] border-black' : 'bg-white bg-opacity-20 text-brandblack-900 font-medium border-white border-opacity-30'}`} onClick={() => {
                                                 const _answer = {
                                                     ...answer,
                                                     [questionList[currentQuestionIndex]['id']]: {
@@ -113,8 +109,7 @@ export default function Questionnaire() {
                                                 }
                                                 setAnswer(_answer)
                                             }}>
-                                                <p>{option.answer}</p>
-                                                <Image src={(answer[questionList[currentQuestionIndex]['id']]?.['answerId'] == index + 1) ? '/check-checked.png' : '/check-unchecked.png'} alt="checkbox" height={24} width={24} className="ml-2" />
+                                                <p className="w-full text-center">{option.answer}</p>
                                             </div>
                                         ))
                                     }
@@ -122,7 +117,7 @@ export default function Questionnaire() {
                             )
                         }
                     </div>
-                    <div className="w-full max-w-[360px] flex flex-row justify-between mt-8">
+                    <div className="w-full max-w-[360px] flex flex-row justify-between -mt-8">
                         <button disabled={currentQuestionIndex == 0} className={`w-[48%] border font-semibold px-4 py-2 rounded-lg transition-colors duration-200 ${currentQuestionIndex == 0 ? 'border-brandblack-50 bg-brandblack-50 text-brandblack-400 cursor-not-allowed' : 'border-brandblack-700 bg-white text-brandblack-900 hover:bg-gray-50'}`} onClick={() => {
                             setCurrentQuestionIndex(currentQuestionIndex - 1)
                         }}>Back</button>
@@ -132,7 +127,7 @@ export default function Questionnaire() {
                             } else {
                                 console.log(answer)
                                 console.log(Object.values(answer))
-                                const response = await fetch('https://onboarding.fydaa.com/risk-profile/createGuestUserRiskProfile', {
+                                const response = await fetch(`${process.env.NEXT_PUBLIC_ONBOARD_BASE_URL}risk-profile/createGuestUserRiskProfile`, {
                                     method: 'POST',
                                     headers: {
                                         'Content-type': 'application/json',
@@ -150,7 +145,7 @@ export default function Questionnaire() {
                 </div>
             </div>) : (
                 <div className="w-full flex flex-col items-center justify-center min-h-screen">
-                    <Image src="/Indicator.png" alt="Loading Risk Questionnaire" width={189} height={123} className="lg:w-1/3 aspect-[189/123] mb-12" />
+                    <Image src="/start-investing/Indicator.png" alt="Loading Risk Questionnaire" width={189} height={123} className="lg:w-1/3 aspect-[189/123] mb-12" />
                     <h1 className="font-bold text-center w-full text-3xl text-brandblack-900">Loading risk questionnaire</h1>
                 </div>
             )

@@ -76,10 +76,10 @@ const Accordion = ({ children, className }: { children: React.ReactNode; classNa
 const AccordionPanel = ({ title, children }: { title: React.ReactNode; children: React.ReactNode }) => {
     const [isOpen, setIsOpen] = useState(false);
     return (
-        <div className="border border-white border-opacity-40 rounded-lg mb-2">
+        <div className="border border-black rounded-lg mb-2 bg-white">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full p-4 flex justify-between items-center text-white font-semibold text-sm lg:font-bold lg:text-xl"
+                className="w-full p-4 flex justify-between items-center text-brandblack-900 font-semibold text-sm lg:font-bold lg:text-xl"
             >
                 {title}
                 <svg
@@ -92,7 +92,7 @@ const AccordionPanel = ({ title, children }: { title: React.ReactNode; children:
                 </svg>
             </button>
             {isOpen && (
-                <div className="p-4 text-white font-medium text-sm lg:text-base">
+                <div className="p-4 text-brandblack-900 font-medium text-sm lg:text-base">
                     {children}
                 </div>
             )}
@@ -203,7 +203,7 @@ export default function RiskScore() {
     useEffect(() => {
         (async () => {
             if (typeof window !== 'undefined') {
-                const response = await fetch(`https://onboarding.fydaa.com/risk-profile/getGuestIndicators?guestUserId=${localStorage.getItem('id')}`).then(res => res.json())
+                const response = await fetch(`${process.env.NEXT_PUBLIC_ONBOARD_BASE_URL}risk-profile/getGuestIndicators?guestUserId=${localStorage.getItem('id')}`).then(res => res.json())
                 setRiskProfile(response)
                 setTimeout(() => {
                     setStage(Stage.RiskScore)
@@ -219,9 +219,8 @@ export default function RiskScore() {
         switch (_stage) {
             case Stage.Loading:
                 return (
-                    <div className="w-full p-4 min-h-screen bg-brandblack-900 relative lg:overflow-hidden">
-                        <Image src='/background-2.png' width={2540} height={2243} className='absolute z-0 w-full top-0 left-0 opacity-60 blur-3xl object-cover' alt='background' />
-                        <Image src="/fydaalogo-white.png" width={226} height={68} className='aspect-[904/272] lg:mb-12 mb-10' alt="Risk Score" />
+                    <div className="w-full p-4 pt-8 lg:pt-12 h-screen bg-brandblack-900 relative overflow-y-auto">
+                        <Image src='/riskscore/background-2.png' width={2540} height={2243} className='absolute z-0 w-full top-0 left-0 opacity-60 blur-3xl object-cover' alt='background' />
                         <div className='w-full flex flex-col items-center h-full origin-center min-h-[60vh] justify-center'>
                             <div className='max-w-4xl p-8 lg:p-12 bg-white w-full rounded-2xl z-10 flex flex-col items-center justify-center'>
                                 {/* Loading Spinner */}
@@ -246,17 +245,16 @@ export default function RiskScore() {
 
             case Stage.RiskScore:
                 return (
-                    <div className="w-full p-4 min-h-screen bg-brandblack-900 relative lg:overflow-hidden">
-                        <Image src='/background-2.png' width={2540} height={2243} className='absolute z-0 w-full top-0 left-0 opacity-60 blur-3xl object-cover' alt='background' />
-                        <Image src="/fydaalogo-white.png" width={226} height={68} className='aspect-[904/272] lg:mb-12 mb-10' alt="Risk Score" />
+                    <div className="w-full p-4 pt-8 lg:pt-12 h-screen bg-brandblack-900 relative overflow-y-auto">
+                        <Image src='/riskscore/background-2.png' width={2540} height={2243} className='absolute z-0 w-full top-0 left-0 opacity-60 blur-3xl object-cover' alt='background' />
                         <div className='w-full flex flex-col items-center h-full origin-center'>
                             <div className='max-w-4xl p-8 lg:p-12 bg-white w-full rounded-2xl z-10'>
                                 <h1 className='font-bold text-3xl text-brandblack-900 mb-12'>Your Risk Score</h1>
                                 <div className='w-full relative flex flex-col lg:flex-row justify-between items-center'>
                                     <div className="w-full lg:w-1/2 lg:border-r lg:border-brandblack-300">
                                         <div className="relative w-full min-h-[180px]">
-                                            <Image src='/angularchartbase.png' alt='angular chart' height={154} width={327} className='aspect-[981/462] absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]' />
-                                            <Image src='/angularchartbar.png' alt='angular chart meter' height={112} width={22} className='aspect-[22/112] absolute -mt-8 top-[50%] left-[calc(50%-11px)] -translate-x-[calc(50%+11px)] -translate-y-[50%] -rotate-90 transition-transform duration-1000' style={{
+                                            <Image src='/riskscore/angularchartbase.png' alt='angular chart' height={154} width={327} className='aspect-[981/462] absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]' />
+                                            <Image src='/riskscore/angularchartbar.png' alt='angular chart meter' height={112} width={22} className='aspect-[22/112] absolute -mt-8 top-[50%] left-[calc(50%-11px)] -translate-x-[calc(50%+11px)] -translate-y-[50%] -rotate-90 transition-transform duration-1000' style={{
                                                 transform: `rotate(${-90 + 1.3846153846 * score}deg)`,
                                                 transformOrigin: '11px 105px'
                                             }} />
@@ -270,7 +268,7 @@ export default function RiskScore() {
                                     </div>
                                     <div className="w-full mt-8 lg:mt-0 lg:w-1/2 lg:pl-12 flex flex-col h-full items-center justify-center">
                                         <div className='w-full rounded-2xl bg-brandblack-700 p-8 relative mb-5'>
-                                            <Image src='/pattern-1.png' alt='pattern' width={144} height={150} className='z-0 absolute right-0 top-0' />
+                                            <Image src='/riskscore/pattern-1.png' alt='pattern' width={144} height={150} className='z-0 absolute right-0 top-0' />
                                             <p className='relative z-10 text-white font-bold text-xl mb-6'>Next Step,<br />Are you eager to view<br />your financial health<br />report!!!</p>
                                             <button className="bg-white font-bold text-brandblack-900 px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors" onClick={() => { setStage(Stage.WealthJourney) }}>View Wealth Journey</button>
                                         </div>
@@ -280,16 +278,16 @@ export default function RiskScore() {
                             </div>
                         </div>
                         <div className='w-full flex flex-col lg:p-8 justify-center items-center relative z-10 mt-10'>
-                            <h2 className='!font-bold !text-xl !text-white text-center mb-8'>Frequently Asked Question</h2>
+                            <h2 className='!font-bold !text-xl !text-brandblack-900 text-center mb-8'>Frequently Asked Question</h2>
                             <div className='w-full max-w-4xl'>
-                                <AccordionPanel title={<p className='!font-semibold !text-sm !lg:font-bold !lg:text-xl !text-white'>What is Risk Profile?</p>}>
-                                    <p className='!text-white !font-medium !text-sm !lg:text-base'>
+                                <AccordionPanel title={<p className='!font-semibold !text-sm !lg:font-bold !lg:text-xl !text-brandblack-900'>What is Risk Profile?</p>}>
+                                    <div className='!text-brandblack-900 !font-medium !text-sm !lg:text-base'>
                                         <ul className='list-disc pl-5'>
                                             <li>Definition: A risk profile assesses an individual&apos;s willingness and ability to tolerate financial risk in investment decisions.</li>
                                             <li>Willingness to Take Risk: Measures an individual&apos;s comfort level with fluctuations in investment returns.</li>
                                             <li>Ability to Take Risk: Evaluates the financial capacity to withstand potential losses.</li>
                                         </ul>
-                                    </p>
+                                    </div>
                                 </AccordionPanel>
                             </div>
                         </div>
@@ -298,9 +296,8 @@ export default function RiskScore() {
 
             case Stage.WealthJourney:
                 return (
-                    <div className="w-full p-4 min-h-screen bg-brandblack-900 relative lg:overflow-hidden">
-                        <Image src='/background-2.png' width={2540} height={2243} className='absolute z-0 w-full top-0 left-0 opacity-60 blur-3xl object-cover' alt='background' />
-                        <Image src="/fydaalogo-white.png" width={226} height={68} className='aspect-[904/272] lg:mb-12 mb-10' alt="Risk Score" />
+                    <div className="w-full p-4 pt-8 lg:pt-12 h-screen bg-brandblack-900 relative overflow-y-auto">
+                        <Image src='/riskscore/background-2.png' width={2540} height={2243} className='absolute z-0 w-full top-0 left-0 opacity-60 blur-3xl object-cover' alt='background' />
                         <div className='w-full flex flex-col items-center h-full origin-center'>
                             <div className='max-w-4xl p-8 lg:p-12 bg-white w-full rounded-2xl z-10'>
                                 <h1 className='font-bold text-3xl text-brandblack-900 mb-12'>Wealth Management Journey</h1>
@@ -323,7 +320,7 @@ export default function RiskScore() {
                                     </div>
                                     <div className="w-full lg:w-1/2 lg:pl-12 flex flex-col h-full items-center justify-center mt-8 lg:mt-0">
                                         <div className='w-full rounded-2xl bg-brandblack-700 p-8 relative mb-5'>
-                                            <Image src='/pattern-2.png' alt='pattern' width={144} height={150} className='z-0 absolute right-0 top-0' />
+                                            <Image src='/riskscore/pattern-2.png' alt='pattern' width={144} height={150} className='z-0 absolute right-0 top-0' />
                                             <p className='text-white font-bold text-xs mb-2'>You current stage is</p>
                                             <p className='relative z-10 text-white font-bold text-xl mb-4'>{(riskProfile?.balanceSheetDamage?.wealthStage?.name ?? '').toUpperCase()}</p>
                                             <p className='font-regular text-xs text-brandblack-100 opacity-70 mb-4'>{wealthStages[riskProfile?.balanceSheetDamage?.wealthStage?.name ?? '']?.desc}</p>
@@ -339,16 +336,15 @@ export default function RiskScore() {
 
             case Stage.BalanceSheet:
                 return (
-                    <div className="w-full p-4 min-h-screen bg-brandblack-900 relative lg:overflow-hidden">
-                        <Image src='/background-2.png' width={2540} height={2243} className='absolute z-0 w-full top-0 left-0 opacity-60 blur-3xl object-cover' alt='background' />
-                        <Image src="/fydaalogo-white.png" width={226} height={68} className='aspect-[904/272] lg:mb-12 mb-10' alt="Risk Score" />
+                    <div className="w-full p-4 pt-8 lg:pt-12 h-screen bg-brandblack-900 relative overflow-y-auto">
+                        <Image src='/riskscore/background-2.png' width={2540} height={2243} className='absolute z-0 w-full top-0 left-0 opacity-60 blur-3xl object-cover' alt='background' />
                         <div className='w-full flex flex-col items-center h-full origin-center'>
                             <div className='max-w-4xl p-8 lg:p-12 bg-white w-full rounded-2xl z-10'>
                                 <h1 className='font-bold text-3xl text-brandblack-900 mb-12'>Your Balance Sheet</h1>
                                 <div className='w-full relative flex flex-col lg:flex-row justify-between items-center'>
                                     <div className="w-full lg:w-1/2 lg:border-r lg:border-brandblack-300 flex flex-col justify-center items-start lg:pl-5 lg:pr-5">
                                         <div className='w-full p-2 bg-brandredcindrella rounded-lg inline mb-7'>
-                                            <p className='text-xs font-bold text-brandred text-center'> <span><Image src='/warning.png' alt='warning' height={16} width={16} className='inline mr-2' /></span> <span>Damaged by {Math.round(riskProfile?.totalBalanceSheetDamage ?? 0)}%!!</span> </p>
+                                            <p className='text-xs font-bold text-brandred text-center'> <span><Image src='/riskscore/warning.png' alt='warning' height={16} width={16} className='inline mr-2' /></span> <span>Damaged by {Math.round(riskProfile?.totalBalanceSheetDamage ?? 0)}%!!</span> </p>
                                         </div>
                                         <div className='flex flex-row justify-center w-full'>
                                             <BalanceSheet height={300} width={300} indicators={[]} networth={Intl.NumberFormat('hi-IN').format(riskProfile?.balanceSheetDamage?.netWorth ?? 0)} damage={riskProfile?.totalBalanceSheetDamage} />
@@ -356,7 +352,7 @@ export default function RiskScore() {
                                     </div>
                                     <div className="w-full lg:w-1/2 lg:pl-12 flex flex-col h-full items-center justify-center mt-8 lg:mt-0">
                                         <div className='w-full rounded-2xl bg-brandblack-700 p-8 relative mb-5'>
-                                            <Image src='/pattern-3.png' alt='pattern' width={144} height={150} className='z-0 absolute right-0 top-0' />
+                                            <Image src='/riskscore/pattern-3.png' alt='pattern' width={144} height={150} className='z-0 absolute right-0 top-0' />
                                             <p className='relative z-10 text-white font-bold text-xl mb-4'>Next Step,<br />Check your personalised<br />money management plan</p>
                                             <p className='font-regular text-xs text-brandblack-100 opacity-70 mb-4'>A multi-asset portfolio for your balance sheet improvement </p>
                                             <button className="bg-white font-bold text-brandblack-900 px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors" onClick={() => setStage(Stage.MoneyManagementPlan)}>Check & Confirm</button>
@@ -370,9 +366,8 @@ export default function RiskScore() {
 
             case Stage.MoneyManagementPlan:
                 return (
-                    <div className="w-full p-4 min-h-screen bg-brandblack-900 relative lg:overflow-hidden">
-                        <Image src='/background-2.png' width={2540} height={2243} className='absolute z-0 w-full top-0 left-0 opacity-60 blur-3xl object-cover' alt='background' />
-                        <Image src="/fydaalogo-white.png" width={226} height={68} className='aspect-[904/272] lg:mb-12 mb-10' alt="Risk Score" />
+                    <div className="w-full p-4 pt-8 lg:pt-12 h-screen bg-brandblack-900 relative overflow-y-auto">
+                        <Image src='/riskscore/background-2.png' width={2540} height={2243} className='absolute z-0 w-full top-0 left-0 opacity-60 blur-3xl object-cover' alt='background' />
                         <div className='w-full flex flex-col items-center h-full origin-center'>
                             <div className='max-w-4xl p-8 lg:p-12 bg-white w-full rounded-2xl z-10'>
                                 <h1 className='font-bold text-3xl text-brandblack-900 mb-12'>Your Money Management Plan</h1>
@@ -382,7 +377,7 @@ export default function RiskScore() {
                                     </div>
                                     <div className="w-full lg:w-1/2 lg:pl-12 flex flex-col h-full items-center justify-center mt-8 lg:mt-0">
                                         <div className='w-full rounded-2xl bg-brandblack-700 p-8 relative mb-5'>
-                                            <Image src='/whymultiasset.png' alt="Why Multi asset portfolio?" width={292} height={79} className='w-full aspect-[292/79] cursor-pointer mb-4' onClick={() => {
+                                            <Image src='/riskscore/whymultiasset.png' alt="Why Multi asset portfolio?" width={292} height={79} className='w-full aspect-[292/79] cursor-pointer mb-4' onClick={() => {
                                                 setModalType(ModalType.AssetComparison)
                                                 setModalOpen(true)
                                             }} />
@@ -468,7 +463,7 @@ export default function RiskScore() {
                             <ModalBody>
                                 <div className="w-full flex flex-col items-center">
                                     <div className="rounded-lg w-full flex flex-col items-start justify-start">
-                                        <Image src="/login.png" alt="mobile number login" width={108} height={103} className='mb-8' />
+                                        <Image src="/riskscore/login.png" alt="mobile number login" width={108} height={103} className='mb-8' />
                                         <h3 className="text-3xl font-bold text-brandblack-900 mb-2">Enter your mobile no</h3>
                                         <p className="text-brandblack-500 mb-8">We need to verify your number</p>
                                         <label className='text-sm font-bold text-brandblack-900 mb-1'>Mobile Number <span className='text-brandred'>*</span></label>
@@ -480,7 +475,7 @@ export default function RiskScore() {
                                 <button className="w-full bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors" onClick={async () => {
                                     if (mobileNumber.length == 10) {
                                         try {
-                                            const data = await fetch('https://auth.fydaa.com/auth/requestOtp', {
+                                            const data = await fetch(`${process.env.NEXT_PUBLIC_AUTH_BASE_URL}auth/requestOtp`, {
                                                 method: 'POST',
                                                 headers: {
                                                     'Content-type': 'application/json',
@@ -513,14 +508,14 @@ export default function RiskScore() {
                             <ModalBody>
                                 <div className="w-full flex flex-col items-center">
                                     <div className="rounded-lg w-full flex flex-col items-start justify-start">
-                                        <Image src="/verify.png" alt="mobile number login" width={108} height={103} className='mb-8' />
+                                        <Image src="/riskscore/verify.png" alt="mobile number login" width={108} height={103} className='mb-8' />
                                         <h3 className="text-3xl font-bold text-brandblack-900 mb-2">{"Verify it's you"}</h3>
                                         <p className="text-brandblack-500 mb-8">{`We send a code to ( ${mobileNumber} ). Enter it here to verify your identity`}</p>
                                         <OtpInput value={otp} onChange={setOtp} numInputs={6} />
                                         <p onClick={async () => {
                                             if (mobileNumber.length == 10) {
                                                 try {
-                                                    const data = await fetch('https://auth.fydaa.com/auth/requestOtp', {
+                                                    const data = await fetch(`${process.env.NEXT_PUBLIC_AUTH_BASE_URL}auth/requestOtp`, {
                                                         method: 'POST',
                                                         headers: {
                                                             'Content-type': 'application/json',
@@ -553,7 +548,7 @@ export default function RiskScore() {
                                 <button className="w-full bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors" onClick={async () => {
                                     if (otp.length == 6) {
                                         try {
-                                            const data = await fetch('https://auth.fydaa.com/auth/verifyOtp', {
+                                            const data = await fetch(`${process.env.NEXT_PUBLIC_AUTH_BASE_URL}auth/verifyOtp`, {
                                                 method: 'POST',
                                                 headers: {
                                                     'Content-type': 'application/json',
