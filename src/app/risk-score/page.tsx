@@ -187,6 +187,31 @@ const ArrowIcon = () => (
 </svg>
 );
 
+// Function to detect device and redirect to appropriate app store
+function redirectToAppStore() {
+    if (typeof window === 'undefined') return;
+    
+    const userAgent = window.navigator.userAgent || window.navigator.vendor || (window as any).opera;
+    
+    const iosAppStoreUrl = 'https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190';
+    const androidPlayStoreUrl = 'https://play.google.com/store/apps/details?id=com.app.fydaa&hl=en';
+    
+    // Detect iOS devices
+    if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
+        window.location.href = iosAppStoreUrl;
+        return;
+    }
+    
+    // Detect Android devices
+    if (/android/i.test(userAgent)) {
+        window.location.href = androidPlayStoreUrl;
+        return;
+    }
+    
+    // Fallback: if device can't be detected, redirect to iOS App Store (default)
+    window.location.href = iosAppStoreUrl;
+}
+
 export default function RiskScore() {
     const [stage, setStage] = useState<Stage>(Stage.Loading)
     const [score, setScore] = useState(0)
@@ -482,7 +507,8 @@ export default function RiskScore() {
                                                     "callingCode": "+91",
                                                     "mobileNumber": mobileNumber,
                                                     "deviceId": "web",
-                                                    "isWhatsappOptin": true
+                                                    "isWhatsappOptin": true,
+                                                    "fromApp": "fydaa"
                                                 })
                                             }).then(data => data.json())
                                             if (data.data.otpDelivered == true) {
@@ -508,7 +534,16 @@ export default function RiskScore() {
                                         <Image src="/riskscore/verify.png" alt="mobile number login" width={108} height={103} className='mb-8' />
                                         <h3 className="text-3xl font-bold text-brandblack-900 mb-2">{"Verify it's you"}</h3>
                                         <p className="text-brandblack-500 mb-8">{`We send a code to ( ${mobileNumber} ). Enter it here to verify your identity`}</p>
-                                        <OtpInput value={otp} onChange={setOtp} numInputs={6} />
+                                        <label className='text-sm font-bold text-brandblack-900 mb-1'>Enter OTP <span className='text-brandred'>*</span></label>
+                                        <input 
+                                            type="text" 
+                                            inputMode="numeric" 
+                                            maxLength={6}
+                                            value={otp} 
+                                            onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} 
+                                            className='w-full border rounded-lg border-brandblack-300 text-base p-3 mb-4 text-center text-xl font-bold' 
+                                            placeholder='Enter 6 digit OTP'
+                                        />
                                         <p onClick={async () => {
                                             if (mobileNumber.length == 10) {
                                                 try {
@@ -522,7 +557,8 @@ export default function RiskScore() {
                                                             "callingCode": "+91",
                                                             "mobileNumber": mobileNumber,
                                                             "deviceId": "web",
-                                                            "isWhatsappOptin": true
+                                                            "isWhatsappOptin": true,
+                                                            "fromApp": "fydaa"
                                                         })
                                                     }).then(data => data.json())
                                                     if (data.data.otpDelivered == true) {
@@ -562,7 +598,7 @@ export default function RiskScore() {
                                                 alert('Please enter valid otp')
                                                 return
                                             }
-                                            router.push('/download')
+                                            redirectToAppStore()
                                         } catch (e) {
                                             alert('Please enter valid otp')
                                         }
