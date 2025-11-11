@@ -1,9 +1,9 @@
 'use client'
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-
-export default function StartInvesting() {
+function StartInvestingContent() {
     const router = useRouter()
     const searchParams = useSearchParams()
     return (
@@ -73,6 +73,18 @@ export default function StartInvesting() {
             </section>
             
         </main>
+    )
+}
+
+export default function StartInvesting() {
+    return (
+        <Suspense fallback={
+            <main className="relative flex min-h-screen flex-col items-center justify-center pt-5 bg-[#F7F7F7]">
+                <div className="text-brandblack-900">Loading...</div>
+            </main>
+        }>
+            <StartInvestingContent />
+        </Suspense>
     )
 }
 

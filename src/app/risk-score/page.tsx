@@ -3,7 +3,6 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation';
 
 enum Stage {
     Loading,
@@ -41,16 +40,16 @@ const wealthStages: Record<string, { desc: string; top: string }> = {
 
 function format(x: any): string {
     x = x.toString()
-    var afterPoint = ''
+    let afterPoint = ''
     if (x.indexOf('.') > 0)
         afterPoint = x.substring(x.indexOf('.'), x.length)
     x = Math.floor(x)
     x = x.toString()
-    var lastThree = x.substring(x.length - 3)
-    var otherNumbers = x.substring(0, x.length - 3)
+    let lastThree = x.substring(x.length - 3)
+    const otherNumbers = x.substring(0, x.length - 3)
     if (otherNumbers != '')
         lastThree = ',' + lastThree
-    var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree
+    const res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree
     return res
 }
 
@@ -223,7 +222,6 @@ export default function RiskScore() {
     const [mobileNumber, setMobileNumber] = useState('')
     const [showToast, setShowToast] = useState(false)
     const [otp, setOtp] = useState('')
-    const router = useRouter()
 
     useEffect(() => {
         (async () => {
