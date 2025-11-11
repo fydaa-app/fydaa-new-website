@@ -371,11 +371,8 @@ export default function RiskScore() {
                         <div className='w-full flex flex-col items-center h-full origin-center'>
                             <div className='max-w-4xl p-8 lg:p-12 bg-white w-full rounded-2xl z-10'>
                                 <h1 className='font-bold text-3xl text-brandblack-900 mb-12'>Your Money Management Plan</h1>
-                                <div className='w-full relative flex flex-col lg:flex-row justify-between items-center'>
-                                    <div className="w-full lg:w-1/2 lg:border-r lg:border-brandblack-300">
-                                        <AssetAllocation width={300} height={300} assetAllocation={riskProfile?.assetAllocation?.data ?? []} />
-                                    </div>
-                                    <div className="w-full lg:w-1/2 lg:pl-12 flex flex-col h-full items-center justify-center mt-8 lg:mt-0">
+                                <div className='w-full relative flex flex-col items-center justify-center'>
+                                    <div className="w-full lg:w-1/2 flex flex-col h-full items-center justify-center">
                                         <div className='w-full rounded-2xl bg-brandblack-700 p-8 relative mb-5'>
                                             <Image src='/riskscore/whymultiasset.png' alt="Why Multi asset portfolio?" width={292} height={79} className='w-full aspect-[292/79] cursor-pointer mb-4' onClick={() => {
                                                 setModalType(ModalType.AssetComparison)
