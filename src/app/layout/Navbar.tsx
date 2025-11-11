@@ -590,6 +590,15 @@ const Navbar: React.FC = () => {
                 >
                   About
                 </a>
+
+                {/* Blog */}
+                <a
+                  href="https://www.blog.fydaa.com/"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block text-black font-medium text-base py-2 hover:text-gray-600 transition-colors duration-200"
+                >
+                  Blog
+                </a>
               </div>
             </div>
           )}
