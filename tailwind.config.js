@@ -5,6 +5,7 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx}',        // Optional: pages folder if using
     './components/**/*.{js,ts,jsx,tsx}',   // All components
     './src/**/*.{js,ts,jsx,tsx}',          // Optional: if you use /src structure
+    'node_modules/flowbite-react/lib/esm/**/*.js', // Flowbite React components
   ],
   theme: {
     extend: {
@@ -19,5 +20,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin'),
+  ],
 };
