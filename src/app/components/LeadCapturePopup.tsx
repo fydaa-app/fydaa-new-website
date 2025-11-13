@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import PrimaryButton from './PrimaryButton';
 
 const LeadCapturePopup = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -179,13 +180,13 @@ const LeadCapturePopup = () => {
               </div>
             )}
 
-            <button
+            <PrimaryButton
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-gilroy"
+              className="w-full py-3 rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed font-gilroy"
             >
               {isSubmitting ? 'Submitting...' : 'Submit'}
-            </button>
+            </PrimaryButton>
           </form>
         </div>
       </div>

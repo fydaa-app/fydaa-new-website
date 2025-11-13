@@ -62,16 +62,16 @@ const wealthStages = {
 
 function format(x: any): string {
     x = x.toString()
-    var afterPoint = ''
+    let afterPoint = ''
     if (x.indexOf('.') > 0)
         afterPoint = x.substring(x.indexOf('.'), x.length)
     x = Math.floor(x)
     x = x.toString()
-    var lastThree = x.substring(x.length - 3)
-    var otherNumbers = x.substring(0, x.length - 3)
+    let lastThree = x.substring(x.length - 3)
+    const otherNumbers = x.substring(0, x.length - 3)
     if (otherNumbers != '')
         lastThree = ',' + lastThree
-    var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree //+ afterPoint
+    const res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree //+ afterPoint
     return res
 }
 
@@ -102,19 +102,39 @@ export default function RiskScore() {
         (async () => {
             // Check if we're on the client side before accessing localStorage
             if (typeof window !== 'undefined') {
-                const response = await fetch(`https://onboarding.fydaa.com/risk-profile/getGuestIndicators?guestUserId=${localStorage.getItem('id')}`).then(res => res.json())
-                console.log('Risk Profile API Response:', response)
-                console.log('totalBalanceSheetDamage:', response?.totalBalanceSheetDamage)
-                console.log('balanceSheetDamage:', response?.balanceSheetDamage)
-                setRiskProfile(response)
+                try {
+                    const guestUserId = localStorage.getItem('id');
+                    if (!guestUserId) {
+                        console.error('No guestUserId found in localStorage');
+                        return;
+                    }
 
-                setTimeout(() => {
-                    setStage(Stage.RiskScore)
-                }, 1800)
+                    const response = await fetch(`https://onboarding.fydaa.com/risk-profile/getGuestIndicators?guestUserId=${guestUserId}`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+                    }
 
-                setTimeout(() => {
-                    setScore(response?.riskProfile?.totalPoints ?? 0)
-                }, 2000)
+                    const data = await response.json();
+                    console.log('Risk Profile API Response:', data);
+                    console.log('totalBalanceSheetDamage:', data?.totalBalanceSheetDamage);
+                    console.log('balanceSheetDamage:', data?.balanceSheetDamage);
+                    console.log('wealthStage name:', data?.balanceSheetDamage?.wealthStage?.name);
+                    console.log('assetAllocation:', data?.assetAllocation);
+                    console.log('riskProfile:', data?.riskProfile);
+                    
+                    setRiskProfile(data);
+
+                    setTimeout(() => {
+                        setStage(Stage.RiskScore)
+                    }, 1800)
+
+                    setTimeout(() => {
+                        setScore(data?.riskProfile?.totalPoints ?? 0)
+                    }, 2000)
+                } catch (error) {
+                    console.error('Error fetching risk profile:', error);
+                }
             }
         })()
     }, [])
@@ -151,24 +171,33 @@ export default function RiskScore() {
                                 <div className='w-full relative flex flex-col lg:flex-row justify-between items-center'>
                                     <div className="w-full lg:w-1/2 lg:border-r lg:border-brandblack-300">
                                         <div className="relative w-full min-h-[180px]">
-                                            <Image src='/riskscore/angularchartbase.png' alt='angular chart' height={154} width={327} className='aspect-[981/462] absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]' />
-                                            <Image src='/riskscore/angularchartbar.png' alt='angular chart meter' height={112} width={22} className='aspect-[22/112] absolute -mt-8 top-[50%] left-[calc(50%-11px)] -translate-x-[calc(50%+11px)] -translate-y-[50%] -rotate-90 transition-transform duration-1000' style={{
-                                                transform: `rotate(${-90 + 1.3846153846 * score}deg)`,
-                                                transformOrigin: '11px 105px'
-                                            }} />
+                                            {(() => {
+                                                const percentage = Math.ceil((riskProfile?.riskProfile?.totalPoints ?? 0) * 100 / (riskProfile?.riskProfileBasePoints ?? 130));
+                                                // For a semi-circular gauge (180 degrees): 0% = -90deg, 100% = 90deg
+                                                const rotation = -90 + (180 * percentage / 100);
+                                                return (
+                                                    <>
+                                                        <Image src='/riskscore/angularchartbase.png' alt='angular chart' height={154} width={327} className='aspect-[981/462] absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]' />
+                                                        <Image src='/riskscore/angularchartbar.png' alt='angular chart meter' height={112} width={22} className='aspect-[22/112] absolute -mt-8 top-[50%] left-[calc(50%-11px)] -translate-x-[calc(50%+11px)] -translate-y-[50%] -rotate-90 transition-transform duration-1000' style={{
+                                                            transform: `rotate(${rotation}deg)`,
+                                                            transformOrigin: '11px 105px'
+                                                        }} />
+                                                    </>
+                                                );
+                                            })()}
                                         </div>
                                         <p className='w-full text-center font-bold text-brandblack-900 text-sm mt-4 mb-2'>Your risk score is</p>
                                         <p className='w-full text-center font-bold text-brandblack-900 text-xl mb-3'>{Math.ceil((riskProfile?.riskProfile?.totalPoints ?? 0) * 100 / (riskProfile?.riskProfileBasePoints ?? 130))}</p>
                                         <p className='w-full text-center font-bold text-brandblack-900 text-sm mb-2'>Your risk appetite is</p>
                                         <div className='w-full flex flex-col items-center justify-center'>
-                                            <p className='text-white text-sm font-bold p-1 bg-brandsucessgreen rounded'>{riskProfile?.assetAllocation?.smallCasePortfolioName ?? 'Loading'}</p>
+                                        <p className='text-black text-sm font-bold p-1 bg-brandsucessgreen rounded'>{riskProfile?.assetAllocation?.smallCasePortfolioName ?? 'Loading'}</p>
                                         </div>
                                     </div>
                                     <div className="w-full mt-8 lg:mt-0 lg:w-1/2 lg:pl-12 flex flex-col h-full items-center justify-center">
-                                        <div className='w-full rounded-2xl bg-brandblack-700 p-8 relative mb-5'>
-                                            <Image src='/riskscore/pattern-1.png' alt='pattern' width={144} height={150} className='z-0 absolute right-0 top-0' />
-                                            <p className='relative z-10 text-black font-bold text-xl mb-6'>Next Step,<br />Are you eager to view<br />your financial health<br />report!!!</p>
-                                            <PrimaryButton className="!bg-white font-bold !text-black" onClick={() => { setStage(Stage.WealthJourney) }}>View Wealth Journey</PrimaryButton>
+                                        <div className='w-full rounded-2xl p-8 relative mb-5' style={{ backgroundColor: '#475569' }}>
+                                            <Image src='/riskscore/pattern-1.png' alt='pattern' width={144} height={150} className='z-0 absolute right-0 top-0 opacity-100' />
+                                            <p className='relative z-10 text-white font-bold text-xl mb-6'>Next Step,<br />Are you eager to view<br />your wealth journey !!!</p>
+                                            <PrimaryButton className="!bg-gray-200 !text-gray-800 font-bold w-full" onClick={() => { setStage(Stage.WealthJourney) }}>View Wealth Stage</PrimaryButton>
                                         </div>
                                         <p className='w-full pl-8 text-left text-xs font-bold text-brandblack-500'>Not happy? <Link href={'/questionnaire'}><span className='text-brandblue'>{'Retake Quiz ->'}</span></Link></p>
                                     </div>
@@ -249,6 +278,9 @@ export default function RiskScore() {
                     </div>
                 )
             case Stage.WealthJourney:
+                // Debug log to check the wealthStage value
+                console.log('WealthJourney - wealthStage name:', riskProfile?.balanceSheetDamage?.wealthStage?.name);
+                console.log('WealthJourney - full riskProfile:', riskProfile);
                 return (
                     <div className="w-full p-4 min-h-screen bg-brandblack-900 relative lg:overflow-hidden">
                         <Image src='/riskscore/background-2.png' width={2540} height={2243} className='absolute z-0 w-full top-0 left-0 opacity-60 blur-3xl' objectFit='cover' alt='background' />
@@ -262,29 +294,72 @@ export default function RiskScore() {
                                 <div className='w-full relative flex flex-col lg:flex-row justify-between items-center'>
                                     <div className="w-full lg:w-1/2 lg:border-r lg:border-brandblack-300">
                                         <div className='relative w-full min-h-[350px] flex flex-col justify-center items-center'>
-                                            <div className={`rounded-full w-[310px] h-[310px]  border border-brandblack-700 absolute bottom-0 ${riskProfile?.balanceSheetDamage?.wealthStage.name == 'Wealth Management' ? 'bg-brandblue' : 'bg-brandblack-50'}`}>
-                                                <p className={`w-full text-center font-bold text-xs pt-6 ${riskProfile?.balanceSheetDamage?.wealthStage.name == 'Wealth Management' ? 'text-white' : 'text-brandblack-900'}`}>Wealth Management</p>
-                                            </div>
-                                            <div className={`rounded-full w-[260px] h-[260px]  border border-brandblack-700 absolute bottom-0 ${riskProfile?.balanceSheetDamage?.wealthStage.name == 'Wealth Generation' ? 'bg-brandblue' : 'bg-brandblack-50'}`}>
-                                                <p className={`w-full text-center font-bold text-xs pt-6 ${riskProfile?.balanceSheetDamage?.wealthStage.name == 'Wealth Generation' ? 'text-white' : 'text-brandblack-900'}`}>Wealth Generation</p>
-                                            </div>
-
-                                            <div className={`rounded-full w-[200px] h-[200px]  border border-brandblack-700 absolute bottom-0 ${riskProfile?.balanceSheetDamage?.wealthStage.name == 'Investments' ? 'bg-brandblue' : 'bg-brandblack-50'}`}>
-                                                <p className={`w-full text-center font-bold text-xs pt-6 ${riskProfile?.balanceSheetDamage?.wealthStage.name == 'Investments' ? 'text-white' : 'text-brandblack-900'}`}>Investments</p>
-                                            </div>
-                                            <div className={`rounded-full w-[140px] h-[140px]  border border-brandblack-700 absolute bottom-0 ${riskProfile?.balanceSheetDamage?.wealthStage.name == 'Saving' ? 'bg-brandblue' : 'bg-brandblack-50'}`}>
-                                                <p className={`w-full text-center font-bold text-xs pt-12 ${riskProfile?.balanceSheetDamage?.wealthStage.name == 'Saving' ? 'text-white' : 'text-brandblack-900'}`}>Saving</p>
-                                            </div>
+                                            {(() => {
+                                                const isActive = riskProfile?.balanceSheetDamage?.wealthStage?.name === 'Wealth Management';
+                                                return (
+                                                    <div 
+                                                        className={`rounded-full w-[310px] h-[310px] border border-brandblack-700 absolute bottom-0 flex flex-col items-center justify-start ${isActive ? 'bg-brandblue' : 'bg-white'}`}
+                                                        style={isActive ? { backgroundColor: '#007DFB' } : {}}
+                                                    >
+                                                        <p className={`w-full text-center font-bold text-xs pt-6 ${isActive ? 'text-white' : 'text-brandblack-900'}`}>Wealth Management</p>
+                                                        {isActive && (
+                                                            <p className='mt-2 text-yellow-400 font-bold text-xs text-center'>You are here</p>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })()}
+                                            {(() => {
+                                                const isActive = riskProfile?.balanceSheetDamage?.wealthStage?.name === 'Wealth Generation';
+                                                return (
+                                                    <div 
+                                                        className={`rounded-full w-[260px] h-[260px] border border-brandblack-700 absolute bottom-0 flex flex-col items-center justify-start ${isActive ? 'bg-brandblue' : 'bg-white'}`}
+                                                        style={isActive ? { backgroundColor: '#007DFB' } : {}}
+                                                    >
+                                                        <p className={`w-full text-center font-bold text-xs pt-6 ${isActive ? 'text-white' : 'text-brandblack-900'}`}>Wealth Generation</p>
+                                                        {isActive && (
+                                                            <p className='mt-2 text-yellow-400 font-bold text-xs text-center'>You are here</p>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })()}
+                                            {(() => {
+                                                const isActive = riskProfile?.balanceSheetDamage?.wealthStage?.name === 'Investments';
+                                                return (
+                                                    <div 
+                                                        className={`rounded-full w-[200px] h-[200px] border border-brandblack-700 absolute bottom-0 flex flex-col items-center justify-start ${isActive ? 'bg-brandblue' : 'bg-white'}`}
+                                                        style={isActive ? { backgroundColor: '#007DFB' } : {}}
+                                                    >
+                                                        <p className={`w-full text-center font-bold text-xs pt-6 ${isActive ? 'text-white' : 'text-brandblack-900'}`}>Investments</p>
+                                                        {isActive && (
+                                                            <p className='mt-2 text-yellow-400 font-bold text-xs text-center'>You are here</p>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })()}
+                                            {(() => {
+                                                const isActive = riskProfile?.balanceSheetDamage?.wealthStage?.name === 'Saving';
+                                                return (
+                                                    <div 
+                                                        className={`rounded-full w-[140px] h-[140px] border border-brandblack-700 absolute bottom-0 flex flex-col items-center justify-start ${isActive ? 'bg-brandblue' : 'bg-white'}`}
+                                                        style={isActive ? { backgroundColor: '#007DFB' } : {}}
+                                                    >
+                                                        <p className={`w-full text-center font-bold text-xs pt-12 ${isActive ? 'text-white' : 'text-brandblack-900'}`}>Saving</p>
+                                                        {isActive && (
+                                                            <p className='mt-2 text-yellow-400 font-bold text-xs text-center'>You are here</p>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })()}
                                         </div>
                                     </div>
                                     <div className="w-full lg:w-1/2 lg:pl-12 flex flex-col h-full items-center justify-center mt-8 lg:mt-0">
-                                        <div className='w-full rounded-2xl bg-brandblack-700 p-8 relative mb-5'>
-                                            <Image src='/riskscore/pattern-2.png' alt='pattern' width={144} height={150} className='z-0 absolute right-0 top-0' />
-                                            <p className='text-black font-bold text-xs mb-2'>You current stage is</p>
-                                            <p className='relative z-10 text-black font-bold text-xl mb-4'>{(riskProfile?.balanceSheetDamage?.wealthStage.name ?? '').toUpperCase()}</p>
-                                            <p className='font-regular text-xs text-brandblack-100 opacity-70 mb-4'>{wealthStages[riskProfile?.balanceSheetDamage?.wealthStage.name as keyof typeof wealthStages]?.desc ?? ''}</p>
-                                            <p className='font-bold italic text-xs text-branddeepgreen mb-6'>{wealthStages[riskProfile?.balanceSheetDamage?.wealthStage.name as keyof typeof wealthStages]?.top ?? ''}</p>
-                                            <PrimaryButton className="!bg-white font-bold !text-black" onClick={() => setStage(Stage.BalanceSheet)}>View Balance Sheet</PrimaryButton>
+                                        <div className='w-full rounded-2xl p-8 relative mb-5' style={{ backgroundColor: '#475569' }}>
+                                            <Image src='/riskscore/pattern-2.png' alt='pattern' width={144} height={150} className='z-0 absolute right-0 top-0 opacity-100' />
+                                            <p className='text-white font-bold text-xs mb-2'>You current stage is</p>
+                                            <p className='relative z-10 text-white font-bold text-xl mb-4'>{(riskProfile?.balanceSheetDamage?.wealthStage.name ?? '').toUpperCase()}</p>
+                                            <p className='font-regular text-xs text-white opacity-70 mb-4'>{wealthStages[riskProfile?.balanceSheetDamage?.wealthStage.name as keyof typeof wealthStages]?.desc ?? ''}</p>
+                                            <p className='font-bold italic text-xs text-green-400 mb-6'>{wealthStages[riskProfile?.balanceSheetDamage?.wealthStage.name as keyof typeof wealthStages]?.top ?? ''}</p>
+                                            <PrimaryButton className="!bg-gray-200 !text-gray-800 font-bold w-full" onClick={() => setStage(Stage.MoneyManagementPlan)}>View your money management plan</PrimaryButton>
                                         </div>
                                         {/* <p className='w-full pl-8 text-left text-xs font-bold text-brandblack-500'>Not happy? <Link href={'/questionnaire?guestid=2'}><span className='text-brandblue'>{'Retake Quiz ->'}</span></Link></p> */}
                                     </div>
@@ -348,165 +423,6 @@ export default function RiskScore() {
                         </div>
                     </div>
                 )
-            case Stage.BalanceSheet:
-                return (
-                    <div className="w-full p-4 min-h-screen bg-brandblack-900 relative lg:overflow-hidden">
-                        <Image src='/riskscore/background-2.png' width={2540} height={2243} className='absolute z-0 w-full top-0 left-0 opacity-60 blur-3xl' objectFit='cover' alt='background' />
-                        <div className='flex flex-row items-center gap-2 lg:gap-3 lg:mb-12 mb-10'>
-                        <Image src="/Fydaalogo.webp" width={40} height={40} alt="Fydaa Logo" className='w-8 h-8 lg:w-10 lg:h-10 object-contain' />
-                        <Image src="/Fydaalogotext.webp" width={120} height={40} alt="Fydaa Investment Adviser" className='h-8 lg:h-10 w-auto object-contain' />
-                    </div>
-                        <div className='w-full flex flex-col items-center h-full origin-center'>
-                            <div className='max-w-4xl p-8 lg:p-12 bg-white w-full rounded-2xl z-10'>
-                                <h1 className='font-bold text-3xl text-brandblack-900 mb-12'>Your Balance Sheet</h1>
-                                <div className='w-full relative flex flex-col lg:flex-row justify-between items-center'>
-                                    <div className="w-full lg:w-1/2 lg:border-r lg:border-brandblack-300 flex flex-col justify-center items-start lg:pl-5 lg:pr-5">
-                                        {(() => {
-                                            const netWorth = riskProfile?.balanceSheetDamage?.netWorth ?? 0;
-                                            const damage = netWorth === 0 ? 0 : (riskProfile?.totalBalanceSheetDamage ?? riskProfile?.balanceSheetDamage?.totalBalanceSheetDamage ?? 0);
-                                            return damage > 0 ? (
-                                                <div className='w-full p-2 bg-brandredcindrella rounded-lg inline mb-7'>
-                                                    <p className='text-xs font-bold text-brandred text-center'> <span><Image src='/riskscore/warning.png' alt='warning' height={16} width={16} className='inline mr-2' /></span> <span>Damaged by {Math.round(damage)}%!!</span> </p>
-                                                </div>
-                                            ) : null;
-                                        })()}
-                                        <div className='flex flex-row justify-center w-full'>
-                                            <BalanceSheet height={300} width={300} indicators={[
-                                                {
-                                                    label: 'Income Statement',
-                                                    value: 0.20,
-                                                    color: '#007DFB',
-                                                },
-                                                {
-                                                    label: 'Investment',
-                                                    value: 0.20,
-                                                    color: '#EC5B7A',
-                                                },
-                                                {
-                                                    label: 'Assets',
-                                                    value: 0.20,
-                                                    color: '#EE7A3F',
-                                                },
-                                                {
-                                                    label: 'Insurance',
-                                                    value: 0.20,
-                                                    color: '#FBC70A',
-                                                },
-                                                {
-                                                    label: 'Liabilities',
-                                                    value: 0.20,
-                                                    color: '#344054',
-                                                },
-                                            ]} networth={Intl.NumberFormat('hi-IN').format(riskProfile?.balanceSheetDamage?.netWorth ?? 0)} damage={(() => {
-                                                const netWorth = riskProfile?.balanceSheetDamage?.netWorth ?? 0;
-                                                return netWorth === 0 ? 0 : (riskProfile?.totalBalanceSheetDamage ?? riskProfile?.balanceSheetDamage?.totalBalanceSheetDamage ?? 0);
-                                            })()} />
-                                        </div>
-                                    </div>
-                                    <div className="w-full lg:w-1/2 lg:pl-12 flex flex-col h-full items-center justify-center mt-8 lg:mt-0">
-                                        <div className='w-full rounded-2xl bg-brandblack-700 p-8 relative mb-5'>
-                                            <Image src='/riskscore/pattern-3.png' alt='pattern' width={144} height={150} className='z-0 absolute right-0 top-0' />
-                                            <p className='relative z-10 text-black font-bold text-xl mb-4'>Next Step,<br />Check your personalised<br />money management plan</p>
-                                            <p className='font-regular text-xs text-brandblack-100 opacity-70 mb-4'>A portfolio for your balance sheet improvement </p>
-                                            <PrimaryButton className="!bg-white font-bold !text-black" onClick={() => setStage(Stage.MoneyManagementPlan)}>Check & Confirm</PrimaryButton>
-                                        </div>
-                                        {/* <p className='w-full pl-8 text-left text-xs font-bold text-brandblack-500'>Not happy? <Link href={'/questionnaire?guestid=2'}><span className='text-brandblue'>{'Retake Quiz ->'}</span></Link></p> */}
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div className='w-full flex flex-col lg:p-8 justify-center items-center relative z-10 mt-10'>
-                            <h2 className='!font-bold !text-xl !text-black text-center mb-8'>Frequently Asked Question</h2>
-                            <div className='w-full max-w-4xl'>
-                                <Accordion collapseAll className='!border-white !border-opacity-40' arrowIcon={ArrowIcon}>
-                                    <AccordionPanel>
-                                        <AccordionTitle><p className='!font-semibold !text-sm !lg:font-bold !lg:text-xl !text-black'>What is Balance Sheet?</p></AccordionTitle>
-                                        <AccordionContent>
-                                            <div className='!text-black !font-medium !text-sm !lg:text-base'>
-                                                <ul className='list-disc pl-5'>
-                                                    <li>Definition:<br />
-                                                        <ul className='list-disc pl-5'>
-                                                            <li>A balance sheet for individuals, also known as a personal financial statement, is a snapshot of an individual&apos;s financial position at a specific point in time.</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        Components:<br />
-                                                        <ul className='list-disc pl-5'>
-                                                            <li>Assets:<br />
-                                                                <ul className='list-disc pl-5'>
-                                                                    <li>Represents what the individual owns.</li>
-                                                                    <li>Includes cash, savings, investments, real estate, vehicles, and personal belongings of significant value.</li>
-                                                                </ul>
-                                                            </li>
-                                                            <li>Liabilities:<br />
-                                                                <ul className='list-disc pl-5'>
-                                                                    <li>Represents what the individual owes.</li>
-                                                                    <li>Includes mortgages, loans, credit card balances, and other outstanding debts.</li>
-                                                                </ul>
-                                                            </li>
-                                                            <li>Net Worth:<br />
-                                                                <ul className='list-disc pl-5'>
-                                                                    <li>Calculated as the difference between total assets and total liabilities.</li>
-                                                                    <li>Reflects an individual&apos;s overall financial health and wealth.</li>
-                                                                </ul>
-                                                            </li>
-                                                            <li>Purpose:<br />
-                                                                <ul className='list-disc pl-5'>
-                                                                    <li>Provides a comprehensive view of one&apos;s financial situation.</li>
-                                                                    <li>Helps individuals track their wealth accumulation or debt reduction over time.</li>
-                                                                    <li>A tool for setting financial goals and making informed financial decisions.</li>
-                                                                </ul>
-                                                            </li>
-
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        Categorization of Assets and Liabilities:<br />
-                                                        <ul className='list-disc pl-5'>
-                                                            <li>Liquid Assets:<br />
-                                                                <ul className='list-disc pl-5'>
-                                                                    <li>Cash and assets that can be easily converted to cash.</li>
-                                                                    <li>Provides a measure of financial liquidity.</li>
-                                                                </ul>
-                                                            </li>
-                                                            <li>Investments:<br />
-                                                                <ul className='list-disc pl-5'>
-                                                                    <li>Stocks, bonds, retirement accounts, and other long-term assets.</li>
-                                                                    <li>Contributes to long-term financial growth.</li>
-                                                                </ul>
-                                                            </li>
-                                                            <li>Real Estate:<br />
-                                                                <ul className='list-disc pl-5'>
-                                                                    <li>The value of owned property, including primary residence and additional real estate.</li>
-                                                                    <li>Represents a significant portion of an individual&apos;s net worth.</li>
-                                                                </ul>
-                                                            </li>
-                                                            <li>Short-term and Long-term Liabilities:<br />
-                                                                <ul className='list-disc pl-5'>
-                                                                    <li>Credit card debt, personal loans (short-term).</li>
-                                                                    <li>Mortgages, student loans (long-term).</li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        Importance in Financial Planning:<br />
-                                                        <ul className='list-disc pl-5'>
-                                                            <li>Assists in setting financial goals and allocating resources effectively.</li>
-                                                            <li>Guides decisions regarding debt management, investment strategies, and overall financial well-being.</li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <p className='!text-black !font-medium !text-sm !lg:text-base'>A personal balance sheet serves as a valuable tool for individuals to gain insight into their financial standing, make informed decisions, and work towards achieving their financial objectives.</p>
-                                        </AccordionContent>
-                                    </AccordionPanel>
-                                </Accordion>
-                            </div>
-                        </div>
-                    </div>
-                )
             case Stage.MoneyManagementPlan:
                 return (
                     <div className="w-full p-4 min-h-screen bg-brandblack-900 relative lg:overflow-hidden">
@@ -523,18 +439,18 @@ export default function RiskScore() {
                                         <AssetAllocation width={300} height={300} assetAllocation={riskProfile?.assetAllocation?.data ?? []} />
                                     </div>
                                     <div className="w-full lg:w-1/2 lg:pl-12 flex flex-col h-full items-center justify-center mt-8 lg:mt-0">
-                                        <div className='w-full rounded-2xl bg-brandblack-700 p-8 relative mb-5'>
+                                        <div className='w-full rounded-2xl p-8 relative mb-5'>
                                             <Image src='/riskscore/whymultiasset.png' alt="Why Multi asset portfolio?" width={292} height={79} className='w-full aspect-[292/79] cursor-pointer mb-4' onClick={() => {
                                                 setModalType(ModalType.AssetComparison)
                                                 setModalOpen(true)
                                             }} />
-                                            <p className='font-regular text-xs text-brandblack-100 opacity-70 mb-4'>Based on you risk profile assessment, here is your personalised money management plan</p>
-                                            <PrimaryButton className="bg-black font-bold text-black mb-4" onClick={() => {
+                                            <p className='font-regular text-xs text-brandblack-700 mb-4'>Based on you risk profile assessment, here is your personalised money management plan</p>
+                                            <PrimaryButton className="!bg-gray-200 !text-gray-800 font-bold w-full mb-4" onClick={() => {
                                                 setModalType(ModalType.EnterPhone)
                                                 setOtpSent(false)
                                                 setModalOpen(true)
                                             }}>Setup My Account</PrimaryButton>
-                                            <p className='w-full text-left text-xs font-bold text-black'>Not happy? <Link href={'/questionnaire'}><span className='text-brandblue'>{'Retake Quiz ->'}</span></Link></p>
+                                            <p className='w-full text-left text-xs font-bold text-brandblack-700'>Not happy? <Link href={'/questionnair'}><span className='text-brandblue'>{'Retake Quiz ->'}</span></Link></p>
                                         </div>
 
                                     </div>
@@ -857,41 +773,41 @@ export default function RiskScore() {
                                 </div>
                             </ModalBody>
                             <ModalFooter>
-                                <div className="w-full flex flex-col gap-2">
+                                <div className="w-full">
                                     <PrimaryButton className="w-full" onClick={async () => {
                                         if (mobileNumber.length == 10) {
-                                            await fetch('https://auth.fydaa.com/auth/requestOtp', {
-                                                method: 'POST',
-                                                headers: {
-                                                    'Content-type': 'application/json',
-                                                    'Accept': 'application/json'
-                                                },
-                                                body: JSON.stringify({
-                                                    "callingCode": "+91",
-                                                    "mobileNumber": mobileNumber,
-                                                    "deviceId": "web",
-                                                    "isWhatsappOptin": 1,
-                                                    "fromApp": "fydaa"
-                                                })
-                                            })
-                                                .then(data => data.json())
-                                                .then(data => {
-                                                    if (data.data.otpDelivered == true) {
-                                                        setOtpSent(true)
-                                                        setShowToast(true)
-                                                        setTimeout(() => setShowToast(false), 3000)
-                                                    } else {
-                                                        alert('Couldn\'t send Otp, try again after sometime')
-                                                    }
-                                                })
-                                                .catch(e => alert('Couldn\'t send Otp, try again after sometime'))
+                                            try {
+                                                const response = await fetch('https://auth.fydaa.com/auth/requestOtp', {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-type': 'application/json',
+                                                        'Accept': 'application/json'
+                                                    },
+                                                    body: JSON.stringify({
+                                                        "callingCode": "+91",
+                                                        "mobileNumber": mobileNumber,
+                                                        "deviceId": "web",
+                                                        "isWhatsappOptin": 1,
+                                                        "fromApp": "fydaa"
+                                                    })
+                                                });
+                                                
+                                                const data = await response.json();
+                                                
+                                                if (data.data.otpDelivered == true) {
+                                                    setOtpSent(true)
+                                                    setShowToast(true)
+                                                    setTimeout(() => setShowToast(false), 3000)
+                                                    // Automatically redirect to OTP verification modal
+                                                    setModalType(ModalType.VerifyOtp)
+                                                } else {
+                                                    alert('Couldn\'t send Otp, try again after sometime')
+                                                }
+                                            } catch (e) {
+                                                alert('Couldn\'t send Otp, try again after sometime')
+                                            }
                                         } else {
                                             alert("Please enter a valid mobile number")
-                                        }
-                                    }}>Send OTP</PrimaryButton>
-                                    <PrimaryButton className="w-full" disabled={!otpSent} onClick={() => {
-                                        if (otpSent) {
-                                            setModalType(ModalType.VerifyOtp)
                                         }
                                     }}>Continue</PrimaryButton>
                                 </div>
@@ -913,7 +829,7 @@ export default function RiskScore() {
                                             // renderSeparator={<span className='m-1' />}
                                             renderInput={(props) => {
                                                 const { type, ...restProps } = props;
-                                                return <input {...restProps} type='number' className={`${props.className} pt-3 pb-3 !w-12 bg-brandblack-200 !text-brandblack-900 font-bold text-xl rounded-lg`} />;
+                                                return <input {...restProps} type='text' inputMode='numeric' pattern='[0-9]*' className={`${props.className} pt-3 pb-3 !w-12 bg-brandblack-200 !text-brandblack-900 font-bold text-xl rounded-lg [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [-moz-appearance:textfield]`} />;
                                             }}
                                         />
                                         <p onClick={async () => {
@@ -971,7 +887,33 @@ export default function RiskScore() {
                                                     alert('Please enter valid otp')
                                                     return
                                                 }
-                                                router.push('/download')
+                                                // Detect device and redirect to appropriate app store
+                                                const userAgent = typeof window !== 'undefined' ? window.navigator.userAgent.toLowerCase() : '';
+                                                const platform = typeof window !== 'undefined' ? window.navigator.platform?.toLowerCase() : '';
+                                                
+                                                const iosUrl = 'https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190';
+                                                const androidUrl = 'https://play.google.com/store/apps/details?id=com.app.fydaa&hl=en';
+                                                
+                                                // Detect iOS (iPhone, iPad, iPod)
+                                                if (/iphone|ipad|ipod/.test(userAgent)) {
+                                                    window.open(iosUrl, '_blank');
+                                                }
+                                                // Detect Android
+                                                else if (/android/.test(userAgent)) {
+                                                    window.open(androidUrl, '_blank');
+                                                }
+                                                // Detect Mac
+                                                else if (/macintosh|mac os x|mac/.test(userAgent) || platform.includes('mac')) {
+                                                    window.open(iosUrl, '_blank'); // Mac App Store or iOS App Store
+                                                }
+                                                // Detect Windows
+                                                else if (/windows|win32|win64/.test(userAgent) || platform.includes('win')) {
+                                                    window.open(androidUrl, '_blank'); // Windows Store or fallback to Play Store
+                                                }
+                                                // Default to iOS App Store for unknown devices
+                                                else {
+                                                    window.open(iosUrl, '_blank');
+                                                }
                                             })
                                             .catch(e => alert('Please enter valid otp'))
                                     } else {
@@ -986,6 +928,4 @@ export default function RiskScore() {
 
         </>
     )
-
-
 }

@@ -53,9 +53,16 @@ export default function Questionnaire() {
                         {questionList[currentQuestionIndex]?.['questionCategory'] == 'FINANCIAL' ? 'Financial Info' : 'Personal Info'}
                     </h2>
                     <p className="text-xs font-medium text-brandblack-500 mb-12">{`Question ${currentQuestionIndex + 1} of ${questionList.length}`}</p>
-                    <Image src={'/start-investing/questiontop.png'} alt="question bar cards" width={352} height={30} />
-                    <div className={`w-full max-w-[360px] min-h-[471px] -mt-2 pl-4 pr-4 pt-6 pb-6 rounded-xl flex flex-col items-center ${questionList[currentQuestionIndex]?.['questionCategory'] == 'FINANCIAL' ? 'bg-brandorange' : 'bg-brandblue'}`}>
-                        <p className="text-brandblack-900 font-bold text-center pt-6 mb-8 text-lg">{questionList[currentQuestionIndex]?.['question']}</p>
+                    <div className="w-full max-w-[420px]">
+                        <Image src={'/start-investing/questiontop.png'} alt="question bar cards" width={352} height={30} className="w-full" />
+                    </div>
+                    <div 
+                        className="w-full max-w-[420px] -mt-2 pl-6 pr-6 pt-8 pb-8 rounded-xl flex flex-col items-center"
+                        style={{
+                            backgroundColor: '#007DFB'
+                        }}
+                    >
+                        <p className="text-white font-bold text-center pt-6 mb-8 text-lg break-words px-2">{questionList[currentQuestionIndex]?.['question']}</p>
                         {
                             questionList[currentQuestionIndex]?.['questionType'] == 'RANGE' ? (
                                 <div className="pt-4 w-full">
@@ -98,7 +105,7 @@ export default function Questionnaire() {
                                 <div className="w-full mt-4">
                                     {
                                         questionList[currentQuestionIndex]['option'].map((option: any, index: number) => (
-                                            <div key={option.answer} className={`w-full flex flex-row justify-between items-center pl-4 pr-4 pt-3 pb-3 border rounded-xl mb-2 cursor-pointer transition-all duration-200 ${(answer[questionList[currentQuestionIndex]['id']]?.['answerId'] == index + 1) ? 'bg-white text-brandblack-900 font-semibold text-lg border-[1px] border-black' : 'bg-white bg-opacity-20 text-brandblack-900 font-medium border-white border-opacity-30'}`} onClick={() => {
+                                            <div key={option.answer} className={`w-full flex flex-row justify-between items-center pl-4 pr-4 pt-3 pb-3 border rounded-xl mb-2 cursor-pointer transition-all duration-200 ${(answer[questionList[currentQuestionIndex]['id']]?.['answerId'] == index + 1) ? 'bg-white text-black font-semibold text-lg border-2 border-black' : 'bg-white bg-opacity-20 text-white font-medium border-white border-opacity-30'}`} onClick={() => {
                                                 const _answer = {
                                                     ...answer,
                                                     [questionList[currentQuestionIndex]['id']]: {
@@ -109,7 +116,7 @@ export default function Questionnaire() {
                                                 }
                                                 setAnswer(_answer)
                                             }}>
-                                                <p className="w-full text-center">{option.answer}</p>
+                                                <p className={`w-full text-center ${(answer[questionList[currentQuestionIndex]['id']]?.['answerId'] == index + 1) ? 'text-black' : 'text-white'}`}>{option.answer}</p>
                                             </div>
                                         ))
                                     }
@@ -117,11 +124,11 @@ export default function Questionnaire() {
                             )
                         }
                     </div>
-                    <div className="w-full max-w-[360px] flex flex-row justify-between -mt-8">
-                        <button disabled={currentQuestionIndex == 0} className={`w-[48%] border font-semibold px-4 py-2 rounded-lg transition-colors duration-200 ${currentQuestionIndex == 0 ? 'border-brandblack-50 bg-brandblack-50 text-brandblack-400 cursor-not-allowed' : 'border-brandblack-700 bg-white text-brandblack-900 hover:bg-gray-50'}`} onClick={() => {
+                    <div className="w-full max-w-[420px] flex flex-row justify-center mt-3 pb-3 gap-2">
+                        <button disabled={currentQuestionIndex == 0} className={`w-[45%] border font-semibold px-4 py-2 rounded-lg transition-colors duration-200 ${currentQuestionIndex == 0 ? 'border-brandblack-50 bg-brandblack-50 text-brandblack-400 cursor-not-allowed' : 'border-brandblack-700 bg-white text-brandblack-900 hover:bg-gray-50'}`} onClick={() => {
                             setCurrentQuestionIndex(currentQuestionIndex - 1)
                         }}>Back</button>
-                        <button disabled={answer[questionList[currentQuestionIndex]['id']] == undefined} className={`w-[48%] px-4 py-2 rounded-lg font-semibold transition-colors duration-200 ${answer[questionList[currentQuestionIndex]['id']] == undefined ? 'border-brandblack-50 bg-brandblack-50 text-brandblack-400 cursor-not-allowed' : 'bg-black text-white hover:bg-gray-800'}`} onClick={async () => {
+                        <button disabled={answer[questionList[currentQuestionIndex]['id']] == undefined} className={`w-[45%] px-4 py-2 rounded-lg font-semibold transition-colors duration-200 ${answer[questionList[currentQuestionIndex]['id']] == undefined ? 'border-brandblack-50 bg-brandblack-50 text-brandblack-400 cursor-not-allowed' : 'bg-black text-white hover:bg-gray-800'}`} onClick={async () => {
                             if (currentQuestionIndex < questionList.length - 1) {
                                 setCurrentQuestionIndex(currentQuestionIndex + 1)
                             } else {
