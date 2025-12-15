@@ -58,9 +58,9 @@ const BannerSection: React.FC = () => {
 
         {/* Texts with negative margin to overlap logo */}
         <div className="-mt-12 sm:-mt-16 md:-mt-20 z-20 max-w-4xl px-2 sm:px-0">
-          <h1 className="font-gilroy-semibold text-[22px] sm:text-[28px] md:text-[34px] lg:text-[40px] leading-[28px] sm:leading-[36px] md:leading-[44px] lg:leading-[52px] tracking-[0px] text-[#FFFFFF] text-center opacity-100">
+          <h2 className="font-gilroy-semibold text-[22px] sm:text-[28px] md:text-[34px] lg:text-[40px] leading-[28px] sm:leading-[36px] md:leading-[44px] lg:leading-[52px] tracking-[0px] text-[#FFFFFF] text-center opacity-100">
             Bharosa Humara, Fydaa Aapka
-          </h1>
+          </h2>
 
           <p className="font-inter font-normal text-[12px] sm:text-[14px] md:text-[16px] leading-[16px] sm:leading-[20px] md:leading-[22px] tracking-[-0.36px] text-[#E6E6E6] text-center opacity-100 mt-3 max-w-full sm:max-w-lg md:max-w-xl mx-auto">
             Let's embark on this journey together, towards a tomorrow filled

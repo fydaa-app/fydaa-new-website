@@ -93,9 +93,9 @@ const Fydaaexperience = () => {
       ref={sectionRef}
       className="bg-[#F7F7F7] w-full pb-8 sm:pb-12 md:pb-16 lg:pb-20 h-auto flex flex-col items-center pt-12 sm:pt-16 md:pt-20 lg:pt-28 mb-8 sm:mb-12 md:mb-16"
     >
-      <h1 className=" relative z-10 text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-semibold font-['Gilroy'] text-center px-4 sm:px-6 md:px-8">
+      <h2 className=" relative z-10 text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-semibold font-['Gilroy'] text-center px-4 sm:px-6 md:px-8">
         The Fydaa Experience
-      </h1>
+      </h2>
       <p className="relative z-10 text-[14px] sm:text-[16px] md:text-[17px] lg:text-[18px] font-regular font-['Inter'] text-center mt-3 sm:mt-4 md:mt-5 lg:mt-6 px-4 sm:px-6 md:px-8 max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl">
         Every user is different. That's why our plans are built just for you.
       </p>

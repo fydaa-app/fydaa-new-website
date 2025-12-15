@@ -194,12 +194,12 @@ export default function Dreams() {
       {/* Header */}
       <header className="relative z-30 px-4 sm:px-6 pt-12 sm:pt-16 pb-6 sm:pb-8">
         <div className="max-w-4xl mx-auto text-center">
-          <h1
+          <h2
             ref={headerTitleRef}
             className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[56px] font-semibold text-gray-900 mb-4 sm:mb-6 font-gilroy leading-tight"
           >
             For Your Dreams And Aspirations
-          </h1>
+          </h2>
           <p className="text-gray-600 max-w-xs sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto text-sm sm:text-base md:text-lg lg:text-[18px] font-normal leading-relaxed font-inter px-2">
             At Fydaa, we help you direct every rupee with purpose - whether
             you&apos;re spending on today, saving for tomorrow, or investing for

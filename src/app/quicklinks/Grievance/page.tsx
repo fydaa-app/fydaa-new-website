@@ -52,7 +52,7 @@ const Grievance = () => {
         {/* Header Section */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-800 py-16 px-6 mt-8">
           <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-5xl font-extrabold text-white mb-4">Grievance Redressal</h1>
+            <h2 className="text-5xl font-extrabold text-white mb-4">Grievance Redressal</h2>
             <p className="text-blue-200 text-lg max-w-3xl mx-auto">
               We&apos;re here to help resolve your concerns. Reach out to our dedicated team through any of the channels below.
             </p>

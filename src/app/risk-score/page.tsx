@@ -167,7 +167,7 @@ export default function RiskScore() {
                     </div>
                         <div className='w-full flex flex-col items-center h-full origin-center'>
                             <div className='max-w-4xl p-8 lg:p-12 bg-white w-full rounded-2xl z-10'>
-                                <h1 className='font-bold text-3xl text-brandblack-900 mb-12'>Your Risk Score</h1>
+                                <h2 className='font-bold text-3xl text-brandblack-900 mb-12'>Your Risk Score</h2>
                                 <div className='w-full relative flex flex-col lg:flex-row justify-between items-center'>
                                     <div className="w-full lg:w-1/2 lg:border-r lg:border-brandblack-300">
                                         <div className="relative w-full min-h-[180px]">
@@ -290,7 +290,7 @@ export default function RiskScore() {
                     </div>
                         <div className='w-full flex flex-col items-center h-full origin-center'>
                             <div className='max-w-4xl p-8 lg:p-12 bg-white w-full rounded-2xl z-10'>
-                                <h1 className='font-bold text-3xl text-brandblack-900 mb-12'>Wealth Management Journey</h1>
+                                <h2 className='font-bold text-3xl text-brandblack-900 mb-12'>Wealth Management Journey</h2>
                                 <div className='w-full relative flex flex-col lg:flex-row justify-between items-center'>
                                     <div className="w-full lg:w-1/2 lg:border-r lg:border-brandblack-300">
                                         <div className='relative w-full min-h-[350px] flex flex-col justify-center items-center'>
@@ -433,7 +433,7 @@ export default function RiskScore() {
                     </div>
                         <div className='w-full flex flex-col items-center h-full origin-center'>
                             <div className='max-w-4xl p-8 lg:p-12 bg-white w-full rounded-2xl z-10'>
-                                <h1 className='font-bold text-3xl text-brandblack-900 mb-12'>Your Money Management Plan</h1>
+                                <h2 className='font-bold text-3xl text-brandblack-900 mb-12'>Your Money Management Plan</h2>
                                 <div className='w-full relative flex flex-col lg:flex-row justify-between items-center'>
                                     <div className="w-full lg:w-1/2 lg:border-r lg:border-brandblack-300">
                                         <AssetAllocation width={300} height={300} assetAllocation={riskProfile?.assetAllocation?.data ?? []} />

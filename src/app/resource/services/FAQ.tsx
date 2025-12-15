@@ -20,9 +20,9 @@ const FAQ: React.FC<FAQProps> = ({ faqs }) => {
       <div className="max-w-4xl mx-auto">
         {/* Main Heading */}
         <div className="text-center mb-16">
-          <h1 className="text-[56px] font-semibold text-black mb-6 font-gilroy">
+          <h2 className="text-[56px] font-semibold text-black mb-6 font-gilroy">
             FAQs
-          </h1>
+          </h2>
           <p className="text-[18px] text-black font-normal max-w-2xl mx-auto font-inter">
             Feel free to contact us if you have any questions after reviewing
             our FAQs.

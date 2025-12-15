@@ -178,7 +178,7 @@ const FinancialServicesCarousel = () => {
                   <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] lg:text-[22px] xl:text-[24px] font-semibold leading-tight font-['Gilroy']">
                     {service.title}
                   </h2>
-                  <p className="text-[12px] sm:text-[13px] md:text-[14px] font-thin leading-relaxed text-gray-300 font-['Gilroy']">
+                  <p className="text-[12px] sm:text-[13px] md:text-[14px] font-medium leading-relaxed text-gray-300 font-['Gilroy']">
                     {service.description}
                   </p>
                 </div>
