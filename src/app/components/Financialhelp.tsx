@@ -72,9 +72,9 @@ const FinancialPlanInterface: React.FC = () => {
       </div>
 
       <div className="text-center mt-8 sm:mt-16 md:mt-20 lg:mt-28 relative z-60 px-4 sm:px-6 md:px-8">
-        <h1 className="text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-semibold text-white text-center font-['Gilroy'] leading-tight">
-          One Hand for All Your Financial Help
-        </h1>
+        <h2 className="text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-semibold text-white text-center font-['Gilroy'] leading-tight">
+          One Hand for All Your Financial Planning
+        </h2>
         <p className="text-[14px] sm:text-[16px] md:text-[17px] lg:text-[18px] font-normal text-[#E6E6E6] text-center font-['Inter'] mt-3 sm:mt-4 md:mt-5 lg:mt-6 leading-relaxed max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto">
           One app, many goals - everything you need to manage money smartly, in
           one place.
@@ -323,9 +323,9 @@ const FinancialPlanInterface: React.FC = () => {
                       <div>
                         {/* Header */}
                         <div className="text-left mb-6 sm:mb-8 md:mb-10">
-                          <h1 className="text-[20px] sm:text-[24px] md:text-[26px] lg:text-[28px] xl:text-[30px] font-semibold text-white mb-1 sm:mb-2 tracking-tight font-['Gilroy']">
+                          <h3 className="text-[20px] sm:text-[24px] md:text-[26px] lg:text-[28px] xl:text-[30px] font-semibold text-white mb-1 sm:mb-2 tracking-tight font-['Gilroy']">
                             {card.title}
-                          </h1>
+                          </h3>
                           <p className="text-white/70 text-[10px] sm:text-[11px] md:text-[12px] font-normal font-['Gilroy']">
                             {card.subtitle}
                           </p>
@@ -452,9 +452,9 @@ const FinancialPlanInterface: React.FC = () => {
         {/* Text and buttons overlay on space image */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 pt-48 sm:pt-64 md:pt-72 lg:pt-80">
           {/* Main heading */}
-          <h1 className="text-white text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-normal italic leading-tight mb-2 max-w-xs sm:max-w-md md:max-w-lg lg:max-w-4xl xl:max-w-7xl font-['Inter']">
+          <h2 className="text-white text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] font-normal italic leading-tight mb-2 max-w-xs sm:max-w-md md:max-w-lg lg:max-w-4xl xl:max-w-7xl font-['Inter']">
             EMI nahi Fydaa SIP se achieve karo apne sapne.
-          </h1>
+          </h2>
 
           {/* Subtitle */}
           <p className="text-white/80 text-[14px] sm:text-[16px] md:text-[17px] lg:text-[18px] font-normal leading-relaxed mb-6 sm:mb-8 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-4xl font-['Inter']">

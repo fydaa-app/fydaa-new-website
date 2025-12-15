@@ -40,9 +40,9 @@ export default function Questionnaire() {
                         </div>
                     </div>
                     <div className="w-full">
-                        <h1 className="text-5xl font-medium text-brandblack-900 mb-6">
+                        <h2 className="text-5xl font-medium text-brandblack-900 mb-6">
                             {questionList[currentQuestionIndex]?.['title'] ?? 'Age Profile'}
-                        </h1>
+                        </h2>
                         <p className="text-xl text-brandblack-700">
                             {questionList[currentQuestionIndex]?.['description'] ?? 'Your age is very important factor in determining your ability to take risk and therefore expected returns.'}
                         </p>
@@ -153,7 +153,7 @@ export default function Questionnaire() {
             </div>) : (
                 <div className="w-full flex flex-col items-center justify-center min-h-screen">
                     <Image src="/start-investing/Indicator.png" alt="Loading Risk Questionnaire" width={189} height={123} className="lg:w-1/3 aspect-[189/123] mb-12" />
-                    <h1 className="font-bold text-center w-full text-3xl text-brandblack-900">Loading risk questionnaire</h1>
+                    <h2 className="font-bold text-center w-full text-3xl text-brandblack-900">Loading risk questionnaire</h2>
                 </div>
             )
     )

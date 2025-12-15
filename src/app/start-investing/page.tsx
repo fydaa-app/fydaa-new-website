@@ -10,9 +10,9 @@ function StartInvestingContent() {
         <main className="relative flex min-h-screen flex-col items-center justify-start pt-5 bg-[#F7F7F7]">
             <section className="flex flex-col lg:flex-row items-center justify-center mt-8 lg:mt-8 lg:ml-8 lg:mr-8 lg:p-20 p-8 bg-[#F7F7F7] lg:w-[calc(100%-64px)] lg:rounded-xl">
                 <div className="w-full lg:w-1/2 flex flex-col lg:pr-12">
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-brandblack-900 font-bold font-gilroy leading-tight mb-6">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-brandblack-900 font-bold font-gilroy leading-tight mb-6">
                         Check your financial health & measure your risk appetite <span className="italic">FREE!</span>
-                    </h1>
+                    </h2>
                     <p className="text-base sm:text-lg md:text-xl text-brandblack-700 font-inter mb-10 lg:mb-14 leading-relaxed">
                         Answer few questions about you to provide a customised Investment Plan as per your risk profile.
                     </p>

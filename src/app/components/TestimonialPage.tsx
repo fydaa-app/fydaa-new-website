@@ -193,9 +193,9 @@ const TestimonialPage: React.FC = () => {
       {/* Top Section: Real People, Real Progress */}
       <div className="bg-black pt-8 sm:pt-12 md:pt-16 lg:pt-20 xl:pt-24 2xl:pt-28 pb-8 sm:pb-12 md:pb-14 lg:pb-16 xl:pb-18 2xl:pb-20 px-4 sm:px-6 md:px-8 lg:px-8 xl:px-10 2xl:px-12">
         <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-6xl xl:max-w-7xl 2xl:max-w-8xl mx-auto text-center">
-          <h1 className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[56px] xl:text-[64px] 2xl:text-[72px] font-semibold text-white mb-6 sm:mb-8 md:mb-10 lg:mb-8 xl:mb-10 2xl:mb-12 font-gilroy">
+          <h2 className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[56px] xl:text-[64px] 2xl:text-[72px] font-semibold text-white mb-6 sm:mb-8 md:mb-10 lg:mb-8 xl:mb-10 2xl:mb-12 font-gilroy">
             Real People, Real Progress
-          </h1>
+          </h2>
 
           {/* Navigation Arrows and Testimonial Content */}
           <div className="flex flex-col lg:flex-row justify-between items-center mb-8 sm:mb-10 md:mb-12 lg:mb-24 xl:mb-28 2xl:mb-32 gap-6 sm:gap-8 md:gap-10 lg:gap-0">

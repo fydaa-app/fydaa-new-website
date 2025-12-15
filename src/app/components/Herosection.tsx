@@ -51,9 +51,9 @@ const HeroSection: React.FC = () => {
             <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-semibold text-black font-gilroy leading-tight">
               Wealth Shouldn't Be a Privilege
             </h1>
-            <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-5xl 2xl:text-6xl font-light text-black font-gilroy leading-tight">
+            <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-5xl 2xl:text-6xl font-light text-black font-gilroy leading-tight">
               It Should Be a Possibility For All
-            </h2>
+            </h1>
             <p className="text-sm sm:text-sm md:text-base lg:text-sm xl:text-lg 2xl:text-xl text-gray-600 font-inter font-normal max-w-sm sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto px-2 sm:px-4">
               We're on a mission to make smart investing accessible,
               understandable,

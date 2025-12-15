@@ -8,7 +8,7 @@ export default function Complaints() {
                 <section className="terms-content">
                     <div className="container text-center">
                         <div className="mt-5 pt-3">
-                            <h1 className="text-center text-3xl font-bold">Complaint Data</h1>
+                            <h2 className="text-center text-3xl font-bold">Complaint Data</h2>
                         </div>
                         <p className="my-4 font-semibold text-xl mb-20">Data for the month ending – November 2025</p>
 

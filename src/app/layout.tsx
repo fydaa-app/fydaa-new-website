@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import ConditionalLayout from "./components/ConditionalLayout";
 import Chatbot from "./components/Chatbot";
@@ -26,7 +27,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Fydaa – Your money, your mission",
-  description: "Track and manage your budget with Fydaa.",
+  description: "Plan your money better with Fydaa. Get goal-based financial planning, investing, budgeting, debt management & retirement planning from SEBI-registered advisors.",
 };
 
 export default function RootLayout({
@@ -41,6 +42,18 @@ export default function RootLayout({
       <body
         className={`text-black font-sans m-0 p-0 ${geistSans.variable} ${geistMono.variable} ${inter.variable}`}
       >
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-DMWN4CQK6D"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-DMWN4CQK6D');
+          `}
+        </Script>
         <ConditionalLayout>
           {children}
         </ConditionalLayout>

@@ -22,9 +22,9 @@ const AdvisoryFydaa: React.FC = () => {
       <div className="w-full h-full flex flex-col items-center px-4 sm:px-6 md:px-8 lg:px-20 xl:px-24 relative z-20">
         {/* Header */}
         <div className="text-center mt-16 sm:mt-20 md:mt-24 lg:mt-48 xl:mt-56 2xl:mt-64 w-full mb-8 sm:mb-10 md:mb-12 lg:mb-16 xl:mb-18 2xl:mb-20">
-          <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-[56px] xl:text-[64px] 2xl:text-[72px] font-semibold text-gray-900 leading-tight mb-6 sm:mb-7 md:mb-8 lg:mb-8 xl:mb-10 2xl:mb-12 px-4 sm:px-6">
+          <h2 className="text-4xl sm:text-5xl md:text-5xl lg:text-[56px] xl:text-[64px] 2xl:text-[72px] font-semibold text-gray-900 leading-tight mb-6 sm:mb-7 md:mb-8 lg:mb-8 xl:mb-10 2xl:mb-12 px-4 sm:px-6">
             Fydaa vs Traditional Advisors
-          </h1>
+          </h2>
           <p className="text-lg sm:text-xl md:text-xl lg:text-lg xl:text-xl 2xl:text-2xl font-normal text-gray-600 leading-relaxed max-w-3xl sm:max-w-4xl md:max-w-4xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl mx-auto px-4 sm:px-6">
             We're not here to throw jargon at you. We walk with you through
             every step.

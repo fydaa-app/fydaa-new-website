@@ -8,7 +8,7 @@ export default function Privacy() {
 
                 <section className="flex flex-col items-start">
                     <br /> <br /> <br /> <br />
-                    <h1 className="w-full font-bold text-5xl text-center">Privacy Policy</h1>
+                    <h2 className="w-full font-bold text-5xl text-center">Privacy Policy</h2>
                     <br /> <br />
                     <h2 className="w-full text-center font-semibod text-2xl mb-8">
                         Multistrato Capital Advisors Private Limited / fydaa Privacy Policy

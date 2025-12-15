@@ -7,10 +7,10 @@ export default function InvestorCharter() {
             <main className="w-full flex flex-col items-center p-16">
                 <section className="terms-content">
                     <div className="container">
-                        <h1 className="text-center text-3xl font-bold mb-12 mt-8">Investor Charter</h1>
+                        <h2 className="text-center text-3xl font-bold mb-12 mt-8">Investor Charter</h2>
 
                         {/* A. Vision and Mission */}
-                        <h2 className="font-bold text-xl mt-8">A. Vision and Mission Statements for investors</h2>
+                        <h3 className="font-bold text-xl mt-8">A. Vision and Mission Statements for investors</h3>
                         <ul className="list-disc ml-6 mt-2">
                             <li><strong>Vision <br /></strong> Invest with knowledge &amp; safety.</li>
                             <li>

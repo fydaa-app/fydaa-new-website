@@ -6,9 +6,9 @@ const InvestorWarning: React.FC = () => {
       {/* Header Section */}
       <div className="bg-red-600 text-white py-16 px-4 sm:px-6 md:px-8 lg:px-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold font-gilroy mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold font-gilroy mb-4">
             Investor Warning - Fraudulent Misuse of Our Details
-          </h1>
+          </h2>
           <p className="text-lg sm:text-xl text-red-100 font-inter">
             Important security information to protect you from fraud.
           </p>

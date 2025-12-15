@@ -6,9 +6,9 @@ export default function Terms() {
       <main className="w-full flex flex-col items-center p-10 pt-20">
         <section className="flex flex-col items-start">
           <br /> <br /> <br /> <br />
-          <h1 className="w-full font-bold text-5xl text-center">
+          <h2 className="w-full font-bold text-5xl text-center">
             Refund Policy
-          </h1>
+          </h2>
           <br /> <br />
           <h2 className="w-full text-center font-semibod text-2xl mb-8">
             Multistrato Capital Advisors Private Limited / fydaa Refund policy
