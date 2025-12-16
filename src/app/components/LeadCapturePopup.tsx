@@ -14,10 +14,10 @@ const LeadCapturePopup = () => {
   const [submitMessage, setSubmitMessage] = useState('');
 
   useEffect(() => {
-    // Set timer for 20 seconds
+    // Set timer for 7 seconds
     const timer = setTimeout(() => {
       setIsOpen(true);
-    }, 20000); // 20 seconds
+    }, 7000); // 7 seconds
 
     // Cleanup timer on unmount
     return () => clearTimeout(timer);
