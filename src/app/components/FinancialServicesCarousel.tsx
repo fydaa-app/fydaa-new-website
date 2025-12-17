@@ -20,7 +20,7 @@ const FinancialServicesCarousel = () => {
       title: "Investment Planning",
       description:
         "Align your investment with your time horizon and risk appetite.",
-      icon: "/FinancialPlan/debtmanagement.png",
+      icon: "/FinancialPlan/investmentstrategies.png",
       features: [
         "Risk assessment test",
         "Asset allocation strategy",
@@ -33,7 +33,7 @@ const FinancialServicesCarousel = () => {
       title: "Emergency Fund Setup & Guidance",
       description:
         "Build a reliable financial cushion for emergencies, job loss, or medical needs.",
-      icon: "/FinancialPlan/Emergency1FundSetup.png",
+      icon: "/FinancialPlan/emergency.png",
       features: [
         "Personalized emergency fund target",
         "Savings options for liquidity",
@@ -109,7 +109,7 @@ const FinancialServicesCarousel = () => {
       title: "Portfolio Management",
       description:
         "Track, Optimize, and enhance your overall investment performance.",
-      icon: "/FinancialPlan/personalbudget.png",
+      icon: "/FinancialPlan/portfoliomanage.png",
       features: [
         "Investment tracking dashboard",
         "Health score of your portfolio",

@@ -217,7 +217,7 @@ const FinancialPlanInterface: React.FC = () => {
                   img: "PortfolioManagement.png",
                   text: "Portfolio Management",
                 },
-                { img: "TaxConsultancy.png", text: "Tax Consultancy" },
+                { img: "Tax1Consultancy.png", text: "Tax Consultancy" },
                 {
                   img: "personalbudget.png",
                   text: "Personalized Budgeting Plan",
