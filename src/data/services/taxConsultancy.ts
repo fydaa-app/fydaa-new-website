@@ -117,28 +117,28 @@ export const taxConsultancyData: ServiceData = {
   faqs: [
     {
       id: 1,
-      question: "Is fydaa registered with any financial regulators in India?",
+      question: "What does tax consultancy include at Fydaa?",
       answer:
-        "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser. Click here to verify.",
+        "Fydaa’s tax consultancy helps you plan, optimize, and comply with income tax regulations. We review your income, investments, deductions, and tax-saving opportunities to reduce tax legally and efficiently.",
     },
     {
       id: 2,
       question:
-        "How fydaa is different from a broker or mutual fund distributor?",
+        "Can Fydaa help with tax-saving investments?",
       answer:
-        "Unlike your broker, fydaa do not execute the trades but advice on which securities to buy/sell on periodic basis based on your risk profile. Your broker charges brokerage on every transaction. Mutual fund distributors on the other hand help invest by selling schemes of Asset Management companies for a distributor fee.",
+        "Yes. We recommend tax-efficient investment options based on your financial goals, risk profile, and eligibility under sections like 80C, 80D, and others.",
     },
     {
       id: 3,
-      question: "How fydaa makes money?",
+      question: "Is tax consultancy only for salaried individuals?",
       answer:
-        "Fydaa have no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There are no other revenue or commission from brokers or mutual fund houses.",
+        "No. Our tax consultancy services are suitable for salaried professionals, freelancers, business owners, and individuals with multiple income sources.",
     },
     {
       id: 4,
-      question: "What is the advisory fee of fydaa?",
+      question: "Will Fydaa help with filing income tax returns?",
       answer:
-        "Fydaa charges a nominal fee of 0.4% per year of Asset under management. That mean for every 10000 rupees worth of investment, you are charged just INR 40 as advisory fee. This is fraction of what other advisor charges. (Traditional mutual funds and advisor's charges in excess of 1.5 - 2 %)",
+        "Fydaa focuses on tax planning and strategy. Where applicable, we guide you through the filing process or coordinate with tax filing support.",
     },
   ],
 

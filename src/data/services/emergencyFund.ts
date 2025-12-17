@@ -119,28 +119,28 @@ export const emergencyFundData: ServiceData = {
   faqs: [
     {
       id: 1,
-      question: "Is fydaa registered with any financial regulators in India?",
+      question: "What is an emergency fund and why do I need one?",
       answer:
-        "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser. Click here to verify.",
+        "An emergency fund is money set aside for unexpected expenses like medical emergencies or job loss, helping you avoid debt.",
     },
     {
       id: 2,
       question:
-        "How fydaa is different from a broker or mutual fund distributor?",
+        "How much emergency fund should I have?",
       answer:
-        "Unlike your broker, fydaa do not execute the trades but advice on which securities to buy/sell on periodic basis based on your risk profile. Your broker charges brokerage on every transaction. Mutual fund distributors on the other hand help invest by selling schemes of Asset Management companies for a distributor fee.",
+        "Typically, 3–6 months of living expenses is recommended, but Fydaa customises this based on your income stability and lifestyle.",
     },
     {
       id: 3,
-      question: "How fydaa makes money?",
+      question: "Where should I keep my emergency fund?",
       answer:
-        "Fydaa have no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There are no other revenue or commission from brokers or mutual fund houses.",
+        "Fydaa guides you on safe, liquid options where funds are easily accessible but not impulsively spent.",
     },
     {
       id: 4,
-      question: "What is the advisory fee of fydaa?",
+      question: "Can I build an emergency fund gradually?",
       answer:
-        "Fydaa charges a nominal fee of 0.4% per year of Asset under management. That mean for every 10000 rupees worth of investment, you are charged just INR 40 as advisory fee. This is fraction of what other advisor charges. (Traditional mutual funds and advisor's charges in excess of 1.5 - 2 %)",
+        "Yes. Fydaa encourages starting small and building consistently through monthly contributions.",
     },
   ],
 

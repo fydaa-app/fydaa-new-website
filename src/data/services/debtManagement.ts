@@ -120,28 +120,28 @@ export const debtManagementData: ServiceData = {
   faqs: [
     {
       id: 1,
-      question: "Is fydaa registered with any financial regulators in India?",
+      question: "What is debt management planning?",
       answer:
-        "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser. Click here to verify.",
+        "Debt management planning helps you organise, prioritise, and pay off loans in a structured manner to reduce financial stress and interest burden.",
     },
     {
       id: 2,
       question:
-        "How fydaa is different from a broker or mutual fund distributor?",
+        "How does Fydaa help with debt payoff?",
       answer:
-        "Unlike your broker, fydaa do not execute the trades but advice on which securities to buy/sell on periodic basis based on your risk profile. Your broker charges brokerage on every transaction. Mutual fund distributors on the other hand help invest by selling schemes of Asset Management companies for a distributor fee.",
+        "Fydaa creates a customised debt payoff plan using strategies like snowball or avalanche methods based on your situation.",
     },
     {
       id: 3,
-      question: "How fydaa makes money?",
+      question: "What is refinancing and when should I consider it?",
       answer:
-        "Fydaa have no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There are no other revenue or commission from brokers or mutual fund houses.",
+        "Refinancing means replacing high-interest debt with lower-interest options. Fydaa helps assess whether refinancing makes sense for you.",
     },
     {
       id: 4,
-      question: "What is the advisory fee of fydaa?",
+      question: "Can Fydaa help identify if I’m in a debt trap?",
       answer:
-        "Fydaa charges a nominal fee of 0.4% per year of Asset under management. That mean for every 10000 rupees worth of investment, you are charged just INR 40 as advisory fee. This is fraction of what other advisor charges. (Traditional mutual funds and advisor's charges in excess of 1.5 - 2 %)",
+        "Yes. We analyse your debt-to-income ratio and repayment patterns to assess your financial health and risk level.",
     },
   ],
 

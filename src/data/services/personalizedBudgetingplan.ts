@@ -114,28 +114,28 @@ export const personalizedBudgetingData: ServiceData = {
   faqs: [
     {
       id: 1,
-      question: "Is fydaa registered with any financial regulators in India?",
+      question: "What is a personalised budgeting plan?",
       answer:
-        "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser. Click here to verify.",
+        "A personalised budgeting plan aligns your income, expenses, and savings with your financial goals instead of generic budgeting rules.",
     },
     {
       id: 2,
       question:
-        "How fydaa is different from a broker or mutual fund distributor?",
+        "Does Fydaa consider lifestyle expenses while budgeting?",
       answer:
-        "Unlike your broker, fydaa do not execute the trades but advice on which securities to buy/sell on periodic basis based on your risk profile. Your broker charges brokerage on every transaction. Mutual fund distributors on the other hand help invest by selling schemes of Asset Management companies for a distributor fee.",
+        "Yes. Fydaa designs budgets that are realistic and sustainable, not restrictive.",
     },
     {
       id: 3,
-      question: "How fydaa makes money?",
+      question: "Will my budget change over time?",
       answer:
-        "Fydaa have no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There are no other revenue or commission from brokers or mutual fund houses.",
+        "Yes. Budgets evolve with life changes, and Fydaa updates them as your income or priorities change.",
     },
     {
       id: 4,
-      question: "What is the advisory fee of fydaa?",
+      question: "Can budgeting help with long-term investments?",
       answer:
-        "Fydaa charges a nominal fee of 0.4% per year of Asset under management. That mean for every 10000 rupees worth of investment, you are charged just INR 40 as advisory fee. This is fraction of what other advisor charges. (Traditional mutual funds and advisor's charges in excess of 1.5 - 2 %)",
+        "Absolutely. A strong budgeting plan creates surplus cash flow for investments and wealth creation.",
     },
   ],
 

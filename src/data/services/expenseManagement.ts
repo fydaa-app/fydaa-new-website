@@ -110,23 +110,23 @@ export const expenseManagementData: ServiceData = {
   faqs: [
     {
       id: 1,
-      question: 'Is fydaa registered with any financial regulators in India?',
-      answer: 'Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser. Click here to verify.'
+      question: 'What is expense management in financial planning?',
+      answer: 'Expense management helps you track, categorise, and optimise your spending so you can save and invest more efficiently.'
     },
     {
       id: 2,
-      question: 'How fydaa is different from a broker or mutual fund distributor?',
-      answer: 'Unlike your broker, fydaa do not execute the trades but advice on which securities to buy/sell on periodic basis based on your risk profile. Your broker charges brokerage on every transaction. Mutual fund distributors on the other hand help invest by selling schemes of Asset Management companies for a distributor fee.'
+      question: 'Will Fydaa help identify unnecessary expenses?',
+      answer: 'Yes. Fydaa analyses your spending patterns to highlight areas where you can optimise without compromising your lifestyle.'
     },
     {
       id: 3,
-      question: 'How fydaa makes money?',
-      answer: 'Fydaa have no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There are no other revenue or commission from brokers or mutual fund houses.'
+      question: 'Is expense management different from budgeting?',
+      answer: 'Expense management focuses on understanding and improving spending behaviour, while budgeting helps allocate money toward goals. Fydaa combines both.'
     },
     {
       id: 4,
-      question: 'What is the advisory fee of fydaa?',
-      answer: 'Fydaa charges a nominal fee of 0.4% per year of Asset under management. That mean for every 10000 rupees worth of investment, you are charged just INR 40 as advisory fee. This is fraction of what other advisor charges. (Traditional mutual funds and advisor\'s charges in excess of 1.5 - 2 %)'
+      question: 'Can expense management improve savings?',
+      answer: 'Yes. Better expense control directly improves savings, emergency fund creation, and long-term wealth building.'
     }
   ],
   

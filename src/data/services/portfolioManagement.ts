@@ -117,28 +117,28 @@ export const portfolioManagementData: ServiceData = {
   faqs: [
     {
       id: 1,
-      question: "Is fydaa registered with any financial regulators in India?",
+      question: "What is portfolio management at Fydaa?",
       answer:
-        "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser. Click here to verify.",
+        "Portfolio management at Fydaa involves structuring and reviewing your investments to match your goals, risk appetite, and time horizon while maintaining proper asset allocation.",
     },
     {
       id: 2,
       question:
-        "How fydaa is different from a broker or mutual fund distributor?",
+        "How often is my portfolio reviewed?",
       answer:
-        "Unlike your broker, fydaa do not execute the trades but advice on which securities to buy/sell on periodic basis based on your risk profile. Your broker charges brokerage on every transaction. Mutual fund distributors on the other hand help invest by selling schemes of Asset Management companies for a distributor fee.",
+        "Your portfolio is reviewed periodically and whenever there is a major life change or market shift, ensuring it remains aligned with your financial plan.",
     },
     {
       id: 3,
-      question: "How fydaa makes money?",
+      question: "Does Fydaa manage mutual funds and other investments?",
       answer:
-        "Fydaa have no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There are no other revenue or commission from brokers or mutual fund houses.",
+        "Yes. Fydaa helps plan and manage mutual fund portfolios and other market-linked investments based on your profile and goals.",
     },
     {
       id: 4,
-      question: "What is the advisory fee of fydaa?",
+      question: "Is portfolio management suitable for first-time investors?",
       answer:
-        "Fydaa charges a nominal fee of 0.4% per year of Asset under management. That mean for every 10000 rupees worth of investment, you are charged just INR 40 as advisory fee. This is fraction of what other advisor charges. (Traditional mutual funds and advisor's charges in excess of 1.5 - 2 %)",
+        "Absolutely. Fydaa’s portfolio management is designed to work for beginners as well as experienced investors",
     },
   ],
 
