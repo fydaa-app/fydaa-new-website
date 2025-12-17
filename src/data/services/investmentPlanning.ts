@@ -118,28 +118,28 @@ export const investmentPlanningData: ServiceData = {
   faqs: [
     {
       id: 1,
-      question: "Is fydaa registered with any financial regulators in India?",
+      question: "What is investment planning and why is it important?",
       answer:
-        "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser. Click here to verify.",
+        "Investment planning helps you invest systematically to achieve goals like buying a home, retirement, or children’s education while managing risk and returns.",
     },
     {
       id: 2,
       question:
-        "How fydaa is different from a broker or mutual fund distributor?",
+        "How does Fydaa create an investment plan?",
       answer:
-        "Unlike your broker, fydaa do not execute the trades but advice on which securities to buy/sell on periodic basis based on your risk profile. Your broker charges brokerage on every transaction. Mutual fund distributors on the other hand help invest by selling schemes of Asset Management companies for a distributor fee.",
+        "We consider your income, expenses, goals, time horizon, and risk appetite to create a personalized investment roadmap.",
     },
     {
       id: 3,
-      question: "How fydaa makes money?",
+      question: "Can I start investment planning with a small amount?",
       answer:
-        "Fydaa have no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There are no other revenue or commission from brokers or mutual fund houses.",
+        "Yes. Fydaa supports goal-based investing even with small monthly investments through SIPs and other options.",
     },
     {
       id: 4,
-      question: "What is the advisory fee of fydaa?",
+      question: "Are Fydaa’s investment plans goal-based?",
       answer:
-        "Fydaa charges a nominal fee of 0.4% per year of Asset under management. That mean for every 10000 rupees worth of investment, you are charged just INR 40 as advisory fee. This is fraction of what other advisor charges. (Traditional mutual funds and advisor's charges in excess of 1.5 - 2 %)",
+        "Yes. All investment plans are linked to specific life goals rather than random product recommendations.",
     },
   ],
 

@@ -118,28 +118,28 @@ export const financialHealthCheckupData: ServiceData = {
   faqs: [
     {
       id: 1,
-      question: "Is fydaa registered with any financial regulators in India?",
+      question: "What is a financial health checkup?",
       answer:
-        "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser. Click here to verify.",
+        "A financial health checkup is a holistic review of your income, expenses, assets, liabilities, insurance, and investments.",
     },
     {
       id: 2,
       question:
-        "How fydaa is different from a broker or mutual fund distributor?",
+        "Who should get a financial health checkup?",
       answer:
-        "Unlike your broker, fydaa do not execute the trades but advice on which securities to buy/sell on periodic basis based on your risk profile. Your broker charges brokerage on every transaction. Mutual fund distributors on the other hand help invest by selling schemes of Asset Management companies for a distributor fee.",
+        "Anyone earning and managing money, whether you are starting out or already investing, can benefit from a financial health checkup.",
     },
     {
       id: 3,
-      question: "How fydaa makes money?",
+      question: "How often should I do a financial health checkup?",
       answer:
-        "Fydaa have no conflict of interest when it advises you. The only income fydaa makes is direct fee charged to you as a client. There are no other revenue or commission from brokers or mutual fund houses.",
+        "Ideally once a year or after major life events like marriage, job change, or having children.",
     },
     {
       id: 4,
-      question: "What is the advisory fee of fydaa?",
+      question: "What do I get after a financial health checkup?",
       answer:
-        "Fydaa charges a nominal fee of 0.4% per year of Asset under management. That mean for every 10000 rupees worth of investment, you are charged just INR 40 as advisory fee. This is fraction of what other advisor charges. (Traditional mutual funds and advisor's charges in excess of 1.5 - 2 %)",
+        "You receive insights, gaps, and actionable recommendations to improve your overall financial well-being.",
     },
   ],
 
