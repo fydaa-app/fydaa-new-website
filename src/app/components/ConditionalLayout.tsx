@@ -10,7 +10,12 @@ export default function ConditionalLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const hideNavbarFooter = pathname?.startsWith('/risk-score');
+  const hideNavbarFooter = 
+    pathname?.startsWith('/risk-score') ||
+    pathname?.startsWith('/SuccesspageDigi') ||
+    pathname?.startsWith('/SuccesspageFund') ||
+    pathname?.startsWith('/Successpagemandate') ||
+    pathname?.startsWith('/SuccesspageNSDL');
 
   return (
     <>

@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import PrimaryButton from './PrimaryButton';
 
 const LeadCapturePopup = () => {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -13,7 +15,19 @@ const LeadCapturePopup = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
 
+  // Check if we're on a success page
+  const isSuccessPage = 
+    pathname?.startsWith('/SuccesspageDigi') ||
+    pathname?.startsWith('/SuccesspageFund') ||
+    pathname?.startsWith('/Successpagemandate') ||
+    pathname?.startsWith('/SuccesspageNSDL');
+
   useEffect(() => {
+    // Don't show popup on success pages
+    if (isSuccessPage) {
+      return;
+    }
+
     // Set timer for 7 seconds
     const timer = setTimeout(() => {
       setIsOpen(true);
@@ -21,7 +35,7 @@ const LeadCapturePopup = () => {
 
     // Cleanup timer on unmount
     return () => clearTimeout(timer);
-  }, []); // Empty dependency array means this runs once on mount
+  }, [isSuccessPage]); // Re-run if pathname changes
 
   const handleClose = () => {
     setIsOpen(false);
@@ -74,6 +88,9 @@ const LeadCapturePopup = () => {
     }
   };
 
+  // Don't render on success pages
+  if (isSuccessPage) return null;
+  
   if (!isOpen) return null;
 
   return (
