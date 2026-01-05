@@ -390,7 +390,7 @@ export default function RiskScore() {
                                                         <ul className='list-disc pl-5'>
                                                             <li>Conducting research on different investment options, such as stocks, bonds, and real estate.</li>
                                                             <li>Diversifying investments to spread risk and enhance potential returns.</li>
-                                                            <li>Seeking guidance from financial advisors to align investment strategies with financial goals.</li>
+                                                            <li>Seeking guidance from financial advisers to align investment strategies with financial goals.</li>
                                                         </ul>
                                                     </li>
                                                     <li>

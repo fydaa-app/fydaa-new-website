@@ -207,7 +207,7 @@ const ServiceSection: React.FC = () => {
                 Backed
               </h3>
               <p className="font-inter font-normal text-sm sm:text-base md:text-lg leading-relaxed sm:leading-relaxed md:leading-[27px] text-[#E7E7E7] opacity-100">
-                Easy-to-use app plus dedicated advisors.
+                Easy-to-use app plus dedicated advisers.
               </p>
             </div>
           </div>

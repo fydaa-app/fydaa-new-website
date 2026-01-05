@@ -10,12 +10,12 @@ export default function Terms() {
                     <h2 className="w-full font-bold text-5xl text-center">Terms &amp; Conditions</h2>
                     <br /> <br />
                     <h2 className="w-full text-center font-semibod text-2xl mb-8">
-                        Multistrato Capital Advisors Private Limited / fydaa Terms of Service
+                        Multistrato Capital Advisers Private Limited / fydaa Terms of Service
                     </h2>
                     <p className="text-left">
                         These Terms of Service govern your use of the website located at{" "}
                         <a href="https://fydaa.com/">https://fydaa.com</a> and any related
-                        services provided by Multistrato Capital Advisors Private Limited /
+                        services provided by Multistrato Capital Advisers Private Limited /
                         fydaa.
                     </p>
                     <p>
@@ -23,10 +23,10 @@ export default function Terms() {
                         Service and to comply with all applicable laws and regulations. If you
                         do not agree with these Terms of Service, you are prohibited from using
                         or accessing this website or using any other services provided by
-                        Multistrato Capital Advisors Private Limited / fydaa.
+                        Multistrato Capital Advisers Private Limited / fydaa.
                     </p>
                     <p>
-                        We, Multistrato Capital Advisors Private Limited / fydaa, reserve the
+                        We, Multistrato Capital Advisers Private Limited / fydaa, reserve the
                         right to review and amend any of these Terms of Service at our sole
                         discretion. Upon doing so, we will update this page. Any changes to
                         these Terms of Service will take effect immediately from the date of
@@ -54,7 +54,7 @@ export default function Terms() {
                         <li>
                             knowingly or negligently use this website or any of its associated
                             services in a way that abuses or disrupts our networks or any other
-                            service Multistrato Capital Advisors Private Limited / fydaa provides;
+                            service Multistrato Capital Advisers Private Limited / fydaa provides;
                         </li>
                         <li>
                             use this website or its associated services to transmit or publish any
@@ -80,7 +80,7 @@ export default function Terms() {
                     <h3 className="text-bold text-xl mt-8" >Intellectual Property</h3>
                     <p>
                         The intellectual property in the materials contained in this website are
-                        owned by or licensed to Multistrato Capital Advisors Private Limited /
+                        owned by or licensed to Multistrato Capital Advisers Private Limited /
                         fydaa and are protected by applicable copyright and trademark law. We
                         grant our users permission to download one copy of the materials for
                         personal, non-commercial transitory use.
@@ -89,7 +89,7 @@ export default function Terms() {
                         This constitutes the grant of a license, not a transfer of title. This
                         license shall automatically terminate if you violate any of these
                         restrictions or the Terms of Service, and may be terminated by
-                        Multistrato Capital Advisors Private Limited / fydaa at any time.
+                        Multistrato Capital Advisers Private Limited / fydaa at any time.
                     </p>
                     <h3 className="text-bold text-xl mt-8" >User-Generated Content</h3>
                     <p>
@@ -122,7 +122,7 @@ export default function Terms() {
                     <h3 className="text-bold text-xl mt-8" >Liability</h3>
                     <p>
                         Our website and the materials on our website are provided on an &apos;as is&apos;
-                        basis. To the extent permitted by law, Multistrato Capital Advisors
+                        basis. To the extent permitted by law, Multistrato Capital Advisers
                         Private Limited / fydaa makes no warranties, expressed or implied, and
                         hereby disclaims and negates all other warranties including, without
                         limitation, implied warranties or conditions of merchantability, fitness
@@ -130,11 +130,11 @@ export default function Terms() {
                         or other violation of rights.
                     </p>
                     <p>
-                        In no event shall Multistrato Capital Advisors Private Limited / fydaa
+                        In no event shall Multistrato Capital Advisers Private Limited / fydaa
                         or its suppliers be liable for any consequential loss suffered or
                         incurred by you or any third party arising from the use or inability to
                         use this website or the materials on this website, even if Multistrato
-                        Capital Advisors Private Limited / fydaa or an authorized representative
+                        Capital Advisers Private Limited / fydaa or an authorized representative
                         has been notified, orally or in writing, of the possibility of such
                         damage.
                     </p>
@@ -154,7 +154,7 @@ export default function Terms() {
                     <h3 className="text-bold text-xl mt-8" >Accuracy of Materials</h3>
                     <p>
                         The materials appearing on our website are not comprehensive and are for
-                        general information purposes only. Multistrato Capital Advisors Private
+                        general information purposes only. Multistrato Capital Advisers Private
                         Limited / fydaa does not warrant or make any representations concerning
                         the accuracy, likely results, or reliability of the use of the materials
                         on this website, or otherwise relating to such materials or on any
@@ -162,10 +162,10 @@ export default function Terms() {
                     </p>
                     <h3 className="text-bold text-xl mt-8" >Links</h3>
                     <p>
-                        Multistrato Capital Advisors Private Limited / fydaa has not reviewed
+                        Multistrato Capital Advisers Private Limited / fydaa has not reviewed
                         all of the sites linked to its website and is not responsible for the
                         contents of any such linked site. The inclusion of any link does not
-                        imply endorsement, approval, or control by Multistrato Capital Advisors
+                        imply endorsement, approval, or control by Multistrato Capital Advisers
                         Private Limited / fydaa of the site. Use of any such linked site is at
                         your own risk and we strongly advise you make your own investigations
                         with respect to the suitability of those sites.

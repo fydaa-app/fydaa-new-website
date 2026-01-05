@@ -77,7 +77,7 @@ const InvestorWarning: React.FC = () => {
                   <li>We never ask for money transfers to personal accounts</li>
                   <li>All payments are made through official channels</li>
                   <li>We provide detailed invoices and receipts</li>
-                  <li>Our advisors are properly licensed and registered</li>
+                  <li>Our advisers are properly licensed and registered</li>
                   <li>We maintain transparent fee structures</li>
                 </ul>
               </section>

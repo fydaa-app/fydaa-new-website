@@ -14,7 +14,7 @@ const FAQ: React.FC = () => {
     {
       id: 1,
       question: "Is fydaa registered with any financial regulators in India?",
-      answer: "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser."
+      answer: "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisers Private Limited – a SEBI Registered Investment Adviser."
     },
     {
       id: 2,
@@ -28,7 +28,7 @@ const FAQ: React.FC = () => {
     },
     {
       id: 4,
-      question: "What is the advisory fee of fydaa?",
+      question: "What is the  fee of fydaa?",
       answer: "Fydaa charges a nominal fixed fee per month starting from Rs. 20 only."
     },
     {

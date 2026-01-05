@@ -107,7 +107,7 @@ const MissionSection: React.FC = () => {
             >
               Fydaa's mission is to break the barriers of geography, jargon, and
               high fees. Whether you're in a Tier 1 city or a Tier 3 town, our
-              SEBI-registered advisors and intelligent tools make expert
+              SEBI-registered advisers and intelligent tools make expert
               financial planning simple, transparent, and truly yours.
             </p>
 

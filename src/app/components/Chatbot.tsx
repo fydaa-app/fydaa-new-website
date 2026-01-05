@@ -40,7 +40,7 @@ const Chatbot: React.FC = () => {
       id: "opt1",
       question: "What is fydaa?",
       answer:
-        "Fydaa is a SEBI-registered investment advisory platform by Multistrato Capital Advisors Private Limited, based in Mumbai. It offers personalized wealth management through a mobile app, helping users build multi-asset portfolios . After KYC and a risk assessment, Fydaa creates tailored portfolios for long-term growth, supports goal-based planning, and provides analytics.",
+        "Fydaa is a SEBI-registered investment  platform by Multistrato Capital Advisers Private Limited, based in Mumbai. It offers personalized wealth management through a mobile app, helping users build multi-asset portfolios . After KYC and a risk assessment, Fydaa creates tailored portfolios for long-term growth, supports goal-based planning, and provides analytics.",
     },
     {
       id: "opt2",

@@ -27,7 +27,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Fydaa – Your money, your mission",
-  description: "Plan your money better with Fydaa. Get goal-based financial planning, investing, budgeting, debt management & retirement planning from SEBI-registered advisors.",
+  description: "Plan your money better with Fydaa. Get goal-based financial planning, investing, budgeting, debt management & retirement planning from SEBI-registered advisers.",
 };
 
 export default function RootLayout({

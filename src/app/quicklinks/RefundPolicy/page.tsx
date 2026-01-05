@@ -11,7 +11,7 @@ export default function Terms() {
           </h2>
           <br /> <br />
           <h2 className="w-full text-center font-semibod text-2xl mb-8">
-            Multistrato Capital Advisors Private Limited / fydaa Refund policy
+            Multistrato Capital Advisers Private Limited / fydaa Refund policy
           </h2>
           <h3 className="text-bold text-xl mt-8">REFUNDS</h3>
           <p>All subscriptions are final and no refund will be issued.</p>

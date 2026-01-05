@@ -11,10 +11,10 @@ export default function Privacy() {
                     <h2 className="w-full font-bold text-5xl text-center">Privacy Policy</h2>
                     <br /> <br />
                     <h2 className="w-full text-center font-semibod text-2xl mb-8">
-                        Multistrato Capital Advisors Private Limited / fydaa Privacy Policy
+                        Multistrato Capital Advisers Private Limited / fydaa Privacy Policy
                     </h2>
                     <p>
-                        Your privacy is important to us. It is Multistrato Capital Advisors
+                        Your privacy is important to us. It is Multistrato Capital Advisers
                         Private Limited / fydaa&apos;s policy to respect your privacy and comply with
                         any applicable law and regulation regarding any personal information we
                         may collect about you, including across our website{" "}
