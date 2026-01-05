@@ -73,7 +73,7 @@ const Footer: React.FC = () => {
             {/* Company Information */}
             <div className="space-y-1 sm:space-y-2">
               <p className="text-white text-[14px] sm:text-[16px] md:text-[18px] lg:text-[18px] xl:text-[19px] 2xl:text-[20px] font-inter font-normal">
-                Unit of Multistrato Capital Advisers Private Limited
+                Unit of Multistrato Capital Advisors Private Limited
               </p>
               <p className="text-white text-[14px] sm:text-[16px] md:text-[18px] lg:text-[18px] xl:text-[19px] 2xl:text-[20px] font-inter font-normal">
                 Registered office
@@ -193,7 +193,7 @@ const Footer: React.FC = () => {
               expressly stated otherwise.
             </p>
             <p>
-              Multistrato Capital Advisers Private Limited
+              Multistrato Capital Advisors Private Limited
               <br />
               Type of Registration: Non-Individual. RIA Registration Number:
               INA000015969, Validity: Perpetual
@@ -249,7 +249,7 @@ const Footer: React.FC = () => {
             <div className="flex flex-col gap-3 sm:gap-4 md:gap-4 lg:gap-4 xl:gap-5">
               <div className="p-3 sm:p-4 md:p-4 lg:p-4 xl:p-5 bg-[#1a1a1a] rounded border border-[#333]">
                 <p className="text-white text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] font-medium break-all">
-                  multistrato.capitaladvisers.ia@validyes
+                  multistrato.capitaladvisors.ia@validyes
                 </p>
               </div>
 
