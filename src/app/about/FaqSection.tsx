@@ -14,7 +14,7 @@ const FaqSection: React.FC = () => {
     {
       id: 1,
       questionText: "Is fydaa registered with any financial regulators in India?",
-      answerText: "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisors Private Limited – a SEBI Registered Investment Adviser. Click here to verify."
+      answerText: "Yes, fydaa is the Investment Advisory unit of Multistrato Capital Advisers Private Limited – a SEBI Registered Investment Adviser. Click here to verify."
     },
     {
       id: 2,
@@ -29,7 +29,7 @@ const FaqSection: React.FC = () => {
     {
       id: 4,
       questionText: "What is the advisory fee of fydaa?",
-      answerText: "Fydaa charges a nominal fee of 0.4% per year of Asset under management. That mean for every 10000 rupees worth of investment, you are charged just INR 40 as advisory fee. This is fraction of what other advisor charges. (Traditional mutual funds and advisor's charges in excess of 1.5 - 2 %)"
+      answerText: "Fydaa charges a nominal fee of 0.4% per year of Asset under management. That mean for every 10000 rupees worth of investment, you are charged just INR 40 as  fee. This is fraction of what other adviser charges. (Traditional mutual funds and adviser's charges in excess of 1.5 - 2 %)"
     }
   ];
 

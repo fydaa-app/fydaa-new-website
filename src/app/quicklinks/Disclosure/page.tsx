@@ -10,7 +10,7 @@ export default function Disclosure() {
                         <h2 className="text-center text-3xl font-bold mb-12 mt-8">Disclosure to Clients</h2>
 
                         <p className="text-center text-brandblack-700 leading-relaxed mb-8">
-                            Multistrato Capital Advisors Private Limited <br />
+                            Multistrato Capital Advisers Private Limited <br />
                             SEBI Registered Investment Adviser <br />
                             Registration No.: INA000015969
                         </p>
@@ -23,7 +23,7 @@ export default function Disclosure() {
                         {/* 1. Corporate Information */}
                         <h2 className="font-bold text-xl mt-8">1. Corporate Information</h2>
                         <p className="text-brandblack-700 leading-relaxed mt-4">
-                        Multistrato Capital Advisors Private Limited is registered with the Securities and Exchange Board of India (SEBI) as an Investment Adviser under Registration No. INA000015969.
+                        Multistrato Capital Advisers Private Limited is registered with the Securities and Exchange Board of India (SEBI) as an Investment Adviser under Registration No. INA000015969.
                         </p>
 
                         {/* 2. Business & Terms of Services */}
@@ -35,7 +35,7 @@ export default function Disclosure() {
                         {/* 3. Disciplinary History */}
                         <h2 className="font-bold text-xl mt-8">3. Disciplinary History</h2>
                         <p className="text-brandblack-700 leading-relaxed mt-4">
-                        As on date, there has been no disciplinary action taken by SEBI or any other regulatory authority against Multistrato Capital Advisors Private Limited, its directors, or key management personnel.
+                        As on date, there has been no disciplinary action taken by SEBI or any other regulatory authority against Multistrato Capital Advisers Private Limited, its directors, or key management personnel.
                         </p>
 
                         {/* 4. Affiliations */}
@@ -53,7 +53,7 @@ export default function Disclosure() {
                         {/* 6. Conflicts of Interest */}
                         <h2 className="font-bold text-xl mt-8">6. Conflicts of Interest</h2>
                         <p className="text-brandblack-700 leading-relaxed mt-4">
-                        We disclose that there are no actual or potential conflicts of interest arising from any connection or association with any issuer of products/securities which may compromise our independence in providing investment advisory services. Any such potential conflict, if it arises, shall be promptly disclosed to the client.
+                        We disclose that there are no actual or potential conflicts of interest arising from any connection or association with any issuer of products/securities which may compromise our independence in providing investment  services. Any such potential conflict, if it arises, shall be promptly disclosed to the client.
                         </p>
 
                         {/* 7. Material Facts */}
@@ -69,7 +69,7 @@ export default function Disclosure() {
                         </p>
 
                         {/* 9. Outside SEBI */}
-                        <h2 className="font-bold text-xl mt-8">9. Advisory Outside SEBI Purview</h2>
+                        <h2 className="font-bold text-xl mt-8">9.  Outside SEBI Purview</h2>
                         <p className="text-brandblack-700 leading-relaxed mt-4">
                         If any product or service offered is outside the regulatory purview of SEBI, we will clearly inform clients that no recourse will be available from SEBI for grievances relating to such products or services.
                         </p>
