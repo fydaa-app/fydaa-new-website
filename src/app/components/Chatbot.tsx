@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 // import { CHATBOT_CONFIG } from "../config/chatbot";
 
 interface Message {
@@ -15,6 +16,20 @@ interface ApiResponse {
 }
 
 const Chatbot: React.FC = () => {
+  const pathname = usePathname();
+  
+  // Check if we're on a success page
+  const isSuccessPage = 
+    pathname?.startsWith('/risk-score') ||
+    pathname?.startsWith('/SuccesspageDigi') ||
+    pathname?.startsWith('/SuccesspageFund') ||
+    pathname?.startsWith('/Successpagemandate') ||
+    pathname?.startsWith('/SuccesspageNSDL') ||
+    pathname?.startsWith('/SuccesspageSetu');
+
+  // Don't render on success pages
+  if (isSuccessPage) return null;
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
