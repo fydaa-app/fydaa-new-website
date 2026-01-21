@@ -15,7 +15,8 @@ export default function ConditionalLayout({
     pathname?.startsWith('/SuccesspageDigi') ||
     pathname?.startsWith('/SuccesspageFund') ||
     pathname?.startsWith('/Successpagemandate') ||
-    pathname?.startsWith('/SuccesspageNSDL');
+    pathname?.startsWith('/SuccesspageNSDL') ||
+    pathname?.startsWith('/SuccesspageSetu');
 
   return (
     <>
