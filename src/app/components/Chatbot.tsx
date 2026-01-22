@@ -18,18 +18,7 @@ interface ApiResponse {
 const Chatbot: React.FC = () => {
   const pathname = usePathname();
   
-  // Check if we're on a success page
-  const isSuccessPage = 
-    pathname?.startsWith('/risk-score') ||
-    pathname?.startsWith('/SuccesspageDigi') ||
-    pathname?.startsWith('/SuccesspageFund') ||
-    pathname?.startsWith('/Successpagemandate') ||
-    pathname?.startsWith('/SuccesspageNSDL') ||
-    pathname?.startsWith('/SuccesspageSetu');
-
-  // Don't render on success pages
-  if (isSuccessPage) return null;
-
+  // All hooks must be called before any conditional returns
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -48,6 +37,15 @@ const Chatbot: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   // const inputRef = useRef<HTMLInputElement>(null);
   const clearTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Check if we're on a success page
+  const isSuccessPage = 
+    pathname?.startsWith('/risk-score') ||
+    pathname?.startsWith('/SuccesspageDigi') ||
+    pathname?.startsWith('/SuccesspageFund') ||
+    pathname?.startsWith('/Successpagemandate') ||
+    pathname?.startsWith('/SuccesspageNSDL') ||
+    pathname?.startsWith('/SuccesspageSetu');
 
   // Predefined FAQ options
   const faqOptions: { id: string; question: string; answer: string }[] = [
@@ -137,6 +135,9 @@ const Chatbot: React.FC = () => {
     // }
     resetClearTimeout();
   }, [isOpen]);
+
+  // Don't render on success pages (after all hooks)
+  if (isSuccessPage) return null;
 
   // const handleSendMessage = async () => {
   //   if (!inputValue.trim() || isLoading) return;
