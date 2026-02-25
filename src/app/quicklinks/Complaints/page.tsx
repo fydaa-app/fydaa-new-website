@@ -10,7 +10,7 @@ export default function Complaints() {
                         <div className="mt-5 pt-3">
                             <h2 className="text-center text-3xl font-bold">Complaint Data</h2>
                         </div>
-                        <p className="my-4 font-semibold text-xl mb-20">Data for the month ending – January 2025</p>
+                        <p className="my-4 font-semibold text-xl mb-20">Data for the month ending – January 2026</p>
 
                         <table className="table w-full mb-10">
                             <thead className="table-dark">
