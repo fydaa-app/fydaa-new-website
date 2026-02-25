@@ -143,8 +143,7 @@ export default function Complaints() {
                             </thead>
                             <tbody>
                             <tr>
-                            <tr>
-                                    <td>
+                                 <td>
                                         01
                                     </td>
                                     <td>
@@ -163,6 +162,7 @@ export default function Complaints() {
                                         0
                                     </td>
                                 </tr>
+                                <tr>
                                     <td>
                                         02
                                     </td>
