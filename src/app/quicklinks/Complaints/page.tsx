@@ -10,7 +10,7 @@ export default function Complaints() {
                         <div className="mt-5 pt-3">
                             <h2 className="text-center text-3xl font-bold">Complaint Data</h2>
                         </div>
-                        <p className="my-4 font-semibold text-xl mb-20">Data for the month ending – December 2025</p>
+                        <p className="my-4 font-semibold text-xl mb-20">Data for the month ending – January 2026</p>
 
                         <table className="table w-full mb-10">
                             <thead className="table-dark">
@@ -143,11 +143,11 @@ export default function Complaints() {
                             </thead>
                             <tbody>
                             <tr>
-                                    <td>
+                                 <td>
                                         01
                                     </td>
                                     <td>
-                                        2025-12-31
+                                        2026-01-31
                                     </td>
                                     <td>
                                         0
@@ -167,7 +167,7 @@ export default function Complaints() {
                                         02
                                     </td>
                                     <td>
-                                        2025-11-30
+                                        2025-12-31
                                     </td>
                                     <td>
                                         0
@@ -182,12 +182,12 @@ export default function Complaints() {
                                         0
                                     </td>
                                 </tr>
-                            <tr>
+                                <tr>
                                     <td>
                                         03
                                     </td>
                                     <td>
-                                        2025-10-31
+                                        2025-11-30
                                     </td>
                                     <td>
                                         0
@@ -207,7 +207,7 @@ export default function Complaints() {
                                         04
                                     </td>
                                     <td>
-                                        2025-09-30
+                                        2025-10-31
                                     </td>
                                     <td>
                                         0
@@ -227,7 +227,7 @@ export default function Complaints() {
                                         05
                                     </td>
                                     <td>
-                                        2025-08-31
+                                        2025-09-30
                                     </td>
                                     <td>
                                         0
@@ -247,7 +247,7 @@ export default function Complaints() {
                                         06
                                     </td>
                                     <td>
-                                        2025-07-31
+                                        2025-08-31
                                     </td>
                                     <td>
                                         0
@@ -262,12 +262,12 @@ export default function Complaints() {
                                         0
                                     </td>
                                 </tr>
-                                <tr>
+                            <tr>
                                     <td>
                                         07
                                     </td>
                                     <td>
-                                        2025-06-30
+                                        2025-07-31
                                     </td>
                                     <td>
                                         0
@@ -287,7 +287,7 @@ export default function Complaints() {
                                         08
                                     </td>
                                     <td>
-                                        2025-05-31
+                                        2025-06-30
                                     </td>
                                     <td>
                                         0
@@ -305,6 +305,26 @@ export default function Complaints() {
                                 <tr>
                                     <td>
                                         09
+                                    </td>
+                                    <td>
+                                        2025-05-31
+                                    </td>
+                                    <td>
+                                        0
+                                    </td>
+                                    <td>
+                                        0
+                                    </td>
+                                    <td>
+                                        0
+                                    </td>
+                                    <td>
+                                        0
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        10
                                     </td>
                                     <td>
                                         
@@ -325,7 +345,7 @@ export default function Complaints() {
                                 </tr>                               
                                 <tr>
                                     <td>
-                                        10
+                                        11
                                     </td>
                                     <td>
                                     2025-03-31
@@ -345,7 +365,7 @@ export default function Complaints() {
                                 </tr>
                                 <tr>
                                     <td>
-                                        11
+                                        12
                                     </td>
                                     <td>
                                         2025-02-28
@@ -365,7 +385,7 @@ export default function Complaints() {
                                 </tr>
                                 <tr>
                                     <td>
-                                        12
+                                        13
                                     </td>
                                     <td>
                                     2025-01-31
@@ -385,7 +405,7 @@ export default function Complaints() {
                                 </tr>
                                 <tr>
                                     <td>
-                                        13
+                                        14
                                     </td>
                                     <td>
                                         2024-12-31
@@ -405,7 +425,7 @@ export default function Complaints() {
                                 </tr>
                                 <tr>
                                     <td>
-                                        14
+                                        15
                                     </td>
                                     <td>
                                     2024-11-30
@@ -427,7 +447,7 @@ export default function Complaints() {
                                 </tr>
                                 <tr>
                                     <td>
-                                        15
+                                        16
                                     </td>
                                     <td>
                                     2024-10-31
@@ -449,7 +469,7 @@ export default function Complaints() {
                                 </tr>
                                 <tr>
                                     <td>
-                                        16
+                                        17
                                     </td>
                                     <td>
                                     2024-09-30
@@ -471,7 +491,7 @@ export default function Complaints() {
                                 </tr>
                                 <tr>
                                     <td>
-                                        17
+                                        18
                                     </td>
                                     <td>
                                     2024-08-31
@@ -493,7 +513,7 @@ export default function Complaints() {
                                 </tr>
                                 <tr>
                                     <td>
-                                        18
+                                        19
                                     </td>
                                     <td>
                                     2024-07-31
@@ -511,7 +531,8 @@ export default function Complaints() {
                                     <td>
                                         0
                                     </td>
-                                </tr>                              
+                                </tr> 
+                                                             
                             </tbody>
                         </table>
                         <h3 className="my-4">Trend of annual disposal of complaints</h3>
