@@ -147,7 +147,7 @@ export default function Complaints() {
                                         01
                                     </td>
                                     <td>
-                                        2026-1-31
+                                        2026-01-31
                                     </td>
                                     <td>
                                         0
