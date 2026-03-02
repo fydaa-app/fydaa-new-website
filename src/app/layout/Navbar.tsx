@@ -333,6 +333,14 @@ const Navbar: React.FC = () => {
                 </button>
                 {renderDropdown("whatWeOffer")}
               </li>
+              <li>
+                <Link
+                  href="/careers"
+                  className="text-black font-medium hover:text-gray-600 transition-colors duration-200 text-xs sm:text-sm md:text-base"
+                >
+                  Careers
+                </Link>
+              </li>
 
               <li>
                 <a
@@ -351,6 +359,8 @@ const Navbar: React.FC = () => {
                   Blog
                 </a>
               </li>
+
+              
 
               {/* Calculators */}
               {/* <li
@@ -599,6 +609,15 @@ const Navbar: React.FC = () => {
                 >
                   Blog
                 </a>
+
+                {/* Careers */}
+                <Link
+                  href="/careers"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block text-black font-medium text-base py-2 hover:text-gray-600 transition-colors duration-200"
+                >
+                  Careers
+                </Link>
               </div>
             </div>
           )}
