@@ -12,7 +12,6 @@ export default function ApplyForm() {
     graduationYear: '' as '' | number,
     college: '',
     course: '',
-    isStudent: false,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,13 +28,6 @@ export default function ApplyForm() {
     }));
   };
 
-  const handleIsStudentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      isStudent: e.target.value === 'true',
-    }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -48,7 +40,7 @@ export default function ApplyForm() {
       graduationYear: formData.graduationYear,
       college: formData.college,
       course: formData.course,
-      isStudent: formData.isStudent,
+      isStudent: true,
     };
     console.log('[ApplyForm] Submit triggered, payload:', payload);
 
@@ -78,7 +70,6 @@ export default function ApplyForm() {
           graduationYear: '',
           college: '',
           course: '',
-          isStudent: false,
         });
       } else {
         // Extract message safely from error response
@@ -216,21 +207,6 @@ export default function ApplyForm() {
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm text-[#001E3C] mb-1">Are you a student? <span className="text-red-500">*</span></label>
-                <select
-                  name="isStudent"
-                  value={String(formData.isStudent)}
-                  onChange={handleIsStudentChange}
-                  className="w-full border-b border-gray-400 focus:outline-none py-1 bg-transparent"
-                  required
-                >
-                  <option value="">Select</option>
-                  <option value="true">Yes</option>
-                  <option value="false">No</option>
-                </select>
-              </div>
-
               {/* Button */}
               <div className="col-span-1 md:col-span-2">
                 <button
