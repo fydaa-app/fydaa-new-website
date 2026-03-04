@@ -41,23 +41,31 @@ export default function ApplyForm() {
     setIsSubmitting(true);
     setErrorMessage('');
 
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      mobileNumber: formData.phoneNumber,
+      graduationYear: formData.graduationYear,
+      college: formData.college,
+      course: formData.course,
+      isStudent: formData.isStudent,
+    };
+    console.log('[ApplyForm] Submit triggered, payload:', payload);
+
     try {
       const apiUrl = process.env.NEXT_PUBLIC_BASE_URL + 'referrals/website-lead';
+      console.log('[ApplyForm] Sending to:', apiUrl);
+      console.log('[ApplyForm] Body (stringified):', JSON.stringify(payload));
+
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          mobileNumber: formData.phoneNumber,
-          graduationYear: formData.graduationYear,
-          college: formData.college,
-          course: formData.course,
-          isStudent: formData.isStudent,
-        }),
+        body: JSON.stringify(payload),
       });
+
+      console.log('[ApplyForm] Response status:', response.status, response.statusText);
 
       const data = response.ok ? null : await response.json().catch(() => ({}));
 
@@ -137,7 +145,7 @@ export default function ApplyForm() {
 
           <div className="grid md:grid-cols-2 gap-10 items-center">
             {/* Form Section */}
-            <form className="grid grid-cols-1 sm:grid-cols-2 gap-6" onSubmit={handleSubmit}>
+            <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit}>
               <div>
                 <label className="block text-sm text-[#001E3C] mb-1">Full Name <span className="text-red-500">*</span></label>
                 <input
@@ -224,7 +232,7 @@ export default function ApplyForm() {
               </div>
 
               {/* Button */}
-              <div className="col-span-2">
+              <div className="col-span-1 md:col-span-2">
                 <button
                   type="submit"
                   className="flex items-center gap-2 bg-[#19A86E] text-white px-6 py-2 rounded-full font-medium mt-4 hover:bg-[#159e65] transition"

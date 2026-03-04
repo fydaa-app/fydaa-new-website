@@ -38,7 +38,7 @@ export default function ProgrammeStructure() {
 
                         {/* Program Fee Bar */}
                         <div className="mt-4 bg-[#EFF9F6] text-[#1BAF75] text-sm font-semibold px-4 py-2 rounded-full">
-                            Program Fee: ₹70,000 (inclusive of GST)
+                            Program Fee: ₹40,000 (inclusive of GST)
                         </div>
                     </div>
 
