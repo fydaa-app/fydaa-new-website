@@ -9,7 +9,7 @@ export default function ApplyForm() {
     name: '',
     email: '',
     phoneNumber: '',
-    graduationYear: '' as '' | number,
+    graduationYear: '',
     college: '',
     course: '',
   });
@@ -20,8 +20,7 @@ export default function ApplyForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    const processedValue =
-      name === 'graduationYear' ? (value ? parseInt(value, 10) : '') : value;
+    const processedValue = value;
     setFormData((prevData) => ({
       ...prevData,
       [name]: processedValue,
