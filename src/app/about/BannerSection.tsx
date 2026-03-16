@@ -83,7 +83,7 @@ const BannerSection: React.FC = () => {
         <div
           className="flex items-center space-x-2 group cursor-pointer pointer-events-auto"
           onClick={() => {
-            window.open("https://cal.com/fydaa-backend-zr5zm3/30min", "_blank");
+            window.open("https://www.cal.eu/fydaa/30min?overlayCalendar=true", "_blank");
           }}
         >
           <span className="text-white font-medium text-[10px] sm:text-[11px] md:text-[12px] lg:text-xs xl:text-sm 2xl:text-base font-['Inter'] hover:text-gray-300 transition-colors duration-300">

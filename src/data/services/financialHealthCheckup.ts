@@ -11,7 +11,7 @@ export const financialHealthCheckupData: ServiceData = {
       "Just like a regular health check keeps your body fit, a financial health check keeps your money in shape. Fydaa helps you understand where you stand financially and guides you towards a stronger, stress-free future.",
     iconPath: "/resource/FinancialHealthCheckup/icon.png",
     ctaText: "Book a Free Call",
-    ctaLink: "https://cal.com/fydaa-backend-zr5zm3/30min",
+    ctaLink: "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
   },
 
   videoSection: {

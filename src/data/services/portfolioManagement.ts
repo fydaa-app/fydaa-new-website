@@ -11,7 +11,7 @@ export const portfolioManagementData: ServiceData = {
       "From tracking to growing, we handle it all. We monitor your investments, rebalance your portfolio, and suggest changes based on market trends and your evolving needs. All you need to do is watch your wealth grow.",
     iconPath: "/resource/PortfolioManagement/icon.png",
     ctaText: "Book a Free Call",
-    ctaLink: "https://cal.com/fydaa-backend-zr5zm3/30min",
+    ctaLink: "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
   },
 
   videoSection: {

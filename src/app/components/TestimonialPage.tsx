@@ -595,7 +595,7 @@ const TestimonialPage: React.FC = () => {
                   className="flex items-center space-x-2 group cursor-pointer pointer-events-auto"
                   onClick={() => {
                     window.open(
-                      "https://cal.com/fydaa-backend-zr5zm3/30min",
+                      "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
                       "_blank"
                     );
                   }}

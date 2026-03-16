@@ -90,7 +90,7 @@ const FinancialPlanInterface: React.FC = () => {
       <div className="flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8 mt-12 sm:mt-14 md:mt-16 px-4 relative z-60">
         {/* Create Your Custom Plan Button */}
         {/* <button className="px-4 py-1.5 sm:px-5 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[13px] md:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
-        onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}>
+        onClick={() => window.open('https://www.cal.eu/fydaa/30min?overlayCalendar=true', '_blank')}>
           Create Your Custom Plan
         </button> */}
 
@@ -98,7 +98,7 @@ const FinancialPlanInterface: React.FC = () => {
         <button
           className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
           onClick={() =>
-            window.open("https://cal.com/fydaa-backend-zr5zm3/30min", "_blank")
+            window.open("https://www.cal.eu/fydaa/30min?overlayCalendar=true", "_blank")
           }
         >
           Book a Free Call
@@ -404,7 +404,7 @@ const FinancialPlanInterface: React.FC = () => {
             className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
             onClick={() =>
               window.open(
-                "https://cal.com/fydaa-backend-zr5zm3/30min",
+                "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
                 "_blank"
               )
             }
@@ -470,7 +470,7 @@ const FinancialPlanInterface: React.FC = () => {
               className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
               onClick={() =>
                 window.open(
-                  "https://cal.com/fydaa-backend-zr5zm3/30min",
+                  "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
                   "_blank"
                 )
               }
@@ -482,7 +482,7 @@ const FinancialPlanInterface: React.FC = () => {
               className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-black font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
               onClick={() =>
                 window.open(
-                  "https://cal.com/fydaa-backend-zr5zm3/30min",
+                  "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
                   "_blank"
                 )
               }

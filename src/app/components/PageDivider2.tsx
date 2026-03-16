@@ -166,7 +166,7 @@ const PageDivider2: React.FC = () => {
                 className="bg-white text-black px-6 py-1.5 rounded-full font-gilroy-medium text-sm hover:bg-gray-100 hover:scale-105 transition-all duration-300 transform"
                 onClick={() =>
                   window.open(
-                    "https://cal.com/fydaa-backend-zr5zm3/30min",
+                    "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
                     "_blank"
                   )
                 }

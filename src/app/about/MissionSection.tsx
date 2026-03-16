@@ -40,7 +40,7 @@ const MissionSection: React.FC = () => {
   }, [pieChartImageSources.length, imagesPreloaded]);
 
   const handleStartInvestingClick = () => {
-    window.open("https://cal.com/fydaa-backend-zr5zm3/30min", "_blank");
+    window.open("https://www.cal.eu/fydaa/30min?overlayCalendar=true", "_blank");
   };
 
   return (
