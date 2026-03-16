@@ -53,8 +53,23 @@ const LeadCapturePopup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     setSubmitMessage('');
+
+    // Basic email and phone validation
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    const phoneRegex = /^[0-9]{10}$/; // adjust if you need different length/format
+
+    if (!emailRegex.test(formData.email)) {
+      setSubmitMessage('Please enter a valid email address.');
+      return;
+    }
+
+    if (!phoneRegex.test(formData.phone)) {
+      setSubmitMessage('Please enter a valid 10-digit phone number.');
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_BASE_URL + 'referrals/website-lead';
@@ -182,6 +197,15 @@ const LeadCapturePopup = () => {
                 value={formData.phone}
                 onChange={handleInputChange}
                 required
+                inputMode="numeric"
+                minLength={10}
+                maxLength={10}
+                onInvalid={(e) => {
+                  (e.target as HTMLInputElement).setCustomValidity('Please enter a valid 10 digit mobile number.');
+                }}
+                onInput={(e) => {
+                  (e.target as HTMLInputElement).setCustomValidity('');
+                }}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all font-inter"
                 placeholder="Enter your phone number"
               />
