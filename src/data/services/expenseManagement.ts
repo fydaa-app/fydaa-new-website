@@ -10,7 +10,7 @@ export const expenseManagementData: ServiceData = {
     description: 'From monthly groceries to weekend splurges, small expenses can add up quickly. Fydaa helps you stay in control of your money—so you spend smart, save more, and still enjoy life\'s little pleasures.',
     iconPath: '/resource/ExpenseManagement/icon.png',
     ctaText: 'Book a Free Call',
-    ctaLink: 'https://cal.com/fydaa-backend-zr5zm3/30min',
+    ctaLink: 'https://www.cal.eu/fydaa/30min?overlayCalendar=true',
   },
   
   videoSection: {

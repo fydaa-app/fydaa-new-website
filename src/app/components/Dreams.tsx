@@ -269,7 +269,7 @@ export default function Dreams() {
                   className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]"
                   onClick={() =>
                     window.open(
-                      "https://cal.com/fydaa-backend-zr5zm3/30min",
+                      "",
                       "_blank"
                     )
                   }
@@ -282,7 +282,7 @@ export default function Dreams() {
                   className="px-4 py-2 sm:px-6 sm:py-2 bg-black text-white font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
                   onClick={() =>
                     window.open(
-                      "https://cal.com/fydaa-backend-zr5zm3/30min",
+                      "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
                       "_blank"
                     )
                   }
@@ -341,7 +341,7 @@ export default function Dreams() {
               <div className="flex flex-row gap-2 sm:gap-3 justify-center md:justify-start">
                 {/*<button 
                   className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]"
-                  onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}
+                  onClick={() => window.open('https://www.cal.eu/fydaa/30min?overlayCalendar=true', '_blank')}
                 >
                   Start Planning
                 </button> */}
@@ -352,7 +352,7 @@ export default function Dreams() {
                   className="px-4 py-2 sm:px-6 sm:py-2 bg-black text-white font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
                   onClick={() =>
                     window.open(
-                      "https://cal.com/fydaa-backend-zr5zm3/30min",
+                      "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
                       "_blank"
                     )
                   }
@@ -413,7 +413,7 @@ export default function Dreams() {
                   className="bg-black text-white px-3 sm:px-3 md:px-5 lg:px-6 xl:px-7 2xl:px-8 py-1.5 sm:py-1.5 md:py-2 lg:py-2.5 xl:py-3 2xl:py-3 rounded-[20px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm font-gilroy text-[11px] sm:text-[11px] md:text-[13px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px]"
                   onClick={() =>
                     window.open(
-                      "https://cal.com/fydaa-backend-zr5zm3/30min",
+                      "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
                       "_blank"
                     )
                   }
@@ -426,7 +426,7 @@ export default function Dreams() {
                   className="px-4 py-2 sm:px-6 sm:py-2 bg-black text-white font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
                   onClick={() =>
                     window.open(
-                      "https://cal.com/fydaa-backend-zr5zm3/30min",
+                      "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
                       "_blank"
                     )
                   }

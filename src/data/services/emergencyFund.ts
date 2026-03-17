@@ -11,7 +11,7 @@ export const emergencyFundData: ServiceData = {
       "Life is unpredictable, but your family's financial security doesn't have to be. Fydaa helps you choose the right insurance cover for your needs, so you can protect your health, income, and future.",
     iconPath: "/resource/Emergencyfund/icon.png",
     ctaText: "Book a Free Call",
-    ctaLink: "https://cal.com/fydaa-backend-zr5zm3/30min",
+    ctaLink: "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
   },
 
   videoSection: {

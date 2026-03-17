@@ -126,7 +126,7 @@ const HeroSection: React.FC = () => {
             {/* Start Investing Now Button */}
             {/* <div className="flex justify-center">
               <button 
-                onClick={() => window.open('https://cal.com/fydaa-backend-zr5zm3/30min', '_blank')}
+                onClick={() => window.open('https://www.cal.eu/fydaa/30min?overlayCalendar=true', '_blank')}
                 className="bg-black text-white px-5 sm:px-5 md:px-6 lg:px-6 xl:px-8 2xl:px-10 py-2.5 sm:py-2.5 md:py-3 lg:py-3 xl:py-4 2xl:py-5 rounded-full font-gilroy font-medium flex items-center space-x-2 sm:space-x-2 hover:bg-gray-800 transition-colors text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg"
               >
                 <span>Start Investing Now</span>
@@ -144,7 +144,7 @@ const HeroSection: React.FC = () => {
                 className="px-4 py-2 sm:px-6 sm:py-2 bg-black text-white font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
                 onClick={() =>
                   window.open(
-                    "https://cal.com/fydaa-backend-zr5zm3/30min",
+                    "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
                     "_blank"
                   )
                 }

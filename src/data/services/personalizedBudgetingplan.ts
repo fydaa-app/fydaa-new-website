@@ -10,7 +10,7 @@ export const personalizedBudgetingData: ServiceData = {
     description: 'Your life, your dreams, your expenses, no two people spend or save the same way. Fydaa creates a personalized budgeting plan just for you, so you can achieve your goals without giving up what you love.',
     iconPath: '/resource/PersonalizedBudgetingplan/icon.png',
     ctaText: 'Book a Free Call',
-    ctaLink: 'https://cal.com/fydaa-backend-zr5zm3/30min',
+    ctaLink: 'https://www.cal.eu/fydaa/30min?overlayCalendar=true',
   },
   
   videoSection: {

@@ -11,7 +11,7 @@ export const debtManagementData: ServiceData = {
       "Struggling with EMIs, credit card dues, or multiple loans? You're not alone. Fydaa helps you simplify your repayments, lower your interest rates, and get your finances back on track, so you can breathe easy again.",
     iconPath: "/resource/DebtManagement&Refinancing/icon.png",
     ctaText: "Book a Free Call",
-    ctaLink: "https://cal.com/fydaa-backend-zr5zm3/30min",
+    ctaLink: "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
   },
 
   videoSection: {

@@ -11,7 +11,7 @@ export const taxConsultancyData: ServiceData = {
       "Tax planning isn't about avoiding taxes—it's about optimising them. Fydaa helps you understand the rules, claim eligible deductions, and plan your finances to keep more money in your pocket.",
     iconPath: "/resource/TaxConsultancy/icon.png",
     ctaText: "Book a Free Call",
-    ctaLink: "https://cal.com/fydaa-backend-zr5zm3/30min",
+    ctaLink: "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
   },
 
   videoSection: {

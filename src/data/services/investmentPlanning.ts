@@ -11,7 +11,7 @@ export const investmentPlanningData: ServiceData = {
       "Whether you're saving for your dream home, your child's education, or early retirement, Fydaa's investment planning makes sure your money works as hard as you do.",
     iconPath: "/resource/InvestmentPlanning/icon.png",
     ctaText: "Book a Free Call",
-    ctaLink: "https://cal.com/fydaa-backend-zr5zm3/30min",
+    ctaLink: "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
   },
 
   videoSection: {
