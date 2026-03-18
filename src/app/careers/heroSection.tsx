@@ -94,7 +94,7 @@ export default function YoungAdvisorProgram() {
                         </li>
                         <li className="flex items-start gap-2">
                             <Image src="/carrers/Group33.png" alt="tick" width={20} height={20} />
-                            ₹5,000 per month during practical training
+                            Upto ₹15,000 per month during practical training
                         </li>
                         <li className="flex items-start gap-2">
                             <Image src="/carrers/Group33.png" alt="tick" width={20} height={20} />
