@@ -5,11 +5,15 @@ import { useState, useEffect } from 'react';
 import FormSubmittedSuccess from './successForm';
 
 export default function ApplyForm() {
+  const currentYear = new Date().getFullYear();
+  const minGraduationYear = currentYear - 26;
+  const maxGraduationYear = currentYear + 5;
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phoneNumber: '',
-    graduationYear: '',
+    graduationYear: String(currentYear),
     college: '',
     course: '',
   });
@@ -29,13 +33,26 @@ export default function ApplyForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     setErrorMessage('');
+
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    if (!emailRegex.test(formData.email)) {
+      setErrorMessage('Please enter a valid email address.');
+      return;
+    }
+
+    const digitsOnly = formData.phoneNumber.replace(/\D/g, '');
+    if (digitsOnly.length !== 10) {
+      setErrorMessage('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+
+    setIsSubmitting(true);
 
     const payload = {
       name: formData.name,
       email: formData.email,
-      mobileNumber: formData.phoneNumber,
+      mobileNumber: digitsOnly,
       graduationYear: formData.graduationYear,
       college: formData.college,
       course: formData.course,
@@ -66,7 +83,7 @@ export default function ApplyForm() {
           name: '',
           email: '',
           phoneNumber: '',
-          graduationYear: '',
+          graduationYear: String(currentYear),
           college: '',
           course: '',
         });
@@ -161,10 +178,19 @@ export default function ApplyForm() {
               <div>
                 <label className="block text-sm text-[#001E3C] mb-1">Phone Number <span className="text-red-500">*</span></label>
                 <input
-                  type="text"
+                  type="tel"
                   name="phoneNumber"
                   value={formData.phoneNumber}
                   onChange={handleChange}
+                  inputMode="numeric"
+                  minLength={10}
+                  maxLength={10}
+                  onInvalid={(e) => {
+                    (e.target as HTMLInputElement).setCustomValidity('Please enter a valid 10-digit mobile number.');
+                  }}
+                  onInput={(e) => {
+                    (e.target as HTMLInputElement).setCustomValidity('');
+                  }}
                   className="w-full border-b border-gray-400 focus:outline-none py-1"
                   required
                 />
@@ -173,16 +199,22 @@ export default function ApplyForm() {
                 <label className="block text-sm text-[#001E3C] mb-1">
                   Graduation Year <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="number"
+                <select
                   name="graduationYear"
                   value={formData.graduationYear}
                   onChange={handleChange}
-                  min="1950"
-                  max="2030"
-                  className="w-full border-b border-gray-400 focus:outline-none py-1"
+                  className="w-full border-b border-gray-400 focus:outline-none py-1 bg-transparent"
                   required
-                />
+                >
+                  {Array.from(
+                    { length: maxGraduationYear - minGraduationYear + 1 },
+                    (_, i) => minGraduationYear + i
+                  ).map((year) => (
+                    <option key={year} value={String(year)}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label className="block text-sm text-[#001E3C] mb-1">College University <span className="text-red-500">*</span></label>
