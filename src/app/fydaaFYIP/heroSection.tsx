@@ -19,7 +19,7 @@ export default function YoungAdvisorProgram() {
     };
 
     return (
-        <section className="w-full bg-[#EFF9F6]  pb-20 px-6 flex flex-col items-center">
+        <section className="w-full bg-[#EFF9F6] pt-28 pb-20 px-6 flex flex-col items-center">
             {/* New Job Assurance Banner */}
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
