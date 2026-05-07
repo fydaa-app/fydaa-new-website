@@ -72,14 +72,14 @@ export default function FyiapProgramBoxes() {
             className="w-full min-w-0 lg:flex-[1.3] box-border p-[2px] rounded-none lg:rounded-[56px] overflow-hidden"
             style={{
               backgroundImage:
-                'linear-gradient(148deg, #FFFFFF 20%, #0E0E0E 48%)',
+                'linear-gradient(148deg, #FFFFFF 0%, #0E0E0E 48%)',
             }}
           >
             <div
               className="flex flex-col h-full bg-black/80 backdrop-blur-[14px] px-8 py-8 sm:py-10 md:px-10 md:py-11 rounded-none lg:rounded-[54px] overflow-x-auto min-[1100px]:overflow-x-visible"
               style={{
                 backgroundImage:
-                  'linear-gradient(155deg, rgba(179, 164, 249, 0.20) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)',
+                  'linear-gradient(155deg,  rgba(0, 0, 0, 1) 3%,rgba(179, 164, 249, 0.2) 24%, rgba(0, 0, 0, 1) 51%)',
               }}
             >
               <p className="font-gilroy font-semibold text-left uppercase text-[20px] leading-[1.2] tracking-[2px] text-[#999999] mb-2 mt-2 [-webkit-text-stroke:1px_rgb(0,0,0)] [paint-order:stroke_fill] drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)] whitespace-nowrap">
