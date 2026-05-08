@@ -4,7 +4,7 @@ import FyiapProgramBoxes from "./FyiapProgramBoxes";
 export default function CareerHeroCard() {
   return (
     <section className="w-full">
-      <div className="w-full mb-20">
+      <div className="w-full">
         <div className="relative bg-black text-white rounded-b-[46px] shadow-[0_16px_50px_rgba(0,0,0,0.45)] overflow-hidden">
           <div className="pointer-events-none select-none absolute left-0 top-[45%] w-[1200px] h-[1200px] -translate-x-1/2 -translate-y-1/2 rotate-[60deg] z-20">
             <img
