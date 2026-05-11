@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { MapPin } from 'lucide-react';
 
 const JOBS = [
@@ -31,34 +31,53 @@ function Tag({ text, className = '' }: { text: string; className?: string }) {
   );
 }
 
+const selectedCardClass =
+  'border-[#C792F9] bg-[linear-gradient(120deg,rgba(168,115,255,0.18)_0%,rgba(255,255,255,0.85)_58%)]';
+const defaultCardClass = 'border-black/30 bg-white/40';
+
 export default function OpenPositionsSection() {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   return (
     <section className="w-full px-4 sm:px-8 md:px-10 lg:px-12">
       <div className="relative mx-auto max-w-[1240px]">
-        <div className="grid grid-cols-1 gap-6 lg:h-[1120px] lg:grid-cols-[0.95fr_1.05fr] lg:gap-8">
+        <div className="grid grid-cols-1 gap-6 lg:h-[1280px] lg:min-h-[1280px] lg:grid-cols-[0.95fr_1.05fr] lg:gap-8">
           <div className="min-h-0 pt-12 sm:pt-14 md:pt-16 lg:relative lg:z-10 lg:flex lg:flex-col lg:pt-20">
             <h2 className="font-gilroy font-medium text-[32px] leading-none text-black">Open Positions</h2>
             <p className="mt-1 font-inter font-normal text-[18px] text-black/60">Showing 8 jobs</p>
 
-            <div className="mt-5 space-y-3 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:pr-1">
-              {JOBS.map((job, idx) => (
+            <div className="mt-5 space-y-3 px-3 pb-2 pt-2 sm:px-4 sm:pb-3 sm:pt-3 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-3 lg:pb-2 lg:pt-2 lg:pr-3">
+              {JOBS.map((job, idx) => {
+                const isSelected = idx === selectedIndex;
+                return (
                 <article
                   key={job}
-                  className={`w-[80%] rounded-[30px] border p-5 ${
-                    idx === 0
-                      ? 'border-[#C792F9] bg-[linear-gradient(120deg,rgba(168,115,255,0.18)_0%,rgba(255,255,255,0.85)_58%)]'
-                      : 'border-black/30 bg-white/40'
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isSelected}
+                  aria-label={`View details for ${job}`}
+                  onClick={() => setSelectedIndex(idx)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedIndex(idx);
+                    }
+                  }}
+                  className={`ml-2 mt-2 w-[80%] origin-center cursor-pointer rounded-[30px] border box-border pl-4 pr-6 transition-transform duration-200 ease-out hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#C792F9]/50 sm:ml-3 sm:mt-3 ${
+                    idx === 0 ? 'pt-8 pb-5 sm:pt-10 sm:pb-5' : 'py-10'
+                  } ${
+                    isSelected ? selectedCardClass : defaultCardClass
                   }`}
                 >
                   <h3 className="font-gilroy font-semibold text-[30px] leading-none text-black">{job}</h3>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="mt-4 flex min-w-0 w-full flex-nowrap items-center gap-1 overflow-x-auto sm:gap-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     {TAGS.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-1 rounded-full border border-black/35 px-3 py-1 font-gilroy font-medium text-[14px] text-black"
+                        className="inline-flex shrink-0 items-center gap-0.5 whitespace-nowrap rounded-full border border-black/35 px-2 py-0.5 font-gilroy font-medium text-[11px] text-black sm:gap-1 sm:px-2.5 sm:py-1 sm:text-[12px]"
                       >
-                        {tag === 'Mumbai' ? <MapPin className="h-3 w-3" /> : null}
+                        {tag === 'Mumbai' ? <MapPin className="h-2.5 w-2.5 sm:h-3 sm:w-3" /> : null}
                         {tag}
                       </span>
                     ))}
@@ -70,12 +89,17 @@ export default function OpenPositionsSection() {
 
                   <div className="mt-3 flex items-center justify-between gap-3">
                     <div className="font-gilroy font-normal text-[32px] leading-none text-black">Rs. 28-42 LPA</div>
-                    <button className="rounded-[20px] bg-black px-5 py-2 font-gilroy font-medium text-[14px] text-white">
+                    <button
+                      type="button"
+                      className="rounded-[20px] bg-black px-5 py-2 font-gilroy font-medium text-[14px] text-white"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       Apply now -
                     </button>
                   </div>
                 </article>
-              ))}
+              );
+              })}
             </div>
           </div>
 
@@ -90,19 +114,24 @@ export default function OpenPositionsSection() {
             />
             <div className="relative z-10 h-full overflow-y-auto p-4 pt-10 sm:p-6 sm:pt-16 md:pt-24 lg:pl-20 lg:pr-20 lg:pt-48">
             <div className="flex items-start justify-between gap-4">
-              <h3 className="font-gilroy font-semibold text-[30px] leading-none text-black">Zonal Head - Sales</h3>
-              <button className="shrink-0 inline-flex h-[34px] w-[123px] items-center justify-center rounded-[20px] bg-black px-0 py-0 font-gilroy font-medium text-[14px] text-white">
+              <h3 className="font-gilroy font-semibold text-[30px] leading-none text-black">
+                {JOBS[selectedIndex]}
+              </h3>
+              <button
+                type="button"
+                className="shrink-0 inline-flex h-[34px] w-[123px] items-center justify-center rounded-[20px] bg-black px-0 py-0 font-gilroy font-medium text-[14px] text-white"
+              >
                 Apply now -
               </button>
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-4 flex min-w-0 w-full max-w-full flex-nowrap items-center gap-1 overflow-x-auto sm:gap-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     {TAGS.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-1 rounded-full border border-black/35 px-3 py-1 font-gilroy font-medium text-[14px] text-black"
+                        className="inline-flex shrink-0 items-center gap-0.5 whitespace-nowrap rounded-full border border-black/35 px-2 py-0.5 font-gilroy font-medium text-[11px] text-black sm:gap-1 sm:px-2.5 sm:py-1 sm:text-[12px]"
                       >
-                        {tag === 'Mumbai' ? <MapPin className="h-3 w-3" /> : null}
+                        {tag === 'Mumbai' ? <MapPin className="h-2.5 w-2.5 sm:h-3 sm:w-3" /> : null}
                         {tag}
                       </span>
                     ))}
@@ -137,7 +166,7 @@ export default function OpenPositionsSection() {
             </p>
 
             <h4 className="mt-7 font-gilroy font-medium text-[28px] leading-none text-black">Key Responsibilities</h4>
-            <p className="mt-3 font-inter font-normal text-[18px] leading-7 text-black/70 pl-4">
+            <ul className="mt-3 list-disc pl-6 font-inter font-normal text-[18px] leading-7 text-black/70">
               <li>Drive regional sales strategy to achieve revenue and business growth targets.</li>
               <li>
                 Expand the company&apos;s distribution footprint through IFAs, MFDs, and channel
@@ -145,7 +174,7 @@ export default function OpenPositionsSection() {
               </li>
               <li>Lead, manage, and mentor Regional Sales Managers and Relationship Managers.</li>
               <li>Drive new client onboarding and portfolio growth within the assigned zone.</li>
-            </p>
+            </ul>
 
 
             <h4 className="mt-7 font-gilroy font-medium text-[28px] leading-none text-black">Skills Required</h4>
