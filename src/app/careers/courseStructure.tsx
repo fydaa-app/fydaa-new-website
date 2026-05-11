@@ -13,7 +13,10 @@ export default function CourseStructure() {
             Course Structure
           </h2>
           <p className="text-gray-700 max-w-2xl mx-auto">
-            Our program is divided into three phases, each designed to build specific skills and prepare you for a successful career in investment advisory.
+          Our program is divided into two focused phases,
+          each designed to build practical skills and prepare
+          you for a successful career in investment advisory and
+          kick start your entrepreneurial journey.
           </p>
         </div>
 
@@ -32,25 +35,32 @@ export default function CourseStructure() {
             </div>
             <div>
               <p className="text-lg bg-gradient-to-r from-[#03003C] to-[#1E19A8] text-transparent bg-clip-text">
-                Months 1–4
+                Days 1–60
               </p>
               <h3 className="text-xl font-bold bg-gradient-to-r from-[#03003C] to-[#1E19A8] text-transparent bg-clip-text">
-                Finance Foundations
+              FINANCE FOUNDATIONS
+              & CERTIFICATION
               </h3>
             </div>
           </div>
           <ul className="space-y-4 md:w-2/3">
             <li className="flex items-start gap-3">
               <Image src="/carrers/Group1.png" alt="tick" width={30} height={30} className="mt-1" />
-              <p><strong>Master Financial Concepts:</strong> Learn essential financial principles through expert-led lessons and interactive sessions, building a solid foundation for your investment journey.</p>
+              <p><strong>Master Financial Concepts:</strong>  Learn essential financial principles
+              through expert-led sessions and interactive learning, building a
+               strong foundation for your investment journey.</p>
             </li>
             <li className="flex items-start gap-3">
               <Image src="/carrers/Group1.png" alt="tick" width={30} height={30} className="mt-1" />
-              <p><strong>Certification & Exam Preparation:</strong> Get ready for certification exams with focused preparation and practical assignments that reinforce key investment advisory topics.</p>
+              <p><strong>Certification & Exam Preparation:</strong> Get ready for certification
+              exams with focused preparation and practical assignments that
+              reinforce key investment advisory topics.</p>
             </li>
             <li className="flex items-start gap-3">
               <Image src="/carrers/Group1.png" alt="tick" width={30} height={30} className="mt-1" />
-              <p><strong>Industry Insights & Practical Knowledge:</strong> Gain valuable insights into the investment advisory industry, understanding key trends and strategies from real-world perspectives.</p>
+              <p><strong>Industry Insights & Practical Knowledge:</strong> Gain valuable insights
+              into the investment advisory industry, understanding key trends and
+              strategies from real-world perspectives</p>
             </li>
           </ul>
         </div>
@@ -70,25 +80,34 @@ export default function CourseStructure() {
             </div>
             <div>
               <p className="text-lg bg-gradient-to-r from-[#001E3C] to-[#19A86E] text-transparent bg-clip-text">
-                Months 5–6
+              Days 61–90
               </p>
               <h3 className="text-xl font-bold bg-gradient-to-r from-[#001E3C] to-[#19A86E] text-transparent bg-clip-text">
-                From Knowledge to Clients
+              FROM KNOWLEDGE
+              TO ADVISORY PRACTICE
               </h3>
             </div>
           </div>
           <ul className="space-y-4 md:w-2/3">
             <li className="flex items-start gap-3">
               <Image src="/carrers/Group2.png" alt="tick" width={30} height={30} className="mt-1" />
-              <p><strong>Client Acquisition & Retention Strategies:</strong> Learn how to attract new clients, retain them, and build lasting relationships that foster growth and loyalty.</p>
+              <p><strong>Client Acquisition & Relationship Building:</strong> Learn how to attract
+              clients, build trust, and build long-term advisory relationships.</p>
             </li>
             <li className="flex items-start gap-3">
               <Image src="/carrers/Group2.png" alt="tick" width={30} height={30} className="mt-1" />
-              <p><strong>Effective Communication & Trust Building:</strong> Develop professional communication skills to understand client needs and establish trust, essential for long-term success.</p>
+              <p><strong>Effective Communication & Trust Building:</strong> Develop professional
+              communication skills to understand client needs and establish credibility.</p>
             </li>
             <li className="flex items-start gap-3">
               <Image src="/carrers/Group2.png" alt="tick" width={30} height={30} className="mt-1" />
-              <p><strong>Financial Literacy Leadership:</strong> Lead workshops and educate clients and communities on financial literacy, empowering them with knowledge to make informed decisions.</p>
+              <p><strong>Entrepreneurial Advisory Approach:</strong> Learn how to build your own
+              advisory journey and grow your client base over time.</p>
+            </li>
+            <li className="flex items-start gap-3">
+              <Image src="/carrers/Group2.png" alt="tick" width={30} height={30} className="mt-1" />
+              <p><strong>Practical Experience & Expert Mentorship:</strong> Work on real advisory
+              scenarios under the guidance of experienced industry professionals.</p>
             </li>
           </ul>
         </div>
@@ -107,26 +126,34 @@ export default function CourseStructure() {
               />
             </div>
             <div>
-              <p className="text-lg bg-gradient-to-r from-[#3B3C00] to-[#A8A619] text-transparent bg-clip-text">
+              {/* <p className="text-lg bg-gradient-to-r from-[#3B3C00] to-[#A8A619] text-transparent bg-clip-text">
                 Months 6–12
-              </p>
+              </p> */}
               <h3 className="text-xl font-bold bg-gradient-to-r from-[#3B3C00] to-[#A8A619] text-transparent bg-clip-text">
-                Junior Wealth Advisor Internship
+              PROGRAM OUTCOME
               </h3>
             </div>
           </div>
           <ul className="space-y-4 md:w-2/3">
             <li className="flex items-start gap-3">
               <Image src="/carrers/Group3.png" alt="tick" width={30} height={30} className="mt-1" />
-              <p><strong>Practical Experience & Mentorship:</strong> Gain hands-on experience with real client interactions and portfolio management, guided by senior advisors for skill refinement.</p>
+              <p><strong>Guaranteed Job at Fydaa:</strong> Start your journey as a Certified
+              Investment Advisor</p>
             </li>
             <li className="flex items-start gap-3">
               <Image src="/carrers/Group3.png" alt="tick" width={30} height={30} className="mt-1" />
-              <p><strong>Career Growth & Goal Alignment:</strong> Work towards clear business targets to accelerate your career progression and achieve professional milestones.</p>
+              <p><strong>Earning Potential:</strong> Starting salary of ₹4 LPA + performance-based
+              incentives with high growth Potential.</p>
             </li>
             <li className="flex items-start gap-3">
               <Image src="/carrers/Group3.png" alt="tick" width={30} height={30} className="mt-1" />
-              <p><strong>Client Management Expertise & Feedback:</strong> Strengthen your client relationship and investment planning skills, with regular feedback and assessments to track progress.</p>
+              <p><strong>Entrepreneurial Growth:</strong> Build the foundation to grow into an
+              independent financial advisor and create your own client base.</p>
+            </li>
+            <li className="flex items-start gap-3">
+              <Image src="/carrers/Group3.png" alt="tick" width={30} height={30} className="mt-1" />
+              <p><strong>Real-World Readiness:</strong> Not just theory—step into the industry with
+              confidence, practical exposure, and mentorship..</p>
             </li>
           </ul>
         </div>
