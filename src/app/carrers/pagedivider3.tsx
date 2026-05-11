@@ -87,7 +87,7 @@ const PageDivider: React.FC = () => {
                 they arise.
               </p>
               <Link
-                href="#register-cv"t-medium
+                href="#register-cv"
                 className="inline-flex h-[40px] w-[188px] shrink-0 items-center justify-center gap-[6px] justify-self-start rounded-[20px] bg-[#FFFFFF] px-2 font-gilroy text-[14px] font-medium leading-none text-black transition-colors hover:bg-neutral-100 sm:col-start-2 sm:row-start-1 sm:self-center sm:justify-self-end sm:translate-x-3 md:translate-x-4 lg:translate-x-4 xl:translate-x-6"
               >
                 Register Your CV

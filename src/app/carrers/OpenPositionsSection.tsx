@@ -94,7 +94,7 @@ export default function OpenPositionsSection() {
                       className="rounded-[20px] bg-black px-5 py-2 font-gilroy font-medium text-[14px] text-white"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      Apply now -
+                      Apply now 
                     </button>
                   </div>
                 </article>
