@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useId, useState } from 'react';
+import { Fragment, useCallback, useEffect, useId, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, FileText, Linkedin, X } from 'lucide-react';
 import type { JobOpening } from './jobsData';
 import CareersApplySuccess from './CareersApplySuccess';
@@ -254,32 +254,31 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                 </button>
               </div>
 
-              <nav className="mt-6" aria-label="Application steps">
-                <div className="flex w-full items-start justify-between gap-1 sm:gap-2">
+              <nav className="mt-8 flex w-full justify-center px-2 sm:px-0" aria-label="Application steps">
+                <div className="flex w-full max-w-md items-start sm:max-w-lg">
                   {STEPS.map((label, i) => {
                     const done = i < step;
                     const active = i === step;
-                    const isLast = i === STEPS.length - 1;
+                    const connectorComplete = step > i;
+
                     return (
-                      <div
-                        key={label}
-                        className={`flex items-start gap-1 sm:gap-2 ${isLast ? 'shrink-0' : 'min-w-0 flex-1'}`}
-                      >
-                        <div className="flex w-full min-w-0 flex-col items-center gap-2">
+                      <Fragment key={label}>
+                        <div className="flex w-[5.25rem] shrink-0 flex-col items-center gap-2 sm:w-24">
                           <span
-                            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${
+                            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-semibold transition-colors ${
                               done
                                 ? 'bg-black text-white'
                                 : active
-                                  ? 'border-2 border-black bg-white text-black'
+                                  ? 'border-2 border-black bg-white text-black shadow-sm'
                                   : 'border border-gray-300 bg-white text-gray-400'
                             }`}
+                            aria-current={active ? 'step' : undefined}
                           >
-                            {done ? <Check className="h-4 w-4" strokeWidth={3} /> : i + 1}
+                            {done ? <Check className="h-4 w-4" strokeWidth={3} aria-hidden /> : i + 1}
                           </span>
                           <span
-                            className={`hidden text-center font-inter text-[10px] font-medium leading-tight sm:block sm:text-[11px] ${
-                              active ? 'text-black' : 'text-gray-400'
+                            className={`max-w-[5.25rem] text-center font-inter text-[10px] font-medium leading-tight sm:max-w-none sm:text-[11px] ${
+                              active ? 'font-semibold text-black' : done ? 'text-gray-600' : 'text-gray-400'
                             }`}
                           >
                             {label}
@@ -287,11 +286,11 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                         </div>
                         {i < STEPS.length - 1 ? (
                           <div
-                            className={`mt-[18px] hidden h-0.5 min-w-[8px] flex-1 sm:block ${i < step ? 'bg-black' : 'bg-gray-200'}`}
+                            className={`mx-2 mt-[18px] h-0.5 min-w-[12px] flex-1 ${connectorComplete ? 'bg-black' : 'bg-gray-200'}`}
                             aria-hidden
                           />
                         ) : null}
-                      </div>
+                      </Fragment>
                     );
                   })}
                 </div>
