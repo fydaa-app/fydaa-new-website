@@ -63,15 +63,15 @@ export default function QuickComparison() {
             })}
           </div>
 
-          {/* Middle FYIAP Column */}
+          {/* Middle FYIAEP Column */}
           <div className="w-1/3 px-1">
             <div className="rounded-t-xl overflow-hidden">
-              {/* FYIAP Header */}
+              {/* FYIAEP Header */}
               <div className="bg-[#193A6A] text-white text-center h-16 flex items-center justify-center font-semibold">
-                FYIAP
+                FYIAEP
               </div>
 
-              {/* FYIAP Rows */}
+              {/* FYIAEP Rows */}
               {comparisonData.map((item, index) => {
                 const isEven = index % 2 === 0;
                 return (

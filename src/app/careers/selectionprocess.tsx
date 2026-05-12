@@ -4,33 +4,26 @@ import Image from 'next/image';
 
 const steps = [
   {
-    title: 'Submit Your Application',
+    title: 'Submit Your Application ',
     description:
       'Candidates must register on our website and submit their application to join the program.',
     icon: '/carrers/Group6.png',
   },
   {
-    title: 'Interview Process',
-    description:
-      'Shortlisted candidates will be invited for an interview to assess their skills, knowledge, and suitability for the program.',
+    title: 'Interview Process ',
+    description:'Shortlisted candidates will be invited for an interview to assess their skills, knowledge, and suitability for the program.',
     icon: '/carrers/Group7.png',
   },
   {
-    title: 'Shortlisting',
+    title: 'Enrollment ',
     description:
-      'Candidates who clear the interview round will be notified of their selection via email.',
-    icon: '/carrers/Group8.png',
-  },
-  {
-    title: 'Enrollment',
-    description:
-      'Shortlisted candidates must pay the course fee to complete their enrollment in the program.',
+      'Shortlisted candidates must pay the course fee to Complete their enrollment in the program.',
     icon: '/carrers/Group9.png',
   },
   {
     title: 'Admission',
     description:
-      'Once enrollment is completed, candidates will be officially admitted to the Fydaa Young Investment Advisor Program.',
+      'Once enrollment is completed, candidates will be officially admitted to the Fydaa Young Investment Advisor Entrepreneur Program.',
     icon: '/carrers/Group10.png',
   },
 ];
@@ -44,7 +37,8 @@ export default function SelectionProcess() {
           Selection Process
         </h2>
         <p className="mt-2 text-gray-600 max-w-xl mx-auto">
-          A simple 5-step process to join our program and kickstart your career as an investment advisor.
+        A simple 4-step process to join our program and
+        kickstart your career as an investment advisor.
         </p>
       </div>
 

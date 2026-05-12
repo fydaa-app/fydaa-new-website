@@ -1,7 +1,6 @@
 'use client';
 
 import Image from "next/image";
-import { motion } from "framer-motion";
 
 export default function ProgrammeStructure() {
     return (
@@ -38,7 +37,7 @@ export default function ProgrammeStructure() {
 
                         {/* Program Fee Bar */}
                         <div className="mt-4 bg-[#EFF9F6] text-[#1BAF75] text-sm font-semibold px-4 py-2 rounded-full">
-                            Program Fee: ₹40,000 (inclusive of GST)
+                        Program Fee: ₹10,000 (Inclusive of GST)
                         </div>
                     </div>
 
@@ -52,6 +51,7 @@ export default function ProgrammeStructure() {
                             <li>✅ Wealth Management</li>
                             <li>✅ Financial Analysis</li>
                             <li>✅ Client Relationship Building</li>
+                            <li>✅ Leadership</li>
                         </ul>
                     </div>
 
@@ -60,15 +60,36 @@ export default function ProgrammeStructure() {
                         <div className="mb-4">
                             <Image src="/carrers/Group52.svg" alt="Earn Icon" width={40} height={40} />
                         </div>
-                        <h3 className="text-lg font-semibold text-[#001E3C] mb-4">Earn While You Grow</h3>
-                        <ul className="space-y-2 text-gray-700 text-sm">
-                            <li>✅ ₹5,000/month during Practical 
-                            Training (Months 5th to 6th)</li>
-                            <li>✅ The salary during the probation period (from the 7th - 12th month) will be ₹15,000 per month.</li>
-                            <li>✅ Post Probation - Join Fydaa as a Junior 
-Investment Advisor Starting CTC: ₹4 LPA+ 
-(includes bonuses & perks)</li>
-                        </ul>
+                        <h3 className="text-lg font-semibold text-[#001E3C] mb-4">
+                            Earn While You Grow
+                        </h3>
+                        <div className="space-y-3 text-left">
+                            <div>
+                                <p className="font-gilroy font-semibold text-[#333333] text-[15px] leading-snug">
+                                    ✅ Comprehensive 3-Months Training Program
+                                </p>
+                                <ul className="mt-0.5 space-y-0 pl-4 text-[#555555] text-[13px] leading-tight">
+                                    <li>• Includes lectures from industry leaders</li>
+                                    <li>• Field Training</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p className="font-gilroy font-semibold text-[#333333] text-[15px] leading-snug">
+                                    ✅ Post-Training Opportunity
+                                </p>
+                                <ul className="mt-0.5 space-y-0 pl-4 text-[#555555] text-[13px] leading-tight">
+                                    <li>• Join Fydaa as a Certified Investment Advisor and begin your journey in financial advisory</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p className="font-gilroy font-semibold text-[#333333] text-[15px] leading-snug">
+                                    ✅ Earning Potential &amp; Entrepreneurial journey
+                                </p>
+                                <ul className="mt-0.5 space-y-0 pl-4 text-[#555555] text-[13px] leading-tight">
+                                    <li>• Start with a scope to grow, as you build your advisory entrepreneurial journey</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
