@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import RegisterCvModal from "./RegisterCvModal";
 
 const PageDivider: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [contentVisible, setContentVisible] = useState(false);
+  const [registerCvOpen, setRegisterCvOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,6 +34,8 @@ const PageDivider: React.FC = () => {
   }, []);
 
   return (
+    <>
+      <RegisterCvModal open={registerCvOpen} onClose={() => setRegisterCvOpen(false)} />
     <div
       ref={containerRef}
       className={`relative z-30 mb-0 mt-0 flex min-h-[220px] w-full shrink-0 transform items-center justify-start overflow-hidden rounded-[15px] bg-[#000000] px-4 py-4 transition-all duration-1000 ease-out sm:min-h-[240px] sm:rounded-[20px] sm:px-6 sm:py-5 md:min-h-[250px] md:rounded-[25px] md:px-8 md:py-5 lg:rounded-[30px] lg:px-10 lg:py-6 xl:rounded-[35px] xl:px-12 xl:py-6 2xl:rounded-[40px] 2xl:px-16 2xl:py-7 ${
@@ -86,13 +89,14 @@ const PageDivider: React.FC = () => {
                 Register your profile and we&apos;ll match you with opportunities as
                 they arise.
               </p>
-              <Link
-                href="#register-cv"
+              <button
+                type="button"
+                onClick={() => setRegisterCvOpen(true)}
                 className="inline-flex h-[40px] w-[188px] shrink-0 items-center justify-center gap-[6px] justify-self-start rounded-[20px] bg-[#FFFFFF] px-2 font-gilroy text-[14px] font-medium leading-none text-black transition-colors hover:bg-neutral-100 sm:col-start-2 sm:row-start-1 sm:self-center sm:justify-self-end sm:translate-x-3 md:translate-x-4 lg:translate-x-4 xl:translate-x-6"
               >
                 Register Your CV
                 <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
-              </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -109,6 +113,7 @@ const PageDivider: React.FC = () => {
         }
       `}</style>
     </div>
+    </>
   );
 };
 
