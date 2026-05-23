@@ -30,33 +30,31 @@ export async function POST(request: NextRequest) {
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     if (baseUrl) {
-      const leadPayload = {
-        name: `${firstName} ${lastName}`.trim(),
-        email,
-        mobileNumber: phone,
-        graduationYear: String(new Date().getFullYear()),
-        college: 'CV pool',
-        course: 'Careers: CV pool registration',
-        isStudent: false,
-      };
-
       try {
-        const res = await fetch(`${baseUrl}referrals/website-lead`, {
+        const res = await fetch(`${baseUrl}referrals/cv-register`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(leadPayload),
+          body: formData,
         });
-        if (!res.ok && process.env.NODE_ENV === 'development') {
-          console.warn('[api/careers/cv-register] website-lead returned', res.status);
+
+        if (process.env.NODE_ENV === 'development') {
+          console.info('[api/careers/cv-register] Forwarded to backend:', res.status);
         }
+
+        // Return the backend's response with appropriate status and headers
+        return new NextResponse(res.body, {
+          status: res.status,
+          headers: res.headers,
+        });
       } catch (e) {
         if (process.env.NODE_ENV === 'development') {
-          console.warn('[api/careers/cv-register] website-lead forward failed', e);
+          console.warn('[api/careers/cv-register] Forwarding failed', e);
         }
+        return NextResponse.json({ ok: false, message: 'Failed to forward to backend.' }, { status: 502 });
       }
     }
 
-    return NextResponse.json({ ok: true, message: 'CV registration received.' });
+    // If no baseUrl is configured, return an error
+    return NextResponse.json({ ok: false, message: 'Backend URL not configured.' }, { status: 500 });
   } catch {
     return NextResponse.json({ ok: false, message: 'Invalid request.' }, { status: 400 });
   }

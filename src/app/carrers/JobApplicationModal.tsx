@@ -179,10 +179,10 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
       if (cvFile) fd.append('resume', cvFile);
       if (coverLetterFile) fd.append('coverLetter', coverLetterFile);
 
-      const res = await fetch('/api/careers/apply', {
-        method: 'POST',
-        body: fd,
-      });
+       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}referrals/apply`, {
+         method: 'POST',
+         body: fd,
+       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         setError(typeof data.message === 'string' ? data.message : 'Submission failed. Please try again.');
@@ -300,14 +300,14 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
             <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-8 sm:py-6">
               {step === 0 && (
                 <div className="space-y-6 pb-4">
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white py-3 font-inter text-sm font-medium text-[#001E3C] transition hover:bg-gray-50"
-                    onClick={() => window.open('https://www.linkedin.com/company/fydaa', '_blank', 'noopener,noreferrer')}
-                  >
-                    <Linkedin className="h-5 w-5 text-[#0A66C2]" aria-hidden />
-                    Apply with LinkedIn
-                  </button>
+                   <button
+                     type="button"
+                     className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white py-3 font-inter text-sm font-medium text-[#001E3C] transition hover:bg-gray-50"
+                     onClick={() => window.open(job.linkedinLink, '_blank', 'noopener,noreferrer')}
+                   >
+                     <Linkedin className="h-5 w-5 text-[#0A66C2]" aria-hidden />
+                     Apply with LinkedIn
+                   </button>
                   <div className="relative flex items-center justify-center">
                     <div className="absolute inset-0 flex items-center">
                       <div className="w-full border-t border-gray-200" />

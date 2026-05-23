@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapPin } from 'lucide-react';
-import { JOB_OPENINGS } from './jobsData';
+import { fetchJobOpenings } from './jobsData';
 import type { JobOpening } from './jobsData';
 import JobDetailContent from './JobDetailContent';
 import JobApplicationModal from './JobApplicationModal';
@@ -12,10 +12,44 @@ const selectedCardClass =
 const defaultCardClass = 'border-black/30 bg-white/40';
 
 export default function OpenPositionsSection() {
+  const [jobs, setJobs] = useState<JobOpening[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [applyJob, setApplyJob] = useState<JobOpening | null>(null);
 
-  const selectedJob = JOB_OPENINGS[selectedIndex] ?? JOB_OPENINGS[0];
+  useEffect(() => {
+    fetchJobOpenings()
+      .then(setJobs)
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const selectedJob = jobs[selectedIndex] ?? jobs[0] ?? ({} as JobOpening);
+
+  if (loading) {
+    return (
+      <section className="w-full px-4 py-20">
+        <p className="text-center font-gilroy text-[18px] text-black/60">Loading jobs...</p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="w-full px-4 py-20">
+        <p className="text-center font-gilroy text-[18px] text-red-600">Error: {error}</p>
+      </section>
+    );
+  }
+
+  if (jobs.length === 0) {
+    return (
+      <section className="w-full px-4 py-20">
+        <p className="text-center font-gilroy text-[18px] text-black/60"></p>
+      </section>
+    );
+  }
 
   return (
     <section className="w-full px-4 sm:px-8 md:px-10 lg:px-12">
@@ -26,11 +60,11 @@ export default function OpenPositionsSection() {
           <div className="min-h-0 pt-12 sm:pt-14 md:pt-16 lg:relative lg:z-10 lg:flex lg:flex-col lg:pt-20">
             <h2 className="font-gilroy font-medium text-[32px] leading-none text-black">Open Positions</h2>
             <p className="mt-1 font-inter font-normal text-[18px] text-black/60">
-              Showing {JOB_OPENINGS.length} jobs
+              Showing {jobs.length} jobs
             </p>
 
             <div className="mt-5 space-y-3 px-3 pb-2 pt-2 sm:px-4 sm:pb-3 sm:pt-3 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-3 lg:pb-2 lg:pt-2 lg:pr-3">
-              {JOB_OPENINGS.map((job, idx) => {
+              {jobs.map((job, idx) => {
                 const isSelected = idx === selectedIndex;
                 return (
                   <article
@@ -52,13 +86,13 @@ export default function OpenPositionsSection() {
                   >
                     <h3 className="font-gilroy font-semibold text-[30px] leading-none text-black">{job.title}</h3>
 
-                    <div className="mt-4 flex min-w-0 w-full flex-nowrap items-center gap-1 overflow-x-auto sm:gap-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                      {job.tags.map((tag) => (
+<div className="mt-4 flex min-w-0 w-full flex-nowrap items-center gap-1 overflow-x-auto sm:gap-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                      {(job.tags || []).map((tag) => (
                         <span
                           key={tag}
                           className="inline-flex shrink-0 items-center gap-0.5 whitespace-nowrap rounded-full border border-black/35 px-2 py-0.5 font-gilroy font-medium text-[11px] text-black sm:gap-1 sm:px-2.5 sm:py-1 sm:text-[12px]"
                         >
-                          {tag === 'Mumbai' ? <MapPin className="h-2.5 w-2.5 sm:h-3 sm:w-3" /> : null}
+                          {tag === job.location ? <MapPin className="h-2.5 w-2.5 sm:h-3 sm:w-3" /> : null}
                           {tag}
                         </span>
                       ))}
