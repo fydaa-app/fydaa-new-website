@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { MapPin } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { fetchJobOpenings } from './jobsData';
 import type { JobOpening } from './jobsData';
 import JobDetailContent from './JobDetailContent';
@@ -12,6 +13,8 @@ const selectedCardClass =
 const defaultCardClass = 'border-black/30 bg-white/40';
 
 export default function OpenPositionsSection() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [jobs, setJobs] = useState<JobOpening[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,6 +27,26 @@ export default function OpenPositionsSection() {
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    const applyJobId = searchParams.get('apply');
+    if (applyJobId && jobs.length > 0) {
+      const job = jobs.find((j) => j.id === applyJobId);
+      if (job) setApplyJob(job);
+    }
+  }, [searchParams, jobs]);
+
+  const openApply = (job: JobOpening) => {
+    setApplyJob(job);
+    const params = new URLSearchParams(searchParams);
+    params.set('apply', job.id);
+    router.push(`?${params.toString()}`, { scroll: false });
+  };
+
+  const closeApply = () => {
+    setApplyJob(null);
+    router.push('/carrers', { scroll: false });
+  };
 
   const selectedJob = jobs[selectedIndex] ?? jobs[0] ?? ({} as JobOpening);
 
@@ -53,7 +76,7 @@ export default function OpenPositionsSection() {
 
   return (
     <section className="w-full px-4 sm:px-8 md:px-10 lg:px-12">
-      <JobApplicationModal open={applyJob !== null} job={applyJob} onClose={() => setApplyJob(null)} />
+      <JobApplicationModal open={applyJob !== null} job={applyJob} onClose={closeApply} />
 
       <div className="relative mx-auto max-w-[1240px]">
         <div className="grid grid-cols-1 gap-6 lg:h-[1280px] lg:min-h-[1280px] lg:grid-cols-[0.95fr_1.05fr] lg:gap-8">
@@ -87,31 +110,31 @@ export default function OpenPositionsSection() {
                     <h3 className="font-gilroy font-semibold text-[30px] leading-none text-black">{job.title}</h3>
 
 <div className="mt-4 flex min-w-0 w-full flex-nowrap items-center gap-1 overflow-x-auto sm:gap-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                      {(job.tags || []).map((tag) => (
-                        <span
-                          key={tag}
-                          className="inline-flex shrink-0 items-center gap-0.5 whitespace-nowrap rounded-full border border-black/35 px-2 py-0.5 font-gilroy font-medium text-[11px] text-black sm:gap-1 sm:px-2.5 sm:py-1 sm:text-[12px]"
-                        >
-                          {tag === job.location ? <MapPin className="h-2.5 w-2.5 sm:h-3 sm:w-3" /> : null}
-                          {tag}
-                        </span>
-                      ))}
+                    {(job.tags || []).map((tag, tagIdx) => (
+                      <span
+                        key={`${tag}-${tagIdx}`}
+                        className="inline-flex shrink-0 items-center gap-0.5 whitespace-nowrap rounded-full border border-black/35 px-2 py-0.5 font-gilroy font-medium text-[11px] text-black sm:gap-1 sm:px-2.5 sm:py-1 sm:text-[12px]"
+                      >
+                        {tag === job.location ? <MapPin className="h-2.5 w-2.5 sm:h-3 sm:w-3" /> : null}
+                        {tag}
+                      </span>
+                    ))}
                     </div>
 
                     <div className="mt-3 font-gilroy font-normal text-[18px] text-black/50">{job.metaLine}</div>
 
                     <div className="mt-3 flex items-center justify-between gap-3">
                       <div className="font-gilroy font-normal text-[32px] leading-none text-black">{job.salaryCard}</div>
-                      <button
-                        type="button"
-                        className="rounded-[20px] bg-black px-5 py-2 font-gilroy font-medium text-[14px] text-white"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setApplyJob(job);
-                        }}
-                      >
-                        Apply now
-                      </button>
+<button
+                         type="button"
+                         className="rounded-[20px] bg-black px-5 py-2 font-gilroy font-medium text-[14px] text-white"
+                         onClick={(e) => {
+                           e.stopPropagation();
+                           openApply(job);
+                         }}
+                       >
+                         Apply now
+                       </button>
                     </div>
                   </article>
                 );
@@ -134,7 +157,7 @@ export default function OpenPositionsSection() {
                 <button
                   type="button"
                   className="shrink-0 inline-flex h-[34px] min-w-[123px] items-center justify-center rounded-[20px] bg-black px-4 py-0 font-gilroy font-medium text-[14px] text-white"
-                  onClick={() => setApplyJob(selectedJob)}
+                  onClick={() => openApply(selectedJob)}
                 >
                   Apply now
                 </button>
