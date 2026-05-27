@@ -312,7 +312,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                     <div className="absolute inset-0 flex items-center">
                       <div className="w-full border-t border-gray-200" />
                     </div>
-                    <span className="relative bg-white px-3 font-inter text-xs text-gray-500">or fill manually</span>
+                    {/* <span className="relative bg-white px-3 font-inter text-xs text-gray-500">or fill manually</span> */}
                   </div>
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div>
@@ -323,7 +323,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                         className={inputClass}
                         value={form.firstName}
                         onChange={(e) => update('firstName', e.target.value)}
-                        placeholder="Rahul"
+                        placeholder="Akash"
                         autoComplete="given-name"
                       />
                     </div>
@@ -335,7 +335,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                         className={inputClass}
                         value={form.lastName}
                         onChange={(e) => update('lastName', e.target.value)}
-                        placeholder="Sharma"
+                        placeholder="Tyagi"
                         autoComplete="family-name"
                       />
                     </div>

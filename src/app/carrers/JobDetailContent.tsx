@@ -13,6 +13,12 @@ function Tag({ text, className = '' }: { text: string; className?: string }) {
   );
 }
 
+// Add this helper function at the top of JobDetailContent.tsx (after imports)
+function hasMeaningfulContent(arr: string[] | undefined | null): boolean {
+  return Array.isArray(arr) && arr.some(item => item && item.trim().length > 0);
+}
+
+
 type Props = {
   job: JobOpening;
   /** Smaller tag row (matches listing strip) */
@@ -64,7 +70,7 @@ export default function JobDetailContent({ job, tagSize = 'md' }: Props) {
         </>
       )}
 
-      {job.responsibilities && job.responsibilities.length > 0 && (
+      {hasMeaningfulContent(job.responsibilities) && (
         <>
           <h4 className="mt-7 font-gilroy font-medium text-[28px] leading-none text-black">Key Responsibilities</h4>
           <ul className="mt-3 list-disc pl-6 font-inter font-normal text-[18px] leading-7 text-black/70">
@@ -75,7 +81,7 @@ export default function JobDetailContent({ job, tagSize = 'md' }: Props) {
         </>
       )}
 
-      {job.skills && job.skills.length > 0 && (
+      {hasMeaningfulContent(job.skills) && (
         <>
           <h4 className="mt-7 font-gilroy font-medium text-[28px] leading-none text-black">Skills Required</h4>
           <div className="mt-3 flex flex-wrap gap-[10px] font-gilroy font-medium text-[14px] leading-7 text-black/70">

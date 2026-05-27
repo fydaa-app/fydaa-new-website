@@ -69,13 +69,76 @@ export default function OpenPositionsSection() {
     );
   }
 
-  if (jobs.length === 0) {
-    return (
-      <section className="w-full px-4 py-20">
-        <p className="text-center font-gilroy text-[18px] text-black/60"></p>
-      </section>
-    );
-  }
+if (jobs.length === 0) {
+  return (
+    <section className="w-full px-4 py-16 sm:px-8 sm:py-20 md:px-10 lg:px-12 lg:py-24">
+      <div className="relative mx-auto max-w-[1240px]">
+        <div className="rounded-[32px] border border-black/10 bg-white/60 p-6 backdrop-blur-md sm:p-10 lg:p-14">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+            {/* Left Side */}
+            <div>
+              <h2 className="font-gilroy font-medium text-[32px] leading-none text-black">
+                Open Positions
+              </h2>
+
+              <p className="mt-1 font-inter text-[18px] text-black/60">
+                Showing 0 jobs
+              </p>
+
+              <div className="mt-6">
+                <div className={selectedCardOuter}>
+                  <div
+                    className={`${selectedCardInner} flex min-h-[260px] flex-col items-center justify-center px-6 py-10 text-center`}
+                  >
+                    <div className="mb-4 rounded-full border border-black/10 bg-white/70 px-4 py-2 font-gilroy text-[14px] text-black/60">
+                      No openings available
+                    </div>
+
+                    <h3 className="font-gilroy font-semibold text-[30px] leading-none text-black">
+                      We’re not hiring right now
+                    </h3>
+
+                    <p className="mt-4 max-w-[420px] font-inter text-[16px] leading-[26px] text-black/60">
+                      There are currently no active job openings. Please check
+                      back later for new opportunities at Fydaa.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={() => router.push('/')}
+                      className="mt-6 rounded-[20px] bg-black px-5 py-2 font-gilroy font-medium text-[14px] text-white transition-opacity hover:opacity-90"
+                    >
+                      Go to Homepage
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side */}
+            <div className="flex min-h-[420px] items-center justify-center rounded-[30px] border border-black/10 bg-white/40 p-8 text-center backdrop-blur-sm">
+              <div>
+                <div className="mb-4 inline-flex rounded-full border border-black/10 bg-black/5 px-4 py-2 font-gilroy text-[14px] text-black/60">
+                  Careers at Fydaa
+                </div>
+
+                <h3 className="font-gilroy font-semibold text-[30px] leading-none text-black">
+                  New roles coming soon
+                </h3>
+
+                <p className="mt-4 max-w-[440px] font-inter text-[16px] leading-[28px] text-black/60">
+                  We’re always looking for talented people. Keep an eye on this
+                  page for future openings across engineering, operations,
+                  design, and more.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
   return (
     <section className="w-full px-4 sm:px-8 md:px-10 lg:px-12">
@@ -86,7 +149,7 @@ export default function OpenPositionsSection() {
           <div className="min-h-0 pt-12 sm:pt-14 md:pt-16 lg:relative lg:z-10 lg:flex lg:flex-col lg:pt-20">
             <h2 className="font-gilroy font-medium text-[32px] leading-none text-black">Open Positions</h2>
             <p className="mt-1 font-inter font-normal text-[18px] text-black/60">
-              Showing {jobs.length} jobs
+              Showing {jobs.length} job{jobs.length !== 1 ? 's' : ''}
             </p>
 
             <div className="mt-5 space-y-3 px-3 pb-2 pt-2 sm:px-4 sm:pb-3 sm:pt-3 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-3 lg:pb-2 lg:pt-2 lg:pr-3">
