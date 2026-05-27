@@ -49,7 +49,7 @@ export default function CareerHeroCard({ jobCount = 0 }: Props) {
                   {jobCount > 0 ? `${jobCount}` : '0'}
                 </span>
                 <span className="font-inter font-normal text-sm sm:text-base text-white">
-                  Open Roles
+                  {jobCount === 1 ? 'Open Role' : 'Open Roles'}
                 </span>
               </div>
 

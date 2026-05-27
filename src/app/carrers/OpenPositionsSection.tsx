@@ -149,7 +149,7 @@ if (jobs.length === 0) {
           <div className="min-h-0 pt-12 sm:pt-14 md:pt-16 lg:relative lg:z-10 lg:flex lg:flex-col lg:pt-20">
             <h2 className="font-gilroy font-medium text-[32px] leading-none text-black">Open Positions</h2>
             <p className="mt-1 font-inter font-normal text-[18px] text-black/60">
-              Showing {jobs.length} jobs
+              Showing {jobs.length} job{jobs.length !== 1 ? 's' : ''}
             </p>
 
             <div className="mt-5 space-y-3 px-3 pb-2 pt-2 sm:px-4 sm:pb-3 sm:pt-3 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-3 lg:pb-2 lg:pt-2 lg:pr-3">
