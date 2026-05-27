@@ -1,7 +1,11 @@
 import React from "react";
 import FyiapProgramBoxes from "./FyiapProgramBoxes";
 
-export default function CareerHeroCard() {
+type Props = {
+  jobCount?: number;
+};
+
+export default function CareerHeroCard({ jobCount = 0 }: Props) {
   return (
     <section className="w-full">
       <div className="w-full">
@@ -39,9 +43,10 @@ export default function CareerHeroCard() {
             </p>
 
             <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-10">
+              {/* Update the static "8+" text (lines 42-48): */}
               <div className="flex flex-col items-center text-center gap-1.5">
                 <span className="font-gilroy font-thin text-4xl sm:text-5xl md:text-[3.25rem] leading-none text-white">
-                  8+
+                  {jobCount > 0 ? `${jobCount}` : '0'}
                 </span>
                 <span className="font-inter font-normal text-sm sm:text-base text-white">
                   Open Roles
