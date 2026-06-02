@@ -69,35 +69,32 @@ const PageDivider: React.FC = () => {
         }}
       />
 
-      <div className="relative z-10 w-full min-w-0 max-w-full">
+      <div className="relative z-10 w-full min-w-0">
         <div
-          className={`relative w-full min-w-0 transition-all duration-700 ease-out ${
+          className={`w-full min-w-0 transition-all duration-700 ease-out ${
             contentVisible
               ? "translate-y-0 opacity-100"
               : "translate-y-8 opacity-0"
           }`}
         >
-          <div className="ml-6 flex w-full max-w-5xl flex-col gap-3 text-left sm:ml-10 md:ml-14 lg:ml-20 xl:ml-24">
-            <div>
-              <h2 className="font-gilroy text-[24px] font-semibold leading-none tracking-tight text-white sm:text-[30px] md:text-[38px] lg:text-[48px]">
+          <div className="flex w-full flex-col gap-4 text-left sm:gap-5 md:flex-row md:items-start md:justify-between md:gap-6 lg:gap-8 xl:gap-10">
+            <div className="min-w-0 flex-1 space-y-2 sm:space-y-3 ml-2 xs:ml-4 sm:ml-6 md:ml-10 lg:ml-14 xl:ml-20 2xl:ml-24">
+              <h2 className="font-gilroy text-[22px] font-semibold leading-tight tracking-tight text-white xs:text-[24px] sm:text-[30px] md:text-[34px] lg:text-[42px] xl:text-[48px]">
                 Don&apos;t See The Right Role Yet?
               </h2>
-            </div>
-
-            <div className="grid w-full grid-cols-1 gap-y-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-x-10 sm:gap-y-0 sm:pr-2 md:gap-x-12 lg:gap-x-14 xl:gap-x-16 lg:pr-4 xl:pr-6">
-              <p className="min-w-0 font-inter text-[15px] font-normal leading-relaxed text-white/90 sm:max-w-xl lg:max-w-2xl">
+              <p className="max-w-2xl font-inter text-[14px] font-normal leading-relaxed text-white/90 sm:text-[15px] md:text-[16px]">
                 Register your profile and we&apos;ll match you with opportunities as
                 they arise.
               </p>
-              <button
-                type="button"
-                onClick={() => setRegisterCvOpen(true)}
-                className="inline-flex h-[40px] w-[188px] shrink-0 items-center justify-center gap-[6px] justify-self-start rounded-[20px] bg-[#FFFFFF] px-2 font-gilroy text-[14px] font-medium leading-none text-black transition-colors hover:bg-neutral-100 sm:col-start-2 sm:row-start-1 sm:self-center sm:justify-self-end sm:translate-x-3 md:translate-x-4 lg:translate-x-4 xl:translate-x-6"
-              >
-                Register Your CV
-                <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
-              </button>
             </div>
+            <button
+              type="button"
+              onClick={() => setRegisterCvOpen(true)}
+              className="inline-flex h-9 w-full shrink-0 items-center justify-center gap-1 rounded-[20px] bg-white px-3 font-gilroy text-[13px] font-medium leading-none text-black transition-colors hover:bg-neutral-100 sm:h-[34px] sm:w-[167px] sm:gap-1.5 sm:self-start sm:text-[14px] md:mt-auto md:w-[167px] md:self-end md:translate-y-1 lg:mr-6 lg:translate-y-2 xl:mr-10 2xl:mr-14 2xl:translate-y-3"
+            >
+              Register Your CV
+              <ArrowRight className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" aria-hidden />
+            </button>
           </div>
         </div>
       </div>
