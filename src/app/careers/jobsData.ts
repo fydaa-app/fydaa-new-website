@@ -2,13 +2,13 @@ export type JobOpening = {
   id: string;
   title: string;
   companyName: string;
-  salaryCompact: string;
-  salaryCard: string;
+  salaryCompact: string | null;
+  salaryCard: string | null;
   tags: string[];
   metaLine: string;
   division: string;
-  experienceRange: string;
-  location: string;
+  experienceRange: string | null;
+  location: string | null;
   posted: string;
   about: string;
   responsibilities: string[];
@@ -36,7 +36,7 @@ export async function fetchJobOpenings(): Promise<JobOpening[]> {
      division: job.division,
      experienceRange: job.experienceRange,
      location: job.location,
-     posted: formatPostedDate(job.posted),
+      posted: job.posted ? formatPostedDate(job.posted) : '',
      about: job.about,
      responsibilities: job.responsibilities || [],
      skills: job.skills || [],
