@@ -221,7 +221,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
         aria-label="Close dialog"
         onClick={onClose}
       />
-      <div className="relative z-10 flex max-h-[min(90vh,880px)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
+      <div className="relative z-10 flex max-h-[min(90vh,880px)] w-full max-w-3xl flex-col overflow-y-auto rounded-2xl bg-white shadow-2xl">
         {success ? (
           <div className="relative flex min-h-[min(60vh,480px)] w-full flex-col items-center justify-center overflow-y-auto px-6 py-12 sm:px-10 sm:py-16">
             <button
@@ -297,9 +297,9 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
               </nav>
             </div>
 
-            <div className="min-h-[420px] flex-1 overflow-y-auto px-5 py-5 sm:px-8 sm:py-6">
+            <div className="flex flex-col flex-1 overflow-y-auto px-5 py-5 sm:px-8 sm:py-6">
               {step === 0 && (
-                <div className="space-y-6 pb-4">
+                <div className="flex flex-col flex-1 space-y-6 pb-4">
                    {/* <button
                      type="button"
                      className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white py-3 font-inter text-sm font-medium text-[#001E3C] transition hover:bg-gray-50"
@@ -382,7 +382,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
               )}
 
               {step === 1 && (
-                <div className="space-y-6 pb-4">
+                <div className="flex flex-col flex-1 space-y-6 pb-4">
                   <div>
                     <label className={labelClass}>Current Job Title</label>
                     <input
@@ -443,7 +443,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
               )}
 
               {step === 2 && (
-                <div className="space-y-6 pb-4">
+                <div className="flex flex-col flex-1 space-y-6 pb-4">
                   <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 bg-white px-6 py-10">
                     <FileText className="mb-3 h-10 w-10 text-gray-500" aria-hidden />
                     <p className="font-inter text-sm font-medium text-black">Cover letter</p>
