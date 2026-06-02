@@ -9,7 +9,7 @@ import QuickComparison from "./quickComparison";
 import SelectionProcess from "./selectionprocess";
 import FAQSection from "./faq";
 import ApplyForm from "./applyForm";
-import CareerHeroCard from "../carrers/CareerHeroCard";
+import CareerHeroCard from "../careers/CareerHeroCard";
 
 const CareersPage = () => {
   return (

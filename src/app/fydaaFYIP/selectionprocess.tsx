@@ -7,24 +7,24 @@ const steps = [
     title: 'Submit Your Application ',
     description:
       'Candidates must register on our website and submit their application to join the program.',
-    icon: '/carrers/Group6.png',
+    icon: '/careers/Group6.png',
   },
   {
     title: 'Interview Process ',
     description:'Shortlisted candidates will be invited for an interview to assess their skills, knowledge, and suitability for the program.',
-    icon: '/carrers/Group7.png',
+    icon: '/careers/Group7.png',
   },
   {
     title: 'Enrollment ',
     description:
       'Shortlisted candidates must pay the course fee to Complete their enrollment in the program.',
-    icon: '/carrers/Group9.png',
+    icon: '/careers/Group9.png',
   },
   {
     title: 'Admission',
     description:
       'Once enrollment is completed, candidates will be officially admitted to the Fydaa Young Investment Advisor Entrepreneur Program.',
-    icon: '/carrers/Group10.png',
+    icon: '/careers/Group10.png',
   },
 ];
 

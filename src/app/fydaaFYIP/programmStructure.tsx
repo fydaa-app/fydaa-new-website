@@ -26,7 +26,7 @@ export default function ProgrammeStructure() {
                     {/* Card 1 */}
                     <div className="rounded-xl shadow-md p-6 border-t-[8px] border-[#F2B319] text-left relative transition-transform duration-300 hover:shadow-lg hover:-translate-y-2">
                         <div className="mb-4">
-                            <Image src="/carrers/Group20.png" alt="Invest Icon" width={40} height={40} />
+                            <Image src="/careers/Group20.png" alt="Invest Icon" width={40} height={40} />
                         </div>
                         <h3 className="text-lg font-semibold text-[#001E3C] mb-4">Invest in Your Future</h3>
                         <ul className="space-y-2 text-gray-700 text-sm">
@@ -44,7 +44,7 @@ export default function ProgrammeStructure() {
                     {/* Card 2 */}
                     <div className="rounded-xl shadow-md p-6 border-t-[8px] border-[#001E3C] text-left relative transition-transform duration-300 hover:shadow-lg hover:-translate-y-2">
                         <div className="mb-4">
-                            <Image src="/carrers/Group19.png" alt="Skills Icon" width={40} height={40} />
+                            <Image src="/careers/Group19.png" alt="Skills Icon" width={40} height={40} />
                         </div>
                         <h3 className="text-lg font-semibold text-[#001E3C] mb-4">Gain Real-World Skills In</h3>
                         <ul className="space-y-2 text-gray-700 text-sm">
@@ -58,7 +58,7 @@ export default function ProgrammeStructure() {
                     {/* Card 3 */}
                     <div className="rounded-xl shadow-md p-6 border-t-[8px] border-[#001E3C] text-left relative transition-transform duration-300 hover:shadow-lg hover:-translate-y-2">
                         <div className="mb-4">
-                            <Image src="/carrers/Group52.svg" alt="Earn Icon" width={40} height={40} />
+                            <Image src="/careers/Group52.svg" alt="Earn Icon" width={40} height={40} />
                         </div>
                         <h3 className="text-lg font-semibold text-[#001E3C] mb-4">
                             Earn While You Grow

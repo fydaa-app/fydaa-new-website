@@ -128,9 +128,9 @@ export default function RegisterCvModal({ open, onClose }: Props) {
         aria-label="Close dialog"
         onClick={onClose}
       />
-      <div className="relative z-10 flex max-h-[min(90vh,720px)] w-full max-w-xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
+      <div className="relative z-10 flex max-h-[min(90vh,880px)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
         {success ? (
-          <div className="relative flex min-h-[min(50vh,400px)] w-full flex-col items-center justify-center overflow-y-auto px-6 py-12 sm:px-10 sm:py-16">
+          <div className="relative flex min-h-[min(60vh,480px)] w-full flex-col items-center justify-center overflow-y-auto px-6 py-12 sm:px-10 sm:py-16">
             <button
               type="button"
               onClick={onClose}
@@ -174,25 +174,27 @@ export default function RegisterCvModal({ open, onClose }: Props) {
                     <label className={labelClass}>
                       First Name <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      className={inputClass}
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      placeholder="First name"
-                      autoComplete="given-name"
-                    />
+                      <input
+                        className={inputClass}
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
+                        onKeyDown={(e) => { if (!/^[a-zA-Z\s]$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); }}
+                        placeholder="First name"
+                        autoComplete="given-name"
+                      />
                   </div>
                   <div>
                     <label className={labelClass}>
                       Last Name <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      className={inputClass}
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      placeholder="Last name"
-                      autoComplete="family-name"
-                    />
+                      <input
+                        className={inputClass}
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
+                        onKeyDown={(e) => { if (!/^[a-zA-Z\s]$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); }}
+                        placeholder="Last name"
+                        autoComplete="family-name"
+                      />
                   </div>
                   <div className="sm:col-span-2">
                     <label className={labelClass}>
@@ -211,14 +213,15 @@ export default function RegisterCvModal({ open, onClose }: Props) {
                     <label className={labelClass}>
                       Phone <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      type="tel"
-                      className={inputClass}
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="+91 XXXXX XXXXX"
-                      autoComplete="tel"
-                    />
+                      <input
+                        type="tel"
+                        className={inputClass}
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                        onKeyDown={(e) => { if (!/^\d$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); if (phone.length >= 10 && /^\d$/.test(e.key)) e.preventDefault(); }}
+                        placeholder="+91 XXXXX XXXXX"
+                        autoComplete="tel"
+                      />
                   </div>
                 </div>
 

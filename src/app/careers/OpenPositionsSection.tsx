@@ -48,7 +48,7 @@ export default function OpenPositionsSection() {
 
   const closeApply = () => {
     setApplyJob(null);
-    router.push('/carrers', { scroll: false });
+    router.push('/careers', { scroll: false });
   };
 
   const selectedJob = jobs[selectedIndex] ?? jobs[0] ?? ({} as JobOpening);

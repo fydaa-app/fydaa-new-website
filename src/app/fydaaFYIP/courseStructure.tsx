@@ -24,9 +24,9 @@ export default function CourseStructure() {
         <div className="rounded-xl p-6 md:flex md:items-stretch gap-8">
           <div className="bg-[#EBF0FA] p-4 rounded-lg flex items-center gap-4 md:w-1/3 relative">
             <div className="relative">
-              <Image src="/carrers/Group26.png" alt="circle icon" width={40} height={40} />
+              <Image src="/careers/Group26.png" alt="circle icon" width={40} height={40} />
               <Image
-                src="/carrers/Group56.png"
+                src="/careers/Group56.png"
                 alt="overlay icon"
                 width={20}
                 height={20}
@@ -45,19 +45,19 @@ export default function CourseStructure() {
           </div>
           <ul className="space-y-4 md:w-2/3">
             <li className="flex items-start gap-3">
-              <Image src="/carrers/Group1.png" alt="tick" width={30} height={30} className="mt-1" />
+              <Image src="/careers/Group1.png" alt="tick" width={30} height={30} className="mt-1" />
               <p><strong>Master Financial Concepts:</strong>  Learn essential financial principles
               through expert-led sessions and interactive learning, building a
                strong foundation for your investment journey.</p>
             </li>
             <li className="flex items-start gap-3">
-              <Image src="/carrers/Group1.png" alt="tick" width={30} height={30} className="mt-1" />
+              <Image src="/careers/Group1.png" alt="tick" width={30} height={30} className="mt-1" />
               <p><strong>Certification & Exam Preparation:</strong> Get ready for certification
               exams with focused preparation and practical assignments that
               reinforce key investment advisory topics.</p>
             </li>
             <li className="flex items-start gap-3">
-              <Image src="/carrers/Group1.png" alt="tick" width={30} height={30} className="mt-1" />
+              <Image src="/careers/Group1.png" alt="tick" width={30} height={30} className="mt-1" />
               <p><strong>Industry Insights & Practical Knowledge:</strong> Gain valuable insights
               into the investment advisory industry, understanding key trends and
               strategies from real-world perspectives</p>
@@ -69,9 +69,9 @@ export default function CourseStructure() {
         <div className="rounded-xl p-6 md:flex md:items-stretch gap-8">
           <div className="bg-[#EAF5F0] p-4 rounded-lg flex items-center gap-4 md:w-1/3 relative">
             <div className="relative">
-              <Image src="/carrers/Group22.png" alt="circle icon" width={40} height={40} />
+              <Image src="/careers/Group22.png" alt="circle icon" width={40} height={40} />
               <Image
-                src="/carrers/Group23.png"
+                src="/careers/Group23.png"
                 alt="overlay icon"
                 width={20}
                 height={20}
@@ -90,22 +90,22 @@ export default function CourseStructure() {
           </div>
           <ul className="space-y-4 md:w-2/3">
             <li className="flex items-start gap-3">
-              <Image src="/carrers/Group2.png" alt="tick" width={30} height={30} className="mt-1" />
+              <Image src="/careers/Group2.png" alt="tick" width={30} height={30} className="mt-1" />
               <p><strong>Client Acquisition & Relationship Building:</strong> Learn how to attract
               clients, build trust, and build long-term advisory relationships.</p>
             </li>
             <li className="flex items-start gap-3">
-              <Image src="/carrers/Group2.png" alt="tick" width={30} height={30} className="mt-1" />
+              <Image src="/careers/Group2.png" alt="tick" width={30} height={30} className="mt-1" />
               <p><strong>Effective Communication & Trust Building:</strong> Develop professional
               communication skills to understand client needs and establish credibility.</p>
             </li>
             <li className="flex items-start gap-3">
-              <Image src="/carrers/Group2.png" alt="tick" width={30} height={30} className="mt-1" />
+              <Image src="/careers/Group2.png" alt="tick" width={30} height={30} className="mt-1" />
               <p><strong>Entrepreneurial Advisory Approach:</strong> Learn how to build your own
               advisory journey and grow your client base over time.</p>
             </li>
             <li className="flex items-start gap-3">
-              <Image src="/carrers/Group2.png" alt="tick" width={30} height={30} className="mt-1" />
+              <Image src="/careers/Group2.png" alt="tick" width={30} height={30} className="mt-1" />
               <p><strong>Practical Experience & Expert Mentorship:</strong> Work on real advisory
               scenarios under the guidance of experienced industry professionals.</p>
             </li>
@@ -116,9 +116,9 @@ export default function CourseStructure() {
         <div className="rounded-xl p-6 md:flex md:items-stretch gap-8">
           <div className="bg-[#F7F2EA] p-4 rounded-lg flex items-center gap-4 md:w-1/3 relative">
             <div className="relative">
-              <Image src="/carrers/Group24.png" alt="circle icon" width={40} height={40} />
+              <Image src="/careers/Group24.png" alt="circle icon" width={40} height={40} />
               <Image
-                src="/carrers/Group57.png"
+                src="/careers/Group57.png"
                 alt="overlay icon"
                 width={20}
                 height={20}
@@ -136,22 +136,22 @@ export default function CourseStructure() {
           </div>
           <ul className="space-y-4 md:w-2/3">
             <li className="flex items-start gap-3">
-              <Image src="/carrers/Group3.png" alt="tick" width={30} height={30} className="mt-1" />
+              <Image src="/careers/Group3.png" alt="tick" width={30} height={30} className="mt-1" />
               <p><strong>Guaranteed Job at Fydaa:</strong> Start your journey as a Certified
               Investment Advisor</p>
             </li>
             <li className="flex items-start gap-3">
-              <Image src="/carrers/Group3.png" alt="tick" width={30} height={30} className="mt-1" />
+              <Image src="/careers/Group3.png" alt="tick" width={30} height={30} className="mt-1" />
               <p><strong>Earning Potential:</strong> Starting salary of ₹4 LPA + performance-based
               incentives with high growth Potential.</p>
             </li>
             <li className="flex items-start gap-3">
-              <Image src="/carrers/Group3.png" alt="tick" width={30} height={30} className="mt-1" />
+              <Image src="/careers/Group3.png" alt="tick" width={30} height={30} className="mt-1" />
               <p><strong>Entrepreneurial Growth:</strong> Build the foundation to grow into an
               independent financial advisor and create your own client base.</p>
             </li>
             <li className="flex items-start gap-3">
-              <Image src="/carrers/Group3.png" alt="tick" width={30} height={30} className="mt-1" />
+              <Image src="/careers/Group3.png" alt="tick" width={30} height={30} className="mt-1" />
               <p><strong>Real-World Readiness:</strong> Not just theory—step into the industry with
               confidence, practical exposure, and mentorship..</p>
             </li>
