@@ -46,8 +46,23 @@ export async function fetchJobOpenings(): Promise<JobOpening[]> {
 
 function formatPostedDate(dateStr: string): string {
   const date = new Date(dateStr);
-  const days = Math.floor((Date.now() - date.getTime()) / (1000 * 60 * 60 * 24));
-  if (days === 0) return 'Today';
-  if (days === 1) return '1 day ago';
-  return `${days} days ago`;
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHour = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHour / 24);
+  const diffWeek = Math.floor(diffDay / 7);
+  const diffMonth = Math.floor(diffDay / 30);
+  const diffYear = Math.floor(diffDay / 365);
+
+  if (diffDay === 0) return 'Today';
+  if (diffDay === 1) return '1 day ago';
+  if (diffDay < 7) return `${diffDay} days ago`;
+  if (diffWeek === 1) return '1 week ago';
+  if (diffWeek < 4) return `${diffWeek} weeks ago`;
+  if (diffMonth === 1) return '1 month ago';
+  if (diffMonth < 12) return `${diffMonth} months ago`;
+  if (diffYear === 1) return '1 year ago';
+  return `${diffYear} years ago`;
 }
