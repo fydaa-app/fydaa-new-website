@@ -190,7 +190,7 @@ if (jobs.length === 0) {
                     <div className="mt-3 font-gilroy font-normal text-[18px] text-black/50">{job.metaLine}</div>
 
                     <div className="mt-3 flex items-center justify-between gap-3">
-                      <div className="font-gilroy font-normal text-[32px] leading-none text-black">{job.salaryCard}</div>
+                        <div className="font-gilroy font-normal text-[32px] leading-none text-black">{job.salaryCard}</div>
                       <button
                         type="button"
                         className="rounded-[20px] bg-black px-5 py-2 font-gilroy font-medium text-[14px] text-white"

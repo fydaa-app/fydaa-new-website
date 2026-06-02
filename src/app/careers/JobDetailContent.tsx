@@ -45,22 +45,30 @@ export default function JobDetailContent({ job, tagSize = 'md' }: Props) {
       <div className="mt-4 font-gilroy font-normal text-[18px] text-black/50">{job.division}</div>
 
       <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div className="rounded-[24px] bg-[#E9ECF0] p-6">
-          <div className="font-inter font-normal text-[16px] text-black/45 pb-2">SALARY</div>
-          <div className="font-gilroy font-semibold text-[24px] leading-none text-black">{job.salaryCard}</div>
-        </div>
-        <div className="rounded-[24px] bg-[#E9ECF0] p-6">
-          <div className="font-inter font-normal text-[16px] text-black/45 pb-2">EXPERIENCE</div>
-          <div className="font-gilroy font-semibold text-[24px] leading-none text-black">{job.experienceRange}</div>
-        </div>
-        <div className="rounded-[24px] bg-[#E9ECF0] p-6">
-          <div className="font-inter font-normal text-[16px] text-black/45 pb-2">LOCATION</div>
-          <div className="font-gilroy font-semibold text-[24px] leading-none text-black">{job.location}</div>
-        </div>
-        <div className="rounded-[24px] bg-[#E9ECF0] p-6">
-          <div className="font-inter font-normal text-[16px] text-black/45 pb-2">POSTED</div>
-          <div className="font-gilroy font-semibold text-[24px] leading-none text-black">{job.posted}</div>
-        </div>
+        {job.salaryCard && (
+          <div className="rounded-[24px] bg-[#E9ECF0] p-6">
+            <div className="font-inter font-normal text-[16px] text-black/45 pb-2">SALARY</div>
+            <div className="font-gilroy font-semibold text-[24px] leading-none text-black">{job.salaryCard}</div>
+          </div>
+        )}
+        {job.experienceRange && (
+          <div className="rounded-[24px] bg-[#E9ECF0] p-6">
+            <div className="font-inter font-normal text-[16px] text-black/45 pb-2">EXPERIENCE</div>
+            <div className="font-gilroy font-semibold text-[24px] leading-none text-black">{job.experienceRange}</div>
+          </div>
+        )}
+        {job.location && (
+          <div className="rounded-[24px] bg-[#E9ECF0] p-6">
+            <div className="font-inter font-normal text-[16px] text-black/45 pb-2">LOCATION</div>
+            <div className="font-gilroy font-semibold text-[24px] leading-none text-black">{job.location}</div>
+          </div>
+        )}
+        {job.posted && (
+          <div className="rounded-[24px] bg-[#E9ECF0] p-6">
+            <div className="font-inter font-normal text-[16px] text-black/45 pb-2">POSTED</div>
+            <div className="font-gilroy font-semibold text-[24px] leading-none text-black">{job.posted}</div>
+          </div>
+        )}
       </div>
 
       {job.about && (
