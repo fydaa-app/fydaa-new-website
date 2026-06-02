@@ -335,7 +335,7 @@ const Navbar: React.FC = () => {
               </li>
               <li>
                 <Link
-                  href="/carrers"
+                  href="/careers"
                   className="text-black font-medium hover:text-gray-600 transition-colors duration-200 text-xs sm:text-sm md:text-base"
                 >
                   Careers
@@ -612,7 +612,7 @@ const Navbar: React.FC = () => {
 
                 {/* Careers */}
                 <Link
-                  href="/carrers"
+                  href="/careers"
                   onClick={() => setIsMenuOpen(false)}
                   className="block text-black font-medium text-base py-2 hover:text-gray-600 transition-colors duration-200"
                 >

@@ -52,7 +52,7 @@ const PageDivider: React.FC = () => {
       }}
     >
       <img
-        src="/carrers/carrergradient.png"
+        src="/careers/carrergradient.png"
         alt=""
         className="pointer-events-none absolute inset-0 h-full w-full object-cover"
       />

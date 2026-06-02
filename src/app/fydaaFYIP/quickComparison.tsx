@@ -5,28 +5,28 @@ import Image from 'next/image';
 const comparisonData = [
   {
     feature: 'Job Guarantee',
-    fyiap: { icon: '/carrers/Group33.png', label: 'Yes' },
-    other: { icon: '/carrers/CrossSign.png' },
+    fyiap: { icon: '/careers/Group33.png', label: 'Yes' },
+    other: { icon: '/careers/CrossSign.png' },
   },
   {
     feature: 'Paid Internship',
-    fyiap: { icon: '/carrers/Group33.png', label: 'Yes' },
-    other: { icon: '/carrers/CrossSign.png' },
+    fyiap: { icon: '/careers/Group33.png', label: 'Yes' },
+    other: { icon: '/careers/CrossSign.png' },
   },
   {
     feature: 'Industry Certs',
-    fyiap: { icon: '/carrers/Group33.png', label: 'NISM' },
-    other: { icon: '/carrers/Warning2.png' },
+    fyiap: { icon: '/careers/Group33.png', label: 'NISM' },
+    other: { icon: '/careers/Warning2.png' },
   },
   {
     feature: 'Real Client Work',
-    fyiap: { icon: '/carrers/Group33.png', label: 'Yes' },
-    other: { icon: '/carrers/CrossSign.png' },
+    fyiap: { icon: '/careers/Group33.png', label: 'Yes' },
+    other: { icon: '/careers/CrossSign.png' },
   },
   {
     feature: 'Mentorship',
-    fyiap: { icon: '/carrers/Group33.png', label: 'Yes' },
-    other: { icon: '/carrers/Group31.png' },
+    fyiap: { icon: '/careers/Group33.png', label: 'Yes' },
+    other: { icon: '/careers/Group31.png' },
   },
 ];
 
@@ -55,7 +55,7 @@ export default function QuickComparison() {
                   }`}
                 >
                   <div className="flex items-center gap-2 pl-4">
-                    <Image src="/carrers/Group33.png" alt="check" width={18} height={18} />
+                    <Image src="/careers/Group33.png" alt="check" width={18} height={18} />
                     <span className="font-medium text-[#001E3C]">{item.feature}</span>
                   </div>
                 </div>
