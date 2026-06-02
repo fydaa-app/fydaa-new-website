@@ -174,25 +174,27 @@ export default function RegisterCvModal({ open, onClose }: Props) {
                     <label className={labelClass}>
                       First Name <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      className={inputClass}
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      placeholder="First name"
-                      autoComplete="given-name"
-                    />
+                      <input
+                        className={inputClass}
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
+                        onKeyDown={(e) => { if (!/^[a-zA-Z\s]$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); }}
+                        placeholder="First name"
+                        autoComplete="given-name"
+                      />
                   </div>
                   <div>
                     <label className={labelClass}>
                       Last Name <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      className={inputClass}
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      placeholder="Last name"
-                      autoComplete="family-name"
-                    />
+                      <input
+                        className={inputClass}
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
+                        onKeyDown={(e) => { if (!/^[a-zA-Z\s]$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); }}
+                        placeholder="Last name"
+                        autoComplete="family-name"
+                      />
                   </div>
                   <div className="sm:col-span-2">
                     <label className={labelClass}>
@@ -211,14 +213,15 @@ export default function RegisterCvModal({ open, onClose }: Props) {
                     <label className={labelClass}>
                       Phone <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      type="tel"
-                      className={inputClass}
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="+91 XXXXX XXXXX"
-                      autoComplete="tel"
-                    />
+                      <input
+                        type="tel"
+                        className={inputClass}
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                        onKeyDown={(e) => { if (!/^\d$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); if (phone.length >= 10 && /^\d$/.test(e.key)) e.preventDefault(); }}
+                        placeholder="+91 XXXXX XXXXX"
+                        autoComplete="tel"
+                      />
                   </div>
                 </div>
 
