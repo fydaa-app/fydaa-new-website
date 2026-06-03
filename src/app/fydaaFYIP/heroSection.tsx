@@ -85,23 +85,23 @@ export default function YoungAdvisorProgram() {
                     <h3 className="text-lg font-bold mb-4">Program Highlights</h3>
                     <ul className="space-y-3 text-sm text-gray-700">
                         <li className="flex items-start gap-2">
-                            <Image src="/carrers/Group33.png" alt="tick" width={20} height={20} />
+                            <Image src="/careers/Group33.png" alt="tick" width={20} height={20} />
                             NISM Investment Adviser (XA-XB) Certification
                         </li>
                         <li className="flex items-start gap-2">
-                            <Image src="/carrers/Group33.png" alt="tick" width={20} height={20} />
+                            <Image src="/careers/Group33.png" alt="tick" width={20} height={20} />
                             Hands-on training from experienced industry professionals
                         </li>
                         <li className="flex items-start gap-2">
-                            <Image src="/carrers/Group33.png" alt="tick" width={20} height={20} />
+                            <Image src="/careers/Group33.png" alt="tick" width={20} height={20} />
                             Guaranteed role as a Certified Investment Advisor at Fydaa
                         </li>
                         <li className="flex items-start gap-2">
-                            <Image src="/carrers/Group33.png" alt="tick" width={20} height={20} />
+                            <Image src="/careers/Group33.png" alt="tick" width={20} height={20} />
                             Starting salary of ₹4 LPA + performance based incentive
                         </li>
                         <li className="flex items-start gap-2">
-                            <Image src="/carrers/Group33.png" alt="tick" width={20} height={20} />
+                            <Image src="/careers/Group33.png" alt="tick" width={20} height={20} />
                             Opportunity to start your own Entrepreneurial journey
                         </li>
                     </ul>

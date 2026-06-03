@@ -64,7 +64,7 @@ export default function CareerPath() {
                 {/* Right Image Section */}
                 <div className="w-full md:w-1/2 mt-10 md:mt-0 flex justify-center md:justify-end">
                     <Image
-                        src="/carrers/Group28.svg" // Adjust path if needed
+                        src="/careers/Group28.svg" // Adjust path if needed
                         alt="Career Path"
                         width={600}
                         height={600}

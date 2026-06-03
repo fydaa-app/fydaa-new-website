@@ -246,7 +246,7 @@ export default function ApplyForm() {
                   disabled={isSubmitting}
                 >
                   <Image
-                    src="/carrers/Group17.png"
+                    src="/careers/Group17.png"
                     alt="Check Icon"
                     width={24}
                     height={24}
@@ -260,7 +260,7 @@ export default function ApplyForm() {
   {/* Right Side Image */}
   <div className="hidden md:block relative">
     <Image
-      src="/carrers/Group55.svg"
+      src="/careers/Group55.svg"
       alt="Apply Illustration"
       width={500}
       height={500}
@@ -275,7 +275,7 @@ export default function ApplyForm() {
 
     {/* Divider Line */}
     <Image
-      src="/carrers/Line.svg"
+      src="/careers/Line.svg"
       alt="Divider Line"
       width={30}
       height={1}
@@ -287,7 +287,7 @@ export default function ApplyForm() {
   <div className="flex flex-col gap-2 mt-4">
     {/* Call Section */}
     <div className="flex items-center gap-2">
-      <Image src="/carrers/Group53.svg" alt="Call Icon" width={20} height={20} />
+      <Image src="/careers/Group53.svg" alt="Call Icon" width={20} height={20} />
       <span className="text-sm font-bold text-[#001E3C]">
         Call on : <span className="font-normal">+91 9004501770</span>
       </span>
@@ -295,7 +295,7 @@ export default function ApplyForm() {
 
     {/* Email Section */}
     <div className="flex items-center gap-2">
-      <Image src="/carrers/Group54.svg" alt="Mail Icon" width={20} height={20} />
+      <Image src="/careers/Group54.svg" alt="Mail Icon" width={20} height={20} />
       <span className="text-sm font-bold text-[#001E3C]">
         Email : <a href="mailto:admissions@fydaa.com" className="font-normal text-[#001E3C] underline">admissions@fydaa.com</a>
       </span>

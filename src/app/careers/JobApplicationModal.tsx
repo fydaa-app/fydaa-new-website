@@ -221,7 +221,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
         aria-label="Close dialog"
         onClick={onClose}
       />
-      <div className="relative z-10 flex max-h-[min(90vh,880px)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
+      <div className="relative z-10 flex max-h-[min(90vh,880px)] w-full max-w-3xl flex-col overflow-y-auto rounded-2xl bg-white shadow-2xl">
         {success ? (
           <div className="relative flex min-h-[min(60vh,480px)] w-full flex-col items-center justify-center overflow-y-auto px-6 py-12 sm:px-10 sm:py-16">
             <button
@@ -297,9 +297,9 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
               </nav>
             </div>
 
-            <div className="min-h-[420px] flex-1 overflow-y-auto px-5 py-5 sm:px-8 sm:py-6">
+            <div className="flex flex-col flex-1 overflow-y-auto px-5 py-5 sm:px-8 sm:py-6">
               {step === 0 && (
-                <div className="space-y-6 pb-4">
+                <div className="flex flex-col flex-1 space-y-6 pb-4">
                    {/* <button
                      type="button"
                      className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white py-3 font-inter text-sm font-medium text-[#001E3C] transition hover:bg-gray-50"
@@ -322,7 +322,8 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                       <input
                         className={inputClass}
                         value={form.firstName}
-                        onChange={(e) => update('firstName', e.target.value)}
+                        onChange={(e) => update('firstName', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
+                        onKeyDown={(e) => { if (!/^[a-zA-Z\s]$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); }}
                         placeholder="Akash"
                         autoComplete="given-name"
                       />
@@ -334,7 +335,8 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                       <input
                         className={inputClass}
                         value={form.lastName}
-                        onChange={(e) => update('lastName', e.target.value)}
+                        onChange={(e) => update('lastName', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
+                        onKeyDown={(e) => { if (!/^[a-zA-Z\s]$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); }}
                         placeholder="Tyagi"
                         autoComplete="family-name"
                       />
@@ -360,7 +362,8 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                         type="tel"
                         className={inputClass}
                         value={form.phone}
-                        onChange={(e) => update('phone', e.target.value)}
+                        onChange={(e) => update('phone', e.target.value.replace(/\D/g, '').slice(0, 10))}
+                        onKeyDown={(e) => { if (!/^\d$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); if (form.phone.length >= 10 && /^\d$/.test(e.key)) e.preventDefault(); }}
                         placeholder="+91 XXXXX XXXXX"
                         autoComplete="tel"
                       />
@@ -372,7 +375,8 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                       <input
                         className={inputClass}
                         value={form.city}
-                        onChange={(e) => update('city', e.target.value)}
+                        onChange={(e) => update('city', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
+                        onKeyDown={(e) => { if (!/^[a-zA-Z\s]$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); }}
                         placeholder="Mumbai"
                         autoComplete="address-level2"
                       />
@@ -382,25 +386,39 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
               )}
 
               {step === 1 && (
-                <div className="space-y-6 pb-4">
+                <div className="flex flex-col flex-1 space-y-6 pb-4">
                   <div>
                     <label className={labelClass}>Current Job Title</label>
-                    <input
-                      className={inputClass}
-                      value={form.currentJobTitle}
-                      onChange={(e) => update('currentJobTitle', e.target.value)}
-                      placeholder="e.g. Deputy Vice President"
-                    />
+                      <input
+                        className={inputClass}
+                        value={form.currentJobTitle}
+                        onChange={(e) => update('currentJobTitle', e.target.value.replace(/[^a-zA-Z\s.,/&-]/g, ''))}
+                        onKeyDown={(e) => { if (!/^[a-zA-Z\s.,/&-]$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); }}
+                        placeholder="e.g. Deputy Vice President"
+                      />
                   </div>
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div>
                       <label className={labelClass}>
-                        Total Experience <span className="text-red-500">*</span>
+                        Total Experience (in years)<span className="text-red-500">*</span>
                       </label>
                       <input
                         className={inputClass}
                         value={form.totalExperience}
-                        onChange={(e) => update('totalExperience', e.target.value)}
+                        onChange={(e) => {
+                          let val = e.target.value.replace(/[^\d.]/g, '');
+                          const parts = val.split('.');
+                          if (parts.length > 2) val = parts.slice(0, 2).join('.');
+                          if (parts[1]?.length > 1) val = parts[0] + '.' + parts[1][0];
+                          if (parseFloat(val) > 99.9) val = '99';
+                          update('totalExperience', val);
+                        }}
+                        onKeyDown={(e) => {
+                          const v = form.totalExperience;
+                          if (e.key === '.' && v.includes('.')) return e.preventDefault();
+                          if (!/^\d$/.test(e.key) && e.key !== '.' && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)) return e.preventDefault();
+                          if ((parseFloat(v) >= 99 && !v.includes('.')) || v === '99' || v === '99.9') { if (/^\d$/.test(e.key)) return e.preventDefault(); }
+                        }}
                         placeholder="e.g. 11 years"
                       />
                     </div>
@@ -409,7 +427,21 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                       <input
                         className={inputClass}
                         value={form.currentCtc}
-                        onChange={(e) => update('currentCtc', e.target.value)}
+                        onChange={(e) => {
+                          let val = e.target.value.replace(/[^\d.]/g, '');
+                          const parts = val.split('.');
+                          if (parts.length > 2) val = parts.slice(0, 2).join('.');
+                          if (parts[1]?.length > 2) val = parts[0] + '.' + parts[1][0] + parts[1][1];
+                          if (parseFloat(val) > 99.99) val = '99.99';
+                          update('currentCtc', val);
+                        }}
+                        onKeyDown={(e) => {
+                          const v = form.currentCtc;
+                          if (e.key === '.' && v.includes('.')) return e.preventDefault();
+                          if (!/^\d$/.test(e.key) && e.key !== '.' && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)) return e.preventDefault();
+                          if ((parseFloat(v) >= 99 && !v.includes('.')) || v === '99' || v === '99.9' || v === '99.99') { if (/^\d$/.test(e.key)) return e.preventDefault(); }
+                          if (v.includes('.') && v.split('.')[1]?.length >= 2 && /^\d$/.test(e.key)) return e.preventDefault();
+                        }}
                         placeholder="e.g. 24"
                       />
                     </div>
@@ -418,12 +450,26 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                     <label className={labelClass}>
                       Expected CTC (LPA) <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      className={inputClass}
-                      value={form.expectedCtc}
-                      onChange={(e) => update('expectedCtc', e.target.value)}
-                      placeholder="e.g. 32"
-                    />
+                      <input
+                        className={inputClass}
+                        value={form.expectedCtc}
+                        onChange={(e) => {
+                          let val = e.target.value.replace(/[^\d.]/g, '');
+                          const parts = val.split('.');
+                          if (parts.length > 2) val = parts.slice(0, 2).join('.');
+                          if (parts[1]?.length > 2) val = parts[0] + '.' + parts[1][0] + parts[1][1];
+                          if (parseFloat(val) > 99.99) val = '99.99';
+                          update('expectedCtc', val);
+                        }}
+                        onKeyDown={(e) => {
+                          const v = form.expectedCtc;
+                          if (e.key === '.' && v.includes('.')) return e.preventDefault();
+                          if (!/^\d$/.test(e.key) && e.key !== '.' && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)) return e.preventDefault();
+                          if ((parseFloat(v) >= 99 && !v.includes('.')) || v === '99' || v === '99.9' || v === '99.99') { if (/^\d$/.test(e.key)) return e.preventDefault(); }
+                          if (v.includes('.') && v.split('.')[1]?.length >= 2 && /^\d$/.test(e.key)) return e.preventDefault();
+                        }}
+                        placeholder="e.g. 32"
+                      />
                   </div>
                   <div>
                     <label className={labelClass}>Notice Period</label>
@@ -443,7 +489,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
               )}
 
               {step === 2 && (
-                <div className="space-y-6 pb-4">
+                <div className="flex flex-col flex-1 space-y-6 pb-4">
                   <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 bg-white px-6 py-10">
                     <FileText className="mb-3 h-10 w-10 text-gray-500" aria-hidden />
                     <p className="font-inter text-sm font-medium text-black">Cover letter</p>

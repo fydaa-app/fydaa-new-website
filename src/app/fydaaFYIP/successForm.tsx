@@ -4,7 +4,7 @@ const FormSubmittedSuccess = () => {
   return (
     <div className="bg-white shadow-lg rounded-2xl p-8 max-w-xl w-full border border-gray-200 text-center">
       <img
-        src="/carrers/Group30.png"
+        src="/careers/Group30.png"
         alt="Form submitted success"
         className="w-60 mx-auto mb-6"
       />
