@@ -3,16 +3,6 @@
 import { MapPin } from 'lucide-react';
 import type { JobOpening } from './jobsData';
 
-function Tag({ text, className = '' }: { text: string; className?: string }) {
-  return (
-    <span
-      className={`inline-flex items-center rounded-full border border-black/35 px-3 py-1 font-gilroy font-medium text-[14px] leading-none text-black ${className}`}
-    >
-      {text}
-    </span>
-  );
-}
-
 // Add this helper function at the top of JobDetailContent.tsx (after imports)
 function hasMeaningfulContent(arr: string[] | undefined | null): boolean {
   return Array.isArray(arr) && arr.some(item => item && item.trim().length > 0);
@@ -92,15 +82,11 @@ export default function JobDetailContent({ job, tagSize = 'md' }: Props) {
       {hasMeaningfulContent(job.skills) && (
         <>
           <h4 className="mt-7 font-gilroy font-medium text-[28px] leading-none text-black">Skills Required</h4>
-          <div className="mt-3 flex flex-wrap gap-[10px] font-gilroy font-medium text-[14px] leading-7 text-black/70">
+          <ul className="mt-3 list-disc pl-6 font-inter font-normal text-[18px] leading-7 text-black/70">
             {(job.skills || []).map((skill) => (
-              <Tag
-                key={skill}
-                text={skill}
-                className="h-[34px] rounded-[20px] px-[14px] py-[10px] overflow-hidden"
-              />
+              <li key={skill}>{skill}</li>
             ))}
-          </div>
+          </ul>
         </>
       )}
     </>
