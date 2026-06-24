@@ -1,3 +1,9 @@
+/** New structured responsibilities: array of objects to preserve order */
+export type ResponsibilitiesData = Array<{
+  heading: string;
+  items: Array<{ item: string; subItems: string[] }>;
+}>;
+
 export type JobOpening = {
   id: string;
   title: string;
@@ -11,7 +17,8 @@ export type JobOpening = {
   location: string | null;
   posted: string;
   about: string;
-  responsibilities: string[];
+  /** Supports both legacy flat string[] and the new structured object format */
+  responsibilities: string[] | ResponsibilitiesData;
   skills: string[];
   linkedinLink: string;
 };
@@ -38,7 +45,7 @@ export async function fetchJobOpenings(): Promise<JobOpening[]> {
      location: job.location,
       posted: job.posted ? formatPostedDate(job.posted) : '',
      about: job.about,
-     responsibilities: job.responsibilities || [],
+     responsibilities: job.responsibilities ?? [],
      skills: job.skills || [],
      linkedinLink: job.linkedinLink || '',
    }));
@@ -56,13 +63,20 @@ function formatPostedDate(dateStr: string): string {
   const diffMonth = Math.floor(diffDay / 30);
   const diffYear = Math.floor(diffDay / 365);
 
-  if (diffDay === 0) return 'Today';
-  if (diffDay === 1) return '1 day ago';
-  if (diffDay < 7) return `${diffDay} days ago`;
-  if (diffWeek === 1) return '1 week ago';
-  if (diffWeek < 4) return `${diffWeek} weeks ago`;
-  if (diffMonth === 1) return '1 month ago';
-  if (diffMonth < 12) return `${diffMonth} months ago`;
-  if (diffYear === 1) return '1 year ago';
-  return `${diffYear} years ago`;
+if (diffDay === 0) return 'Today';
+if (diffDay === 1) return '1 day ago';
+if (diffDay < 7) return `${diffDay} days ago`;
+
+if (diffDay < 30) {
+  const weeks = Math.floor(diffDay / 7);
+  return weeks === 1 ? '1 week ago' : `${weeks} weeks ago`;
+}
+
+if (diffDay < 365) {
+  const months = Math.floor(diffDay / 30);
+  return months === 1 ? '1 month ago' : `${months} months ago`;
+}
+
+const years = Math.floor(diffDay / 365);
+return years === 1 ? '1 year ago' : `${years} years ago`;
 }
