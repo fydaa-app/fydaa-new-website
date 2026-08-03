@@ -9,8 +9,6 @@ export interface PartnerFormData {
   location: string;
   expiry_date: string;
   euins: string[];
-  karvy_broker_code: string;
-  cams_broker_code: string;
   account_holder: string;
   bank_name: string;
   account_number: string;
@@ -26,7 +24,7 @@ export interface StepProps {
   formData: PartnerFormData;
   updateField: (field: string, value: string) => void;
   updateEuins?: (euins: string[]) => void;
-  onSubmit?: () => void;
+  onSubmit?: (message?: string) => void;
   onNext?: () => void;
   onBack?: () => void;
 }

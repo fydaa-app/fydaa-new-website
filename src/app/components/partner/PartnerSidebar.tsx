@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import StepIndicator from './StepIndicator';
 
 interface Props {
@@ -9,13 +8,11 @@ interface Props {
 
 export default function PartnerSidebar({ currentStep }: Props) {
   return (
-    <div className="hidden lg:flex lg:flex-col lg:w-64 lg:items-start lg:pr-8">
-      <div className="mb-8">
-        <h1 className="font-gilroy font-bold text-2xl text-[#001E3C]">
-          Become a Partner
-        </h1>
-      </div>
+    <aside className="w-full lg:w-72 xl:w-[28%] bg-[#FAFAFA] p-6 lg:p-8 lg:border-r lg:border-gray-200">
+      <h1 className="font-gilroy font-bold text-[22px] text-[#001E3C] mb-8">
+        Become a Partner
+      </h1>
       <StepIndicator currentStep={currentStep} />
-    </div>
+    </aside>
   );
 }

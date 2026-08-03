@@ -360,6 +360,15 @@ const Navbar: React.FC = () => {
                 </a>
               </li>
 
+              <li>
+                <Link
+                  href="/partner"
+                  className="text-black font-medium hover:text-gray-600 transition-colors duration-200 text-xs sm:text-sm md:text-base"
+                >
+                  Partner
+                </Link>
+              </li>
+
               
 
               {/* Calculators */}
@@ -609,6 +618,15 @@ const Navbar: React.FC = () => {
                 >
                   Blog
                 </a>
+
+                {/* Partner */}
+                <Link
+                  href="/partner"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block text-black font-medium text-base py-2 hover:text-gray-600 transition-colors duration-200"
+                >
+                  Partner
+                </Link>
 
                 {/* Careers */}
                 <Link

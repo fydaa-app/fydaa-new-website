@@ -11,10 +11,13 @@ import {
 } from './types';
 import { saveNominee } from '../../config/arnPartnerApi';
 
+const PAN_REGEX = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
 interface NomineeErrors {
   nominee_name: boolean;
   relationship: boolean;
   dob: boolean;
+  pan_card: boolean;
 }
 
 export default function NomineeStep({
@@ -28,11 +31,15 @@ export default function NomineeStep({
     nominee_name: false,
     relationship: false,
     dob: false,
+    pan_card: false,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
   const handleChange = (field: string, value: string) => {
+    if (field === 'nominee_name') {
+      value = value.replace(/[^a-zA-Z\s]/g, '');
+    }
     updateField(field, value);
     if (errors[field as keyof NomineeErrors]) {
       setErrors((prev) => ({ ...prev, [field]: false }));
@@ -46,6 +53,8 @@ export default function NomineeStep({
       nominee_name: !formData.nominee_name.trim(),
       relationship: !formData.relationship.trim(),
       dob: !formData.dob.trim(),
+      pan_card:
+        !formData.pan_card.trim() || !PAN_REGEX.test(formData.pan_card.trim()),
     };
     setErrors(newErrors);
     if (Object.values(newErrors).some((v) => v)) return;
@@ -59,13 +68,16 @@ export default function NomineeStep({
         nomineeName: formData.nominee_name.trim(),
         relationship: formData.relationship.trim(),
         dateOfBirth: formData.dob.trim(),
+        pan: formData.pan_card.trim(),
       });
 
       if (!response.success) {
         setApiError(response.message || 'Finprim registration failed');
+      } else {
+        onSubmit?.(
+          'Thank You! Your application has been submitted. We will review and approve within 24 hours.',
+        );
       }
-
-      onSubmit?.();
     } catch (error) {
       setApiError(
         error instanceof Error
@@ -154,17 +166,22 @@ export default function NomineeStep({
 
       <div>
         <label htmlFor="pan_card" className={LABEL_CLASS}>
-          PAN Card
+          PAN Card <span className="text-red-500">*</span>
         </label>
         <input
           type="text"
           id="pan_card"
           value={formData.pan_card}
           onChange={(e) => handleChange('pan_card', e.target.value.toUpperCase())}
-          className={INPUT_CLASS}
+          className={inputClassWithError(errors.pan_card)}
           placeholder="Enter PAN card number"
           maxLength={10}
         />
+        {errors.pan_card && (
+          <p className="text-red-500 text-xs mt-1 font-inter">
+            Enter a valid PAN (e.g. ABCDE1234F)
+          </p>
+        )}
       </div>
 
       {apiError && (

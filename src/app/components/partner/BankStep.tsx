@@ -12,6 +12,9 @@ import {
 import { Eye, EyeOff } from 'lucide-react';
 import { saveBankDetails } from '../../config/arnPartnerApi';
 
+const IFSC_REGEX = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+const ACCOUNT_NUMBER_REGEX = /^\d{9,18}$/;
+
 interface BankErrors {
   account_holder: boolean;
   bank_name: boolean;
@@ -46,9 +49,13 @@ export default function BankStep({
     const newErrors: BankErrors = {
       account_holder: !formData.account_holder.trim(),
       bank_name: !formData.bank_name.trim(),
-      account_number: !formData.account_number.trim(),
+      account_number:
+        !formData.account_number.trim() ||
+        !ACCOUNT_NUMBER_REGEX.test(formData.account_number.trim()),
       confirm_account_number: !formData.confirm_account_number.trim(),
-      ifsc: !formData.ifsc.trim(),
+      ifsc:
+        !formData.ifsc.trim() ||
+        !IFSC_REGEX.test(formData.ifsc.trim().toUpperCase()),
       match:
         formData.account_number.trim() !== '' &&
         formData.confirm_account_number.trim() !== '' &&
@@ -61,6 +68,9 @@ export default function BankStep({
   const handleChange = (field: string, value: string) => {
     if (field === 'account_number' || field === 'confirm_account_number') {
       value = value.replace(/\D/g, '');
+    }
+    if (field === 'account_holder') {
+      value = value.replace(/[^a-zA-Z\s]/g, '');
     }
     updateField(field, value);
     if (errors[field as keyof BankErrors]) {
@@ -174,7 +184,7 @@ export default function BankStep({
         </div>
         {errors.account_number && (
           <p className="text-red-500 text-xs mt-1 font-inter">
-            Account number is required
+            Enter a valid account number (9-18 digits)
           </p>
         )}
       </div>
@@ -236,7 +246,7 @@ export default function BankStep({
         />
         {errors.ifsc && (
           <p className="text-red-500 text-xs mt-1 font-inter">
-            IFSC code is required
+            Enter a valid IFSC code (e.g. ABCD0123456)
           </p>
         )}
       </div>

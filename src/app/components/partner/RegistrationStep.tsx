@@ -107,6 +107,7 @@ export default function RegistrationStep({
     email?: string;
     phone?: string;
     email_otp?: string;
+    checkboxes?: string;
   }>({});
   const [emailOtpRequested, setEmailOtpRequested] = useState(false);
   const [mobileOtpRequested, setMobileOtpRequested] = useState(false);
@@ -119,6 +120,8 @@ export default function RegistrationStep({
   const [mobileResendCountdown, setMobileResendCountdown] = useState(0);
   const [mobileApiError, setMobileApiError] = useState<string | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
+  const [agreeCheckbox, setAgreeCheckbox] = useState(false);
+  const [indiaResidentCheckbox, setIndiaResidentCheckbox] = useState(false);
 
   const arnLocked = emailVerified;
 
@@ -143,6 +146,9 @@ export default function RegistrationStep({
   const handleInputChange = (field: string, value: string) => {
     setErrors((prev) => ({ ...prev, [field]: undefined }));
     setApiError(null);
+    if (field === 'registration_number') {
+      value = value.replace(/\D/g, '');
+    }
     updateField(field, value);
   };
 
@@ -344,6 +350,11 @@ export default function RegistrationStep({
 
     if (!partnerId) {
       setErrors({ phone: 'Session expired. Please restart registration.' });
+      return;
+    }
+
+    if (!agreeCheckbox || !indiaResidentCheckbox) {
+      setErrors({ checkboxes: 'Please agree to all terms to continue' });
       return;
     }
 
@@ -586,12 +597,80 @@ export default function RegistrationStep({
         </div>
       )}
 
+      <div className="space-y-4 pt-4">
+        <label className="flex items-start gap-3">
+          <input
+            type="checkbox"
+            checked={agreeCheckbox}
+            onChange={(e) => setAgreeCheckbox(e.target.checked)}
+            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#001E3C] focus:ring-[#001E3C]"
+          />
+          <span className="font-inter text-sm text-gray-700 leading-relaxed">
+            By clicking Continue, you will be creating an account with AssetPlus,
+            an AMFI registered Mutual Fund Distribution Platform and agree to our{' '}
+            <a href="#" className="text-[#001E3C] underline">
+              Terms &amp; Conditions
+            </a>{', '}
+            <a href="#" className="text-[#001E3C] underline">
+              Privacy Policy
+            </a>{', '}
+            <a href="#" className="text-[#001E3C] underline">
+              Disclaimer
+            </a>
+            {' and '}
+            <a href="#" className="text-[#001E3C] underline">
+              Agreement
+            </a>
+          </span>
+        </label>
+
+        <label className="flex items-start gap-3">
+          <input
+            type="checkbox"
+            checked={indiaResidentCheckbox}
+            onChange={(e) => setIndiaResidentCheckbox(e.target.checked)}
+            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#001E3C] focus:ring-[#001E3C]"
+          />
+          <span className="font-inter text-sm text-gray-700 leading-relaxed">
+            I confirm that I am an individual residing in India for tax purposes{' '}
+            <a href="#" className="text-[#001E3C] underline">
+              Terms &amp; Conditions
+            </a>{', '}
+            <a href="#" className="text-[#001E3C] underline">
+              Privacy Policy
+            </a>{', '}
+            <a href="#" className="text-[#001E3C] underline">
+              Disclaimer
+            </a>
+            {' and '}
+            <a href="#" className="text-[#001E3C] underline">
+              Agreement
+            </a>
+          </span>
+        </label>
+
+        {errors.checkboxes && (
+          <p className="text-xs text-red-500 font-inter mt-1">
+            {errors.checkboxes}
+          </p>
+        )}
+      </div>
+
       <button
         type="button"
         onClick={handleContinue}
-        disabled={!bothVerified || isLoading || isConfirming}
+        disabled={
+          !bothVerified ||
+          !agreeCheckbox ||
+          !indiaResidentCheckbox ||
+          isLoading ||
+          isConfirming
+        }
         className={`w-full h-12 rounded-[12px] font-medium font-inter transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 ${
-          bothVerified && !isConfirming
+          bothVerified &&
+          !isConfirming &&
+          agreeCheckbox &&
+          indiaResidentCheckbox
             ? 'bg-black text-white hover:bg-gray-800'
             : 'bg-gray-200 text-gray-500 cursor-not-allowed'
         }`}

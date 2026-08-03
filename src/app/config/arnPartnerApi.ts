@@ -182,8 +182,6 @@ export interface SavePartnerDetailsRequest {
   location: string;
   expiryDate?: string;
   euins?: string[];
-  karvyBrokerCode: string;
-  camsBrokerCode: string;
 }
 
 export interface SavePartnerDetailsResponse {
@@ -236,6 +234,7 @@ export interface SaveNomineeRequest {
   nomineeName: string;
   relationship: string;
   dateOfBirth: string;
+  pan: string;
 }
 
 export interface SaveNomineeResponse {

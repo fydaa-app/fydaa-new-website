@@ -21,8 +21,6 @@ const initialFormData: PartnerFormData = {
   location: '',
   expiry_date: '',
   euins: [''],
-  karvy_broker_code: '',
-  cams_broker_code: '',
   account_holder: '',
   bank_name: '',
   account_number: '',
@@ -41,6 +39,9 @@ export default function PartnerRegistrationCard() {
   const [formData, setFormData] = useState<PartnerFormData>(initialFormData);
   const [euins, setEuins] = useState<string[]>(['']);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(
+    'We will share the login details in 24-48 hours after verification.',
+  );
 
   const updateField = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -59,7 +60,8 @@ export default function PartnerRegistrationCard() {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (message?: string) => {
+    if (message) setSuccessMessage(message);
     setShowSuccessModal(true);
   };
 
@@ -124,28 +126,27 @@ export default function PartnerRegistrationCard() {
   return (
     <div className="bg-[#F7F7F7] min-h-screen pt-12 lg:pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex gap-8">
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col lg:flex-row">
           <PartnerSidebar currentStep={currentStep} />
-          <div className="flex-1">
-            <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 md:p-12">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentStep}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
-                >
-                  {renderStep()}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+          <div className="flex-1 p-6 sm:p-8 md:p-12">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentStep}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+              >
+                {renderStep()}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </div>
 
       <PartnerSuccessModal
         open={showSuccessModal}
+        message={successMessage}
         onOk={handleOk}
       />
 

@@ -12,11 +12,12 @@ import {
 import { Plus, X } from 'lucide-react';
 import { savePartnerDetails } from '../../config/arnPartnerApi';
 
+const EUIN_REGEX = /^E\d{6}$/;
+
 interface FieldErrors {
   name: boolean;
   location: boolean;
-  karvy_broker_code: boolean;
-  cams_broker_code: boolean;
+  euins: boolean;
 }
 
 export default function PartnerDetailsStep({
@@ -29,9 +30,10 @@ export default function PartnerDetailsStep({
   const [errors, setErrors] = useState<FieldErrors>({
     name: false,
     location: false,
-    karvy_broker_code: false,
-    cams_broker_code: false,
+    euins: false,
   });
+  const [euinFieldErrors, setEuinFieldErrors] = useState<boolean[]>([]);
+  const [duplicates, setDuplicates] = useState<boolean[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
@@ -42,6 +44,16 @@ export default function PartnerDetailsStep({
     const newEuins = [...euins];
     newEuins[index] = value;
     updateEuins?.(newEuins);
+    setEuinFieldErrors((prev) => {
+      const updated = [...prev];
+      updated[index] = false;
+      return updated;
+    });
+    setDuplicates((prev) => {
+      const updated = [...prev];
+      updated[index] = false;
+      return updated;
+    });
   };
 
   const addEuin = () => {
@@ -64,20 +76,62 @@ export default function PartnerDetailsStep({
   const handleNext = async () => {
     if (!formData.partner_id) return;
 
+    const nonEmptyEuins = euins.filter((e) => e.trim());
+    if (nonEmptyEuins.length === 0) {
+      setErrors((prev) => ({ ...prev, euins: true }));
+      setEuinFieldErrors([]);
+      return;
+    }
+
+    const formatErrors = new Array(euins.length).fill(false);
+    let hasFormatError = false;
+    euins.forEach((e, idx) => {
+      if (e.trim() && !EUIN_REGEX.test(e.trim())) {
+        formatErrors[idx] = true;
+        hasFormatError = true;
+      }
+    });
+
+    if (hasFormatError) {
+      setEuinFieldErrors(formatErrors);
+      setErrors((prev) => ({ ...prev, euins: false }));
+      return;
+    }
+
+    setEuinFieldErrors(formatErrors);
+    setErrors((prev) => ({ ...prev, euins: false }));
+
+    const seen = new Set<string>();
+    const dupFlags = new Array(euins.length).fill(false);
+    let hasDuplicate = false;
+    euins.forEach((e, idx) => {
+      const trimmed = e.trim();
+      if (trimmed && EUIN_REGEX.test(trimmed)) {
+        if (seen.has(trimmed)) {
+          dupFlags[idx] = true;
+          hasDuplicate = true;
+        }
+        seen.add(trimmed);
+      }
+    });
+
+    if (hasDuplicate) {
+      setDuplicates(dupFlags);
+      return;
+    }
+
+    setDuplicates(dupFlags);
+
     const newErrors: FieldErrors = {
       name: !formData.name.trim(),
       location: !formData.location.trim(),
-      karvy_broker_code: true,
-      cams_broker_code: true,
+      euins: false,
     };
     setErrors(newErrors);
-    if (newErrors.name || newErrors.location) return;
+    if (newErrors.name || newErrors.location || newErrors.euins) return;
 
     setApiError(null);
     setIsLoading(true);
-
-    const generatedKarvyCode = `FYDAA-KRV-${formData.partner_id}`;
-    const generatedCamsCode = `FYDAA-CMS-${formData.partner_id}`;
 
     try {
       const euinsArray = euins
@@ -90,8 +144,6 @@ export default function PartnerDetailsStep({
         location: formData.location.trim(),
         expiryDate: formData.expiry_date || undefined,
         euins: euinsArray.length > 0 ? euinsArray : undefined,
-        karvyBrokerCode: generatedKarvyCode,
-        camsBrokerCode: generatedCamsCode,
       });
 
       onNext?.();
@@ -172,7 +224,7 @@ export default function PartnerDetailsStep({
         <label className={LABEL_CLASS}>
           EUINs
           <span className="block text-xs text-gray-500 font-normal mt-1">
-            (Enter one or more EUINs)
+            (Enter one or more EUINs, e.g. E123456)
           </span>
         </label>
         <div className="space-y-3">
@@ -182,7 +234,9 @@ export default function PartnerDetailsStep({
                 type="text"
                 value={euins[index]}
                 onChange={(e) => handleEuinChange(index, e.target.value)}
-                className={INPUT_CLASS}
+                className={inputClassWithError(
+                  euinFieldErrors[index] || duplicates[index] || false,
+                )}
                 placeholder={`EUIN ${index + 1}`}
               />
               {euins.length > 1 && (
@@ -208,6 +262,23 @@ export default function PartnerDetailsStep({
             </div>
           ))}
         </div>
+        {errors.euins && (
+          <p className="text-xs text-red-500 font-inter mt-1">
+            At least one EUIN is required
+          </p>
+        )}
+        {!errors.euins && euinFieldErrors.some(Boolean) && (
+          <p className="text-xs text-red-500 font-inter mt-1">
+            EUIN must be in format E followed by 6 digits (e.g. E123456)
+          </p>
+        )}
+        {!errors.euins &&
+          !euinFieldErrors.some(Boolean) &&
+          duplicates.some(Boolean) && (
+            <p className="text-xs text-red-500 font-inter mt-1">
+              Duplicate EUIN values are not allowed
+            </p>
+          )}
       </div>
 
       {apiError && (
