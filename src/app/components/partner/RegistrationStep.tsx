@@ -606,7 +606,7 @@ export default function RegistrationStep({
             className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#001E3C] focus:ring-[#001E3C]"
           />
           <span className="font-inter text-sm text-gray-700 leading-relaxed">
-            By clicking Continue, you will be creating an account with AssetPlus,
+            By clicking Continue, you will be creating an account with Fydaa,
             an AMFI registered Mutual Fund Distribution Platform and agree to our{' '}
             <a href="#" className="text-[#001E3C] underline">
               Terms &amp; Conditions
@@ -633,19 +633,6 @@ export default function RegistrationStep({
           />
           <span className="font-inter text-sm text-gray-700 leading-relaxed">
             I confirm that I am an individual residing in India for tax purposes{' '}
-            <a href="#" className="text-[#001E3C] underline">
-              Terms &amp; Conditions
-            </a>{', '}
-            <a href="#" className="text-[#001E3C] underline">
-              Privacy Policy
-            </a>{', '}
-            <a href="#" className="text-[#001E3C] underline">
-              Disclaimer
-            </a>
-            {' and '}
-            <a href="#" className="text-[#001E3C] underline">
-              Agreement
-            </a>
           </span>
         </label>
 
