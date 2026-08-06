@@ -515,10 +515,10 @@ export default function RegistrationStep({
       )}
 
       <PhoneInput
-        label="Phone Number"
+        label="Phone Number ( Registered with AMFI ) * "
         value={formData.phone}
         onChange={(value) => handleInputChange('phone', value)}
-        placeholder="Mobile number"
+        placeholder="AMFI Registered mobile number"
         required={emailVerified}
         error={!!errors.phone}
         actionButton={
@@ -608,17 +608,17 @@ export default function RegistrationStep({
           <span className="font-inter text-sm text-gray-700 leading-relaxed">
             By clicking Continue, you will be creating an account with Fydaa,
             an AMFI registered Mutual Fund Distribution Platform and agree to our{' '}
-            <a href="#" className="text-[#001E3C] underline">
+            <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/TermsAndConditions.pdf" className="text-[#001E3C] underline">
               Terms &amp; Conditions
             </a>{', '}
-            <a href="#" className="text-[#001E3C] underline">
+            <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/PrivacyPolicyFydaa.pdf" className="text-[#001E3C] underline">
               Privacy Policy
             </a>{', '}
-            <a href="#" className="text-[#001E3C] underline">
+            <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/Disclaimer.pdf" className="text-[#001E3C] underline">
               Disclaimer
             </a>
             {' and '}
-            <a href="#" className="text-[#001E3C] underline">
+            <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/PartnerAgreementFydaa.pdf" className="text-[#001E3C] underline">
               Agreement
             </a>
           </span>
