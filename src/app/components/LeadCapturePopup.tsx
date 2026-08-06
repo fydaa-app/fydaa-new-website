@@ -15,17 +15,18 @@ const LeadCapturePopup = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
 
-  // Check if we're on a success page
+  // Check if we're on a success page or partner page
   const isSuccessPage = 
     pathname?.startsWith('/risk-score') ||
     pathname?.startsWith('/SuccesspageDigi') ||
     pathname?.startsWith('/SuccesspageFund') ||
     pathname?.startsWith('/Successpagemandate') ||
     pathname?.startsWith('/SuccesspageNSDL') ||
-    pathname?.startsWith('/SuccesspageSetu');
+    pathname?.startsWith('/SuccesspageSetu') ||
+    pathname?.startsWith('/partner');
 
   useEffect(() => {
-    // Don't show popup on success pages
+    // Don't show popup on success pages or partner page
     if (isSuccessPage) {
       return;
     }
