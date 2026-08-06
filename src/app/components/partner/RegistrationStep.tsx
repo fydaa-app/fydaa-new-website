@@ -515,10 +515,10 @@ export default function RegistrationStep({
       )}
 
       <PhoneInput
-        label="Phone Number"
+        label="Phone Number ( Registered with AMFI ) * "
         value={formData.phone}
         onChange={(value) => handleInputChange('phone', value)}
-        placeholder="Mobile number"
+        placeholder="AMFI Registered mobile number"
         required={emailVerified}
         error={!!errors.phone}
         actionButton={
