@@ -8,7 +8,8 @@ export interface PartnerFormData {
   name: string;
   location: string;
   expiry_date: string;
-  euins: string[];
+  main_euin: string;
+  other_euins: string[];
   account_holder: string;
   bank_name: string;
   account_number: string;
@@ -23,7 +24,7 @@ export interface PartnerFormData {
 export interface StepProps {
   formData: PartnerFormData;
   updateField: (field: string, value: string) => void;
-  updateEuins?: (euins: string[]) => void;
+  updateOtherEuins?: (otherEuins: string[]) => void;
   onSubmit?: (message?: string) => void;
   onNext?: () => void;
   onBack?: () => void;
