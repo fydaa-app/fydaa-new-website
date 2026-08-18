@@ -181,6 +181,7 @@ export interface SavePartnerDetailsRequest {
   name: string;
   location: string;
   expiryDate?: string;
+  yourEuinNumber: string;
   euins?: string[];
 }
 

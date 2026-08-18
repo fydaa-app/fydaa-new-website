@@ -20,7 +20,8 @@ const initialFormData: PartnerFormData = {
   name: '',
   location: '',
   expiry_date: '',
-  euins: [''],
+  main_euin: '',
+  other_euins: [''],
   account_holder: '',
   bank_name: '',
   account_number: '',
@@ -37,7 +38,6 @@ const STEP_COUNT = 4;
 export default function PartnerRegistrationCard() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<PartnerFormData>(initialFormData);
-  const [euins, setEuins] = useState<string[]>(['']);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState(
     'We will share the login details in 24-48 hours after verification.',
@@ -47,9 +47,8 @@ export default function PartnerRegistrationCard() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const updateEuins = (newEuins: string[]) => {
-    setEuins(newEuins);
-    setFormData((prev) => ({ ...prev, euins: newEuins }));
+  const updateOtherEuins = (newOtherEuins: string[]) => {
+    setFormData((prev) => ({ ...prev, other_euins: newOtherEuins }));
   };
 
   const handleNext = () => {
@@ -72,7 +71,6 @@ export default function PartnerRegistrationCard() {
 
   const resetForm = () => {
     setFormData(initialFormData);
-    setEuins(['']);
     setCurrentStep(1);
   };
 
@@ -95,7 +93,7 @@ export default function PartnerRegistrationCard() {
           <PartnerDetailsStep
             formData={formData}
             updateField={updateField}
-            updateEuins={updateEuins}
+            updateOtherEuins={updateOtherEuins}
             onNext={handleNext}
             onBack={handleBack}
           />
