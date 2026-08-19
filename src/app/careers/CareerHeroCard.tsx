@@ -5,6 +5,8 @@ type Props = {
   jobCount?: number;
 };
 
+//Hello 
+
 export default function CareerHeroCard({ jobCount = 0 }: Props) {
   return (
     <section className="w-full">
