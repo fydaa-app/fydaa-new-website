@@ -50,14 +50,14 @@ export default function FyiapProgramBoxes() {
             </div>
             <div className="flex flex-wrap items-center gap-4">
               <Link
-                href="/fydaaFYIP#YoungAdvisorProgram"
+                href="/programme"
                 scroll
                 className="inline-flex items-center justify-center bg-white text-black font-gilroy font-medium px-8 py-2 rounded-full hover:bg-neutral-200 transition-colors"
               >
                 Apply Now
               </Link>
               <Link
-                href="/fydaaFYIP"
+                href="/programme"
                 scroll
                 className="inline-flex items-center gap-2 text-white font-inter font-medium text-[18px] leading-[24.8px] bg-transparent hover:text-neutral-300 transition-colors"
               >
