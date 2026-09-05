@@ -777,13 +777,35 @@ function normalizeApplicationStatus(status: unknown): string {
     .replace(/_/g, '-');
 }
 
+export const FYIAEP_ALREADY_PAID = 'FYIAEP_ALREADY_PAID';
+export const FYIAEP_PAYMENT_DISMISSED = 'FYIAEP_PAYMENT_DISMISSED';
+
 export function isFyiaepPaymentCompleted(status: unknown): boolean {
   const raw = normalizeApplicationStatus(status);
   return raw === 'payment-completed' || raw === 'paid';
 }
 
+export function isFyiaepCancelled(status: unknown): boolean {
+  return normalizeApplicationStatus(status) === 'cancelled';
+}
+
+export function isFyiaepPaymentFailed(status: unknown): boolean {
+  return normalizeApplicationStatus(status) === 'payment-failed';
+}
+
+/** Submitted and waiting to pay — show the payment screen, not the form. */
+export function isFyiaepAwaitingPayment(status: unknown): boolean {
+  const raw = normalizeApplicationStatus(status);
+  return (
+    raw === 'submitted' ||
+    raw === 'payment-pending' ||
+    raw === 'payment-failed'
+  );
+}
+
 export function canStartFyiaepPayment(status: unknown): boolean {
   const raw = normalizeApplicationStatus(status);
+  if (raw === 'cancelled' || isFyiaepPaymentCompleted(raw)) return false;
   return (
     raw === 'declarations' ||
     raw === 'submitted' ||
@@ -798,8 +820,26 @@ export function shouldSkipFyiaepSubmit(status: unknown): boolean {
     raw === 'submitted' ||
     raw === 'payment-pending' ||
     raw === 'payment-failed' ||
-    isFyiaepPaymentCompleted(raw)
+    isFyiaepPaymentCompleted(raw) ||
+    raw === 'cancelled'
   );
+}
+
+function isAlreadyPaidMessage(message: string) {
+  return /already paid/i.test(message);
+}
+
+export function isFyiaepAlreadyPaidError(error: unknown): boolean {
+  if (!(error instanceof Error)) return false;
+  return error.message === FYIAEP_ALREADY_PAID || isAlreadyPaidMessage(error.message);
+}
+
+export function isCoursePaymentCaptureSuccess(result: Record<string, unknown>): boolean {
+  const data = unwrapPaymentPayload(result);
+  if (isFyiaepPaymentCompleted(data.applicationStatus)) return true;
+  if (String(data.status ?? '').toUpperCase() === 'CAPTURED') return true;
+  const msg = String(data.message ?? result.message ?? '');
+  return /course payment successful/i.test(msg) || isAlreadyPaidMessage(msg);
 }
 
 export interface CoursePaymentPrefill {
@@ -850,7 +890,13 @@ function parseCoursePaymentOrder(result: Record<string, unknown>): CoursePayment
     amount,
     currency,
     applicationNo:
-      typeof data.applicationNo === 'string' ? data.applicationNo : undefined,
+      typeof data.applicationNo === 'string'
+        ? data.applicationNo
+        : typeof data.applicationNo === 'number'
+          ? `FYIAEP-${data.applicationNo}`
+          : typeof data.applicationId === 'number'
+            ? `FYIAEP-${data.applicationId}`
+            : undefined,
     applicationStatus:
       typeof data.applicationStatus === 'string'
         ? data.applicationStatus
@@ -866,8 +912,15 @@ export async function submitFyiaepApplication() {
 export async function createCoursePayment(
   courseName = 'FYIAEP',
 ): Promise<CoursePaymentOrder> {
-  const result = await postJson('/course-payment/create', { courseName }, true);
-  return parseCoursePaymentOrder(result);
+  try {
+    const result = await postJson('/course-payment/create', { courseName }, true);
+    return parseCoursePaymentOrder(result);
+  } catch (error) {
+    if (isFyiaepAlreadyPaidError(error)) {
+      throw new Error(FYIAEP_ALREADY_PAID);
+    }
+    throw error;
+  }
 }
 
 export async function captureCoursePayment(params: {
@@ -875,10 +928,19 @@ export async function captureCoursePayment(params: {
   razorpay_payment_id: string;
   razorpay_signature: string;
 }) {
-  return postJson('/course-payment/capture', params, true);
+  try {
+    return await postJson('/course-payment/capture', params, true);
+  } catch (error) {
+    if (isFyiaepAlreadyPaidError(error)) {
+      return {
+        message: 'Course already paid',
+        applicationStatus: 'payment_completed',
+        status: 'CAPTURED',
+      };
+    }
+    throw error;
+  }
 }
-
-export const FYIAEP_PAYMENT_DISMISSED = 'FYIAEP_PAYMENT_DISMISSED';
 
 function loadRazorpayScript(): Promise<void> {
   if (typeof window === 'undefined') {

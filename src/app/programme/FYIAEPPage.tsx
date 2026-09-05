@@ -11,6 +11,11 @@ import {
   inferResumeStepFromStatus,
   isFyiaepSessionExpiredError,
   isFyiaepPaymentCompleted,
+  isFyiaepCancelled,
+  isFyiaepPaymentFailed,
+  isFyiaepAwaitingPayment,
+  isFyiaepAlreadyPaidError,
+  isCoursePaymentCaptureSuccess,
   shouldSkipFyiaepSubmit,
   submitFyiaepApplication,
   createCoursePayment,
@@ -1430,6 +1435,95 @@ function OtpVerifyPage({
   );
 }
 
+function firstNameFromForm(form: FormState) {
+  return asStr(form.fullName).split(" ")[0];
+}
+
+function PaymentScreen({
+  name,
+  applicationNo,
+  failed,
+  paying,
+  toast,
+  onPay,
+  onBack,
+}: {
+  name: string;
+  applicationNo: string;
+  failed: boolean;
+  paying: boolean;
+  toast: string;
+  onPay: () => void;
+  onBack: () => void;
+}) {
+  return (
+    <div className="pt-24 sm:pt-28 px-4 sm:px-6 pb-12 sm:pb-[60px] max-w-[720px] mx-auto text-center">
+      <div className="w-16 h-16 rounded-2xl bg-jade-tint flex items-center justify-center mx-auto mb-6">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3v18M3 12h18" stroke="#0C4A3E" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      </div>
+      <h2 className="text-2xl font-extrabold tracking-[-0.03em] mb-2">
+        {failed ? "Payment unsuccessful" : "Complete your payment"}
+      </h2>
+      <p className="text-[15px] text-grey-600 leading-relaxed max-w-[420px] mx-auto mb-4">
+        {failed
+          ? `The previous payment attempt did not go through${name ? `, ${name}` : ""}. You can try again to complete the FYIAEP course fee.`
+          : `Your application has been submitted${name ? `, ${name}` : ""}. Pay the course fee to confirm your seat.`}
+      </p>
+      {applicationNo && (
+        <p className="text-sm text-grey-500 mb-5 font-medium">Application {applicationNo}</p>
+      )}
+      <p className="text-[28px] font-extrabold tracking-[-0.03em] text-ink mb-1">
+        ₹35,000 <span className="text-[14px] font-normal text-grey-500">+ applicable taxes</span>
+      </p>
+      <p className="text-xs text-grey-500 mb-7 max-w-[380px] mx-auto">
+        Please keep this page open until payment is confirmed.
+      </p>
+      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <button
+          type="button"
+          onClick={onPay}
+          disabled={paying}
+          className="px-9 py-3.5 bg-jade text-white border-none rounded-[10px] text-[15px] font-bold cursor-pointer font-sans hover:bg-jade-hover disabled:opacity-50"
+        >
+          {paying ? "Opening payment…" : failed ? "Retry Payment" : "Pay Course Fee"}
+        </button>
+        <button
+          type="button"
+          onClick={onBack}
+          disabled={paying}
+          className="px-9 py-3.5 bg-white border border-grey-200 rounded-[10px] text-[15px] font-semibold cursor-pointer font-sans text-grey-800 hover:border-grey-300 disabled:opacity-50"
+        >
+          Back to course page
+        </button>
+      </div>
+      {toast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-ink text-white px-5 py-2.5 rounded-[10px] text-sm font-semibold z-50 animate-fade-in">
+          {toast}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CancelledScreen({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="pt-24 sm:pt-28 px-4 sm:px-6 pb-12 sm:pb-[60px] max-w-[720px] mx-auto text-center">
+      <h2 className="text-2xl font-extrabold tracking-[-0.03em] mb-2">Application cancelled</h2>
+      <p className="text-[15px] text-grey-600 leading-relaxed max-w-[420px] mx-auto mb-7">
+        This application cannot be paid. Please contact admissions if you need help.
+      </p>
+      <button
+        onClick={onBack}
+        className="px-9 py-3.5 bg-jade text-white border-none rounded-[10px] text-[15px] font-bold cursor-pointer font-sans"
+      >
+        Back to course page
+      </button>
+    </div>
+  );
+}
+
 /* ══════════════════════════════════════
    FORM PAGE
    ══════════════════════════════════════ */
@@ -1448,8 +1542,9 @@ function FormPage({
     verifiedMobile ? { whatsapp: verifiedMobile, mobile: verifiedMobile } : {}
   );
   const [uploads, setUploads] = useState<UploadsState>({});
-  const [submitted, setSubmitted] = useState(false);
   const [paymentCompleted, setPaymentCompleted] = useState(false);
+  const [awaitingPayment, setAwaitingPayment] = useState(false);
+  const [applicationCancelled, setApplicationCancelled] = useState(false);
   const [applicationNo, setApplicationNo] = useState("");
   const [applicationStatus, setApplicationStatus] = useState("");
   const [toast, setToast] = useState("");
@@ -1471,7 +1566,14 @@ function FormPage({
         if (app?.applicationNo) setApplicationNo(asStr(app.applicationNo));
         if (isFyiaepPaymentCompleted(status)) {
           setPaymentCompleted(true);
-          setSubmitted(true);
+          return;
+        }
+        if (isFyiaepCancelled(status)) {
+          setApplicationCancelled(true);
+          return;
+        }
+        if (isFyiaepAwaitingPayment(status)) {
+          setAwaitingPayment(true);
           return;
         }
         const resume = inferResumeStepFromStatus(app?.applicationStatus, mapped);
@@ -1560,7 +1662,48 @@ function FormPage({
     await saveFyiaepStep(stepIndex, form, uploads);
   };
 
-  const proceedToPayment = async () => {
+  const applyServerStatus = (app: Record<string, unknown> | null) => {
+    const status = asStr(app?.applicationStatus);
+    const appNo = asStr(app?.applicationNo);
+    if (status) setApplicationStatus(status);
+    if (appNo) setApplicationNo(appNo);
+
+    if (isFyiaepPaymentCompleted(status)) {
+      setPaymentCompleted(true);
+      setAwaitingPayment(false);
+      setApplicationCancelled(false);
+      return "paid" as const;
+    }
+    if (isFyiaepCancelled(status)) {
+      setApplicationCancelled(true);
+      setAwaitingPayment(false);
+      setPaymentCompleted(false);
+      return "cancelled" as const;
+    }
+    if (isFyiaepAwaitingPayment(status)) {
+      setAwaitingPayment(true);
+      setPaymentCompleted(false);
+      setApplicationCancelled(false);
+      return "pay" as const;
+    }
+    return "form" as const;
+  };
+
+  const syncFromServer = async () => {
+    const app = await getFyiaepApplication();
+    return applyServerStatus(app);
+  };
+
+  const markPaymentComplete = (status?: string, appNo?: string) => {
+    if (status) setApplicationStatus(status);
+    if (appNo) setApplicationNo(appNo);
+    setPaymentCompleted(true);
+    setAwaitingPayment(false);
+    setApplicationCancelled(false);
+    window.scrollTo(0, 0);
+  };
+
+  const submitApplication = async () => {
     await persistStep(step);
     if (!shouldSkipFyiaepSubmit(applicationStatus)) {
       const submitResult = await submitFyiaepApplication();
@@ -1568,19 +1711,36 @@ function FormPage({
         submitResult.data && typeof submitResult.data === "object"
           ? (submitResult.data as Record<string, unknown>)
           : submitResult;
-      const nextStatus = asStr(submitData.applicationStatus);
+      const nextStatus = asStr(submitData.applicationStatus) || "payment_pending";
       const appNo = asStr(submitData.applicationNo);
-      if (nextStatus) setApplicationStatus(nextStatus);
+      setApplicationStatus(nextStatus);
       if (appNo) setApplicationNo(appNo);
     }
+    setAwaitingPayment(true);
+    window.scrollTo(0, 0);
+  };
+
+  const startCheckout = async () => {
+    const synced = await syncFromServer();
+    if (synced === "paid" || synced === "cancelled") return;
+
     const order = await createCoursePayment();
     if (order.applicationNo) setApplicationNo(order.applicationNo);
     if (order.applicationStatus) setApplicationStatus(order.applicationStatus);
-    await openFyiaepCourseCheckout(order);
-    setApplicationStatus("payment_completed");
-    setPaymentCompleted(true);
-    setSubmitted(true);
-    window.scrollTo(0, 0);
+
+    const captureResult = await openFyiaepCourseCheckout(order);
+    const captureStatus = asStr(captureResult.applicationStatus);
+    const captureAppNo = asStr(captureResult.applicationNo);
+
+    try {
+      const afterCapture = await syncFromServer();
+      if (afterCapture === "paid") return;
+    } catch {
+      // GET is best-effort; capture success is enough to show paid
+    }
+    if (isCoursePaymentCaptureSuccess(captureResult) || isFyiaepPaymentCompleted(captureStatus)) {
+      markPaymentComplete(captureStatus || "payment_completed", captureAppNo);
+    }
   };
 
   const goNext = async () => {
@@ -1604,13 +1764,9 @@ function FormPage({
         setMaxReachedStep((m) => Math.max(m, next));
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
-        await proceedToPayment();
+        await submitApplication();
       }
     } catch (e: unknown) {
-      if (e instanceof Error && e.message === FYIAEP_PAYMENT_DISMISSED) {
-        showToast("Payment cancelled. You can try again when ready.");
-        return;
-      }
       handleApiError(e);
     } finally {
       setSaving(false);
@@ -1643,34 +1799,74 @@ function FormPage({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  if (submitted) {
-    const name = asStr(form.fullName).split(" ")[0];
+  const handlePay = async () => {
+    setSaving(true);
+    try {
+      await startCheckout();
+    } catch (e: unknown) {
+      if (isFyiaepAlreadyPaidError(e)) {
+        try {
+          const synced = await syncFromServer();
+          if (synced !== "paid") markPaymentComplete("payment_completed");
+        } catch {
+          markPaymentComplete("payment_completed");
+        }
+        return;
+      }
+      if (e instanceof Error && e.message === FYIAEP_PAYMENT_DISMISSED) {
+        try {
+          const synced = await syncFromServer();
+          if (synced === "paid") return;
+        } catch (syncErr) {
+          handleApiError(syncErr);
+          return;
+        }
+        showToast("Payment cancelled. You can try again when ready.");
+        return;
+      }
+      handleApiError(e);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (paymentCompleted) {
+    const name = firstNameFromForm(form);
     return (
       <div className="pt-24 sm:pt-28 px-4 sm:px-6 pb-12 sm:pb-[60px] max-w-[720px] mx-auto text-center">
         <div className="w-16 h-16 rounded-2xl bg-jade-tint flex items-center justify-center mx-auto mb-6">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#0C4A3E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </div>
         <h2 className="text-2xl font-extrabold tracking-[-0.03em] mb-2">
-          {paymentCompleted ? "Payment Successful" : "Application Submitted"}
+          Payment Successful
         </h2>
         <p className="text-[15px] text-grey-600 leading-relaxed max-w-[420px] mx-auto mb-7">
-          {paymentCompleted ? (
-            <>
-              Thank you{name ? `, ${name}` : ""}. Your FYIAEP course fee payment has been received
-              {applicationNo ? ` for ${applicationNo}` : ""}.
-              Our admissions team will review your application and reach out within 3 working days.
-            </>
-          ) : (
-            <>
-              Thank you{name ? `, ${name}` : ""}. Your application details have been saved successfully.
-              Our admissions team will review it and reach out within 3 working days.
-            </>
-          )}
+          Thank you{name ? `, ${name}` : ""}. Your FYIAEP course fee payment has been received
+          {applicationNo ? ` for ${applicationNo}` : ""}.
+          Our admissions team will review your application and reach out within 3 working days.
         </p>
         <button onClick={onBack} className="px-9 py-3.5 bg-jade text-white border-none rounded-[10px] text-[15px] font-bold cursor-pointer font-sans">
           Back to course page
         </button>
       </div>
+    );
+  }
+
+  if (applicationCancelled) {
+    return <CancelledScreen onBack={onBack} />;
+  }
+
+  if (awaitingPayment) {
+    return (
+      <PaymentScreen
+        name={firstNameFromForm(form)}
+        applicationNo={applicationNo}
+        failed={isFyiaepPaymentFailed(applicationStatus)}
+        paying={saving}
+        toast={toast}
+        onPay={handlePay}
+        onBack={onBack}
+      />
     );
   }
 
@@ -1733,7 +1929,7 @@ function FormPage({
           </button>
           <button onClick={goNext} disabled={saving}
             className="px-7 py-2.5 bg-jade text-white border-none rounded-[10px] text-sm font-bold font-sans tracking-[-0.01em] cursor-pointer flex items-center gap-1.5 hover:bg-jade-hover transition-colors max-sm:flex-1 disabled:opacity-50">
-            {saving ? (isLast ? "Processing..." : "Saving...") : isLast ? "Proceed to Pay" : "Save & Continue"} {!saving && <ChevronRight />}
+            {saving ? (isLast ? "Submitting..." : "Saving...") : isLast ? "Submit Application" : "Save & Continue"} {!saving && <ChevronRight />}
           </button>
         </div>
       </div>
