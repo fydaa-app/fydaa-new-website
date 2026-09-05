@@ -489,8 +489,14 @@ export function inferResumeStepFromStatus(
     declarations: 5,
     declaration: 5,
     payment: 5,
+    'payment-pending': 5,
+    paymentpending: 5,
+    'payment-failed': 5,
+    paymentfailed: 5,
     paid: 5,
     completed: 5,
+    'payment-completed': 5,
+    paymentcompleted: 5,
     submitted: 5,
   };
 
@@ -761,5 +767,194 @@ export async function saveFyiaepStep(
       return saveDeclarations(form);
     default:
       throw new Error('Unknown application step.');
+  }
+}
+
+function normalizeApplicationStatus(status: unknown): string {
+  return String(status ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/_/g, '-');
+}
+
+export function isFyiaepPaymentCompleted(status: unknown): boolean {
+  const raw = normalizeApplicationStatus(status);
+  return raw === 'payment-completed' || raw === 'paid';
+}
+
+export function canStartFyiaepPayment(status: unknown): boolean {
+  const raw = normalizeApplicationStatus(status);
+  return (
+    raw === 'declarations' ||
+    raw === 'submitted' ||
+    raw === 'payment-pending' ||
+    raw === 'payment-failed'
+  );
+}
+
+export function shouldSkipFyiaepSubmit(status: unknown): boolean {
+  const raw = normalizeApplicationStatus(status);
+  return (
+    raw === 'submitted' ||
+    raw === 'payment-pending' ||
+    raw === 'payment-failed' ||
+    isFyiaepPaymentCompleted(raw)
+  );
+}
+
+export interface CoursePaymentPrefill {
+  name?: string;
+  email?: string;
+  contact?: string;
+}
+
+export interface CoursePaymentOrder {
+  keyId: string;
+  orderId: string;
+  amount: number;
+  currency: string;
+  applicationNo?: string;
+  applicationStatus?: string;
+  prefill?: CoursePaymentPrefill;
+}
+
+function unwrapPaymentPayload(
+  result: Record<string, unknown>,
+): Record<string, unknown> {
+  if (result.data && typeof result.data === 'object' && !Array.isArray(result.data)) {
+    return result.data as Record<string, unknown>;
+  }
+  return result;
+}
+
+function parseCoursePaymentOrder(result: Record<string, unknown>): CoursePaymentOrder {
+  const data = unwrapPaymentPayload(result);
+  const keyId = String(data.keyId || data.key || '');
+  const orderId = String(data.orderId || data.id || '');
+  const amount = Number(data.amount);
+  const currency = String(data.currency || 'INR');
+
+  if (!keyId || !orderId || !Number.isFinite(amount) || amount <= 0) {
+    throw new Error('Invalid payment order response. Please try again.');
+  }
+
+  const prefillRaw = data.prefill;
+  const prefill =
+    prefillRaw && typeof prefillRaw === 'object' && !Array.isArray(prefillRaw)
+      ? (prefillRaw as CoursePaymentPrefill)
+      : undefined;
+
+  return {
+    keyId,
+    orderId,
+    amount,
+    currency,
+    applicationNo:
+      typeof data.applicationNo === 'string' ? data.applicationNo : undefined,
+    applicationStatus:
+      typeof data.applicationStatus === 'string'
+        ? data.applicationStatus
+        : undefined,
+    prefill,
+  };
+}
+
+export async function submitFyiaepApplication() {
+  return postJson('/submit', {}, true);
+}
+
+export async function createCoursePayment(
+  courseName = 'FYIAEP',
+): Promise<CoursePaymentOrder> {
+  const result = await postJson('/course-payment/create', { courseName }, true);
+  return parseCoursePaymentOrder(result);
+}
+
+export async function captureCoursePayment(params: {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}) {
+  return postJson('/course-payment/capture', params, true);
+}
+
+export const FYIAEP_PAYMENT_DISMISSED = 'FYIAEP_PAYMENT_DISMISSED';
+
+function loadRazorpayScript(): Promise<void> {
+  if (typeof window === 'undefined') {
+    return Promise.reject(new Error('Payment is only available in the browser.'));
+  }
+  if (window.Razorpay) return Promise.resolve();
+
+  return new Promise((resolve, reject) => {
+    const existing = document.querySelector(
+      'script[src="https://checkout.razorpay.com/v1/checkout.js"]',
+    );
+    if (existing) {
+      existing.addEventListener('load', () => resolve());
+      existing.addEventListener('error', () =>
+        reject(new Error('Failed to load payment gateway.')),
+      );
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () =>
+      reject(new Error('Failed to load payment gateway.'));
+    document.body.appendChild(script);
+  });
+}
+
+export async function openFyiaepCourseCheckout(
+  order: CoursePaymentOrder,
+): Promise<Record<string, unknown>> {
+  await loadRazorpayScript();
+
+  const Razorpay = window.Razorpay;
+  if (!Razorpay) {
+    throw new Error('Payment gateway failed to initialize.');
+  }
+
+  return new Promise((resolve, reject) => {
+    const options = {
+      key: order.keyId,
+      amount: order.amount,
+      currency: order.currency,
+      name: 'FYIAEP',
+      description: order.applicationNo || 'FYIAEP Course Fee',
+      order_id: order.orderId,
+      prefill: order.prefill,
+      handler: async (response: {
+        razorpay_order_id: string;
+        razorpay_payment_id: string;
+        razorpay_signature: string;
+      }) => {
+        try {
+          const captureResult = await captureCoursePayment({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          });
+          resolve(captureResult);
+        } catch (error) {
+          reject(error);
+        }
+      },
+      modal: {
+        ondismiss: () => reject(new Error(FYIAEP_PAYMENT_DISMISSED)),
+      },
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+  });
+}
+
+declare global {
+  interface Window {
+    Razorpay?: new (options: Record<string, unknown>) => { open: () => void };
   }
 }

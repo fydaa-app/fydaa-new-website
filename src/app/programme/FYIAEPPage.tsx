@@ -10,7 +10,13 @@ import {
   mapApplicationToForm,
   inferResumeStepFromStatus,
   isFyiaepSessionExpiredError,
+  isFyiaepPaymentCompleted,
+  shouldSkipFyiaepSubmit,
+  submitFyiaepApplication,
+  createCoursePayment,
+  openFyiaepCourseCheckout,
   FYIAEP_SESSION_EXPIRED,
+  FYIAEP_PAYMENT_DISMISSED,
 } from "../config/fyiaepApi";
 
 type FormState = Record<string, unknown>;
@@ -1443,6 +1449,9 @@ function FormPage({
   );
   const [uploads, setUploads] = useState<UploadsState>({});
   const [submitted, setSubmitted] = useState(false);
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
+  const [applicationNo, setApplicationNo] = useState("");
+  const [applicationStatus, setApplicationStatus] = useState("");
   const [toast, setToast] = useState("");
   const [errors, setErrors] = useState<ErrorsState>({});
   const [saving, setSaving] = useState(false);
@@ -1457,6 +1466,14 @@ function FormPage({
         if (cancelled) return;
         const mapped = mapApplicationToForm(app, verifiedMobile);
         setForm((prev) => ({ ...prev, ...mapped }));
+        const status = asStr(app?.applicationStatus);
+        setApplicationStatus(status);
+        if (app?.applicationNo) setApplicationNo(asStr(app.applicationNo));
+        if (isFyiaepPaymentCompleted(status)) {
+          setPaymentCompleted(true);
+          setSubmitted(true);
+          return;
+        }
         const resume = inferResumeStepFromStatus(app?.applicationStatus, mapped);
         setStep(resume);
         setMaxReachedStep(resume);
@@ -1543,6 +1560,29 @@ function FormPage({
     await saveFyiaepStep(stepIndex, form, uploads);
   };
 
+  const proceedToPayment = async () => {
+    await persistStep(step);
+    if (!shouldSkipFyiaepSubmit(applicationStatus)) {
+      const submitResult = await submitFyiaepApplication();
+      const submitData =
+        submitResult.data && typeof submitResult.data === "object"
+          ? (submitResult.data as Record<string, unknown>)
+          : submitResult;
+      const nextStatus = asStr(submitData.applicationStatus);
+      const appNo = asStr(submitData.applicationNo);
+      if (nextStatus) setApplicationStatus(nextStatus);
+      if (appNo) setApplicationNo(appNo);
+    }
+    const order = await createCoursePayment();
+    if (order.applicationNo) setApplicationNo(order.applicationNo);
+    if (order.applicationStatus) setApplicationStatus(order.applicationStatus);
+    await openFyiaepCourseCheckout(order);
+    setApplicationStatus("payment_completed");
+    setPaymentCompleted(true);
+    setSubmitted(true);
+    window.scrollTo(0, 0);
+  };
+
   const goNext = async () => {
     const result = validateStep(step, form, uploads);
     if (result) {
@@ -1556,18 +1596,21 @@ function FormPage({
     setErrors({});
     setSaving(true);
     try {
-      await persistStep(step);
       if (!isLast) {
+        await persistStep(step);
         showToast("Saved successfully");
         const next = step + 1;
         setStep(next);
         setMaxReachedStep((m) => Math.max(m, next));
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
-        setSubmitted(true);
-        window.scrollTo(0, 0);
+        await proceedToPayment();
       }
     } catch (e: unknown) {
+      if (e instanceof Error && e.message === FYIAEP_PAYMENT_DISMISSED) {
+        showToast("Payment cancelled. You can try again when ready.");
+        return;
+      }
       handleApiError(e);
     } finally {
       setSaving(false);
@@ -1607,11 +1650,22 @@ function FormPage({
         <div className="w-16 h-16 rounded-2xl bg-jade-tint flex items-center justify-center mx-auto mb-6">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#0C4A3E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </div>
-        <h2 className="text-2xl font-extrabold tracking-[-0.03em] mb-2">Application Submitted</h2>
+        <h2 className="text-2xl font-extrabold tracking-[-0.03em] mb-2">
+          {paymentCompleted ? "Payment Successful" : "Application Submitted"}
+        </h2>
         <p className="text-[15px] text-grey-600 leading-relaxed max-w-[420px] mx-auto mb-7">
-          Thank you{name ? `, ${name}` : ""}. Your application details have been saved successfully.
-          Our admissions team will review it and reach out within 3 working days.
-          Online payment will be enabled shortly if not already completed.
+          {paymentCompleted ? (
+            <>
+              Thank you{name ? `, ${name}` : ""}. Your FYIAEP course fee payment has been received
+              {applicationNo ? ` for ${applicationNo}` : ""}.
+              Our admissions team will review your application and reach out within 3 working days.
+            </>
+          ) : (
+            <>
+              Thank you{name ? `, ${name}` : ""}. Your application details have been saved successfully.
+              Our admissions team will review it and reach out within 3 working days.
+            </>
+          )}
         </p>
         <button onClick={onBack} className="px-9 py-3.5 bg-jade text-white border-none rounded-[10px] text-[15px] font-bold cursor-pointer font-sans">
           Back to course page
@@ -1679,7 +1733,7 @@ function FormPage({
           </button>
           <button onClick={goNext} disabled={saving}
             className="px-7 py-2.5 bg-jade text-white border-none rounded-[10px] text-sm font-bold font-sans tracking-[-0.01em] cursor-pointer flex items-center gap-1.5 hover:bg-jade-hover transition-colors max-sm:flex-1 disabled:opacity-50">
-            {saving ? "Saving..." : isLast ? "Proceed to Pay" : "Save & Continue"} {!saving && <ChevronRight />}
+            {saving ? (isLast ? "Processing..." : "Saving...") : isLast ? "Proceed to Pay" : "Save & Continue"} {!saving && <ChevronRight />}
           </button>
         </div>
       </div>
