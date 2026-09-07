@@ -253,23 +253,33 @@ export default function RegistrationStep({
 
   const handleRequestMobileOtp = async () => {
     if (!emailVerified) return;
-    if (!partnerId) return;
-    if (!formData.phone.trim()) return;
+    if (!partnerId) {
+      setMobileApiError('Session expired. Please verify your email again.');
+      return;
+    }
+    if (!formData.phone.trim()) {
+      setErrors((prev) => ({ ...prev, phone: 'Phone number is required' }));
+      return;
+    }
 
     const numericPhone = formData.phone.replace(/\D/g, '');
-    if (numericPhone.length < 10) return;
+    if (numericPhone.length !== 10) {
+      setErrors((prev) => ({
+        ...prev,
+        phone: 'Enter a valid 10-digit mobile number',
+      }));
+      return;
+    }
 
     setIsLoading(true);
     setMobileApiError(null);
+    setErrors((prev) => ({ ...prev, phone: undefined }));
 
     try {
-      await sendMobileOtp(
-        partnerId,
-        numericPhone,
-        '+91',
-      );
+      await sendMobileOtp(partnerId, numericPhone, '+91');
 
       updateField('phone', numericPhone);
+      updateField('mobile_otp', '');
       setMobileOtpRequested(true);
       setMobileResendCountdown(RESEND_COUNTDOWN_SECONDS);
     } catch (error) {
@@ -283,7 +293,7 @@ export default function RegistrationStep({
 
   const handleVerifyMobileOtp = async () => {
     if (!partnerId) return;
-    if (formData.mobile_otp.length !== OTP_LENGTH) return;
+    if ((formData.mobile_otp || '').length !== OTP_LENGTH) return;
 
     setIsLoading(true);
     setMobileApiError(null);
@@ -515,12 +525,21 @@ export default function RegistrationStep({
       )}
 
       <PhoneInput
-        label="Phone Number ( Registered with AMFI ) * "
+        label="Phone Number ( Registered with AMFI )"
         value={formData.phone}
-        onChange={(value) => handleInputChange('phone', value)}
+        onChange={(value) => {
+          handleInputChange('phone', value);
+          if (mobileOtpRequested || mobileVerified) {
+            setMobileOtpRequested(false);
+            setMobileVerified(false);
+            updateField('mobile_otp', '');
+            setMobileApiError(null);
+          }
+        }}
         placeholder="AMFI Registered mobile number"
         required={emailVerified}
         error={!!errors.phone}
+        readOnly={mobileVerified}
         actionButton={
           emailVerified ? (
             mobileVerified ? (
@@ -532,18 +551,24 @@ export default function RegistrationStep({
                 >
                   <path
                     fillRule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1  1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                     clipRule="evenodd"
                   />
                 </svg>
                 Verified
               </div>
+            ) : mobileOtpRequested ? (
+              <span className="text-gray-400 font-inter text-sm">
+                OTP Sent
+              </span>
             ) : (
               <button
                 type="button"
                 onClick={handleRequestMobileOtp}
                 disabled={
-                  isLoading || !formData.phone.trim() || !/^\d{10}$/.test(formData.phone)
+                  isLoading ||
+                  !formData.phone.trim() ||
+                  !/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))
                 }
                 className="text-[#001E3C] font-inter text-sm underline underline-offset-2 hover:no-underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -557,6 +582,12 @@ export default function RegistrationStep({
           )
         }
       />
+      {errors.phone && (
+        <p className="text-xs text-red-500 font-inter mt-1">{errors.phone}</p>
+      )}
+      {mobileApiError && !mobileOtpRequested && !mobileVerified && (
+        <p className="text-xs text-red-500 font-inter mt-1">{mobileApiError}</p>
+      )}
 
       {mobileOtpRequested && !mobileVerified && (
         <div>
@@ -568,7 +599,9 @@ export default function RegistrationStep({
           <button
             type="button"
             onClick={handleVerifyMobileOtp}
-            disabled={isLoading || formData.mobile_otp.length !== OTP_LENGTH}
+            disabled={
+              isLoading || (formData.mobile_otp || '').length !== OTP_LENGTH
+            }
             className={`mt-3 w-full h-12 bg-black text-white rounded-[12px] font-medium font-inter hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             {isLoading ? 'Verifying...' : 'Verify OTP'}
