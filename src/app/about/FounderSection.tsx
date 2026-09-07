@@ -44,9 +44,9 @@ const FounderSection: React.FC = () => {
               {/* Left side */}
               <div className="flex-1 flex justify-center items-center relative z-50">
                 <img
-                  src="/about-us/founder.png"
+                  src="/about-us/Kuntalsir.png"
                   alt="Founder"
-                  className="object-contain w-[180px] sm:w-[250px] md:w-[300px] lg:w-[348px] h-auto relative z-50"
+                  className="object-contain w-[160px] sm:w-[230px] md:w-[280px] lg:w-[328px] h-auto relative z-50 -translate-y-5 sm:-translate-y-8 lg:-translate-y-10"
                 />
               </div>
 

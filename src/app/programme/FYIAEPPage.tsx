@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect, useRef, type ReactNode, type KeyboardEvent, type ChangeEvent, type InputHTMLAttributes } from "react";
 import {
   sendFyiaepOtp,
@@ -90,14 +91,12 @@ const Pill = ({ children }: { children: ReactNode }) => (
   </span>
 );
 
+const FYIAEP_BROCHURE_PDF = "/brochure/fyiaep.pdf";
+
 /* ══════════════════════════════════════
    HERO
    ══════════════════════════════════════ */
 function Hero({ onApply }: { onApply: () => void }) {
-  const scrollToJourney = () => {
-    document.getElementById("journey")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <section className="pt-24 sm:pt-28 md:pt-[140px] px-4 sm:px-6 md:px-8 pb-12 sm:pb-16 md:pb-[88px] relative overflow-hidden bg-jade">
       {/* Hero image: same full-bleed cover on all sizes; mobile focuses on the person */}
@@ -123,9 +122,14 @@ function Hero({ onApply }: { onApply: () => void }) {
           <button onClick={onApply} className="w-full sm:w-auto justify-center px-6 sm:px-9 py-3 sm:py-3.5 bg-white text-jade border-none rounded-[10px] text-[14px] sm:text-[15px] font-bold cursor-pointer font-sans tracking-[-0.01em] inline-flex items-center hover:-translate-y-px transition-transform">
             Apply Now <ArrowIcon />
           </button>
-          <button onClick={scrollToJourney} className="w-full sm:w-auto justify-center px-6 sm:px-9 py-3 sm:py-3.5 bg-transparent border border-white/30 rounded-[10px] text-[14px] sm:text-[15px] font-semibold text-white cursor-pointer font-sans hover:bg-white/10 transition-colors">
+          <a
+            href={FYIAEP_BROCHURE_PDF}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto justify-center px-6 sm:px-9 py-3 sm:py-3.5 bg-transparent border border-white/30 rounded-[10px] text-[14px] sm:text-[15px] font-semibold text-white cursor-pointer font-sans hover:bg-white/10 transition-colors inline-flex items-center text-center no-underline"
+          >
             Learn more
-          </button>
+          </a>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 md:gap-10 mt-10 sm:mt-12 md:mt-14 border-t border-white/10 pt-6 sm:pt-7">
@@ -312,22 +316,33 @@ function WhoIsThisFor() {
 function AboutFydaa() {
   return (
     <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-[1000px] mx-auto">
-      <div className="max-w-[560px]">
-        <Pill>About Fydaa</Pill>
-        <h2 className="text-[22px] sm:text-[24px] md:text-[26px] font-bold tracking-[-0.03em] mt-3.5">
-          Learn from a SEBI Registered Investment Adviser
-        </h2>
-        <p className="text-[14px] sm:text-[15px] text-grey-600 leading-[1.7] mt-3">
-          Fydaa (Multistrato Capital Advisors Pvt. Ltd.) is committed to making financial planning
-          accessible through technology and expert guidance.
-        </p>
-        <div className="mt-5 flex flex-col sm:inline-flex sm:flex-row gap-px bg-grey-200 rounded-xl overflow-hidden w-full sm:w-auto">
-          {[["SEBI Registration", "INA000015969"], ["ARN", "358522"]].map(([l, v]) => (
-            <div key={l} className="bg-grey-100 px-5 sm:px-6 py-3.5 flex-1 sm:flex-none">
-              <div className="text-[10px] font-semibold text-grey-500 tracking-[0.06em] uppercase">{l}</div>
-              <div className="text-base font-bold text-ink mt-0.5 tracking-[-0.02em]">{v}</div>
-            </div>
-          ))}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="min-w-0">
+          <Pill>About Fydaa</Pill>
+          <h2 className="text-[22px] sm:text-[24px] md:text-[26px] font-bold tracking-[-0.03em] mt-3.5">
+            Learn from a SEBI Registered Investment Adviser
+          </h2>
+          <p className="text-[14px] sm:text-[15px] text-grey-600 leading-[1.7] mt-3">
+            Fydaa (Multistrato Capital Advisors Pvt. Ltd.) is committed to making financial planning
+            accessible through technology and expert guidance.
+          </p>
+          <div className="mt-5 flex flex-col sm:inline-flex sm:flex-row gap-px bg-grey-200 rounded-xl overflow-hidden w-full sm:w-auto">
+            {[["SEBI Registration", "INA000015969"], ["ARN", "358522"]].map(([l, v]) => (
+              <div key={l} className="bg-grey-100 px-5 sm:px-6 py-3.5 flex-1 sm:flex-none">
+                <div className="text-[10px] font-semibold text-grey-500 tracking-[0.06em] uppercase">{l}</div>
+                <div className="text-base font-bold text-ink mt-0.5 tracking-[-0.02em]">{v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="relative w-[220px] sm:w-[340px] shrink-0 mx-auto lg:mx-0 lg:ml-auto aspect-square rounded-xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.06)]">
+          <Image
+            src="/programme/course1.jpg"
+            alt="FYIAEP course mentor"
+            fill
+            className="object-cover object-center"
+            sizes="260px"
+          />
         </div>
       </div>
     </section>
@@ -335,13 +350,35 @@ function AboutFydaa() {
 }
 
 /* ══════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════ */
+function ProgrammeFooter() {
+  return (
+    <footer className="py-7 px-6 border-t border-grey-200">
+      <div className="max-w-[1000px] mx-auto flex justify-center items-center flex-wrap gap-6 sm:gap-8">
+        <div className="flex gap-1.5 items-center">
+          <PhoneIcon />
+          <span className="text-[11px] text-grey-400">Counsellor</span>
+          <a href="tel:+919987308778" className="text-xs text-grey-600 no-underline font-semibold">
+            +91 99873 08778
+          </a>
+        </div>
+        <div className="flex gap-1.5 items-center">
+          <PhoneIcon />
+          <span className="text-[11px] text-grey-400">Support</span>
+          <a href="tel:+919503359949" className="text-xs text-grey-600 no-underline font-semibold">
+            +91 95033 59949
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ══════════════════════════════════════
    CTA CARD
    ══════════════════════════════════════ */
 function CTACard({ onApply }: { onApply: () => void }) {
-  const scrollToJourney = () => {
-    document.getElementById("journey")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <section className="px-4 sm:px-6 pt-10 sm:pt-[60px] pb-12 sm:pb-20">
       <div
@@ -395,13 +432,15 @@ function CTACard({ onApply }: { onApply: () => void }) {
             >
               Apply Now <ArrowIcon />
             </button>
-            <button
-              onClick={scrollToJourney}
-              className="w-full sm:w-auto justify-center px-6 sm:px-7 py-3 rounded-[10px] text-sm font-semibold cursor-pointer font-sans inline-flex items-center gap-1.5 transition-colors"
+            <a
+              href={FYIAEP_BROCHURE_PDF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto justify-center px-6 sm:px-7 py-3 rounded-[10px] text-sm font-semibold cursor-pointer font-sans inline-flex items-center gap-1.5 transition-colors no-underline"
               style={{ backgroundColor: "transparent", color: "#FFFFFF", border: "1px solid rgba(255,255,255,0.3)" }}
             >
               Programme Details <ArrowIcon />
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -409,41 +448,6 @@ function CTACard({ onApply }: { onApply: () => void }) {
   );
 }
 
-/* ══════════════════════════════════════
-   FOOTER
-   ══════════════════════════════════════ */
-function Footer() {
-  return (
-    <footer className="py-7 px-6 border-t border-grey-200">
-      <div className="max-w-[1000px] mx-auto flex justify-between items-center flex-wrap gap-6 max-md:flex-col max-md:text-center">
-        <div className="flex items-center gap-1.5">
-          <div className="w-[22px] h-[22px] rounded-md bg-ink flex items-center justify-center">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="#6EE7B7" /></svg>
-          </div>
-          <span className="text-[13px] font-bold text-grey-800 tracking-[-0.02em]">fydaa</span>
-          <span className="text-xs text-grey-400 ml-2">Multistrato Capital Advisors Pvt. Ltd.</span>
-        </div>
-
-        <div className="flex gap-7 flex-wrap items-center">
-          <div className="flex gap-1.5 items-center">
-            <PhoneIcon />
-            <span className="text-[11px] text-grey-400">Counsellor</span>
-            <a href="tel:+917991431770" className="text-xs text-grey-600 no-underline font-semibold">+91 79914 31770</a>
-          </div>
-          <div className="flex gap-1.5 items-center">
-            <PhoneIcon />
-            <span className="text-[11px] text-grey-400">Support</span>
-            <a href="tel:+919503359949" className="text-xs text-grey-600 no-underline font-semibold">+91 95033 59949</a>
-          </div>
-          <div className="flex gap-1.5 items-center">
-            <PinIcon />
-            <span className="text-xs text-grey-500">Goregaon (E), Mumbai 400063</span>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 /* ══════════════════════════════════════
    FORM HELPERS
@@ -1668,7 +1672,7 @@ function FormPage({
           )}
         </p>
         <button onClick={onBack} className="px-9 py-3.5 bg-jade text-white border-none rounded-[10px] text-[15px] font-bold cursor-pointer font-sans">
-          Back to course page
+          Back to Programme page
         </button>
       </div>
     );
@@ -1688,7 +1692,7 @@ function FormPage({
       <div className="flex items-center justify-between mb-6 sm:mb-8 flex-wrap gap-3">
         <h2 className="text-[18px] sm:text-[22px] font-extrabold tracking-[-0.03em] text-ink">FYIAEP Application</h2>
         <button onClick={onBack} className="text-sm text-grey-500 cursor-pointer border-none bg-none font-sans flex items-center gap-1 hover:text-jade">
-          <ChevronLeft /> Back to course page
+          <ChevronLeft /> Back to Programme page
         </button>
       </div>
 
@@ -1799,7 +1803,7 @@ export default function FYIAEPPage() {
           <WhoIsThisFor />
           <AboutFydaa />
           <CTACard onApply={startApply} />
-          <Footer />
+          <ProgrammeFooter />
         </>
       )}
       {page === "verify-mobile" && (

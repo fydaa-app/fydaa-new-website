@@ -23,7 +23,8 @@ const LeadCapturePopup = () => {
     pathname?.startsWith('/Successpagemandate') ||
     pathname?.startsWith('/SuccesspageNSDL') ||
     pathname?.startsWith('/SuccesspageSetu') ||
-    pathname?.startsWith('/partner');
+    pathname?.startsWith('/partner') ||
+    pathname?.startsWith('/programme');
 
   useEffect(() => {
     // Don't show popup on success pages or partner page
