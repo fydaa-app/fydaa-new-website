@@ -986,7 +986,7 @@ export async function openFyiaepCourseCheckout(
       amount: order.amount,
       currency: order.currency,
       name: 'FYIAEP',
-      description: order.applicationNo || 'FYIAEP Course Fee',
+      description: order.applicationNo || 'FYIAEP Programme Fee',
       order_id: order.orderId,
       prefill: order.prefill,
       handler: async (response: {
