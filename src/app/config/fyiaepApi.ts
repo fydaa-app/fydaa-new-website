@@ -456,6 +456,15 @@ export function mapApplicationToForm(
     esign_date: pickStr(src, 'esignDate', 'esign_date').slice(0, 10),
     esign_place: pickStr(src, 'esignPlace', 'esign_place'),
     esign_sig: pickStr(src, 'esignSignatureText', 'esign_sig', 'esignName', 'esign_name'),
+    selectedProgramme: (() => {
+      const raw = pickStr(src, 'selectedProgramme', 'courseName', 'programme');
+      if (/onfield|on-field|2[- ]?month/i.test(raw)) return 'onfield';
+      if (/fyiaep|full|4[- ]?month/i.test(raw) && !/onfield|on-field/i.test(raw)) {
+        return raw ? 'full' : '';
+      }
+      if (raw === 'full' || raw === 'onfield') return raw;
+      return '';
+    })(),
   };
 }
 
@@ -488,20 +497,28 @@ export function inferResumeStepFromStatus(
     document: 4,
     declarations: 5,
     declaration: 5,
-    payment: 5,
-    'payment-pending': 5,
-    paymentpending: 5,
-    'payment-failed': 5,
-    paymentfailed: 5,
-    paid: 5,
-    completed: 5,
-    'payment-completed': 5,
-    paymentcompleted: 5,
-    submitted: 5,
+    programme: 6,
+    'programme-selection': 6,
+    programmeselection: 6,
+    payment: 6,
+    'payment-pending': 6,
+    paymentpending: 6,
+    'payment-failed': 6,
+    paymentfailed: 6,
+    paid: 6,
+    completed: 6,
+    'payment-completed': 6,
+    paymentcompleted: 6,
+    submitted: 6,
   };
 
   if (raw && raw in statusToStep) {
-    return statusToStep[raw];
+    const step = statusToStep[raw];
+    // Declarations complete → land on programme selection
+    if (step === 5 && (form.allAnnex_agree || form.esign_name || form.selectedProgramme)) {
+      return 6;
+    }
+    return step;
   }
 
   return inferResumeStep(form);
@@ -509,7 +526,8 @@ export function inferResumeStepFromStatus(
 
 /** Infer step from saved fields when applicationStatus is missing. */
 export function inferResumeStep(form: Record<string, unknown>): number {
-  if (form.allAnnex_agree || form.esign_name) return 5;
+  if (form.selectedProgramme) return 6;
+  if (form.allAnnex_agree || form.esign_name) return 6;
   if (form.motivation || form.expectations || form.longTermGoal) return 4;
   if (form.professionalStatus && form.currentOrg) return 3;
   if (form.nismXA || form.nismXB) return 2;
@@ -765,6 +783,9 @@ export async function saveFyiaepStep(
       return saveDocuments(uploads);
     case 5:
       return saveDeclarations(form);
+    case 6:
+      // Programme selection is frontend-only for now (same payment API for both)
+      return { success: true };
     default:
       throw new Error('Unknown application step.');
   }
@@ -909,11 +930,18 @@ export async function submitFyiaepApplication() {
   return postJson('/submit', {}, true);
 }
 
-export async function createCoursePayment(
-  courseName = 'FYIAEP',
-): Promise<CoursePaymentOrder> {
+export async function createCoursePayment(options?: {
+  courseName?: string;
+  courseType?: string;
+}): Promise<CoursePaymentOrder> {
+  // 4-month: existing { courseName: "FYIAEP" }
+  // 2-month on-field: { courseType: "ON_FIELD_TRAINING" }
+  const body = options?.courseType
+    ? { courseType: options.courseType }
+    : { courseName: options?.courseName || 'FYIAEP' };
+
   try {
-    const result = await postJson('/course-payment/create', { courseName }, true);
+    const result = await postJson('/course-payment/create', body, true);
     return parseCoursePaymentOrder(result);
   } catch (error) {
     if (isFyiaepAlreadyPaidError(error)) {

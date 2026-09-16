@@ -340,14 +340,22 @@ function AboutFydaa() {
             ))}
           </div>
         </div>
-        <div className="relative w-[220px] sm:w-[340px] shrink-0 mx-auto lg:mx-0 lg:ml-auto aspect-square rounded-xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.06)]">
-          <Image
-            src="/programme/course1.jpg"
-            alt="FYIAEP course mentor"
-            fill
-            className="object-cover object-center"
-            sizes="260px"
-          />
+        <div className="w-[220px] sm:w-[260px] mx-auto lg:mx-0 lg:ml-auto text-center">
+          <div className="relative w-full aspect-square rounded-xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.06)]">
+            <Image
+              src="/programme/course1.jpg"
+              alt="Prof. Sheetal Kunder"
+              fill
+              className="object-cover object-center"
+              sizes="260px"
+            />
+          </div>
+          <p className="mt-3 text-[15px] sm:text-base font-bold text-ink tracking-[-0.02em]">
+            Prof. Sheetal Kunder
+          </p>
+          <p className="mt-1 text-[13px] text-grey-500">
+            19 Years in Finance | Mentored 11,000+ Students
+          </p>
         </div>
       </div>
     </section>
@@ -381,72 +389,105 @@ function ProgrammeFooter() {
 }
 
 /* ══════════════════════════════════════
-   CTA CARD
+   CTA — TWO PROGRAMME CARDS
    ══════════════════════════════════════ */
 function CTACard({ onApply }: { onApply: () => void }) {
+  const cards = [
+    {
+      badge: "Full Programme",
+      title: "4-Month FYIAEP Programme",
+      description:
+        "Complete programme with NISM X-A & X-B preparation, on-field training, live client exposure and mentorship, including an opportunity to build a career with Fydaa.",
+      fee: "₹35,000",
+      feeNote:
+        "Includes NISM X-A & X-B prep, on-field training, mentorship and career opportunity.",
+    },
+    {
+      badge: "Already NISM Certified?",
+      title: "2-Month On-Field Programme",
+      description:
+        "For NISM Series X-A & X-B certified candidates. Focused hands-on advisory experience, client interactions and a hiring opportunity with Fydaa.",
+      fee: "₹17,500",
+      feeNote:
+        "Hands-on advisory experience, client interactions and hiring opportunity.",
+    },
+  ];
+
   return (
-    <section className="px-4 sm:px-6 pt-10 sm:pt-[60px] pb-12 sm:pb-20">
-      <div
-        className="max-w-[1000px] mx-auto rounded-[20px] sm:rounded-[24px] p-6 sm:p-8 md:p-[52px_48px] grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center"
-        style={{
-          backgroundColor: "#0C4A3E",
-          backgroundImage:
-            "radial-gradient(ellipse 120% 80% at 20% 110%, #0C4A3E 0%, transparent 60%), radial-gradient(ellipse 80% 100% at 90% 0%, #047857 0%, transparent 50%)",
-        }}
-      >
-        <div className="min-w-0">
-          <p
-            className="text-[11px] font-semibold tracking-[0.08em] uppercase mb-3"
-            style={{ color: "rgba(255,255,255,0.55)" }}
-          >
+    <section className="px-4 sm:px-6 pt-12 sm:pt-16 md:pt-20 pb-12 sm:pb-20">
+      <div className="max-w-[1000px] mx-auto">
+        <div className="text-center max-w-[560px] mx-auto mb-8 sm:mb-10">
+          <p className="text-[11px] font-semibold tracking-[0.08em] uppercase text-grey-400 mb-3">
             Ready to start your advisory career?
           </p>
-          <h2
-            className="text-[24px] sm:text-[28px] md:text-[30px] font-semibold tracking-[-0.03em] leading-[1.2] mb-3.5"
-            style={{ color: "#FFFFFF" }}
-          >
+          <h2 className="text-[24px] sm:text-[28px] md:text-[30px] font-bold tracking-[-0.03em] leading-[1.2] text-ink mb-3">
             From training to your career at Fydaa.
           </h2>
-          <p
-            className="text-[14px] sm:text-[15px] leading-relaxed"
-            style={{ color: "rgba(255,255,255,0.65)" }}
-          >
+          <p className="text-[14px] sm:text-[15px] text-grey-600 leading-relaxed">
             Submit your application today. Our admissions team will review it and get back to you.
           </p>
         </div>
 
-        <div className="min-w-0">
-          <div className="bg-white rounded-[14px] p-4 sm:p-5 mb-5 sm:mb-6">
-            <div className="flex justify-between items-center mb-2.5 gap-2">
-              <div className="text-xs font-semibold text-grey-500 tracking-[0.06em] uppercase">Programme Fee</div>
-              <span className="text-[11px] font-semibold text-jade-deep bg-jade-tint px-2.5 py-[3px] rounded-full tracking-[0.03em] shrink-0">One-time</span>
-            </div>
-            <div className="text-[22px] sm:text-[26px] font-medium text-ink tracking-[-0.01em]">
-              ₹35,000 <span className="text-[14px] sm:text-[15px] font-normal text-grey-500">+ applicable taxes</span>
-            </div>
-            <p className="text-[12px] sm:text-[13px] text-grey-500 leading-relaxed mt-2.5">
-              The fee covers the complete 4-month FYIAEP programme, including NISM examination preparation, mentorship and practical exposure.
-            </p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+          {cards.map((card) => (
+            <div
+              key={card.title}
+              className="rounded-[20px] sm:rounded-[22px] p-5 sm:p-6 flex flex-col"
+              style={{
+                backgroundColor: "#0C4A3E",
+                backgroundImage:
+                  "radial-gradient(ellipse 90% 70% at 15% 0%, rgba(4,120,87,0.55) 0%, transparent 55%)",
+              }}
+            >
+              <span className="inline-flex items-center gap-1.5 self-start text-[11px] font-semibold text-white tracking-[0.02em] px-2.5 py-1 rounded-full mb-4 bg-black/25">
+                <span className="w-1.5 h-1.5 rounded-full bg-jade-300 shrink-0" aria-hidden />
+                {card.badge}
+              </span>
 
-          <div className="flex flex-col sm:flex-row gap-2.5">
-            <button
-              onClick={onApply}
-              className="w-full sm:w-auto justify-center px-6 sm:px-7 py-3 border-none rounded-[10px] text-sm font-bold cursor-pointer font-sans inline-flex items-center hover:-translate-y-px transition-transform"
-              style={{ backgroundColor: "#FFFFFF", color: "#0C4A3E" }}
-            >
-              Apply Now <ArrowIcon />
-            </button>
-            <a
-              href={FYIAEP_BROCHURE_PDF}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto justify-center px-6 sm:px-7 py-3 rounded-[10px] text-sm font-semibold cursor-pointer font-sans inline-flex items-center gap-1.5 transition-colors no-underline"
-              style={{ backgroundColor: "transparent", color: "#FFFFFF", border: "1px solid rgba(255,255,255,0.3)" }}
-            >
-              Programme Details <ArrowIcon />
-            </a>
-          </div>
+              <h3 className="text-[20px] sm:text-[22px] font-bold text-white tracking-[-0.03em] leading-snug mb-2.5">
+                {card.title}
+              </h3>
+              <p className="text-[13px] sm:text-[14px] leading-relaxed mb-5" style={{ color: "rgba(255,255,255,0.7)" }}>
+                {card.description}
+              </p>
+
+              <div className="bg-white rounded-[14px] p-4 sm:p-5 mb-5">
+                <div className="flex justify-between items-center mb-2 gap-2">
+                  <div className="text-[11px] font-semibold text-grey-500 tracking-[0.06em] uppercase">
+                    Programme Fee
+                  </div>
+                  <span className="text-[11px] font-semibold text-jade-deep bg-jade-tint px-2.5 py-[3px] rounded-full tracking-[0.03em] shrink-0">
+                    One-time
+                  </span>
+                </div>
+                <div className="text-[22px] sm:text-[24px] font-bold text-ink tracking-[-0.02em]">
+                  {card.fee}{" "}
+                  <span className="text-[14px] font-medium text-grey-500">+ taxes</span>
+                </div>
+                <p className="text-[12px] text-grey-500 leading-relaxed mt-2">
+                  {card.feeNote}
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-2.5 mt-auto">
+                <button
+                  type="button"
+                  onClick={onApply}
+                  className="w-full sm:flex-1 justify-center px-5 py-3 border-none rounded-[10px] text-sm font-bold cursor-pointer font-sans inline-flex items-center hover:-translate-y-px transition-transform bg-white text-ink"
+                >
+                  Apply Now <ArrowIcon />
+                </button>
+                <a
+                  href={FYIAEP_BROCHURE_PDF}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:flex-1 justify-center px-5 py-3 rounded-[10px] text-sm font-semibold cursor-pointer font-sans inline-flex items-center gap-1.5 transition-colors no-underline text-white border border-white/30 hover:bg-white/10"
+                >
+                  Details <ArrowIcon />
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -731,6 +772,58 @@ function hasUpload(uploads: UploadsState, name: string) {
   return Array.isArray(uploads[name]) && uploads[name].length > 0;
 }
 
+const PROGRAMME_OPTIONS = [
+  {
+    id: "full",
+    badge: "Full Programme",
+    badgeTone: "neutral" as const,
+    title: "4-Month FYIAEP",
+    description:
+      "Complete programme with NISM X-A & X-B preparation, on-field training, live client exposure and mentorship, including an opportunity to build a career with Fydaa.",
+    feeLabel: "₹35,000",
+    feeAmount: 35000,
+    selectionLabel: "4-Month FYIAEP Programme",
+  },
+  {
+    id: "onfield",
+    badge: "NISM Certified",
+    badgeTone: "jade" as const,
+    title: "2-Month On-Field",
+    description:
+      "For NISM Series X-A & X-B certified candidates. Focused hands-on advisory experience, client interactions and a hiring opportunity with Fydaa.",
+    feeLabel: "₹17,500",
+    feeAmount: 17500,
+    selectionLabel: "2-Month On-Field Programme",
+  },
+] as const;
+
+function getProgrammeOption(id: unknown) {
+  return PROGRAMME_OPTIONS.find((p) => p.id === id) || null;
+}
+
+const PROGRAMME_SELECTION_KEY = "fyiaep_selected_programme";
+
+function persistSelectedProgramme(id: string) {
+  if (typeof window === "undefined") return;
+  if (id) sessionStorage.setItem(PROGRAMME_SELECTION_KEY, id);
+  else sessionStorage.removeItem(PROGRAMME_SELECTION_KEY);
+}
+
+function readPersistedProgramme(): string {
+  if (typeof window === "undefined") return "";
+  const raw = sessionStorage.getItem(PROGRAMME_SELECTION_KEY) || "";
+  return raw === "full" || raw === "onfield" ? raw : "";
+}
+
+/** 2-month track requires Passed on both NISM exams + at least 2 uploaded NISM docs. */
+function isNismCertifiedForOnField(form: FormState, uploads: UploadsState) {
+  const bothPassed = form.nismXA === "Passed" && form.nismXB === "Passed";
+  const certCount =
+    (Array.isArray(uploads.nismCertDoc) ? uploads.nismCertDoc.filter(Boolean).length : 0) +
+    (Array.isArray(uploads.nismScorecard) ? uploads.nismScorecard.filter(Boolean).length : 0);
+  return bothPassed && certCount >= 2;
+}
+
 /** Indian PAN: 5 letters + 4 digits + 1 letter (e.g. ABCDE1234F) */
 function isValidPan(val: unknown) {
   return /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(String(val ?? "").trim().toUpperCase());
@@ -855,6 +948,19 @@ function validateStep(step: number, form: FormState, uploads: UploadsState) {
   if (step === 5) {
     need(["esign_name", "esign_date", "esign_place", "esign_sig"]);
     if (!form.allAnnex_agree) missing.push("allAnnex_agree");
+  }
+
+  if (step === 6) {
+    if (!isFilled(form.selectedProgramme)) {
+      missing.push("selectedProgramme");
+      message = "Please select a programme to continue.";
+    } else if (
+      form.selectedProgramme === "onfield" &&
+      !isNismCertifiedForOnField(form, uploads)
+    ) {
+      missing.push("selectedProgramme");
+      message = "This programme is only for NISM certified candidates";
+    }
   }
 
   if (missing.length === 0) return null;
@@ -1139,6 +1245,101 @@ function getSteps(
           </div>
         </>
       ),
+    },
+    {
+      title: "Choose Programme",
+      sub: "Select your programme and proceed to payment",
+      short: "Programme",
+      render: () => {
+        const selected = asStr(form.selectedProgramme);
+        const selectedOption = getProgrammeOption(selected);
+        const onfieldBlocked =
+          selected === "onfield" && !isNismCertifiedForOnField(form, uploads);
+
+        return (
+          <>
+            <p className="text-sm text-grey-600 mb-5 leading-relaxed">
+              Choose the programme that fits your current stage. You can proceed to payment after selecting.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-4">
+              {PROGRAMME_OPTIONS.map((option) => {
+                const isSelected = selected === option.id;
+                return (
+                  <button
+                    key={option.id}
+                    type="button"
+                    onClick={() => {
+                      pick("selectedProgramme", option.id);
+                      persistSelectedProgramme(option.id);
+                    }}
+                    className={`text-left rounded-[14px] border p-4 sm:p-5 transition-all cursor-pointer ${
+                      isSelected
+                        ? "border-jade bg-jade-tint shadow-[0_0_0_1px_rgba(12,74,62,0.15)]"
+                        : err("selectedProgramme")
+                          ? "border-red-300 bg-white hover:border-grey-300"
+                          : "border-grey-200 bg-white hover:border-grey-300"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-3 mb-3">
+                      <span
+                        className={`inline-flex text-[11px] font-semibold px-2.5 py-1 rounded-full tracking-[0.02em] ${
+                          option.badgeTone === "jade"
+                            ? "bg-jade text-white"
+                            : "bg-grey-100 text-grey-600"
+                        }`}
+                      >
+                        {option.badge}
+                      </span>
+                      <span
+                        className={`mt-0.5 w-[18px] h-[18px] rounded-full border-2 shrink-0 flex items-center justify-center ${
+                          isSelected ? "border-jade bg-jade" : "border-grey-300 bg-white"
+                        }`}
+                        aria-hidden
+                      >
+                        {isSelected && (
+                          <span className="w-2 h-2 rounded-full bg-white" />
+                        )}
+                      </span>
+                    </div>
+                    <h4 className="text-[16px] font-bold text-ink tracking-[-0.02em] mb-2">
+                      {option.title}
+                    </h4>
+                    <p className="text-[13px] text-grey-600 leading-relaxed mb-4">
+                      {option.description}
+                    </p>
+                    <div className="text-[22px] font-extrabold text-ink tracking-[-0.03em]">
+                      {option.feeLabel}{" "}
+                      <span className="text-[13px] font-medium text-grey-500">+ taxes</span>
+                    </div>
+                    <p className="text-[12px] text-grey-500 mt-1">One-time fee</p>
+                  </button>
+                );
+              })}
+            </div>
+
+            {selectedOption && (
+              <div className="flex items-start gap-2.5 rounded-[12px] bg-jade-tint border border-jade-200 px-4 py-3 mb-3">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5">
+                  <circle cx="12" cy="12" r="10" fill="#0C4A3E" />
+                  <path d="M8 12.5l2.5 2.5L16 9.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <p className="text-sm font-semibold text-jade-deep leading-snug">
+                  {selectedOption.selectionLabel} selected. Fee: {selectedOption.feeLabel} + applicable taxes.
+                </p>
+              </div>
+            )}
+
+            {(onfieldBlocked || err("selectedProgramme")) && selected === "onfield" && (
+              <p className="text-sm text-red-500 mt-1">
+                This programme is only for NISM certified candidates
+              </p>
+            )}
+            {err("selectedProgramme") && !selected && (
+              <p className="text-sm text-red-500 mt-1">Please select a programme to continue.</p>
+            )}
+          </>
+        );
+      },
     },
   ];
 }
@@ -1446,6 +1647,7 @@ function firstNameFromForm(form: FormState) {
 function PaymentScreen({
   name,
   applicationNo,
+  feeLabel = "₹35,000",
   failed,
   paying,
   toast,
@@ -1454,6 +1656,7 @@ function PaymentScreen({
 }: {
   name: string;
   applicationNo: string;
+  feeLabel?: string;
   failed: boolean;
   paying: boolean;
   toast: string;
@@ -1472,14 +1675,14 @@ function PaymentScreen({
       </h2>
       <p className="text-[15px] text-grey-600 leading-relaxed max-w-[420px] mx-auto mb-4">
         {failed
-          ? `The previous payment attempt did not go through${name ? `, ${name}` : ""}. You can try again to complete the FYIAEP course fee.`
-          : `Your application has been submitted${name ? `, ${name}` : ""}. Pay the course fee to confirm your seat.`}
+          ? `The previous payment attempt did not go through${name ? `, ${name}` : ""}. You can try again to complete the FYIAEP programme fee.`
+          : `Your application has been submitted${name ? `, ${name}` : ""}. Pay the programme fee to confirm your seat.`}
       </p>
       {applicationNo && (
         <p className="text-sm text-grey-500 mb-5 font-medium">Application {applicationNo}</p>
       )}
       <p className="text-[28px] font-extrabold tracking-[-0.03em] text-ink mb-1">
-        ₹35,000 <span className="text-[14px] font-normal text-grey-500">+ applicable taxes</span>
+        {feeLabel} <span className="text-[14px] font-normal text-grey-500">+ applicable taxes</span>
       </p>
       <p className="text-xs text-grey-500 mb-7 max-w-[380px] mx-auto">
         Please keep this page open until payment is confirmed.
@@ -1491,7 +1694,7 @@ function PaymentScreen({
           disabled={paying}
           className="px-9 py-3.5 bg-jade text-white border-none rounded-[10px] text-[15px] font-bold cursor-pointer font-sans hover:bg-jade-hover disabled:opacity-50"
         >
-          {paying ? "Opening payment…" : failed ? "Retry Payment" : "Pay Course Fee"}
+          {paying ? "Opening payment…" : failed ? "Retry Payment" : "Pay Programme Fee"}
         </button>
         <button
           type="button"
@@ -1499,7 +1702,7 @@ function PaymentScreen({
           disabled={paying}
           className="px-9 py-3.5 bg-white border border-grey-200 rounded-[10px] text-[15px] font-semibold cursor-pointer font-sans text-grey-800 hover:border-grey-300 disabled:opacity-50"
         >
-          Back to course page
+          Back to programme page
         </button>
       </div>
       {toast && (
@@ -1522,7 +1725,7 @@ function CancelledScreen({ onBack }: { onBack: () => void }) {
         onClick={onBack}
         className="px-9 py-3.5 bg-jade text-white border-none rounded-[10px] text-[15px] font-bold cursor-pointer font-sans"
       >
-        Back to course page
+        Back to programme page
       </button>
     </div>
   );
@@ -1564,6 +1767,13 @@ function FormPage({
         const app = await getFyiaepApplication();
         if (cancelled) return;
         const mapped = mapApplicationToForm(app, verifiedMobile);
+        const storedProgramme = readPersistedProgramme();
+        if (!mapped.selectedProgramme && storedProgramme) {
+          mapped.selectedProgramme = storedProgramme;
+        }
+        if (mapped.selectedProgramme) {
+          persistSelectedProgramme(asStr(mapped.selectedProgramme));
+        }
         setForm((prev) => ({ ...prev, ...mapped }));
         const status = asStr(app?.applicationStatus);
         setApplicationStatus(status);
@@ -1649,6 +1859,11 @@ function FormPage({
   const steps = getSteps(form, set, pick, uploads, addFile, rmFile, chk, errors);
   const s = steps[step];
   const isLast = step === steps.length - 1;
+  const proceedDisabled =
+    saving ||
+    (isLast &&
+      asStr(form.selectedProgramme) === "onfield" &&
+      !isNismCertifiedForOnField(form, uploads));
 
   const handleApiError = (e: unknown) => {
     if (isFyiaepSessionExpiredError(e) || (e instanceof Error && e.message === FYIAEP_SESSION_EXPIRED)) {
@@ -1728,7 +1943,12 @@ function FormPage({
     const synced = await syncFromServer();
     if (synced === "paid" || synced === "cancelled") return;
 
-    const order = await createCoursePayment();
+    // 4-month: unchanged create payload; 2-month: courseType ON_FIELD_TRAINING
+    const order = await createCoursePayment(
+      asStr(form.selectedProgramme) === "onfield"
+        ? { courseType: "ON_FIELD_TRAINING" }
+        : undefined,
+    );
     if (order.applicationNo) setApplicationNo(order.applicationNo);
     if (order.applicationStatus) setApplicationStatus(order.applicationStatus);
 
@@ -1845,7 +2065,7 @@ function FormPage({
           Payment Successful
         </h2>
         <p className="text-[15px] text-grey-600 leading-relaxed max-w-[420px] mx-auto mb-7">
-          Thank you{name ? `, ${name}` : ""}. Your FYIAEP course fee payment has been received
+          Thank you{name ? `, ${name}` : ""}. Your FYIAEP programme fee payment has been received
           {applicationNo ? ` for ${applicationNo}` : ""}.
           Our admissions team will review your application and reach out within 3 working days.
         </p>
@@ -1861,10 +2081,12 @@ function FormPage({
   }
 
   if (awaitingPayment) {
+    const programme = getProgrammeOption(form.selectedProgramme);
     return (
       <PaymentScreen
         name={firstNameFromForm(form)}
         applicationNo={applicationNo}
+        feeLabel={programme?.feeLabel || "₹35,000"}
         failed={isFyiaepPaymentFailed(applicationStatus)}
         paying={saving}
         toast={toast}
@@ -1931,9 +2153,9 @@ function FormPage({
             className="px-6 py-2.5 bg-white border border-jade-200 rounded-[10px] text-sm font-sans text-jade-deep font-semibold cursor-pointer hover:bg-jade-tint transition-colors max-sm:flex-1 disabled:opacity-50">
             {saving ? "Saving..." : "Save progress"}
           </button>
-          <button onClick={goNext} disabled={saving}
+          <button onClick={goNext} disabled={proceedDisabled}
             className="px-7 py-2.5 bg-jade text-white border-none rounded-[10px] text-sm font-bold font-sans tracking-[-0.01em] cursor-pointer flex items-center gap-1.5 hover:bg-jade-hover transition-colors max-sm:flex-1 disabled:opacity-50">
-            {saving ? (isLast ? "Submitting..." : "Saving...") : isLast ? "Submit Application" : "Save & Continue"} {!saving && <ChevronRight />}
+            {saving ? (isLast ? "Processing..." : "Saving...") : isLast ? "Proceed to Pay" : "Save & Continue"} {!saving && <ChevronRight />}
           </button>
         </div>
       </div>
