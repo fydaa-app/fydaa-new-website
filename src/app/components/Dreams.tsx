@@ -29,7 +29,7 @@ export default function Dreams() {
           });
         }
       };
-
+// ....
       scrollToWithOffset(id, 80);
       sessionStorage.removeItem("scrollToId");
     }
