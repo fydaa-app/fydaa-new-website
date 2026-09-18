@@ -1,0 +1,149 @@
+.site-nav {
+  --g: #0c4a3e;
+  --g-dark: #0a3d33;
+  --g-light: #ecfdf5;
+  --ink: #0a0a0a;
+  --ink2: #525252;
+  --ink3: #a3a3a3;
+  --border: #e5e5e5;
+  --card: #fff;
+  --surface: #fafafa;
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+}
+
+.site-nav a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.site-nav nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.site-nav nav.scrolled {
+  border-bottom-color: var(--border);
+}
+
+.site-nav .nav-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.site-nav .nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.site-nav .nav-logo img {
+  height: 28px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.site-nav .nav-center {
+  display: flex;
+  gap: 32px;
+}
+
+.site-nav .nav-center a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink2);
+  transition: color 0.2s;
+}
+
+.site-nav .nav-center a:hover {
+  color: var(--g);
+}
+
+.site-nav .nav-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.site-nav .nav-login {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 8px 18px;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+
+.site-nav .nav-login:hover {
+  background: var(--surface);
+}
+
+.site-nav .nav-signup {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--g);
+  padding: 8px 20px;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.site-nav .nav-signup:hover {
+  background: var(--g-dark);
+}
+
+.site-nav .nav-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.site-nav .nav-hamburger svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--ink);
+}
+
+@media (max-width: 768px) {
+  .site-nav .nav-center {
+    display: none;
+  }
+
+  .site-nav .nav-hamburger {
+    display: block;
+  }
+
+  .site-nav .nav-center.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    gap: 0;
+  }
+
+  .site-nav .nav-center.open a {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+}

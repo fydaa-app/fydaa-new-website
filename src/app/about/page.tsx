@@ -1,17 +1,13 @@
-import MissionSection from "./MissionSection";
-import FounderSection from "./FounderSection";
-import ServiceSection from "./ServiceSection";
-import BannerSection from "./BannerSection";
-import FaqSection from "./FaqSection";
+import HeroSection from "./Herosection";
+import PageDivider from "./PageDivider";
+import Dreams from "./Dreams";
 
 const AboutPage = () => {
   return (
     <div>
-      <MissionSection />
-      <FounderSection />
-      <ServiceSection />
-      <BannerSection />
-      <FaqSection />
+      <HeroSection />
+      <PageDivider />
+      <Dreams />
     </div>
   );
 };
