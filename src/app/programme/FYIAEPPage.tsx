@@ -809,10 +809,9 @@ function persistSelectedProgramme(id: string) {
   else sessionStorage.removeItem(PROGRAMME_SELECTION_KEY);
 }
 
-function readPersistedProgramme(): string {
-  if (typeof window === "undefined") return "";
-  const raw = sessionStorage.getItem(PROGRAMME_SELECTION_KEY) || "";
-  return raw === "full" || raw === "onfield" ? raw : "";
+function clearPersistedProgramme() {
+  if (typeof window === "undefined") return;
+  sessionStorage.removeItem(PROGRAMME_SELECTION_KEY);
 }
 
 /** 2-month track requires Passed on both NISM exams + at least 2 uploaded NISM docs. */
@@ -1767,13 +1766,9 @@ function FormPage({
         const app = await getFyiaepApplication();
         if (cancelled) return;
         const mapped = mapApplicationToForm(app, verifiedMobile);
-        const storedProgramme = readPersistedProgramme();
-        if (!mapped.selectedProgramme && storedProgramme) {
-          mapped.selectedProgramme = storedProgramme;
-        }
-        if (mapped.selectedProgramme) {
-          persistSelectedProgramme(asStr(mapped.selectedProgramme));
-        }
+        // On OTP re-login: never restore a prior programme choice — user must select again
+        clearPersistedProgramme();
+        mapped.selectedProgramme = "";
         setForm((prev) => ({ ...prev, ...mapped }));
         const status = asStr(app?.applicationStatus);
         setApplicationStatus(status);
@@ -1786,11 +1781,23 @@ function FormPage({
           setApplicationCancelled(true);
           return;
         }
-        if (isFyiaepAwaitingPayment(status)) {
-          setAwaitingPayment(true);
+
+        const resume = inferResumeStepFromStatus(app?.applicationStatus, mapped);
+        const declarationsDone = !!(mapped.allAnnex_agree || mapped.esign_name);
+        // Unpaid users who finished declarations (or already submitted/pending pay)
+        // land on Choose Programme so they can pick 2 or 4 months again
+        const landOnProgramme =
+          isFyiaepAwaitingPayment(status) ||
+          resume >= 6 ||
+          (declarationsDone && resume >= 5);
+
+        if (landOnProgramme) {
+          setAwaitingPayment(false);
+          setStep(6);
+          setMaxReachedStep(6);
           return;
         }
-        const resume = inferResumeStepFromStatus(app?.applicationStatus, mapped);
+
         setStep(resume);
         setMaxReachedStep(resume);
       } catch {
