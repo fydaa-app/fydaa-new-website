@@ -1,108 +1,88 @@
-'use client';
+import Link from "next/link";
 
-import React from 'react';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-
-const HIGHLIGHTS = [
-  'NISM Investment Adviser (XA-XB) Training',
-  'Hands-on training from experienced industry professionals',
-  'Guaranteed role as a Certified Investment Advisor at Fydaa',
-  'Starting salary of 4LPA + performance based incentive',
-  'Opportunity to start your own Entrepreneurial journey',
+const PROGRAMME_HIGHLIGHTS = [
+  "NISM Series X-A & X-B certification training, with live doubt-clearing sessions",
+  "4 months, from foundation and advisory training to real client exposure",
+  "Hands-on mentorship from SEBI-registered investment advisers",
+  "Real client meetings and CRM-based advisory practice from Month 4",
+  "Performance-based path to a permanent role, starting CTC 4 LPA rupees*",
 ];
 
-/**
- * Outer shell: single pill (56px radius) + stroke. Inner highlights panel “docks” on the right:
- * no gap — flush columns; divider is the inner panel’s rounded left edge + vertical border only.
- */
+function CheckIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" className="mt-0.5 shrink-0">
+      <path
+        d="M3.5 8.5L6.5 11.5L12.5 5.5"
+        stroke="#0C4A3E"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function FyiapProgramBoxes() {
   return (
-    <div
-      className="w-full max-w-[76rem] mx-auto box-border rounded-[56px] p-[2px] overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.35)]"
-      style={{
-        backgroundImage:
-          'linear-gradient(165deg, #FFFFFF 20%, #0E0E0E 48%)',
-          padding: '2px',
-      }}
-    >
-      <div
-        className="rounded-[56px] bg-black/80 backdrop-blur-[14px]"
-        style={{
-          backgroundImage:
-            "linear-gradient(160deg, rgba(179, 164, 249, 0.20) 3%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 1) 51%)",
-        }}
-      >
-        <div className="flex flex-col lg:flex-row lg:items-stretch lg:gap-0 min-h-[200px] min-w-0">
-          <div className="flex flex-col px-8 py-10 sm:px-10 sm:py-12 md:px-12 md:py-14 lg:py-14 lg:flex-[1.3] lg:min-w-0 text-left">
-            <div>
-              <h2 className="font-gilroy font-semibold text-left text-white mb-4 tracking-[-2.24px] text-[17px] leading-[22px] whitespace-normal [-webkit-text-stroke:1px_rgb(0,0,0)] [paint-order:stroke_fill] drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)] sm:text-[20px] sm:leading-[26px] md:text-[24px] md:leading-[30px] lg:text-[30px] lg:leading-[37px] lg:whitespace-nowrap">
-                <span className="align-middle">
-                  Fydaa Young Investment Advisor Program (FYIAP)
-                </span>
-              
-              </h2>
-              <p className="font-gilroy font-normal text-left text-[#999999] text-[15px] leading-[21px] sm:text-[17.9px] sm:leading-[24.8px] tracking-[-0.36px] mb-5 [-webkit-text-stroke:1px_rgb(0,0,0)] [paint-order:stroke_fill]">
-                Empowering young finance enthusiasts to become trusted guides and
-                <br />
-                mentors for individuals striving for financial independence.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-4">
+    <div className="bg-grey-100 font-inter">
+      <section className="px-6 py-16">
+        <div className="mx-auto grid max-w-5xl items-start gap-10 md:grid-cols-2">
+          <div>
+            <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wide text-jade-deep">
+              FYIAEP: Young Investment Advisor Entrepreneurship Programme
+            </span>
+            <h2 className="mt-3.5 text-[clamp(24px,3vw,30px)] font-bold tracking-tight text-ink">
+              From learning to live advisory exposure
+            </h2>
+            <p className="mt-2.5 text-[15px] leading-relaxed text-grey-600">
+              A 4-month programme combining financial markets knowledge, NISM certification, practical advisory training and real
+              client exposure.
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <Link
                 href="/programme"
-                scroll
-                className="inline-flex items-center justify-center bg-white text-black font-gilroy font-medium px-8 py-2 rounded-full hover:bg-neutral-200 transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-[10px] bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
               >
-                Apply Now
+                Apply now
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0">
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </Link>
               <Link
                 href="/programme"
-                scroll
-                className="inline-flex items-center gap-2 text-white font-inter font-medium text-[18px] leading-[24.8px] bg-transparent hover:text-neutral-300 transition-colors"
+                className="rounded-[10px] border border-grey-300 px-6 py-3 text-sm font-bold text-ink hover:border-jade hover:text-jade"
               >
-                Learn More
-                <ArrowRight className="w-5 h-5 shrink-0" aria-hidden />
+                Learn more
               </Link>
             </div>
+            <p className="mt-4 text-[12.5px] text-grey-500">35,000 rupees one-time programme fee, plus applicable taxes.</p>
           </div>
 
-          {/* Joined inset panel: divider + 56px rounding on the inward (left) side only */}
-          <div
-            className="w-full min-w-0 lg:flex-[1.3] box-border p-[2px] rounded-none lg:rounded-[56px] overflow-hidden"
-            style={{
-              backgroundImage:
-                'linear-gradient(148deg, #FFFFFF 0%, #0E0E0E 48%)',
-            }}
-          >
-            <div
-              className="flex flex-col h-full bg-black/80 backdrop-blur-[14px] px-8 py-8 sm:py-10 md:px-10 md:py-11 rounded-none lg:rounded-[54px] overflow-x-auto min-[1100px]:overflow-x-visible"
-              style={{
-                backgroundImage:
-                  'linear-gradient(155deg,  rgba(0, 0, 0, 1) 3%,rgba(179, 164, 249, 0.2) 24%, rgba(0, 0, 0, 1) 51%)',
-              }}
-            >
-              <p className="font-gilroy font-semibold text-left uppercase text-[20px] leading-[1.2] tracking-[2px] text-[#999999] mb-2 mt-2 [-webkit-text-stroke:1px_rgb(0,0,0)] [paint-order:stroke_fill] drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)] whitespace-nowrap">
-                Program Highlights
-              </p>
-              <ul className="space-y-0 mt-2 ">
-                {HIGHLIGHTS.map((line) => (
-                  <li
-                    key={line}
-                    className="flex items-center gap-3 font-gilroy font-normal text-[16px] leading-[24.8px] text-white text-left whitespace-nowrap"
-                  >
-                    <span
-                      className="h-2 w-2 shrink-0 rounded-none bg-[#999999]"
-                      aria-hidden
-                    />
-                    <span>{line}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="rounded-2xl border border-grey-200 bg-white p-6 shadow-card">
+            <p className="mb-[18px] text-[12px] font-bold uppercase tracking-wide text-grey-500">Programme highlights</p>
+            <ul className="flex flex-col gap-3.5">
+              {PROGRAMME_HIGHLIGHTS.map((item, i) => (
+                <li
+                  key={item}
+                  className={`flex items-start gap-2.5 text-[15px] font-medium leading-snug text-ink ${
+                    i < PROGRAMME_HIGHLIGHTS.length - 1 ? "border-b border-grey-100 pb-3.5" : ""
+                  }`}
+                >
+                  <CheckIcon />
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

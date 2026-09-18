@@ -17,7 +17,6 @@ const LeadCapturePopup = () => {
 
   // Check if we're on a success page or partner page
   const isSuccessPage = 
-    pathname?.startsWith('/risk-score') ||
     pathname?.startsWith('/SuccesspageDigi') ||
     pathname?.startsWith('/SuccesspageFund') ||
     pathname?.startsWith('/Successpagemandate') ||

@@ -5,35 +5,7 @@ const Footer: React.FC = () => {
   const [showEmailModal, setShowEmailModal] = useState(false);
 
   return (
-    <footer className="bg-black text-white py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-24 relative z-50 overflow-hidden">
-      {/* Mobile Gradient - positioned right of title */}
-      <div className="absolute right-0 top-20 w-[150px] h-[100px] translate-x-1/2 z-20 block sm:hidden pointer-events-none">
-        <img
-          src="/FinancialPlan/Gradient.png"
-          alt="Decorative gradient"
-          className="w-full h-full object-cover opacity-60"
-        />
-      </div>
-
-      {/* Desktop Gradient Image - positioned left of title */}
-      <div className="absolute left-0 top-10 sm:top-16 md:top-20 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[850px] lg:h-[600px] -translate-x-1/2 z-20 hidden sm:block pointer-events-none">
-        <img
-          src="/FinancialPlan/Gradient.png"
-          alt="Decorative gradient"
-          className="w-full h-full object-cover"
-        />
-      </div>
-
-      {/* Desktop Gradient Image - positioned right of title */}
-      <div className="absolute right-0 top-20 sm:top-32 md:top-48 lg:top-96 w-[200px] h-[150px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[450px] lg:w-[950px] lg:h-[800px] translate-x-1/2 z-20 hidden sm:block pointer-events-none">
-        <img
-          src="/FinancialPlan/Gradient.png"
-          alt="Decorative gradient"
-          className="w-full h-full object-cover"
-        />
-      </div>
-
-     
+    <footer className="bg-black text-white py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-24 relative z-50">
       <div className="w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1800px] mx-auto">
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 mb-6 sm:mb-8">

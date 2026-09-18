@@ -49,7 +49,7 @@ export default function ProductSections() {
           'Track improvements over time',
         ]}
         ctaText="Check your score →"
-        ctaHref="/risk-score"
+        ctaHref="/start-investing"
       >
         <WealthScorePanel />
       </ProductSection>

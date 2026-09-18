@@ -38,7 +38,7 @@
   margin: 0 auto;
   padding: 0 24px;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   height: 64px;
 }
@@ -60,6 +60,7 @@
 .site-nav .nav-center {
   display: flex;
   gap: 32px;
+  align-items: stretch;
 }
 
 .site-nav .nav-center a {
@@ -67,10 +68,29 @@
   font-weight: 500;
   color: var(--ink2);
   transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 .site-nav .nav-center a:hover {
   color: var(--g);
+}
+
+.site-nav .nav-center a.active {
+  color: var(--g);
+  font-weight: 700;
+}
+
+.site-nav .nav-center a.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--g);
+  border-radius: 1px 1px 0 0;
 }
 
 .site-nav .nav-right {
@@ -94,7 +114,7 @@
 
 .site-nav .nav-signup {
   font-size: 0.875rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #fff;
   background: var(--g);
   padding: 8px 20px;
@@ -125,8 +145,14 @@
     display: none;
   }
 
+  .site-nav .nav-right {
+    display: none;
+  }
+
   .site-nav .nav-hamburger {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .site-nav .nav-center.open {
@@ -145,5 +171,9 @@
   .site-nav .nav-center.open a {
     padding: 14px 0;
     border-bottom: 1px solid var(--border);
+  }
+
+  .site-nav .nav-center.open a.active::after {
+    display: none;
   }
 }

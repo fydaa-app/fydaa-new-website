@@ -7,7 +7,7 @@ const HeroSection: React.FC = () => {
   const router = useRouter();
   
   return (
-    <section className="w-full bg-[#F7F7F7] relative overflow-hidden">
+    <section className="w-full bg-grey-50 relative overflow-hidden">
       {/* Background Gradients */}
       <div
         className="absolute inset-0 pointer-events-none z-10"
@@ -44,18 +44,18 @@ const HeroSection: React.FC = () => {
       ></div>
 
       {/* Main Content Container */}
-      <div className="relative z-30 flex flex-col px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 pt-16 pb-20 sm:pt-20 sm:pb-24 md:pt-24 md:pb-28 lg:pt-28 lg:pb-32 xl:pt-32 xl:pb-36 2xl:pt-40 2xl:pb-48">
+      <div className="relative z-30 flex flex-col px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 pt-28 pb-20 sm:pt-32 sm:pb-24 md:pt-36 md:pb-28 lg:pt-40 lg:pb-32 xl:pt-44 xl:pb-36 2xl:pt-48 2xl:pb-48">
         {/* Hero Text Content */}
         <div className="text-center mb-12 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 2xl:mb-20">
           <div className="space-y-6 sm:space-y-4 md:space-y-5 lg:space-y-6 xl:space-y-8 2xl:space-y-10">
-            <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-semibold text-black font-gilroy leading-tight">
-              Wealth Shouldn't Be a Privilege
+            <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-extrabold text-ink font-inter tracking-[-0.035em] leading-[1.15]">
+              Wealth Shouldn&apos;t Be a Privilege
             </h1>
-            <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-5xl 2xl:text-6xl font-light text-black font-gilroy leading-tight">
-              It Should Be a Possibility For All
+            <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-extrabold text-ink font-inter tracking-[-0.035em] leading-[1.15]">
+              It Should Be a <span className="text-jade">Possibility</span> For All
             </h1>
-            <p className="text-sm sm:text-sm md:text-base lg:text-sm xl:text-lg 2xl:text-xl text-gray-600 font-inter font-normal max-w-sm sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto px-2 sm:px-4">
-              We're on a mission to make smart investing accessible,
+            <p className="text-sm sm:text-sm md:text-base lg:text-sm xl:text-lg 2xl:text-xl text-grey-600 font-inter font-normal leading-[1.8] max-w-sm sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto px-2 sm:px-4">
+              We&apos;re on a mission to make smart investing accessible,
               understandable,
               <br className="hidden sm:block" />
               and achievable - no matter your income, background, or experience.
@@ -95,7 +95,7 @@ const HeroSection: React.FC = () => {
                   alt="SEBI"
                   className="w-4 h-4 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7"
                 />
-                <span className="text-black font-gilroy font-light text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">
+                <span className="text-grey-600 font-inter font-medium text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">
                   SEBI-registered
                 </span>
               </div>
@@ -106,7 +106,7 @@ const HeroSection: React.FC = () => {
                   alt="Security"
                   className="w-4 h-4 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7"
                 />
-                <span className="text-black font-gilroy font-light text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">
+                <span className="text-grey-600 font-inter font-medium text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">
                   Bank-grade security
                 </span>
               </div>
@@ -117,7 +117,7 @@ const HeroSection: React.FC = () => {
                   alt="Fees"
                   className="w-4 h-4 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7"
                 />
-                <span className="text-black font-gilroy font-light text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">
+                <span className="text-grey-600 font-inter font-medium text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">
                   Transparent fees
                 </span>
               </div>
@@ -141,7 +141,7 @@ const HeroSection: React.FC = () => {
             <div className="flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8">
               {/* Book a Free Call Button */}
               <button
-                className="px-4 py-2 sm:px-6 sm:py-2 bg-black text-white font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
+                className="inline-flex items-center gap-2 bg-jade text-white px-6 py-3 rounded-[10px] font-inter font-bold text-[12px] sm:text-[14px] tracking-[-0.01em] hover:bg-jade-hover active:scale-[0.985] transition-all pointer-events-auto"
                 onClick={() =>
                   window.open(
                     "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
@@ -157,7 +157,7 @@ const HeroSection: React.FC = () => {
                 className="flex items-center space-x-2 group cursor-pointer pointer-events-auto"
                 onClick={() => router.push('/start-investing')}
               >
-                <span className="text-black font-medium text-[14px] sm:text-[16px] font-['Inter'] hover:text-gray-700 transition-colors duration-300">
+                <span className="text-ink font-inter font-semibold text-[14px] sm:text-[16px] hover:text-jade transition-colors duration-300">
                   Start Investing
                 </span>
                 <svg
@@ -165,7 +165,7 @@ const HeroSection: React.FC = () => {
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  className="text-black sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300"
+                  className="text-ink sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:text-jade transition-all duration-300"
                 >
                   <path
                     d="M5 12H19M19 12L12 5M19 12L12 19"

@@ -35,7 +35,7 @@ const PageDivider: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className={`w-full bg-[#000000] rounded-[15px] sm:rounded-[20px] md:rounded-[25px] lg:rounded-[30px] xl:rounded-[35px] 2xl:rounded-[40px] flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 relative z-30 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-14 2xl:py-16 mb-8 sm:mb-12 md:mb-16 lg:mb-20 xl:mb-24 2xl:mb-28 mt-0 overflow-hidden transition-all duration-1000 ease-out transform ${
+      className={`w-full bg-ink rounded-[15px] sm:rounded-[20px] md:rounded-[25px] lg:rounded-[30px] xl:rounded-[35px] 2xl:rounded-[40px] flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 relative z-30 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-14 2xl:py-16 mb-8 sm:mb-12 md:mb-16 lg:mb-20 xl:mb-24 2xl:mb-28 mt-0 overflow-hidden transition-all duration-1000 ease-out transform ${
         isVisible
           ? "opacity-100 scale-100 rotate-0 blur-0"
           : "opacity-0 scale-75 rotate-12 blur-sm"
@@ -79,40 +79,40 @@ const PageDivider: React.FC = () => {
         >
           {/* First Stat */}
           <div className="text-center">
-            <div className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] 2xl:text-[48px] font-thin text-white mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8 leading-tight">
+            <div className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] 2xl:text-[48px] font-extrabold font-inter tracking-[-0.03em] text-white mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8 leading-tight">
               70%
             </div>
-            <p className="text-white text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px] font-inter font-normal leading-tight max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-[240px] mx-auto">
+            <p className="text-white/80 text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px] font-inter font-normal leading-tight max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-[240px] mx-auto">
               Rely on unverified advice or random app
             </p>
           </div>
 
           {/* Second Stat */}
           <div className="text-center">
-            <div className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] 2xl:text-[48px] font-thin text-white mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8 leading-tight">
+            <div className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] 2xl:text-[48px] font-extrabold font-inter tracking-[-0.03em] text-white mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8 leading-tight">
               92%
             </div>
-            <p className="text-white text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px] font-inter font-normal leading-tight max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-[240px] mx-auto">
+            <p className="text-white/80 text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px] font-inter font-normal leading-tight max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-[240px] mx-auto">
               Millennials say they want to invest but don't know how
             </p>
           </div>
 
           {/* Third Stat */}
           <div className="text-center">
-            <div className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] 2xl:text-[48px] font-thin text-white mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8 leading-tight">
+            <div className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] 2xl:text-[48px] font-extrabold font-inter tracking-[-0.03em] text-white mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8 leading-tight">
               27%
             </div>
-            <p className="text-white text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px] font-inter font-normal leading-tight max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-[240px] mx-auto">
+            <p className="text-white/80 text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px] font-inter font-normal leading-tight max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-[240px] mx-auto">
               Financial literacy rate in India
             </p>
           </div>
 
           {/* Fourth Stat */}
           <div className="text-center">
-            <div className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] 2xl:text-[48px] font-thin text-white mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8 leading-tight">
+            <div className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[40px] 2xl:text-[48px] font-extrabold font-inter tracking-[-0.03em] text-white mb-2 sm:mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8 leading-tight">
               3%
             </div>
-            <p className="text-white text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px] font-inter font-normal leading-tight max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-[240px] mx-auto">
+            <p className="text-white/80 text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[15px] font-inter font-normal leading-tight max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] 2xl:max-w-[240px] mx-auto">
               Indians invest in mutual funds
             </p>
           </div>

@@ -2,17 +2,19 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import "./site-nav.css";
 
 const NAV_LINKS = [
-  { label: "Products", href: "/#products" },
-  { label: "Careers", href: "/careers" },
-  { label: "Programme", href: "/programme" },
+  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
+  { label: "Programme", href: "/programme" },
+  { label: "Career", href: "/careers" },
   { label: "Partner", href: "/partner" },
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -22,11 +24,19 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname?.startsWith(href);
+
   return (
     <div className="site-nav">
       <nav id="nav" className={scrolled ? "scrolled" : ""}>
         <div className="nav-inner">
-          <Link href="/" className="nav-logo" onClick={() => setOpen(false)} aria-label="Fydaa home">
+          <Link
+            href="/"
+            className="nav-logo"
+            onClick={() => setOpen(false)}
+            aria-label="Fydaa home"
+          >
             <img src="/Fydaalogo.webp" alt="" />
             <img src="/Fydaalogotext.webp" alt="" />
           </Link>
@@ -36,6 +46,7 @@ export default function Navbar() {
               <Link
                 key={link.label}
                 href={link.href}
+                className={isActive(link.href) ? "active" : ""}
                 onClick={() => setOpen(false)}
               >
                 {link.label}

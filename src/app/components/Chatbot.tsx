@@ -40,7 +40,6 @@ const Chatbot: React.FC = () => {
 
   // Check if we're on a success page
   const isSuccessPage = 
-    pathname?.startsWith('/risk-score') ||
     pathname?.startsWith('/SuccesspageDigi') ||
     pathname?.startsWith('/SuccesspageFund') ||
     pathname?.startsWith('/Successpagemandate') ||
