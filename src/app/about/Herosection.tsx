@@ -1,48 +1,10 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
 
 const HeroSection: React.FC = () => {
-  const router = useRouter();
-  
   return (
     <section className="w-full bg-grey-50 relative overflow-hidden">
-      {/* Background Gradients */}
-      <div
-        className="absolute inset-0 pointer-events-none z-10"
-        style={{
-          backgroundImage: "url(/gradient/gradient.png)",
-          backgroundSize: "cover",
-          backgroundPosition: "bottom 0% center",
-          backgroundRepeat: "no-repeat",
-          opacity: 1,
-          transform: "translateY(-40px)",
-        }}
-      ></div>
-
-      <div
-        className="absolute -left-20 -bottom-40 w-1/3 h-1/2 pointer-events-none z-40 hidden md:block"
-        style={{
-          backgroundImage: "url(/gradient/gradient.png)",
-          backgroundSize: "cover",
-          backgroundPosition: "left bottom",
-          backgroundRepeat: "no-repeat",
-          opacity: 0.7,
-        }}
-      ></div>
-
-      <div
-        className="absolute -right-20 -bottom-40 w-1/3 h-1/2 pointer-events-none z-40 hidden md:block"
-        style={{
-          backgroundImage: "url(/gradient/gradient.png)",
-          backgroundSize: "cover",
-          backgroundPosition: "right bottom",
-          backgroundRepeat: "no-repeat",
-          opacity: 0.3,
-        }}
-      ></div>
-
       {/* Main Content Container */}
       <div className="relative z-30 flex flex-col px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 pt-28 pb-20 sm:pt-32 sm:pb-24 md:pt-36 md:pb-28 lg:pt-40 lg:pb-32 xl:pt-44 xl:pb-36 2xl:pt-48 2xl:pb-48">
         {/* Hero Text Content */}
@@ -153,9 +115,11 @@ const HeroSection: React.FC = () => {
               </button>
 
               {/* Start Investing Link */}
-              <div
-                className="flex items-center space-x-2 group cursor-pointer pointer-events-auto"
-                onClick={() => router.push('/start-investing')}
+              <a
+                className="flex items-center space-x-2 group pointer-events-auto"
+                href="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <span className="text-ink font-inter font-semibold text-[14px] sm:text-[16px] hover:text-jade transition-colors duration-300">
                   Start Investing
@@ -175,7 +139,7 @@ const HeroSection: React.FC = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </div>
+              </a>
             </div>
           </div>
         </div>

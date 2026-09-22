@@ -2,8 +2,6 @@ import ProductSection from './ProductSection';
 import GoalsPanel from './panels/GoalsPanel';
 import MoneyVaultPanel from './panels/MoneyVaultPanel';
 import WealthScorePanel from './panels/WealthScorePanel';
-import DirectPlanPanel from './panels/DirectPlanPanel';
-import { DIRECT_PLAN } from '../data/productPanels';
 
 export default function ProductSections() {
   return (
@@ -18,7 +16,7 @@ export default function ProductSections() {
           'Real-time progress on every goal',
         ]}
         ctaText="Start Investing →"
-        ctaHref="/start-investing"
+        ctaHref="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
       >
         <GoalsPanel />
       </ProductSection>
@@ -49,31 +47,9 @@ export default function ProductSections() {
           'Track improvements over time',
         ]}
         ctaText="Check your score →"
-        ctaHref="/start-investing"
+        ctaHref="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
       >
         <WealthScorePanel />
-      </ProductSection>
-
-      <ProductSection
-        label="Fydaa Direct Plan"
-        heading={<>Your goals, your investments — <span className="serif">one roadmap</span></>}
-        description="The Fydaa Direct Plan is your complete financial planning and wealth-building solution. It brings your goals, investments, budgeting, debt, and financial protection together into a personalized roadmap. Your portfolio is built using Direct Plan mutual funds — no distributor commissions — so you reduce costs and keep more of your money invested for long-term growth."
-        points={[
-          'Budgeting, cash flow & expense tracking',
-          'Debt management & repayment roadmap',
-          'Investments, wealth growth & goal tracking',
-          'Insurance & financial protection review',
-        ]}
-        ctaText="Build my plan →"
-        ctaHref="/direct-plan"
-        reverse
-        extraCta={
-          <span style={{ fontSize: '.85rem', color: 'var(--ink3)', borderLeft: '1px solid var(--border)', paddingLeft: 16 }}>
-            {DIRECT_PLAN.priceLabel}
-          </span>
-        }
-      >
-        <DirectPlanPanel />
       </ProductSection>
     </div>
   );

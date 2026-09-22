@@ -46,7 +46,13 @@ export default function PurposeSection() {
             ))}
           </div>
 
-          <a href="/start-investing" className="btn-invest" style={{ marginTop: 8 }}>
+          <a
+            href="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
+            className="btn-invest"
+            style={{ marginTop: 8 }}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Start Investing →
           </a>
         </div>

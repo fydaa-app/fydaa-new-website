@@ -31,7 +31,7 @@ export default function AdvisorySection() {
                   </svg>
                 </div>
                 <div>
-                  <div className="advisory-point-title">AI-powered tools</div>
+                  <div className="advisory-point-title">Available tools</div>
                   <div className="advisory-point-desc">
                     Goal planning, wealth score, portfolio tracking — available 24/7 in the app and on the web.
                   </div>

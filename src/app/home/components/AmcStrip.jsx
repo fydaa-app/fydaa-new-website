@@ -10,8 +10,9 @@ export default function AmcStrip() {
       <div className="amc-track-wrap">
         <div className="amc-track">
           {logos.map((amc, i) => (
-            <span className="amc-logo" key={`${amc.name}-${i}`}>
-              {amc.name} <em>{amc.suffix}</em>
+            <span className="amc-logo" key={`${amc.name}-${i}`} aria-label={amc.name}>
+              <img src={amc.src} alt="" />
+              <span className="amc-name">{amc.name}</span>
             </span>
           ))}
         </div>

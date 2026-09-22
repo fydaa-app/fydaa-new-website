@@ -535,7 +535,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                     />
                     <label
                       htmlFor={cvInputId}
-                      className="mt-5 inline-flex cursor-pointer rounded-full border border-black bg-black px-6 py-2 font-inter text-sm font-medium text-white transition hover:bg-neutral-900"
+                      className="mt-5 inline-flex cursor-pointer rounded-full border border-jade bg-jade px-6 py-2 font-inter text-sm font-medium text-white transition hover:bg-jade-hover"
                     >
                       Browse file
                     </label>
@@ -584,7 +584,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                   <button
                     type="button"
                     onClick={next}
-                    className="inline-flex items-center gap-1 rounded-full bg-black px-5 py-2 font-inter text-sm font-medium text-white transition hover:bg-gray-800"
+                    className="inline-flex items-center gap-1 rounded-full bg-jade px-5 py-2 font-inter text-sm font-medium text-white transition hover:bg-jade-hover"
                   >
                     Next
                     <ArrowRight className="h-4 w-4" />
@@ -594,7 +594,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                     type="button"
                     onClick={handleSubmit}
                     disabled={submitting}
-                    className="inline-flex items-center gap-1 rounded-full border border-black bg-black px-5 py-2 font-inter text-sm font-medium text-white transition hover:bg-neutral-900 disabled:opacity-60"
+                    className="inline-flex items-center gap-1 rounded-full border border-jade bg-jade px-5 py-2 font-inter text-sm font-medium text-white transition hover:bg-jade-hover disabled:opacity-60"
                   >
                     {submitting ? 'Submitting…' : 'Submit Application'}
                     <Check className="h-4 w-4" />

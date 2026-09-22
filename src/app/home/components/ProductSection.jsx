@@ -26,10 +26,11 @@ export default function ProductSection({
   ctaHref = '#',
   reverse = false,
   extraCta = null,
+  className = '',
   children, // the visual panel, e.g. <GoalsPanel />
 }) {
   return (
-    <section className="prod-section">
+    <section className={`prod-section${className ? ` ${className}` : ''}`}>
       <div className="container">
         <div className={`prod-grid${reverse ? ' reverse' : ''}`}>
           <div className="prod-text">
@@ -46,11 +47,23 @@ export default function ProductSection({
             </div>
             {extraCta ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
-                <a href={ctaHref} className="prod-cta">{ctaText}</a>
+                <a
+                  href={ctaHref}
+                  className="prod-cta"
+                  {...(ctaHref.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  {ctaText}
+                </a>
                 {extraCta}
               </div>
             ) : (
-              <a href={ctaHref} className="prod-cta">{ctaText}</a>
+              <a
+                href={ctaHref}
+                className="prod-cta"
+                {...(ctaHref.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                {ctaText}
+              </a>
             )}
           </div>
           <div className="prod-visual">{children}</div>

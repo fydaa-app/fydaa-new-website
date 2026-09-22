@@ -1,6 +1,5 @@
 import HeroSection from "./Herosection";
 import PageDivider from "./PageDivider";
-import Dreams from "./Dreams";
 import Portfolios from "./Portfolios";
 import HowItStarted from "./HowItStarted";
 import Founder from "./Founder";
@@ -14,7 +13,6 @@ const AboutPage = () => {
     <div className="font-inter text-ink antialiased bg-grey-50">
       <HeroSection />
       <PageDivider />
-      <Dreams />
       <Portfolios />
       <HowItStarted />
       <Founder />

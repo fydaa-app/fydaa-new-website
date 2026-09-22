@@ -26,19 +26,18 @@ const LeadCapturePopup = () => {
     pathname?.startsWith('/programme');
 
   useEffect(() => {
-    // Don't show popup on success pages or partner page
-    if (isSuccessPage) {
-      return;
-    }
-
-    // Set timer for 7 seconds
     const timer = setTimeout(() => {
       setIsOpen(true);
-    }, 7000); // 7 seconds
+    }, 7000);
 
-    // Cleanup timer on unmount
     return () => clearTimeout(timer);
-  }, [isSuccessPage]); // Re-run if pathname changes
+  }, []);
+
+  useEffect(() => {
+    if (isSuccessPage) {
+      setIsOpen(false);
+    }
+  }, [isSuccessPage]);
 
   const handleClose = () => {
     setIsOpen(false);

@@ -1,13 +1,6 @@
-const bgStyle = {
-  background:
-    "radial-gradient(ellipse 100% 120% at 0% 100%, rgba(4,120,87,.35) 0%, transparent 55%), " +
-    "radial-gradient(ellipse 80% 100% at 100% 0%, rgba(12,74,62,.25) 0%, transparent 50%), " +
-    "#0A0A0A",
-};
-
 export default function AboutCta() {
   return (
-    <section className="py-20 text-center text-white font-inter" style={bgStyle}>
+    <section className="py-20 text-center text-white font-inter bg-jade">
       <div className="max-w-[1120px] mx-auto px-6">
         <div className="mb-2.5 text-[1.3rem] font-medium text-white/85">Bharosa Humara, Fydaa Aapka</div>
         <h2 className="mb-3 text-[clamp(1.5rem,3vw,2.05rem)] font-bold tracking-[-0.02em] text-white">

@@ -7,7 +7,14 @@ export default function FinalCta() {
         </h2>
         <p>Pick a goal, set a SIP, and let your money start working — from the web or the app.</p>
         <div className="final-cta-buttons">
-          <a href="/start-investing" className="btn-invest">Start Investing</a>
+          <a
+            href="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
+            className="btn-invest"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Start Investing
+          </a>
           <a
             href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
             className="btn-download"

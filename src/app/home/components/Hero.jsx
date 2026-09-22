@@ -16,7 +16,14 @@ export default function Hero() {
               with everything you need to build, manage and grow your money over time.
             </p>
             <div className="hero-ctas">
-              <a href="/start-investing" className="btn-invest">Start Investing</a>
+              <a
+                href="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
+                className="btn-invest"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Start Investing
+              </a>
               <a
                 href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
                 className="btn-download"

@@ -244,7 +244,7 @@ export default function RegisterCvModal({ open, onClose }: Props) {
                   />
                   <label
                     htmlFor={fileInputId}
-                    className="mt-5 inline-flex cursor-pointer rounded-full border border-black bg-black px-6 py-2 font-inter text-sm font-medium text-white transition hover:bg-neutral-900"
+                    className="mt-5 inline-flex cursor-pointer rounded-full border border-jade bg-jade px-6 py-2 font-inter text-sm font-medium text-white transition hover:bg-jade-hover"
                   >
                     Browse file
                   </label>
@@ -267,7 +267,7 @@ export default function RegisterCvModal({ open, onClose }: Props) {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="inline-flex items-center gap-1 rounded-full border border-black bg-black px-5 py-2 font-inter text-sm font-medium text-white transition hover:bg-neutral-900 disabled:opacity-60"
+                  className="inline-flex items-center gap-1 rounded-full border border-jade bg-jade px-5 py-2 font-inter text-sm font-medium text-white transition hover:bg-jade-hover disabled:opacity-60"
                 >
                   {submitting ? 'Submitting…' : 'Submit'}
                   <Check className="h-4 w-4" />

@@ -18,8 +18,10 @@ export default function Portfolios() {
               balanced, or chase growth.
             </p>
             <a
-              href="/start-investing"
+              href="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
               className="inline-flex bg-jade text-white px-7 py-[13px] rounded-[10px] font-bold text-sm hover:bg-jade-hover transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Start Investing Now
             </a>

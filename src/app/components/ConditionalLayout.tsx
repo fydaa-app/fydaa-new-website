@@ -17,9 +17,7 @@ export default function ConditionalLayout({
     pathname?.startsWith('/SuccesspageNSDL') ||
     pathname?.startsWith('/SuccesspageSetu');
 
-  const hideFooter =
-    pathname === '/' ||
-    hideNavbar;
+  const hideFooter = hideNavbar;
 
   return (
     <>

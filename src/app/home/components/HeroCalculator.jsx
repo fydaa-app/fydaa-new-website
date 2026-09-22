@@ -117,7 +117,14 @@ export default function HeroCalculator() {
         </div>
       </div>
 
-      <a href="/start-investing" className="hc-cta">Start this SIP →</a>
+      <a
+        href="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
+        className="hc-cta"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Start this SIP →
+      </a>
     </div>
   );
 }

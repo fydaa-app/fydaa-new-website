@@ -8,6 +8,7 @@ import "./site-nav.css";
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
+  { label: "Features", href: "/features" },
   { label: "Programme", href: "/programme" },
   { label: "Career", href: "/careers" },
   { label: "Partner", href: "/partner" },
@@ -54,13 +55,27 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="nav-right">
-            <Link href="/start-investing" className="nav-login">
+          <div className="nav-right" aria-hidden="true">
+            {/*
+            <a
+              href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
+              className="nav-login"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Log in
-            </Link>
-            <Link href="/start-investing" className="nav-signup">
+            </a>
+            <a
+              href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
+              className="nav-signup"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Sign up
-            </Link>
+            </a>
+            */}
+            <span className="nav-login">Log in</span>
+            <span className="nav-signup">Sign up</span>
           </div>
 
           <button
