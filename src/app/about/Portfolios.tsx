@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const PORTFOLIOS = [
   { label: "Conservative", dash: "30,70" },
   { label: "Balanced", dash: "55,45" },
@@ -17,12 +19,12 @@ export default function Portfolios() {
               Fydaa is an investment app that adapts to your appetite for investing, whether you play it safe, stay
               balanced, or chase growth.
             </p>
-            <a
+            <Link
               href="/#book-a-call"
               className="inline-flex bg-jade text-white px-7 py-[13px] rounded-[10px] font-bold text-sm hover:bg-jade-hover transition-colors min-h-[44px] items-center"
             >
               Book a Free Call
-            </a>
+            </Link>
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-2 md:mt-0">

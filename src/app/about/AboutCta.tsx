@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function AboutCta() {
   return (
     <section className="py-12 sm:py-16 md:py-20 text-center text-white font-inter bg-jade">
@@ -11,12 +13,12 @@ export default function AboutCta() {
           Welcome to Fydaa, where your money is managed for tomorrow, today.
         </p>
         <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3">
-          <a
+          <Link
             href="/#book-a-call"
             className="inline-flex items-center justify-center gap-2 bg-white text-jade px-8 py-3.5 rounded-[10px] font-bold text-[0.95rem] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-all min-h-[44px]"
           >
             Book a Free Call
-          </a>
+          </Link>
           <a
             href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
             target="_blank"

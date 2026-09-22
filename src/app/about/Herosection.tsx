@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 
 const HeroSection: React.FC = () => {
   return (
@@ -101,12 +102,12 @@ const HeroSection: React.FC = () => {
 
             {/* Replaced Buttons */}
             <div className="flex items-center justify-center">
-              <a
+              <Link
                 href="/#book-a-call"
                 className="inline-flex items-center gap-2 bg-jade text-white px-6 py-3 rounded-[10px] font-inter font-bold text-[12px] sm:text-[14px] tracking-[-0.01em] hover:bg-jade-hover active:scale-[0.985] transition-all pointer-events-auto"
               >
                 Book a Free Call
-              </a>
+              </Link>
             </div>
           </div>
         </div>
