@@ -19,12 +19,12 @@ const ITEMS = [
 
 export default function WhyFydaa() {
   return (
-    <section className="py-20 bg-grey-50 font-inter">
-      <div className="max-w-[1120px] mx-auto px-6">
-        <h2 className="mb-10 text-[clamp(1.5rem,3vw,2.05rem)] font-bold tracking-[-0.02em] text-ink">
+    <section className="py-12 sm:py-16 md:py-20 bg-grey-50 font-inter">
+      <div className="max-w-[1120px] 2xl:max-w-[1280px] mx-auto px-4 sm:px-6">
+        <h2 className="mb-8 md:mb-10 text-[clamp(1.5rem,3vw,2.05rem)] font-bold tracking-[-0.02em] text-ink">
           Why people choose Fydaa
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {ITEMS.map((it) => (
             <div
               key={it.title}

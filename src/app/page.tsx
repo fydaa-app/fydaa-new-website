@@ -9,10 +9,12 @@ import AdvisorySection from "./home/components/AdvisorySection";
 import Testimonials from "./home/components/Testimonials";
 import FaqSection from "./home/components/FaqSection";
 import FinalCta from "./home/components/FinalCta";
+import HashScroll from "./components/HashScroll";
 
 export default function HomePage() {
   return (
     <main className="fydaa-home w-full m-0 p-0 relative">
+      <HashScroll />
       <Hero />
       <AmcStrip />
       <Dreams />

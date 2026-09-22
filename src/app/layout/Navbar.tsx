@@ -38,8 +38,7 @@ export default function Navbar() {
             onClick={() => setOpen(false)}
             aria-label="Fydaa home"
           >
-            <img src="/Fydaalogo.webp" alt="" />
-            <img src="/Fydaalogotext.webp" alt="" />
+            <img src="/fydaa-logo.png" alt="Fydaa" />
           </Link>
 
           <div className={`nav-center${open ? " open" : ""}`}>

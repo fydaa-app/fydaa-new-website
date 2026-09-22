@@ -8,12 +8,10 @@ export default function FinalCta() {
         <p>Pick a goal, set a SIP, and let your money start working — from the web or the app.</p>
         <div className="final-cta-buttons">
           <a
-            href="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
+            href="#book-a-call"
             className="btn-invest"
-            target="_blank"
-            rel="noopener noreferrer"
           >
-            Start Investing
+            Book a Free Call
           </a>
           <a
             href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"

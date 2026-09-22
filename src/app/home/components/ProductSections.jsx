@@ -15,8 +15,8 @@ export default function ProductSections() {
           'Portfolio auto-matched to goal timeline',
           'Real-time progress on every goal',
         ]}
-        ctaText="Start Investing →"
-        ctaHref="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
+        ctaText="Book a Free Call →"
+        ctaHref="/#book-a-call"
       >
         <GoalsPanel />
       </ProductSection>

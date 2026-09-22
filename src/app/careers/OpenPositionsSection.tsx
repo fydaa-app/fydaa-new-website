@@ -93,7 +93,7 @@ function JobDetail({ job, onApply }: { job: JobOpening; onApply: () => void }) {
         </span>
       ) : null}
 
-      <div className="mb-7 mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <div className="mb-7 mt-4 grid grid-cols-1 xs:grid-cols-2 gap-3 sm:grid-cols-3">
         <div className="rounded-xl bg-grey-100 px-4 py-4">
           <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-grey-500">Experience</div>
           <div className="text-[19px] font-bold tracking-tight text-ink">{job.experienceRange || "—"}</div>
@@ -180,7 +180,7 @@ export default function OpenPositionsSection({ jobs, loading, error }: Props) {
             </p>
           </div>
         ) : (
-          <div className="mt-11 grid items-stretch gap-5 md:h-[min(680px,calc(100vh-10rem))] md:grid-cols-[360px_1fr]">
+          <div className="mt-11 grid items-stretch gap-5 md:h-[min(680px,calc(100vh-10rem))] md:grid-cols-[minmax(0,320px)_1fr] lg:grid-cols-[360px_1fr]">
             <div className="flex min-h-0 max-h-[320px] flex-col gap-3 overflow-y-auto overscroll-contain pr-1 md:max-h-none">
               {jobs.map((job, idx) => (
                 <JobCard

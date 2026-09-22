@@ -10,13 +10,13 @@ const HeroSection: React.FC = () => {
         {/* Hero Text Content */}
         <div className="text-center mb-12 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 2xl:mb-20">
           <div className="space-y-6 sm:space-y-4 md:space-y-5 lg:space-y-6 xl:space-y-8 2xl:space-y-10">
-            <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-extrabold text-ink font-inter tracking-[-0.035em] leading-[1.15]">
+            <h1 className="text-[clamp(1.5rem,5vw,3.75rem)] font-extrabold text-ink font-inter tracking-[-0.035em] leading-[1.15]">
               Wealth Shouldn&apos;t Be a Privilege
             </h1>
-            <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-extrabold text-ink font-inter tracking-[-0.035em] leading-[1.15]">
+            <h1 className="text-[clamp(1.5rem,5vw,3.75rem)] font-extrabold text-ink font-inter tracking-[-0.035em] leading-[1.15]">
               It Should Be a <span className="text-jade">Possibility</span> For All
             </h1>
-            <p className="text-sm sm:text-sm md:text-base lg:text-sm xl:text-lg 2xl:text-xl text-grey-600 font-inter font-normal leading-[1.8] max-w-sm sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto px-2 sm:px-4">
+            <p className="text-sm md:text-base xl:text-lg 2xl:text-xl text-grey-600 font-inter font-normal leading-[1.8] max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto px-2 sm:px-4">
               We&apos;re on a mission to make smart investing accessible,
               understandable,
               <br className="hidden sm:block" />
@@ -31,17 +31,17 @@ const HeroSection: React.FC = () => {
             <img
               src="/Heropage/diverse-people.png"
               alt="Diverse people icons"
-              className="h-[80px] sm:h-[70px] md:h-[80px] lg:h-[90px] xl:h-[120px] 2xl:h-[140px] opacity-80 object-contain"
+              className="h-16 sm:h-[70px] md:h-20 lg:h-[90px] xl:h-28 2xl:h-32 max-h-32 opacity-80 object-contain"
             />
             <img
               src="/Heropage/diverse-people.png"
               alt="Diverse people icons"
-              className="h-[80px] sm:h-[70px] md:h-[80px] lg:h-[90px] xl:h-[120px] 2xl:h-[140px] opacity-80 object-contain"
+              className="h-16 sm:h-[70px] md:h-20 lg:h-[90px] xl:h-28 2xl:h-32 max-h-32 opacity-80 object-contain"
             />
             <img
               src="/Heropage/diverse-people.png"
               alt="Diverse people icons"
-              className="h-[80px] sm:h-[70px] md:h-[80px] lg:h-[90px] xl:h-[120px] 2xl:h-[140px] opacity-80 object-contain"
+              className="h-16 sm:h-[70px] md:h-20 lg:h-[90px] xl:h-28 2xl:h-32 max-h-32 opacity-80 object-contain"
             />
           </div>
         </div>
@@ -100,45 +100,12 @@ const HeroSection: React.FC = () => {
             </div> */}
 
             {/* Replaced Buttons */}
-            <div className="flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8">
-              {/* Book a Free Call Button */}
-              <button
+            <div className="flex items-center justify-center">
+              <a
+                href="/#book-a-call"
                 className="inline-flex items-center gap-2 bg-jade text-white px-6 py-3 rounded-[10px] font-inter font-bold text-[12px] sm:text-[14px] tracking-[-0.01em] hover:bg-jade-hover active:scale-[0.985] transition-all pointer-events-auto"
-                onClick={() =>
-                  window.open(
-                    "https://www.cal.eu/fydaa/30min?overlayCalendar=true",
-                    "_blank"
-                  )
-                }
               >
                 Book a Free Call
-              </button>
-
-              {/* Start Investing Link */}
-              <a
-                className="flex items-center space-x-2 group pointer-events-auto"
-                href="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="text-ink font-inter font-semibold text-[14px] sm:text-[16px] hover:text-jade transition-colors duration-300">
-                  Start Investing
-                </span>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="text-ink sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:text-jade transition-all duration-300"
-                >
-                  <path
-                    d="M5 12H19M19 12L12 5M19 12L12 19"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
               </a>
             </div>
           </div>

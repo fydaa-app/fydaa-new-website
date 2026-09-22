@@ -63,9 +63,6 @@ const Footer: React.FC = () => {
             {/* Company Information */}
             <div className="space-y-1 sm:space-y-2">
               <p className="text-white text-[14px] sm:text-[16px] md:text-[18px] lg:text-[18px] xl:text-[19px] 2xl:text-[20px] font-inter font-normal">
-                Unit of Multistrato Capital Advisors Private Limited
-              </p>
-              <p className="text-white text-[14px] sm:text-[16px] md:text-[18px] lg:text-[18px] xl:text-[19px] 2xl:text-[20px] font-inter font-normal">
                 Registered office
               </p>
               <p className="text-white text-[14px] sm:text-[16px] md:text-[18px] lg:text-[18px] xl:text-[19px] 2xl:text-[20px] font-inter font-normal leading-relaxed">
@@ -86,7 +83,7 @@ const Footer: React.FC = () => {
 
           {/* Right Column - Quick Links */}
           <div className="lg:col-span-1">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
               <h3 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-inter font-semibold">
                 Quick Links
               </h3>
@@ -94,7 +91,7 @@ const Footer: React.FC = () => {
               {/* UPI Handles Button */}
               <button
                 onClick={() => setShowEmailModal(true)}
-                className="flex items-center justify-center cursor-pointer transition-transform duration-300 ease-in-out w-full max-w-[120px] sm:max-w-[130px] md:max-w-[140px] lg:max-w-[140px] xl:max-w-[150px] h-[40px] sm:h-[42px] md:h-[45px] lg:h-[45px] xl:h-[48px] ml-0 mt-[10px] bg-black rounded-lg border border-white text-white font-semibold text-[12px] sm:text-[13px] md:text-[14px] lg:text-[12px] xl:text-[16px] shadow-lg hover:scale-105"
+                className="flex items-center justify-center cursor-pointer transition-transform duration-300 ease-in-out w-full sm:w-auto max-w-none sm:max-w-[150px] h-[40px] sm:h-[42px] md:h-[45px] xl:h-[48px] mt-0 bg-black rounded-lg border border-white text-white font-semibold text-[12px] sm:text-[13px] md:text-[14px] xl:text-[16px] shadow-lg hover:scale-105 px-4"
               >
                 UPI Handles
               </button>
@@ -160,10 +157,10 @@ const Footer: React.FC = () => {
 
         {/* Disclaimer Section */}
         <div className="mb-6 sm:mb-8">
-          <h3 className="text-white text-[16px] font-inter font-normal mb-4 text-center">
+          <h3 className="text-white text-sm sm:text-base font-inter font-normal mb-4 text-center">
             Disclaimer
           </h3>
-          <div className="space-y-3 text-[16px] font-inter font-normal text-white leading-relaxed text-left">
+          <div className="space-y-3 text-xs sm:text-sm md:text-base font-inter font-normal text-white leading-relaxed text-left break-words">
             <p>
               By using this website, you understand the information being
               presented is provided for informational purposes only and agree to
@@ -192,6 +189,11 @@ const Footer: React.FC = () => {
               Churi Wadi, Goregaon (East), Mumbai, Maharashtra – 400063.
               <br />
               GST number: 27AAHCM9321Q1ZS
+            </p>
+            <p>
+              Fydaa Analytics Private Limited
+              <br />
+              AMFI registered ARN: 358522
             </p>
             <p>
               Contact details of Principal Officer

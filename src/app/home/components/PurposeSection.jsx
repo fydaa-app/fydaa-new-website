@@ -47,13 +47,11 @@ export default function PurposeSection() {
           </div>
 
           <a
-            href="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
+            href="#book-a-call"
             className="btn-invest"
             style={{ marginTop: 8 }}
-            target="_blank"
-            rel="noopener noreferrer"
           >
-            Start Investing →
+            Book a Free Call →
           </a>
         </div>
       </div>

@@ -17,12 +17,10 @@ export default function Hero() {
             </p>
             <div className="hero-ctas">
               <a
-                href="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
+                href="#book-a-call"
                 className="btn-invest"
-                target="_blank"
-                rel="noopener noreferrer"
               >
-                Start Investing
+                Book a Free Call
               </a>
               <a
                 href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"

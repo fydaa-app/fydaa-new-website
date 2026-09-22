@@ -2,7 +2,7 @@ import BookCallForm from './BookCallForm';
 
 export default function AdvisorySection() {
   return (
-    <section className="advisory">
+    <section className="advisory" id="book-a-call">
       <div className="container">
         <div className="advisory-grid">
           <div className="advisory-text">

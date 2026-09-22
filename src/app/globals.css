@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Import Gilroy fonts */
 @font-face {
   font-family: 'Gilroy';
@@ -175,6 +179,18 @@ body {
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-scroll-seamless,
+  .animate-slide-in-left,
+  .animate-slide-in-right {
+    animation: none !important;
+  }
 }
 
 /* Continuous scrolling animation for diverse people image */

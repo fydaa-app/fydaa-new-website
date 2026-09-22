@@ -2,29 +2,69 @@
 
 import { useRef, useState } from 'react';
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function BookCallForm() {
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const nameRef = useRef(null);
+  const emailRef = useRef(null);
   const phoneRef = useRef(null);
 
-  function handleSubmit() {
+  async function handleSubmit() {
+    setError('');
     const trimmedName = name.trim();
-    const trimmedPhone = phone.trim();
+    const trimmedEmail = email.trim();
 
     if (!trimmedName) {
+      setError('Please enter your name.');
       nameRef.current?.focus();
       return;
     }
-    if (!trimmedPhone || trimmedPhone.length < 10) {
+
+    if (!EMAIL_RE.test(trimmedEmail)) {
+      setError('Please enter a valid email address.');
+      emailRef.current?.focus();
+      return;
+    }
+
+    if (!/^[6-9]\d{9}$/.test(phone)) {
+      setError('Please enter a valid 10-digit mobile number.');
       phoneRef.current?.focus();
       return;
     }
 
-    // TODO(backend): wire this up to the real lead-capture endpoint.
-    // e.g. await api.post('/leads/book-call', { name: trimmedName, phone: trimmedPhone })
-    setSubmitted(true);
+    setIsSubmitting(true);
+
+    try {
+      const apiUrl = `${process.env.NEXT_PUBLIC_BASE_URL}referrals/website-lead`;
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: trimmedName,
+          email: trimmedEmail,
+          mobileNumber: phone,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit');
+      }
+
+      setName('');
+      setEmail('');
+      setPhone('');
+      setSubmitted(true);
+    } catch {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   if (submitted) {
@@ -58,6 +98,23 @@ export default function BookCallForm() {
           className="advisory-input"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          disabled={isSubmitting}
+          autoComplete="name"
+        />
+      </div>
+
+      <div className="advisory-field">
+        <label htmlFor="callEmail">Email address</label>
+        <input
+          ref={emailRef}
+          type="email"
+          id="callEmail"
+          placeholder="name@example.com"
+          className="advisory-input"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={isSubmitting}
+          autoComplete="email"
         />
       </div>
 
@@ -67,15 +124,43 @@ export default function BookCallForm() {
           ref={phoneRef}
           type="tel"
           id="callPhone"
-          placeholder="+91 98XXX XXXXX"
+          placeholder="10-digit mobile number"
           className="advisory-input"
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => {
+            const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+            setPhone(digits);
+          }}
+          disabled={isSubmitting}
+          inputMode="numeric"
+          maxLength={10}
+          autoComplete="tel"
         />
       </div>
 
-      <button type="button" className="advisory-submit" onClick={handleSubmit}>
-        Book a Call
+      {error ? (
+        <div
+          style={{
+            marginBottom: 12,
+            padding: '10px 12px',
+            borderRadius: 10,
+            background: '#FEF2F2',
+            color: '#B91C1C',
+            fontSize: '0.85rem',
+          }}
+        >
+          {error}
+        </div>
+      ) : null}
+
+      <button
+        type="button"
+        className="advisory-submit"
+        onClick={handleSubmit}
+        disabled={isSubmitting}
+        style={isSubmitting ? { opacity: 0.7, cursor: 'not-allowed' } : undefined}
+      >
+        {isSubmitting ? 'Submitting...' : 'Book a Call'}
       </button>
       <div className="advisory-privacy">We&apos;ll only use this to contact you. No spam, ever.</div>
     </div>

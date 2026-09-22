@@ -289,7 +289,7 @@ const Chatbot: React.FC = () => {
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden">
                   <img
-                    src="/Fydaalogo.webp"
+                    src="/fydaa-logo.png"
                     alt="Fydaa Logo"
                     className="w-full h-full object-contain"
                   />
