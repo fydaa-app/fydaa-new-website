@@ -63,7 +63,7 @@ export default function RootLayout({
         <ConditionalLayout>
           {children}
         </ConditionalLayout>
-        <Chatbot /> <LeadCapturePopup />
+        <Chatbot /> 
       </body>
     </html>
   );
