@@ -97,6 +97,7 @@ const Pill = ({ children }: { children: ReactNode }) => (
 );
 
 const FYIAEP_BROCHURE_PDF = "/brochure/fyiaep.pdf";
+const TWO_MONTH_PROGRAMME_PDF = "/brochure/2monthpdf.pdf";
 
 /* ══════════════════════════════════════
    HERO
@@ -401,6 +402,7 @@ function CTACard({ onApply }: { onApply: () => void }) {
       fee: "₹35,000",
       feeNote:
         "Includes NISM X-A & X-B prep, on-field training, mentorship and career opportunity.",
+      detailsHref: FYIAEP_BROCHURE_PDF,
     },
     {
       badge: "Already NISM Certified?",
@@ -410,6 +412,7 @@ function CTACard({ onApply }: { onApply: () => void }) {
       fee: "₹17,500",
       feeNote:
         "Hands-on advisory experience, client interactions and hiring opportunity.",
+      detailsHref: TWO_MONTH_PROGRAMME_PDF,
     },
   ];
 
@@ -478,7 +481,7 @@ function CTACard({ onApply }: { onApply: () => void }) {
                   Apply Now <ArrowIcon />
                 </button>
                 <a
-                  href={FYIAEP_BROCHURE_PDF}
+                  href={card.detailsHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:flex-1 justify-center px-5 py-3 rounded-[10px] text-sm font-semibold cursor-pointer font-sans inline-flex items-center gap-1.5 transition-colors no-underline text-white border border-white/30 hover:bg-white/10"
