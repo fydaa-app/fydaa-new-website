@@ -15,7 +15,7 @@ export default function DirectPlanSection() {
         'Investments, wealth growth & goal tracking',
         'Insurance & financial protection review',
       ]}
-      ctaText="Build my plan →"
+      // ctaText="Build my plan →"
       ctaHref="/direct-plan"
       reverse
       extraCta={
