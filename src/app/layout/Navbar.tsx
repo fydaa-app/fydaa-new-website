@@ -54,27 +54,13 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="nav-right" aria-hidden="true">
-            {/*
-            <a
-              href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
-              className="nav-login"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <div className="nav-right">
+            <Link href="/signup" className="nav-login" onClick={() => setOpen(false)}>
               Log in
-            </a>
-            <a
-              href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
-              className="nav-signup"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            </Link>
+            <Link href="/signup" className="nav-signup" onClick={() => setOpen(false)}>
               Sign up
-            </a>
-            */}
-            <span className="nav-login">Log in</span>
-            <span className="nav-signup">Sign up</span>
+            </Link>
           </div>
 
           <button
