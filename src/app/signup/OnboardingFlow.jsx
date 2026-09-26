@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Stepper from './components/Stepper';
 import KycModal from './components/KycModal';
 import {
@@ -61,7 +62,8 @@ const BACK_MAP = {
 
 const RELATIONS = ['Father', 'Mother', 'Spouse', 'Son', 'Daughter', 'Others'];
 
-export default function OnboardingFlow() {
+export default function OnboardingFlow({ mode = 'signup' }) {
+  const router = useRouter();
   const [screen, setScreen] = useState('mobile');
   const [rqSel, setRqSel] = useState({});
   const [pep, setPep] = useState(false);
@@ -92,7 +94,15 @@ export default function OnboardingFlow() {
   };
 
   const cfg = STEP_MAP[screen];
-  const backTarget = BACK_MAP[screen];
+  const isLogin = mode === 'login';
+  const entryLabel = isLogin ? 'Login' : 'Sign up';
+  const backTarget = isLogin
+    ? screen === 'loginpin'
+      ? 'mobile'
+      : screen === 'otp'
+        ? 'loginpin'
+        : null
+    : BACK_MAP[screen];
 
   return (
     <div className="max-w-[640px] mx-auto px-6 pt-10 pb-24">
@@ -118,24 +128,37 @@ export default function OnboardingFlow() {
       {/* MOBILE NUMBER */}
       {screen === 'mobile' && (
         <>
-          <Overline>Sign up</Overline>
+          <Overline>{entryLabel}</Overline>
           <PageHeading>Tell us your mobile number</PageHeading>
-          <PageSub>We will send you an OTP to verify</PageSub>
+          <PageSub>
+            {isLogin ? 'Enter the mobile number linked to your account' : 'We will send you an OTP to verify'}
+          </PageSub>
           <FieldInput label="Mobile Number" prefix="+91" type="tel" maxLength={10} placeholder="Enter mobile number" />
-          <LinkText>Have a Referral Code?</LinkText>
-          <Button onClick={() => go('otp')}>Proceed</Button>
+          {!isLogin && <LinkText>Have a Referral Code?</LinkText>}
+          <Button onClick={() => go(isLogin ? 'loginpin' : 'otp')}>Proceed</Button>
         </>
       )}
 
       {/* OTP */}
       {screen === 'otp' && (
         <>
-          <Overline>Sign up</Overline>
+          <Overline>{entryLabel}</Overline>
           <PageHeading>Enter the OTP sent to</PageHeading>
           <PageSub>+91 75875 86959</PageSub>
           <CodeInputs count={6} />
           <LinkText>Resend OTP</LinkText>
-          <Button onClick={() => go('pin')}>Proceed</Button>
+          <Button onClick={() => (isLogin ? router.push('/dashboard') : go('pin'))}>Proceed</Button>
+        </>
+      )}
+
+      {/* LOGIN PIN */}
+      {screen === 'loginpin' && (
+        <>
+          <Overline>{entryLabel}</Overline>
+          <PageHeading>Enter your PIN</PageHeading>
+          <PageSub>Enter your 4-digit PIN</PageSub>
+          <CodeInputs count={4} />
+          <Button onClick={() => go('otp')}>Proceed</Button>
         </>
       )}
 
@@ -399,9 +422,13 @@ export default function OnboardingFlow() {
           <div className="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center mb-6">
             <CheckIcon className="w-9 h-9 text-emerald-700" />
           </div>
-          <div className="text-2xl font-bold mb-2">Onboarding complete!</div>
+          <div className="text-2xl font-bold mb-2">
+            {isLogin ? 'You are logged in' : 'Onboarding complete!'}
+          </div>
           <p className="text-sm text-neutral-500 mb-8 max-w-[380px] leading-relaxed">
-            Your Fydaa account is fully set up. You're ready to start investing.
+            {isLogin
+              ? 'Welcome back. Your Fydaa account is ready.'
+              : "Your Fydaa account is fully set up. You're ready to start investing."}
           </p>
           <Button className="max-w-[280px]">Go to Dashboard</Button>
           <LinkText className="mt-4" onClick={restart}>Restart demo</LinkText>
