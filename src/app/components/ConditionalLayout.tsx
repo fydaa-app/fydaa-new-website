@@ -11,6 +11,7 @@ export default function ConditionalLayout({
 }) {
   const pathname = usePathname();
   const hideNavbar =
+    pathname?.startsWith('/dashboard') ||
     pathname?.startsWith('/SuccesspageDigi') ||
     pathname?.startsWith('/SuccesspageFund') ||
     pathname?.startsWith('/Successpagemandate') ||

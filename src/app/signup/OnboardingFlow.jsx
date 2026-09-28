@@ -96,13 +96,7 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   const cfg = STEP_MAP[screen];
   const isLogin = mode === 'login';
   const entryLabel = isLogin ? 'Login' : 'Sign up';
-  const backTarget = isLogin
-    ? screen === 'loginpin'
-      ? 'mobile'
-      : screen === 'otp'
-        ? 'loginpin'
-        : null
-    : BACK_MAP[screen];
+  const backTarget = screen === 'otp' ? null : isLogin ? null : BACK_MAP[screen];
 
   return (
     <div className="max-w-[640px] mx-auto px-6 pt-10 pb-24">
@@ -134,8 +128,16 @@ export default function OnboardingFlow({ mode = 'signup' }) {
             {isLogin ? 'Enter the mobile number linked to your account' : 'We will send you an OTP to verify'}
           </PageSub>
           <FieldInput label="Mobile Number" prefix="+91" type="tel" maxLength={10} placeholder="Enter mobile number" />
+          {isLogin && (
+            <div className="mb-2">
+              <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-400 mb-3">
+                4-digit PIN
+              </label>
+              <CodeInputs count={4} />
+            </div>
+          )}
           {!isLogin && <LinkText>Have a Referral Code?</LinkText>}
-          <Button onClick={() => go(isLogin ? 'loginpin' : 'otp')}>Proceed</Button>
+          <Button onClick={() => go('otp')}>Proceed</Button>
         </>
       )}
 
@@ -148,17 +150,6 @@ export default function OnboardingFlow({ mode = 'signup' }) {
           <CodeInputs count={6} />
           <LinkText>Resend OTP</LinkText>
           <Button onClick={() => (isLogin ? router.push('/dashboard') : go('pin'))}>Proceed</Button>
-        </>
-      )}
-
-      {/* LOGIN PIN */}
-      {screen === 'loginpin' && (
-        <>
-          <Overline>{entryLabel}</Overline>
-          <PageHeading>Enter your PIN</PageHeading>
-          <PageSub>Enter your 4-digit PIN</PageSub>
-          <CodeInputs count={4} />
-          <Button onClick={() => go('otp')}>Proceed</Button>
         </>
       )}
 
