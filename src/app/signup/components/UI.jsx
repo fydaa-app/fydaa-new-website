@@ -154,15 +154,38 @@ export function FieldRow({ children }) {
   return <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">{children}</div>;
 }
 
-export function CodeInputs({ count }) {
+export function CodeInputs({ count, value = '', onChange }) {
+  const controlled = typeof onChange === 'function';
+  const chars = Array.from({ length: count }, (_, i) => (controlled ? value[i] || '' : ''));
+
+  function writeAt(index, digit, input) {
+    const next = chars.slice();
+    next[index] = digit;
+    onChange(next.join(''));
+    if (digit && input.nextElementSibling) input.nextElementSibling.focus();
+  }
+
   return (
     <div className="flex gap-2.5 flex-wrap mb-4">
-      {Array.from({ length: count }).map((_, i) => (
+      {chars.map((char, i) => (
         <input
           key={i}
           type="tel"
+          inputMode="numeric"
           maxLength={1}
+          value={controlled ? char : undefined}
           className="w-[46px] h-[52px] border-[1.5px] border-neutral-200 rounded-[10px] text-center text-lg font-bold text-neutral-950 outline-none focus:border-[#0C4A3E]"
+          onChange={(e) => {
+            if (!controlled) return;
+            const digit = e.target.value.replace(/\D/g, '').slice(-1);
+            writeAt(i, digit, e.target);
+          }}
+          onKeyDown={(e) => {
+            if (!controlled) return;
+            if (e.key === 'Backspace' && !chars[i] && e.target.previousElementSibling) {
+              e.target.previousElementSibling.focus();
+            }
+          }}
         />
       ))}
     </div>

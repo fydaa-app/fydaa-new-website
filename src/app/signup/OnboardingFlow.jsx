@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Stepper from './components/Stepper';
 import KycModal from './components/KycModal';
@@ -62,6 +63,54 @@ const BACK_MAP = {
 
 const RELATIONS = ['Father', 'Mother', 'Spouse', 'Son', 'Daughter', 'Others'];
 
+const AUTH_BASE = 'https://auth.fydaa.com';
+const WEB_DEVICE = {
+  deviceId: 'web-device-1',
+  deviceToken: [
+    {
+      deviceToken: 'web-fcm-1',
+      deviceId: 'web-device-1',
+      deviceType: 'ANDROID',
+    },
+  ],
+};
+
+async function postAuth(path, body) {
+  const res = await fetch(`${AUTH_BASE}${path}`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json().catch(() => ({}));
+  const failed =
+    !res.ok ||
+    data?.success === false ||
+    data?.status === false ||
+    data?.status === 'error' ||
+    (typeof data?.statusCode === 'number' && data.statusCode >= 400);
+  if (failed) {
+    const message = data?.message || data?.error || 'Something went wrong. Please try again.';
+    throw new Error(typeof message === 'string' ? message : 'Something went wrong. Please try again.');
+  }
+  return data;
+}
+
+function AccountSwitch({ isLogin }) {
+  return (
+    <p className="text-center text-[15px] mt-6">
+      <span className="text-neutral-500">
+        {isLogin ? 'New to Fydaa? ' : 'Already have an account? '}
+      </span>
+      <Link href={isLogin ? '/signup' : '/login'} className="font-semibold text-[#0C4A3E]">
+        {isLogin ? 'Sign up' : 'Log in'}
+      </Link>
+    </p>
+  );
+}
+
 export default function OnboardingFlow({ mode = 'signup' }) {
   const router = useRouter();
   const [screen, setScreen] = useState('mobile');
@@ -72,6 +121,11 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   const [nomineeOptOut, setNomineeOptOut] = useState(false);
   const [nomineeRelation, setNomineeRelation] = useState('Father');
   const [kycModalOpen, setKycModalOpen] = useState(false);
+  const [mobile, setMobile] = useState('');
+  const [pin, setPin] = useState('');
+  const [otp, setOtp] = useState('');
+  const [authError, setAuthError] = useState('');
+  const [authBusy, setAuthBusy] = useState('');
 
   const go = (next) => setScreen(next);
 
@@ -92,6 +146,88 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     setNomineeRelation('Father');
     setKycModalOpen(false);
   };
+
+  const mobileNumber = mobile.replace(/\D/g, '').slice(0, 10);
+
+  async function requestLoginOtp() {
+    await postAuth('/auth/requestOtp', {
+      callingCode: '+91',
+      mobileNumber,
+      deviceId: WEB_DEVICE.deviceId,
+      isWhatsappOptin: 1,
+      fromApp: 'fydaa',
+      deviceToken: WEB_DEVICE.deviceToken,
+    });
+  }
+
+  async function submitLoginPin() {
+    if (mobileNumber.length !== 10) {
+      setAuthError('Enter a 10-digit mobile number.');
+      return;
+    }
+    if (pin.length !== 4) {
+      setAuthError('Enter your 4-digit PIN.');
+      return;
+    }
+    setAuthBusy('pin');
+    setAuthError('');
+    try {
+      await postAuth('/auth/verifyPin', {
+        callingCode: '+91',
+        mobileNumber,
+        pin,
+        deviceId: WEB_DEVICE.deviceId,
+        isWhatsappOptin: 1,
+        fromApp: 'savestment',
+        deviceToken: WEB_DEVICE.deviceToken,
+      });
+      await requestLoginOtp();
+      setOtp('');
+      go('otp');
+    } catch (err) {
+      setAuthError(err.message || 'Could not verify PIN.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function submitLoginOtp() {
+    if (otp.length !== 6) {
+      setAuthError('Enter the 6-digit OTP.');
+      return;
+    }
+    setAuthBusy('otp');
+    setAuthError('');
+    try {
+      const data = await postAuth('/auth/verifyOtp', {
+        mobileNumber,
+        otp,
+        guestUserId: '',
+        referralCode: '',
+        deviceToken: WEB_DEVICE.deviceToken,
+      });
+      const token = data?.token || data?.accessToken || data?.data?.token || data?.data?.accessToken;
+      if (token) localStorage.setItem('fydaa-auth-token', token);
+      router.push('/dashboard');
+    } catch (err) {
+      setAuthError(err.message || 'Could not verify OTP.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function resendLoginOtp() {
+    if (authBusy) return;
+    setAuthBusy('resend');
+    setAuthError('');
+    try {
+      await requestLoginOtp();
+    } catch (err) {
+      setAuthError(err.message || 'Could not resend OTP.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
 
   const cfg = STEP_MAP[screen];
   const isLogin = mode === 'login';
@@ -127,17 +263,31 @@ export default function OnboardingFlow({ mode = 'signup' }) {
           <PageSub>
             {isLogin ? 'Enter the mobile number linked to your account' : 'We will send you an OTP to verify'}
           </PageSub>
-          <FieldInput label="Mobile Number" prefix="+91" type="tel" maxLength={10} placeholder="Enter mobile number" />
+          <FieldInput
+            label="Mobile Number"
+            prefix="+91"
+            type="tel"
+            maxLength={10}
+            placeholder="Enter mobile number"
+            value={isLogin ? mobileNumber : undefined}
+            onChange={isLogin ? (e) => { setMobile(e.target.value); setAuthError(''); } : undefined}
+          />
           {isLogin && (
             <div className="mb-2">
               <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-400 mb-3">
                 4-digit PIN
               </label>
-              <CodeInputs count={4} />
+              <CodeInputs count={4} value={pin} onChange={(next) => { setPin(next); setAuthError(''); }} />
             </div>
           )}
           {!isLogin && <LinkText>Have a Referral Code?</LinkText>}
-          <Button onClick={() => go('otp')}>Proceed</Button>
+          {authError && screen === 'mobile' && (
+            <p className="text-sm text-red-600 mb-3">{authError}</p>
+          )}
+          <Button onClick={isLogin ? submitLoginPin : () => go('otp')} disabled={Boolean(authBusy)}>
+            {authBusy === 'pin' ? 'Please wait...' : 'Proceed'}
+          </Button>
+          <AccountSwitch isLogin={isLogin} />
         </>
       )}
 
@@ -146,10 +296,21 @@ export default function OnboardingFlow({ mode = 'signup' }) {
         <>
           <Overline>{entryLabel}</Overline>
           <PageHeading>Enter the OTP sent to</PageHeading>
-          <PageSub>+91 75875 86959</PageSub>
-          <CodeInputs count={6} />
-          <LinkText>Resend OTP</LinkText>
-          <Button onClick={() => (isLogin ? router.push('/dashboard') : go('pin'))}>Proceed</Button>
+          <PageSub>{isLogin && mobileNumber ? `+91 ${mobileNumber}` : '+91 75875 86959'}</PageSub>
+          <CodeInputs
+            count={6}
+            {...(isLogin ? { value: otp, onChange: (next) => { setOtp(next); setAuthError(''); } } : {})}
+          />
+          <LinkText onClick={isLogin ? resendLoginOtp : undefined}>
+            {authBusy === 'resend' ? 'Sending...' : 'Resend OTP'}
+          </LinkText>
+          {authError && screen === 'otp' && (
+            <p className="text-sm text-red-600 mb-3">{authError}</p>
+          )}
+          <Button onClick={isLogin ? submitLoginOtp : () => go('pin')} disabled={Boolean(authBusy)}>
+            {authBusy === 'otp' ? 'Verifying...' : 'Proceed'}
+          </Button>
+          <AccountSwitch isLogin={isLogin} />
         </>
       )}
 
