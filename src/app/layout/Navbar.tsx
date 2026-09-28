@@ -55,12 +55,12 @@ export default function Navbar() {
           </div>
 
           <div className="nav-right">
-            <Link href="/login" className="nav-login" onClick={() => setOpen(false)}>
+            {/* <Link href="/login" className="nav-login" onClick={() => setOpen(false)}>
               Log in
             </Link>
             <Link href="/signup" className="nav-signup" onClick={() => setOpen(false)}>
               Sign up
-            </Link>
+            </Link> */}
           </div>
 
           <button
