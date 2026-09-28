@@ -110,8 +110,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
-  visibility: hidden;
-  pointer-events: none;
+  z-index: 2;
 }
 
 .site-nav .nav-login {
@@ -188,10 +187,6 @@
 /* Tablet + mobile: hamburger */
 @media (max-width: 1024px) {
   .site-nav .nav-center {
-    display: none;
-  }
-
-  .site-nav .nav-right {
     display: none;
   }
 

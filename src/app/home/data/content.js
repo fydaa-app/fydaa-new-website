@@ -2,7 +2,7 @@ export const TRUST_CARDS = [
   { title: 'SEBI Regulated', desc: 'Registered with the Securities and Exchange Board of India.' },
   { title: 'Direct to AMC', desc: 'Money goes directly to the fund house. Verify on MF Central anytime.' },
   { title: 'Bank-Grade Security', desc: '256-bit SSL encryption and secure payment processing.' },
-  { title: 'Withdraw Anytime', desc: 'No lock-in. Pause, modify, or withdraw investments whenever you want.' },
+  { title: 'Withdraw Anytime', desc: 'No lock-in. modify, or withdraw investments whenever you want.' },
 ];
 
 export const TESTIMONIALS = [

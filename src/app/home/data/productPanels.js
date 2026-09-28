@@ -46,5 +46,4 @@ export const DIRECT_PLAN = {
     { key: 'Wealth & Investments', value: 'Pending', tone: 'muted' },
   ],
   footnote: 'Direct Plan MFs · Zero distributor commissions · ₹999/year',
-  priceLabel: '₹999/year',
 };
