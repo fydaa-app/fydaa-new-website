@@ -20,8 +20,11 @@ const CHECK = (
 export default function ProductSection({
   label,
   heading, // JSX, e.g. <>Every rupee has a <span className="serif">purpose</span></>
+  mobileHeading,
   description,
+  mobileDescription,
   points,
+  mobilePoints,
   ctaText,
   ctaHref = '#',
   reverse = false,
@@ -35,9 +38,15 @@ export default function ProductSection({
         <div className={`prod-grid${reverse ? ' reverse' : ''}`}>
           <div className="prod-text">
             <div className="label">{label}</div>
-            <h2>{heading}</h2>
-            <p>{description}</p>
-            <div className="prod-points">
+            <h2>
+              <span className={mobileHeading ? 'copy-desktop' : undefined}>{heading}</span>
+              {mobileHeading ? <span className="copy-mobile">{mobileHeading}</span> : null}
+            </h2>
+            <p>
+              <span className={mobileDescription ? 'copy-desktop' : undefined}>{description}</span>
+              {mobileDescription ? <span className="copy-mobile">{mobileDescription}</span> : null}
+            </p>
+            <div className={`prod-points${mobilePoints ? ' copy-desktop' : ''}`}>
               {points.map((point) => (
                 <div className="prod-point" key={point}>
                   {CHECK}
@@ -45,6 +54,16 @@ export default function ProductSection({
                 </div>
               ))}
             </div>
+            {mobilePoints ? (
+              <div className="prod-points copy-mobile">
+                {mobilePoints.map((point) => (
+                  <div className="prod-point" key={point}>
+                    {CHECK}
+                    {point}
+                  </div>
+                ))}
+              </div>
+            ) : null}
             {extraCta ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
                 <a
