@@ -32,6 +32,7 @@ export default function HeroCalculator() {
   }
 
   return (
+    <div className="hero-calc-col">
     <div className="hero-calc" id="heroCalc">
       <div className="hc-cats" id="hcCats">
         {SIP_CATEGORY_ORDER.map((key) => (
@@ -48,7 +49,7 @@ export default function HeroCalculator() {
 
       <div className="hc-body">
         <div className="hc-tagline">{category.tagline}</div>
-        <div className="hc-rate">Expected return: {category.rateLabel}</div>
+        <div className="hc-rate">Expected return: {category.rateLabel}*</div>
 
         <div className="hc-row">
           <div className="hc-field">
@@ -125,6 +126,8 @@ export default function HeroCalculator() {
       >
         Start this SIP →
       </a>
+    </div>
+    <p className="hc-note">* Based on historical returns</p>
     </div>
   );
 }
