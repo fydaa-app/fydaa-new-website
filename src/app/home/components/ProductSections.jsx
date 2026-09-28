@@ -30,7 +30,7 @@ export default function ProductSections() {
           'Assets & liabilities in one view',
           'Unified investment dashboard & transaction history',
         ]}
-        ctaText="Explore Money Vault →"
+        // ctaText="Explore Money Vault →"
         ctaHref="/money-vault"
         reverse
       >
@@ -46,7 +46,7 @@ export default function ProductSections() {
           'Actionable tips to improve each area',
           'Track improvements over time',
         ]}
-        ctaText="Check your score →"
+        // ctaText="Check your score →"
         ctaHref="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
       >
         <WealthScorePanel />

@@ -4,7 +4,6 @@ import Script from "next/script";
 import "./globals.css";
 import ConditionalLayout from "./components/ConditionalLayout";
 import Chatbot from "./components/Chatbot";
-import LeadCapturePopup from "./components/LeadCapturePopup";
 
 
 // Load Google fonts with CSS variable support

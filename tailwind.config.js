@@ -39,13 +39,27 @@ module.exports = {
           800: '#262626',
         },
         ink: '#0A0A0A',
+        dark: '#262626',
+        tertiary: '#525252',
+        secondary: '#737373',
+        muted: '#A3A3A3',
+        'border-mid': '#D4D4D4',
+        border: '#E5E5E5',
+        surface: '#F5F5F5',
+        bg: '#FAFAFA',
+        emerald: '#047857',
+        tint: '#ECFDF5',
       },
       borderRadius: {
         '4xl': '20px',
+        card: '14px',
+        btn: '10px',
       },
       boxShadow: {
         card: '0 1px 3px rgba(10,10,10,.04), 0 0 1px rgba(10,10,10,.06)',
         'card-hover': '0 2px 12px rgba(10,10,10,.08), 0 0 1px rgba(10,10,10,.08)',
+        elevated: '0 4px 12px rgba(10,10,10,.06)',
+        modal: '0 20px 60px rgba(10,10,10,.15)',
       },
       keyframes: {
 
