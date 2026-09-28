@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
   const [showEmailModal, setShowEmailModal] = useState(false);
 
   return (
-    <footer className="bg-black text-white py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-24 relative z-50">
+    <footer id="footer" className="bg-black text-white py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-24 relative z-50">
       <div className="w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1800px] mx-auto">
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 mb-6 sm:mb-8">

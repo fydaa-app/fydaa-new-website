@@ -7,15 +7,15 @@ export default function Hero() {
         <div className="hero-grid">
           <div>
             <h1>
-              Your financial life,
-              <br />
+              Your financial life,{' '}
+              <br className="hero-break" />
               <span className="serif">all in one place.</span>
             </h1>
             <p className="hero-sub">
               Invest across asset classes, plan around your goals and keep track of your wealth,
               with everything you need to build, manage and grow your money over time.
             </p>
-            <div className="hero-ctas">
+            <div className="hero-ctas" id="heroCtas">
               <a
                 href="#book-a-call"
                 className="btn-invest"

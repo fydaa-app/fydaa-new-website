@@ -1,6 +1,6 @@
 export default function FinalCta() {
   return (
-    <section className="final-cta">
+    <section className="final-cta" id="final">
       <div className="container">
         <h2>
           Start your wealth-building <span className="serif">journey</span> today
