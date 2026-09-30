@@ -107,7 +107,7 @@ export function Button({ children, onClick, className = '', ...rest }) {
     <button
       type="button"
       onClick={onClick}
-      className={`w-full h-[52px] rounded-xl bg-[#0C4A3E] text-white text-[15px] font-bold hover:bg-[#0A3D33] transition-colors mt-2 ${className}`}
+      className={`w-full h-[52px] rounded-xl bg-[#0C4A3E] text-white text-[15px] font-bold hover:bg-[#0A3D33] transition-colors mt-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#0C4A3E] ${className}`}
       {...rest}
     >
       {children}

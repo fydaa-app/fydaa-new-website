@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Stepper from './components/Stepper';
 import KycModal from './components/KycModal';
 import {
@@ -10,41 +10,32 @@ import {
   CodeInputs, Chip, Checkbox, QuestionCard, ScoreRing,
   RiskIcon, EnvelopeIcon, DocIcon, ShieldIcon, BackIcon, CheckIcon,
 } from './components/UI';
+import {
+  bandFromIndicators,
+  clearTokens,
+  createPin as createPinApi,
+  createUserRiskProfile,
+  getAccessToken,
+  getRiskIndicators,
+  getRiskQuestionnaire,
+  getUserStage,
+  requestOtp,
+  resolvePinSetupType,
+  scoreFromIndicators,
+  updatePortfoliosSoft,
+  verifyOtp,
+  verifyPin,
+} from './lib/authApi';
 
 /**
- * Fydaa — KYC Onboarding (Web)
- *
- * Drop this into the app's router/content area — it renders only the
- * wizard content; the dashboard's sidebar and topbar wrap it as usual.
- *
- * Same steps and copy as the mobile KYC flow:
- *   mobile → otp → pin → rq1..rq7 → score → email → emailotp
- *   → pan → kyc → esign → bank → (nominee | done)
- *
- * Two simplifications vs the mobile app, called out inline below:
- *   - the signature pad is a tap-to-sign toggle, not freehand drawing
- *   - OTP/PIN boxes don't auto-advance focus between digits
+ * Fydaa — auth + KYC onboarding (Web)
+ * Auth: mobile → OTP → create 4-digit PIN → home
+ * Risk quiz opens when KYC starts (isRiskProfileComplete false), not after create PIN.
  */
 
-const RQ_DATA = [
-  { text: 'What is your current age?', subtitle: 'Helps assess investment time horizon and risk appetite', options: ['Below 35 years', '35 – 50 years', '51 – 60 years', 'Above 60 years'] },
-  { text: 'What is your current annual income?', subtitle: 'Assesses financial capacity', options: ['Less than ₹5 lakh', '₹5 lakh – ₹10 lakh', '₹10 lakh – ₹25 lakh', 'More than ₹25 lakh'] },
-  { text: 'How would you describe your saving habits?', subtitle: 'Assesses saving behavior and capacity', options: ['I rarely save', 'I save occasionally', 'I save regularly', 'I save aggressively'] },
-  { text: 'How would you describe your knowledge of financial products & markets?', subtitle: 'Assesses financial literacy', options: ['Very Limited', 'Basic understanding', 'Moderate understanding', 'Extensive knowledge & experience'] },
-  { text: 'What is your primary investment objective?', subtitle: 'Helps identify goal and risk appetite', options: ['Capital Preservation', 'Regular Income', 'Moderate Growth', 'High Growth'] },
-  { text: 'How would you react if your investment dropped 20% in value in a short time?', subtitle: 'Assesses risk tolerance', options: ['Sell everything immediately', 'Sell some to reduce loss', 'Stay invested and wait', 'Invest more to take advantage'] },
-  { text: 'What is your planned investment time horizon?', subtitle: 'Time to goal impacts portfolio risk level', options: ['Less than 1 year', '1 – 3 years', '3 – 5 years', 'More than 5 years'] },
-];
-
 const STEP_MAP = {
-  rq1: { s: 1, p: [1, 7], h: 'Just a few steps to tailor your financial journey' },
-  rq2: { s: 1, p: [2, 7], h: 'Just a few steps to tailor your financial journey' },
-  rq3: { s: 1, p: [3, 7], h: 'Just a few steps to tailor your financial journey' },
-  rq4: { s: 1, p: [4, 7], h: 'Just a few steps to tailor your financial journey' },
-  rq5: { s: 1, p: [5, 7], h: 'Just a few steps to tailor your financial journey' },
-  rq6: { s: 1, p: [6, 7], h: 'Just a few steps to tailor your financial journey' },
-  rq7: { s: 1, p: [7, 7], h: 'Just a few steps to tailor your financial journey' },
-  score: { s: 1, p: [7, 7], h: 'Your risk profile is ready' },
+  risk: { s: 1, p: null, h: 'Just a few steps to tailor your financial journey' },
+  score: { s: 1, p: [1, 1], h: 'Your risk profile is ready' },
   email: { s: 1, p: null, h: 'Get your risk profile report and financial insights' },
   emailotp: { s: 1, p: null, h: 'Get your risk profile report and financial insights' },
   pan: { s: 2, p: null, h: "You're one step away" },
@@ -56,47 +47,11 @@ const STEP_MAP = {
 
 const BACK_MAP = {
   otp: 'mobile',
-  rq1: 'pin', rq2: 'rq1', rq3: 'rq2', rq4: 'rq3', rq5: 'rq4', rq6: 'rq5', rq7: 'rq6',
-  score: 'rq7', email: 'score', emailotp: 'email',
+  score: 'risk', email: 'score', emailotp: 'email',
   bank: 'esign', nominee: 'bank',
 };
 
 const RELATIONS = ['Father', 'Mother', 'Spouse', 'Son', 'Daughter', 'Others'];
-
-const AUTH_BASE = 'https://auth.fydaa.com';
-const WEB_DEVICE = {
-  deviceId: 'web-device-1',
-  deviceToken: [
-    {
-      deviceToken: 'web-fcm-1',
-      deviceId: 'web-device-1',
-      deviceType: 'ANDROID',
-    },
-  ],
-};
-
-async function postAuth(path, body) {
-  const res = await fetch(`${AUTH_BASE}${path}`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-  const data = await res.json().catch(() => ({}));
-  const failed =
-    !res.ok ||
-    data?.success === false ||
-    data?.status === false ||
-    data?.status === 'error' ||
-    (typeof data?.statusCode === 'number' && data.statusCode >= 400);
-  if (failed) {
-    const message = data?.message || data?.error || 'Something went wrong. Please try again.';
-    throw new Error(typeof message === 'string' ? message : 'Something went wrong. Please try again.');
-  }
-  return data;
-}
 
 function AccountSwitch({ isLogin }) {
   return (
@@ -111,10 +66,14 @@ function AccountSwitch({ isLogin }) {
   );
 }
 
+function isTruthyFlag(value) {
+  return value === true || value === 1 || value === 'true' || value === '1';
+}
+
 export default function OnboardingFlow({ mode = 'signup' }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [screen, setScreen] = useState('mobile');
-  const [rqSel, setRqSel] = useState({});
   const [pep, setPep] = useState(false);
   const [esignAgree, setEsignAgree] = useState(false);
   const [esignSigned, setEsignSigned] = useState(false);
@@ -123,43 +82,198 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   const [kycModalOpen, setKycModalOpen] = useState(false);
   const [mobile, setMobile] = useState('');
   const [pin, setPin] = useState('');
-  const [createPin, setCreatePin] = useState('');
+  const [createPinValue, setCreatePinValue] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
+  const [pinSetupType, setPinSetupType] = useState('NEW_USER');
   const [otp, setOtp] = useState('');
   const [authError, setAuthError] = useState('');
   const [authBusy, setAuthBusy] = useState('');
+  const [showReferral, setShowReferral] = useState(false);
+  const [referralInput, setReferralInput] = useState('');
+  const [storedReferral, setStoredReferral] = useState('');
+  const [resendReadyAt, setResendReadyAt] = useState(0);
+  const [questions, setQuestions] = useState([]);
+  const [riskIndex, setRiskIndex] = useState(0);
+  const [riskAnswers, setRiskAnswers] = useState([]);
+  const [riskSel, setRiskSel] = useState(null);
+  const [riskScore, setRiskScore] = useState(0);
+  const [riskBand, setRiskBand] = useState('');
 
-  const go = (next) => setScreen(next);
-
-  const pickOption = (qIdx, optIdx, next) => {
-    setRqSel((prev) => ({ ...prev, [qIdx]: optIdx }));
-    setTimeout(() => setScreen(next), 280);
+  const go = (next) => {
+    setAuthError('');
+    setScreen(next);
   };
 
-  const bankNext = () => go(nomineeOptOut ? 'done' : 'nominee');
+  const bankNext = () => (nomineeOptOut ? goHome() : go('nominee'));
 
   const restart = () => {
     setScreen('mobile');
-    setRqSel({});
     setPep(false);
     setEsignAgree(false);
     setEsignSigned(false);
     setNomineeOptOut(false);
     setNomineeRelation('Father');
     setKycModalOpen(false);
+    setMobile('');
+    setPin('');
+    setCreatePinValue('');
+    setConfirmPin('');
+    setOtp('');
+    setAuthError('');
+    setShowReferral(false);
+    setReferralInput('');
+    setStoredReferral('');
+    setResendReadyAt(0);
+    setQuestions([]);
+    setRiskIndex(0);
+    setRiskAnswers([]);
+    setRiskSel(null);
+    setRiskScore(0);
+    setRiskBand('');
   };
 
   const mobileNumber = mobile.replace(/\D/g, '').slice(0, 10);
+  const goHome = () => router.push('/dashboard');
 
-  async function requestLoginOtp() {
-    await postAuth('/auth/requestOtp', {
-      callingCode: '+91',
-      mobileNumber,
-      deviceId: WEB_DEVICE.deviceId,
-      isWhatsappOptin: 1,
-      fromApp: 'fydaa',
-      deviceToken: WEB_DEVICE.deviceToken,
-    });
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const notice = sessionStorage.getItem('fydaa-auth-notice');
+    const savedMobile = sessionStorage.getItem('fydaa-auth-mobile');
+    if (notice) {
+      sessionStorage.removeItem('fydaa-auth-notice');
+      setAuthError(notice);
+    }
+    if (savedMobile && mode === 'login') {
+      sessionStorage.removeItem('fydaa-auth-mobile');
+      setMobile(savedMobile);
+    }
+  }, [mode]);
+
+  useEffect(() => {
+    if (mode === 'login' || !searchParams) return;
+    const keys = ['ref_code', 'referredBy', 'referralCode', 'referral_code'];
+    for (const key of keys) {
+      const value = searchParams.get(key)?.trim();
+      if (value) {
+        setStoredReferral(value);
+        break;
+      }
+    }
+  }, [mode, searchParams]);
+
+  async function loadRiskResult() {
+    const indicators = await getRiskIndicators();
+    const score = scoreFromIndicators(indicators);
+    setRiskScore(score);
+    setRiskBand(bandFromIndicators(indicators));
+    go('score');
+  }
+
+  async function startRiskQuestionnaire() {
+    setAuthBusy('risk');
+    setAuthError('');
+    try {
+      const list = await getRiskQuestionnaire();
+      if (!list.length) throw new Error('Could not load risk questions.');
+      setQuestions(list);
+      setRiskIndex(0);
+      setRiskAnswers([]);
+      setRiskSel(null);
+      go('risk');
+    } catch (err) {
+      setAuthError(err.message || 'Could not load risk questions.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function routeAfterKycStage(stage) {
+    if (isTruthyFlag(stage?.ismodify)) {
+      goHome();
+      return;
+    }
+    if (isTruthyFlag(stage?.isKycExpired)) {
+      go('pan');
+      return;
+    }
+    if (!isTruthyFlag(stage?.isRiskProfileComplete)) {
+      await startRiskQuestionnaire();
+      return;
+    }
+    if (!isTruthyFlag(stage?.isEmail)) {
+      await loadRiskResult();
+      return;
+    }
+    if (!isTruthyFlag(stage?.isPan) || !isTruthyFlag(stage?.isDob)) {
+      go('pan');
+      return;
+    }
+    go('kyc');
+  }
+
+  async function routeAfterAuth() {
+    const stage = await getUserStage();
+    const type = resolvePinSetupType(stage);
+    setPinSetupType(type);
+    if (type === 'NEW_USER' || type === 'LEGACY_MIGRATION') {
+      setCreatePinValue('');
+      setConfirmPin('');
+      go('pin');
+      return;
+    }
+    // Number already has a PIN — send them to login instead of signing them in
+    clearTokens();
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem(
+        'fydaa-auth-notice',
+        'This number is already registered. Please log in with your PIN.'
+      );
+      if (mobileNumber) sessionStorage.setItem('fydaa-auth-mobile', mobileNumber);
+    }
+    router.replace('/login');
+  }
+
+  useEffect(() => {
+    if (mode === 'login') return;
+    if (searchParams?.get('start') !== 'kyc') return;
+    if (!getAccessToken()) return;
+    let cancelled = false;
+    (async () => {
+      setAuthBusy('kyc');
+      setAuthError('');
+      try {
+        const stage = await getUserStage();
+        if (!cancelled) await routeAfterKycStage(stage);
+      } catch (err) {
+        if (!cancelled) setAuthError(err.message || 'Could not load your KYC stage.');
+      } finally {
+        if (!cancelled) setAuthBusy('');
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, searchParams]);
+
+  async function submitSignupMobile() {
+    if (mobileNumber.length !== 10) {
+      setAuthError('Enter a 10-digit mobile number.');
+      return;
+    }
+    setAuthBusy('otp-request');
+    setAuthError('');
+    const typed = referralInput.trim();
+    const referredBy = storedReferral || typed || undefined;
+    try {
+      await requestOtp({ mobileNumber, referredBy });
+      if (typed) setStoredReferral(typed);
+      setResendReadyAt(Date.now() + 30000);
+      setOtp('');
+      go('otp');
+    } catch (err) {
+      setAuthError(err.message || 'Something went wrong, try again after sometime.');
+    } finally {
+      setAuthBusy('');
+    }
   }
 
   async function submitLoginPin() {
@@ -174,18 +288,8 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     setAuthBusy('pin');
     setAuthError('');
     try {
-      await postAuth('/auth/verifyPin', {
-        callingCode: '+91',
-        mobileNumber,
-        pin,
-        deviceId: WEB_DEVICE.deviceId,
-        isWhatsappOptin: 1,
-        fromApp: 'savestment',
-        deviceToken: WEB_DEVICE.deviceToken,
-      });
-      await requestLoginOtp();
-      setOtp('');
-      go('otp');
+      await verifyPin({ mobileNumber, pin });
+      goHome();
     } catch (err) {
       setAuthError(err.message || 'Could not verify PIN.');
     } finally {
@@ -193,7 +297,7 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     }
   }
 
-  async function submitLoginOtp() {
+  async function submitSignupOtp() {
     if (otp.length !== 6) {
       setAuthError('Enter the 6-digit OTP.');
       return;
@@ -201,16 +305,8 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     setAuthBusy('otp');
     setAuthError('');
     try {
-      const data = await postAuth('/auth/verifyOtp', {
-        mobileNumber,
-        otp,
-        guestUserId: '',
-        referralCode: '',
-        deviceToken: WEB_DEVICE.deviceToken,
-      });
-      const token = data?.token || data?.accessToken || data?.data?.token || data?.data?.accessToken;
-      if (token) localStorage.setItem('fydaa-auth-token', token);
-      router.push('/dashboard');
+      await verifyOtp({ mobileNumber, otp });
+      await routeAfterAuth();
     } catch (err) {
       setAuthError(err.message || 'Could not verify OTP.');
     } finally {
@@ -218,23 +314,119 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     }
   }
 
-  async function resendLoginOtp() {
+  async function resendSignupOtp() {
     if (authBusy) return;
+    if (Date.now() < resendReadyAt) {
+      const secs = Math.ceil((resendReadyAt - Date.now()) / 1000);
+      setAuthError(`You can resend OTP in ${secs}s.`);
+      return;
+    }
     setAuthBusy('resend');
     setAuthError('');
     try {
-      await requestLoginOtp();
+      await requestOtp({
+        mobileNumber,
+        referredBy: storedReferral || undefined,
+      });
+      setResendReadyAt(Date.now() + 30000);
     } catch (err) {
-      setAuthError(err.message || 'Could not resend OTP.');
+      setAuthError(err.message || 'Something went wrong, try again after sometime.');
     } finally {
       setAuthBusy('');
     }
   }
 
+  async function submitCreatePin() {
+    if (createPinValue.length !== 4) {
+      setAuthError('Enter a 4-digit PIN.');
+      return;
+    }
+    if (createPinValue !== confirmPin) {
+      setAuthError('PINs do not match.');
+      return;
+    }
+    setAuthBusy('create-pin');
+    setAuthError('');
+    try {
+      await createPinApi({ pin: createPinValue, confirmPin });
+      const stage = await getUserStage();
+      await routeAfterKycStage(stage);
+    } catch (err) {
+      setAuthError(err.message || 'Could not create PIN.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function pickRiskOption(optIdx) {
+    if (authBusy || !questions[riskIndex]) return;
+    const q = questions[riskIndex];
+    const rawOpt = Array.isArray(q.option) ? q.option[optIdx] : null;
+    const answerIdFromOpt =
+      rawOpt && typeof rawOpt === 'object' && rawOpt.answerId != null
+        ? Number(rawOpt.answerId)
+        : NaN;
+    const answer = {
+      answerId: Number.isFinite(answerIdFromOpt) ? answerIdFromOpt : optIdx + 1,
+      questionId: q.id,
+      secondaryQuestionId: q.secondaryQuestionId,
+    };
+    const nextAnswers = [...riskAnswers.filter((a) => a.questionId !== q.id), answer];
+    setRiskAnswers(nextAnswers);
+    setRiskSel(optIdx);
+
+    const isLast = riskIndex >= questions.length - 1;
+    setTimeout(async () => {
+      if (!isLast) {
+        setRiskIndex((i) => i + 1);
+        setRiskSel(null);
+        return;
+      }
+      setAuthBusy('risk-submit');
+      setAuthError('');
+      try {
+        await createUserRiskProfile(nextAnswers);
+        await updatePortfoliosSoft();
+        await getUserStage();
+        await loadRiskResult();
+      } catch (err) {
+        setAuthError(err.message || 'Something went wrong. Try again after sometime.');
+      } finally {
+        setAuthBusy('');
+      }
+    }, 280);
+  }
+
   const cfg = STEP_MAP[screen];
   const isLogin = mode === 'login';
   const entryLabel = isLogin ? 'Login' : 'Sign up';
-  const backTarget = screen === 'otp' ? null : isLogin ? null : BACK_MAP[screen];
+  const showRiskBack = screen === 'risk' && riskIndex > 0;
+  const backTarget = isLogin ? null : showRiskBack ? 'risk-prev' : BACK_MAP[screen];
+  const currentQuestion = questions[riskIndex];
+  const visibleOptions = Array.isArray(currentQuestion?.option)
+    ? currentQuestion.option.slice(0, 4)
+    : [];
+  const riskProgress = questions.length
+    ? Math.round(((riskIndex + 1) / questions.length) * 100)
+    : null;
+  const pinTitle = pinSetupType === 'LEGACY_MIGRATION' ? 'Update Your pin' : 'Create Your pin';
+  const pinSub =
+    pinSetupType === 'LEGACY_MIGRATION'
+      ? 'Your old 6-digit pin no longer works. Set a new 4-digit pin.'
+      : 'Create a 4-digit pin to secure your account.';
+
+  function handleBack() {
+    if (backTarget === 'risk-prev') {
+      const prevIndex = riskIndex - 1;
+      const prevQ = questions[prevIndex];
+      const prevAnswer = riskAnswers.find((a) => a.questionId === prevQ?.id);
+      setRiskIndex(prevIndex);
+      setRiskSel(prevAnswer ? prevAnswer.answerId - 1 : null);
+      setAuthError('');
+      return;
+    }
+    if (backTarget) go(backTarget);
+  }
 
   return (
     <div className="max-w-[640px] mx-auto px-6 pt-10 pb-24">
@@ -242,14 +434,14 @@ export default function OnboardingFlow({ mode = 'signup' }) {
         <Stepper
           activeStep={cfg.s}
           headline={cfg.h}
-          progress={cfg.p ? Math.round((cfg.p[0] / cfg.p[1]) * 100) : null}
+          progress={screen === 'risk' ? riskProgress : cfg.p ? Math.round((cfg.p[0] / cfg.p[1]) * 100) : null}
         />
       )}
 
       {backTarget && (
         <button
           type="button"
-          onClick={() => go(backTarget)}
+          onClick={handleBack}
           aria-label="Back"
           className="w-9 h-9 rounded-full border border-neutral-200 bg-white flex items-center justify-center mb-5"
         >
@@ -271,8 +463,8 @@ export default function OnboardingFlow({ mode = 'signup' }) {
             type="tel"
             maxLength={10}
             placeholder="Enter mobile number"
-            value={isLogin ? mobileNumber : undefined}
-            onChange={isLogin ? (e) => { setMobile(e.target.value); setAuthError(''); } : undefined}
+            value={mobileNumber}
+            onChange={(e) => { setMobile(e.target.value); setAuthError(''); }}
           />
           {isLogin && (
             <div className="mb-2">
@@ -282,53 +474,66 @@ export default function OnboardingFlow({ mode = 'signup' }) {
               <CodeInputs count={4} value={pin} onChange={(next) => { setPin(next); setAuthError(''); }} />
             </div>
           )}
-          {!isLogin && <LinkText>Have a Referral Code?</LinkText>}
+          {!isLogin && (
+            <>
+              <LinkText onClick={() => setShowReferral((v) => !v)}>Have a Referral Code?</LinkText>
+              {showReferral && (
+                <FieldInput
+                  label="Referral Code"
+                  placeholder="Optional"
+                  value={referralInput}
+                  onChange={(e) => setReferralInput(e.target.value)}
+                />
+              )}
+            </>
+          )}
           {authError && screen === 'mobile' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={isLogin ? submitLoginPin : () => go('otp')} disabled={Boolean(authBusy)}>
-            {authBusy === 'pin' ? 'Please wait...' : 'Proceed'}
+          <Button onClick={isLogin ? submitLoginPin : submitSignupMobile} disabled={Boolean(authBusy)}>
+            {authBusy === 'pin' || authBusy === 'otp-request' ? 'Please wait...' : 'Proceed'}
           </Button>
           <AccountSwitch isLogin={isLogin} />
         </>
       )}
 
-      {/* OTP */}
+      {/* OTP — signup / first visit */}
       {screen === 'otp' && (
         <>
           <Overline>{entryLabel}</Overline>
           <PageHeading>Enter the OTP sent to</PageHeading>
-          <PageSub>{isLogin && mobileNumber ? `+91 ${mobileNumber}` : '+91 75875 86959'}</PageSub>
+          <PageSub>{mobileNumber ? `+91 ${mobileNumber}` : '+91'}</PageSub>
           <CodeInputs
             count={6}
-            {...(isLogin ? { value: otp, onChange: (next) => { setOtp(next); setAuthError(''); } } : {})}
+            value={otp}
+            onChange={(next) => { setOtp(next); setAuthError(''); }}
           />
-          <LinkText onClick={isLogin ? resendLoginOtp : undefined}>
+          <LinkText onClick={resendSignupOtp}>
             {authBusy === 'resend' ? 'Sending...' : 'Resend OTP'}
           </LinkText>
           {authError && screen === 'otp' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={isLogin ? submitLoginOtp : () => go('pin')} disabled={Boolean(authBusy)}>
+          <Button onClick={submitSignupOtp} disabled={Boolean(authBusy)}>
             {authBusy === 'otp' ? 'Verifying...' : 'Proceed'}
           </Button>
           <AccountSwitch isLogin={isLogin} />
         </>
       )}
 
-      {/* PIN — signup creates a 4-digit PIN */}
+      {/* PIN — create / legacy migrate; then home (not risk quiz) */}
       {screen === 'pin' && (
         <>
-          <PageHeading>Set Your PIN</PageHeading>
-          <PageSub>Kindly set up your 4-digit PIN</PageSub>
+          <PageHeading>{pinTitle}</PageHeading>
+          <PageSub>{pinSub}</PageSub>
           <div className="bg-white border border-neutral-200 rounded-2xl p-6 mb-5 shadow-sm">
             <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-400 mb-3">
               Enter 4-Digit PIN
             </label>
             <CodeInputs
               count={4}
-              value={createPin}
-              onChange={(next) => { setCreatePin(next); setAuthError(''); }}
+              value={createPinValue}
+              onChange={(next) => { setCreatePinValue(next); setAuthError(''); }}
             />
             <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-400 mb-3">
               Re-Enter PIN
@@ -342,70 +547,60 @@ export default function OnboardingFlow({ mode = 'signup' }) {
           {authError && screen === 'pin' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button
-            onClick={() => {
-              if (createPin.length !== 4) {
-                setAuthError('Enter a 4-digit PIN.');
-                return;
-              }
-              if (createPin !== confirmPin) {
-                setAuthError('PINs do not match.');
-                return;
-              }
-              setAuthError('');
-              go('rq1');
-            }}
-          >
-            Get Started
+          <Button onClick={submitCreatePin} disabled={Boolean(authBusy)}>
+            {authBusy === 'create-pin' ? 'Saving...' : 'Get Started'}
           </Button>
         </>
       )}
 
-      {/* RISK QUESTIONS — one generic screen driven by RQ_DATA */}
-      {screen.startsWith('rq') &&
-        screen.length === 3 &&
-        (() => {
-          const idx = parseInt(screen.slice(2), 10);
-          const d = RQ_DATA[idx - 1];
-          const nextScreen = idx < 7 ? `rq${idx + 1}` : 'score';
-          return (
-            <>
-              <QuestionCard
-                icon={<RiskIcon className="w-[21px] h-[21px]" />}
-                counter={`(${idx} of 7)`}
-                title={d.text}
-                subtitle={d.subtitle}
-              />
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {d.options.map((label, i) => (
-                  <button
-                    key={label}
-                    type="button"
-                    onClick={() => pickOption(idx, i, nextScreen)}
-                    className={`text-left rounded-2xl border-[1.5px] px-4 py-[18px] text-sm font-semibold transition-colors ${
-                      rqSel[idx] === i
-                        ? 'border-emerald-700 bg-emerald-50 text-[#0C4A3E]'
-                        : 'border-neutral-200 text-neutral-600 hover:border-neutral-300'
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </>
-          );
-        })()}
+      {/* RISK QUESTIONS — API questionnaire, one at a time */}
+      {screen === 'risk' && currentQuestion && (
+        <>
+          <QuestionCard
+            icon={<RiskIcon className="w-[21px] h-[21px]" />}
+            counter={`(${riskIndex + 1} of ${questions.length})`}
+            title={currentQuestion.question || currentQuestion.text || ''}
+            subtitle={currentQuestion.subtitle || currentQuestion.description || ''}
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {visibleOptions.map((opt, i) => {
+              const label = typeof opt === 'string' ? opt : opt?.answer || opt?.option || opt?.text || opt?.label || String(opt);
+              return (
+                <button
+                  key={`${currentQuestion.id}-${i}`}
+                  type="button"
+                  disabled={Boolean(authBusy)}
+                  onClick={() => pickRiskOption(i)}
+                  className={`text-left rounded-2xl border-[1.5px] px-4 py-[18px] text-sm font-semibold transition-colors ${
+                    riskSel === i
+                      ? 'border-emerald-700 bg-emerald-50 text-[#0C4A3E]'
+                      : 'border-neutral-200 text-neutral-600 hover:border-neutral-300'
+                  }`}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+          {authError && (
+            <p className="text-sm text-red-600 mt-4">{authError}</p>
+          )}
+          {authBusy === 'risk-submit' && (
+            <p className="text-sm text-neutral-500 mt-4">Saving your risk profile...</p>
+          )}
+        </>
+      )}
 
       {/* SCORE */}
       {screen === 'score' && (
         <div className="flex flex-col items-center text-center">
-          <ScoreRing score={75} max={100} />
+          <ScoreRing score={riskScore} max={100} />
           <div className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 rounded-full px-[18px] py-2 text-[13px] font-bold text-[#0C4A3E]">
             <ShieldIcon className="w-4 h-4" />
-            Moderately Aggressive
+            {riskBand || 'Your risk profile'}
           </div>
           <p className="text-sm text-neutral-500 mt-5 leading-relaxed max-w-[400px]">
-            You are comfortable with moderate risk for potentially higher returns over the long term.
+            Your personalized risk profile is ready. Continue to verify your email and finish KYC.
           </p>
           <Button onClick={() => go('email')} className="max-w-none">Continue</Button>
         </div>
@@ -592,11 +787,11 @@ export default function OnboardingFlow({ mode = 'signup' }) {
             <FieldInput label="Nominee's Date of Birth" placeholder="DD / MM / YYYY" />
             <FieldInput label="Nominee's Mobile" type="tel" placeholder="Enter mobile number" />
           </FieldRow>
-          <Button onClick={() => go('done')}>Continue</Button>
+          <Button onClick={goHome}>Continue</Button>
         </>
       )}
 
-      {/* DONE */}
+      {/* DONE (fallback — full onboarding routes to dashboard) */}
       {screen === 'done' && (
         <div className="flex flex-col items-center text-center pt-10">
           <div className="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center mb-6">
@@ -610,7 +805,7 @@ export default function OnboardingFlow({ mode = 'signup' }) {
               ? 'Welcome back. Your Fydaa account is ready.'
               : "Your Fydaa account is fully set up. You're ready to start investing."}
           </p>
-          <Button className="max-w-[280px]">Go to Dashboard</Button>
+          <Button className="max-w-[280px]" onClick={goHome}>Go to Dashboard</Button>
           <LinkText className="mt-4" onClick={restart}>Restart demo</LinkText>
         </div>
       )}
