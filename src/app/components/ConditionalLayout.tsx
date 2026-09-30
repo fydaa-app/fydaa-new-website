@@ -12,6 +12,7 @@ export default function ConditionalLayout({
   const pathname = usePathname();
   const hideNavbar =
     pathname?.startsWith('/dashboard') ||
+    pathname?.startsWith('/upi-faq') ||
     pathname?.startsWith('/SuccesspageDigi') ||
     pathname?.startsWith('/SuccesspageFund') ||
     pathname?.startsWith('/Successpagemandate') ||

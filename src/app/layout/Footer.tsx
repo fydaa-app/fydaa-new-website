@@ -1,8 +1,21 @@
 "use client";
 import React, { useState } from "react";
 
+const UPI_HANDLES = [
+  "multistrato.capitaladvisors.ia@validyes",
+  "multistrato.ia@validyes",
+  "savestment.ia@validyes",
+  "fydaa.ia@validyes",
+  "multistrato.rzp1.ia@validicici",
+  "multistrato.rzp2.ia@validicici",
+];
+
 const Footer: React.FC = () => {
   const [showEmailModal, setShowEmailModal] = useState(false);
+  const [showQrModal, setShowQrModal] = useState(false);
+
+  const footerBtnClass =
+    "flex items-center justify-center cursor-pointer transition-transform duration-300 ease-in-out w-full sm:w-auto sm:min-w-[150px] h-[40px] sm:h-[42px] md:h-[45px] xl:h-[48px] bg-black rounded-lg border border-white text-white font-semibold text-[12px] sm:text-[13px] md:text-[14px] xl:text-[16px] shadow-lg hover:scale-105 px-4";
 
   return (
     <footer id="footer" className="bg-black text-white py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-24 relative z-50">
@@ -83,74 +96,85 @@ const Footer: React.FC = () => {
 
           {/* Right Column - Quick Links */}
           <div className="lg:col-span-1">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-              <h3 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-inter font-semibold">
-                Quick Links
-              </h3>
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <h3 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-inter font-semibold mb-4 sm:mb-5">
+                  Quick Links
+                </h3>
+                <div className="space-y-3">
+                  <a
+                    href="/quicklinks/Terms&Conditions"
+                    className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
+                  >
+                    Terms & Conditions
+                  </a>
+                  <a
+                    href="/quicklinks/PrivacyPolicy"
+                    className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
+                  >
+                    Privacy Policy
+                  </a>
+                  <a
+                    href="/quicklinks/RefundPolicy"
+                    className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
+                  >
+                    Refund Policy
+                  </a>
+                  <a
+                    href="/quicklinks/InvestorCharter"
+                    className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
+                  >
+                    Investor Charter
+                  </a>
+                  <a
+                    href="/quicklinks/Complaints"
+                    className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
+                  >
+                    Complaints
+                  </a>
+                  <a
+                    href="/quicklinks/Grievance"
+                    className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
+                  >
+                    Grievance Redressal / Escalation Matrix
+                  </a>
+                  <a
+                    href="/quicklinks/InvestorWarning"
+                    className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
+                  >
+                    Investor Warning - Fraudulent Misuse of Our Details
+                  </a>
+                  <a
+                    href="/quicklinks/VigilanceAwarenessWeek"
+                    className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
+                  >
+                    Vigilance Awareness Week
+                  </a>
+                  <a
+                    href="/quicklinks/Disclosure"
+                    className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
+                  >
+                    Disclosure
+                  </a>
+                </div>
+              </div>
 
-              {/* UPI Handles Button */}
-              <button
-                onClick={() => setShowEmailModal(true)}
-                className="flex items-center justify-center cursor-pointer transition-transform duration-300 ease-in-out w-full sm:w-auto max-w-none sm:max-w-[150px] h-[40px] sm:h-[42px] md:h-[45px] xl:h-[48px] mt-0 bg-black rounded-lg border border-white text-white font-semibold text-[12px] sm:text-[13px] md:text-[14px] xl:text-[16px] shadow-lg hover:scale-105 px-4"
-              >
-                UPI Handles
-              </button>
-            </div>
-            <div className="space-y-3">
-              <a
-                href="/quicklinks/Terms&Conditions"
-                className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
-              >
-                Terms & Conditions
-              </a>
-              <a
-                href="/quicklinks/PrivacyPolicy"
-                className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="/quicklinks/RefundPolicy"
-                className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
-              >
-                Refund Policy
-              </a>
-              <a
-                href="/quicklinks/InvestorCharter"
-                className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
-              >
-                Investor Charter
-              </a>
-              <a
-                href="/quicklinks/Complaints"
-                className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
-              >
-                Complaints
-              </a>
-              <a
-                href="/quicklinks/Grievance"
-                className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
-              >
-                Grievance Redressal / Escalation Matrix
-              </a>
-              <a
-                href="/quicklinks/InvestorWarning"
-                className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
-              >
-                Investor Warning - Fraudulent Misuse of Our Details
-              </a>
-              <a
-                href="/quicklinks/VigilanceAwarenessWeek"
-                className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
-              >
-                Vigilance Awareness Week
-              </a>
-              <a
-                href="/quicklinks/Disclosure"
-                className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
-              >
-                Disclosure
-              </a>
+              <div className="flex w-full sm:w-auto flex-col gap-2.5 shrink-0 order-first sm:order-none">
+                <button
+                  type="button"
+                  onClick={() => setShowEmailModal(true)}
+                  className={footerBtnClass}
+                >
+                  UPI Handles
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowQrModal(true)}
+                  className={footerBtnClass}
+                >
+                  Scan QR Code
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -232,42 +256,113 @@ const Footer: React.FC = () => {
 
       {/* UPI Handles Modal */}
       {showEmailModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999] p-4">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95%] sm:w-[350px] md:w-[380px] lg:w-[380px] xl:w-[420px] max-w-[95vw] max-h-[90vh] border border-white bg-black rounded-lg shadow-2xl p-4 sm:p-5 md:p-6 lg:p-6 xl:p-7 outline-none overflow-auto">
-            <h2 className="text-center text-white font-semibold mb-4 sm:mb-5 md:mb-6 lg:mb-6 xl:mb-7 text-[20px] sm:text-[22px] md:text-[24px] lg:text-[24px] xl:text-[26px]">
+        <div
+          className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/80 p-0 sm:p-4"
+          onClick={() => setShowEmailModal(false)}
+          role="presentation"
+        >
+          <div
+            className="flex w-full sm:w-[min(420px,95vw)] max-h-[min(90dvh,640px)] flex-col border border-white bg-black rounded-t-2xl sm:rounded-lg shadow-2xl outline-none"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="upi-handles-title"
+          >
+            <h2
+              id="upi-handles-title"
+              className="shrink-0 text-center text-white font-semibold px-4 pt-5 pb-3 text-[18px] sm:text-[22px] md:text-[24px]"
+            >
               Verified UPI Handles
             </h2>
 
-            <div className="flex flex-col gap-3 sm:gap-4 md:gap-4 lg:gap-4 xl:gap-5">
-              <div className="p-3 sm:p-4 md:p-4 lg:p-4 xl:p-5 bg-[#1a1a1a] rounded border border-[#333]">
-                <p className="text-white text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] font-medium break-all">
-                  multistrato.capitaladvisors.ia@validyes
-                </p>
-              </div>
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 sm:px-5 space-y-2.5 sm:space-y-3">
+              {UPI_HANDLES.map((handle) => (
+                <div
+                  key={handle}
+                  className="rounded border border-[#333] bg-[#1a1a1a] px-3 py-3 sm:px-4 sm:py-3.5"
+                >
+                  <p className="break-all text-white font-medium text-[12px] leading-snug sm:text-[13px] md:text-[14px]">
+                    {handle}
+                  </p>
+                </div>
+              ))}
+            </div>
 
-              <div className="p-3 sm:p-4 md:p-4 lg:p-4 xl:p-5 bg-[#1a1a1a] rounded border border-[#333]">
-                <p className="text-white text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] font-medium break-all">
-                  multistrato.ia@validyes
-                </p>
-              </div>
+            <div className="shrink-0 flex flex-col items-center gap-3 px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))] sm:pb-5">
+              <a
+                href="/upi-faq"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-center text-[12px] sm:text-[13px] text-white underline underline-offset-2 hover:text-gray-300 transition-colors leading-snug px-1"
+              >
+                Read FAQs to Understand the Validated UPI Handle System
+              </a>
+              <button
+                type="button"
+                onClick={() => setShowEmailModal(false)}
+                className="min-h-[44px] min-w-[100px] rounded-lg border border-white bg-white px-8 py-2.5 text-[15px] font-medium text-black transition-colors hover:bg-gray-100"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
-              <div className="p-3 sm:p-4 md:p-4 lg:p-4 xl:p-5 bg-[#1a1a1a] rounded border border-[#333]">
-                <p className="text-white text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] font-medium break-all">
-                  savestment.ia@validyes
-                </p>
-              </div>
+      {/* Scan QR Code Modal */}
+      {showQrModal && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/80 p-0 sm:p-4"
+          onClick={() => setShowQrModal(false)}
+          role="presentation"
+        >
+          <div
+            className="flex h-[min(92dvh,720px)] w-full sm:h-auto sm:max-h-[min(90dvh,720px)] sm:w-[min(560px,95vw)] flex-col border border-white bg-black rounded-t-2xl sm:rounded-lg shadow-2xl outline-none"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="scan-qr-title"
+          >
+            <h2
+              id="scan-qr-title"
+              className="shrink-0 text-center text-white font-semibold px-4 pt-4 pb-2 text-[18px] sm:pt-5 sm:pb-3 sm:text-[22px] md:text-[24px]"
+            >
+              Scan QR Code
+            </h2>
 
-              <div className="p-3 sm:p-4 md:p-4 lg:p-4 xl:p-5 bg-[#1a1a1a] rounded border border-[#333]">
-                <p className="text-white text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] font-medium break-all">
-                  fydaa.ia@validyes
-                </p>
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 sm:px-5 [-webkit-overflow-scrolling:touch]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pb-1">
+                {[
+                  {
+                    src: "/images/upi-qr-rzp1.png",
+                    handle: "multistrato.rzp1.ia@validicici",
+                  },
+                  {
+                    src: "/images/upi-qr-rzp2.png",
+                    handle: "multistrato.rzp2.ia@validicici",
+                  },
+                ].map((qr) => (
+                  <div
+                    key={qr.handle}
+                    className="mx-auto flex w-full max-w-[260px] sm:max-w-none flex-col items-center rounded-lg border border-[#333] bg-white p-2 sm:p-3"
+                  >
+                    <img
+                      src={qr.src}
+                      alt={`UPI QR for ${qr.handle}`}
+                      width={220}
+                      height={220}
+                      className="h-auto w-full max-w-[200px] xs:max-w-[220px] sm:max-w-full object-contain"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="mt-6 sm:mt-7 md:mt-8 lg:mt-8 xl:mt-9 flex justify-center">
+            <div className="shrink-0 flex justify-center border-t border-white/10 px-4 pt-3 pb-[max(0.875rem,env(safe-area-inset-bottom))] sm:pb-5">
               <button
-                onClick={() => setShowEmailModal(false)}
-                className="bg-white text-black text-[14px] sm:text-[15px] md:text-[16px] lg:text-[16px] xl:text-[17px] px-6 sm:px-7 md:px-8 lg:px-8 xl:px-8 py-2 sm:py-2 md:py-2 lg:py-2 xl:py-3 min-w-[80px] sm:min-w-[90px] md:min-w-[100px] lg:min-w-[100px] xl:min-w-[110px] font-medium border border-white rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                type="button"
+                onClick={() => setShowQrModal(false)}
+                className="min-h-[44px] min-w-[100px] rounded-lg border border-white bg-white px-8 py-2.5 text-[15px] font-medium text-black transition-colors hover:bg-gray-100"
               >
                 Close
               </button>
