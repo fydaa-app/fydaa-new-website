@@ -123,6 +123,8 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   const [kycModalOpen, setKycModalOpen] = useState(false);
   const [mobile, setMobile] = useState('');
   const [pin, setPin] = useState('');
+  const [createPin, setCreatePin] = useState('');
+  const [confirmPin, setConfirmPin] = useState('');
   const [otp, setOtp] = useState('');
   const [authError, setAuthError] = useState('');
   const [authBusy, setAuthBusy] = useState('');
@@ -314,22 +316,48 @@ export default function OnboardingFlow({ mode = 'signup' }) {
         </>
       )}
 
-      {/* PIN */}
+      {/* PIN — signup creates a 4-digit PIN */}
       {screen === 'pin' && (
         <>
           <PageHeading>Set Your PIN</PageHeading>
-          <PageSub>Kindly set up your 6-digit PIN</PageSub>
+          <PageSub>Kindly set up your 4-digit PIN</PageSub>
           <div className="bg-white border border-neutral-200 rounded-2xl p-6 mb-5 shadow-sm">
             <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-400 mb-3">
-              Enter 6-Digit PIN
+              Enter 4-Digit PIN
             </label>
-            <CodeInputs count={6} />
+            <CodeInputs
+              count={4}
+              value={createPin}
+              onChange={(next) => { setCreatePin(next); setAuthError(''); }}
+            />
             <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-400 mb-3">
               Re-Enter PIN
             </label>
-            <CodeInputs count={6} />
+            <CodeInputs
+              count={4}
+              value={confirmPin}
+              onChange={(next) => { setConfirmPin(next); setAuthError(''); }}
+            />
           </div>
-          <Button onClick={() => go('rq1')}>Get Started</Button>
+          {authError && screen === 'pin' && (
+            <p className="text-sm text-red-600 mb-3">{authError}</p>
+          )}
+          <Button
+            onClick={() => {
+              if (createPin.length !== 4) {
+                setAuthError('Enter a 4-digit PIN.');
+                return;
+              }
+              if (createPin !== confirmPin) {
+                setAuthError('PINs do not match.');
+                return;
+              }
+              setAuthError('');
+              go('rq1');
+            }}
+          >
+            Get Started
+          </Button>
         </>
       )}
 
