@@ -6,10 +6,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Stepper from './components/Stepper';
 import KycModal from './components/KycModal';
 import {
-  Overline, PageHeading, PageSub, Button, LinkText, FieldInput, FieldSelect, FieldRow,
+  Overline, PageHeading, PageSub, Button, OutlineButton, LinkText, FieldInput, FieldSelect, FieldRow,
   CodeInputs, Chip, Checkbox, QuestionCard, ScoreRing,
-  RiskIcon, EnvelopeIcon, DocIcon, ShieldIcon, BackIcon, CheckIcon,
+  RiskIcon, EnvelopeIcon, DocIcon, ShieldIcon, BackIcon, CheckIcon, GoogleIcon, AppleIcon,
 } from './components/UI';
+import SignaturePad from './components/SignaturePad';
 import {
   bandFromIndicators,
   clearTokens,
@@ -19,13 +20,61 @@ import {
   getRiskIndicators,
   getRiskQuestionnaire,
   getUserStage,
+  linkEmail,
+  requestLinkEmail,
   requestOtp,
   resolvePinSetupType,
   scoreFromIndicators,
   updatePortfoliosSoft,
+  verifyLinkEmail,
   verifyOtp,
   verifyPin,
 } from './lib/authApi';
+import { isValidEmail } from './lib/emailValidation';
+import {
+  INCOME_OPTIONS,
+  NOMINEE_RELATIONS,
+  OCCUPATION_COMPLIANT,
+  SOURCE_OF_WEALTH,
+  createAndVerifyBankAccount,
+  createInvestorProfileAndMfAccount,
+  createModifyKycForm,
+  fetchKycData,
+  getCurrentKycForm,
+  getIdentityDocument,
+  getKycFormById,
+  getNsdlEsignStatus,
+  getPublicIp,
+  initiateKyc,
+  isDigiLockerCallback,
+  isNoKycRecord,
+  isNsdlCallback,
+  isPanMismatch,
+  isSignupComplete,
+  isTruthyFlag,
+  isValidFullName,
+  mismatchMessage,
+  openPopup,
+  patchKycForm,
+  reissueTokens,
+  saveKycExtra,
+  saveNominee,
+  saveNonCompliantRequest,
+  startIdentityDocument,
+  startNsdlEsign,
+  toTitleCaseName,
+  uploadModifySignatureFile,
+  uploadSignatureBase64,
+  waitForPopupClose,
+} from './lib/kycApi';
+import { getEmailFromApple, getEmailFromGoogle } from './lib/oauthEmail';
+import {
+  isAdultDob,
+  isValidPan,
+  maxDobForMinAge,
+  normalizePan,
+  toIsoDate,
+} from './lib/panValidation';
 
 /**
  * Fydaa — auth + KYC onboarding (Web)
@@ -40,6 +89,9 @@ const STEP_MAP = {
   emailotp: { s: 1, p: null, h: 'Get your risk profile report and financial insights' },
   pan: { s: 2, p: null, h: "You're one step away" },
   kyc: { s: 2, p: null, h: "You're one step away" },
+  digilocker: { s: 2, p: null, h: "You're one step away" },
+  signature: { s: 3, p: null, h: "You're one step away" },
+  nsdl: { s: 3, p: null, h: "You're one step away" },
   esign: { s: 3, p: null, h: "You're one step away" },
   bank: { s: 4, p: null, h: null },
   nominee: { s: 4, p: null, h: null },
@@ -48,10 +100,11 @@ const STEP_MAP = {
 const BACK_MAP = {
   otp: 'mobile',
   score: 'risk', email: 'score', emailotp: 'email',
+  digilocker: 'kyc', signature: 'digilocker', nsdl: 'signature',
   bank: 'esign', nominee: 'bank',
 };
 
-const RELATIONS = ['Father', 'Mother', 'Spouse', 'Son', 'Daughter', 'Others'];
+const RELATIONS = NOMINEE_RELATIONS.map((r) => r.label);
 
 function AccountSwitch({ isLogin }) {
   return (
@@ -66,10 +119,6 @@ function AccountSwitch({ isLogin }) {
   );
 }
 
-function isTruthyFlag(value) {
-  return value === true || value === 1 || value === 'true' || value === '1';
-}
-
 export default function OnboardingFlow({ mode = 'signup' }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -78,8 +127,26 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   const [esignAgree, setEsignAgree] = useState(false);
   const [esignSigned, setEsignSigned] = useState(false);
   const [nomineeOptOut, setNomineeOptOut] = useState(false);
-  const [nomineeRelation, setNomineeRelation] = useState('Father');
+  const [nomineeRelation, setNomineeRelation] = useState('father');
   const [kycModalOpen, setKycModalOpen] = useState(false);
+  const [kycPath, setKycPath] = useState('compliant'); // compliant | noncompliant | modify
+  const [kycNotice, setKycNotice] = useState('');
+  const [modifyFormId, setModifyFormId] = useState('');
+  const [panName, setPanName] = useState('');
+  const [incomeSlab, setIncomeSlab] = useState('');
+  const [occupation, setOccupation] = useState('');
+  const [sourceOfWealth, setSourceOfWealth] = useState('');
+  const [fatherName, setFatherName] = useState('');
+  const [gender, setGender] = useState('');
+  const [maritalStatus, setMaritalStatus] = useState('');
+  const [signatureB64, setSignatureB64] = useState('');
+  const [signatureBlank, setSignatureBlank] = useState(true);
+  const [ifsc, setIfsc] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [confirmAccountNumber, setConfirmAccountNumber] = useState('');
+  const [accountType, setAccountType] = useState('savings');
+  const [nomineeName, setNomineeName] = useState('');
+  const [nomineeDob, setNomineeDob] = useState('');
   const [mobile, setMobile] = useState('');
   const [pin, setPin] = useState('');
   const [createPinValue, setCreatePinValue] = useState('');
@@ -98,13 +165,20 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   const [riskSel, setRiskSel] = useState(null);
   const [riskScore, setRiskScore] = useState(0);
   const [riskBand, setRiskBand] = useState('');
+  const [email, setEmail] = useState('');
+  const [emailOtp, setEmailOtp] = useState('');
+  const [emailResendReadyAt, setEmailResendReadyAt] = useState(0);
+  const [emailResendSecs, setEmailResendSecs] = useState(0);
+  const [panNumber, setPanNumber] = useState('');
+  const [dob, setDob] = useState('');
+  const maxDobIso = toIsoDate(maxDobForMinAge(18));
 
   const go = (next) => {
     setAuthError('');
     setScreen(next);
   };
 
-  const bankNext = () => (nomineeOptOut ? goHome() : go('nominee'));
+  const bankNext = () => (nomineeOptOut ? submitNominee() : go('nominee'));
 
   const restart = () => {
     setScreen('mobile');
@@ -112,8 +186,26 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     setEsignAgree(false);
     setEsignSigned(false);
     setNomineeOptOut(false);
-    setNomineeRelation('Father');
+    setNomineeRelation('father');
     setKycModalOpen(false);
+    setKycPath('compliant');
+    setKycNotice('');
+    setModifyFormId('');
+    setPanName('');
+    setIncomeSlab('');
+    setOccupation('');
+    setSourceOfWealth('');
+    setFatherName('');
+    setGender('');
+    setMaritalStatus('');
+    setSignatureB64('');
+    setSignatureBlank(true);
+    setIfsc('');
+    setAccountNumber('');
+    setConfirmAccountNumber('');
+    setAccountType('savings');
+    setNomineeName('');
+    setNomineeDob('');
     setMobile('');
     setPin('');
     setCreatePinValue('');
@@ -130,6 +222,12 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     setRiskSel(null);
     setRiskScore(0);
     setRiskBand('');
+    setEmail('');
+    setEmailOtp('');
+    setEmailResendReadyAt(0);
+    setEmailResendSecs(0);
+    setPanNumber('');
+    setDob('');
   };
 
   const mobileNumber = mobile.replace(/\D/g, '').slice(0, 10);
@@ -161,6 +259,20 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     }
   }, [mode, searchParams]);
 
+  useEffect(() => {
+    if (screen !== 'emailotp' || !emailResendReadyAt) {
+      setEmailResendSecs(0);
+      return undefined;
+    }
+    const tick = () => {
+      const left = Math.max(0, Math.ceil((emailResendReadyAt - Date.now()) / 1000));
+      setEmailResendSecs(left);
+    };
+    tick();
+    const id = setInterval(tick, 250);
+    return () => clearInterval(id);
+  }, [screen, emailResendReadyAt]);
+
   async function loadRiskResult() {
     const indicators = await getRiskIndicators();
     const score = scoreFromIndicators(indicators);
@@ -188,10 +300,37 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   }
 
   async function routeAfterKycStage(stage) {
+    // §2.2 resume order
     if (isTruthyFlag(stage?.ismodify)) {
+      setKycPath('modify');
+      if (isTruthyFlag(stage?.ismodifynsdl)) {
+        if (!isTruthyFlag(stage?.isBank)) {
+          go('bank');
+          return;
+        }
+        if (!isTruthyFlag(stage?.isNominee)) {
+          go('nominee');
+          return;
+        }
+        goHome();
+        return;
+      }
+      if (!isTruthyFlag(stage?.ismodifydigilocker)) {
+        go('digilocker');
+        return;
+      }
+      if (!isTruthyFlag(stage?.ismodifyquestions)) {
+        go('kyc');
+        return;
+      }
+      if (!isTruthyFlag(stage?.ismodifyesign) || !isTruthyFlag(stage?.ismodifynsdl)) {
+        go('signature');
+        return;
+      }
       goHome();
       return;
     }
+
     if (isTruthyFlag(stage?.isKycExpired)) {
       go('pan');
       return;
@@ -208,7 +347,48 @@ export default function OnboardingFlow({ mode = 'signup' }) {
       go('pan');
       return;
     }
-    go('kyc');
+
+    if (isTruthyFlag(stage?.isKycCompliant)) {
+      setKycPath('compliant');
+      if (!isTruthyFlag(stage?.kycExtraData)) {
+        go('kyc');
+        return;
+      }
+      if (!isTruthyFlag(stage?.isBank)) {
+        go('bank');
+        return;
+      }
+      if (!isTruthyFlag(stage?.isNominee)) {
+        go('nominee');
+        return;
+      }
+      goHome();
+      return;
+    }
+
+    // Non-compliant (or fresh)
+    setKycPath('noncompliant');
+    if (!isTruthyFlag(stage?.isNonCompliantData) || !isTruthyFlag(stage?.isDigiLocker)) {
+      if (!isTruthyFlag(stage?.isNonCompliantData)) {
+        go('kyc');
+        return;
+      }
+      go('digilocker');
+      return;
+    }
+    if (!isTruthyFlag(stage?.isNSDL)) {
+      go('signature');
+      return;
+    }
+    if (!isTruthyFlag(stage?.isBank)) {
+      go('bank');
+      return;
+    }
+    if (!isTruthyFlag(stage?.isNominee)) {
+      go('nominee');
+      return;
+    }
+    goHome();
   }
 
   async function routeAfterAuth() {
@@ -221,7 +401,12 @@ export default function OnboardingFlow({ mode = 'signup' }) {
       go('pin');
       return;
     }
-    // Number already has a PIN — send them to login instead of signing them in
+    // PIN exists but signup incomplete → resume at first remaining step
+    if (!isSignupComplete(stage)) {
+      await routeAfterKycStage(stage);
+      return;
+    }
+    // Fully registered → login with PIN
     clearTokens();
     if (typeof window !== 'undefined') {
       sessionStorage.setItem(
@@ -289,12 +474,24 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     setAuthError('');
     try {
       await verifyPin({ mobileNumber, pin });
-      goHome();
+      await requestOtp({ mobileNumber });
+      setOtp('');
+      setResendReadyAt(Date.now() + 30000);
+      go('otp');
     } catch (err) {
       setAuthError(err.message || 'Could not verify PIN.');
     } finally {
       setAuthBusy('');
     }
+  }
+
+  async function finishLoginAfterOtp() {
+    const stage = await getUserStage();
+    if (!isSignupComplete(stage)) {
+      await routeAfterKycStage(stage);
+      return;
+    }
+    goHome();
   }
 
   async function submitSignupOtp() {
@@ -306,6 +503,10 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     setAuthError('');
     try {
       await verifyOtp({ mobileNumber, otp });
+      if (mode === 'login') {
+        await finishLoginAfterOtp();
+        return;
+      }
       await routeAfterAuth();
     } catch (err) {
       setAuthError(err.message || 'Could not verify OTP.');
@@ -326,7 +527,7 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     try {
       await requestOtp({
         mobileNumber,
-        referredBy: storedReferral || undefined,
+        referredBy: mode === 'login' ? undefined : storedReferral || undefined,
       });
       setResendReadyAt(Date.now() + 30000);
     } catch (err) {
@@ -353,6 +554,533 @@ export default function OnboardingFlow({ mode = 'signup' }) {
       await routeAfterKycStage(stage);
     } catch (err) {
       setAuthError(err.message || 'Could not create PIN.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function continueAfterEmailLinked() {
+    const stage = await getUserStage();
+    if (!isTruthyFlag(stage?.isEmail)) {
+      throw new Error('Email verification did not complete. Please try again.');
+    }
+    go('pan');
+  }
+
+  async function submitRequestEmailOtp() {
+    const nextEmail = email.trim();
+    if (!isValidEmail(nextEmail)) {
+      setAuthError('Enter a valid email address.');
+      return;
+    }
+    setAuthBusy('email-request');
+    setAuthError('');
+    try {
+      await requestLinkEmail({ email: nextEmail });
+      setEmail(nextEmail);
+      setEmailOtp('');
+      setEmailResendReadyAt(Date.now() + 30000);
+      go('emailotp');
+    } catch (err) {
+      setAuthError(err.message || 'Something went wrong, try again after sometime.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function submitVerifyEmailOtp() {
+    if (emailOtp.length !== 6) {
+      setAuthError('Enter the 6-digit verification code.');
+      return;
+    }
+    setAuthBusy('email-verify');
+    setAuthError('');
+    try {
+      await verifyLinkEmail({ email: email.trim(), otp: emailOtp });
+      await continueAfterEmailLinked();
+    } catch (err) {
+      setAuthError(err.message || 'Something went wrong, try again after sometime.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function resendEmailOtp() {
+    if (authBusy) return;
+    if (Date.now() < emailResendReadyAt) return;
+    setAuthBusy('email-resend');
+    setAuthError('');
+    try {
+      await requestLinkEmail({ email: email.trim() });
+      setEmailResendReadyAt(Date.now() + 30000);
+    } catch (err) {
+      setAuthError(err.message || 'Something went wrong, try again after sometime.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function submitOAuthEmail(provider) {
+    setAuthBusy(provider === 'GOOGLE' ? 'google' : 'apple');
+    setAuthError('');
+    try {
+      const oauthEmail = provider === 'GOOGLE' ? await getEmailFromGoogle() : await getEmailFromApple();
+      setEmail(oauthEmail);
+      await linkEmail({ email: oauthEmail, provider });
+      await continueAfterEmailLinked();
+    } catch (err) {
+      setAuthError(err.message || 'Something went wrong, try again after sometime.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  function submitPanDetails() {
+    const pan = normalizePan(panNumber);
+    if (!isValidPan(pan)) {
+      setAuthError('Enter a valid PAN (e.g. ABCDE1234F).');
+      return;
+    }
+    if (!isValidFullName(panName)) {
+      setAuthError('Enter your full name as on PAN (letters only).');
+      return;
+    }
+    if (!dob) {
+      setAuthError('Select your date of birth.');
+      return;
+    }
+    if (!isAdultDob(dob, 18)) {
+      setAuthError('You must be at least 18 years old.');
+      return;
+    }
+    setPanNumber(pan);
+    setAuthError('');
+    void runPanLookup(pan, toTitleCaseName(panName), dob);
+  }
+
+  async function runPanLookup(pan, name, date_of_birth) {
+    setAuthBusy('pan');
+    setAuthError('');
+    setKycNotice('');
+    try {
+      const { res, data, nested } = await fetchKycData({ pan, name, date_of_birth });
+
+      if (isTruthyFlag(nested?.isMigratedUser) || isTruthyFlag(data?.isMigratedUser)) {
+        try {
+          await reissueTokens();
+        } catch {
+          /* continue even if reissue fails */
+        }
+      }
+
+      const action = nested?.action;
+      const reason = String(nested?.reason || '').toLowerCase();
+
+      if (action === 'modify' && reason === 'legacy') {
+        window.open('https://digital.camsonline.com/kycmodification', '_blank', 'noopener,noreferrer');
+        setAuthError(nested?.message || 'Please update your KYC on the KRA portal.');
+        return;
+      }
+
+      if (isPanMismatch(data)) {
+        setAuthError(mismatchMessage(data));
+        return;
+      }
+
+      if (action === 'modify') {
+        setKycPath('modify');
+        setKycNotice(
+          nested?.message ||
+            nested?.reason ||
+            'Your KYC needs to be updated. Tap below to proceed.'
+        );
+        setKycModalOpen(true);
+        return;
+      }
+
+      if (action === 'create' || isNoKycRecord(data)) {
+        await initiateKyc();
+        setKycPath('noncompliant');
+        setKycNotice('Your KYC is not compliant. Please complete the next steps.');
+        setKycModalOpen(true);
+        return;
+      }
+
+      if (
+        (res.status === 400 || data?.error === true || data?.status === false) &&
+        !isNoKycRecord(data)
+      ) {
+        setAuthError(mismatchMessage(data) || 'Could not verify PAN. Please try again.');
+        return;
+      }
+
+      const stage = await getUserStage();
+      if (isTruthyFlag(stage?.ismodify) && !isTruthyFlag(stage?.ismodifynsdl)) {
+        setKycPath('modify');
+        setKycNotice(nested?.message || 'Your KYC needs to be updated.');
+        setKycModalOpen(true);
+        return;
+      }
+      if (isTruthyFlag(stage?.isKycCompliant)) {
+        setKycPath('compliant');
+        setKycNotice('Your KYC is compliant');
+        setKycModalOpen(true);
+        return;
+      }
+
+      await initiateKyc();
+      setKycPath('noncompliant');
+      setKycNotice('Your KYC is not compliant. Please complete the next steps.');
+      setKycModalOpen(true);
+    } catch (err) {
+      if (err?.status === 401) {
+        clearTokens();
+        router.replace('/login');
+        return;
+      }
+      setAuthError(err.message || 'Could not verify PAN. Please try again.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function continueAfterKycModal() {
+    setKycModalOpen(false);
+    if (kycPath === 'modify') {
+      setAuthBusy('modify-start');
+      setAuthError('');
+      try {
+        const form = await createModifyKycForm({
+          pan: panNumber,
+          name: toTitleCaseName(panName),
+          date_of_birth: dob,
+          proof_details_callback_url: 'https://fydaa.com/kyc-modify?proof=callback',
+          esign_callback_url: 'https://fydaa.com/kyc-modify?esign=callback',
+        });
+        if (form?.id) setModifyFormId(form.id);
+        go('digilocker');
+      } catch (err) {
+        setAuthError(err.message || 'Could not start KYC update.');
+        go('digilocker');
+      } finally {
+        setAuthBusy('');
+      }
+      return;
+    }
+    go('kyc');
+  }
+
+  async function submitKycExtra() {
+    if (!incomeSlab || !occupation || !sourceOfWealth) {
+      setAuthError('Please fill income, occupation, and source of wealth.');
+      return;
+    }
+    if (!pep) {
+      setAuthError('Please confirm you are not a politically exposed person.');
+      return;
+    }
+    setAuthBusy('kyc-extra');
+    setAuthError('');
+    try {
+      if (kycPath === 'modify') {
+        if (!fatherName.trim() || !gender || !maritalStatus) {
+          setAuthError('Please fill father\'s name, gender, and marital status.');
+          setAuthBusy('');
+          return;
+        }
+        let formId = modifyFormId;
+        if (!formId) {
+          const current = await getCurrentKycForm();
+          formId = current?.id || '';
+          if (formId) setModifyFormId(formId);
+        }
+        if (!formId) throw new Error('KYC form not ready. Restart modify KYC.');
+        const occMap = {
+          private_sector: 'private_sector_service',
+          government_sector: 'government_service',
+          public_sector: 'government_service',
+        };
+        await patchKycForm(formId, {
+          father_name: toTitleCaseName(fatherName),
+          gender,
+          marital_status: maritalStatus,
+          income_slab: incomeSlab,
+          occupation_type: occMap[occupation] || occupation,
+          source_of_wealth: sourceOfWealth,
+          geolocation: { latitude: 9.354, longitude: 77.453 },
+          pep_details: 'no_exposure',
+          address: {
+            line_1: 'As per DigiLocker',
+            line_2: 'As per DigiLocker',
+            city: 'Bengaluru',
+            state: 'Karnataka',
+            pincode: '560001',
+          },
+          residential_status: 'resident',
+          country_of_birth: 'in',
+          place_of_birth: 'in',
+          citizenship_countries: ['in'],
+          nationality_country: 'in',
+          tax_residency_other_than_india: false,
+        });
+        go('signature');
+      } else if (kycPath === 'noncompliant') {
+        if (!fatherName.trim() || !gender || !maritalStatus) {
+          setAuthError('Please fill father\'s name, gender, and marital status.');
+          setAuthBusy('');
+          return;
+        }
+        let latitude = 0;
+        let longitude = 0;
+        if (typeof navigator !== 'undefined' && navigator.geolocation) {
+          const coords = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(
+              (pos) => resolve(pos.coords),
+              () => reject(new Error('Enable location services to continue KYC.')),
+              { timeout: 15000 }
+            );
+          });
+          latitude = Number(coords.latitude.toFixed(6));
+          longitude = Number(coords.longitude.toFixed(6));
+        } else {
+          throw new Error('Enable location services to continue KYC.');
+        }
+        await saveNonCompliantRequest({
+          father_name: toTitleCaseName(fatherName),
+          gender,
+          marital_status: maritalStatus,
+          income_slab: incomeSlab,
+          occupation_type: occupation,
+          source_of_wealth: sourceOfWealth,
+          geolocation: { latitude, longitude },
+          pep_details: 'not_applicable',
+        });
+        go('digilocker');
+      } else {
+        await saveKycExtra({
+          income_slab: incomeSlab,
+          occupation,
+          pep_details: 'not_applicable',
+          source_of_wealth: sourceOfWealth,
+        });
+        const stage = await getUserStage();
+        if (!isTruthyFlag(stage?.isBank)) {
+          go('bank');
+        } else if (!isTruthyFlag(stage?.isNominee)) {
+          go('nominee');
+        } else {
+          goHome();
+        }
+      }
+    } catch (err) {
+      setAuthError(err.message || 'Could not save details.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function startDigiLocker() {
+    setAuthBusy('digilocker');
+    setAuthError('');
+    try {
+      if (kycPath === 'modify') {
+        let form = await getCurrentKycForm();
+        if (!form && modifyFormId) form = await getKycFormById(modifyFormId);
+        const url = form?.proof_details?.fetch_url;
+        if (!url) throw new Error('DigiLocker link not ready. Please try again.');
+        if (form?.id) setModifyFormId(form.id);
+        const popup = openPopup(url, 'fydaa-digilocker');
+        await waitForPopupClose(popup, { isDoneUrl: isDigiLockerCallback });
+        const stage = await getUserStage();
+        await routeAfterKycStage(stage);
+        return;
+      }
+
+      const data = await startIdentityDocument('https://fydaa.com');
+      const url = data?.fetch?.redirect_url;
+      if (!url) throw new Error('DigiLocker session expired. Please try again.');
+      const popup = openPopup(url, 'fydaa-digilocker');
+      await waitForPopupClose(popup, { isDoneUrl: isDigiLockerCallback });
+
+      let ok = false;
+      for (let i = 0; i < 4; i += 1) {
+        if (i) await new Promise((r) => setTimeout(r, 400 * i));
+        const status = await getIdentityDocument();
+        const st = String(status?.fetch?.status || '').toLowerCase();
+        if (['successful', 'success', 'completed', 'verified'].includes(st)) {
+          ok = true;
+          break;
+        }
+        if (st === 'failed' || st === 'expired') {
+          throw new Error(status?.fetch?.reason || 'DigiLocker verification failed.');
+        }
+      }
+      if (!ok) throw new Error('DigiLocker is still pending. Please try again.');
+      go('signature');
+    } catch (err) {
+      setAuthError(err.message || 'DigiLocker failed. Please try again.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function submitSignatureAndNsdl() {
+    if (signatureBlank || !signatureB64) {
+      setAuthError('Please draw your signature.');
+      return;
+    }
+    setAuthBusy('signature');
+    setAuthError('');
+    try {
+      if (kycPath === 'modify') {
+        let formId = modifyFormId;
+        if (!formId) {
+          const current = await getCurrentKycForm();
+          formId = current?.id || '';
+        }
+        if (!formId) throw new Error('KYC form not ready.');
+        const bin = atob(signatureB64);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i += 1) bytes[i] = bin.charCodeAt(i);
+        const file = new File([bytes], 'signature.png', { type: 'image/png' });
+        const uploaded = await uploadModifySignatureFile(formId, file);
+        const esignUrl = uploaded?.esign_details?.esign_url;
+        if (esignUrl) {
+          const popup = openPopup(esignUrl, 'fydaa-modify-esign');
+          await waitForPopupClose(popup, {
+            isDoneUrl: (url) => {
+              try {
+                const u = new URL(url);
+                if (!u.hostname.includes('fydaa.com')) return false;
+                const st = String(u.searchParams.get('status') || '').toLowerCase();
+                return st === 'successful' || st === 'success' || u.search.includes('esign=');
+              } catch {
+                return false;
+              }
+            },
+          });
+        }
+        const stage = await getUserStage();
+        await routeAfterKycStage(stage);
+        return;
+      }
+
+      await uploadSignatureBase64(signatureB64);
+      go('nsdl');
+      await runNsdlEsign();
+    } catch (err) {
+      setAuthError(err.message || 'Could not save signature.');
+      setAuthBusy('');
+    }
+  }
+
+  async function runNsdlEsign() {
+    setAuthBusy('nsdl');
+    setAuthError('');
+    try {
+      const data = await startNsdlEsign('https://fydaa.com/SuccesspageNSDL');
+      const url = data?.redirect_url;
+      if (!url) throw new Error('E-sign link not ready.');
+      const popup = openPopup(url, 'fydaa-nsdl');
+      await waitForPopupClose(popup, { isDoneUrl: isNsdlCallback });
+      const status = await getNsdlEsignStatus();
+      const st = String(status?.status || 'successful').toLowerCase();
+      if (!['successful', 'success', 'completed'].includes(st)) {
+        throw new Error('E-sign was not completed. Please try again.');
+      }
+      const ip = await getPublicIp();
+      await createInvestorProfileAndMfAccount(ip);
+      let stage = await getUserStage();
+      for (let i = 0; i < 4 && !isTruthyFlag(stage?.isNSDL); i += 1) {
+        await new Promise((r) => setTimeout(r, 2000));
+        stage = await getUserStage();
+      }
+      if (!isTruthyFlag(stage?.isBank)) go('bank');
+      else if (!isTruthyFlag(stage?.isNominee)) go('nominee');
+      else goHome();
+    } catch (err) {
+      setAuthError(err.message || 'Aadhaar e-sign failed.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function submitBank() {
+    const ifscCode = ifsc.trim().toUpperCase();
+    const acct = accountNumber.trim();
+    const confirmAcct = confirmAccountNumber.trim();
+
+    if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifscCode)) {
+      setAuthError('Enter a valid IFSC (e.g. HDFC0001234).');
+      return;
+    }
+    if (!['savings', 'current'].includes(accountType)) {
+      setAuthError('Select account type: Savings or Current.');
+      return;
+    }
+    if (!/^\d{9,18}$/.test(acct)) {
+      setAuthError('Enter a valid account number (9–18 digits).');
+      return;
+    }
+    if (acct !== confirmAcct) {
+      setAuthError('Account numbers do not match.');
+      return;
+    }
+    setAuthBusy('bank');
+    setAuthError('');
+    try {
+      try {
+        const ip = await getPublicIp();
+        await createInvestorProfileAndMfAccount(ip);
+      } catch {
+        /* may already exist */
+      }
+      await createAndVerifyBankAccount({
+        account_number: acct,
+        type: accountType || 'savings',
+        ifsc_code: ifscCode,
+      });
+      if (nomineeOptOut) {
+        await submitNominee({ forceOptOut: true });
+      } else {
+        go('nominee');
+      }
+    } catch (err) {
+      setAuthError(err.message || 'Could not verify bank account.');
+    } finally {
+      setAuthBusy('');
+    }
+  }
+
+  async function submitNominee(opts = {}) {
+    const optOut = opts.forceOptOut || nomineeOptOut;
+    setAuthBusy('nominee');
+    setAuthError('');
+    try {
+      if (optOut) {
+        await saveNominee({ opt_out_nomination: true });
+      } else {
+        if (!nomineeName.trim() || !nomineeDob || !nomineeRelation) {
+          setAuthError('Enter nominee name, date of birth, and relationship.');
+          setAuthBusy('');
+          return;
+        }
+        await saveNominee({
+          opt_out_nomination: false,
+          nominees: [
+            {
+              nominee_name: toTitleCaseName(nomineeName),
+              nominee_dob: nomineeDob,
+              allocation_percentage: 100,
+              nominee_relationship: nomineeRelation,
+              nominee_order: 1,
+            },
+          ],
+        });
+      }
+      goHome();
+    } catch (err) {
+      setAuthError(err.message || 'Could not save nominee.');
     } finally {
       setAuthBusy('');
     }
@@ -401,7 +1129,13 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   const isLogin = mode === 'login';
   const entryLabel = isLogin ? 'Login' : 'Sign up';
   const showRiskBack = screen === 'risk' && riskIndex > 0;
-  const backTarget = isLogin ? null : showRiskBack ? 'risk-prev' : BACK_MAP[screen];
+  const backTarget = isLogin
+    ? screen === 'otp'
+      ? 'mobile'
+      : null
+    : showRiskBack
+      ? 'risk-prev'
+      : BACK_MAP[screen];
   const currentQuestion = questions[riskIndex];
   const visibleOptions = Array.isArray(currentQuestion?.option)
     ? currentQuestion.option.slice(0, 4)
@@ -497,7 +1231,7 @@ export default function OnboardingFlow({ mode = 'signup' }) {
         </>
       )}
 
-      {/* OTP — signup / first visit */}
+      {/* OTP — signup first visit / login after PIN */}
       {screen === 'otp' && (
         <>
           <Overline>{entryLabel}</Overline>
@@ -615,10 +1349,40 @@ export default function OnboardingFlow({ mode = 'signup' }) {
             subtitle="Verify your email to receive your personalized risk profile report"
           >
             <div className="mt-4">
-              <FieldInput label="Email" type="email" placeholder="Enter your email-id" />
+              <FieldInput
+                label="Email"
+                type="email"
+                placeholder="Enter your email-id"
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); setAuthError(''); }}
+              />
             </div>
           </QuestionCard>
-          <Button onClick={() => go('emailotp')}>Next</Button>
+          {authError && screen === 'email' && (
+            <p className="text-sm text-red-600 mb-3">{authError}</p>
+          )}
+          <Button onClick={submitRequestEmailOtp} disabled={Boolean(authBusy)}>
+            {authBusy === 'email-request' ? 'Sending...' : 'Next'}
+          </Button>
+          <div className="flex items-center gap-3 my-4">
+            <div className="flex-1 h-px bg-neutral-200" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-neutral-400">or</span>
+            <div className="flex-1 h-px bg-neutral-200" />
+          </div>
+          <OutlineButton
+            onClick={() => submitOAuthEmail('GOOGLE')}
+            disabled={Boolean(authBusy)}
+          >
+            <GoogleIcon />
+            {authBusy === 'google' ? 'Connecting...' : 'Continue with Google'}
+          </OutlineButton>
+          <OutlineButton
+            onClick={() => submitOAuthEmail('APPLE')}
+            disabled={Boolean(authBusy)}
+          >
+            <AppleIcon />
+            {authBusy === 'apple' ? 'Connecting...' : 'Continue with Apple'}
+          </OutlineButton>
         </>
       )}
 
@@ -628,116 +1392,228 @@ export default function OnboardingFlow({ mode = 'signup' }) {
           <QuestionCard
             icon={<EnvelopeIcon className="w-[21px] h-[21px]" />}
             title="Verify Your Email address"
-            subtitle="Please enter the 6-digit verification code sent to your email address"
+            subtitle={`Please enter the 6-digit verification code sent to ${email || 'your email address'}`}
           >
             <div className="mt-4">
-              <CodeInputs count={6} />
-              <p className="text-[12.5px] text-neutral-400 font-medium">
-                Resend code in <b className="text-[#0C4A3E]">00:30</b>
-              </p>
+              <CodeInputs
+                count={6}
+                value={emailOtp}
+                onChange={(next) => { setEmailOtp(next); setAuthError(''); }}
+              />
+              {emailResendSecs > 0 ? (
+                <p className="text-[12.5px] text-neutral-400 font-medium">
+                  Resend code in{' '}
+                  <b className="text-[#0C4A3E]">
+                    00:{String(emailResendSecs).padStart(2, '0')}
+                  </b>
+                </p>
+              ) : (
+                <LinkText className="!mb-0" onClick={resendEmailOtp}>
+                  {authBusy === 'email-resend' ? 'Sending...' : 'Resend code'}
+                </LinkText>
+              )}
             </div>
           </QuestionCard>
-          <Button onClick={() => go('pan')}>Verify</Button>
+          {authError && screen === 'emailotp' && (
+            <p className="text-sm text-red-600 mb-3">{authError}</p>
+          )}
+          <Button onClick={submitVerifyEmailOtp} disabled={Boolean(authBusy)}>
+            {authBusy === 'email-verify' ? 'Verifying...' : 'Verify'}
+          </Button>
         </>
       )}
 
-      {/* PAN + DOB */}
+      {/* PAN + NAME + DOB */}
       {screen === 'pan' && (
         <>
           <PageHeading size="text-2xl">Complete Your KYC</PageHeading>
           <QuestionCard
             icon={<DocIcon className="w-[21px] h-[21px]" />}
-            title="Complete Your PAN address"
-            subtitle="Please provide your PAN number and Date of Birth to complete your profile."
+            title="PAN details"
+            subtitle="Please provide your PAN, name as on PAN, and date of birth."
           >
             <div className="mt-4">
+              <FieldInput
+                label="Full name (as on PAN)"
+                placeholder="Enter full name"
+                value={panName}
+                onChange={(e) => { setPanName(e.target.value); setAuthError(''); }}
+              />
               <FieldRow>
-                <FieldInput label="PAN Number" placeholder="Enter your PAN number" maxLength={10} className="uppercase" />
-                <FieldInput label="Date of Birth" placeholder="DD / MM / YYYY" />
+                <FieldInput
+                  label="PAN Number"
+                  placeholder="Enter your PAN number"
+                  maxLength={10}
+                  autoCapitalize="characters"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  className="uppercase"
+                  value={panNumber}
+                  onChange={(e) => {
+                    setPanNumber(normalizePan(e.target.value));
+                    setAuthError('');
+                  }}
+                />
+                <FieldInput
+                  label="Date of Birth"
+                  type="date"
+                  max={maxDobIso}
+                  value={dob}
+                  onChange={(e) => {
+                    setDob(e.target.value);
+                    setAuthError('');
+                  }}
+                />
               </FieldRow>
+              <p className="text-[12px] text-neutral-400 font-medium -mt-2">
+                You must be 18 years or older.
+              </p>
             </div>
           </QuestionCard>
-          <Button onClick={() => setKycModalOpen(true)}>Verify</Button>
+          {authError && screen === 'pan' && (
+            <p className="text-sm text-red-600 mb-3">{authError}</p>
+          )}
+          <Button onClick={submitPanDetails} disabled={Boolean(authBusy)}>
+            {authBusy === 'pan' ? 'Verifying...' : 'Verify'}
+          </Button>
         </>
       )}
 
-      {/* KYC QUESTIONS */}
+      {/* KYC EXTRA QUESTIONS */}
       {screen === 'kyc' && (
         <>
           <PageHeading size="text-2xl">Complete Your KYC</PageHeading>
           <QuestionCard
             icon={<DocIcon className="w-[21px] h-[21px]" />}
             title="Answer following questions"
-            subtitle="Please provide your Income Slab and Occupation to complete your profile."
+            subtitle={
+              kycPath === 'noncompliant'
+                ? 'Provide personal and financial details to continue KYC.'
+                : 'Please provide your income, occupation, and source of wealth.'
+            }
           />
-          <FieldSelect label="Select your correct income slab range" defaultValue="₹5 lakh – ₹10 lakh">
+          {kycPath !== 'compliant' && (
+            <>
+              <FieldInput
+                label="Father's name"
+                placeholder="Enter father's name"
+                value={fatherName}
+                onChange={(e) => setFatherName(e.target.value)}
+              />
+              <FieldRow>
+                <FieldSelect label="Gender" value={gender} onChange={(e) => setGender(e.target.value)}>
+                  <option value="">Select gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </FieldSelect>
+                <FieldSelect
+                  label="Marital status"
+                  value={maritalStatus}
+                  onChange={(e) => setMaritalStatus(e.target.value)}
+                >
+                  <option value="">Select status</option>
+                  <option value="unmarried">Unmarried</option>
+                  <option value="married">Married</option>
+                </FieldSelect>
+              </FieldRow>
+            </>
+          )}
+          <FieldSelect label="Income slab" value={incomeSlab} onChange={(e) => setIncomeSlab(e.target.value)}>
             <option value="">Select income slab</option>
-            <option>Less than ₹1 lakh</option>
-            <option>₹1 lakh – ₹5 lakh</option>
-            <option>₹5 lakh – ₹10 lakh</option>
-            <option>₹10 lakh – ₹25 lakh</option>
-            <option>₹25 lakh – ₹1 crore</option>
-            <option>Above ₹1 crore</option>
+            {INCOME_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
           </FieldSelect>
-          <FieldSelect label="Select your correct occupation">
-            <option value="">Select your occupation</option>
-            <option>Business</option>
-            <option>Professional</option>
-            <option>Retired</option>
-            <option>Housewife</option>
-            <option>Student</option>
-            <option>Public sector</option>
-            <option>Private sector</option>
-            <option>Government sector</option>
-            <option>Other</option>
+          <FieldSelect label="Occupation" value={occupation} onChange={(e) => setOccupation(e.target.value)}>
+            <option value="">Select occupation</option>
+            {OCCUPATION_COMPLIANT.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </FieldSelect>
+          <FieldSelect
+            label="Source of wealth"
+            value={sourceOfWealth}
+            onChange={(e) => setSourceOfWealth(e.target.value)}
+          >
+            <option value="">Select source of wealth</option>
+            {SOURCE_OF_WEALTH.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
           </FieldSelect>
           <Checkbox checked={pep} onChange={() => setPep((v) => !v)}>
-            Please confirm if you are a politically exposed person (PEP), such as a government official, politician,
-            or close associate. This is for regulatory and compliance purposes.
+            I am not a politically exposed person
           </Checkbox>
-          <Button onClick={() => go('esign')}>Verify</Button>
+          {authError && screen === 'kyc' && (
+            <p className="text-sm text-red-600 mb-3">{authError}</p>
+          )}
+          <Button onClick={submitKycExtra} disabled={Boolean(authBusy)}>
+            {authBusy === 'kyc-extra' ? 'Saving...' : 'Continue'}
+          </Button>
         </>
       )}
 
-      {/* E-SIGN */}
+      {/* DIGILOCKER */}
+      {screen === 'digilocker' && (
+        <>
+          <PageHeading size="text-2xl">Verify with DigiLocker</PageHeading>
+          <PageSub>
+            Link your Aadhaar via DigiLocker to continue KYC. A secure window will open.
+          </PageSub>
+          {authError && screen === 'digilocker' && (
+            <p className="text-sm text-red-600 mb-3">{authError}</p>
+          )}
+          <Button onClick={startDigiLocker} disabled={Boolean(authBusy)}>
+            {authBusy === 'digilocker' ? 'Waiting for DigiLocker...' : 'Continue DigiLocker'}
+          </Button>
+        </>
+      )}
+
+      {/* SIGNATURE */}
+      {screen === 'signature' && (
+        <>
+          <PageHeading size="text-2xl">Draw your signature</PageHeading>
+          <PageSub>Sign inside the box. This is used for your KYC agreement.</PageSub>
+          <SignaturePad
+            onChange={({ base64, blank }) => {
+              setSignatureB64(base64);
+              setSignatureBlank(blank);
+              setAuthError('');
+            }}
+          />
+          {authError && screen === 'signature' && (
+            <p className="text-sm text-red-600 mb-3">{authError}</p>
+          )}
+          <Button onClick={submitSignatureAndNsdl} disabled={Boolean(authBusy)}>
+            {authBusy === 'signature' || authBusy === 'nsdl' ? 'Please wait...' : 'Continue to e-sign'}
+          </Button>
+        </>
+      )}
+
+      {/* NSDL STATUS */}
+      {screen === 'nsdl' && (
+        <>
+          <PageHeading size="text-2xl">Aadhaar e-sign</PageHeading>
+          <PageSub>
+            {authBusy === 'nsdl'
+              ? 'Complete e-sign in the popup window…'
+              : 'If the window closed early, tap below to try again.'}
+          </PageSub>
+          {authError && screen === 'nsdl' && (
+            <p className="text-sm text-red-600 mb-3">{authError}</p>
+          )}
+          <Button onClick={runNsdlEsign} disabled={Boolean(authBusy)}>
+            {authBusy === 'nsdl' ? 'Waiting…' : 'Continue e-sign'}
+          </Button>
+        </>
+      )}
+
+      {/* E-SIGN bridge */}
       {screen === 'esign' && (
         <>
-          <PageHeading size="text-[22px]">E-Sign Agreement</PageHeading>
-          <PageSub>Review the agreement and sign to officially appoint Fydaa as your investment advisor.</PageSub>
-          <div className="border-[1.5px] border-neutral-200 rounded-2xl p-[18px] mb-5 bg-white shadow-sm">
-            <div className="text-sm font-semibold text-neutral-950 mb-3">Your E-Signature</div>
-            {/* Simplified for handoff: tap-to-sign toggle rather than a freehand
-                <canvas> signature pad — swap in your actual signature-capture
-                component here if you have one. */}
-            <button
-              type="button"
-              onClick={() => setEsignSigned(true)}
-              className="w-full h-[150px] bg-neutral-50 rounded-[10px] border-[1.5px] border-dashed border-neutral-300 flex items-center justify-center"
-            >
-              {esignSigned ? (
-                <span className="flex items-center gap-2 text-[15px] font-bold text-[#0C4A3E]">
-                  <CheckIcon className="w-5 h-5 text-emerald-700" /> Signed
-                </span>
-              ) : (
-                <span className="text-[13px] text-neutral-400 font-semibold">Tap here to sign</span>
-              )}
-            </button>
-            {esignSigned && (
-              <div className="flex justify-end mt-2">
-                <LinkText className="!mb-0" onClick={() => setEsignSigned(false)}>Clear</LinkText>
-              </div>
-            )}
-            <p className="text-[11px] text-neutral-400 mt-2.5 font-medium">
-              Ensure your signature matches your official ID for a smooth process.
-            </p>
-          </div>
-          <Checkbox checked={esignAgree} onChange={() => setEsignAgree((v) => !v)}>
-            I consent to enter into the Investment Advisory agreement with Fydaa and get access to information about
-            all products and services, including the risk-return profiles of investment strategies estimated through
-            simulations using historical prices of securities under advice. By continuing you also agree to the terms
-            &amp; conditions and declaration.
-          </Checkbox>
-          <Button onClick={() => go('bank')}>Continue to confirm</Button>
+          <PageHeading size="text-[22px]">Almost done</PageHeading>
+          <PageSub>Continue to add your bank account.</PageSub>
+          <Button onClick={() => go('bank')}>Continue</Button>
         </>
       )}
 
@@ -747,19 +1623,69 @@ export default function OnboardingFlow({ mode = 'signup' }) {
           <Overline emerald>Connected</Overline>
           <PageHeading>Add Bank Details</PageHeading>
           <FieldRow>
-            <FieldInput label="IFSC Code" placeholder="Enter code" className="uppercase" />
-            <FieldInput label="Account Holder Name" placeholder="As per bank records" />
+            <FieldInput
+              label="IFSC Code"
+              placeholder="Enter code"
+              className="uppercase"
+              maxLength={11}
+              autoCapitalize="characters"
+              autoCorrect="off"
+              spellCheck={false}
+              value={ifsc}
+              onChange={(e) => {
+                setIfsc(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 11));
+                setAuthError('');
+              }}
+            />
+            <FieldSelect
+              label="Account type"
+              value={accountType}
+              onChange={(e) => {
+                setAccountType(e.target.value);
+                setAuthError('');
+              }}
+            >
+              <option value="savings">Savings</option>
+              <option value="current">Current</option>
+            </FieldSelect>
           </FieldRow>
           <FieldRow>
-            <FieldInput label="Account Number" type="tel" placeholder="XXXX XXXX XX XXXX" />
-            <FieldInput label="Confirm Account Number" type="tel" placeholder="XXXX XXXX XX XXXX" />
+            <FieldInput
+              label="Account Number"
+              type="tel"
+              inputMode="numeric"
+              placeholder="XXXX XXXX XX XXXX"
+              maxLength={18}
+              value={accountNumber}
+              onChange={(e) => {
+                setAccountNumber(e.target.value.replace(/\D/g, '').slice(0, 18));
+                setAuthError('');
+              }}
+            />
+            <FieldInput
+              label="Confirm Account Number"
+              type="tel"
+              inputMode="numeric"
+              placeholder="XXXX XXXX XX XXXX"
+              maxLength={18}
+              value={confirmAccountNumber}
+              onChange={(e) => {
+                setConfirmAccountNumber(e.target.value.replace(/\D/g, '').slice(0, 18));
+                setAuthError('');
+              }}
+            />
           </FieldRow>
           <div className="border-t border-neutral-200 pt-4">
             <Checkbox checked={nomineeOptOut} onChange={() => setNomineeOptOut((v) => !v)}>
               I wish to opt out of adding a nominee
             </Checkbox>
           </div>
-          <Button onClick={bankNext}>Add Bank Details</Button>
+          {authError && screen === 'bank' && (
+            <p className="text-sm text-red-600 mb-3">{authError}</p>
+          )}
+          <Button onClick={submitBank} disabled={Boolean(authBusy)}>
+            {authBusy === 'bank' || authBusy === 'nominee' ? 'Saving...' : 'Add Bank Details'}
+          </Button>
         </>
       )}
 
@@ -768,54 +1694,54 @@ export default function OnboardingFlow({ mode = 'signup' }) {
         <>
           <Overline>Add a trusted person</Overline>
           <PageHeading>Add Nominee</PageHeading>
-          <FieldRow>
-            <FieldInput label="First Name" placeholder="Enter name as per Govt ID" />
-            <FieldInput label="Last Name" placeholder="Enter name as per Govt ID" />
-          </FieldRow>
+          <FieldInput
+            label="Nominee full name"
+            placeholder="Enter name"
+            value={nomineeName}
+            onChange={(e) => setNomineeName(e.target.value)}
+          />
           <div className="mb-4">
             <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-400 mb-1.5">
               Nominee is my
             </label>
             <div className="flex flex-wrap gap-2 mt-1.5">
-              {RELATIONS.map((label) => (
-                <Chip key={label} label={label} selected={nomineeRelation === label} onClick={() => setNomineeRelation(label)} />
+              {NOMINEE_RELATIONS.map((rel) => (
+                <Chip
+                  key={rel.value}
+                  label={rel.label}
+                  selected={nomineeRelation === rel.value}
+                  onClick={() => setNomineeRelation(rel.value)}
+                />
               ))}
             </div>
           </div>
-          <FieldInput label="Email" type="email" placeholder="Enter email" />
-          <FieldRow>
-            <FieldInput label="Nominee's Date of Birth" placeholder="DD / MM / YYYY" />
-            <FieldInput label="Nominee's Mobile" type="tel" placeholder="Enter mobile number" />
-          </FieldRow>
-          <Button onClick={goHome}>Continue</Button>
+          <FieldInput
+            label="Nominee's Date of Birth"
+            type="date"
+            value={nomineeDob}
+            onChange={(e) => setNomineeDob(e.target.value)}
+          />
+          {authError && screen === 'nominee' && (
+            <p className="text-sm text-red-600 mb-3">{authError}</p>
+          )}
+          <Button onClick={() => submitNominee()} disabled={Boolean(authBusy)}>
+            {authBusy === 'nominee' ? 'Saving...' : 'Continue'}
+          </Button>
         </>
-      )}
-
-      {/* DONE (fallback — full onboarding routes to dashboard) */}
-      {screen === 'done' && (
-        <div className="flex flex-col items-center text-center pt-10">
-          <div className="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center mb-6">
-            <CheckIcon className="w-9 h-9 text-emerald-700" />
-          </div>
-          <div className="text-2xl font-bold mb-2">
-            {isLogin ? 'You are logged in' : 'Onboarding complete!'}
-          </div>
-          <p className="text-sm text-neutral-500 mb-8 max-w-[380px] leading-relaxed">
-            {isLogin
-              ? 'Welcome back. Your Fydaa account is ready.'
-              : "Your Fydaa account is fully set up. You're ready to start investing."}
-          </p>
-          <Button className="max-w-[280px]" onClick={goHome}>Go to Dashboard</Button>
-          <LinkText className="mt-4" onClick={restart}>Restart demo</LinkText>
-        </div>
       )}
 
       <KycModal
         open={kycModalOpen}
-        onComplete={() => {
-          setKycModalOpen(false);
-          go('kyc');
-        }}
+        title={
+          kycPath === 'compliant'
+            ? 'Your KYC is compliant'
+            : kycPath === 'modify'
+              ? 'Update your KYC'
+              : 'Your KYC is NOT compliant'
+        }
+        subtitle={kycNotice || (kycPath === 'compliant' ? 'Continue to answer a few questions.' : 'Please first complete your KYC')}
+        cta={kycPath === 'modify' ? 'Update KYC' : 'Complete your KYC'}
+        onComplete={continueAfterKycModal}
       />
     </div>
   );

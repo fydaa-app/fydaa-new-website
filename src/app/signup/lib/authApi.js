@@ -1,6 +1,4 @@
-const AUTH_BASE = (process.env.NEXT_PUBLIC_AUTH_BASE_URL || 'https://auth.fydaa.com/').replace(/\/?$/, '/');
-const ONBOARDING_BASE = (process.env.NEXT_PUBLIC_ONBOARD_BASE_URL || 'https://onboarding.fydaa.com/').replace(/\/?$/, '/');
-const STOCK_BASE = (process.env.NEXT_PUBLIC_STOCK_BASE_URL || 'https://stocktransaction.fydaa.com/').replace(/\/?$/, '/');
+import { AUTH_BASE, ONBOARDING_BASE, STOCK_BASE } from './apiHosts';
 
 const TOKEN_KEY = 'fydaa-auth-token';
 const REFRESH_KEY = 'fydaa-refresh-token';
@@ -84,6 +82,51 @@ export async function postForm(path, fields) {
   const data = await parseJson(res);
   if (!(res.status === 200 || res.status === 201)) {
     throw new Error(messageFrom(data));
+  }
+  return data;
+}
+
+/** Form POST with Bearer token (user/* endpoints). */
+export async function postFormAuth(path, fields) {
+  const token = getAccessToken();
+  if (!token) throw new Error('Authentication failed');
+  const body = new URLSearchParams();
+  Object.entries(fields).forEach(([key, value]) => {
+    if (value === undefined || value === null) return;
+    body.append(key, String(value));
+  });
+  const res = await fetch(`${AUTH_BASE}${path.replace(/^\//, '')}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body,
+  });
+  const data = await parseJson(res);
+  if (!(res.status === 200 || res.status === 201) || data?.error === true || data?.status === false) {
+    throw new Error(messageFrom(data, 'Something went wrong, try again after sometime.'));
+  }
+  return data;
+}
+
+export async function requestLinkEmail({ email }) {
+  return postFormAuth('user/requestLinkEmail', { email });
+}
+
+export async function verifyLinkEmail({ email, otp }) {
+  return postFormAuth('user/verifyLinkEmail', { email, otp });
+}
+
+export async function linkEmail({ email, provider }) {
+  const { res, data } = await postJson(
+    'user/linkEmail',
+    { email, provider },
+    { auth: true, base: AUTH_BASE }
+  );
+  if (!(res.status === 200 || res.status === 201) || data?.error === true || data?.status === false) {
+    throw new Error(messageFrom(data, 'Something went wrong, try again after sometime.'));
   }
   return data;
 }
