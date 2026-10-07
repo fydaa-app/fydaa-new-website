@@ -221,10 +221,44 @@ export async function getIdentityDocument() {
   return data;
 }
 
+/** Strip data-URL prefix so body is raw base64 PNG. */
+function normalizeSignatureBase64(value) {
+  return String(value || '').replace(/^data:image\/png;base64,/i, '').trim();
+}
+
+function isS3SignatureMismatch(res, data) {
+  if (res?.status !== 500) return false;
+  const blob = [
+    data?.message,
+    data?.error,
+    data?.reason,
+    typeof data === 'string' ? data : '',
+    JSON.stringify(data || {}),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+  return (
+    blob.includes('signaturedoesnotmatch') ||
+    blob.includes('signature does not match') ||
+    blob.includes('sigv4') ||
+    blob.includes('signing method') ||
+    (blob.includes('signature') && blob.includes('does not match')) ||
+    (blob.includes('s3') && blob.includes('signature'))
+  );
+}
+
+/**
+ * Non-compliant wet signature only.
+ * Primary: POST /kyc/signature
+ * Fallback (staging S3 SigV4 500): POST /kyc/upload-document
+ * Modify KYC must keep using multipart /kyc/kyc-forms/:id/signature.
+ */
 export async function uploadSignatureBase64(signatureData) {
+  const normalized = normalizeSignatureBase64(signatureData);
   const { res, data } = await authFetch('kyc/signature', {
     method: 'POST',
-    body: { signatureData },
+    body: { signatureData: normalized },
   });
   if (res.status === 403) return { alreadyStored: true, data };
   const msg = messageFrom(data, '');
@@ -233,10 +267,30 @@ export async function uploadSignatureBase64(signatureData) {
   ) {
     return { alreadyStored: true, data };
   }
-  if (!(res.status === 200 || res.status === 201) || data?.error === true) {
-    throw new Error(messageFrom(data, 'Could not save signature.'));
+  if (res.status === 200 || res.status === 201) {
+    if (data?.error === true) throw new Error(messageFrom(data, 'Could not save signature.'));
+    return { alreadyStored: false, data };
   }
-  return { alreadyStored: false, data };
+
+  if (isS3SignatureMismatch(res, data)) {
+    const fallback = await authFetch('kyc/upload-document', {
+      method: 'POST',
+      body: {
+        documentData: normalized,
+        documentType: 'signature',
+        fileName: 'signature.png',
+      },
+    });
+    if (
+      !(fallback.res.status === 200 || fallback.res.status === 201) ||
+      fallback.data?.error === true
+    ) {
+      throw new Error(messageFrom(fallback.data, 'Could not save signature.'));
+    }
+    return { alreadyStored: false, data: fallback.data, viaUploadDocument: true };
+  }
+
+  throw new Error(messageFrom(data, 'Could not save signature.'));
 }
 
 export async function startNsdlEsign(postback_url = 'https://fydaa.com/SuccesspageNSDL') {
@@ -326,6 +380,40 @@ export async function getKycFormById(id) {
   return data;
 }
 
+const PROOF_DONE_STATUSES = ['fetched', 'successful', 'success', 'completed', 'verified'];
+
+function modifyProofUrl(form) {
+  const proof = form?.proof_details || {};
+  return proof.fetch_url || proof.redirect_url || proof.url || form?.fetch_url || null;
+}
+
+function isModifyProofDone(form) {
+  const st = String(form?.proof_details?.status || '').toLowerCase();
+  return PROOF_DONE_STATUSES.includes(st);
+}
+
+/**
+ * Resolve DigiLocker URL for a modify form.
+ * - If proof already fetched/successful → return immediately (no poll).
+ * - If fetch_url present → return it.
+ * - Otherwise poll briefly while status is still pending.
+ */
+export async function waitForModifyDigiLockerUrl(formId, { attempts = 12, delayMs = 800 } = {}) {
+  let last = null;
+  for (let i = 0; i < attempts; i += 1) {
+    if (i) await new Promise((r) => setTimeout(r, delayMs));
+    last = formId ? await getKycFormById(formId) : await getCurrentKycForm();
+    if (last?.id) formId = last.id;
+    const url = modifyProofUrl(last);
+    if (url) return { form: last, url };
+    // Already done with no URL — stop polling (staging often returns status "fetched").
+    if (isModifyProofDone(last)) return { form: last, url: null };
+    const st = String(last?.proof_details?.status || '').toLowerCase();
+    if (st === 'failed' || st === 'expired') return { form: last, url: null };
+  }
+  return { form: last, url: null };
+}
+
 export async function patchKycForm(id, payload) {
   const { res, data } = await authFetch(`kyc/kyc-forms/${id}`, { method: 'PATCH', body: payload });
   if (!(res.status === 200 || res.status === 201) || data?.error === true) {
@@ -346,10 +434,70 @@ export async function uploadModifySignatureFile(id, file) {
   });
   if (res.status === 401) throw new Error('Session expired. Please log in again.');
   const data = await parseJson(res);
-  if (!(res.status === 200 || res.status === 201) || data?.error === true) {
-    throw new Error(messageFrom(data, 'Could not upload signature.'));
+  if (res.status === 200 || res.status === 201) {
+    if (data?.error === true) throw new Error(messageFrom(data, 'Could not upload signature.'));
+    return data;
   }
-  return data;
+  // Already uploaded / re-upload cap — resume with current form instead of failing hard.
+  const msg = messageFrom(data, '');
+  if (/limit|not allowed|already|signature.?provided|http exception/i.test(msg) || res.status === 400) {
+    const current = await getKycFormById(id).catch(() => null);
+    if (current?.signature_provided || current?.esign_details?.esign_url) {
+      return current;
+    }
+  }
+  throw new Error(messageFrom(data, 'Could not upload signature.'));
+}
+
+/**
+ * Poll modify form until Cybrilla exposes esign_details.esign_url
+ * (or form is already past e-sign).
+ */
+export async function waitForModifyEsignUrl(formId, { attempts = 15, delayMs = 2000 } = {}) {
+  let last = null;
+  for (let i = 0; i < attempts; i += 1) {
+    if (i) await new Promise((r) => setTimeout(r, delayMs));
+    last = formId ? await getKycFormById(formId) : await getCurrentKycForm();
+    if (last?.id) formId = last.id;
+    const url = last?.esign_details?.esign_url;
+    if (url) return { form: last, url };
+    const status = String(last?.status || '').toLowerCase();
+    const esignSt = String(last?.esign_details?.status || '').toLowerCase();
+    if (['submitted', 'awaiting_submission', 'failed', 'expired'].includes(status)) {
+      return { form: last, url: null };
+    }
+    if (['successful', 'success'].includes(esignSt)) {
+      return { form: last, url: null };
+    }
+  }
+  return { form: last, url: null };
+}
+
+/** Poll until modify form is submitted / failed / expired (after e-sign). */
+export async function waitForModifyFormSubmitted(formId, { attempts = 45, delayMs = 2000 } = {}) {
+  let last = null;
+  for (let i = 0; i < attempts; i += 1) {
+    if (i) await new Promise((r) => setTimeout(r, delayMs));
+    last = formId ? await getKycFormById(formId) : await getCurrentKycForm();
+    if (last?.id) formId = last.id;
+    const status = String(last?.status || '').toLowerCase();
+    if (['submitted', 'failed', 'expired'].includes(status)) return last;
+  }
+  return last;
+}
+
+export function isModifyEsignCallback(url) {
+  try {
+    const u = new URL(url);
+    if (!u.hostname.toLowerCase().includes('fydaa.com')) return false;
+    const st = String(u.searchParams.get('status') || '').toLowerCase();
+    if (st === 'successful' || st === 'success') return true;
+    if (u.search.includes('esign=')) return true;
+    if (u.pathname.toLowerCase().includes('kyc-modify') && u.search.includes('esign')) return true;
+    return false;
+  } catch {
+    return false;
+  }
 }
 
 export async function getPublicIp() {

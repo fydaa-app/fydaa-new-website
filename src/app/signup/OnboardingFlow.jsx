@@ -42,7 +42,6 @@ import {
   fetchKycData,
   getCurrentKycForm,
   getIdentityDocument,
-  getKycFormById,
   getNsdlEsignStatus,
   getPublicIp,
   initiateKyc,
@@ -65,7 +64,11 @@ import {
   toTitleCaseName,
   uploadModifySignatureFile,
   uploadSignatureBase64,
+  waitForModifyDigiLockerUrl,
+  waitForModifyEsignUrl,
+  waitForModifyFormSubmitted,
   waitForPopupClose,
+  isModifyEsignCallback,
 } from './lib/kycApi';
 import { getEmailFromApple, getEmailFromGoogle } from './lib/oauthEmail';
 import {
@@ -758,7 +761,15 @@ export default function OnboardingFlow({ mode = 'signup' }) {
           esign_callback_url: 'https://fydaa.com/kyc-modify?esign=callback',
         });
         if (form?.id) setModifyFormId(form.id);
-        go('digilocker');
+        const proofStatus = String(form?.proof_details?.status || '').toLowerCase();
+        const proofDone = ['fetched', 'successful', 'success', 'completed', 'verified'].includes(proofStatus);
+        const fetchUrl = form?.proof_details?.fetch_url;
+        // Already fetched with no link → skip DigiLocker screen and go to questions.
+        if (!fetchUrl && proofDone) {
+          go('kyc');
+        } else {
+          go('digilocker');
+        }
       } catch (err) {
         setAuthError(err.message || 'Could not start KYC update.');
         go('digilocker');
@@ -884,11 +895,23 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     setAuthError('');
     try {
       if (kycPath === 'modify') {
-        let form = await getCurrentKycForm();
-        if (!form && modifyFormId) form = await getKycFormById(modifyFormId);
-        const url = form?.proof_details?.fetch_url;
-        if (!url) throw new Error('DigiLocker link not ready. Please try again.');
+        let formId = modifyFormId;
+        if (!formId) {
+          const current = await getCurrentKycForm();
+          formId = current?.id || '';
+        }
+        const { form, url } = await waitForModifyDigiLockerUrl(formId);
         if (form?.id) setModifyFormId(form.id);
+        const proofStatus = String(form?.proof_details?.status || '').toLowerCase();
+        const proofDone = ['fetched', 'successful', 'success', 'completed', 'verified'].includes(proofStatus);
+        // Cybrilla often marks proof "fetched" with null fetch_url — DigiLocker already done.
+        if (!url && proofDone) {
+          go('kyc');
+          return;
+        }
+        if (!url) {
+          throw new Error('DigiLocker link not ready. Please try again in a moment.');
+        }
         const popup = openPopup(url, 'fydaa-digilocker');
         await waitForPopupClose(popup, { isDoneUrl: isDigiLockerCallback });
         const stage = await getUserStage();
@@ -925,51 +948,96 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   }
 
   async function submitSignatureAndNsdl() {
-    if (signatureBlank || !signatureB64) {
-      setAuthError('Please draw your signature.');
-      return;
-    }
     setAuthBusy('signature');
     setAuthError('');
     try {
       if (kycPath === 'modify') {
         let formId = modifyFormId;
+        let form = null;
         if (!formId) {
-          const current = await getCurrentKycForm();
-          formId = current?.id || '';
+          form = await getCurrentKycForm();
+          formId = form?.id || '';
+        } else {
+          try {
+            form = await getCurrentKycForm();
+            if (form?.id) formId = form.id;
+          } catch {
+            /* keep formId */
+          }
         }
         if (!formId) throw new Error('KYC form not ready.');
-        const bin = atob(signatureB64);
-        const bytes = new Uint8Array(bin.length);
-        for (let i = 0; i < bin.length; i += 1) bytes[i] = bin.charCodeAt(i);
-        const file = new File([bytes], 'signature.png', { type: 'image/png' });
-        const uploaded = await uploadModifySignatureFile(formId, file);
-        const esignUrl = uploaded?.esign_details?.esign_url;
-        if (esignUrl) {
-          const popup = openPopup(esignUrl, 'fydaa-modify-esign');
-          await waitForPopupClose(popup, {
-            isDoneUrl: (url) => {
-              try {
-                const u = new URL(url);
-                if (!u.hostname.includes('fydaa.com')) return false;
-                const st = String(u.searchParams.get('status') || '').toLowerCase();
-                return st === 'successful' || st === 'success' || u.search.includes('esign=');
-              } catch {
-                return false;
-              }
-            },
-          });
+        if (form?.id) setModifyFormId(form.id);
+
+        const formStatus = () => String(form?.status || '').toLowerCase();
+        const esignStatus = () => String(form?.esign_details?.status || '').toLowerCase();
+        const modifyEsignDone = () =>
+          ['submitted', 'awaiting_submission'].includes(formStatus()) ||
+          ['successful', 'success'].includes(esignStatus());
+
+        // Already submitted / e-sign complete — leave signature screen (URL is null after success).
+        if (modifyEsignDone()) {
+          const stage = await getUserStage();
+          await routeAfterKycStage(stage);
+          return;
         }
+
+        // §6.7 — if signature already on form, skip re-upload and open esign_url.
+        if (!form?.signature_provided) {
+          if (signatureBlank || !signatureB64) {
+            throw new Error('Please draw your signature.');
+          }
+          const bin = atob(signatureB64);
+          const bytes = new Uint8Array(bin.length);
+          for (let i = 0; i < bin.length; i += 1) bytes[i] = bin.charCodeAt(i);
+          const file = new File([bytes], 'signature.png', { type: 'image/png' });
+          form = await uploadModifySignatureFile(formId, file);
+          if (form?.id) {
+            formId = form.id;
+            setModifyFormId(form.id);
+          }
+          if (modifyEsignDone()) {
+            const stage = await getUserStage();
+            await routeAfterKycStage(stage);
+            return;
+          }
+        }
+
+        let esignUrl = form?.esign_details?.esign_url || null;
+        if (!esignUrl) {
+          const waited = await waitForModifyEsignUrl(formId);
+          form = waited.form || form;
+          esignUrl = waited.url;
+          if (form?.id) setModifyFormId(form.id);
+        }
+
+        if (modifyEsignDone()) {
+          const stage = await getUserStage();
+          await routeAfterKycStage(stage);
+          return;
+        }
+
+        if (!esignUrl) {
+          throw new Error('E-sign link not ready. Please try again later.');
+        }
+
+        const popup = openPopup(esignUrl, 'fydaa-modify-esign');
+        await waitForPopupClose(popup, { isDoneUrl: isModifyEsignCallback });
+        await new Promise((r) => setTimeout(r, 2000));
+        await waitForModifyFormSubmitted(formId);
         const stage = await getUserStage();
         await routeAfterKycStage(stage);
         return;
       }
 
+      if (signatureBlank || !signatureB64) {
+        throw new Error('Please draw your signature.');
+      }
       await uploadSignatureBase64(signatureB64);
       go('nsdl');
       await runNsdlEsign();
     } catch (err) {
       setAuthError(err.message || 'Could not save signature.');
+    } finally {
       setAuthBusy('');
     }
   }

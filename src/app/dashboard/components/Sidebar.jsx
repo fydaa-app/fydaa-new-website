@@ -8,16 +8,20 @@ export default function Sidebar({ activePage, setActivePage }) {
     <aside className="w-[260px] h-screen fixed top-0 left-0 bg-white border-r border-border flex flex-col z-50">
       {/* Brand */}
       <div
-        className="flex items-center gap-3 px-6 pt-7 pb-6 cursor-pointer"
+        className="flex items-center px-6 pt-7 pb-6 cursor-pointer"
         onClick={() => setActivePage("home")}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") setActivePage("home");
+        }}
+        aria-label="Fydaa home"
       >
-        <div className="w-9 h-9 bg-jade rounded-btn flex items-center justify-center">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M10 2L3 6v8l7 4 7-4V6l-7-4z" fill="rgba(255,255,255,.15)" stroke="#fff" strokeWidth="1.5" strokeLinejoin="round" />
-            <path d="M10 10v8M3 6l7 4 7-4" stroke="#fff" strokeWidth="1.5" strokeLinejoin="round" />
-          </svg>
-        </div>
-        <span className="text-[22px] font-bold text-ink tracking-tight">Fydaa</span>
+        <img
+          src="/fydaa-logo.png"
+          alt="Fydaa"f
+          className="h-9 w-auto object-contain"
+        />
       </div>
 
       {/* Nav */}
