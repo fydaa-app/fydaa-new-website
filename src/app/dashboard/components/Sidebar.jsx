@@ -19,7 +19,7 @@ export default function Sidebar({ activePage, setActivePage }) {
       >
         <img
           src="/fydaa-logo.png"
-          alt="Fydaa"f
+          alt="Fydaa"
           className="h-9 w-auto object-contain"
         />
       </div>
