@@ -1,9 +1,15 @@
-import { navItems } from "../data/constants";
-import { Home, Target, Clock, User } from "lucide-react";
+import { Home, Target, Clock, User, Shield } from "lucide-react";
 
-const iconMap = { home: Home, target: Target, clock: Clock, user: User };
+const iconMap = { home: Home, target: Target, clock: Clock, user: User, shield: Shield };
 
-export default function Sidebar({ activePage, setActivePage }) {
+export default function Sidebar({ activePage, setActivePage, showKyc }) {
+  const items = [
+    { id: "home", label: "Home", icon: "home" },
+    ...(showKyc ? [{ id: "kyc", label: "Complete Your KYC", icon: "shield" }] : []),
+    { id: "dreams", label: "Dreams", icon: "target" },
+    { id: "history", label: "History", icon: "clock" },
+    { id: "profile", label: "Profile", icon: "user" },
+  ];
   return (
     <aside className="w-[260px] h-screen fixed top-0 left-0 bg-white border-r border-border flex flex-col z-50">
       {/* Brand */}
@@ -26,7 +32,7 @@ export default function Sidebar({ activePage, setActivePage }) {
 
       {/* Nav */}
       <nav className="flex-1 px-3 flex flex-col gap-0.5">
-        {navItems.map((item) => {
+        {items.map((item) => {
           const Icon = iconMap[item.icon];
           const isActive = activePage === item.id;
           return (

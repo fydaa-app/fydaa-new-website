@@ -1,28 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
 import HomePage from "./pages/HomePage";
 import DreamsPage from "./pages/DreamsPage";
 import HistoryPage from "./pages/HistoryPage";
 import ProfilePage from "./pages/ProfilePage";
+import KycPage from "./pages/KycPage";
+import { getUserStage } from "../signup/lib/authApi";
+import { isHomeKycComplete, isSignupComplete } from "../signup/lib/kycApi";
 import { MessageSquare } from "lucide-react";
 
 const pages = {
-  home:    HomePage,
-  dreams:  DreamsPage,
+  home: HomePage,
+  kyc: KycPage,
+  dreams: DreamsPage,
   history: HistoryPage,
   profile: ProfilePage,
 };
 
 export default function App() {
   const [activePage, setActivePage] = useState("home");
+  const [showKyc, setShowKyc] = useState(false);
   const Page = pages[activePage] || HomePage;
+
+  useEffect(() => {
+    let cancelled = false;
+    getUserStage()
+      .then((stage) => {
+        if (!cancelled) setShowKyc(!isHomeKycComplete(stage) || !isSignupComplete(stage));
+      })
+      .catch(() => {
+        if (!cancelled) setShowKyc(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <div className="flex min-h-screen bg-bg font-inter text-ink text-[15px] leading-normal antialiased">
-      <Sidebar activePage={activePage} setActivePage={setActivePage} />
+      <Sidebar activePage={activePage} setActivePage={setActivePage} showKyc={showKyc} />
 
       <main className="ml-[260px] flex-1 min-h-screen">
         <Topbar />

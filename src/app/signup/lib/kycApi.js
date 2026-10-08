@@ -152,6 +152,36 @@ export function isHomeKycComplete(stage = {}) {
   return false;
 }
 
+/** Steps still open on the dashboard KYC tab. */
+export function kycChecklist(stage = {}) {
+  const done = (flag) => isTruthyFlag(stage?.[flag]);
+  const steps = [
+    { id: 'risk', label: 'Risk profile', done: done('isRiskProfileComplete') },
+    { id: 'email', label: 'Email', done: done('isEmail') },
+    { id: 'pan', label: 'PAN and date of birth', done: done('isPan') && done('isDob') && !done('isKycExpired') },
+  ];
+  if (done('ismodify')) {
+    steps.push(
+      { id: 'digilocker', label: 'DigiLocker', done: done('ismodifydigilocker') },
+      { id: 'questions', label: 'Personal details', done: done('ismodifyquestions') },
+      { id: 'esign', label: 'Signature and e-sign', done: done('ismodifyesign') && done('ismodifynsdl') },
+    );
+  } else if (done('isKycCompliant')) {
+    steps.push({ id: 'extra', label: 'Income and occupation', done: done('kycExtraData') });
+  } else {
+    steps.push(
+      { id: 'questions', label: 'Personal details', done: done('isNonCompliantData') },
+      { id: 'digilocker', label: 'DigiLocker', done: done('isDigiLocker') },
+      { id: 'esign', label: 'Aadhaar e-sign', done: done('isNSDL') },
+    );
+  }
+  steps.push(
+    { id: 'bank', label: 'Bank account', done: done('isBank') },
+    { id: 'nominee', label: 'Nominee', done: done('isNominee') },
+  );
+  return steps;
+}
+
 /** Full invest-ready style completion used by signup web flow (includes bank + nominee). */
 export function isSignupComplete(stage = {}) {
   if (!isTruthyFlag(stage?.isPinCreated)) return false;

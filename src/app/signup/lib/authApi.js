@@ -15,14 +15,16 @@ function messageFrom(data, fallback = 'Something went wrong. Please try again.')
 }
 
 function extractTokens(data) {
+  // verifyOtp: { data: { accessToken, refreshToken }, message: "OTP verified" }
+  const body = data?.data && typeof data.data === 'object' ? data.data : data;
   const access =
+    body?.accessToken ||
+    body?.access_token ||
     data?.authorisation?.token ||
     data?.authorization?.token ||
-    data?.data?.accessToken ||
-    data?.data?.access_token ||
-    data?.accessToken ||
-    data?.token;
-  const refresh = data?.data?.refreshToken || data?.data?.refresh_token || data?.refreshToken;
+    data?.token ||
+    '';
+  const refresh = body?.refreshToken || body?.refresh_token || data?.refreshToken || '';
   return { access, refresh };
 }
 
@@ -214,6 +216,9 @@ export async function verifyOtp({ mobileNumber, otp }) {
   });
   const token = storeTokens(data);
   if (!token) throw new Error('Something went wrong. Please try again.');
+  if (typeof window !== 'undefined' && data?.data?.pinSetupType) {
+    localStorage.setItem('fydaa-pin-setup', String(data.data.pinSetupType));
+  }
   return data;
 }
 

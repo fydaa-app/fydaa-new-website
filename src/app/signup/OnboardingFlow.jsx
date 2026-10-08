@@ -25,6 +25,7 @@ import {
   requestOtp,
   resolvePinSetupType,
   scoreFromIndicators,
+  storeTokens,
   updatePortfoliosSoft,
   verifyLinkEmail,
   verifyOtp,
@@ -505,7 +506,9 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     setAuthBusy('otp');
     setAuthError('');
     try {
-      await verifyOtp({ mobileNumber, otp });
+      const verified = await verifyOtp({ mobileNumber, otp });
+      // Same token save for signup and login: data.accessToken → localStorage.
+      storeTokens(verified);
       if (mode === 'login') {
         await finishLoginAfterOtp();
         return;
@@ -553,8 +556,7 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     setAuthError('');
     try {
       await createPinApi({ pin: createPinValue, confirmPin });
-      const stage = await getUserStage();
-      await routeAfterKycStage(stage);
+      goHome();
     } catch (err) {
       setAuthError(err.message || 'Could not create PIN.');
     } finally {
