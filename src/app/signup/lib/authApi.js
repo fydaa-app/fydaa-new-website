@@ -44,6 +44,7 @@ export function clearTokens() {
   if (typeof window === 'undefined') return;
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(REFRESH_KEY);
+  localStorage.removeItem('fydaa-pin-setup');
 }
 
 export function resolvePinSetupType(stage = {}) {
