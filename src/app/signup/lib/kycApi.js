@@ -1,4 +1,4 @@
-import { getAccessToken, storeTokens } from './authApi';
+import { endSession, getAccessToken, storeTokens } from './authApi';
 import { AUTH_BASE, PAYMENT_BASE } from './apiHosts';
 
 function messageFrom(data, fallback = 'Something went wrong. Please try again.') {
@@ -35,6 +35,7 @@ async function authFetch(path, { method = 'GET', body, base = AUTH_BASE, json = 
     body: body === undefined ? undefined : json ? JSON.stringify(body) : body,
   });
   if (res.status === 401) {
+    endSession();
     const err = new Error('Session expired. Please log in again.');
     err.status = 401;
     throw err;
@@ -462,7 +463,10 @@ export async function uploadModifySignatureFile(id, file) {
     headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
     body,
   });
-  if (res.status === 401) throw new Error('Session expired. Please log in again.');
+  if (res.status === 401) {
+    endSession();
+    throw new Error('Session expired. Please log in again.');
+  }
   const data = await parseJson(res);
   if (res.status === 200 || res.status === 201) {
     if (data?.error === true) throw new Error(messageFrom(data, 'Could not upload signature.'));

@@ -303,6 +303,35 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     }
   }
 
+  useEffect(() => {
+    if (mode === 'login') return;
+    if (searchParams?.get('start') !== 'risk') return;
+    if (!getAccessToken()) return;
+    let cancelled = false;
+    (async () => {
+      setAuthBusy('risk');
+      setAuthError('');
+      try {
+        const list = await getRiskQuestionnaire();
+        if (cancelled) return;
+        if (!list.length) throw new Error('Could not load risk questions.');
+        setQuestions(list);
+        setRiskIndex(0);
+        setRiskAnswers([]);
+        setRiskSel(null);
+        go('risk');
+      } catch (err) {
+        if (!cancelled) setAuthError(err.message || 'Could not load risk questions.');
+      } finally {
+        if (!cancelled) setAuthBusy('');
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, searchParams]);
+
   async function routeAfterKycStage(stage) {
     // §2.2 resume order
     if (isTruthyFlag(stage?.ismodify)) {

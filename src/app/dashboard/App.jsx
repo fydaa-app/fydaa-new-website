@@ -8,8 +8,10 @@ import DreamsPage from "./pages/DreamsPage";
 import HistoryPage from "./pages/HistoryPage";
 import ProfilePage from "./pages/ProfilePage";
 import KycPage from "./pages/KycPage";
-import { getUserStage } from "../signup/lib/authApi";
+import { getUserBankDetails, getUserDetails, getUserStage } from "../signup/lib/authApi";
 import { isHomeKycComplete, isSignupComplete } from "../signup/lib/kycApi";
+import { mapBankDetails, mapStageProfile, mapUserDetails } from "./lib/userProfile";
+import { emailFromAdvisorPayload, getAdvisorAndRelationshipManager, mapRelationshipManager } from "./lib/crmApi";
 import { MessageSquare } from "lucide-react";
 
 const pages = {
@@ -23,16 +25,74 @@ const pages = {
 export default function App() {
   const [activePage, setActivePage] = useState("home");
   const [showKyc, setShowKyc] = useState(false);
+  const [user, setUser] = useState(undefined);
   const Page = pages[activePage] || HomePage;
 
   useEffect(() => {
     let cancelled = false;
     getUserStage()
       .then((stage) => {
-        if (!cancelled) setShowKyc(!isHomeKycComplete(stage) || !isSignupComplete(stage));
+        if (cancelled) return;
+        setShowKyc(!isHomeKycComplete(stage) || !isSignupComplete(stage));
+        setUser((current) => ({
+          ...(current || {}),
+          ...mapStageProfile(stage),
+          email: current?.email || "",
+          packageName: stage?.packageName ? String(stage.packageName) : "",
+          isMfMandate: stage?.isMfMandate === true || stage?.isMfMandate === "true",
+          mandateAmount: stage?.mandateAmount,
+          bank: current?.bank ?? null,
+        }));
       })
       .catch(() => {
-        if (!cancelled) setShowKyc(false);
+        if (cancelled) return;
+        setShowKyc(false);
+        setUser((current) => current ?? null);
+      });
+    getUserDetails()
+      .then(async (details) => {
+        if (cancelled) return;
+        const mapped = mapUserDetails(details);
+        const userId = details?.data?.id;
+        let email = mapped.email || "";
+        let manager = null;
+        if (userId) {
+          try {
+            const crm = await getAdvisorAndRelationshipManager(userId);
+            email = emailFromAdvisorPayload(crm) || email;
+            manager = mapRelationshipManager(crm);
+          } catch {
+            manager = null;
+          }
+        }
+        if (cancelled) return;
+        setUser((current) => ({
+          ...mapped,
+          ...(current?.name ? current : {}),
+          id: userId || current?.id,
+          email: email || current?.email || "",
+          manager,
+          packageName: current?.packageName || "",
+          isMfMandate: current?.isMfMandate,
+          mandateAmount: current?.mandateAmount,
+          bank: current?.bank ?? null,
+        }));
+      })
+      .catch(() => {
+        if (!cancelled) setUser((current) => current ?? null);
+      });
+    getUserBankDetails()
+      .then((details) => {
+        if (cancelled) return;
+        setUser((current) => ({
+          ...(current || {}),
+          bank: mapBankDetails(details),
+        }));
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setUser((current) => ({ ...(current || {}), bank: current?.bank ?? null }));
+        }
       });
     return () => {
       cancelled = true;
@@ -41,11 +101,11 @@ export default function App() {
 
   return (
     <div className="flex min-h-screen bg-bg font-inter text-ink text-[15px] leading-normal antialiased">
-      <Sidebar activePage={activePage} setActivePage={setActivePage} showKyc={showKyc} />
+      <Sidebar activePage={activePage} setActivePage={setActivePage} showKyc={showKyc} user={user} />
 
       <main className="ml-[260px] flex-1 min-h-screen">
         <Topbar />
-        <Page setActivePage={setActivePage} />
+        <Page setActivePage={setActivePage} user={user} />
       </main>
 
       {/* Chatbot FAB */}

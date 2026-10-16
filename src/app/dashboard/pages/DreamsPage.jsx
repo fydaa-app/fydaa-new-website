@@ -1,8 +1,35 @@
-import { useState } from "react";
-import { goalCategories, journeyGoals } from "../data/constants";
-import { rupee, compact, sipFV, getOrdinal } from "../lib/utils";
+import { useEffect, useMemo, useState } from "react";
+import { goalCategories } from "../data/constants";
+import { sipFV } from "../lib/utils";
 import { jadeGradient } from "../lib/tokens";
+import { loadJourney, loadSipStatus, mapJourney, remainingInstallments } from "../lib/dreamsApi";
 import { Plus, ArrowUp, Pause, X, ChevronLeft } from "lucide-react";
+
+const TABS = [
+  { id: "ACTIVE", label: "Active" },
+  { id: "CANCELLED", label: "Cancelled" },
+  { id: "COMPLETED", label: "Completed" },
+];
+
+function money(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "—";
+  return `₹${n.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+function signedMoney(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "—";
+  const sign = n > 0 ? "+" : n < 0 ? "−" : "";
+  return `${sign}${money(Math.abs(n))}`;
+}
+
+function signedPct(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "";
+  const sign = n > 0 ? "+" : n < 0 ? "−" : "";
+  return `${sign}${Math.abs(n).toFixed(2)}%`;
+}
 
 // ─── Journey Card (compact in split mode) ───
 function JourneyCard({ id, goal, isActive, onClick, compact: isCompact }) {
@@ -36,22 +63,22 @@ function JourneyCard({ id, goal, isActive, onClick, compact: isCompact }) {
           <div className="h-[5px] rounded-full bg-surface mb-3 overflow-hidden">
             <div
               className="h-full rounded-full bg-gradient-to-r from-jade to-emerald"
-              style={{ width: `${Math.max(goal.pct, 0.5)}%` }}
+              style={{ width: `${Math.min(100, Math.max(goal.pct || 0, 0))}%` }}
             />
           </div>
           <div className="flex gap-6 flex-wrap text-[13px]">
             <span className="flex items-baseline gap-1.5">
               <span className="text-muted font-medium">Invested</span>
-              <span className="font-bold text-ink">{rupee(goal.invested)}</span>
+              <span className="font-bold text-ink">{money(goal.invested)}</span>
             </span>
             <span className="flex items-baseline gap-1.5">
               <span className="text-muted font-medium">Current</span>
-              <span className="font-bold text-ink">{rupee(goal.current)}</span>
+              <span className="font-bold text-ink">{money(goal.current)}</span>
             </span>
             <span className="flex items-baseline gap-1.5">
               <span className="text-muted font-medium">Returns</span>
-              <span className="font-bold text-emerald">
-                +{rupee(goal.current - goal.invested)} ({goal.pct > 1 ? ((goal.current - goal.invested) / goal.invested * 100).toFixed(1) : goal.pct}%)
+              <span className={`font-bold ${Number(goal.returns) < 0 ? "text-red-600" : "text-emerald"}`}>
+                {signedMoney(goal.returns)} {signedPct(goal.returnsPct)}
               </span>
             </span>
           </div>
@@ -94,16 +121,16 @@ function GoalDetail({ goal, onClose }) {
                 transform="rotate(-90 45 45)" />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className="text-lg font-extrabold text-white">{goal.pct}%</div>
+              <div className="text-lg font-extrabold text-white">{Number(goal.pct || 0).toFixed(2)}%</div>
               <div className="text-[8px] font-semibold text-white/40 uppercase tracking-wider">Complete</div>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-2 flex-1">
             {[
-              { k: "Invested", v: rupee(goal.invested) },
-              { k: "Current", v: rupee(goal.current) },
-              { k: "Monthly", v: rupee(goal.monthly) },
-              { k: "Duration", v: goal.duration },
+              { k: "Invested", v: money(goal.invested) },
+              { k: "Current", v: money(goal.current) },
+              { k: "Monthly", v: money(goal.monthly) },
+              { k: "Duration", v: goal.duration || "—" },
             ].map((s) => (
               <div key={s.k} className="px-3 py-2 rounded-lg bg-white/7">
                 <div className="text-[9px] font-medium text-white/40 uppercase tracking-wider">{s.k}</div>
@@ -131,11 +158,13 @@ function GoalDetail({ goal, onClose }) {
         <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-2.5">Progress</div>
         <div className="bg-surface rounded-btn p-3.5 mb-5">
           <div className="h-1.5 rounded-full bg-border mb-2 overflow-hidden">
-            <div className="h-full rounded-full bg-gradient-to-r from-jade to-emerald" style={{ width: `${Math.max(goal.pct, 0.5)}%` }} />
+            <div className="h-full rounded-full bg-gradient-to-r from-jade to-emerald" style={{ width: `${Math.min(100, Math.max(goal.pct || 0, 0))}%` }} />
           </div>
           <div className="flex justify-between text-xs">
-            <span className="text-muted font-medium">{goal.remaining} remaining installments</span>
-            <span className="text-ink font-semibold">{goal.pct}%</span>
+            <span className="text-muted font-medium">
+              {goal.remaining == null ? "—" : `${goal.remaining} remaining installments`}
+            </span>
+            <span className="text-ink font-semibold">{Number(goal.pct || 0).toFixed(2)}%</span>
           </div>
         </div>
 
@@ -151,9 +180,9 @@ function GoalDetail({ goal, onClose }) {
               </div>
               <div className="text-right shrink-0">
                 <div className={`text-[13px] font-bold ${f.up ? "text-emerald" : "text-red-600"}`}>
-                  {f.up ? "+" : ""}{rupee(f.gain)} ({f.up ? "+" : ""}{f.gainPct}%)
+                  {f.gain == null && f.gainPct == null ? "—" : `${signedMoney(f.gain)} ${signedPct(f.gainPct)}`.trim()}
                 </div>
-                <div className="text-[11px] text-muted mt-0.5">{rupee(f.val)}</div>
+                <div className="text-[11px] text-muted mt-0.5">{money(f.val)}</div>
               </div>
             </div>
           ))}
@@ -171,9 +200,49 @@ export default function DreamsPage() {
   const [sipAmt, setSipAmt] = useState(10000);
   const [sipYrs, setSipYrs] = useState(10);
   const [sipDate, setSipDate] = useState(null);
+  const [tab, setTab] = useState("ACTIVE");
+  const [cards, setCards] = useState(undefined);
+  const [remaining, setRemaining] = useState(null);
 
-  const hasDetail = !!activeGoalId;
+  useEffect(() => {
+    let cancelled = false;
+    loadJourney()
+      .then((payload) => {
+        if (!cancelled) setCards(mapJourney(payload));
+      })
+      .catch(() => {
+        if (!cancelled) setCards([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const visible = useMemo(
+    () => (cards || []).filter((card) => card.tab === tab),
+    [cards, tab],
+  );
+  const selected = visible.find((card) => card.id === activeGoalId) || null;
+  const hasDetail = !!selected;
   const inFlow = !!flowGoal;
+
+  useEffect(() => {
+    if (!selected?.sipId) {
+      setRemaining(null);
+      return undefined;
+    }
+    let cancelled = false;
+    loadSipStatus(selected.sipId)
+      .then((status) => {
+        if (!cancelled) setRemaining(remainingInstallments(status));
+      })
+      .catch(() => {
+        if (!cancelled) setRemaining(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [selected?.sipId]);
 
   const startGoalFlow = (name, years, cagr) => {
     setFlowGoal({ name, years, cagr });
@@ -223,19 +292,32 @@ export default function DreamsPage() {
       {/* Journey */}
       <h2 className="text-lg font-semibold text-ink mb-4">Journey</h2>
       <div className="flex gap-1 bg-surface rounded-btn p-0.5 w-fit mb-4">
-        <button className="px-5 py-2 rounded-lg text-[13px] font-semibold bg-white text-ink shadow-sm">Active · 3</button>
-        <button className="px-5 py-2 rounded-lg text-[13px] font-semibold text-muted">Paused</button>
-        <button className="px-5 py-2 rounded-lg text-[13px] font-semibold text-muted">Completed</button>
+        {TABS.map((item) => {
+          const count = cards ? cards.filter((card) => card.tab === item.id).length : null;
+          const active = tab === item.id;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => { setTab(item.id); setActiveGoalId(null); }}
+              className={`px-5 py-2 rounded-lg text-[13px] font-semibold ${active ? "bg-white text-ink shadow-sm" : "text-muted"}`}
+            >
+              {item.label}{count == null ? "" : ` · ${count}`}
+            </button>
+          );
+        })}
       </div>
 
-      <div className={`flex gap-5 items-start transition-all ${hasDetail ? "" : ""}`}>
+      <div className="flex gap-5 items-start">
         <div className={`flex flex-col gap-3 transition-all ${hasDetail ? "w-[380px] shrink-0" : "flex-1"}`}>
-          {Object.entries(journeyGoals).map(([id, goal]) => (
+          {cards === undefined && <div className="text-sm text-muted py-6">Loading goals…</div>}
+          {cards && visible.length === 0 && <div className="text-sm text-muted py-6">No goals in this tab</div>}
+          {visible.map((goal) => (
             <JourneyCard
-              key={id}
-              id={id}
+              key={goal.id}
+              id={goal.id}
               goal={goal}
-              isActive={activeGoalId === id}
+              isActive={activeGoalId === goal.id}
               onClick={setActiveGoalId}
               compact={hasDetail}
             />
@@ -244,7 +326,7 @@ export default function DreamsPage() {
         {hasDetail && (
           <div className="flex-1 min-w-0 pl-4">
             <GoalDetail
-              goal={journeyGoals[activeGoalId]}
+              goal={{ ...selected, remaining }}
               onClose={() => setActiveGoalId(null)}
             />
           </div>

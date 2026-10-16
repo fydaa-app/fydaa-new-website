@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { products } from "../data/constants";
 import { rupee, compact, sipFV, lumpFV } from "../lib/utils";
 
 const productKeys = ["instafd", "gold", "equity", "multi", "debt", "hybrid", "global"];
 const tabLabels = { instafd: "InstaFD", gold: "Digital Gold", equity: "Equity", multi: "Multi-Asset", debt: "Debt", hybrid: "Hybrid", global: "Global" };
 
-export default function ProductShowcase() {
-  const [activeKey, setActiveKey] = useState("instafd");
+export default function ProductShowcase({ focusKey, focusAt }) {
+  const [activeKey, setActiveKey] = useState(focusKey || "instafd");
+
+  useEffect(() => {
+    if (focusKey) setActiveKey(focusKey);
+  }, [focusKey, focusAt]);
   const [freq, setFreq] = useState("daily");       // daily | monthly | lumpsum
   const [tenure, setTenure] = useState(3);
   const [fundMode, setFundMode] = useState("rec");  // rec | own
@@ -46,7 +50,7 @@ export default function ProductShowcase() {
     fundMode === "own" ? p.options[selectedFundIdx] || p.fund : p.fund;
 
   return (
-    <div className="mb-8">
+    <div id="product-showcase" className="mb-8">
       {/* Hero Header */}
       <div className="bg-surface rounded-t-card px-9 pt-9 pb-5">
         <h2

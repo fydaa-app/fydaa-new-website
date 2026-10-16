@@ -33,9 +33,21 @@ export const STOCK_BASE = normalizeBase(
   isStage ? 'https://stocktransaction-stage.fydaa.com/' : 'https://stocktransaction.fydaa.com/'
 );
 
+export const ADMIN_BASE = normalizeBase(
+  isStage
+    ? process.env.NEXT_PUBLIC_ADMIN_BASE_URL_STAGE || process.env.NEXT_PUBLIC_ADMIN_BASE_URL
+    : process.env.NEXT_PUBLIC_ADMIN_BASE_URL_PROD || process.env.NEXT_PUBLIC_ADMIN_BASE_URL,
+  isStage ? 'https://stage.fydaa.in/admin/api/v4/' : 'https://fydaa.in/admin/api/v4/'
+);
+
 export const PAYMENT_BASE = normalizeBase(
   isStage
     ? process.env.NEXT_PUBLIC_PAYMENT_BASE_URL_STAGE || process.env.NEXT_PUBLIC_PAYMENT_BASE_URL
     : process.env.NEXT_PUBLIC_PAYMENT_BASE_URL_PROD || process.env.NEXT_PUBLIC_PAYMENT_BASE_URL,
   isStage ? 'https://payment-stage.fydaa.com/' : 'https://payment.fydaa.com/'
+);
+
+export const AUTH_PROD_BASE = normalizeBase(
+  process.env.NEXT_PUBLIC_AUTH_BASE_URL_PROD,
+  'https://auth.fydaa.com/'
 );

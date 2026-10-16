@@ -2,7 +2,7 @@ import { Home, Target, Clock, User, Shield } from "lucide-react";
 
 const iconMap = { home: Home, target: Target, clock: Clock, user: User, shield: Shield };
 
-export default function Sidebar({ activePage, setActivePage, showKyc }) {
+export default function Sidebar({ activePage, setActivePage, showKyc, user }) {
   const items = [
     { id: "home", label: "Home", icon: "home" },
     ...(showKyc ? [{ id: "kyc", label: "Complete Your KYC", icon: "shield" }] : []),
@@ -54,15 +54,21 @@ export default function Sidebar({ activePage, setActivePage, showKyc }) {
 
       {/* User */}
       <div className="border-t border-border p-3">
-        <div className="flex items-center gap-3 px-3 py-2.5 rounded-btn hover:bg-surface cursor-pointer">
+        <button
+          type="button"
+          onClick={() => setActivePage("profile")}
+          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-btn hover:bg-surface cursor-pointer text-left"
+        >
           <div className="w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-sm font-semibold text-tertiary">
-            RK
+            {user === undefined ? "…" : user?.initials || "—"}
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-semibold text-ink truncate">Rahul Kapoor</div>
-            <div className="text-xs text-muted">Starter Plan</div>
+            <div className="text-sm font-semibold text-ink truncate">
+              {user === undefined ? "…" : user?.name || "—"}
+            </div>
+            {user?.plan ? <div className="text-xs text-muted">{user.plan}</div> : null}
           </div>
-        </div>
+        </button>
       </div>
     </aside>
   );

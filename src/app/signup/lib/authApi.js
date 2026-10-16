@@ -1,4 +1,4 @@
-import { AUTH_BASE, ONBOARDING_BASE, STOCK_BASE } from './apiHosts';
+import { ADMIN_BASE, AUTH_BASE, AUTH_PROD_BASE, ONBOARDING_BASE, STOCK_BASE } from './apiHosts';
 
 const TOKEN_KEY = 'fydaa-auth-token';
 const REFRESH_KEY = 'fydaa-refresh-token';
@@ -45,6 +45,37 @@ export function clearTokens() {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(REFRESH_KEY);
   localStorage.removeItem('fydaa-pin-setup');
+}
+
+/** Milliseconds when the JWT access token expires, or null if it has no exp claim. */
+export function accessTokenExpiresAt() {
+  const token = getAccessToken();
+  const payload = token.split('.')[1];
+  if (!payload) return null;
+  try {
+    const json = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
+    const exp = Number(json?.exp);
+    return Number.isFinite(exp) ? exp * 1000 : null;
+  } catch {
+    return null;
+  }
+}
+
+export function isAccessTokenExpired() {
+  const exp = accessTokenExpiresAt();
+  return exp != null && Date.now() >= exp;
+}
+
+let sessionEnding = false;
+
+/** Clear the saved session and open login. Used when the access token is expired. */
+export function endSession() {
+  if (typeof window === 'undefined' || sessionEnding) return;
+  sessionEnding = true;
+  clearTokens();
+  if (!window.location.pathname.startsWith('/login')) {
+    window.location.replace('/login');
+  }
 }
 
 export function resolvePinSetupType(stage = {}) {
@@ -108,6 +139,7 @@ export async function postFormAuth(path, fields) {
     body,
   });
   const data = await parseJson(res);
+  if (res.status === 401) endSession();
   if (!(res.status === 200 || res.status === 201) || data?.error === true || data?.status === false) {
     throw new Error(messageFrom(data, 'Something went wrong, try again after sometime.'));
   }
@@ -150,6 +182,7 @@ export async function postJson(path, body, { auth = false, base = AUTH_BASE } = 
     body: JSON.stringify(body ?? {}),
   });
   const data = await parseJson(res);
+  if (auth && res.status === 401) endSession();
   const statusOk = res.status === 200 || res.status === 201;
   const statusTrue = data?.status === true || data?.status === 'true';
   const hasToken = Boolean(extractTokens(data).access);
@@ -173,6 +206,7 @@ export async function getJson(path, { auth = true, base = AUTH_BASE } = {}) {
   }
   const res = await fetch(`${base}${path.replace(/^\//, '')}`, { headers });
   const data = await parseJson(res);
+  if (auth && res.status === 401) endSession();
   if (!(res.status === 200 || res.status === 201) || data?.error === true) {
     throw new Error(messageFrom(data));
   }
@@ -194,7 +228,9 @@ export async function putJson(path, body = {}, { auth = true, base = STOCK_BASE 
     headers,
     body: JSON.stringify(body),
   });
-  return { res, data: await parseJson(res) };
+  const data = await parseJson(res);
+  if (auth && res.status === 401) endSession();
+  return { res, data };
 }
 
 export async function requestOtp({ mobileNumber, referredBy, whatsapp = true }) {
@@ -259,6 +295,15 @@ export async function createPin({ pin, confirmPin }) {
 
 export async function getUserStage() {
   return getJson('user/getUserStage', { auth: true, base: AUTH_BASE });
+}
+
+export async function getUserBankDetails() {
+  const { data } = await postJson('user/user-details', {}, { auth: true, base: AUTH_PROD_BASE });
+  return data;
+}
+
+export async function getUserDetails() {
+  return getJson('userDetails', { auth: true, base: ADMIN_BASE });
 }
 
 export async function getRiskQuestionnaire() {
