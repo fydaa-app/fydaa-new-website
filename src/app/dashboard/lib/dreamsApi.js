@@ -121,7 +121,7 @@ function listOf(value) {
 export function sipHasExecutedTransaction(status) {
   if (Array.isArray(status)) return status.length > 0;
   if (!status || typeof status !== "object") return false;
-  if (status.mfAnalytical) return true;
+  if (status.mfAnalytical || status.mfanalytical || status.MFANALYTICAL || status.mf_analytical) return true;
   if (status.hasTransaction === true || status.transactionExecuted === true) return true;
   const state = String(status.status || status.state || status.orderStatus || "").toUpperCase();
   if (state === "EXECUTED" || state === "COMPLETED" || state === "TRANSACTED") return true;

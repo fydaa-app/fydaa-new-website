@@ -22,7 +22,12 @@ export default function HomePage({ setActivePage, user }) {
       <HeroCard firstName={user === undefined ? "…" : user?.firstName} />
       <CompleteKycBanner />
       <PendingList />
-      <ProductShowcase focusKey={showcase?.key} focusAt={showcase?.at} />
+      <ProductShowcase
+        focusKey={showcase?.key}
+        focusAt={showcase?.at}
+        onViewHolding={() => setActivePage("dreams")}
+        onStartInvest={() => setActivePage("dreams")}
+      />
       <AllocationBar onStart={startProduct} />
       <AMCStrip />
 
