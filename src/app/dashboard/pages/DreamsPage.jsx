@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { goalCategories } from "../data/constants";
-import { sipFV } from "../lib/utils";
 import { jadeGradient } from "../lib/tokens";
 import { loadJourney, loadSipStatus, mapJourney, remainingInstallments } from "../lib/dreamsApi";
-import { Plus, ArrowUp, Pause, X, ChevronLeft } from "lucide-react";
+import GoalSipFlow from "../components/GoalSipFlow";
+import SipInvestWizard from "../components/SipInvestWizard";
+import { Plus, ArrowUp, Pause, X } from "lucide-react";
 
 const TABS = [
   { id: "ACTIVE", label: "Active" },
@@ -193,13 +194,10 @@ function GoalDetail({ goal, onClose }) {
 }
 
 // ─── Main Dreams Page ───
-export default function DreamsPage() {
+export default function DreamsPage({ setActivePage, pendingGoalSip, clearPendingGoalSip }) {
   const [activeGoalId, setActiveGoalId] = useState(null);
-  const [flowGoal, setFlowGoal] = useState(null); // { name, years, cagr }
-  const [flowStep, setFlowStep] = useState(1);
-  const [sipAmt, setSipAmt] = useState(10000);
-  const [sipYrs, setSipYrs] = useState(10);
-  const [sipDate, setSipDate] = useState(null);
+  const [flowGoal, setFlowGoal] = useState(null); // { name, years, cagr, badge, sub }
+  const [investDraft, setInvestDraft] = useState(null);
   const [tab, setTab] = useState("ACTIVE");
   const [cards, setCards] = useState(undefined);
   const [remaining, setRemaining] = useState(null);
@@ -218,13 +216,19 @@ export default function DreamsPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!pendingGoalSip?.name) return;
+    setFlowGoal(pendingGoalSip);
+    clearPendingGoalSip?.();
+  }, [pendingGoalSip, clearPendingGoalSip]);
+
   const visible = useMemo(
     () => (cards || []).filter((card) => card.tab === tab),
     [cards, tab],
   );
   const selected = visible.find((card) => card.id === activeGoalId) || null;
   const hasDetail = !!selected;
-  const inFlow = !!flowGoal;
+  const inFlow = !!flowGoal && !investDraft;
 
   useEffect(() => {
     if (!selected?.sipId) {
@@ -244,46 +248,38 @@ export default function DreamsPage() {
     };
   }, [selected?.sipId]);
 
-  const startGoalFlow = (name, years, cagr) => {
-    setFlowGoal({ name, years, cagr });
-    setSipYrs(years);
-    setFlowStep(1);
-    setSipDate(null);
+  const startGoalFlow = (goal, badge) => {
+    setFlowGoal({
+      name: goal.name,
+      years: goal.years,
+      cagr: goal.cagr,
+      sub: goal.sub,
+      badge,
+    });
   };
 
-  // TODO: Implement full 3-step flow UI — reference the HTML prototype for exact layout.
-  // Steps: 1) Amount + Tenure with projection card, 2) SIP date picker, 3) Review + confirm.
-
   if (inFlow) {
-    const cagr = flowGoal.cagr;
-    const corpus = sipFV(sipAmt, cagr, sipYrs);
     return (
-      <div className="px-10 py-8 max-w-[1000px]">
-        <div className="flex items-center gap-3 mb-6">
-          <button
-            onClick={() => { if (flowStep > 1) setFlowStep(flowStep - 1); else setFlowGoal(null); }}
-            className="w-9 h-9 rounded-full border border-border bg-white flex items-center justify-center hover:bg-surface"
-          >
-            <ChevronLeft size={16} />
-          </button>
-          <h2 className="text-lg font-bold text-ink">{flowGoal.name}</h2>
-          <div className="flex gap-1.5 ml-auto">
-            {[1, 2, 3].map((s) => (
-              <span key={s} className={`inline-block h-2 rounded-full ${s === flowStep ? "w-6 bg-jade" : "w-2 " + (s < flowStep ? "bg-jade" : "bg-border")}`} />
-            ))}
-          </div>
-        </div>
+      <GoalSipFlow
+        goal={flowGoal}
+        onBack={() => setFlowGoal(null)}
+        onContinue={(draft) => setInvestDraft(draft)}
+      />
+    );
+  }
 
-        {/* Step 1 placeholder — use ProductShowcase-style SIP config with projection card */}
-        <div className="bg-white border border-border rounded-card p-8 shadow-card">
-          <p className="text-secondary text-sm mb-4">
-            Step {flowStep} of 3 — {flowStep === 1 ? "Configure SIP amount and tenure" : flowStep === 2 ? "Pick your SIP date" : "Review and confirm"}
-          </p>
-          <p className="text-muted text-xs">
-            See the HTML reference file for the complete step-by-step UI with sliders, projection cards, date pickers, and review checklists.
-          </p>
-        </div>
-      </div>
+  if (investDraft) {
+    return (
+      <SipInvestWizard
+        open
+        draft={investDraft}
+        onClose={() => setInvestDraft(null)}
+        onDone={() => {
+          setInvestDraft(null);
+          setFlowGoal(null);
+          setActivePage?.("home");
+        }}
+      />
     );
   }
 
@@ -347,7 +343,8 @@ export default function DreamsPage() {
             {cat.goals.map((g) => (
               <button
                 key={g.name}
-                onClick={() => startGoalFlow(g.name, g.years, g.cagr)}
+                type="button"
+                onClick={() => startGoalFlow(g, cat.badge)}
                 className="flex items-center gap-3 px-4 py-3.5 bg-white border border-border rounded-card shadow-card hover:shadow-elevated hover:border-border-mid hover:-translate-y-px transition-all text-left"
               >
                 <div className="w-[42px] h-[42px] rounded-[11px] bg-tint flex items-center justify-center shrink-0">

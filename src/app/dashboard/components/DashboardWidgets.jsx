@@ -367,7 +367,14 @@ export function RecommendedGoals({ onExplore, onGoalClick }) {
       </div>
       <div className="flex flex-col gap-2.5 flex-1">
         <button
-          onClick={() => onGoalClick?.("Emergency Fund", 2, 8)}
+          type="button"
+          onClick={() => onGoalClick?.({
+            name: "Emergency Fund",
+            years: 2,
+            cagr: 8,
+            sub: "Your safety net",
+            badge: "Up to 3 years",
+          })}
           className="flex items-center gap-3 px-4 py-3.5 bg-white border border-border rounded-card shadow-card hover:shadow-elevated hover:border-border-mid hover:-translate-y-px transition-all text-left"
         >
           <div className="w-[42px] h-[42px] rounded-[11px] bg-tint flex items-center justify-center shrink-0">
@@ -385,7 +392,14 @@ export function RecommendedGoals({ onExplore, onGoalClick }) {
         </button>
 
         <button
-          onClick={() => onGoalClick?.("Retirement", 25, 12)}
+          type="button"
+          onClick={() => onGoalClick?.({
+            name: "Retirement",
+            years: 25,
+            cagr: 12,
+            sub: "Peaceful life after work",
+            badge: "7+ years",
+          })}
           className="flex items-center gap-3 px-4 py-3.5 bg-white border border-border rounded-card shadow-card hover:shadow-elevated hover:border-border-mid hover:-translate-y-px transition-all text-left"
         >
           <div className="w-[42px] h-[42px] rounded-[11px] bg-tint flex items-center justify-center shrink-0">

@@ -55,6 +55,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
   const [ownError, setOwnError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [pickedFund, setPickedFund] = useState(null);
+  const [ownMenuOpen, setOwnMenuOpen] = useState(false);
   const [amountError, setAmountError] = useState("");
   const [actionNote, setActionNote] = useState("");
 
@@ -98,15 +99,17 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
       setActiveKey(key);
       setAddingAnother(false);
       setFundMode("own");
+      const name = cutAtFund(fund.name) || fund.name;
       setPickedFund({
         id: fund.localMfId || fund.id || 0,
-        name: cutAtFund(fund.name),
+        name,
         fullName: fund.name,
         scheme: fund.scheme,
         minSip: Number(fund.minSip),
         minInitial: Number(fund.minInitial),
       });
-      setSearchQuery("");
+      setSearchQuery(name);
+      setOwnMenuOpen(false);
     }
     window.addEventListener("fydaa-fund-selected", onPick);
     return () => window.removeEventListener("fydaa-fund-selected", onPick);
@@ -156,6 +159,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
     setFundMode("rec");
     setPickedFund(null);
     setSearchQuery("");
+    setOwnMenuOpen(false);
     setOwnFunds([]);
     setOwnError("");
     setAmountError("");
@@ -269,7 +273,6 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
       fund: fundMode === "own" ? pickedFund : recommended?.fund || null,
       addingAnother,
     });
-    setActionNote("SIP setup will open from this card next.");
   }
 
   const subtitle = showHolding
@@ -432,14 +435,22 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
                   <div className="flex rounded-btn overflow-hidden border border-border">
                     <button
                       type="button"
-                      onClick={() => { setFundMode("rec"); setPickedFund(null); setSearchQuery(""); }}
+                      onClick={() => {
+                        setFundMode("rec");
+                        setPickedFund(null);
+                        setSearchQuery("");
+                        setOwnMenuOpen(false);
+                      }}
                       className={`flex-1 py-2.5 text-[13px] font-medium ${fundMode === "rec" ? "bg-jade text-white" : "bg-white text-secondary"}`}
                     >
                       Recommended
                     </button>
                     <button
                       type="button"
-                      onClick={() => setFundMode("own")}
+                      onClick={() => {
+                        setFundMode("own");
+                        setOwnMenuOpen(true);
+                      }}
                       className={`flex-1 py-2.5 text-[13px] font-medium ${fundMode === "own" ? "bg-jade text-white" : "bg-white text-secondary"}`}
                     >
                       Choose my own
@@ -456,50 +467,85 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
                       type="text"
                       placeholder="Search funds"
                       value={searchQuery}
-                      onChange={(event) => setSearchQuery(event.target.value)}
-                      className="w-full px-3.5 py-2.5 border-b border-border bg-bg text-[13px] outline-none"
+                      onChange={(event) => {
+                        setSearchQuery(event.target.value);
+                        setOwnMenuOpen(true);
+                      }}
+                      onFocus={() => setOwnMenuOpen(true)}
+                      className={`w-full px-3.5 py-2.5 bg-bg text-[13px] outline-none ${ownMenuOpen ? "border-b border-border" : ""}`}
                     />
-                    <div className="max-h-[200px] overflow-y-auto">
-                      {ownLoading && <div className="px-3.5 py-3 text-[13px] text-muted text-center">Loading…</div>}
-                      {!ownLoading && ownError && <div className="px-3.5 py-3 text-[13px] text-red-600 text-center">{ownError}</div>}
-                      {!ownLoading && !ownError && ownFunds.length === 0 && (
-                        <div className="px-3.5 py-3 text-[13px] text-muted text-center">
-                          {searchQuery.trim().length === 1 ? "Type at least 2 characters to search" : "No funds found"}
-                        </div>
-                      )}
-                      {!ownLoading && ownFunds.map((fund) => (
-                        <button
-                          key={`${fund.scheme}-${fund.id}`}
-                          type="button"
-                          onClick={() => setPickedFund(fund)}
-                          className={`block w-full text-left px-3.5 py-2.5 text-[13px] font-medium border-t border-bg first:border-t-0 ${
-                            pickedFund?.scheme === fund.scheme ? "bg-jade text-white" : "text-tertiary hover:bg-surface"
-                          }`}
-                        >
-                          {fund.name}
-                        </button>
-                      ))}
-                    </div>
+                    {ownMenuOpen && (
+                      <div className="max-h-[200px] overflow-y-auto">
+                        {ownLoading && <div className="px-3.5 py-3 text-[13px] text-muted text-center">Loading…</div>}
+                        {!ownLoading && ownError && <div className="px-3.5 py-3 text-[13px] text-red-600 text-center">{ownError}</div>}
+                        {!ownLoading && !ownError && ownFunds.length === 0 && (
+                          <div className="px-3.5 py-3 text-[13px] text-muted text-center">
+                            {searchQuery.trim().length === 1 ? "Type at least 2 characters to search" : "No funds found"}
+                          </div>
+                        )}
+                        {!ownLoading && ownFunds.map((fund) => (
+                          <button
+                            key={`${fund.scheme}-${fund.id}`}
+                            type="button"
+                            onMouseDown={(event) => event.preventDefault()}
+                            onClick={() => {
+                              setPickedFund(fund);
+                              setSearchQuery(fund.name || "");
+                              setOwnMenuOpen(false);
+                            }}
+                            className={`block w-full text-left px-3.5 py-2.5 text-[13px] font-medium border-t border-bg first:border-t-0 ${
+                              pickedFund?.scheme === fund.scheme ? "bg-jade text-white" : "text-tertiary hover:bg-surface"
+                            }`}
+                          >
+                            {fund.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="flex items-center justify-between px-4 py-3.5 mb-5 bg-bg border border-border rounded-btn gap-4">
-              <div className="flex items-center gap-3 flex-1 min-w-0">
-                <div className="w-9 h-9 rounded-lg bg-jade text-white text-xs font-bold flex items-center justify-center shrink-0">
-                  {fundName.substring(0, 2).toUpperCase()}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-[13px] font-semibold text-ink truncate">{fundName}</div>
-                  <div className="text-[11px] text-muted">
-                    {fundMode === "own" ? (pickedFund?.scheme || "Select a fund") : "Mutual Fund"}
+            <div
+              className="rounded-card overflow-hidden mb-5 text-white"
+              style={{ background: "linear-gradient(160deg,#0C4A3E,#047857)" }}
+            >
+              <div className="px-4 pt-4 pb-2.5 flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="text-[15px] font-bold">
+                    {tab.label === "Equity" ? "Equities" : tab.label}
+                  </div>
+                  <div className="text-xs text-white/70 mt-0.5">
+                    1 fund · {freq === "lumpsum" ? `₹${amount.toLocaleString("en-IN")}` : `₹${amount.toLocaleString("en-IN")}/${freq === "daily" ? "day" : "month"}`}
                   </div>
                 </div>
+                <div className="text-right shrink-0">
+                  <div className="text-[10px] font-semibold text-white/65 uppercase">1Y</div>
+                  <div className="text-[13px] font-bold text-emerald-200">+{tab.rate}%</div>
+                </div>
               </div>
-              <div className="text-center shrink-0">
-                <div className="text-[10px] font-semibold text-muted uppercase">1Y</div>
-                <div className="text-[13px] font-bold text-emerald">+{tab.rate}%</div>
+              <div className="px-4 pb-2.5">
+                <div className="h-1.5 rounded-full bg-white/20 overflow-hidden mb-2">
+                  <div className="h-full bg-emerald-300 rounded-full" style={{ width: "100%" }} />
+                </div>
+                <div className="text-[11px] font-semibold tracking-wider text-emerald-200">
+                  {(tab.label || "EQUITY").toUpperCase()} 100%
+                </div>
+              </div>
+              <div className="px-3 pb-3">
+                <div className="bg-white/10 rounded-btn px-3.5 py-3">
+                  <div className="text-[13px] font-semibold leading-snug break-words uppercase">
+                    {fundMode === "own"
+                      ? (pickedFund?.fullName || pickedFund?.name || "Select a fund")
+                      : (recommended?.fund?.fullName || recommended?.fund?.name || fundName)}
+                  </div>
+                  <div className="text-[11px] text-white/65 mt-1">
+                    {fundMode === "own" && pickedFund?.scheme
+                      ? `Scheme ${pickedFund.scheme}`
+                      : "Mutual Fund · Risk Moderate"}
+                  </div>
+                </div>
               </div>
             </div>
 

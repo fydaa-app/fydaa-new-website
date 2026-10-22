@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import HeroCard from "../components/HeroCard";
 import ProductShowcase from "../components/ProductShowcase";
+import SipInvestWizard from "../components/SipInvestWizard";
 import { AllocationBar, AMCStrip, RMCard, RecommendedGoals } from "../components/DashboardWidgets";
 import { getUserStage } from "../../signup/lib/authApi";
 import { isHomeKycComplete } from "../../signup/lib/kycApi";
@@ -11,6 +12,7 @@ import { loadHomePending } from "../lib/dreamsApi";
 
 export default function HomePage({ setActivePage, user }) {
   const [showcase, setShowcase] = useState(null);
+  const [investDraft, setInvestDraft] = useState(null);
 
   const startProduct = (key) => {
     setShowcase({ key, at: Date.now() });
@@ -26,7 +28,13 @@ export default function HomePage({ setActivePage, user }) {
         focusKey={showcase?.key}
         focusAt={showcase?.at}
         onViewHolding={() => setActivePage("dreams")}
-        onStartInvest={() => setActivePage("dreams")}
+        onStartInvest={(draft) => setInvestDraft(draft)}
+      />
+      <SipInvestWizard
+        open={!!investDraft}
+        draft={investDraft}
+        onClose={() => setInvestDraft(null)}
+        onDone={() => setActivePage("home")}
       />
       <AllocationBar onStart={startProduct} />
       <AMCStrip />
@@ -34,7 +42,7 @@ export default function HomePage({ setActivePage, user }) {
       <div className="grid grid-cols-[1fr_380px] gap-5 items-stretch mb-8">
         <RecommendedGoals
           onExplore={() => setActivePage("dreams")}
-          onGoalClick={() => setActivePage("dreams")}
+          onGoalClick={(goal) => setActivePage("dreams", goal)}
         />
         <RMCard manager={user?.manager} />
       </div>

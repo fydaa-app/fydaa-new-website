@@ -351,16 +351,21 @@ export async function loadHomeInvestment() {
     .sort((a, b) => sipStamp(b) - sipStamp(a));
 
   const recommended = {};
+  const goalsLoaded = Object.keys(goalsById).length > 0;
   await Promise.all(
     PRODUCT_TABS.map(async (tab) => {
-      recommended[tab.key] = { loading: false, fund: null };
-      if (!goalsById[tab.goalId] && tab.key !== "instafd") {
+      const missingGoal = goalsLoaded && !goalsById[tab.goalId];
+      if (missingGoal && tab.key !== "instafd") {
         recommended[tab.key] = { loading: false, fund: null, missingGoal: true };
         return;
       }
-      recommended[tab.key] = { loading: true, fund: null };
+      recommended[tab.key] = { loading: true, fund: null, missingGoal: false };
       const fund = await loadRecommendedForGoal(tab.goalId);
-      recommended[tab.key] = { loading: false, fund, missingGoal: !goalsById[tab.goalId] };
+      recommended[tab.key] = {
+        loading: false,
+        fund,
+        missingGoal: goalsLoaded && !goalsById[tab.goalId],
+      };
     }),
   );
 

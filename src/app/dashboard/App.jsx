@@ -26,7 +26,13 @@ export default function App() {
   const [activePage, setActivePage] = useState("home");
   const [showKyc, setShowKyc] = useState(false);
   const [user, setUser] = useState(undefined);
+  const [pendingGoalSip, setPendingGoalSip] = useState(null);
   const Page = pages[activePage] || HomePage;
+
+  const goToPage = (page, goal) => {
+    if (goal) setPendingGoalSip(goal);
+    setActivePage(page);
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -105,7 +111,12 @@ export default function App() {
 
       <main className="ml-[260px] flex-1 min-h-screen">
         <Topbar />
-        <Page setActivePage={setActivePage} user={user} />
+        <Page
+          setActivePage={goToPage}
+          user={user}
+          pendingGoalSip={pendingGoalSip}
+          clearPendingGoalSip={() => setPendingGoalSip(null)}
+        />
       </main>
 
       {/* Chatbot FAB */}
