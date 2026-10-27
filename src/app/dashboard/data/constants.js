@@ -116,37 +116,63 @@ export const products = {
 };
 
 // ─── Recommended Goals ───
+export const GOAL_ICONS = {
+  Vacation: "/dreams/goals/01-Vacation.png",
+  Gadgets: "/dreams/goals/02-Gadgets.png",
+  Shopping: "/dreams/goals/03-Shopping.png",
+  Wellness: "/dreams/goals/04-Wellness.png",
+  "Emergency Fund": "/dreams/goals/05-Emergency-Fund.png",
+  Jewellery: "/dreams/goals/06-Jewellery.png",
+  "Insurance Premium": "/dreams/goals/07-Insurance.png",
+  Insurance: "/dreams/goals/07-Insurance.png",
+  Vehicle: "/dreams/goals/08-Vehicle.png",
+  Parenting: "/dreams/goals/09-Parenting.png",
+  "Home Purchase": "/dreams/goals/10-Home-Purchase.png",
+  "Buying a Vehicle": "/dreams/goals/11-Buying-a-Vehicle.png",
+  "Marriage Fund": "/dreams/goals/12-Marriage-Fund.png",
+  "Wealth Creation": "/dreams/goals/13-Wealth-Creation.png",
+  Retirement: "/dreams/goals/14-Retirement.png",
+  "Children Education": "/dreams/goals/15-Children-Education.png",
+  "Gold Savings": "/dreams/goals/16-Gold-Savings.png",
+};
+
+export function goalIconSrc(name) {
+  return GOAL_ICONS[name] || null;
+}
+
 export const goalCategories = [
   {
     label: "Short Term Goals",
     badge: "Up to 3 years",
     goals: [
-      { name: "Vacation", years: 3, cagr: 12, sub: "Explore new places" },
-      { name: "Emergency Fund", years: 2, cagr: 8, sub: "Your safety net" },
-      { name: "Gadgets", years: 1, cagr: 12, sub: "Plan your purchase" },
-      { name: "Vehicle", years: 2, cagr: 12, sub: "Drive your dream" },
-      { name: "Jewellery", years: 2, cagr: 10, sub: "Save for special moments" },
-      { name: "Shopping", years: 1, cagr: 10, sub: "For your special needs" },
+      { name: "Vacation", years: 3, cagr: 12, sub: "Explore new places", icon: GOAL_ICONS.Vacation },
+      { name: "Gadgets", years: 1, cagr: 12, sub: "Plan your purchase", icon: GOAL_ICONS.Gadgets },
+      { name: "Shopping", years: 1, cagr: 10, sub: "For your special needs", icon: GOAL_ICONS.Shopping },
+      { name: "Wellness", years: 2, cagr: 10, sub: "Health & wellbeing", icon: GOAL_ICONS.Wellness },
+      { name: "Emergency Fund", years: 2, cagr: 8, sub: "Your safety net", icon: GOAL_ICONS["Emergency Fund"] },
+      { name: "Jewellery", years: 2, cagr: 10, sub: "Save for special moments", icon: GOAL_ICONS.Jewellery },
+      { name: "Insurance Premium", years: 2, cagr: 8, sub: "Stay covered", icon: GOAL_ICONS.Insurance },
+      { name: "Vehicle", years: 2, cagr: 12, sub: "Drive your dream", icon: GOAL_ICONS.Vehicle },
     ],
   },
   {
     label: "Medium Term Goals",
     badge: "3 to 7 years",
     goals: [
-      { name: "Home Purchase", years: 7, cagr: 14, sub: "Get your dream house" },
-      { name: "Parenting", years: 5, cagr: 13, sub: "Plan for your child" },
-      { name: "Marriage Fund", years: 5, cagr: 13, sub: "Your dream wedding" },
-      { name: "Buying a Vehicle", years: 5, cagr: 14, sub: "Get your dream ride" },
+      { name: "Parenting", years: 5, cagr: 13, sub: "Plan for your child", icon: GOAL_ICONS.Parenting },
+      { name: "Home Purchase", years: 7, cagr: 14, sub: "Get your dream house", icon: GOAL_ICONS["Home Purchase"] },
+      { name: "Buying a Vehicle", years: 5, cagr: 14, sub: "Get your dream ride", icon: GOAL_ICONS["Buying a Vehicle"] },
+      { name: "Marriage Fund", years: 5, cagr: 13, sub: "Your dream wedding", icon: GOAL_ICONS["Marriage Fund"] },
     ],
   },
   {
     label: "Long Term Goals",
     badge: "7+ years",
     goals: [
-      { name: "Wealth Creation", years: 10, cagr: 14, sub: "Grow your wealth" },
-      { name: "Retirement", years: 25, cagr: 12, sub: "Peaceful life after work" },
-      { name: "Children Education", years: 15, cagr: 12, sub: "Secure their future" },
-      { name: "Gold Savings", years: 10, cagr: 10, sub: "Save in gold" },
+      { name: "Wealth Creation", years: 10, cagr: 14, sub: "Grow your wealth", icon: GOAL_ICONS["Wealth Creation"] },
+      { name: "Retirement", years: 25, cagr: 12, sub: "Peaceful life after work", icon: GOAL_ICONS.Retirement },
+      { name: "Children Education", years: 15, cagr: 12, sub: "Secure their future", icon: GOAL_ICONS["Children Education"] },
+      { name: "Gold Savings", years: 10, cagr: 10, sub: "Save in gold", icon: GOAL_ICONS["Gold Savings"] },
     ],
   },
 ];

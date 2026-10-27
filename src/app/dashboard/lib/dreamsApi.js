@@ -1,7 +1,7 @@
 import { endSession, getAccessToken } from "../../signup/lib/authApi";
 import { STOCK_BASE } from "../../signup/lib/apiHosts";
 
-async function stockFetch(path, method = "GET") {
+async function stockFetch(path, method = "GET", body) {
   const token = getAccessToken();
   if (!token) return null;
   const res = await fetch(`${STOCK_BASE}${path}`, {
@@ -11,14 +11,65 @@ async function stockFetch(path, method = "GET") {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+    body: body != null ? JSON.stringify(body) : undefined,
   });
   if (res.status === 401) {
     endSession();
     return null;
   }
-  const data = await res.json();
+  const data = await res.json().catch(() => null);
   if (!res.ok || data?.error) return null;
   return data;
+}
+
+function messageFrom(data, fallback) {
+  if (typeof data?.message === "string" && data.message.trim()) return data.message;
+  return fallback;
+}
+
+/** Delete an INACTIVE pending SIP from Home. `DELETE /orders/{sipId}/deletePending` */
+export async function deletePendingSip(sipId) {
+  const token = getAccessToken();
+  if (!token) return { ok: false, message: "Session required" };
+  const id = Number(sipId);
+  if (!Number.isFinite(id) || id <= 0) return { ok: false, message: "Missing SIP id" };
+  let res;
+  try {
+    res = await fetch(`${STOCK_BASE}orders/${id}/deletePending`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch {
+    return { ok: false, message: "Could not reach server" };
+  }
+  if (res.status === 401) {
+    endSession();
+    return { ok: false, message: "Session expired" };
+  }
+  const data = await res.json().catch(() => null);
+  if (!res.ok || data?.error) {
+    const raw = messageFrom(data, "");
+    if (
+      res.status === 404
+      || /SIP not found|Only INACTIVE SIPs can be deleted/i.test(raw)
+    ) {
+      return {
+        ok: false,
+        message: "Unable to delete this SIP. Only inactive SIPs can be deleted.",
+        data,
+      };
+    }
+    return { ok: false, message: raw || "Failed to delete pending SIP", data };
+  }
+  return { ok: true, data };
+}
+
+/** @deprecated Use deletePendingSip */
+export async function cancelPendingSip(sipId) {
+  return deletePendingSip(sipId);
 }
 
 function unwrap(data) {
@@ -58,15 +109,47 @@ export async function loadMySips() {
   return asSips(await stockFetch("orders/getMySipMf"));
 }
 
+function pendingDraftFromSip(sip) {
+  const goalId = Number(sip?.goalId ?? sip?.goal?.id) || null;
+  const amount = Number(sip?.sipAmount) || 0;
+  const tenureMonths = Number(sip?.sipTenure ?? sip?.intendedTenureMonths) || 36;
+  const tenureYears = Math.max(1, Math.round(tenureMonths / 12));
+  const frequency = String(sip?.sipFrequency || "").toLowerCase() === "daily" ? "daily" : "monthly";
+  const scheme = String(sip?.selectedScheme || sip?.scheme || "").trim();
+  const mfId = Number(sip?.selectedMfId ?? sip?.mfId) || 0;
+  const fundName = sip?.funds?.[0]?.schemeName || sip?.sipName || sip?.goal?.name || "Fund";
+  const ownFund = !!scheme;
+  return {
+    id: sip.id,
+    sipId: sip.id,
+    name: sip.goal?.name || sip.sipName || "SIP",
+    forLabel: amount > 0
+      ? `₹${Math.round(amount).toLocaleString("en-IN")}/${frequency === "daily" ? "day" : "month"} · finish setup`
+      : "Finish setup to start auto-debit",
+    badge: String(sip.status || "INACTIVE").toUpperCase(),
+    goalId,
+    amount,
+    tenureYears,
+    frequency,
+    monthlyDay: Number(sip?.sipDateDay) || 10,
+    goalName: sip.goal?.name || sip.sipName || "SIP",
+    fundMode: ownFund ? "own" : "rec",
+    fund: ownFund
+      ? {
+          id: mfId,
+          name: fundName,
+          fullName: fundName,
+          scheme,
+        }
+      : null,
+    portfolioId: sip.portfolioId ?? null,
+  };
+}
+
 export async function loadHomePending() {
   const sips = asSips(await stockFetch("orders/getMySipMf"));
   const statusBySipId = await activeSipStatuses(sips);
-  return pendingSips({ sips, statusBySipId }).map((sip) => ({
-    id: sip.id,
-    name: sip.goal?.name || sip.sipName || "SIP",
-    forLabel: sip.sipName || "",
-    badge: sip.status || "",
-  }));
+  return pendingSips({ sips, statusBySipId }).map(pendingDraftFromSip);
 }
 
 export async function loadPortfolio() {

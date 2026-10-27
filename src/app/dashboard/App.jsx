@@ -27,12 +27,23 @@ export default function App() {
   const [showKyc, setShowKyc] = useState(false);
   const [user, setUser] = useState(undefined);
   const [pendingGoalSip, setPendingGoalSip] = useState(null);
+  const [navOpen, setNavOpen] = useState(false);
   const Page = pages[activePage] || HomePage;
 
   const goToPage = (page, goal) => {
     if (goal) setPendingGoalSip(goal);
     setActivePage(page);
+    setNavOpen(false);
   };
+
+  useEffect(() => {
+    if (!navOpen) return undefined;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [navOpen]);
 
   useEffect(() => {
     let cancelled = false;
@@ -106,11 +117,18 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-bg font-inter text-ink text-[15px] leading-normal antialiased">
-      <Sidebar activePage={activePage} setActivePage={setActivePage} showKyc={showKyc} user={user} />
+    <div className="flex min-h-dvh bg-bg font-inter text-ink text-[15px] leading-normal antialiased overflow-x-hidden">
+      <Sidebar
+        activePage={activePage}
+        setActivePage={goToPage}
+        showKyc={showKyc}
+        user={user}
+        open={navOpen}
+        onClose={() => setNavOpen(false)}
+      />
 
-      <main className="ml-[260px] flex-1 min-h-screen">
-        <Topbar />
+      <main className="w-full lg:ml-[260px] flex-1 min-h-dvh min-w-0">
+        <Topbar onMenuOpen={() => setNavOpen(true)} />
         <Page
           setActivePage={goToPage}
           user={user}
@@ -119,9 +137,12 @@ export default function App() {
         />
       </main>
 
-      {/* Chatbot FAB */}
-      <button className="fixed bottom-7 right-7 z-50 w-14 h-14 rounded-full bg-jade text-white shadow-[0_4px_16px_rgba(12,74,62,.3)] hover:scale-105 hover:shadow-[0_6px_24px_rgba(12,74,62,.35)] transition-all flex items-center justify-center">
-        <MessageSquare size={24} strokeWidth={1.8} />
+      <button
+        type="button"
+        aria-label="Chat"
+        className="fixed bottom-5 right-5 sm:bottom-7 sm:right-7 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-jade text-white shadow-[0_4px_16px_rgba(12,74,62,.3)] hover:scale-105 hover:shadow-[0_6px_24px_rgba(12,74,62,.35)] transition-all flex items-center justify-center"
+      >
+        <MessageSquare size={22} strokeWidth={1.8} />
       </button>
     </div>
   );

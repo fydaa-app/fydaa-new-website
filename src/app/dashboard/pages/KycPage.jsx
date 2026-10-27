@@ -27,7 +27,7 @@ export default function KycPage() {
   const left = steps.filter((step) => !step.done).length;
 
   return (
-    <div className="px-10 py-8 max-w-[720px]">
+    <div className="px-4 sm:px-6 lg:px-10 py-5 sm:py-8 max-w-[720px] 4xl:max-w-[900px] mx-auto w-full pb-20 lg:pb-8">
       <h2 className="text-lg font-semibold text-ink">Complete Your KYC</h2>
       <p className="text-sm text-muted mt-1 mb-6">
         {steps.length ? `${left} step${left === 1 ? "" : "s"} left` : "Checking your KYC status…"}

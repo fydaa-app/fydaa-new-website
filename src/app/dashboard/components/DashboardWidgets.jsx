@@ -374,13 +374,12 @@ export function RecommendedGoals({ onExplore, onGoalClick }) {
             cagr: 8,
             sub: "Your safety net",
             badge: "Up to 3 years",
+            icon: "/dreams/goals/05-Emergency-Fund.png",
           })}
           className="flex items-center gap-3 px-4 py-3.5 bg-white border border-border rounded-card shadow-card hover:shadow-elevated hover:border-border-mid hover:-translate-y-px transition-all text-left"
         >
-          <div className="w-[42px] h-[42px] rounded-[11px] bg-tint flex items-center justify-center shrink-0">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C4A3E" strokeWidth="1.5">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
+          <div className="w-[42px] h-[42px] rounded-[11px] bg-tint flex items-center justify-center shrink-0 overflow-hidden">
+            <img src="/dreams/goals/05-Emergency-Fund.png" alt="" className="w-7 h-7 object-contain" />
           </div>
           <div className="flex-1">
             <div className="text-[13px] font-semibold text-ink">Emergency Fund</div>
@@ -399,13 +398,12 @@ export function RecommendedGoals({ onExplore, onGoalClick }) {
             cagr: 12,
             sub: "Peaceful life after work",
             badge: "7+ years",
+            icon: "/dreams/goals/14-Retirement.png",
           })}
           className="flex items-center gap-3 px-4 py-3.5 bg-white border border-border rounded-card shadow-card hover:shadow-elevated hover:border-border-mid hover:-translate-y-px transition-all text-left"
         >
-          <div className="w-[42px] h-[42px] rounded-[11px] bg-tint flex items-center justify-center shrink-0">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C4A3E" strokeWidth="1.5">
-              <circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" />
-            </svg>
+          <div className="w-[42px] h-[42px] rounded-[11px] bg-tint flex items-center justify-center shrink-0 overflow-hidden">
+            <img src="/dreams/goals/14-Retirement.png" alt="" className="w-7 h-7 object-contain" />
           </div>
           <div className="flex-1">
             <div className="text-[13px] font-semibold text-ink">Retirement</div>

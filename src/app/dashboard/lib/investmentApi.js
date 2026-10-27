@@ -135,18 +135,35 @@ function firstString(row, keys) {
   return "";
 }
 
-function firstList(data, keys) {
+const LIST_KEYS = [
+  "schemeAllocations", "scheme_allocations", "recommendedFunds", "recommended_funds",
+  "items", "data", "funds", "holdings", "stocks", "schemes", "list",
+];
+
+function firstList(data, keys = LIST_KEYS) {
   if (Array.isArray(data)) return data;
   if (!data || typeof data !== "object") return [];
   for (const key of keys) {
     const value = data[key];
     if (Array.isArray(value)) return value;
     if (value && typeof value === "object") {
-      const nested = firstList(value, ["items", "data", "funds", "holdings", "stocks", "schemes"]);
+      const nested = firstList(value, LIST_KEYS);
       if (nested.length) return nested;
     }
   }
   return [];
+}
+
+function fundNameFromRow(row) {
+  if (!row || typeof row !== "object") return "";
+  const nested = row.mutualFund || row.fund || row.schemeDetails || row.mf || row.stock || row.instrument || null;
+  return firstString(row, [
+    "name", "shortName", "schemeName", "fundName", "title",
+    "scheme_name", "fund_name", "stockName", "stock_name", "mfName", "mutualFundName",
+  ]) || firstString(nested, [
+    "name", "shortName", "schemeName", "fundName", "title",
+    "scheme_name", "fund_name", "stockName", "stock_name", "mfName",
+  ]);
 }
 
 export function cutAtFund(name) {
@@ -193,25 +210,29 @@ function matchTabByText(sip) {
   const text = [
     sip?.goal?.name,
     sip?.sipName,
-    ...(sip?.funds || []).map((fund) => fund?.schemeName),
+    ...(sip?.funds || []).map((fund) => fund?.schemeName || fund?.name || fund?.fundName),
   ].join(" ").toLowerCase();
   if (/instafd|liquid fund|overnight|money market/.test(text)) return "instafd";
-  if (/gold|goldsaving|safegold|mmtc|augmont/.test(text)) return "gold";
+  // Debt / gilt before gold — bare "gold" in fund names must not steal debt SIPs.
+  if (/debt|bond|gilt|income fund|fixed income/.test(text)) return "debt";
+  // Digital Gold only from explicit gold-product signals, not Multi-Asset copy that mentions gold.
+  if (/digital\s*gold|gold savings|goldsaving|safegold|mmtc|augmont|sovereign gold/.test(text)) {
+    return "gold";
+  }
   if (/global|international|nasdaq|s&p|us equity/.test(text)) return "global";
   if (/multi-asset|multi asset|multiasset|asset allocation/.test(text)) return "multi";
   if (/hybrid|balanced|arbitrage/.test(text)) return "hybrid";
-  if (/debt|bond|gilt|income fund|fixed income/.test(text)) return "debt";
   if (/equity|flexicap|momentum|nifty|sensex|smallcap|midcap|largecap|index|stock/.test(text)) return "equity";
   return "equity";
 }
 
 function tabKeyForSip(sip, goalsById) {
   const goalId = Number(sip?.goalId ?? sip?.goal?.id);
-  if (Number.isFinite(goalId)) {
+  if (Number.isFinite(goalId) && goalId > 0) {
     const tab = PRODUCT_TABS.find((item) => item.goalId === goalId);
     if (tab) return tab.key;
   }
-  const name = String(sip?.goal?.name || sip?.sipName || "").trim().toLowerCase();
+  const name = String(sip?.goal?.name || "").trim().toLowerCase();
   if (name) {
     const byName = PRODUCT_TABS.find((item) => {
       const goal = goalsById[item.goalId];
@@ -221,29 +242,32 @@ function tabKeyForSip(sip, goalsById) {
     const byLabel = PRODUCT_TABS.find((item) => item.label.toLowerCase() === name);
     if (byLabel) return byLabel.key;
   }
-  return matchTabByText(sip);
+  // Never fuzzy-assign Digital Gold — only goalId 39 / exact Digital Gold goal name above.
+  const fuzzy = matchTabByText(sip);
+  if (fuzzy === "gold") return "equity";
+  return fuzzy;
 }
 
 function parseFundFromRecommended(data) {
-  const list = firstList(data, [
-    "schemeAllocations", "scheme_allocations", "data", "funds",
-    "holdings", "schemes", "recommendedFunds", "recommended_funds",
-  ]);
-  const nested = data?.portfolio;
-  const fromPortfolio = nested
-    ? firstList(nested, ["funds", "holdings", "stocks", "schemes"])
-    : [];
+  const root = data?.data && typeof data.data === "object" && !Array.isArray(data.data)
+    ? { ...data, ...data.data }
+    : data;
+  const list = firstList(root);
+  const fromPortfolio = root?.portfolio ? firstList(root.portfolio) : [];
   const row = list[0] || fromPortfolio[0];
   if (!row) return null;
-  const name = firstString(row, ["name", "shortName", "schemeName", "fundName", "title"]);
+  const nested = row.mutualFund || row.fund || row.schemeDetails || row.mf || row.stock || null;
+  const name = fundNameFromRow(row);
+  if (!name) return null;
   return {
-    name: cutAtFund(name) || "Recommended fund",
+    name: cutAtFund(name) || name,
     fullName: name,
-    scheme: firstString(row, ["isin", "ticker", "scheme", "schemeCode"]),
-    id: row.id ?? row.mfId ?? row.localMfId ?? null,
-    minSip: Number(row.min_sip_amount ?? row.minSipAmount),
-    minInitial: Number(row.min_initial_investment ?? row.minInitialInvestment),
-    portfolioId: data?.portfolioId ?? data?.portfolio?.id ?? null,
+    scheme: firstString(row, ["isin", "ticker", "scheme", "schemeCode"])
+      || firstString(nested, ["isin", "ticker", "scheme", "schemeCode"]),
+    id: row.id ?? row.mfId ?? row.localMfId ?? nested?.id ?? nested?.mfId ?? null,
+    minSip: Number(row.min_sip_amount ?? row.minSipAmount ?? nested?.min_sip_amount),
+    minInitial: Number(row.min_initial_investment ?? row.minInitialInvestment ?? nested?.min_initial_investment),
+    portfolioId: root?.portfolioId ?? root?.portfolio?.id ?? data?.portfolioId ?? null,
   };
 }
 
@@ -300,28 +324,29 @@ export async function searchCategoryFunds(stockType, query = "") {
   return { funds, message: "" };
 }
 
-function buildHoldingRows(sips, recommendedName) {
-  const rows = [];
-  sips.forEach((sip) => {
-    const invested = Number(sip.investedAmount) || 0;
-    const funds = Array.isArray(sip.funds) ? sip.funds.filter((fund) => fund?.schemeName) : [];
-    if (funds.length) {
-      const each = invested / funds.length;
-      funds.forEach((fund) => {
-        rows.push({ name: cutAtFund(fund.schemeName), amount: each, sipId: sip.id });
-      });
-      return;
-    }
-    rows.push({
-      name: recommendedName || "Recommended fund",
-      amount: invested,
-      sipId: sip.id,
-    });
-  });
-  if (!rows.length) {
-    rows.push({ name: recommendedName || "Recommended fund", amount: 0, sipId: null });
+function holdingFundName(sip) {
+  const funds = Array.isArray(sip?.funds) ? sip.funds : [];
+  for (const fund of funds) {
+    const raw = fund?.schemeName || fund?.fundName || fund?.name || fund?.stockName || "";
+    const name = cutAtFund(raw) || raw;
+    if (name) return name;
   }
-  return rows;
+  return (
+    cutAtFund(sip?.selectedSchemeName) ||
+    cutAtFund(sip?.schemeName) ||
+    cutAtFund(sip?.sipName) ||
+    cutAtFund(sip?.goal?.name) ||
+    ""
+  );
+}
+
+function buildHoldingRows(sips) {
+  // One line for the product card: actual invested fund, not the tab's recommended fund.
+  const invested = (sips || []).reduce((sum, sip) => sum + (Number(sip.investedAmount) || 0), 0);
+  const newest = sips?.[0] || null;
+  const name = holdingFundName(newest);
+  if (!name) return [];
+  return [{ name, amount: invested, sipId: newest?.id ?? null }];
 }
 
 export async function loadHomeInvestment() {
@@ -400,7 +425,6 @@ export async function loadHomeInvestment() {
       const cadence = newest
         ? `₹${cadenceAmt.toLocaleString("en-IN")}/${freq === "daily" ? "day" : "month"}`
         : "";
-      const recName = recommended[tab.key]?.fund?.name || "";
       return [tab.key, {
         holdings,
         invested,
@@ -409,7 +433,7 @@ export async function loadHomeInvestment() {
         cadence,
         sinceShort,
         since,
-        fundRows: buildHoldingRows(holdings, recName),
+        fundRows: buildHoldingRows(holdings),
       }];
     }),
   );

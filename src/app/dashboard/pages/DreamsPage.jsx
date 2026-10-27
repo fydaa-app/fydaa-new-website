@@ -284,10 +284,10 @@ export default function DreamsPage({ setActivePage, pendingGoalSip, clearPending
   }
 
   return (
-    <div className="px-10 py-8 max-w-[1000px]">
+    <div className="px-4 sm:px-6 lg:px-10 xl:px-12 4xl:px-16 py-5 sm:py-8 max-w-[1000px] 4xl:max-w-[1400px] mx-auto w-full pb-20 lg:pb-8">
       {/* Journey */}
       <h2 className="text-lg font-semibold text-ink mb-4">Journey</h2>
-      <div className="flex gap-1 bg-surface rounded-btn p-0.5 w-fit mb-4">
+      <div className="flex gap-1 bg-surface rounded-btn p-0.5 w-full sm:w-fit mb-4 overflow-x-auto">
         {TABS.map((item) => {
           const count = cards ? cards.filter((card) => card.tab === item.id).length : null;
           const active = tab === item.id;
@@ -296,7 +296,7 @@ export default function DreamsPage({ setActivePage, pendingGoalSip, clearPending
               key={item.id}
               type="button"
               onClick={() => { setTab(item.id); setActiveGoalId(null); }}
-              className={`px-5 py-2 rounded-lg text-[13px] font-semibold ${active ? "bg-white text-ink shadow-sm" : "text-muted"}`}
+              className={`px-4 sm:px-5 py-2 rounded-lg text-[13px] font-semibold whitespace-nowrap shrink-0 ${active ? "bg-white text-ink shadow-sm" : "text-muted"}`}
             >
               {item.label}{count == null ? "" : ` · ${count}`}
             </button>
@@ -304,8 +304,8 @@ export default function DreamsPage({ setActivePage, pendingGoalSip, clearPending
         })}
       </div>
 
-      <div className="flex gap-5 items-start">
-        <div className={`flex flex-col gap-3 transition-all ${hasDetail ? "w-[380px] shrink-0" : "flex-1"}`}>
+      <div className={`flex flex-col ${hasDetail ? "lg:flex-row" : ""} gap-5 items-stretch lg:items-start`}>
+        <div className={`flex flex-col gap-3 transition-all min-w-0 ${hasDetail ? "lg:w-[380px] lg:shrink-0" : "flex-1"}`}>
           {cards === undefined && <div className="text-sm text-muted py-6">Loading goals…</div>}
           {cards && visible.length === 0 && <div className="text-sm text-muted py-6">No goals in this tab</div>}
           {visible.map((goal) => (
@@ -320,7 +320,7 @@ export default function DreamsPage({ setActivePage, pendingGoalSip, clearPending
           ))}
         </div>
         {hasDetail && (
-          <div className="flex-1 min-w-0 pl-4">
+          <div className="flex-1 min-w-0 lg:pl-4">
             <GoalDetail
               goal={{ ...selected, remaining }}
               onClose={() => setActiveGoalId(null)}
@@ -335,11 +335,11 @@ export default function DreamsPage({ setActivePage, pendingGoalSip, clearPending
 
       {goalCategories.map((cat) => (
         <div key={cat.label} className="mb-7">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between gap-2 mb-3">
             <span className="text-[11px] font-bold text-tertiary uppercase tracking-wider">{cat.label}</span>
-            <span className="text-[10px] font-semibold text-jade bg-tint px-2.5 py-1 rounded-md">{cat.badge}</span>
+            <span className="text-[10px] font-semibold text-jade bg-tint px-2.5 py-1 rounded-md shrink-0">{cat.badge}</span>
           </div>
-          <div className="grid grid-cols-3 gap-2.5">
+          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 4xl:grid-cols-4 gap-2.5">
             {cat.goals.map((g) => (
               <button
                 key={g.name}
@@ -347,10 +347,14 @@ export default function DreamsPage({ setActivePage, pendingGoalSip, clearPending
                 onClick={() => startGoalFlow(g, cat.badge)}
                 className="flex items-center gap-3 px-4 py-3.5 bg-white border border-border rounded-card shadow-card hover:shadow-elevated hover:border-border-mid hover:-translate-y-px transition-all text-left"
               >
-                <div className="w-[42px] h-[42px] rounded-[11px] bg-tint flex items-center justify-center shrink-0">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C4A3E" strokeWidth="1.5">
-                    <circle cx="12" cy="12" r="9" />
-                  </svg>
+                <div className="w-[42px] h-[42px] rounded-[11px] bg-tint flex items-center justify-center shrink-0 overflow-hidden">
+                  {g.icon ? (
+                    <img src={g.icon} alt="" className="w-7 h-7 object-contain" />
+                  ) : (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C4A3E" strokeWidth="1.5">
+                      <circle cx="12" cy="12" r="9" />
+                    </svg>
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-[13px] font-semibold text-ink">{g.name}</div>

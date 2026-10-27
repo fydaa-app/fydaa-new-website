@@ -75,7 +75,7 @@ export default function FundSearchOverlay({ open, onClose, prefill = "", onSelec
         if (id !== requestId.current) return;
         setLoading(false);
         setFunds(result.funds);
-        setError(result.message || "");
+        setError(/goal\s*id|risk\s*bucket|direct mutual fund portfolio|no .*portfolio found/i.test(String(result.message || "")) ? "" : (result.message || ""));
       });
     }, 300);
     return () => window.clearTimeout(timer);
@@ -96,7 +96,7 @@ export default function FundSearchOverlay({ open, onClose, prefill = "", onSelec
       if (id !== requestId.current) return;
       setLoading(false);
       setFunds(result.funds);
-      setError(result.message || "");
+      setError(/goal\s*id|risk\s*bucket|direct mutual fund portfolio|no .*portfolio found/i.test(String(result.message || "")) ? "" : (result.message || ""));
     });
   }
 
@@ -119,7 +119,7 @@ export default function FundSearchOverlay({ open, onClose, prefill = "", onSelec
 
   return (
     <div className="fixed inset-0 z-[60] bg-bg/95 backdrop-blur-sm">
-      <div className="max-w-[720px] mx-auto px-6 py-6 h-full flex flex-col">
+      <div className="max-w-[720px] 4xl:max-w-[900px] mx-auto px-4 sm:px-6 py-4 sm:py-6 h-full flex flex-col w-full">
         <div className="flex items-center gap-3 mb-4">
           <button
             type="button"

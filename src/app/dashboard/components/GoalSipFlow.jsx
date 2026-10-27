@@ -1,10 +1,16 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ChevronDown } from "lucide-react";
+import { ArrowLeft, ChevronDown, X } from "lucide-react";
 import { compact, getOrdinal, sipFV } from "../lib/utils";
-import { loadGoals, loadRecommendedForGoal } from "../lib/investmentApi";
-import { loadPortfolioForSip, tabMeta } from "../lib/sipInvestApi";
+import { loadGoals, loadRecommendedForGoal, PRODUCT_TABS } from "../lib/investmentApi";
+import {
+  checkInvestReadiness,
+  horizonLabel,
+  loadPortfolioForSip,
+  nextReviewAction,
+  tabMeta,
+} from "../lib/sipInvestApi";
 
 const AMOUNT_CHIPS = [1000, 5000, 10000, 20000];
 const SIP_DAYS = [1, 5, 10, 15, 20, 25, 28];
@@ -37,13 +43,28 @@ function money(value) {
   return `₹${Math.round(n).toLocaleString("en-IN")}`;
 }
 
-function firstDebitLabel(day) {
+function formatDebitDate(date) {
+  const dd = String(date.getDate()).padStart(2, "0");
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  return `${dd}-${mm}-${date.getFullYear()}`;
+}
+
+function firstDebitDate(day) {
+  const n = Math.min(28, Math.max(1, Number(day) || 10));
   const now = new Date();
-  const d = new Date(now.getFullYear(), now.getMonth(), day);
-  if (now.getDate() >= day) d.setMonth(d.getMonth() + 1);
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  return `${dd}-${mm}-${d.getFullYear()}`;
+  const d = new Date(now.getFullYear(), now.getMonth(), n);
+  if (now.getDate() >= n) d.setMonth(d.getMonth() + 1);
+  return d;
+}
+
+function firstDebitLabel(day) {
+  return formatDebitDate(firstDebitDate(day));
+}
+
+function nextDebitLabel(day) {
+  const first = firstDebitDate(day);
+  const next = new Date(first.getFullYear(), first.getMonth() + 1, first.getDate());
+  return formatDebitDate(next);
 }
 
 /**
@@ -55,15 +76,23 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
     [goal?.badge],
   );
   const [step, setStep] = useState(1);
-  const [amount, setAmount] = useState(10000);
+  const [amount, setAmount] = useState(() => {
+    const seed = Number(goal?.seedAmount);
+    return Number.isFinite(seed) && seed > 0 ? seed : 10000;
+  });
   const [years, setYears] = useState(() => clampTenure(goal?.years, tenureOptionsForBadge(goal?.badge)));
   const [sipDay, setSipDay] = useState(10);
   const [autoOpen, setAutoOpen] = useState(false);
+  const [reviewOpen, setReviewOpen] = useState(false);
   const [portfolio, setPortfolio] = useState(null);
-  const [goalId, setGoalId] = useState(null);
+  const [goalId, setGoalId] = useState(() => {
+    const id = Number(goal?.productGoalId);
+    return Number.isFinite(id) && id > 0 ? id : null;
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [readiness, setReadiness] = useState(null);
 
   const cagr = assumedCagrForBadge(goal?.badge);
   const corpus = sipFV(amount, cagr, years);
@@ -74,27 +103,34 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
   const splitLabel = funds[0]?.assetClass
     || funds[0]?.label?.split("·")[0]?.trim()
     || "Equity";
+  const reviewAction = useMemo(
+    () => nextReviewAction({ readiness, consentDone: false, mandateDone: false }),
+    [readiness],
+  );
+  const checklist = useMemo(() => readiness?.checklist || [], [readiness]);
 
   useEffect(() => {
     setYears(clampTenure(goal?.years, tenureOptions));
   }, [goal?.years, tenureOptions]);
 
   useEffect(() => {
-    if (!goal?.name) return undefined;
+    if (!goal?.name && !goal?.productGoalId) return undefined;
     let cancelled = false;
     setLoading(true);
     setError("");
     loadGoals()
       .then(async (goalsById) => {
         if (cancelled) return;
+        const seededId = Number(goal.productGoalId);
         const target = String(goal.name || "").trim().toLowerCase();
         const list = Object.values(goalsById || {});
-        const match = list.find((item) => String(item.name || "").trim().toLowerCase() === target)
+        const match = (Number.isFinite(seededId) && seededId > 0 && goalsById[seededId])
+          || list.find((item) => String(item.name || "").trim().toLowerCase() === target)
           || list.find((item) => {
             const name = String(item.name || "").trim().toLowerCase();
             return name.includes(target) || target.includes(name);
           });
-        const id = match?.id ?? null;
+        const id = match?.id ?? (Number.isFinite(seededId) && seededId > 0 ? seededId : null);
         setGoalId(id);
         if (!id) {
           setPortfolio(null);
@@ -136,16 +172,46 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
     return () => {
       cancelled = true;
     };
-  }, [goal?.name]);
+  }, [goal?.name, goal?.productGoalId]);
+
+  useEffect(() => {
+    if (step !== 2) return undefined;
+    let cancelled = false;
+    checkInvestReadiness().then((ready) => {
+      if (!cancelled) setReadiness(ready);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [step]);
+
+  async function openReviewSheet() {
+    setError("");
+    setBusy(true);
+    const ready = readiness || await checkInvestReadiness();
+    setReadiness(ready);
+    setBusy(false);
+    setReviewOpen(true);
+  }
 
   function continueToWizard() {
     if (!goalId) {
       setError("This goal is not available yet.");
       return;
     }
+    if (reviewAction.step === "kyc") {
+      setError("Complete KYC in the signup flow, then return here.");
+      return;
+    }
+    if (reviewAction.step === "bank") {
+      setError("Add your bank details in KYC, then return here.");
+      return;
+    }
+    const productTab = PRODUCT_TABS.find((item) => item.goalId === goalId);
     setBusy(true);
+    setReviewOpen(false);
     onContinue?.({
-      tab: "equity",
+      tab: productTab?.key || "equity",
       goalId,
       goalName: goal.name,
       goalBadge: goal.badge,
@@ -155,21 +221,23 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
       fundMode: "rec",
       fund: null,
       monthlyDay: sipDay,
-      openReview: true,
+      fromGoals: true,
+      openReview: false,
+      startSetup: true,
     });
     setBusy(false);
   }
 
   return (
-    <div className="px-10 py-8 max-w-[720px]">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="min-h-[calc(100vh-4rem)] flex flex-col px-6 sm:px-10 py-5 sm:py-6 max-w-[1000px] mx-auto w-full">
+      <div className="flex items-center gap-3 shrink-0 mb-4 sm:mb-5">
         <button
           type="button"
           onClick={() => {
             if (step > 1) setStep(step - 1);
             else onBack?.();
           }}
-          className="w-10 h-10 rounded-full border border-border bg-white flex items-center justify-center"
+          className="w-10 h-10 rounded-full border border-border bg-white flex items-center justify-center hover:bg-surface"
         >
           <ArrowLeft size={18} />
         </button>
@@ -182,13 +250,14 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
           ))}
         </div>
       </div>
+      <div className={`flex-1 flex flex-col ${step === 2 ? "justify-center" : ""}`}>
 
       {step === 1 && (
         <>
-          <h1 className="text-[28px] font-bold text-ink tracking-tight leading-tight">
+          <h1 className="text-[28px] sm:text-[36px] font-bold text-ink tracking-tight leading-tight max-w-3xl">
             How much & for <span className="text-jade">how long?</span>
           </h1>
-          <p className="text-sm text-muted mt-1 mb-6">Set your monthly SIP — watch the corpus grow live.</p>
+          <p className="text-sm sm:text-base text-muted mt-2 mb-6 sm:mb-8">Set your monthly SIP — watch the corpus grow live.</p>
 
           <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Monthly SIP</div>
           <div className="bg-white border border-border rounded-card px-5 py-4 shadow-card mb-3">
@@ -328,151 +397,259 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
 
       {step === 2 && (
         <>
-          <h1 className="text-[28px] font-bold text-ink tracking-tight">
-            Pick your <span className="text-jade">SIP date</span>
-          </h1>
-          <p className="text-sm text-muted mt-1 mb-6">When should we debit each month?</p>
-
-          <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Debit date</div>
-          <div className="flex flex-wrap gap-2 mb-2">
-            {SIP_DAYS.map((day) => (
-              <button
-                key={day}
-                type="button"
-                onClick={() => setSipDay(day)}
-                className={`w-12 h-12 rounded-btn text-sm font-semibold border ${
-                  sipDay === day ? "bg-jade text-white border-jade" : "bg-white text-secondary border-border"
-                }`}
-              >
-                {day}
-              </button>
-            ))}
-          </div>
-          <p className="text-sm text-muted mb-5">
-            Your SIP runs on the {sipDay}{getOrdinal(sipDay)} of every month · first debit {firstDebitLabel(sipDay)}
-          </p>
-
-          <div className="mb-5 bg-white border border-border rounded-card overflow-hidden">
-            <button
-              type="button"
-              onClick={() => setAutoOpen((value) => !value)}
-              className="w-full flex items-center gap-3 px-4 py-3.5 text-left"
-            >
-              <span className="w-8 h-8 rounded-lg bg-tint text-jade text-sm font-bold flex items-center justify-center shrink-0">i</span>
-              <span className="flex-1 text-sm font-semibold text-ink">How the auto-debit works</span>
-              <ChevronDown size={16} className={`text-muted shrink-0 transition-transform ${autoOpen ? "rotate-180" : ""}`} />
-            </button>
-            {autoOpen && (
-              <div className="px-4 pb-4">
-                {([
-                  {
-                    title: "Set up UPI AutoPay",
-                    detail: "One-time mandate approval via your UPI app",
-                  },
-                  {
-                    title: "First debit today",
-                    detail: `${money(amount)} debited automatically after mandate approval`,
-                  },
-                  {
-                    title: "Auto-debit monthly",
-                    detail: `${money(amount)} on the ${sipDay}${getOrdinal(sipDay)} each month · pause or cancel anytime`,
-                  },
-                ]).map((item, index, list) => (
-                  <div key={item.title} className="flex gap-3">
-                    <div className="flex flex-col items-center w-6 shrink-0">
-                      <span className="w-6 h-6 rounded-full bg-tint text-jade text-[11px] font-bold flex items-center justify-center shrink-0">
-                        {index + 1}
-                      </span>
-                      {index < list.length - 1 ? (
-                        <span className="w-px flex-1 min-h-[16px] bg-border my-1" />
-                      ) : null}
-                    </div>
-                    <div className={`flex-1 min-w-0 ${index < list.length - 1 ? "pb-4" : ""}`}>
-                      <div className="text-sm font-semibold text-ink leading-6">{item.title}</div>
-                      <div className="text-xs text-muted mt-0.5 leading-relaxed">{item.detail}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+          <div className="mb-6 sm:mb-8 max-w-3xl">
+            <h1 className="text-[28px] sm:text-[36px] font-bold text-ink tracking-tight leading-tight">
+              Pick your <span className="text-jade">SIP date</span>
+            </h1>
+            <p className="text-sm sm:text-base text-muted mt-2">When should we debit each month?</p>
           </div>
 
-          <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Your portfolio</div>
-          <div className="rounded-card overflow-hidden mb-5 text-white" style={{ background: "linear-gradient(160deg,#0C4A3E,#047857)" }}>
-            <div className="px-5 pt-5 pb-3">
-              <div className="text-lg font-bold">{goal?.name}</div>
-              <div className="text-sm text-white/70 mt-0.5">
-                {goal?.badge || "Goal"} · {Math.max(funds.length, 1)} fund
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_400px] xl:grid-cols-[minmax(0,1fr)_440px] gap-6 lg:gap-8 items-start">
+            <div className="min-w-0 space-y-5">
+              <div>
+                <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Debit date</div>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {SIP_DAYS.map((day) => (
+                    <button
+                      key={day}
+                      type="button"
+                      onClick={() => setSipDay(day)}
+                      className={`w-12 h-12 rounded-btn text-sm font-semibold border ${
+                        sipDay === day ? "bg-jade text-white border-jade" : "bg-white text-secondary border-border hover:border-jade"
+                      }`}
+                    >
+                      {day}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-sm text-muted">
+                  Your SIP runs on the {sipDay}{getOrdinal(sipDay)} of every month · first debit {firstDebitLabel(sipDay)}
+                </p>
               </div>
-            </div>
-            <div className="px-5 pb-3">
-              <div className="h-1.5 rounded-full bg-white/20 overflow-hidden mb-2">
-                <div className="h-full bg-emerald-300 rounded-full" style={{ width: "100%" }} />
-              </div>
-              <div className="text-[11px] font-semibold tracking-wider text-emerald-200">
-                {(splitLabel || tabMeta("equity")?.label || "EQUITY").toUpperCase()} 100%
-              </div>
-            </div>
-            <div className="px-4 pb-4 space-y-2">
-              {loading && (
-                <div className="bg-white/10 rounded-btn px-4 py-3 text-sm text-white/80">Loading fund…</div>
-              )}
-              {!loading && funds.map((fund) => (
-                <div key={`${fund.scheme || fund.name}`} className="bg-white/10 rounded-btn px-4 py-3">
-                  <div className="text-sm font-semibold leading-snug break-words uppercase">
-                    {fund.fullName || fund.name}
-                  </div>
-                  <div className="text-xs text-white/65 mt-1">
+
+              <div className="bg-white border border-border rounded-card overflow-hidden shadow-card">
+                <button
+                  type="button"
+                  onClick={() => setAutoOpen((value) => !value)}
+                  className="w-full flex items-center gap-3 px-5 py-4 text-left hover:bg-surface/60"
+                >
+                  <span className="w-9 h-9 rounded-lg bg-tint text-jade text-sm font-bold flex items-center justify-center shrink-0">i</span>
+                  <span className="flex-1 text-sm sm:text-[15px] font-semibold text-ink">How the auto-debit works</span>
+                  <ChevronDown size={16} className={`text-muted shrink-0 transition-transform ${autoOpen ? "rotate-180" : ""}`} />
+                </button>
+                {autoOpen && (
+                  <div className="px-5 pb-5 pt-1 grid sm:grid-cols-3 gap-4 sm:gap-5">
                     {[
-                      fund.assetClass || null,
-                      fund.cagr != null ? `3yr CAGR ${fund.cagr}%` : null,
-                      fund.risk ? `Risk ${fund.risk}` : "Risk Moderate",
-                    ].filter(Boolean).join(" · ")}
+                      {
+                        title: "Set up UPI AutoPay",
+                        detail: "One-time mandate approval via your UPI app",
+                      },
+                      {
+                        title: "First debit",
+                        detail: `${money(amount)} on ${firstDebitLabel(sipDay)} after mandate approval`,
+                      },
+                      {
+                        title: "Auto-debit monthly",
+                        detail: `${money(amount)} on the ${sipDay}${getOrdinal(sipDay)} each month · pause or cancel anytime`,
+                      },
+                    ].map((item, index) => (
+                      <div key={item.title} className="flex sm:flex-col gap-3">
+                        <span className="w-7 h-7 rounded-full bg-tint text-jade text-xs font-bold flex items-center justify-center shrink-0">
+                          {index + 1}
+                        </span>
+                        <div className="min-w-0">
+                          <div className="text-sm font-semibold text-ink leading-5">{item.title}</div>
+                          <div className="text-xs text-muted mt-1 leading-relaxed">{item.detail}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Your portfolio</div>
+                <div className="rounded-card overflow-hidden text-white shadow-card" style={{ background: "linear-gradient(160deg,#0C4A3E,#047857)" }}>
+                  <div className="px-5 sm:px-6 pt-5 sm:pt-6 pb-3">
+                    <div className="text-lg sm:text-xl font-bold">{goal?.name}</div>
+                    <div className="text-sm text-white/70 mt-1">
+                      {goal?.badge || "Goal"} · {Math.max(funds.length, 1)} fund · {money(amount)}/mo
+                    </div>
+                  </div>
+                  <div className="px-5 sm:px-6 pb-3">
+                    <div className="h-1.5 rounded-full bg-white/20 overflow-hidden mb-2">
+                      <div className="h-full bg-emerald-300 rounded-full" style={{ width: "100%" }} />
+                    </div>
+                    <div className="text-[11px] font-semibold tracking-wider text-emerald-200">
+                      {(splitLabel || tabMeta("equity")?.label || "EQUITY").toUpperCase()} 100%
+                    </div>
+                  </div>
+                  <div className="px-4 sm:px-5 pb-5 space-y-2">
+                    {loading && (
+                      <div className="bg-white/10 rounded-btn px-4 py-3.5 text-sm text-white/80">Loading fund…</div>
+                    )}
+                    {!loading && funds.map((fund) => (
+                      <div key={`${fund.scheme || fund.name}`} className="bg-white/10 rounded-btn px-4 py-3.5">
+                        <div className="text-sm sm:text-[15px] font-semibold leading-snug break-words uppercase">
+                          {fund.fullName || fund.name}
+                        </div>
+                        <div className="text-xs text-white/65 mt-1">
+                          {[
+                            fund.assetClass || null,
+                            fund.cagr != null ? `3yr CAGR ${fund.cagr}%` : null,
+                            fund.risk ? `Risk ${fund.risk}` : "Risk Moderate",
+                          ].filter(Boolean).join(" · ")}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
-              {!loading && !funds.length && (
-                <div className="bg-white/10 rounded-btn px-4 py-3">
-                  <div className="text-sm font-semibold leading-snug">Recommended fund</div>
-                  <div className="text-xs text-white/65 mt-1">Risk Moderate</div>
+              </div>
+            </div>
+
+            <aside className="lg:sticky lg:top-8 space-y-4">
+              <div className="bg-white border border-border rounded-card px-5 py-2 shadow-card">
+                <div className="flex justify-between py-3.5 text-sm sm:text-[15px]">
+                  <span className="text-secondary">Monthly SIP</span>
+                  <span className="font-semibold text-ink">{money(amount)}</span>
                 </div>
-              )}
-            </div>
+                <div className="flex justify-between py-3.5 text-sm sm:text-[15px] border-t border-border">
+                  <span className="text-secondary">Transaction charges</span>
+                  <span className="font-semibold text-ink">₹0</span>
+                </div>
+                <div className="flex justify-between py-3.5 text-sm sm:text-[15px] border-t border-border">
+                  <span className="font-bold text-ink">First debit</span>
+                  <span className="font-bold text-emerald">{money(amount)}</span>
+                </div>
+              </div>
+
+              {error && !reviewOpen ? <div className="text-sm text-red-600">{error}</div> : null}
+
+              <button
+                type="button"
+                disabled={busy || !goalId || loading}
+                onClick={openReviewSheet}
+                className="w-full h-12 rounded-btn bg-jade text-white text-[15px] font-semibold disabled:opacity-60"
+              >
+                {busy ? "Preparing…" : "Review & confirm →"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                className="w-full text-sm text-ink underline underline-offset-2"
+              >
+                Back to edit amount
+              </button>
+              <div className="text-center text-xs text-muted pt-1">
+                Invested with · {funds[0]?.name?.split(" ")[0] || "fydaa"}
+              </div>
+            </aside>
           </div>
 
-          <div className="bg-white border border-border rounded-card px-5 py-2 shadow-card mb-6">
-            <div className="flex justify-between py-3 text-sm">
-              <span className="text-secondary">Monthly SIP</span>
-              <span className="font-semibold text-ink">{money(amount)}</span>
-            </div>
-            <div className="flex justify-between py-3 text-sm border-t border-border">
-              <span className="text-secondary">Transaction charges</span>
-              <span className="font-semibold text-ink">₹0</span>
-            </div>
-            <div className="flex justify-between py-3 text-sm border-t border-border">
-              <span className="font-bold text-ink">First debit</span>
-              <span className="font-bold text-emerald">{money(amount)}</span>
-            </div>
-          </div>
+          {reviewOpen ? (
+            <div className="fixed inset-0 z-[80] bg-black/40 flex items-center justify-center p-4 sm:p-6">
+              <div
+                className="bg-white w-full max-w-[440px] rounded-2xl shadow-elevated overflow-hidden flex flex-col max-h-[calc(100dvh-2rem)]"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="goal-review-title"
+              >
+                <div className="px-5 pt-5 pb-4 flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <h2 id="goal-review-title" className="text-xl font-bold text-ink leading-none">
+                      Review & confirm
+                    </h2>
+                    <p className="text-sm text-muted mt-1.5 leading-snug">
+                      Check your SIP details before starting.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setReviewOpen(false)}
+                    className="w-8 h-8 -mt-0.5 -mr-1 rounded-full hover:bg-surface flex items-center justify-center shrink-0"
+                    aria-label="Close"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
 
-          {error ? <div className="text-sm text-red-600 mb-3">{error}</div> : null}
+                <div className="px-5 pb-1 overflow-y-auto min-h-0">
+                  <div className="border-t border-border">
+                    {[
+                      ["Monthly SIP", `${money(amount)}/mo`],
+                      ["Horizon", horizonLabel("monthly", years)],
+                      ["Fund", funds[0]?.fullName || funds[0]?.name || "Recommended fund"],
+                      ["SIP date each month", `${sipDay}${getOrdinal(sipDay)}`],
+                      ["First debit", `${firstDebitLabel(sipDay)} · ${money(amount)}`],
+                      ["Next debit", nextDebitLabel(sipDay)],
+                    ].map(([label, value]) => (
+                      <div
+                        key={label}
+                        className="flex items-start justify-between gap-4 py-3 border-b border-border text-sm"
+                      >
+                        <span className="text-ink shrink-0 pt-px">{label}</span>
+                        <span className="text-ink text-right leading-5 break-words min-w-0 max-w-[62%]">
+                          {value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
 
-          <button
-            type="button"
-            disabled={busy || !goalId}
-            onClick={continueToWizard}
-            className="w-full py-3.5 rounded-btn bg-jade text-white text-[15px] font-semibold disabled:opacity-60"
-          >
-            Review & confirm →
-          </button>
-          <button type="button" onClick={() => setStep(1)} className="w-full mt-3 text-sm text-ink underline">
-            Back to edit amount
-          </button>
-          <div className="text-center text-xs text-muted mt-4">
-            Invested with · {funds[0]?.name?.split(" ")[0] || "fydaa"}
-          </div>
+                  <div className="mt-4 mb-1 border border-border rounded-xl px-4 py-3.5">
+                    <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-3">
+                      Setup checklist
+                    </div>
+                    <div className="space-y-3.5">
+                      {(checklist.length
+                        ? checklist
+                        : [
+                            { id: "kyc", label: "KYC", detail: "Checking…", done: false },
+                            { id: "consent", label: "Consent otp", detail: "Required before mandate and first installment", done: false },
+                            { id: "mandate", label: "UPI auto-debit mandate", detail: "Each SIP needs its own UPI AutoPay", done: false },
+                          ]
+                      ).map((item) => (
+                        <div key={item.id} className="flex items-start gap-2.5">
+                          <span
+                            className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 ${
+                              item.done ? "bg-emerald text-white" : "bg-red-100 text-red-600"
+                            }`}
+                          >
+                            {item.done ? "✓" : "×"}
+                          </span>
+                          <div className="min-w-0 flex-1">
+                            <div className="text-sm font-semibold text-ink leading-5">{item.label}</div>
+                            <div className="text-xs text-muted mt-0.5 leading-4">{item.detail}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="px-5 pt-4 pb-5 flex flex-col gap-3">
+                  {error ? <div className="text-sm text-red-600 leading-5">{error}</div> : null}
+                  <button
+                    type="button"
+                    disabled={busy || !goalId}
+                    onClick={continueToWizard}
+                    className="w-full h-12 rounded-btn bg-jade text-white text-[15px] font-semibold disabled:opacity-60"
+                  >
+                    {busy ? "Working…" : (reviewAction.label || "Continue setup →")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setReviewOpen(false)}
+                    className="w-full text-sm text-ink underline underline-offset-2"
+                  >
+                    Back
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : null}
         </>
       )}
+      </div>
     </div>
   );
 }

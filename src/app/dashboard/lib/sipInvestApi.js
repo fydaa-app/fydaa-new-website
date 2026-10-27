@@ -2,10 +2,22 @@ import { endSession, getAccessToken, getUserStage } from "../../signup/lib/authA
 import { AUTH_BASE, PAYMENT_BASE, STOCK_BASE } from "../../signup/lib/apiHosts";
 import { cutAtFund, projectSip, PRODUCT_TABS } from "./investmentApi";
 
+/** Hide backend / ops messages (goalId, risk bucket, stack-style text) from end users. */
+export function userFacingMessage(raw, fallback = "") {
+  const text = String(raw || "").trim();
+  if (!text) return fallback;
+  if (/goal\s*id|risk\s*bucket|direct mutual fund portfolio|no .*portfolio found|request failed\s*\(|stack|exception|sql|prisma|nestjs/i.test(text)) {
+    return fallback;
+  }
+  return text;
+}
+
 function messageFromPayload(data, fallback) {
   if (data == null) return fallback;
-  if (typeof data === "string" && data.trim()) return data.trim();
-  if (typeof data.message === "string" && data.message.trim()) return data.message.trim();
+  if (typeof data === "string" && data.trim()) return userFacingMessage(data, fallback);
+  if (typeof data.message === "string" && data.message.trim()) {
+    return userFacingMessage(data.message, fallback);
+  }
   if (Array.isArray(data.message)) {
     const parts = data.message
       .map((item) => {
@@ -15,13 +27,13 @@ function messageFromPayload(data, fallback) {
         return "";
       })
       .filter(Boolean);
-    if (parts.length) return parts.join("; ");
+    if (parts.length) return userFacingMessage(parts.join("; "), fallback);
   }
   if (Array.isArray(data)) {
     const parts = data
       .map((item) => (typeof item === "string" ? item : item?.message || ""))
       .filter(Boolean);
-    if (parts.length) return parts.join("; ");
+    if (parts.length) return userFacingMessage(parts.join("; "), fallback);
   }
   return fallback;
 }
@@ -90,14 +102,19 @@ async function authed(base, path, { method = "GET", body, wafSafeBody = false, t
   return { ok: true, data, status: res.status };
 }
 
-function firstList(data, keys) {
+const LIST_KEYS = [
+  "schemeAllocations", "scheme_allocations", "recommendedFunds", "recommended_funds",
+  "items", "data", "funds", "holdings", "stocks", "schemes", "list",
+];
+
+function firstList(data, keys = LIST_KEYS) {
   if (Array.isArray(data)) return data;
   if (!data || typeof data !== "object") return [];
   for (const key of keys) {
     const value = data[key];
     if (Array.isArray(value)) return value;
     if (value && typeof value === "object") {
-      const nested = firstList(value, ["items", "data", "funds", "holdings", "schemes"]);
+      const nested = firstList(value, LIST_KEYS);
       if (nested.length) return nested;
     }
   }
@@ -167,27 +184,28 @@ export async function loadPortfolioForSip(goalId, customFund) {
     };
   }
   const result = await authed(STOCK_BASE, `mutualFund/recommended-portfolio?goalId=${goalId}`);
-  if (!result.ok) return { portfolioId: null, funds: [], rate: null, message: result.message };
-  const data = result.data;
-  const list = firstList(data, [
-    "schemeAllocations", "scheme_allocations", "funds", "holdings", "schemes",
-    "recommendedFunds", "recommended_funds", "data",
-  ]);
-  const fromPortfolio = data?.portfolio
-    ? firstList(data.portfolio, ["funds", "holdings", "stocks", "schemes", "schemeAllocations"])
-    : [];
+  if (!result.ok) return { portfolioId: null, funds: [], rate: null, message: "" };
+  const raw = result.data;
+  const data = raw?.data && typeof raw.data === "object" && !Array.isArray(raw.data)
+    ? { ...raw, ...raw.data }
+    : raw;
+  const list = firstList(data);
+  const fromPortfolio = data?.portfolio ? firstList(data.portfolio) : [];
   const rows = list.length ? list : fromPortfolio;
   const funds = rows.map((row) => {
-    const nested = row?.mutualFund || row?.fund || row?.schemeDetails || row?.mf || null;
+    const nested = row?.mutualFund || row?.fund || row?.schemeDetails || row?.mf || row?.stock || null;
     const name = firstString(row, [
-      "name", "shortName", "schemeName", "fundName", "title", "scheme_name", "fund_name",
+      "name", "shortName", "schemeName", "fundName", "title",
+      "scheme_name", "fund_name", "stockName", "stock_name", "mfName", "mutualFundName",
     ]) || firstString(nested, [
-      "name", "shortName", "schemeName", "fundName", "title", "scheme_name", "fund_name",
+      "name", "shortName", "schemeName", "fundName", "title",
+      "scheme_name", "fund_name", "stockName", "stock_name", "mfName",
     ]);
     const assetClass = firstString(row, [
       "assetClass", "asset_class", "category", "stockType", "stock_type", "type", "assetType",
     ]) || firstString(nested, ["assetClass", "category", "stockType", "type"]);
     const display = cutAtFund(name) || name;
+    if (!display) return null;
     return {
       name: display,
       fullName: name || display,
@@ -200,7 +218,7 @@ export async function loadPortfolioForSip(goalId, customFund) {
       cagr: row.cagr ?? row.returns_3y ?? row.return3Y ?? nested?.cagr ?? null,
       risk: row.risk ?? row.riskLevel ?? row.risk_level ?? nested?.risk ?? null,
     };
-  }).filter((fund) => fund.name);
+  }).filter(Boolean);
   return {
     portfolioId: data?.portfolioId ?? data?.portfolio?.id ?? null,
     funds,
@@ -234,8 +252,8 @@ export async function checkInvestReadiness() {
     checklist: [
       {
         id: "kyc",
-        label: entity ? `KYC - ${entity} · verified` : "KYC",
-        detail: entity ? "verified" : "Complete KYC before mandate and first installment",
+        label: "KYC",
+        detail: entity ? `${entity} · verified` : "Complete KYC before mandate and first installment",
         done: kycOk,
       },
       {
@@ -257,9 +275,6 @@ export async function checkInvestReadiness() {
 export function nextReviewAction({ readiness, consentDone, mandateDone }) {
   if (!readiness?.kycOk) return { label: "Complete KYC →", step: "kyc" };
   if (!readiness?.bankOk) return { label: "Add bank details →", step: "bank" };
-  if (readiness?.model === "RIA" && !readiness?.packagePaid) {
-    return { label: "Set up advisory fee →", step: "advisory" };
-  }
   if (!consentDone) return { label: "Verify consent otp →", step: "consent" };
   if (!mandateDone) return { label: "Set up UPI AutoPay →", step: "mandate" };
   return { label: "Start first debit →", step: "debit" };

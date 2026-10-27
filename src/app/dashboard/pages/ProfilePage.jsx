@@ -264,10 +264,10 @@ export default function ProfilePage({ user }) {
   }
 
   return (
-    <div className="px-10 py-8 max-w-[1200px]">
+    <div className="px-4 sm:px-6 lg:px-10 xl:px-12 4xl:px-16 py-5 sm:py-8 max-w-[1200px] 4xl:max-w-[1600px] mx-auto w-full pb-20 lg:pb-8">
       <h2 className="text-lg font-semibold text-ink mb-5">Profile</h2>
 
-      <div className="grid grid-cols-[280px_1fr] gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(220px,280px)_1fr] 4xl:grid-cols-[300px_1fr] gap-5">
         {/* Menu */}
         <div className="bg-white border border-border rounded-card shadow-card overflow-hidden">
           <div className="px-6 py-6 text-center border-b border-border">

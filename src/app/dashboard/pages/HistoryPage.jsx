@@ -219,6 +219,24 @@ function shiftMonth(cursor, delta) {
   return { year: date.getFullYear(), month: date.getMonth() };
 }
 
+function currentMonthCursor() {
+  const now = new Date();
+  return { year: now.getFullYear(), month: now.getMonth() };
+}
+
+function isAtOrPastCurrentMonth(cursor) {
+  const now = currentMonthCursor();
+  return cursor.year > now.year || (cursor.year === now.year && cursor.month >= now.month);
+}
+
+function clampToCurrentMonth(cursor) {
+  const now = currentMonthCursor();
+  if (cursor.year > now.year || (cursor.year === now.year && cursor.month > now.month)) {
+    return now;
+  }
+  return cursor;
+}
+
 export default function HistoryPage() {
   const [rows, setRows] = useState(undefined);
   const [error, setError] = useState("");
@@ -258,7 +276,9 @@ export default function HistoryPage() {
         const date = createdDate(tx);
         if (date && (!latest || date > latest)) latest = date;
       });
-      if (latest) setCursor({ year: latest.getFullYear(), month: latest.getMonth() });
+      if (latest) {
+        setCursor(clampToCurrentMonth({ year: latest.getFullYear(), month: latest.getMonth() }));
+      }
     }
     setSnapped(true);
   }, [rows, snapped, cursor]);
@@ -302,15 +322,16 @@ export default function HistoryPage() {
 
   const loading = rows === undefined;
   const title = new Date(cursor.year, cursor.month, 1).toLocaleDateString("en-IN", { month: "long", year: "numeric" });
+  const atCurrentMonth = isAtOrPastCurrentMonth(cursor);
 
   return (
-    <div className="px-10 py-8 max-w-[1200px]">
-      <div className="flex items-center justify-between mb-5">
+    <div className="px-4 sm:px-6 lg:px-10 xl:px-12 4xl:px-16 py-5 sm:py-8 max-w-[1200px] 4xl:max-w-[1600px] mx-auto w-full pb-20 lg:pb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
         <div>
           <h2 className="text-lg font-semibold text-ink">Activity</h2>
           <p className="text-sm text-muted mt-0.5">Your investment transactions</p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 self-start sm:self-auto">
           <button
             type="button"
             onClick={() => { setCursor((current) => shiftMonth(current, -1)); setOpenTx(null); }}
@@ -318,11 +339,19 @@ export default function HistoryPage() {
           >
             <ChevronLeft size={16} className="text-tertiary" />
           </button>
-          <span className="text-lg font-bold text-ink tracking-tight min-w-[140px] text-center">{title}</span>
+          <span className="text-base sm:text-lg font-bold text-ink tracking-tight min-w-[120px] sm:min-w-[140px] text-center">{title}</span>
           <button
             type="button"
-            onClick={() => { setCursor((current) => shiftMonth(current, 1)); setOpenTx(null); }}
-            className="w-9 h-9 rounded-btn border border-border bg-white hover:bg-surface flex items-center justify-center"
+            disabled={atCurrentMonth}
+            aria-disabled={atCurrentMonth}
+            onClick={() => {
+              if (atCurrentMonth) return;
+              setCursor((current) => clampToCurrentMonth(shiftMonth(current, 1)));
+              setOpenTx(null);
+            }}
+            className={`w-9 h-9 rounded-btn border border-border bg-white flex items-center justify-center ${
+              atCurrentMonth ? "opacity-40 cursor-not-allowed" : "hover:bg-surface"
+            }`}
           >
             <ChevronRight size={16} className="text-tertiary" />
           </button>
@@ -331,15 +360,15 @@ export default function HistoryPage() {
 
       {error ? <div className="text-sm text-red-600 mb-4">{error}</div> : null}
 
-      <div className="flex gap-3 mb-4">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4">
         {[
           { v: loading ? "…" : String(summary.orders), k: "Orders" },
           { v: loading ? "…" : compactInr(summary.invested), k: "Invested", green: true },
           { v: loading ? "…" : String(summary.progress), k: "In progress" },
         ].map((item) => (
-          <div key={item.k} className="flex-1 bg-white border border-border rounded-card px-4 py-3.5 text-center shadow-card">
-            <div className={`text-xl font-bold tracking-tight ${item.green ? "text-emerald" : "text-ink"}`}>{item.v}</div>
-            <div className="text-[10px] font-semibold text-muted uppercase tracking-wider mt-0.5">{item.k}</div>
+          <div key={item.k} className="bg-white border border-border rounded-card px-2 sm:px-4 py-3 sm:py-3.5 text-center shadow-card min-w-0">
+            <div className={`text-base sm:text-xl font-bold tracking-tight truncate ${item.green ? "text-emerald" : "text-ink"}`}>{item.v}</div>
+            <div className="text-[9px] sm:text-[10px] font-semibold text-muted uppercase tracking-wider mt-0.5">{item.k}</div>
           </div>
         ))}
       </div>

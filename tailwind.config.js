@@ -11,6 +11,8 @@ module.exports = {
     extend: {
       screens: {
         'xs': '475px',
+        '3xl': '1680px',
+        '4xl': '1920px',
       },
       fontFamily: {
         sans: ['var(--font-geist-sans)', 'sans-serif'],

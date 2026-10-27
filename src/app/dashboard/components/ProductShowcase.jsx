@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import {
   PRODUCT_TABS,
@@ -11,6 +11,7 @@ import {
   projectSip,
   searchCategoryFunds,
 } from "../lib/investmentApi";
+import InvestModeSheet from "./InvestModeSheet";
 
 const DAILY_YEARS = [1, 2, 3, 4];
 const ALL_YEARS = [1, 2, 3, 4, 5, 7, 10, 15, 20, 25, 30];
@@ -58,6 +59,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
   const [ownMenuOpen, setOwnMenuOpen] = useState(false);
   const [amountError, setAmountError] = useState("");
   const [actionNote, setActionNote] = useState("");
+  const [modeSheet, setModeSheet] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -91,25 +93,40 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
     }
   }, [focusKey, focusAt]);
 
+  function normalizePickedFund(fund) {
+    const name = cutAtFund(fund.name) || fund.name;
+    return {
+      id: fund.localMfId || fund.id || 0,
+      name,
+      fullName: fund.name,
+      scheme: fund.scheme,
+      minSip: Number(fund.minSip),
+      minInitial: Number(fund.minInitial),
+    };
+  }
+
+  function applyOwnFund(fund, nextFreq) {
+    const key = productKeyFromFund(fund);
+    const picked = normalizePickedFund(fund);
+    const product = PRODUCT_TABS.find((item) => item.key === key) || PRODUCT_TABS[2];
+    setActiveKey(key);
+    setAddingAnother(false);
+    setFundMode("own");
+    setPickedFund(picked);
+    setSearchQuery(picked.name);
+    setOwnMenuOpen(false);
+    setFrequency(nextFreq);
+    setAmountError("");
+    setActionNote("");
+    return { key, product, picked };
+  }
+
   useEffect(() => {
     function onPick(event) {
       const fund = event.detail;
       if (!fund?.name) return;
-      const key = productKeyFromFund(fund);
-      setActiveKey(key);
-      setAddingAnother(false);
-      setFundMode("own");
-      const name = cutAtFund(fund.name) || fund.name;
-      setPickedFund({
-        id: fund.localMfId || fund.id || 0,
-        name,
-        fullName: fund.name,
-        scheme: fund.scheme,
-        minSip: Number(fund.minSip),
-        minInitial: Number(fund.minInitial),
-      });
-      setSearchQuery(name);
-      setOwnMenuOpen(false);
+      setModeSheet({ fund });
+      document.getElementById("product-showcase")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
     window.addEventListener("fydaa-fund-selected", onPick);
     return () => window.removeEventListener("fydaa-fund-selected", onPick);
@@ -119,7 +136,8 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
   const tabModel = model?.tabModels?.[activeKey];
   const recommended = model?.recommended?.[activeKey];
   const hasHolding = (tabModel?.holdings?.length || 0) > 0;
-  const showHolding = hasHolding && !addingAnother;
+  // Digital Gold keeps its previous holding summary; other tabs stay on new-invest calculator.
+  const showHolding = activeKey === "gold" && hasHolding && !addingAnother;
   const allowedYears = yearsFor(freq);
 
   useEffect(() => {
@@ -142,7 +160,9 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
         if (cancelled) return;
         setOwnLoading(false);
         setOwnFunds(result.funds);
-        setOwnError(result.message || "");
+        // Don't show backend diagnostics (goalId / risk bucket / etc.) to users.
+        const msg = String(result.message || "");
+        setOwnError(/goal\s*id|risk\s*bucket|direct mutual fund portfolio|no .*portfolio found/i.test(msg) ? "" : msg);
         if (!pickedFund && result.funds[0]) setPickedFund(result.funds[0]);
       });
     }, text ? 300 : 0);
@@ -169,7 +189,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
   function switchProduct(key) {
     setActiveKey(key);
     setAddingAnother(false);
-    resetCalculator("daily");
+    resetCalculator(freq);
   }
 
   function setFrequency(next) {
@@ -178,12 +198,6 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
     setAmountError("");
     if (next === "lumpsum") setTenure(3);
   }
-
-  const fundName = useMemo(() => {
-    if (fundMode === "own") return pickedFund?.name || "Select a fund";
-    if (recommended?.loading) return "Loading fund…";
-    return recommended?.fund?.name || "Recommended fund";
-  }, [fundMode, pickedFund, recommended]);
 
   const sipMin = fundMode === "own"
     ? (Number.isFinite(pickedFund?.minSip) && pickedFund.minSip > 0 ? pickedFund.minSip : null)
@@ -279,21 +293,47 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
     ? holdingSubtitle()
     : (freq === "lumpsum" ? tab.lumpSub : tab.sipSub);
 
+  function startFromModeSheet(nextFreq) {
+    const fund = modeSheet?.fund;
+    if (!fund) return;
+    const { product, picked } = applyOwnFund(fund, nextFreq);
+    setModeSheet(null);
+    const nextAmount = defaultAmount(nextFreq);
+    onStartInvest?.({
+      tab: product.key,
+      goalId: product.goalId,
+      amount: nextAmount,
+      tenureYears: 3,
+      frequency: nextFreq,
+      fundMode: "own",
+      fund: picked,
+      addingAnother: false,
+    });
+  }
+
   return (
     <div id="product-showcase" className="mb-8">
-      <div className="bg-surface rounded-t-card px-9 pt-9 pb-5">
+      <InvestModeSheet
+        open={!!modeSheet}
+        title={cutAtFund(modeSheet?.fund?.name) || modeSheet?.fund?.name || "Invest"}
+        subtitle="Start with a SIP or invest a one-time amount"
+        onClose={() => setModeSheet(null)}
+        onPickSip={() => startFromModeSheet("daily")}
+        onPickLumpsum={() => startFromModeSheet("lumpsum")}
+      />
+      <div className="bg-surface rounded-t-card px-4 sm:px-6 lg:px-9 pt-6 sm:pt-9 pb-4 sm:pb-5">
         <h2
-          className="text-[28px] font-bold text-ink leading-tight mb-1.5 [&>span]:text-emerald"
+          className="text-[22px] sm:text-[28px] 4xl:text-[32px] font-bold text-ink leading-tight mb-1.5 [&>span]:text-emerald"
           dangerouslySetInnerHTML={{ __html: tab.headline }}
         />
-        <p className="text-sm text-secondary mb-5">{subtitle}</p>
-        <div className="flex gap-1 bg-white rounded-btn p-1 border border-border w-fit overflow-x-auto max-w-full">
+        <p className="text-sm text-secondary mb-4 sm:mb-5">{subtitle}</p>
+        <div className="flex gap-1 bg-white rounded-btn p-1 border border-border w-full sm:w-fit overflow-x-auto max-w-full scrollbar-thin">
           {PRODUCT_TABS.map((item) => (
             <button
               key={item.key}
               type="button"
               onClick={() => switchProduct(item.key)}
-              className={`px-5 py-2 rounded-lg text-sm font-medium whitespace-nowrap ${
+              className={`px-3.5 sm:px-5 py-2 rounded-lg text-[13px] sm:text-sm font-medium whitespace-nowrap shrink-0 ${
                 activeKey === item.key ? "bg-white text-ink shadow-sm" : "text-secondary hover:text-ink"
               }`}
             >
@@ -303,13 +343,13 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
         </div>
       </div>
 
-      <div className="bg-white border border-border rounded-b-card px-9 py-8 shadow-card">
+      <div className="bg-white border border-border rounded-b-card px-4 sm:px-6 lg:px-9 py-6 sm:py-8 shadow-card">
         {showHolding ? (
           <>
-            <div className="flex items-start justify-between gap-6 mb-6">
-              <div>
+            <div className="flex items-start justify-between gap-3 sm:gap-6 mb-6">
+              <div className="min-w-0">
                 <div className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-1">You Invested</div>
-                <div className="text-4xl font-bold text-ink tracking-tight leading-none">{moneyFull(tabModel.invested)}</div>
+                <div className="text-[28px] sm:text-4xl font-bold text-ink tracking-tight leading-none">{moneyFull(tabModel.invested)}</div>
                 <div className="text-[13px] text-muted mt-1">
                   {[tabModel.cadence, tabModel.sinceShort ? `since ${tabModel.sinceShort}` : ""].filter(Boolean).join(" ")}
                 </div>
@@ -321,19 +361,23 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
               </div>
             </div>
 
-            <div className="flex items-center justify-between mb-2">
-              <div className="text-[11px] font-bold text-muted uppercase tracking-wider">
-                {tab.holdingList}{tabModel.fundRows.length > 1 ? ` · ${tabModel.fundRows.length}` : ""}
-              </div>
-            </div>
-            <div className="mb-5 border border-border rounded-btn overflow-hidden">
-              {tabModel.fundRows.map((row, index) => (
-                <div key={`${row.sipId}-${row.name}-${index}`} className="flex justify-between gap-3 px-4 py-3 border-t border-border first:border-t-0">
-                  <div className="text-[13px] font-medium text-ink truncate">{row.name}</div>
-                  <div className="text-[13px] text-muted shrink-0">{moneyFull(row.amount)}</div>
+            {tabModel.fundRows.length > 0 ? (
+              <>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-[11px] font-bold text-muted uppercase tracking-wider">
+                    {tab.holdingList}
+                  </div>
                 </div>
-              ))}
-            </div>
+                <div className="mb-5 border border-border rounded-btn overflow-hidden">
+                  {tabModel.fundRows.map((row, index) => (
+                    <div key={`${row.sipId}-${row.name}-${index}`} className="flex justify-between gap-3 px-4 py-3 border-t border-border first:border-t-0">
+                      <div className="text-[13px] font-medium text-ink truncate">{row.name}</div>
+                      <div className="text-[13px] text-muted shrink-0">{moneyFull(row.amount)}</div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : null}
             <div className="text-xs text-muted mb-5">
               {tabModel.holdings.length > 1
                 ? `${tabModel.holdings.length} SIPs · ${tab.rateLabel} assumed`
@@ -359,11 +403,11 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
           </>
         ) : (
           <>
-            <div className="flex items-start justify-between gap-6 mb-7">
-              <div>
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5 sm:gap-6 mb-6 sm:mb-7">
+              <div className="min-w-0">
                 <div className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-1">You Invest</div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold text-ink">₹</span>
+                <div className="flex items-baseline">
+                  <span className="text-[28px] sm:text-4xl font-bold text-ink">₹</span>
                   <input
                     type="text"
                     inputMode="numeric"
@@ -373,7 +417,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
                       setAmount(digits ? Number(digits) : 0);
                       setAmountError("");
                     }}
-                    className={`text-4xl font-bold tracking-tight leading-none bg-transparent border-0 outline-none ring-0 shadow-none focus:outline-none focus:ring-0 focus:border-0 appearance-none w-[160px] ${
+                    className={`text-[28px] sm:text-4xl font-bold tracking-tight leading-none bg-transparent border-0 outline-none ring-0 shadow-none focus:outline-none focus:ring-0 focus:border-0 appearance-none p-0 m-0 w-[140px] sm:w-[160px] ${
                       amountError ? "text-red-600" : "text-ink"
                     }`}
                   />
@@ -383,11 +427,11 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
                 </div>
               </div>
 
-              <div className="pt-6 text-muted">→</div>
+              <div className="hidden sm:block pt-6 text-muted">→</div>
 
-              <div className="text-right">
+              <div className="sm:text-right">
                 {freq !== "lumpsum" && (
-                  <div className="flex gap-0 bg-surface rounded-lg p-0.5 border border-border mb-3 ml-auto w-fit">
+                  <div className="flex gap-0 bg-surface rounded-lg p-0.5 border border-border mb-3 sm:ml-auto w-fit">
                     {["daily", "monthly"].map((item) => (
                       <button
                         key={item}
@@ -405,7 +449,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
                 {freq === "lumpsum" && (
                   <div className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-2">You Get</div>
                 )}
-                <div className="text-[32px] font-bold text-emerald tracking-tight leading-none">
+                <div className="text-[28px] sm:text-[32px] font-bold text-emerald tracking-tight leading-none">
                   {compactProjection(corpus)}
                 </div>
                 <div className="text-[13px] text-muted mt-1">
@@ -414,7 +458,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-5 mb-5">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 sm:gap-5 mb-5">
               <div>
                 <div className="text-[13px] text-secondary mb-2">
                   {freq === "lumpsum" ? "Investment Period" : "Tenure"}
@@ -504,48 +548,6 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
                     )}
                   </div>
                 )}
-              </div>
-            </div>
-
-            <div
-              className="rounded-card overflow-hidden mb-5 text-white"
-              style={{ background: "linear-gradient(160deg,#0C4A3E,#047857)" }}
-            >
-              <div className="px-4 pt-4 pb-2.5 flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="text-[15px] font-bold">
-                    {tab.label === "Equity" ? "Equities" : tab.label}
-                  </div>
-                  <div className="text-xs text-white/70 mt-0.5">
-                    1 fund · {freq === "lumpsum" ? `₹${amount.toLocaleString("en-IN")}` : `₹${amount.toLocaleString("en-IN")}/${freq === "daily" ? "day" : "month"}`}
-                  </div>
-                </div>
-                <div className="text-right shrink-0">
-                  <div className="text-[10px] font-semibold text-white/65 uppercase">1Y</div>
-                  <div className="text-[13px] font-bold text-emerald-200">+{tab.rate}%</div>
-                </div>
-              </div>
-              <div className="px-4 pb-2.5">
-                <div className="h-1.5 rounded-full bg-white/20 overflow-hidden mb-2">
-                  <div className="h-full bg-emerald-300 rounded-full" style={{ width: "100%" }} />
-                </div>
-                <div className="text-[11px] font-semibold tracking-wider text-emerald-200">
-                  {(tab.label || "EQUITY").toUpperCase()} 100%
-                </div>
-              </div>
-              <div className="px-3 pb-3">
-                <div className="bg-white/10 rounded-btn px-3.5 py-3">
-                  <div className="text-[13px] font-semibold leading-snug break-words uppercase">
-                    {fundMode === "own"
-                      ? (pickedFund?.fullName || pickedFund?.name || "Select a fund")
-                      : (recommended?.fund?.fullName || recommended?.fund?.name || fundName)}
-                  </div>
-                  <div className="text-[11px] text-white/65 mt-1">
-                    {fundMode === "own" && pickedFund?.scheme
-                      ? `Scheme ${pickedFund.scheme}`
-                      : "Mutual Fund · Risk Moderate"}
-                  </div>
-                </div>
               </div>
             </div>
 
