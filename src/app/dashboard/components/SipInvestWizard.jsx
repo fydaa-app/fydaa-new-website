@@ -68,7 +68,7 @@ function Progress({ step }) {
  * Goals (after GoalSipFlow): skip portfolio/review → consent → mandate → debit
  */
 export default function SipInvestWizard({ open, draft, onClose, onDone }) {
-  const fromGoals = !!draft?.fromGoals || !!draft?.openReview;
+  const fromGoals = !!draft?.fromGoals || !!draft?.fromBasket || !!draft?.openReview;
   const [page, setPage] = useState(fromGoals ? "loading" : "portfolio");
   const [reviewOpen, setReviewOpen] = useState(false);
   const [autoDebitOpen, setAutoDebitOpen] = useState(false);
@@ -108,12 +108,16 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
 
   const checklist = useMemo(() => {
     const base = readiness?.checklist || [];
-    return base.map((item) => {
+    // Baskets never show advisory plan in the setup checklist.
+    const rows = draft?.fromBasket || draft?.basketId
+      ? base.filter((item) => item.id !== "advisory")
+      : base;
+    return rows.map((item) => {
       if (item.id === "consent") return { ...item, done: consentDone };
       if (item.id === "mandate") return { ...item, done: mandateDone };
       return item;
     });
-  }, [readiness, consentDone, mandateDone]);
+  }, [readiness, consentDone, mandateDone, draft?.fromBasket, draft?.basketId]);
 
   const goalDates = useMemo(() => goalDebitDates(monthlyDay), [monthlyDay]);
 
@@ -136,12 +140,13 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
     const useRate = port?.rate || rate;
     const goalAmount = illustratedCorpus(amount, useRate, tenureYears, daily);
     const result = await createSipSetup({
-      goalId: draft.goalId,
+      goalId: draft.basketId ? null : draft.goalId,
+      basketId: draft.basketId,
       amount,
       tenureYears,
       frequency: draft.frequency,
-      sipName: draft.goalName || tab?.label || "SIP",
-      fund: ownFund ? draft.fund : null,
+      sipName: draft.goalName || draft.basketName || tab?.label || "SIP",
+      fund: draft.basketId ? null : (ownFund ? draft.fund : null),
       goalAmount,
       sipDateDay: monthlyDay,
     });
@@ -292,7 +297,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
   useEffect(() => {
     if (!open || !draft) return undefined;
     let cancelled = false;
-    const goals = !!draft.fromGoals;
+    const goals = !!draft.fromGoals || !!draft.fromBasket;
     const showGoalsReview = goals && !!draft.openReview;
     const startGoalsSetup = goals && (draft.startSetup || !draft.openReview);
     setPage(goals ? (showGoalsReview ? "goals" : "loading") : "portfolio");
@@ -309,7 +314,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
     setBusy(false);
     setLoading(true);
     Promise.all([
-      loadPortfolioForSip(draft.goalId, ownFund ? draft.fund : null),
+      loadPortfolioForSip(draft.goalId, ownFund ? draft.fund : null, draft.basketId),
       checkInvestReadiness(),
     ]).then(async ([port, ready]) => {
       if (cancelled) return;
@@ -489,7 +494,9 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
         >
         {page === "loading" && fromGoals && (
           <div className="max-w-xl mx-auto w-full">
-            <h1 className="text-2xl sm:text-3xl font-bold text-ink mb-1">Continuing your goal SIP</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-ink mb-1">
+              {draft?.fromBasket || draft?.basketId ? "Continuing your basket SIP" : "Continuing your goal SIP"}
+            </h1>
             <p className="text-sm text-muted mb-6">Preparing consent and auto-debit…</p>
             {error ? <div className="text-sm text-red-600">{error}</div> : null}
           </div>

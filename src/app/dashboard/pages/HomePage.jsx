@@ -6,7 +6,9 @@ import { Trash2 } from "lucide-react";
 import HeroCard from "../components/HeroCard";
 import ProductShowcase from "../components/ProductShowcase";
 import SipInvestWizard from "../components/SipInvestWizard";
+import BasketSipFlow from "../components/BasketSipFlow";
 import { AllocationBar, AMCStrip, RMCard, RecommendedGoals } from "../components/DashboardWidgets";
+import BasketsHomeSection from "../components/BasketsHomeSection";
 import { getUserStage } from "../../signup/lib/authApi";
 import { isHomeKycComplete } from "../../signup/lib/kycApi";
 import { deletePendingSip, loadHomePending } from "../lib/dreamsApi";
@@ -22,12 +24,26 @@ function tabKeyFromGoalId(goalId) {
 export default function HomePage({ setActivePage, user }) {
   const [showcase, setShowcase] = useState(null);
   const [investDraft, setInvestDraft] = useState(null);
+  const [basketFlow, setBasketFlow] = useState(null);
   const [pendingTick, setPendingTick] = useState(0);
 
   const startProduct = (key) => {
     setShowcase({ key, at: Date.now() });
     document.getElementById("product-showcase")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  if (basketFlow) {
+    return (
+      <BasketSipFlow
+        basket={basketFlow}
+        onBack={() => setBasketFlow(null)}
+        onContinue={(draft) => {
+          setBasketFlow(null);
+          setInvestDraft(draft);
+        }}
+      />
+    );
+  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-10 xl:px-12 4xl:px-16 py-5 sm:py-8 max-w-[1200px] 4xl:max-w-[1600px] mx-auto w-full">
@@ -73,6 +89,12 @@ export default function HomePage({ setActivePage, user }) {
       />
       <AllocationBar onStart={startProduct} />
       <AMCStrip />
+
+      <BasketsHomeSection
+        onViewAll={() => setActivePage("dreams")}
+        onViewBasket={(basket) => setBasketFlow(basket)}
+        onCreate={() => setActivePage("dreams")}
+      />
 
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_minmax(280px,380px)] 4xl:grid-cols-[1fr_420px] gap-5 items-stretch mb-8">
         <RecommendedGoals

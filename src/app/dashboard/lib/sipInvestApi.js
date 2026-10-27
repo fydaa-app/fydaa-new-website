@@ -167,7 +167,7 @@ export function horizonLabel(frequency, tenureYears) {
   return `${count} installments · ${tenureYears} ${unit}`;
 }
 
-export async function loadPortfolioForSip(goalId, customFund) {
+export async function loadPortfolioForSip(goalId, customFund, basketId) {
   if (customFund?.name) {
     return {
       portfolioId: null,
@@ -183,7 +183,11 @@ export async function loadPortfolioForSip(goalId, customFund) {
       rate: null,
     };
   }
-  const result = await authed(STOCK_BASE, `mutualFund/recommended-portfolio?goalId=${goalId}`);
+  const basket = Number(basketId);
+  const query = Number.isFinite(basket) && basket > 0
+    ? `basketId=${basket}`
+    : `goalId=${goalId}`;
+  const result = await authed(STOCK_BASE, `mutualFund/recommended-portfolio?${query}`);
   if (!result.ok) return { portfolioId: null, funds: [], rate: null, message: "" };
   const raw = result.data;
   const data = raw?.data && typeof raw.data === "object" && !Array.isArray(raw.data)
@@ -283,6 +287,7 @@ export function nextReviewAction({ readiness, consentDone, mandateDone }) {
 export async function createSipSetup(args) {
   const {
     goalId,
+    basketId,
     amount,
     tenureYears,
     frequency,
@@ -294,14 +299,16 @@ export async function createSipSetup(args) {
   const months = tenureYears * 12;
   const firstDebit = nextBusinessDay();
   const start = new Date(firstDebit);
-  if (frequency === "monthly") {
+  const isBasket = Number(basketId) > 0;
+  // Basket SIPs are always monthly.
+  const monthly = isBasket || frequency !== "daily";
+  if (monthly) {
     const today = new Date();
     start.setDate(sipDateDay);
     if (today.getDate() >= sipDateDay) start.setMonth(start.getMonth() + 1);
   }
   const end = addMonths(start, months);
   const body = {
-    goalId,
     sipAmount: Number(amount).toFixed(2),
     sipName: sipName || "SIP",
     goalAmount: Number(goalAmount || amount).toFixed(2),
@@ -312,12 +319,18 @@ export async function createSipSetup(args) {
     sipTenure: String(months),
     intendedTenureMonths: Math.max(1, Math.min(360, months)),
   };
-  if (frequency === "daily") {
+  if (isBasket) {
+    body.basketId = Number(basketId);
+  } else if (goalId != null) {
+    body.goalId = goalId;
+  }
+  if (!monthly) {
     body.sipFrequency = "daily";
   } else {
     body.sipDate = ymd(start);
   }
-  if (fund?.scheme) {
+  // Multi-fund baskets must not send a single selected scheme.
+  if (!isBasket && fund?.scheme) {
     body.selectedScheme = fund.scheme;
     if (Number(fund.id) > 0) body.selectedMfId = Number(fund.id);
   }
