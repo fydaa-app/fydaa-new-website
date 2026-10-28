@@ -248,6 +248,15 @@ function tabKeyForSip(sip, goalsById) {
   return fuzzy;
 }
 
+/** First positive finite money value from API fields (else null). */
+function positiveMoney(...candidates) {
+  for (const value of candidates) {
+    const n = Number(value);
+    if (Number.isFinite(n) && n > 0) return n;
+  }
+  return null;
+}
+
 function parseFundFromRecommended(data) {
   const root = data?.data && typeof data.data === "object" && !Array.isArray(data.data)
     ? { ...data, ...data.data }
@@ -265,8 +274,14 @@ function parseFundFromRecommended(data) {
     scheme: firstString(row, ["isin", "ticker", "scheme", "schemeCode"])
       || firstString(nested, ["isin", "ticker", "scheme", "schemeCode"]),
     id: row.id ?? row.mfId ?? row.localMfId ?? nested?.id ?? nested?.mfId ?? null,
-    minSip: Number(row.min_sip_amount ?? row.minSipAmount ?? nested?.min_sip_amount),
-    minInitial: Number(row.min_initial_investment ?? row.minInitialInvestment ?? nested?.min_initial_investment),
+    minSip: positiveMoney(
+      row.min_sip_amount, row.minSipAmount,
+      nested?.min_sip_amount, nested?.minSipAmount,
+    ),
+    minInitial: positiveMoney(
+      row.min_initial_investment, row.minInitialInvestment,
+      nested?.min_initial_investment, nested?.minInitialInvestment,
+    ),
     portfolioId: root?.portfolioId ?? root?.portfolio?.id ?? data?.portfolioId ?? null,
   };
 }
@@ -316,8 +331,8 @@ export async function searchCategoryFunds(stockType, query = "") {
         name: cutAtFund(name || scheme),
         fullName: name || scheme,
         scheme,
-        minSip: Number(row.min_sip_amount ?? row.minSipAmount),
-        minInitial: Number(row.min_initial_investment ?? row.minInitialInvestment),
+        minSip: positiveMoney(row.min_sip_amount, row.minSipAmount),
+        minInitial: positiveMoney(row.min_initial_investment, row.minInitialInvestment),
       };
     })
     .filter(Boolean);

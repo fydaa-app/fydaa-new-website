@@ -42,7 +42,11 @@
 .fydaa-home .hero h1{margin-bottom:20px}
 .fydaa-home .hero h1 .serif{color:var(--g)}
 .fydaa-home .hero-sub{font-size:1.05rem;color:var(--ink2);max-width:440px;margin-bottom:36px;line-height:1.7}
-.fydaa-home .hero-ctas{display:flex;gap:12px;margin-bottom:40px;flex-wrap:wrap}
+.fydaa-home .hero-ctas{display:flex;gap:12px;margin-bottom:40px;flex-wrap:wrap;align-items:flex-end}
+.fydaa-home .hero-cta{display:flex;flex-direction:column;gap:6px;width:180px}
+.fydaa-home .hero-cta-label{font-size:.75rem;font-weight:600;letter-spacing:.02em;color:var(--ink3);text-transform:none}
+.fydaa-home .hero-cta .btn-invest,
+.fydaa-home .hero-cta .btn-download{width:100%;justify-content:center;box-sizing:border-box;padding:14px 20px}
 .fydaa-home .btn-invest{display:inline-flex;align-items:center;gap:8px;background:var(--g);color:#fff;padding:14px 32px;border-radius:14px;font-weight:700;font-size:.95rem;letter-spacing:-.01em;transition:all .2s;border:none;cursor:pointer}
 .fydaa-home .btn-invest:hover{background:var(--g-dark);transform:translateY(-1px);box-shadow:0 8px 24px rgba(12,74,62,.18)}
 .fydaa-home .btn-download{display:inline-flex;align-items:center;gap:8px;background:var(--surface);color:var(--ink);padding:14px 28px;border-radius:14px;font-weight:700;font-size:.95rem;letter-spacing:-.01em;border:1px solid var(--border);transition:all .2s;cursor:pointer}
@@ -264,6 +268,7 @@
   .fydaa-home .hero-grid{grid-template-columns:1fr;gap:32px}
   .fydaa-home .hero-sub{max-width:100%;font-size:1rem;margin-bottom:28px}
   .fydaa-home .hero-ctas{flex-direction:column;align-items:stretch}
+  .fydaa-home .hero-cta{width:100%}
   .fydaa-home .hero-ctas .btn-invest,
   .fydaa-home .hero-ctas .btn-download{width:100%;justify-content:center}
   .fydaa-home .hero-calc{max-width:100%;margin-left:0;margin-top:8px}

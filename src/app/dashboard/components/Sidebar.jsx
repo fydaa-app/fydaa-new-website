@@ -1,14 +1,15 @@
 "use client";
 
-import { Home, Target, Clock, User, Shield, X } from "lucide-react";
+import { Home, Target, Clock, User, Shield, X, Flag } from "lucide-react";
 
-const iconMap = { home: Home, target: Target, clock: Clock, user: User, shield: Shield };
+const iconMap = { home: Home, target: Target, flag: Flag, clock: Clock, user: User, shield: Shield };
 
 export default function Sidebar({ activePage, setActivePage, showKyc, user, open, onClose }) {
   const items = [
     { id: "home", label: "Home", icon: "home" },
     ...(showKyc ? [{ id: "kyc", label: "Complete Your KYC", icon: "shield" }] : []),
-    { id: "dreams", label: "Dreams", icon: "target" },
+    { id: "dreams", label: "Portfolio", icon: "target" },
+    { id: "goals", label: "Goals", icon: "flag" },
     { id: "history", label: "History", icon: "clock" },
     { id: "profile", label: "Profile", icon: "user" },
   ];
@@ -30,7 +31,7 @@ export default function Sidebar({ activePage, setActivePage, showKyc, user, open
       />
 
       <aside
-        className={`w-[min(260px,85vw)] h-dvh fixed top-0 left-0 bg-white border-r border-border flex flex-col z-[70] transition-transform duration-200 ease-out lg:translate-x-0 ${
+        className={`w-[min(260px,85vw)] lg:w-[260px] 4xl:w-[280px] h-dvh fixed top-0 left-0 bg-white border-r border-border flex flex-col z-[70] transition-transform duration-200 ease-out lg:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >

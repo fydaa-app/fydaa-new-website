@@ -6,12 +6,13 @@ import { Search, Bell, Settings, LogOut, Menu } from "lucide-react";
 import { clearTokens } from "../../signup/lib/authApi";
 import FundSearchOverlay from "./FundSearchOverlay";
 
-export default function Topbar({ onMenuOpen }) {
+export default function Topbar({ activePage, onMenuOpen }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [prefill, setPrefill] = useState("");
   const menuRef = useRef(null);
+  const hideSearch = activePage !== "home";
 
   useEffect(() => {
     function onPointerDown(event) {
@@ -22,6 +23,7 @@ export default function Topbar({ onMenuOpen }) {
   }, []);
 
   useEffect(() => {
+    if (hideSearch) return undefined;
     function onKey(event) {
       if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) return;
       const tag = event.target?.tagName;
@@ -32,7 +34,7 @@ export default function Topbar({ onMenuOpen }) {
     }
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, []);
+  }, [hideSearch]);
 
   function logout() {
     clearTokens();
@@ -62,24 +64,26 @@ export default function Topbar({ onMenuOpen }) {
           >
             <Menu size={18} className="text-tertiary" />
           </button>
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => openSearch("")}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                openSearch("");
-              }
-            }}
-            className="flex items-center gap-2 bg-white border border-border rounded-btn px-3 sm:px-3.5 h-10 w-full max-w-[min(100%,420px)] xl:max-w-[480px] 4xl:max-w-[560px] hover:border-jade transition-colors cursor-pointer"
-          >
-            <Search size={16} className="text-muted shrink-0" />
-            <span className="text-sm text-muted w-full truncate">Search funds, goals…</span>
-            <span className="hidden sm:inline text-[11px] text-muted bg-surface px-1.5 py-0.5 rounded border border-border font-medium shrink-0">
-              /
-            </span>
-          </div>
+          {!hideSearch ? (
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => openSearch("")}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  openSearch("");
+                }
+              }}
+              className="flex items-center gap-2 bg-white border border-border rounded-btn px-3 sm:px-3.5 h-10 w-full max-w-[min(100%,420px)] xl:max-w-[480px] 4xl:max-w-[560px] hover:border-jade transition-colors cursor-pointer"
+            >
+              <Search size={16} className="text-muted shrink-0" />
+              <span className="text-sm text-muted w-full truncate">Search mutual funds</span>
+              <span className="hidden sm:inline text-[11px] text-muted bg-surface px-1.5 py-0.5 rounded border border-border font-medium shrink-0">
+                /
+              </span>
+            </div>
+          ) : null}
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <button

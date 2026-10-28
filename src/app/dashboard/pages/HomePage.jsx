@@ -7,6 +7,9 @@ import HeroCard from "../components/HeroCard";
 import ProductShowcase from "../components/ProductShowcase";
 import SipInvestWizard from "../components/SipInvestWizard";
 import BasketSipFlow from "../components/BasketSipFlow";
+import CreateBasketFlow from "../components/CreateBasketFlow";
+import OwnFundSipFlow from "../components/OwnFundSipFlow";
+import AdvisorTalkPage from "../components/AdvisorTalkPage";
 import { AllocationBar, AMCStrip, RMCard, RecommendedGoals } from "../components/DashboardWidgets";
 import BasketsHomeSection from "../components/BasketsHomeSection";
 import { getUserStage } from "../../signup/lib/authApi";
@@ -14,6 +17,7 @@ import { isHomeKycComplete } from "../../signup/lib/kycApi";
 import { deletePendingSip, loadHomePending } from "../lib/dreamsApi";
 import { PRODUCT_TABS } from "../lib/investmentApi";
 import { userFacingMessage } from "../lib/sipInvestApi";
+import { PAGE_SHELL } from "../lib/layoutClasses";
 
 function tabKeyFromGoalId(goalId) {
   const id = Number(goalId);
@@ -25,6 +29,11 @@ export default function HomePage({ setActivePage, user }) {
   const [showcase, setShowcase] = useState(null);
   const [investDraft, setInvestDraft] = useState(null);
   const [basketFlow, setBasketFlow] = useState(null);
+  const [createBasketOpen, setCreateBasketOpen] = useState(false);
+  const [editBasket, setEditBasket] = useState(null);
+  const [basketTick, setBasketTick] = useState(0);
+  const [ownFundFlow, setOwnFundFlow] = useState(null);
+  const [advisorOpen, setAdvisorOpen] = useState(false);
   const [pendingTick, setPendingTick] = useState(0);
 
   const startProduct = (key) => {
@@ -34,20 +43,58 @@ export default function HomePage({ setActivePage, user }) {
 
   if (basketFlow) {
     return (
-      <BasketSipFlow
-        basket={basketFlow}
-        onBack={() => setBasketFlow(null)}
+      <>
+        <BasketSipFlow
+          basket={basketFlow}
+          onBack={() => setBasketFlow(null)}
+          onContinue={(draft) => {
+            setBasketFlow(null);
+            setInvestDraft(draft);
+          }}
+          onEdit={(basket) => setEditBasket(basket)}
+          onDeleted={() => {
+            setBasketFlow(null);
+            setBasketTick((value) => value + 1);
+          }}
+        />
+        <CreateBasketFlow
+          open={!!editBasket}
+          editBasket={editBasket}
+          onClose={() => setEditBasket(null)}
+          onSaved={(basket) => {
+            setEditBasket(null);
+            setBasketFlow(basket);
+            setBasketTick((value) => value + 1);
+          }}
+        />
+      </>
+    );
+  }
+
+  if (ownFundFlow) {
+    return (
+      <OwnFundSipFlow
+        seed={ownFundFlow}
+        onBack={() => setOwnFundFlow(null)}
         onContinue={(draft) => {
-          setBasketFlow(null);
+          setOwnFundFlow(null);
           setInvestDraft(draft);
         }}
       />
     );
   }
 
+  if (advisorOpen) {
+    return <AdvisorTalkPage onBack={() => setAdvisorOpen(false)} />;
+  }
+
   return (
-    <div className="px-4 sm:px-6 lg:px-10 xl:px-12 4xl:px-16 py-5 sm:py-8 max-w-[1200px] 4xl:max-w-[1600px] mx-auto w-full">
-      <HeroCard firstName={user === undefined ? "…" : user?.firstName} />
+    <div className={PAGE_SHELL}>
+      <HeroCard
+        firstName={user === undefined ? "…" : user?.firstName}
+        onAdviserClick={() => setAdvisorOpen(true)}
+        onPortfolioClick={() => setActivePage("dreams")}
+      />
       <CompleteKycBanner />
       <PendingList
         refreshKey={pendingTick}
@@ -74,6 +121,7 @@ export default function HomePage({ setActivePage, user }) {
         focusAt={showcase?.at}
         onViewHolding={() => setActivePage("dreams")}
         onStartInvest={(draft) => setInvestDraft({ ...draft, fromGoals: false })}
+        onStartOwnFundSip={(seed) => setOwnFundFlow(seed)}
       />
       <SipInvestWizard
         open={!!investDraft}
@@ -91,21 +139,49 @@ export default function HomePage({ setActivePage, user }) {
       <AMCStrip />
 
       <BasketsHomeSection
+        refreshKey={basketTick}
         onViewAll={() => setActivePage("dreams")}
         onViewBasket={(basket) => setBasketFlow(basket)}
-        onCreate={() => setActivePage("dreams")}
+        onCreate={() => setCreateBasketOpen(true)}
+      />
+      <CreateBasketFlow
+        open={createBasketOpen}
+        onClose={() => setCreateBasketOpen(false)}
+        onCreated={(basket, mode) => {
+          setCreateBasketOpen(false);
+          setBasketTick((value) => value + 1);
+          if (String(mode).toUpperCase() === "LUMPSUM") {
+            setInvestDraft({
+              basketId: basket.id,
+              basketName: basket.name,
+              goalName: basket.name,
+              amount: basket.investAmount || basket.minInvestment || 1000,
+              investAmount: basket.investAmount,
+              minInvestment: basket.minInvestment,
+              tenureYears: 3,
+              frequency: "lumpsum",
+              fundMode: "rec",
+              fund: null,
+              fromBasket: true,
+              fromGoals: false,
+            });
+            return;
+          }
+          // SIP → full monthly basket SIP flow (amount locked from create).
+          setBasketFlow({ ...basket, autoStart: true });
+        }}
       />
 
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_minmax(280px,380px)] 4xl:grid-cols-[1fr_420px] gap-5 items-stretch mb-8">
         <RecommendedGoals
-          onExplore={() => setActivePage("dreams")}
-          onGoalClick={(goal) => setActivePage("dreams", goal)}
+          onExplore={() => setActivePage("goals")}
+          onGoalClick={(goal) => setActivePage("goals", goal)}
         />
         <RMCard manager={user?.manager} />
       </div>
 
       <div className="pt-6 border-t border-border text-xs text-muted leading-relaxed pb-20 lg:pb-6">
-        fydaa · Multistrato Capital Advisors Pvt. Ltd · SEBI RIA INA000015969 · ARN 358522
+         Fydaa Analytics Private Limited · AMFI registered ARN 358522
       </div>
     </div>
   );
@@ -154,13 +230,13 @@ function PendingList({ refreshKey, onResume, onDeleted }) {
       <h2 className="text-lg font-semibold text-ink mb-1">Pending SIPs</h2>
       <p className="text-sm text-muted mb-4">Finish setup to start auto-debit, or remove if you no longer need it.</p>
       {error ? <div className="text-sm text-red-600 mb-3">{error}</div> : null}
-      <div className="flex gap-2.5 overflow-x-auto pb-1">
+      <div className="flex gap-2.5 overflow-x-auto pb-1 -mx-1 px-1 snap-x snap-mandatory">
         {rows.map((row) => (
           <button
             key={row.id}
             type="button"
             onClick={() => onResume?.(row)}
-            className="flex items-center gap-3 px-4 py-3.5 bg-white border border-border rounded-card shadow-card shrink-0 flex-1 min-w-[min(100%,280px)] sm:min-w-[300px] text-left hover:border-jade hover:shadow-elevated transition-all"
+            className="flex items-center gap-3 px-4 py-3.5 bg-white border border-border rounded-card shadow-card shrink-0 w-[min(100%,300px)] sm:w-[320px] snap-start text-left hover:border-jade hover:shadow-elevated transition-all"
           >
             <div className="flex-1 min-w-0">
               <div className="text-sm font-bold text-ink truncate">{row.name}</div>

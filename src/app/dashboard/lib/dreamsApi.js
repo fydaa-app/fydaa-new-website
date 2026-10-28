@@ -246,9 +246,22 @@ export function mapJourney({ sips, portfolio, statusBySipId }) {
       const match = portfolioSips.find((row) => row.sipId === sip.id);
       const invested = num(sip.investedAmount);
       const current = num(sip.currentAmount);
+      const remainingAmount = num(sip.remainingAmount ?? match?.remainingAmount)
+        ?? (current != null && current > 0 ? current : invested);
+      const pendingWithdrawal = sip.pendingWithdrawal || match?.pendingWithdrawal || null;
+      const pendingAmount = num(pendingWithdrawal?.amount);
+      const frequency = String(sip?.sipFrequency || "").toLowerCase() === "daily" ? "daily" : "monthly";
+      const term = String(
+        sip?.goal?.investmentTerm
+        || sip?.investmentTerm
+        || sip?.goal?.term
+        || sip?.goal?.tenureBand
+        || "",
+      );
       return {
         id: `sip-${sip.id}`,
         sipId: sip.id,
+        portfolioId: num(sip.portfolioId ?? match?.portfolioId),
         tab: sipTab(sip, statusBySipId),
         name: sip.goal?.name || sip.sipName || "SIP",
         forLabel: sip.sipName || "",
@@ -256,6 +269,12 @@ export function mapJourney({ sips, portfolio, statusBySipId }) {
         pct: num(sip.percentageCompleted) ?? 0,
         invested,
         current,
+        remainingAmount,
+        totalWithdrawn: num(sip.totalWithdrawalAmount ?? match?.totalWithdrawalAmount) ?? 0,
+        pendingWithdrawal,
+        pendingWithdrawalAmount: pendingAmount,
+        frequency,
+        investmentTerm: term,
         returns: invested != null && current != null ? current - invested : null,
         returnsPct: invested ? ((current - invested) / invested) * 100 : null,
         monthly: num(sip.sipAmount),

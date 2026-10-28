@@ -43,12 +43,12 @@ function productKeyFromFund(fund) {
   return "equity";
 }
 
-export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onStartInvest }) {
+export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onStartInvest, onStartOwnFundSip }) {
   const [activeKey, setActiveKey] = useState(focusKey || "equity");
   const [model, setModel] = useState(undefined);
   const [addingAnother, setAddingAnother] = useState(false);
-  const [freq, setFreq] = useState("daily");
-  const [amount, setAmount] = useState(300);
+  const [freq, setFreq] = useState("monthly");
+  const [amount, setAmount] = useState(5000);
   const [tenure, setTenure] = useState(3);
   const [fundMode, setFundMode] = useState("rec");
   const [ownFunds, setOwnFunds] = useState([]);
@@ -89,33 +89,51 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
     if (focusKey) {
       setActiveKey(focusKey);
       setAddingAnother(false);
-      resetCalculator("daily");
+      resetCalculator("monthly");
     }
   }, [focusKey, focusAt]);
 
   function normalizePickedFund(fund) {
     const name = cutAtFund(fund.name) || fund.name;
+    const minSip = Number(fund.minSip);
+    const minInitial = Number(fund.minInitial);
     return {
       id: fund.localMfId || fund.id || 0,
       name,
       fullName: fund.name,
       scheme: fund.scheme,
-      minSip: Number(fund.minSip),
-      minInitial: Number(fund.minInitial),
+      minSip: Number.isFinite(minSip) && minSip > 0 ? minSip : null,
+      minInitial: Number.isFinite(minInitial) && minInitial > 0 ? minInitial : null,
     };
+  }
+
+  function amountFloorFor(freqKey, fund) {
+    const platform = freqKey === "daily" ? 100 : freqKey === "monthly" ? 1000 : 5000;
+    if (freqKey === "lumpsum") {
+      const lump = Number(fund?.minInitial);
+      return Math.max(platform, Number.isFinite(lump) && lump > 0 ? lump : 0);
+    }
+    const sip = Number(fund?.minSip);
+    if (freqKey === "daily") {
+      if (Number.isFinite(sip) && sip > 0) return Math.max(100, Math.min(sip, 1000));
+      return 100;
+    }
+    return Math.max(platform, Number.isFinite(sip) && sip > 0 ? sip : 0);
   }
 
   function applyOwnFund(fund, nextFreq) {
     const key = productKeyFromFund(fund);
     const picked = normalizePickedFund(fund);
     const product = PRODUCT_TABS.find((item) => item.key === key) || PRODUCT_TABS[2];
+    const next = nextFreq === "lumpsum" || nextFreq === "daily" || nextFreq === "monthly" ? nextFreq : "monthly";
     setActiveKey(key);
     setAddingAnother(false);
     setFundMode("own");
     setPickedFund(picked);
     setSearchQuery(picked.name);
     setOwnMenuOpen(false);
-    setFrequency(nextFreq);
+    setFrequency(next);
+    setAmount((prev) => Math.max(prev || 0, amountFloorFor(next, picked), defaultAmount(next)));
     setAmountError("");
     setActionNote("");
     return { key, product, picked };
@@ -172,7 +190,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
     };
   }, [fundMode, tab.stockType, tab.allowOwn, searchQuery, activeKey]);
 
-  function resetCalculator(nextFreq = "daily") {
+  function resetCalculator(nextFreq = "monthly") {
     setFreq(nextFreq);
     setAmount(defaultAmount(nextFreq));
     setTenure(3);
@@ -194,48 +212,64 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
 
   function setFrequency(next) {
     setFreq(next);
-    setAmount(defaultAmount(next));
+    const fund = fundMode === "own" ? pickedFund : recommended?.fund;
+    setAmount(Math.max(defaultAmount(next), amountFloorFor(next, fund)));
     setAmountError("");
     if (next === "lumpsum") setTenure(3);
   }
 
-  const sipMin = fundMode === "own"
-    ? (Number.isFinite(pickedFund?.minSip) && pickedFund.minSip > 0 ? pickedFund.minSip : null)
-    : (Number.isFinite(recommended?.fund?.minSip) && recommended.fund.minSip > 0 ? recommended.fund.minSip : null);
-  const lumpMin = fundMode === "own"
-    ? (Number.isFinite(pickedFund?.minInitial) && pickedFund.minInitial > 0 ? pickedFund.minInitial : null)
-    : (Number.isFinite(recommended?.fund?.minInitial) && recommended.fund.minInitial > 0 ? recommended.fund.minInitial : null);
+  const activeFund = fundMode === "own" ? pickedFund : recommended?.fund;
+  const sipMin = Number.isFinite(activeFund?.minSip) && activeFund.minSip > 0 ? activeFund.minSip : null;
+  const lumpMin = Number.isFinite(activeFund?.minInitial) && activeFund.minInitial > 0 ? activeFund.minInitial : null;
 
   const platformMin = freq === "daily" ? 100 : freq === "monthly" ? 1000 : 5000;
   const platformMax = freq === "daily" ? 1000 : freq === "monthly" ? 100000 : 10000000;
+  // Fund API mins (min_sip_amount / min_initial_investment) raise the floor above platform mins.
   const minAmount = freq === "lumpsum"
-    ? (lumpMin != null && lumpMin > 0 ? lumpMin : platformMin)
-    : Math.max(platformMin, sipMin || 0);
+    ? Math.max(platformMin, lumpMin || 0)
+    : freq === "daily"
+      ? (sipMin != null ? Math.max(100, Math.min(sipMin, 1000)) : 100)
+      : Math.max(platformMin, sipMin || 0);
   const maxAmount = platformMax;
+
+  // Keep typed amount ≥ fund/platform floor when recommended fund loads or mode changes.
+  useEffect(() => {
+    setAmount((prev) => {
+      const n = Number(prev) || 0;
+      if (n < minAmount) return minAmount;
+      if (n > maxAmount) return maxAmount;
+      return n;
+    });
+  }, [minAmount, maxAmount, activeFund?.scheme, fundMode, freq]);
 
   const corpus = freq === "lumpsum"
     ? projectLump(amount, tab.rate, tenure)
     : projectSip(amount, tab.rate, tenure, freq === "daily");
 
   function validateAmount() {
-    if ((fundMode === "rec" && recommended?.fund && sipMin == null && freq !== "lumpsum")
-      || (fundMode === "rec" && recommended?.fund && lumpMin == null && freq === "lumpsum")) {
-      if (recommended?.fund && ((freq === "lumpsum" && !Number.isFinite(recommended.fund.minInitial))
-        || (freq !== "lumpsum" && !Number.isFinite(recommended.fund.minSip)))) {
-        // mins optional if not provided — use platform only
-      }
-    }
     if (amount < minAmount) {
-      if (freq === "daily") return `Minimum amount is ₹${minAmount} per day`;
-      if (freq === "monthly") return `Minimum amount is ₹${minAmount} per month`;
-      return `Minimum lumpsum is ₹${minAmount}`;
+      if (freq === "daily") return `Minimum amount is ₹${minAmount.toLocaleString("en-IN")} per day`;
+      if (freq === "monthly") return `Minimum amount is ₹${minAmount.toLocaleString("en-IN")} per month`;
+      return `Minimum lumpsum is ₹${minAmount.toLocaleString("en-IN")}`;
     }
     if (amount > maxAmount) {
-      if (freq === "daily") return `Maximum amount is ₹${maxAmount} per day`;
-      if (freq === "monthly") return `Maximum amount is ₹${maxAmount} per month`;
-      return `Maximum lumpsum is ₹${maxAmount}`;
+      if (freq === "daily") return `Maximum amount is ₹${maxAmount.toLocaleString("en-IN")} per day`;
+      if (freq === "monthly") return `Maximum amount is ₹${maxAmount.toLocaleString("en-IN")} per month`;
+      return `Maximum lumpsum is ₹${maxAmount.toLocaleString("en-IN")}`;
     }
     return "";
+  }
+
+  function amountHint() {
+    if (freq === "lumpsum" && lumpMin) {
+      return `Min ₹${minAmount.toLocaleString("en-IN")} (fund minimum)`;
+    }
+    if (freq !== "lumpsum" && sipMin) {
+      return `Min ₹${minAmount.toLocaleString("en-IN")} (fund SIP minimum)`;
+    }
+    if (freq === "daily") return `per day · min ₹${minAmount.toLocaleString("en-IN")}`;
+    if (freq === "monthly") return `per month · min ₹${minAmount.toLocaleString("en-IN")}`;
+    return `one-time, today · min ₹${minAmount.toLocaleString("en-IN")}`;
   }
 
   function primaryLabel() {
@@ -296,19 +330,23 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
   function startFromModeSheet(nextFreq) {
     const fund = modeSheet?.fund;
     if (!fund) return;
-    const { product, picked } = applyOwnFund(fund, nextFreq);
+    const { product, picked } = applyOwnFund(fund, nextFreq === "lumpsum" ? "monthly" : nextFreq);
     setModeSheet(null);
-    const nextAmount = defaultAmount(nextFreq);
-    onStartInvest?.({
-      tab: product.key,
-      goalId: product.goalId,
-      amount: nextAmount,
-      tenureYears: 3,
-      frequency: nextFreq,
-      fundMode: "own",
-      fund: picked,
-      addingAnother: false,
-    });
+    if (nextFreq === "lumpsum") {
+      onStartInvest?.({
+        tab: product.key,
+        goalId: product.goalId,
+        amount: Math.max(defaultAmount("lumpsum"), amountFloorFor("lumpsum", picked)),
+        tenureYears: 3,
+        frequency: "lumpsum",
+        fundMode: "own",
+        fund: picked,
+        addingAnother: false,
+      });
+      return;
+    }
+    // SIP from fund search → amount / Daily-Monthly page first.
+    onStartOwnFundSip?.({ fund: picked, product });
   }
 
   return (
@@ -318,7 +356,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
         title={cutAtFund(modeSheet?.fund?.name) || modeSheet?.fund?.name || "Invest"}
         subtitle="Start with a SIP or invest a one-time amount"
         onClose={() => setModeSheet(null)}
-        onPickSip={() => startFromModeSheet("daily")}
+        onPickSip={() => startFromModeSheet("sip")}
         onPickLumpsum={() => startFromModeSheet("lumpsum")}
       />
       <div className="bg-surface rounded-t-card px-4 sm:px-6 lg:px-9 pt-6 sm:pt-9 pb-4 sm:pb-5">
@@ -392,7 +430,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
             </button>
             <button
               type="button"
-              onClick={() => { setAddingAnother(true); resetCalculator("daily"); }}
+              onClick={() => { setAddingAnother(true); resetCalculator("monthly"); }}
               className="mt-4 w-full flex items-center gap-3 px-4 py-3.5 rounded-btn border border-dashed border-border text-left hover:border-jade"
             >
               <span className="w-8 h-8 rounded-full bg-tint text-jade flex items-center justify-center shrink-0">
@@ -423,7 +461,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
                   />
                 </div>
                 <div className={`text-[13px] mt-0.5 ${amountError ? "text-red-600" : "text-muted"}`}>
-                  {amountError || (freq === "daily" ? "per day" : freq === "monthly" ? "per month" : "one-time, today")}
+                  {amountError || amountHint()}
                 </div>
               </div>
 
@@ -505,6 +543,13 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
                     Recommended
                   </div>
                 )}
+                {fundMode === "rec" && (
+                  <div className="mt-2.5 px-3.5 py-2.5 rounded-btn border border-border bg-white shadow-elevated text-[13px] font-medium text-ink uppercase tracking-wide">
+                    {recommended?.loading
+                      ? "Loading recommended fund…"
+                      : (recommended?.fund?.fullName || recommended?.fund?.name || "Recommended fund unavailable")}
+                  </div>
+                )}
                 {fundMode === "own" && tab.allowOwn && (
                   <div className="mt-2.5 border border-border rounded-btn bg-white shadow-elevated overflow-hidden">
                     <input
@@ -533,9 +578,16 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
                             type="button"
                             onMouseDown={(event) => event.preventDefault()}
                             onClick={() => {
-                              setPickedFund(fund);
+                              const picked = {
+                                ...fund,
+                                minSip: Number.isFinite(Number(fund.minSip)) && Number(fund.minSip) > 0 ? Number(fund.minSip) : null,
+                                minInitial: Number.isFinite(Number(fund.minInitial)) && Number(fund.minInitial) > 0 ? Number(fund.minInitial) : null,
+                              };
+                              setPickedFund(picked);
                               setSearchQuery(fund.name || "");
                               setOwnMenuOpen(false);
+                              setAmount((prev) => Math.max(prev || 0, amountFloorFor(freq, picked)));
+                              setAmountError("");
                             }}
                             className={`block w-full text-left px-3.5 py-2.5 text-[13px] font-medium border-t border-bg first:border-t-0 ${
                               pickedFund?.scheme === fund.scheme ? "bg-jade text-white" : "text-tertiary hover:bg-surface"
@@ -551,18 +603,18 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
               <button
                 type="button"
                 onClick={onPrimary}
-                className="flex-1 py-3.5 rounded-btn bg-jade text-white text-[15px] font-semibold hover:bg-jade-hover"
+                className="w-full sm:flex-1 py-3.5 rounded-btn bg-jade text-white text-[15px] font-semibold hover:bg-jade-hover"
               >
                 {primaryLabel()}
               </button>
               <button
                 type="button"
-                onClick={() => setFrequency(freq === "lumpsum" ? "daily" : "lumpsum")}
-                className="text-[13px] text-secondary underline underline-offset-[3px] hover:text-jade whitespace-nowrap"
+                onClick={() => setFrequency(freq === "lumpsum" ? "monthly" : "lumpsum")}
+                className="text-[13px] text-secondary underline underline-offset-[3px] hover:text-jade text-center sm:text-left sm:whitespace-nowrap"
               >
                 {freq === "lumpsum" ? "Prefer a daily or monthly SIP?" : "Want to invest One-Time / Lump-sum?"}
               </button>
@@ -570,7 +622,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
             {addingAnother && (
               <button
                 type="button"
-                onClick={() => { setAddingAnother(false); resetCalculator("daily"); }}
+                onClick={() => { setAddingAnother(false); resetCalculator("monthly"); }}
                 className="mt-4 w-full text-center text-[13px] text-muted underline"
               >
                 ← Cancel, back to my holding

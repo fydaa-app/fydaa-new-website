@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { User, Activity, Building, Shield, Info, ChevronRight, LogOut } from "lucide-react";
+import { User, Activity, Building, Info, ChevronRight, LogOut, Check, Landmark } from "lucide-react";
 import { bandFromIndicators, clearTokens, getRiskIndicators, scoreFromIndicators } from "../../signup/lib/authApi";
+import { PAGE_SHELL } from "../lib/layoutClasses";
 
 const sections = [
   { id: "personal", label: "Personal Details", icon: User },
   { id: "risk",     label: "Investment Style", icon: Activity },
-  { id: "bank",     label: "Bank",             icon: Building },
-  { id: "plan",     label: "Your Plan",        icon: Shield },
+  { id: "bank",     label: "Bank & Autopay",   icon: Building },
   { id: "about",    label: "About Fydaa",      icon: Info },
 ];
 
@@ -19,9 +19,8 @@ const sectionContent = {
     description: "Fydaa is an automated personalised money management platform. We use low-cost, efficient investment vehicles — mainly ETFs and index funds — to help you grow wealth steadily. As a SEBI-registered entity (INA000015969), we adhere to strict guidelines to safeguard your interests.",
     groups: [
       { label: "Details", rows: [
-        ["Entity", "Multistrato Capital Advisors Pvt. Ltd."],
-        ["SEBI Registration", "INA000015969"],
-        ["ARN", "358522"],
+        ["Entity", "Fydaa Analytics Private Limited"],
+        ["AMFI registered ARN", "358522"],
       ]},
     ],
   },
@@ -32,48 +31,152 @@ function show(value, user) {
   return value || "—";
 }
 
-const includedRows = [
-  "Access to Direct Funds",
-  "Emergency Fund Setup",
-  "Disciplined SIP Strategy",
-  "Financial Health Checkup",
-  "Educational Content",
-].map((label) => [label, { value: "Included", green: true }]);
-
-function isComprehensivePlan(name) {
-  return String(name || "").trim().toLowerCase() === "comprehensive financial plan";
+function moneyInr(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n) || n <= 0) return null;
+  return `₹${Math.round(n).toLocaleString("en-IN")}`;
 }
 
-function planContent(user) {
-  const comprehensive = isComprehensivePlan(user?.packageName);
-  return {
-    title: "Your Plan",
-    groups: comprehensive ? [{ label: "What's included", rows: includedRows }] : [],
-    planCard: {
-      name: user === undefined ? "…" : user?.packageName || "Free Plan",
-      price: comprehensive ? "₹999/year · Investment Planning" : "",
-    },
-  };
-}
-
-function bankContent(user) {
+function BankAutopaySection({ user }) {
   const loading = user === undefined;
   const bank = user?.bank;
-  return {
-    title: "Bank",
-    groups: [
-      {
-        label: "Linked Bank Account",
-        rows: [
-          ["Bank", loading ? "…" : bank?.name || "—"],
-          ["Account", loading ? "…" : bank?.account || "—"],
-          ["Branch", loading ? "…" : bank?.branch || "—"],
-          ["IFSC", loading ? "…" : bank?.ifsc || "—"],
-          ["Status", loading ? "…" : bank ? { value: "Verified", green: true } : "—"],
-        ],
-      },
-    ],
-  };
+  const connected = !!bank?.name || !!bank?.account || !!bank?.ifsc;
+  const mandateActive = user?.isMfMandate === true;
+  const limit = moneyInr(user?.mandateAmount);
+  const accountLine = [
+    bank?.accountMasked || (bank?.account ? `A/C ${bank.account}` : ""),
+    bank?.branch ? bank.branch.toUpperCase() : "",
+  ]
+    .filter(Boolean)
+    .join(" · ");
+
+  return (
+    <div className="bg-white border border-border rounded-card shadow-card overflow-hidden">
+      <div className="px-5 sm:px-6 py-4 sm:py-5 border-b border-border">
+        <h3 className="text-[17px] font-bold text-ink">Bank &amp; Autopay</h3>
+      </div>
+
+      <div className="px-5 sm:px-6 py-5 sm:py-6 space-y-5">
+        {connected ? (
+          <>
+            <div
+              className="rounded-card overflow-hidden text-center"
+              style={{ background: "linear-gradient(180deg,#0C4A3E 0%,#0A3D34 100%)" }}
+            >
+              <div className="px-6 pt-8 pb-7 flex flex-col items-center">
+                <div className="relative">
+                  <div
+                    className="absolute inset-0 m-auto w-24 h-24 rounded-full opacity-30"
+                    style={{
+                      background:
+                        "radial-gradient(circle, rgba(110,231,183,0.55) 0%, transparent 70%)",
+                    }}
+                  />
+                  <div className="relative w-16 h-16 rounded-full bg-[#047857] border-[3px] border-emerald-300/80 flex items-center justify-center shadow-lg">
+                    <Check size={32} strokeWidth={3} className="text-emerald-200" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-jade mb-1.5">
+                Connected
+              </div>
+              <h4 className="text-xl sm:text-[22px] font-bold text-ink leading-snug">
+                Bank Account Connected Successfully!
+              </h4>
+            </div>
+          </>
+        ) : (
+          <div className="text-center py-2">
+            {loading ? (
+              <p className="text-sm text-muted">Loading bank details…</p>
+            ) : (
+              <>
+                <div className="text-[11px] font-bold uppercase tracking-wider text-muted mb-1.5">
+                  Not connected
+                </div>
+                <h4 className="text-xl sm:text-[22px] font-bold text-ink leading-snug">
+                  No bank account linked yet
+                </h4>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Bank card */}
+        {connected ? (
+          <div className="bg-white border border-border rounded-card px-4 py-4 flex items-start gap-3.5 shadow-sm">
+            <div className="w-11 h-11 rounded-xl bg-tint text-jade flex items-center justify-center shrink-0">
+              <Landmark size={22} strokeWidth={1.8} />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-[15px] font-bold text-ink uppercase tracking-wide">
+                {bank.name || "Bank"}
+              </div>
+              {accountLine ? (
+                <div className="text-[12px] text-muted mt-1 leading-snug">{accountLine}</div>
+              ) : null}
+              {bank.ifsc ? (
+                <div className="text-[12px] text-muted mt-0.5">IFSC: {bank.ifsc}</div>
+              ) : null}
+              <div className="mt-2.5 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tint text-jade text-[11px] font-semibold">
+                <Check size={12} strokeWidth={2.5} />
+                Verified
+              </div>
+            </div>
+          </div>
+        ) : !loading ? (
+          <div className="bg-surface border border-border rounded-card px-4 py-5 text-sm text-muted text-center">
+            Complete KYC to link your bank account for SIPs and payouts.
+          </div>
+        ) : null}
+
+        {/* Auto-pay */}
+        <div>
+          <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2.5">
+            Auto-pay
+          </div>
+          <div className="bg-white border border-border rounded-card px-4 py-4 shadow-sm">
+            <div className="flex items-center justify-between gap-3 mb-3">
+              <div className="text-[15px] font-bold text-ink">UPI Auto-pay</div>
+              <span
+                className={`text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-md ${
+                  mandateActive
+                    ? "bg-tint text-jade"
+                    : "bg-surface text-muted"
+                }`}
+              >
+                {loading ? "…" : mandateActive ? "Active" : "Inactive"}
+              </span>
+            </div>
+            <div className="space-y-2.5">
+              <div className="flex justify-between gap-3 text-[13px]">
+                <span className="text-muted">Limit per order</span>
+                <span className="font-semibold text-ink">
+                  {loading ? "…" : limit || "—"}
+                </span>
+              </div>
+              <div className="flex justify-between gap-3 text-[13px]">
+                <span className="text-muted">Method</span>
+                <span className="font-semibold text-ink">UPI AutoPay</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex gap-2.5 rounded-btn bg-tint/80 border border-jade/10 px-3.5 py-3 text-[13px] text-secondary leading-snug">
+          <span className="w-5 h-5 rounded-full bg-jade text-white text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+            i
+          </span>
+          <p>
+            Auto-pay keeps SIPs on time. You can raise the limit by re-authorising your UPI
+            mandate.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function InvestmentStyleSection() {
@@ -243,20 +346,15 @@ export default function ProfilePage({ user }) {
             ["Email", show(user?.email, user)],
             ["Phone", show(user?.phone, user)],
             ["Date of Birth", show(user?.dob, user)],
-          ]},
-          { label: "KYC", rows: [
             ["PAN", show(user?.pan, user)],
           ]},
+          // Section title only — don't repeat "Address" as a row label.
           { label: "Address", rows: [
-            ["Address", show(user?.address, user)],
+            ["", show(user?.address, user)],
           ]},
         ],
       }
-    : activeSection === "plan"
-      ? planContent(user)
-      : activeSection === "bank"
-        ? bankContent(user)
-        : sectionContent[activeSection];
+    : sectionContent[activeSection];
 
   function signOut() {
     clearTokens();
@@ -264,7 +362,7 @@ export default function ProfilePage({ user }) {
   }
 
   return (
-    <div className="px-4 sm:px-6 lg:px-10 xl:px-12 4xl:px-16 py-5 sm:py-8 max-w-[1200px] 4xl:max-w-[1600px] mx-auto w-full pb-20 lg:pb-8">
+    <div className={PAGE_SHELL}>
       <h2 className="text-lg font-semibold text-ink mb-5">Profile</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(220px,280px)_1fr] 4xl:grid-cols-[300px_1fr] gap-5">
@@ -309,6 +407,8 @@ export default function ProfilePage({ user }) {
         {/* Detail */}
         {activeSection === "risk" ? (
           <InvestmentStyleSection />
+        ) : activeSection === "bank" ? (
+          <BankAutopaySection user={user} />
         ) : (
         <div className="bg-white border border-border rounded-card shadow-card">
           <div className="px-6 py-5 border-b border-border">
@@ -321,42 +421,40 @@ export default function ProfilePage({ user }) {
               </p>
             )}
 
-            {content.planCard && (
-              <div className="bg-jade rounded-btn p-4 text-white mb-3">
-                <div className="text-[15px] font-bold">{content.planCard.name}</div>
-                {content.planCard.price ? (
-                  <div className="text-xs opacity-70 mt-0.5">{content.planCard.price}</div>
-                ) : null}
-              </div>
-            )}
-
-            {content.groups.map((group, gi) => (
-              <div key={gi}>
-                <div className={`text-[10px] font-bold text-muted uppercase tracking-wider ${gi === 0 ? "" : "mt-5"} mb-2`}>
-                  {group.label}
-                </div>
-                {group.rows.map(([label, val], ri) => {
-                  const isObj = typeof val === "object";
-                  const display = isObj ? val.value : val;
-                  const isGreen = isObj && val.green;
-                  return (
-                    <div
-                      key={ri}
-                      className="flex justify-between items-center py-3 border-b border-bg last:border-b-0"
-                    >
-                      <span className="text-[13px] text-muted font-medium">{label}</span>
-                      <span
-                        className={`text-[13px] font-semibold text-right whitespace-pre-line ${
-                          isGreen ? "text-emerald" : "text-ink"
+            <div className="space-y-6">
+              {content.groups.map((group, gi) => (
+                <div key={gi}>
+                  <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-1">
+                    {group.label}
+                  </div>
+                  {group.rows.map(([label, val], ri) => {
+                    const isObj = typeof val === "object";
+                    const display = isObj ? val.value : val;
+                    const isGreen = isObj && val.green;
+                    const hasLabel = String(label || "").trim().length > 0;
+                    return (
+                      <div
+                        key={ri}
+                        className={`flex gap-4 py-3 border-b border-bg last:border-b-0 ${
+                          hasLabel ? "justify-between items-start" : "justify-start items-start"
                         }`}
                       >
-                        {display}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
+                        {hasLabel ? (
+                          <span className="text-[13px] text-muted font-medium shrink-0">{label}</span>
+                        ) : null}
+                        <span
+                          className={`text-[13px] font-semibold whitespace-pre-line min-w-0 ${
+                            hasLabel ? "text-right" : "text-left"
+                          } ${isGreen ? "text-emerald" : "text-ink"}`}
+                        >
+                          {display}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         )}

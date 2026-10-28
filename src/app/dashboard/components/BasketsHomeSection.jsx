@@ -76,7 +76,7 @@ function CreateBasketCard({ onCreate }) {
       </span>
       <span className="text-[15px] font-bold text-ink">Create your basket</span>
       <span className="text-[12px] text-muted leading-snug max-w-[220px]">
-        Pick up to 5 funds and set your weights
+        Pick 2 to 5 funds and set your weights
       </span>
     </button>
   );
@@ -85,11 +85,12 @@ function CreateBasketCard({ onCreate }) {
 /**
  * Home Baskets strip — below AMC, above Recommended Goals / RM.
  */
-export default function BasketsHomeSection({ onViewAll, onViewBasket, onCreate }) {
+export default function BasketsHomeSection({ onViewAll, onViewBasket, onCreate, refreshKey = 0 }) {
   const [preview, setPreview] = useState(undefined);
 
   useEffect(() => {
     let cancelled = false;
+    setPreview(undefined);
     loadHomeBaskets()
       .then((payload) => {
         if (!cancelled) setPreview(payload.preview || []);
@@ -100,7 +101,7 @@ export default function BasketsHomeSection({ onViewAll, onViewBasket, onCreate }
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [refreshKey]);
 
   const baskets = preview || [];
   const showSkeleton = preview === undefined;

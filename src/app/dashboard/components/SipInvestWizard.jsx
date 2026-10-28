@@ -19,6 +19,7 @@ import {
   userFacingMessage,
   verifyConsentOtp,
 } from "../lib/sipInvestApi";
+import { WIZARD_INNER } from "../lib/layoutClasses";
 import LumpsumInvestFlow from "./LumpsumInvestFlow";
 
 function money(value) {
@@ -82,11 +83,14 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
   const [otp, setOtp] = useState("");
   const [busy, setBusy] = useState(false);
   const [monthlyDay, setMonthlyDay] = useState(10);
+  const [frequency, setFrequency] = useState(
+    () => (draft?.frequency === "daily" ? "daily" : "monthly"),
+  );
   const [progressMsg, setProgressMsg] = useState("");
   const [partialNote, setPartialNote] = useState("");
 
   const tab = tabMeta(draft?.tab);
-  const daily = draft?.frequency === "daily";
+  const daily = frequency === "daily";
   const freqLabel = daily ? "Daily SIP" : "Monthly SIP";
   const amount = Number(draft?.amount) || 0;
   const tenureYears = Number(draft?.tenureYears) || 3;
@@ -144,7 +148,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
       basketId: draft.basketId,
       amount,
       tenureYears,
-      frequency: draft.frequency,
+      frequency,
       sipName: draft.goalName || draft.basketName || tab?.label || "SIP",
       fund: draft.basketId ? null : (ownFund ? draft.fund : null),
       goalAmount,
@@ -255,22 +259,23 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
   }
 
   async function beginGoalsSetup(ready, port) {
+    const failPage = fromGoals ? "goals" : "portfolio";
     const next = nextReviewAction({ readiness: ready, consentDone: false, mandateDone: false });
     if (next.step === "kyc") {
       setError("Complete KYC in the signup flow, then return here.");
-      setPage("goals");
+      setPage(failPage);
       return;
     }
     if (next.step === "bank") {
       setError("Add your bank details in KYC, then return here.");
-      setPage("goals");
+      setPage(failPage);
       return;
     }
     setBusy(true);
     const id = await ensureSipCreated(port);
     if (!id) {
       setBusy(false);
-      setPage("goals");
+      setPage(failPage);
       return;
     }
     if (next.step === "consent") {
@@ -278,7 +283,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
       setBusy(false);
       if (!sent.ok) {
         setError(userFacingMessage(sent.message, "otp not delivered, try again later"));
-        setPage("goals");
+        setPage(failPage);
         return;
       }
       setPage("consent");
@@ -299,8 +304,10 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
     let cancelled = false;
     const goals = !!draft.fromGoals || !!draft.fromBasket;
     const showGoalsReview = goals && !!draft.openReview;
-    const startGoalsSetup = goals && (draft.startSetup || !draft.openReview);
-    setPage(goals ? (showGoalsReview ? "goals" : "loading") : "portfolio");
+    const startGoalsSetup = (goals && (draft.startSetup || !draft.openReview))
+      || (!!draft.fromOwnFund && !!draft.startSetup);
+    const enterLoading = showGoalsReview || startGoalsSetup;
+    setPage(enterLoading ? (showGoalsReview ? "goals" : "loading") : "portfolio");
     setReviewOpen(false);
     setConsentDone(false);
     setMandateDone(false);
@@ -311,6 +318,8 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
     setProgressMsg("");
     setPartialNote("");
     setMonthlyDay(Number(draft.monthlyDay) > 0 ? Number(draft.monthlyDay) : 10);
+    // Own-fund / product SIP: monthly is the default; allow switch on portfolio step.
+    setFrequency(draft.frequency === "daily" ? "daily" : draft.frequency === "lumpsum" ? "lumpsum" : "monthly");
     setBusy(false);
     setLoading(true);
     Promise.all([
@@ -459,7 +468,10 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
   ];
 
   function goBack() {
-    if (fromGoals && (page === "consent" || page === "mandate" || page === "debit" || page === "loading" || page === "goals")) {
+    if (
+      (fromGoals || draft?.fromOwnFund)
+      && (page === "consent" || page === "mandate" || page === "debit" || page === "loading" || page === "goals")
+    ) {
       onClose?.();
       return;
     }
@@ -475,7 +487,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
 
   return (
     <div className="fixed inset-0 z-[70] bg-bg flex flex-col overflow-hidden">
-      <div className="w-full max-w-[1000px] mx-auto px-6 sm:px-10 pt-5 sm:pt-6 shrink-0 flex items-center gap-3">
+      <div className={`${WIZARD_INNER} pt-4 sm:pt-6 shrink-0 flex items-center gap-3`}>
         <button
           type="button"
           onClick={goBack}
@@ -486,16 +498,20 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
         <Progress step={progressStep} />
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto">
+      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
         <div
-          className={`w-full max-w-[1000px] mx-auto px-6 sm:px-10 py-5 sm:py-8 min-h-full flex flex-col ${
+          className={`${WIZARD_INNER} py-5 sm:py-8 min-h-full flex flex-col ${
             centerStage ? "justify-center" : ""
           }`}
         >
-        {page === "loading" && fromGoals && (
+        {page === "loading" && (fromGoals || draft?.fromOwnFund) && (
           <div className="max-w-xl mx-auto w-full">
             <h1 className="text-2xl sm:text-3xl font-bold text-ink mb-1">
-              {draft?.fromBasket || draft?.basketId ? "Continuing your basket SIP" : "Continuing your goal SIP"}
+              {draft?.fromBasket || draft?.basketId
+                ? "Continuing your basket SIP"
+                : draft?.fromOwnFund
+                  ? "Continuing your SIP"
+                  : "Continuing your goal SIP"}
             </h1>
             <p className="text-sm text-muted mb-6">Preparing consent and auto-debit…</p>
             {error ? <div className="text-sm text-red-600">{error}</div> : null}
@@ -592,7 +608,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
 
                 <div className="flex-1 flex flex-col min-h-0">
                   <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Your portfolio</div>
-                  <div className="rounded-card overflow-hidden text-white shadow-card flex-1 flex flex-col" style={{ background: "linear-gradient(160deg,#0C4A3E,#047857)" }}>
+                  <div className="rounded-card overflow-hidden text-white shadow-card" style={{ background: "linear-gradient(160deg,#0C4A3E,#047857)" }}>
                     <div className="px-5 sm:px-6 pt-5 sm:pt-6 pb-3 flex items-start justify-between gap-3">
                       <div>
                         <div className="text-lg sm:text-xl font-bold">{portfolioTitle}</div>
@@ -601,15 +617,15 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
                         </div>
                       </div>
                     </div>
-                    <div className="px-5 sm:px-6 pb-3">
-                      <div className="h-1.5 rounded-full bg-white/20 overflow-hidden mb-2">
-                        <div className="h-full bg-emerald-300 rounded-full" style={{ width: "100%" }} />
+                    <div className="px-4 sm:px-5 pb-4 space-y-2.5">
+                      <div className="px-1">
+                        <div className="h-1.5 rounded-full bg-white/20 overflow-hidden mb-2">
+                          <div className="h-full bg-emerald-300 rounded-full" style={{ width: "100%" }} />
+                        </div>
+                        <div className="text-[11px] font-semibold tracking-wider text-emerald-200">
+                          {(tab?.label || "EQUITY").toUpperCase()} 100%
+                        </div>
                       </div>
-                      <div className="text-[11px] font-semibold tracking-wider text-emerald-200">
-                        {(tab?.label || "EQUITY").toUpperCase()} 100%
-                      </div>
-                    </div>
-                    <div className="px-4 sm:px-5 pb-5 space-y-2 mt-auto">
                       {loading && <div className="bg-white/10 rounded-btn px-4 py-3.5 text-sm">Loading fund…</div>}
                       {!loading && funds.map((fund) => (
                         <div key={`${fund.scheme || fund.name}`} className="bg-white/10 rounded-btn px-4 py-3.5">
@@ -803,19 +819,19 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
       </div>
 
       {reviewOpen && (
-        <div className="fixed inset-0 z-[80] bg-black/40 flex items-center justify-center p-4 sm:p-6">
+        <div className="fixed inset-0 z-[80] bg-black/40 flex items-center justify-center p-3 sm:p-5">
           <div
-            className="bg-white w-full max-w-[440px] rounded-2xl shadow-elevated overflow-hidden flex flex-col max-h-[calc(100dvh-2rem)]"
+            className="bg-white w-full max-w-[min(100%,520px)] sm:max-w-[540px] rounded-2xl shadow-elevated overflow-hidden flex flex-col"
             role="dialog"
             aria-modal="true"
             aria-labelledby="sip-review-title"
           >
-            <div className="px-5 pt-5 pb-4 flex items-start justify-between gap-3">
+            <div className="px-4 sm:px-5 pt-4 pb-3 flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <h2 id="sip-review-title" className="text-xl font-bold text-ink leading-none">
+                <h2 id="sip-review-title" className="text-lg font-bold text-ink leading-tight">
                   Review & confirm
                 </h2>
-                <p className="text-sm text-muted mt-1.5 leading-snug">
+                <p className="text-xs text-muted mt-1 leading-snug">
                   Check your SIP details before starting.
                 </p>
               </div>
@@ -832,12 +848,12 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
               </button>
             </div>
 
-            <div className="px-5 pb-1 overflow-y-auto min-h-0">
+            <div className="px-4 sm:px-5 pb-0">
               <div className="border-t border-border">
                 {(fromGoals
                   ? [
                       ["Monthly SIP", `${money(amount)}/mo`],
-                      ["Horizon", horizonLabel(draft.frequency, tenureYears)],
+                      ["Horizon", horizonLabel(frequency, tenureYears)],
                       ["Fund", funds[0]?.fullName || funds[0]?.name || draft.fund?.name || "Recommended fund"],
                       ["SIP date each month", dayOrdinal(monthlyDay)],
                       ["First debit", `${goalDates.first} · ${money(amount)}`],
@@ -845,40 +861,54 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
                     ]
                   : [
                       [freqLabel, `${money(amount)}/${daily ? "day" : "month"}`],
-                      ["Horizon", horizonLabel(draft.frequency, tenureYears)],
+                      ["Horizon", horizonLabel(frequency, tenureYears)],
                       ["Fund", funds[0]?.fullName || funds[0]?.name || draft.fund?.name || "Recommended fund"],
+                      ...(!daily ? [["SIP date each month", dayOrdinal(monthlyDay)]] : []),
                       ["First debit", `Today · ${money(amount)}`],
                     ]
-                ).map(([label, value]) => (
-                  <div
-                    key={label}
-                    className="flex items-start justify-between gap-4 py-3 border-b border-border text-sm"
-                  >
-                    <span className="text-ink shrink-0 pt-px">{label}</span>
-                    <span className="text-ink text-right leading-5 break-words min-w-0 max-w-[62%]">
-                      {value}
-                    </span>
-                  </div>
-                ))}
+                ).map(([label, value]) => {
+                  const isFund = label === "Fund" || label === "Basket";
+                  if (isFund) {
+                    return (
+                      <div key={label} className="py-2 border-b border-border text-[13px]">
+                        <div className="text-ink mb-1">{label}</div>
+                        <div className="text-ink font-medium leading-snug break-words w-full">
+                          {value}
+                        </div>
+                      </div>
+                    );
+                  }
+                  return (
+                    <div
+                      key={label}
+                      className="flex items-start justify-between gap-4 py-2 border-b border-border text-[13px]"
+                    >
+                      <span className="text-ink shrink-0 pt-px">{label}</span>
+                      <span className="text-ink text-right leading-snug break-words min-w-0 max-w-[68%]">
+                        {value}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
 
-              <div className="mt-4 border border-border rounded-xl px-4 py-3.5">
-                <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-3">
+              <div className="mt-3 border border-border rounded-xl px-3 py-2.5">
+                <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-2">
                   Setup checklist
                 </div>
-                <div className="space-y-3.5">
+                <div className="space-y-2">
                   {checklist.map((item) => (
-                    <div key={item.id} className="flex items-start gap-2.5">
+                    <div key={item.id} className="flex items-start gap-2">
                       <span
-                        className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 ${
+                        className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
                           item.done ? "bg-emerald text-white" : "bg-red-100 text-red-600"
                         }`}
                       >
                         {item.done ? "✓" : "×"}
                       </span>
                       <div className="min-w-0 flex-1">
-                        <div className="text-sm font-semibold text-ink leading-5">{item.label}</div>
-                        <div className="text-xs text-muted mt-0.5 leading-4">{item.detail}</div>
+                        <div className="text-[13px] font-semibold text-ink leading-tight">{item.label}</div>
+                        <div className="text-[11px] text-muted mt-0.5 leading-snug line-clamp-1">{item.detail}</div>
                       </div>
                     </div>
                   ))}
@@ -886,15 +916,15 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
               </div>
             </div>
 
-            <div className="px-5 pt-4 pb-5 flex flex-col gap-3">
+            <div className="px-4 sm:px-5 pt-3 pb-4 flex flex-col gap-2">
               {error ? (
-                <div className="text-sm text-red-600 leading-5 -mt-1">{error}</div>
+                <div className="text-xs text-red-600 leading-snug">{error}</div>
               ) : null}
               <button
                 type="button"
                 disabled={busy}
                 onClick={onReviewPrimary}
-                className="w-full h-12 rounded-btn bg-jade text-white text-[15px] font-semibold disabled:opacity-60"
+                className="w-full h-11 rounded-btn bg-jade text-white text-[14px] font-semibold disabled:opacity-60"
               >
                 {busy ? "Working…" : action.label}
               </button>
@@ -904,7 +934,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
                   setReviewOpen(false);
                   if (fromGoals) onClose?.();
                 }}
-                className="w-full text-sm text-ink underline underline-offset-2"
+                className="w-full text-[13px] text-ink underline underline-offset-2 py-0.5"
               >
                 {fromGoals ? "Back to edit date" : "Back"}
               </button>

@@ -71,12 +71,19 @@ export default function FundSearchOverlay({ open, onClose, prefill = "", onSelec
     const id = ++requestId.current;
     setLoading(true);
     const timer = window.setTimeout(() => {
-      searchFunds(text, chip).then((result) => {
-        if (id !== requestId.current) return;
-        setLoading(false);
-        setFunds(result.funds);
-        setError(/goal\s*id|risk\s*bucket|direct mutual fund portfolio|no .*portfolio found/i.test(String(result.message || "")) ? "" : (result.message || ""));
-      });
+      searchFunds(text, chip)
+        .then((result) => {
+          if (id !== requestId.current) return;
+          setLoading(false);
+          setFunds(result.funds);
+          setError(/goal\s*id|risk\s*bucket|direct mutual fund portfolio|no .*portfolio found/i.test(String(result.message || "")) ? "" : (result.message || ""));
+        })
+        .catch(() => {
+          if (id !== requestId.current) return;
+          setLoading(false);
+          setFunds([]);
+          setError("Unable to search funds");
+        });
     }, 300);
     return () => window.clearTimeout(timer);
   }, [query, open, chip]);
@@ -92,12 +99,19 @@ export default function FundSearchOverlay({ open, onClose, prefill = "", onSelec
     const id = ++requestId.current;
     setLoading(true);
     setHint("");
-    searchFunds(value, nextChip).then((result) => {
-      if (id !== requestId.current) return;
-      setLoading(false);
-      setFunds(result.funds);
-      setError(/goal\s*id|risk\s*bucket|direct mutual fund portfolio|no .*portfolio found/i.test(String(result.message || "")) ? "" : (result.message || ""));
-    });
+    searchFunds(value, nextChip)
+      .then((result) => {
+        if (id !== requestId.current) return;
+        setLoading(false);
+        setFunds(result.funds);
+        setError(/goal\s*id|risk\s*bucket|direct mutual fund portfolio|no .*portfolio found/i.test(String(result.message || "")) ? "" : (result.message || ""));
+      })
+      .catch(() => {
+        if (id !== requestId.current) return;
+        setLoading(false);
+        setFunds([]);
+        setError("Unable to search funds");
+      });
   }
 
   function pickFund(fund) {
@@ -118,7 +132,7 @@ export default function FundSearchOverlay({ open, onClose, prefill = "", onSelec
   const showRecent = emptyQuery && recent.length > 0 && funds.length === 0 && !loading;
 
   return (
-    <div className="fixed inset-0 z-[60] bg-bg/95 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[100] bg-bg/95 backdrop-blur-sm">
       <div className="max-w-[720px] 4xl:max-w-[900px] mx-auto px-4 sm:px-6 py-4 sm:py-6 h-full flex flex-col w-full">
         <div className="flex items-center gap-3 mb-4">
           <button

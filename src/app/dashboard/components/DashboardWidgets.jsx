@@ -208,13 +208,14 @@ export function AllocationBar({ onStart }) {
           </div>
 
           {segments.length > 0 && (
-            <div className="flex items-center gap-8 bg-surface rounded-card px-6 py-5 mb-2">
+            <div className="flex flex-col xs:flex-row xs:items-center gap-5 xs:gap-8 bg-surface rounded-card px-4 sm:px-6 py-5 mb-2">
               <Donut segments={segments} />
-              <div className="flex flex-col gap-2.5">
+              <div className="flex flex-col gap-2.5 min-w-0">
                 {segments.map((segment) => (
                   <div key={segment.key} className="flex items-center gap-2 text-[13px] text-secondary">
                     <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: segment.color }} />
-                    {segment.label} <span className="font-semibold text-ink">{segment.pct}%</span>
+                    <span className="truncate">{segment.label}</span>
+                    <span className="font-semibold text-ink shrink-0">{segment.pct}%</span>
                   </div>
                 ))}
               </div>
@@ -275,21 +276,23 @@ export function AllocationBar({ onStart }) {
 export function AMCStrip() {
   const doubled = [...amcPartners, ...amcPartners]; // seamless loop
   return (
-    <div className="bg-white border border-border rounded-card px-5 py-4 shadow-card mb-8 overflow-hidden">
+    <div className="bg-white border border-border rounded-card px-4 sm:px-5 py-4 shadow-card mb-8 overflow-hidden">
       <div className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-3">
         Invest in Funds from
       </div>
       <div className="overflow-hidden">
-        <div className="flex gap-8 animate-marquee">
+        <div className="flex gap-6 sm:gap-8 animate-marquee">
           {doubled.map((amc, i) => (
-            <div key={i} className="flex items-center gap-2 text-sm font-medium text-secondary whitespace-nowrap shrink-0">
-              <span
-                className="w-6 h-6 rounded-md flex items-center justify-center text-[11px] font-bold text-white"
-                style={{ background: amc.color }}
-              >
-                {amc.mono}
-              </span>
-              {amc.name}
+            <div
+              key={`${amc.name}-${i}`}
+              className="flex items-center gap-2 text-sm font-medium text-secondary whitespace-nowrap shrink-0"
+            >
+              <img
+                src={amc.src}
+                alt=""
+                className="w-6 h-6 sm:w-7 sm:h-7 rounded-md object-contain bg-white shrink-0"
+              />
+              <span>{amc.name}</span>
             </div>
           ))}
         </div>

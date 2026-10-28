@@ -207,22 +207,33 @@ export const journeyGoals = {
   },
 };
 
-// ─── AMC Partners ───
+// ─── AMC Partners (logos in /public/amc — same set as marketing site) ───
 export const amcPartners = [
-  { mono: "AB", color: "#1a56db", name: "Axis Bluechip" },
-  { mono: "PP", color: "#0f766e", name: "Parag Parikh" },
-  { mono: "HD", color: "#dc2626", name: "HDFC AMC" },
-  { mono: "MI", color: "#7c3aed", name: "Mirae Asset" },
-  { mono: "IC", color: "#ea580c", name: "ICICI Prudential" },
-  { mono: "SB", color: "#0284c7", name: "SBI Mutual Fund" },
-  { mono: "NI", color: "#65a30d", name: "Nippon India" },
-  { mono: "KO", color: "#c026d3", name: "Kotak AMC" },
+  { name: "Aditya Birla", src: "/amc/aditya_birla.png" },
+  { name: "Axis", src: "/amc/axis.png" },
+  { name: "Bandhan", src: "/amc/bandhan.png" },
+  { name: "Canara Robeco", src: "/amc/canara_robeco.png" },
+  { name: "DSP", src: "/amc/dsp.png" },
+  { name: "Edelweiss", src: "/amc/edelweiss.png" },
+  { name: "Franklin Templeton", src: "/amc/franklin.png" },
+  { name: "HDFC", src: "/amc/hdfc.png" },
+  { name: "ICICI", src: "/amc/icici.png" },
+  { name: "Kotak", src: "/amc/kotak.png" },
+  { name: "Mirae", src: "/amc/mirae.png" },
+  { name: "Motilal Oswal", src: "/amc/motilal.png" },
+  { name: "Nippon India", src: "/amc/nippon.png" },
+  { name: "Parag Parikh", src: "/amc/parag_parikh.png" },
+  { name: "quant", src: "/amc/quant.png" },
+  { name: "SBI", src: "/amc/sbi.png" },
+  { name: "TATA", src: "/amc/tata.png" },
+  { name: "UTI", src: "/amc/uti.png" },
 ];
 
 // ─── Navigation ───
 export const navItems = [
   { id: "home",    label: "Home",    icon: "home" },
-  { id: "dreams",  label: "Dreams",  icon: "target" },
+  { id: "dreams",  label: "Portfolio",  icon: "target" },
+  { id: "goals",   label: "Goals",   icon: "flag" },
   { id: "history", label: "History", icon: "clock" },
   { id: "profile", label: "Profile", icon: "user" },
 ];

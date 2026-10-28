@@ -1,5 +1,5 @@
 import { endSession, getAccessToken } from "../../signup/lib/authApi";
-import { STOCK_BASE } from "../../signup/lib/apiHosts";
+import { getStockBase } from "../../signup/lib/apiHosts";
 
 const RECENT_KEY = "fydaa-fund-recent-searches";
 const CHIPS = [
@@ -14,12 +14,17 @@ export { CHIPS };
 async function stockGet(path) {
   const token = getAccessToken();
   if (!token) return { ok: false, message: "Unable to search funds" };
-  const res = await fetch(`${STOCK_BASE}${path}`, {
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  let res;
+  try {
+    res = await fetch(`${getStockBase()}${path}`, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch {
+    return { ok: false, message: "Unable to reach fund search. Try again." };
+  }
   if (res.status === 401) {
     endSession();
     return { ok: false, message: "Unable to search funds" };
@@ -53,6 +58,15 @@ function firstString(row, keys) {
   return "";
 }
 
+/** First positive finite money value from API fields (else null). */
+function positiveMoney(...candidates) {
+  for (const value of candidates) {
+    const n = Number(value);
+    if (Number.isFinite(n) && n > 0) return n;
+  }
+  return null;
+}
+
 export async function loadSearchTypes() {
   try {
     const result = await stockGet("mutualFund/search/types");
@@ -80,8 +94,8 @@ function mapFinprim(row) {
     localMfId: row.localMfId ?? row.id ?? null,
     purchaseAllowed: row.purchase_allowed !== false,
     sipAllowed: row.sip_allowed !== false,
-    minInitial: row.min_initial_investment,
-    minSip: row.min_sip_amount,
+    minInitial: positiveMoney(row.min_initial_investment, row.minInitialInvestment),
+    minSip: positiveMoney(row.min_sip_amount, row.minSipAmount),
     raw: row,
   };
 }
@@ -100,8 +114,8 @@ function mapCategory(row, chipLabel) {
     localMfId: row.localMfId ?? row.id ?? null,
     purchaseAllowed: row.purchase_allowed !== false,
     sipAllowed: row.sip_allowed !== false,
-    minInitial: row.min_initial_investment,
-    minSip: row.min_sip_amount,
+    minInitial: positiveMoney(row.min_initial_investment, row.minInitialInvestment),
+    minSip: positiveMoney(row.min_sip_amount, row.minSipAmount),
     raw: row,
   };
 }

@@ -113,20 +113,10 @@
   z-index: 2;
 }
 
-.site-nav .nav-login {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--ink);
-  padding: 8px 18px;
-  border-radius: 10px;
-  transition: background 0.2s;
-}
-
-.site-nav .nav-login:hover {
-  background: var(--surface);
-}
-
-.site-nav .nav-signup {
+.site-nav .nav-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.875rem;
   font-weight: 600;
   color: #fff;
@@ -136,7 +126,7 @@
   transition: all 0.2s;
 }
 
-.site-nav .nav-signup:hover {
+.site-nav .nav-download:hover {
   background: var(--g-dark);
 }
 

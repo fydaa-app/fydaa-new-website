@@ -496,7 +496,7 @@ export async function completeFirstDebitWithMandate({ sipId, userIp, orders }) {
 function firstDebitPartialNote(data) {
   const failed = firstList(data, ["failed", "failedOrders", "failures", "errors"]);
   if (failed.length) {
-    return "Some funds could not be purchased. Your SIP may be partially active — check History or Dreams.";
+    return "Some funds could not be purchased. Your SIP may be partially active — check History or Portfolio.";
   }
   return "";
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Check, X } from "lucide-react";
+import { ArrowLeft, Check, Landmark, QrCode, X } from "lucide-react";
 import {
   loadPortfolioForSip,
   sendConsentOtp,
@@ -15,6 +15,7 @@ import {
   runLumpsumPayment,
   selectInvestmentModel,
 } from "../lib/lumpsumApi";
+import { WIZARD_INNER } from "../lib/layoutClasses";
 
 function money(value) {
   const n = Number(value);
@@ -69,8 +70,23 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone }) {
 
   const tab = tabMeta(draft?.tab);
   const amount = Math.round(Number(editAmount || draft?.amount) || 0);
-  const ownFund = draft?.fundMode === "own";
-  const portfolioTitle = draft?.goalName || (tab?.label === "Equity" ? "Equities" : tab?.label);
+  const basketId = Number(draft?.basketId) > 0 ? Number(draft.basketId) : null;
+  const fromBasket = !!basketId || !!draft?.fromBasket;
+  const fundMinLump = (() => {
+    const n = Number(draft?.fund?.minInitial);
+    return Number.isFinite(n) && n > 0 ? n : null;
+  })();
+  const basketFloor = Math.max(
+    1000,
+    Number(draft?.minInvestment) > 0 ? Number(draft.minInvestment) : 0,
+    Number(draft?.investAmount) > 0 ? Number(draft.investAmount) : 0,
+  );
+  const minLumpsum = fromBasket
+    ? basketFloor
+    : Math.max(5000, fundMinLump || 0);
+  const amountLocked = fromBasket && Number(draft?.investAmount) > 0;
+  const ownFund = draft?.fundMode === "own" && !fromBasket;
+  const portfolioTitle = draft?.basketName || draft?.goalName || (tab?.label === "Equity" ? "Equities" : tab?.label);
 
   const funds = portfolio?.funds?.length
     ? portfolio.funds
@@ -78,7 +94,7 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone }) {
       ? [{ name: draft.fund.name, fullName: draft.fund.fullName || draft.fund.name, weight: 100, cagr: null, risk: null }]
       : [{ name: "Recommended fund", fullName: "Recommended fund", weight: 100 }];
 
-  const conflict = fundPlanConflict(draft?.fund || funds[0], readiness?.model);
+  const conflict = fromBasket ? null : fundPlanConflict(draft?.fund || funds[0], readiness?.model);
   const action = useMemo(
     () => nextLumpsumAction({ readiness, consentDone }),
     [readiness, consentDone],
@@ -100,14 +116,26 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone }) {
     setConsentDone(false);
     setOtp("");
     setPaymentMethod("UPI");
-    setEditAmount(String(Math.round(Number(draft.amount) || 0)));
+    const seed = Math.round(Number(draft.amount) || 0);
+    const isBasket = Number(draft.basketId) > 0;
+    const floor = isBasket
+      ? Math.max(
+        1000,
+        Number(draft.minInvestment) > 0 ? Number(draft.minInvestment) : 0,
+        Number(draft.investAmount) > 0 ? Number(draft.investAmount) : 0,
+      )
+      : Math.max(5000, Number(draft.fund?.minInitial) > 0 ? Number(draft.fund.minInitial) : 0);
+    setEditAmount(String(Math.max(seed, floor)));
     setFailReason("");
     setProgressMsg("");
 
     let cancelled = false;
     (async () => {
       setLoading(true);
-      if (!ownFund && draft.goalId) {
+      if (isBasket) {
+        const port = await loadPortfolioForSip(null, null, draft.basketId);
+        if (!cancelled) setPortfolio(port);
+      } else if (!ownFund && draft.goalId) {
         const port = await loadPortfolioForSip(draft.goalId, null);
         if (!cancelled) setPortfolio(port);
       } else if (!cancelled) {
@@ -130,8 +158,12 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone }) {
 
   async function openReadiness() {
     setError("");
-    if (amount < 1) {
-      setError("Enter a valid amount");
+    if (amount < minLumpsum) {
+      setError(
+        fromBasket
+          ? `Minimum for this basket is ₹${minLumpsum.toLocaleString("en-IN")}`
+          : `Minimum lumpsum for this fund is ₹${minLumpsum.toLocaleString("en-IN")}`,
+      );
       return;
     }
     setBusy(true);
@@ -210,6 +242,7 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone }) {
       fund: draft.fund,
       fundMode: draft.fundMode,
       paymentMethod,
+      basketId: draft.basketId,
       onProgress: (msg) => setProgressMsg(msg || "Preparing payment…"),
     });
     setBusy(false);
@@ -247,9 +280,9 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone }) {
 
   return (
     <div className="fixed inset-0 z-[70] bg-bg flex flex-col overflow-hidden">
-      <div className="flex-1 min-h-0 overflow-y-auto">
+      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
         <div
-          className={`w-full max-w-[1000px] mx-auto px-6 sm:px-10 py-5 sm:py-8 min-h-full flex flex-col ${
+          className={`${WIZARD_INNER} py-5 sm:py-8 min-h-full flex flex-col ${
             centerStage ? "justify-center" : ""
           }`}
         >
@@ -290,12 +323,10 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone }) {
                     {(tab?.label || "EQUITY").toUpperCase()} 100%
                   </div>
                 </div>
-                <div className="px-5 sm:px-6 pb-2">
-                  <div className="h-1.5 rounded-full bg-white/20 overflow-hidden">
+                <div className="px-4 sm:px-5 pb-4 pt-1 space-y-2.5">
+                  <div className="h-1.5 rounded-full bg-white/20 overflow-hidden mx-1 sm:mx-1">
                     <div className="h-full bg-emerald-300 rounded-full" style={{ width: "100%" }} />
                   </div>
-                </div>
-                <div className="px-4 sm:px-5 pb-4 space-y-2">
                   {loading && <div className="bg-white/10 rounded-btn px-4 py-3.5 text-sm">Loading fund…</div>}
                   {!loading && funds.map((fund) => (
                     <div key={`${fund.scheme || fund.name}`} className="bg-white/10 rounded-btn px-4 py-3.5">
@@ -323,32 +354,56 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone }) {
                         type="text"
                         inputMode="numeric"
                         value={editAmount}
+                        disabled={amountLocked}
                         onChange={(event) => setEditAmount(event.target.value.replace(/\D/g, ""))}
-                        className="flex-1 outline-none text-lg font-bold text-ink bg-transparent p-0 m-0 border-0"
+                        className="flex-1 outline-none text-lg font-bold text-ink bg-transparent p-0 m-0 border-0 disabled:opacity-70"
                       />
                     </div>
+                    <p className="text-xs text-muted mt-1.5">
+                      {amountLocked
+                        ? "Amount is set on this basket."
+                        : fromBasket
+                          ? `Minimum ₹${minLumpsum.toLocaleString("en-IN")}`
+                          : fundMinLump
+                            ? `Minimum for this fund ₹${minLumpsum.toLocaleString("en-IN")}`
+                            : `Minimum ₹${minLumpsum.toLocaleString("en-IN")}`}
+                    </p>
                   </div>
                   <div>
                     <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Pay with</div>
                     <div className="grid grid-cols-2 gap-2">
                       {[
-                        { id: "UPI", title: "UPI", detail: "Any UPI app" },
-                        { id: "NETBANKING", title: "Netbanking", detail: "Your bank login" },
-                      ].map((method) => (
-                        <button
-                          key={method.id}
-                          type="button"
-                          onClick={() => setPaymentMethod(method.id)}
-                          className={`text-left rounded-btn border px-3 py-2.5 ${
-                            paymentMethod === method.id
-                              ? "border-jade bg-tint"
-                              : "border-border bg-white hover:border-jade"
-                          }`}
-                        >
-                          <div className="text-sm font-semibold text-ink">{method.title}</div>
-                          <div className="text-[11px] text-muted mt-0.5">{method.detail}</div>
-                        </button>
-                      ))}
+                        { id: "UPI", title: "UPI", detail: "Any UPI app", Icon: QrCode },
+                        { id: "NETBANKING", title: "Netbanking", detail: "Your bank login", Icon: Landmark },
+                      ].map((method) => {
+                        const selected = paymentMethod === method.id;
+                        const Icon = method.Icon;
+                        return (
+                          <button
+                            key={method.id}
+                            type="button"
+                            onClick={() => setPaymentMethod(method.id)}
+                            className={`relative text-left rounded-btn border px-3 py-2.5 ${
+                              selected
+                                ? "border-jade bg-tint"
+                                : "border-border bg-white hover:border-jade"
+                            }`}
+                          >
+                            {selected ? (
+                              <span className="absolute top-2 right-2 w-4 h-4 rounded-full bg-jade text-white flex items-center justify-center">
+                                <Check size={10} strokeWidth={3} />
+                              </span>
+                            ) : null}
+                            <div className="flex items-start gap-2.5 pr-4">
+                              <Icon size={20} strokeWidth={1.8} className="text-ink shrink-0 mt-0.5" />
+                              <span className="min-w-0">
+                                <span className="block text-sm font-semibold text-ink leading-tight">{method.title}</span>
+                                <span className="block text-[11px] text-muted mt-0.5 leading-snug">{method.detail}</span>
+                              </span>
+                            </div>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>

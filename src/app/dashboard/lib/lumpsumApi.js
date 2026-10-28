@@ -165,15 +165,20 @@ export async function canCreateLumpsum({ goalId, fund }) {
   };
 }
 
-export async function createLumpsum({ amount, goalId, portfolioId, fund }) {
+export async function createLumpsum({ amount, goalId, portfolioId, fund, basketId }) {
   const body = {
     investedAmount: Math.round(Number(amount) || 0),
-    goalId: Number(goalId),
     investmentDate: todayYmd(),
   };
-  if (portfolioId != null && Number(portfolioId) > 0) body.portfolioId = Number(portfolioId);
-  if (fund?.id && Number(fund.id) > 0) body.selectedMfId = Number(fund.id);
-  if (fund?.scheme) body.selectedScheme = String(fund.scheme);
+  const basket = Number(basketId);
+  if (Number.isFinite(basket) && basket > 0) {
+    body.basketId = basket;
+  } else {
+    body.goalId = Number(goalId);
+    if (portfolioId != null && Number(portfolioId) > 0) body.portfolioId = Number(portfolioId);
+    if (fund?.id && Number(fund.id) > 0) body.selectedMfId = Number(fund.id);
+    if (fund?.scheme) body.selectedScheme = String(fund.scheme);
+  }
   const result = await authed(STOCK_BASE, "mutualFund/lumpsum/create", { method: "POST", body });
   if (!result.ok) return result;
   const raw = result.data?.data && typeof result.data.data === "object"
@@ -302,28 +307,44 @@ export async function runLumpsumPayment({
   fundMode,
   paymentMethod,
   onProgress,
+  basketId,
 }) {
   const ownFund = fundMode === "own";
-  onProgress?.("Checking existing investment…");
-  const can = await canCreateLumpsum({ goalId, fund: ownFund ? fund : null });
-  if (!can.ok) return can;
+  const basket = Number(basketId);
+  const isBasket = Number.isFinite(basket) && basket > 0;
 
-  let lumpsumId = can.existingLumpsum?.id;
-  let portfolioId = can.existingLumpsum?.portfolioId ?? null;
+  let lumpsumId = null;
+  let portfolioId = null;
 
-  if (can.action === "create") {
+  if (isBasket) {
+    // Basket path skips can-create; create with basketId only.
     onProgress?.("Creating investment…");
-    const port = ownFund ? null : await loadPortfolioForSip(goalId, null);
-    portfolioId = port?.portfolioId ?? null;
-    const created = await createLumpsum({
-      amount,
-      goalId,
-      portfolioId: ownFund ? null : portfolioId,
-      fund: ownFund ? fund : null,
-    });
+    const created = await createLumpsum({ amount, basketId: basket });
     if (!created.ok) return created;
     lumpsumId = created.lumpsumId;
-    if (!ownFund) portfolioId = created.portfolioId ?? portfolioId;
+    portfolioId = created.portfolioId ?? null;
+  } else {
+    onProgress?.("Checking existing investment…");
+    const can = await canCreateLumpsum({ goalId, fund: ownFund ? fund : null });
+    if (!can.ok) return can;
+
+    lumpsumId = can.existingLumpsum?.id;
+    portfolioId = can.existingLumpsum?.portfolioId ?? null;
+
+    if (can.action === "create") {
+      onProgress?.("Creating investment…");
+      const port = ownFund ? null : await loadPortfolioForSip(goalId, null);
+      portfolioId = port?.portfolioId ?? null;
+      const created = await createLumpsum({
+        amount,
+        goalId,
+        portfolioId: ownFund ? null : portfolioId,
+        fund: ownFund ? fund : null,
+      });
+      if (!created.ok) return created;
+      lumpsumId = created.lumpsumId;
+      if (!ownFund) portfolioId = created.portfolioId ?? portfolioId;
+    }
   }
 
   onProgress?.("Updating your investment profile…");
@@ -335,9 +356,9 @@ export async function runLumpsumPayment({
     lumpsumId,
     amount,
     paymentMethod,
-    portfolioId: ownFund ? null : portfolioId,
-    fund,
-    ownFund,
+    portfolioId: ownFund && !isBasket ? null : portfolioId,
+    fund: isBasket ? null : fund,
+    ownFund: isBasket ? false : ownFund,
   });
   if (!complete.ok) return complete;
 
@@ -345,7 +366,8 @@ export async function runLumpsumPayment({
     paymentId: complete.paymentId,
     lumpsumId,
     amount,
-    goalId,
+    goalId: isBasket ? null : goalId,
+    basketId: isBasket ? basket : null,
   });
 
   return {

@@ -16,25 +16,18 @@ export default function Hero() {
               with everything you need to build, manage and grow your money over time.
             </p>
             <div className="hero-ctas">
-              <a
-                href="#book-a-call"
-                className="btn-invest"
-              >
-                Book a Free Call
-              </a>
-              <a
-                href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
-                className="btn-download"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-                Download App
-              </a>
+              <div className="hero-cta">
+                <span className="hero-cta-label">New users</span>
+                <a href="/signup" className="btn-invest">
+                  Start Investing
+                </a>
+              </div>
+              <div className="hero-cta">
+                <span className="hero-cta-label">Existing user</span>
+                <a href="/login" className="btn-download">
+                  Login
+                </a>
+              </div>
             </div>
             <div className="hero-trust">
               <span className="hero-trust-item">

@@ -1,10 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import { goalCategories } from "../data/constants";
 import { jadeGradient } from "../lib/tokens";
 import { loadJourney, loadSipStatus, mapJourney, remainingInstallments } from "../lib/dreamsApi";
-import GoalSipFlow from "../components/GoalSipFlow";
-import SipInvestWizard from "../components/SipInvestWizard";
-import { Plus, ArrowUp, Pause, X } from "lucide-react";
+import SipOptionsSheet from "../components/SipOptionsSheet";
+import AddMoneySheet from "../components/AddMoneySheet";
+import WithdrawSheet from "../components/WithdrawSheet";
+import { pendingWithdrawalCovers } from "../lib/investmentDetailApi";
+import { Plus, ArrowUp, MoreHorizontal, X } from "lucide-react";
+
+const PAGE_SHELL_FULL =
+  "px-4 sm:px-6 lg:px-10 xl:px-12 4xl:px-16 py-5 sm:py-8 w-full max-w-none mx-auto min-w-0 pb-[max(5rem,env(safe-area-inset-bottom))] lg:pb-8";
 
 const TABS = [
   { id: "ACTIVE", label: "Active" },
@@ -90,12 +94,72 @@ function JourneyCard({ id, goal, isActive, onClick, compact: isCompact }) {
 }
 
 // ─── Goal Detail Panel ───
-function GoalDetail({ goal, onClose }) {
+function GoalDetail({ goal, onClose, onRefresh }) {
+  const [optionsOpen, setOptionsOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
+  const [withdrawOpen, setWithdrawOpen] = useState(false);
+  const [forceCompleteWithdraw, setForceCompleteWithdraw] = useState(false);
   if (!goal) return null;
   const circ = 238.8;
+  const cancelled = String(goal.tab || goal.badge || "").toUpperCase().includes("CANCEL");
+  const available = Number(goal.remainingAmount ?? goal.current) || 0;
+  const pendingAmt = Number(goal.pendingWithdrawalAmount) || 0;
+  const withdrawBlocked = pendingWithdrawalCovers(available, pendingAmt) || available <= 1;
+  const showAdd = !cancelled && !!goal.sipId;
+  const showOptions = !cancelled && !!goal.sipId;
+  const showWithdraw = !!goal.sipId && (!withdrawBlocked || pendingAmt > 0);
+
+  function refreshAndCloseSheets() {
+    onRefresh?.();
+  }
+
   return (
     <div className="bg-white border border-border rounded-card shadow-card overflow-visible relative">
+      <SipOptionsSheet
+        open={optionsOpen}
+        forLabel={goal.forLabel || goal.name}
+        sipId={goal.sipId}
+        frequency={goal.frequency}
+        currentAmount={goal.monthly}
+        currentValue={available}
+        onClose={() => setOptionsOpen(false)}
+        onNeedWithdrawFirst={() => {
+          setOptionsOpen(false);
+          setForceCompleteWithdraw(true);
+          setWithdrawOpen(true);
+        }}
+        onModified={() => refreshAndCloseSheets()}
+        onCancelled={() => {
+          refreshAndCloseSheets();
+          onClose?.();
+        }}
+      />
+      <AddMoneySheet
+        open={addOpen}
+        goalName={goal.name}
+        currentValue={goal.current}
+        sipId={goal.sipId}
+        portfolioId={goal.portfolioId}
+        investmentTerm={goal.investmentTerm}
+        onClose={() => setAddOpen(false)}
+        onDone={refreshAndCloseSheets}
+      />
+      <WithdrawSheet
+        open={withdrawOpen}
+        goalName={goal.name}
+        available={available}
+        totalWithdrawn={goal.totalWithdrawn}
+        sipId={goal.sipId}
+        portfolioId={goal.portfolioId}
+        forceComplete={forceCompleteWithdraw}
+        onClose={() => {
+          setWithdrawOpen(false);
+          setForceCompleteWithdraw(false);
+        }}
+        onDone={refreshAndCloseSheets}
+      />
       <button
+        type="button"
         onClick={onClose}
         className="absolute top-3 right-[-52px] w-9 h-9 rounded-full bg-white border border-border text-ink flex items-center justify-center shadow-elevated hover:bg-surface transition-all z-10"
       >
@@ -130,7 +194,10 @@ function GoalDetail({ goal, onClose }) {
             {[
               { k: "Invested", v: money(goal.invested) },
               { k: "Current", v: money(goal.current) },
-              { k: "Monthly", v: money(goal.monthly) },
+              {
+                k: String(goal.frequency || "").toLowerCase() === "daily" ? "Daily" : "Monthly",
+                v: money(goal.monthly),
+              },
               { k: "Duration", v: goal.duration || "—" },
             ].map((s) => (
               <div key={s.k} className="px-3 py-2 rounded-lg bg-white/7">
@@ -143,16 +210,43 @@ function GoalDetail({ goal, onClose }) {
       </div>
       {/* Body */}
       <div className="p-5">
+        {pendingAmt > 0 ? (
+          <div className="mb-4 text-[13px] font-medium text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-btn px-3.5 py-2.5">
+            Withdrawal in process · {money(pendingAmt)}
+          </div>
+        ) : null}
         <div className="flex gap-2 mb-5">
-          <button className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-btn bg-jade text-white text-[13px] font-semibold hover:bg-jade-hover transition-colors">
-            <Plus size={14} /> Add
-          </button>
-          <button className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-btn border border-border bg-white text-ink text-[13px] font-semibold hover:bg-surface transition-colors">
-            <ArrowUp size={14} /> Withdraw
-          </button>
-          <button className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-btn border border-border bg-white text-ink text-[13px] font-semibold hover:bg-surface transition-colors">
-            <Pause size={14} /> Pause
-          </button>
+          {showAdd ? (
+            <button
+              type="button"
+              onClick={() => setAddOpen(true)}
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-btn bg-jade text-white text-[13px] font-semibold hover:bg-jade-hover transition-colors"
+            >
+              <Plus size={14} /> Add
+            </button>
+          ) : null}
+          {showWithdraw ? (
+            <button
+              type="button"
+              disabled={withdrawBlocked}
+              onClick={() => {
+                setForceCompleteWithdraw(false);
+                setWithdrawOpen(true);
+              }}
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-btn border border-border bg-white text-ink text-[13px] font-semibold hover:bg-surface transition-colors disabled:opacity-45 disabled:hover:bg-white"
+            >
+              <ArrowUp size={14} /> Withdraw
+            </button>
+          ) : null}
+          {showOptions ? (
+            <button
+              type="button"
+              onClick={() => setOptionsOpen(true)}
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-btn border border-border bg-white text-ink text-[13px] font-semibold hover:bg-surface transition-colors"
+            >
+              <MoreHorizontal size={14} /> Options
+            </button>
+          ) : null}
         </div>
 
         {/* Progress */}
@@ -194,13 +288,12 @@ function GoalDetail({ goal, onClose }) {
 }
 
 // ─── Main Dreams Page ───
-export default function DreamsPage({ setActivePage, pendingGoalSip, clearPendingGoalSip }) {
+export default function DreamsPage() {
   const [activeGoalId, setActiveGoalId] = useState(null);
-  const [flowGoal, setFlowGoal] = useState(null); // { name, years, cagr, badge, sub }
-  const [investDraft, setInvestDraft] = useState(null);
   const [tab, setTab] = useState("ACTIVE");
   const [cards, setCards] = useState(undefined);
   const [remaining, setRemaining] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -214,13 +307,7 @@ export default function DreamsPage({ setActivePage, pendingGoalSip, clearPending
     return () => {
       cancelled = true;
     };
-  }, []);
-
-  useEffect(() => {
-    if (!pendingGoalSip?.name) return;
-    setFlowGoal(pendingGoalSip);
-    clearPendingGoalSip?.();
-  }, [pendingGoalSip, clearPendingGoalSip]);
+  }, [refreshKey]);
 
   const visible = useMemo(
     () => (cards || []).filter((card) => card.tab === tab),
@@ -228,7 +315,6 @@ export default function DreamsPage({ setActivePage, pendingGoalSip, clearPending
   );
   const selected = visible.find((card) => card.id === activeGoalId) || null;
   const hasDetail = !!selected;
-  const inFlow = !!flowGoal && !investDraft;
 
   useEffect(() => {
     if (!selected?.sipId) {
@@ -248,45 +334,9 @@ export default function DreamsPage({ setActivePage, pendingGoalSip, clearPending
     };
   }, [selected?.sipId]);
 
-  const startGoalFlow = (goal, badge) => {
-    setFlowGoal({
-      name: goal.name,
-      years: goal.years,
-      cagr: goal.cagr,
-      sub: goal.sub,
-      badge,
-    });
-  };
-
-  if (inFlow) {
-    return (
-      <GoalSipFlow
-        goal={flowGoal}
-        onBack={() => setFlowGoal(null)}
-        onContinue={(draft) => setInvestDraft(draft)}
-      />
-    );
-  }
-
-  if (investDraft) {
-    return (
-      <SipInvestWizard
-        open
-        draft={investDraft}
-        onClose={() => setInvestDraft(null)}
-        onDone={() => {
-          setInvestDraft(null);
-          setFlowGoal(null);
-          setActivePage?.("home");
-        }}
-      />
-    );
-  }
-
   return (
-    <div className="px-4 sm:px-6 lg:px-10 xl:px-12 4xl:px-16 py-5 sm:py-8 max-w-[1000px] 4xl:max-w-[1400px] mx-auto w-full pb-20 lg:pb-8">
-      {/* Journey */}
-      <h2 className="text-lg font-semibold text-ink mb-4">Journey</h2>
+    <div className={PAGE_SHELL_FULL}>
+      <h2 className="text-lg font-semibold text-ink mb-4">Portfolio</h2>
       <div className="flex gap-1 bg-surface rounded-btn p-0.5 w-full sm:w-fit mb-4 overflow-x-auto">
         {TABS.map((item) => {
           const count = cards ? cards.filter((card) => card.tab === item.id).length : null;
@@ -305,7 +355,7 @@ export default function DreamsPage({ setActivePage, pendingGoalSip, clearPending
       </div>
 
       <div className={`flex flex-col ${hasDetail ? "lg:flex-row" : ""} gap-5 items-stretch lg:items-start`}>
-        <div className={`flex flex-col gap-3 transition-all min-w-0 ${hasDetail ? "lg:w-[380px] lg:shrink-0" : "flex-1"}`}>
+        <div className={`flex flex-col gap-3 transition-all min-w-0 ${hasDetail ? "lg:w-[min(100%,420px)] xl:w-[440px] lg:shrink-0" : "flex-1 w-full"}`}>
           {cards === undefined && <div className="text-sm text-muted py-6">Loading goals…</div>}
           {cards && visible.length === 0 && <div className="text-sm text-muted py-6">No goals in this tab</div>}
           {visible.map((goal) => (
@@ -324,50 +374,11 @@ export default function DreamsPage({ setActivePage, pendingGoalSip, clearPending
             <GoalDetail
               goal={{ ...selected, remaining }}
               onClose={() => setActiveGoalId(null)}
+              onRefresh={() => setRefreshKey((value) => value + 1)}
             />
           </div>
         )}
       </div>
-
-      {/* Recommended Goals */}
-      <h2 className="text-lg font-semibold text-ink mt-10 mb-1">Recommended Goals</h2>
-      <p className="text-sm text-secondary mb-6">Choose a goal and start planning today</p>
-
-      {goalCategories.map((cat) => (
-        <div key={cat.label} className="mb-7">
-          <div className="flex items-center justify-between gap-2 mb-3">
-            <span className="text-[11px] font-bold text-tertiary uppercase tracking-wider">{cat.label}</span>
-            <span className="text-[10px] font-semibold text-jade bg-tint px-2.5 py-1 rounded-md shrink-0">{cat.badge}</span>
-          </div>
-          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 4xl:grid-cols-4 gap-2.5">
-            {cat.goals.map((g) => (
-              <button
-                key={g.name}
-                type="button"
-                onClick={() => startGoalFlow(g, cat.badge)}
-                className="flex items-center gap-3 px-4 py-3.5 bg-white border border-border rounded-card shadow-card hover:shadow-elevated hover:border-border-mid hover:-translate-y-px transition-all text-left"
-              >
-                <div className="w-[42px] h-[42px] rounded-[11px] bg-tint flex items-center justify-center shrink-0 overflow-hidden">
-                  {g.icon ? (
-                    <img src={g.icon} alt="" className="w-7 h-7 object-contain" />
-                  ) : (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C4A3E" strokeWidth="1.5">
-                      <circle cx="12" cy="12" r="9" />
-                    </svg>
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-[13px] font-semibold text-ink">{g.name}</div>
-                  <div className="text-[10px] text-muted mt-0.5">{g.sub}</div>
-                </div>
-                <svg width="14" height="14" fill="none" stroke="#D4D4D4" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </button>
-            ))}
-          </div>
-        </div>
-      ))}
     </div>
   );
 }

@@ -5,11 +5,22 @@ import { Calendar, Banknote, ChevronRight, X } from "lucide-react";
 /**
  * Bottom sheet: Start SIP vs One-time Lump-sum (same choice as mobile after fund / goal pick).
  */
-export default function InvestModeSheet({ open, title, subtitle, onClose, onPickSip, onPickLumpsum }) {
+export default function InvestModeSheet({
+  open,
+  title,
+  subtitle,
+  sipDetail,
+  lumpDetail,
+  onClose,
+  onPickSip,
+  onPickLumpsum,
+}) {
   if (!open) return null;
 
   const name = title || "Invest";
   const sub = subtitle || "Start with a SIP or invest a one-time amount";
+  const sipSub = sipDetail || "Set daily or monthly amount next.";
+  const lumpSub = lumpDetail || "Invest a single amount today.";
 
   return (
     <div className="fixed inset-0 z-[90] flex items-end sm:items-center justify-center">
@@ -56,9 +67,7 @@ export default function InvestModeSheet({ open, title, subtitle, onClose, onPick
             </span>
             <span className="flex-1 min-w-0">
               <span className="block text-[15px] font-semibold text-ink">Start SIP</span>
-              <span className="block text-xs text-muted mt-0.5 leading-snug">
-                Invest daily or monthly towards your goal.
-              </span>
+              <span className="block text-xs text-muted mt-0.5 leading-snug">{sipSub}</span>
             </span>
             <ChevronRight size={18} className="text-muted shrink-0" />
           </button>
@@ -73,9 +82,7 @@ export default function InvestModeSheet({ open, title, subtitle, onClose, onPick
             </span>
             <span className="flex-1 min-w-0">
               <span className="block text-[15px] font-semibold text-ink">One-time Lump-sum</span>
-              <span className="block text-xs text-muted mt-0.5 leading-snug">
-                Invest a single amount today.
-              </span>
+              <span className="block text-xs text-muted mt-0.5 leading-snug">{lumpSub}</span>
             </span>
             <ChevronRight size={18} className="text-muted shrink-0" />
           </button>

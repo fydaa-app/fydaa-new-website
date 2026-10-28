@@ -55,12 +55,20 @@ export default function Navbar() {
           </div>
 
           <div className="nav-right">
-            <Link href="/login" className="nav-login" onClick={() => setOpen(false)}>
-              Log in
-            </Link>
-            <Link href="/signup" className="nav-signup" onClick={() => setOpen(false)}>
-              Sign up
-            </Link>
+            <a
+              href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
+              className="nav-download"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download App
+            </a>
           </div>
 
           <button

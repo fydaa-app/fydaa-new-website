@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Clock, ArrowDown, ArrowUp, TrendingUp } from "lucide-react";
 import { endSession, getAccessToken } from "../../signup/lib/authApi";
 import { STOCK_BASE } from "../../signup/lib/apiHosts";
+import { PAGE_SHELL } from "../lib/layoutClasses";
 
 const FILTERS = [
   { id: "All", dot: "" },
@@ -325,7 +326,7 @@ export default function HistoryPage() {
   const atCurrentMonth = isAtOrPastCurrentMonth(cursor);
 
   return (
-    <div className="px-4 sm:px-6 lg:px-10 xl:px-12 4xl:px-16 py-5 sm:py-8 max-w-[1200px] 4xl:max-w-[1600px] mx-auto w-full pb-20 lg:pb-8">
+    <div className={PAGE_SHELL}>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
         <div>
           <h2 className="text-lg font-semibold text-ink">Activity</h2>
@@ -405,7 +406,7 @@ export default function HistoryPage() {
         <div key={group.label}>
           <div className="text-xs font-medium text-muted mt-4 mb-2">{group.label}</div>
           {group.items.map((tx, index) => {
-            const txKey = String(tx.orderId || tx.id || `${group.label}-${index}`);
+            const txKey = `${tx.orderId || tx.id || "tx"}-${group.label}-${index}`;
             const isOpen = openTx === txKey;
             const status = cardStatus(tx);
             const kind = iconKind(tx);

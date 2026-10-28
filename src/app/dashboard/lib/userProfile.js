@@ -64,10 +64,12 @@ export function mapBankDetails(payload) {
   if (!bank) return null;
   const raw = String(bank.account_number || "").replace(/\s/g, "");
   const last4 = raw.slice(-4);
+  const branch = String(bank.branch_name || "").trim();
   return {
     name: String(bank.bank_name || "").trim(),
-    account: last4 ? `xxxxxxx ${last4}` : "",
-    branch: String(bank.branch_name || "").trim(),
+    account: last4 ? `xxxxxxxxxxxx ${last4}` : "",
+    accountMasked: last4 ? `A/C xxxxxxxxxxxx ${last4}` : "",
+    branch,
     ifsc: String(bank.ifsc_code || "").trim(),
   };
 }

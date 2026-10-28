@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getUserStage } from "../../signup/lib/authApi";
 import { kycChecklist } from "../../signup/lib/kycApi";
+import { PAGE_SHELL_NARROW } from "../lib/layoutClasses";
 
 export default function KycPage() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function KycPage() {
   const left = steps.filter((step) => !step.done).length;
 
   return (
-    <div className="px-4 sm:px-6 lg:px-10 py-5 sm:py-8 max-w-[720px] 4xl:max-w-[900px] mx-auto w-full pb-20 lg:pb-8">
+    <div className={`${PAGE_SHELL_NARROW} max-w-[720px] 4xl:max-w-[900px]`}>
       <h2 className="text-lg font-semibold text-ink">Complete Your KYC</h2>
       <p className="text-sm text-muted mt-1 mb-6">
         {steps.length ? `${left} step${left === 1 ? "" : "s"} left` : "Checking your KYC status…"}

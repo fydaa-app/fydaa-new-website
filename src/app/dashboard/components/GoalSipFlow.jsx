@@ -11,6 +11,7 @@ import {
   nextReviewAction,
   tabMeta,
 } from "../lib/sipInvestApi";
+import { FLOW_SHELL } from "../lib/layoutClasses";
 
 const AMOUNT_CHIPS = [1000, 5000, 10000, 20000];
 const SIP_DAYS = [1, 5, 10, 15, 20, 25, 28];
@@ -229,7 +230,7 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex flex-col px-6 sm:px-10 py-5 sm:py-6 max-w-[1000px] mx-auto w-full">
+    <div className={FLOW_SHELL}>
       <div className="flex items-center gap-3 shrink-0 mb-4 sm:mb-5">
         <button
           type="button"
@@ -476,15 +477,15 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
                       {goal?.badge || "Goal"} · {Math.max(funds.length, 1)} fund · {money(amount)}/mo
                     </div>
                   </div>
-                  <div className="px-5 sm:px-6 pb-3">
-                    <div className="h-1.5 rounded-full bg-white/20 overflow-hidden mb-2">
-                      <div className="h-full bg-emerald-300 rounded-full" style={{ width: "100%" }} />
+                  <div className="px-4 sm:px-5 pb-4 space-y-2.5">
+                    <div className="px-1">
+                      <div className="h-1.5 rounded-full bg-white/20 overflow-hidden mb-2">
+                        <div className="h-full bg-emerald-300 rounded-full" style={{ width: "100%" }} />
+                      </div>
+                      <div className="text-[11px] font-semibold tracking-wider text-emerald-200">
+                        {(splitLabel || tabMeta("equity")?.label || "EQUITY").toUpperCase()} 100%
+                      </div>
                     </div>
-                    <div className="text-[11px] font-semibold tracking-wider text-emerald-200">
-                      {(splitLabel || tabMeta("equity")?.label || "EQUITY").toUpperCase()} 100%
-                    </div>
-                  </div>
-                  <div className="px-4 sm:px-5 pb-5 space-y-2">
                     {loading && (
                       <div className="bg-white/10 rounded-btn px-4 py-3.5 text-sm text-white/80">Loading fund…</div>
                     )}
@@ -547,19 +548,19 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
           </div>
 
           {reviewOpen ? (
-            <div className="fixed inset-0 z-[80] bg-black/40 flex items-center justify-center p-4 sm:p-6">
+            <div className="fixed inset-0 z-[80] bg-black/40 flex items-center justify-center p-3 sm:p-5">
               <div
-                className="bg-white w-full max-w-[440px] rounded-2xl shadow-elevated overflow-hidden flex flex-col max-h-[calc(100dvh-2rem)]"
+                className="bg-white w-full max-w-[min(100%,520px)] sm:max-w-[540px] rounded-2xl shadow-elevated overflow-hidden flex flex-col"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="goal-review-title"
               >
-                <div className="px-5 pt-5 pb-4 flex items-start justify-between gap-3">
+                <div className="px-4 sm:px-5 pt-4 pb-3 flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <h2 id="goal-review-title" className="text-xl font-bold text-ink leading-none">
+                    <h2 id="goal-review-title" className="text-lg font-bold text-ink leading-tight">
                       Review & confirm
                     </h2>
-                    <p className="text-sm text-muted mt-1.5 leading-snug">
+                    <p className="text-xs text-muted mt-1 leading-snug">
                       Check your SIP details before starting.
                     </p>
                   </div>
@@ -573,7 +574,7 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
                   </button>
                 </div>
 
-                <div className="px-5 pb-1 overflow-y-auto min-h-0">
+                <div className="px-4 sm:px-5 pb-0">
                   <div className="border-t border-border">
                     {[
                       ["Monthly SIP", `${money(amount)}/mo`],
@@ -582,24 +583,36 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
                       ["SIP date each month", `${sipDay}${getOrdinal(sipDay)}`],
                       ["First debit", `${firstDebitLabel(sipDay)} · ${money(amount)}`],
                       ["Next debit", nextDebitLabel(sipDay)],
-                    ].map(([label, value]) => (
-                      <div
-                        key={label}
-                        className="flex items-start justify-between gap-4 py-3 border-b border-border text-sm"
-                      >
-                        <span className="text-ink shrink-0 pt-px">{label}</span>
-                        <span className="text-ink text-right leading-5 break-words min-w-0 max-w-[62%]">
-                          {value}
-                        </span>
-                      </div>
-                    ))}
+                    ].map(([label, value]) => {
+                      if (label === "Fund") {
+                        return (
+                          <div key={label} className="py-2 border-b border-border text-[13px]">
+                            <div className="text-ink mb-1">{label}</div>
+                            <div className="text-ink font-medium leading-snug break-words w-full">
+                              {value}
+                            </div>
+                          </div>
+                        );
+                      }
+                      return (
+                        <div
+                          key={label}
+                          className="flex items-start justify-between gap-4 py-2 border-b border-border text-[13px]"
+                        >
+                          <span className="text-ink shrink-0 pt-px">{label}</span>
+                          <span className="text-ink text-right leading-snug break-words min-w-0 max-w-[68%]">
+                            {value}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
 
-                  <div className="mt-4 mb-1 border border-border rounded-xl px-4 py-3.5">
-                    <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-3">
+                  <div className="mt-3 border border-border rounded-xl px-3 py-2.5">
+                    <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-2">
                       Setup checklist
                     </div>
-                    <div className="space-y-3.5">
+                    <div className="space-y-2">
                       {(checklist.length
                         ? checklist
                         : [
@@ -608,17 +621,17 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
                             { id: "mandate", label: "UPI auto-debit mandate", detail: "Each SIP needs its own UPI AutoPay", done: false },
                           ]
                       ).map((item) => (
-                        <div key={item.id} className="flex items-start gap-2.5">
+                        <div key={item.id} className="flex items-start gap-2">
                           <span
-                            className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 ${
+                            className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
                               item.done ? "bg-emerald text-white" : "bg-red-100 text-red-600"
                             }`}
                           >
                             {item.done ? "✓" : "×"}
                           </span>
                           <div className="min-w-0 flex-1">
-                            <div className="text-sm font-semibold text-ink leading-5">{item.label}</div>
-                            <div className="text-xs text-muted mt-0.5 leading-4">{item.detail}</div>
+                            <div className="text-[13px] font-semibold text-ink leading-tight">{item.label}</div>
+                            <div className="text-[11px] text-muted mt-0.5 leading-snug line-clamp-1">{item.detail}</div>
                           </div>
                         </div>
                       ))}
@@ -626,20 +639,20 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
                   </div>
                 </div>
 
-                <div className="px-5 pt-4 pb-5 flex flex-col gap-3">
-                  {error ? <div className="text-sm text-red-600 leading-5">{error}</div> : null}
+                <div className="px-4 sm:px-5 pt-3 pb-4 flex flex-col gap-2">
+                  {error ? <div className="text-xs text-red-600 leading-snug">{error}</div> : null}
                   <button
                     type="button"
                     disabled={busy || !goalId}
                     onClick={continueToWizard}
-                    className="w-full h-12 rounded-btn bg-jade text-white text-[15px] font-semibold disabled:opacity-60"
+                    className="w-full h-11 rounded-btn bg-jade text-white text-[14px] font-semibold disabled:opacity-60"
                   >
                     {busy ? "Working…" : (reviewAction.label || "Continue setup →")}
                   </button>
                   <button
                     type="button"
                     onClick={() => setReviewOpen(false)}
-                    className="w-full text-sm text-ink underline underline-offset-2"
+                    className="w-full text-[13px] text-ink underline underline-offset-2 py-0.5"
                   >
                     Back
                   </button>
