@@ -9,7 +9,16 @@ export default function Testimonials() {
           {TESTIMONIALS.map((t) => (
             <div className="testi-card" key={t.name}>
               <div className="testi-stars">★★★★★</div>
-              <div className="testi-text">{t.text}</div>
+              <div className="testi-text">
+                {t.mobileText ? (
+                  <>
+                    <span className="copy-desktop">{t.text}</span>
+                    <span className="copy-mobile">{t.mobileText}</span>
+                  </>
+                ) : (
+                  t.text
+                )}
+              </div>
               <div className="testi-author">
                 <div className="testi-avatar">{t.initials}</div>
                 <div>

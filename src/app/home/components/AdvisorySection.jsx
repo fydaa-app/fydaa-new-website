@@ -13,9 +13,14 @@ export default function AdvisorySection() {
               <span className="serif">Real people</span> behind your money.
             </h2>
             <p>
-              Fydaa combines smart technology with real human guidance. Our relationship managers
-              understand your goals, answer your questions, and help you make confident decisions
-              — because some conversations are better with a person.
+              <span className="copy-desktop">
+                Fydaa combines smart technology with real human guidance. Our relationship managers
+                understand your goals, answer your questions, and help you make confident decisions
+                — because some conversations are better with a person.
+              </span>
+              <span className="copy-mobile">
+                Smart technology with real human guidance, because some conversations are better with a person.
+              </span>
             </p>
 
             <div className="advisory-points">
@@ -33,7 +38,12 @@ export default function AdvisorySection() {
                 <div>
                   <div className="advisory-point-title">Available tools</div>
                   <div className="advisory-point-desc">
-                    Goal planning, wealth score, portfolio tracking — available 24/7 in the app and on the web.
+                    <span className="copy-desktop">
+                      Goal planning, wealth score, portfolio tracking — available 24/7 in the app and on the web.
+                    </span>
+                    <span className="copy-mobile">
+                      Goal planning, wealth score and portfolio tracking, 24/7 on app and web.
+                    </span>
                   </div>
                 </div>
               </div>
@@ -48,7 +58,12 @@ export default function AdvisorySection() {
                 <div>
                   <div className="advisory-point-title">Dedicated relationship manager</div>
                   <div className="advisory-point-desc">
-                    A real person who knows your financial picture and is a call away when you need guidance.
+                    <span className="copy-desktop">
+                      A real person who knows your financial picture and is a call away when you need guidance.
+                    </span>
+                    <span className="copy-mobile">
+                      A real person who knows your finances, just a call away.
+                    </span>
                   </div>
                 </div>
               </div>

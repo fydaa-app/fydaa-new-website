@@ -29,7 +29,16 @@ export default function FaqSection() {
                     <span className="arr">▼</span>
                   </div>
                   <div className="faq-a">
-                    <div className="faq-a-inner">{faq.a}</div>
+                    <div className="faq-a-inner">
+                      {faq.mobileA ? (
+                        <>
+                          <span className="copy-desktop">{faq.a}</span>
+                          <span className="copy-mobile">{faq.mobileA}</span>
+                        </>
+                      ) : (
+                        faq.a
+                      )}
+                    </div>
                   </div>
                 </div>
               );

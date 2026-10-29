@@ -9,11 +9,18 @@ export default function ProductSections() {
       <ProductSection
         label="Goal-Based Investing"
         heading={<>Every rupee has a <span className="serif">purpose</span></>}
+        mobileHeading={<>Give your savings a <span className="serif">purpose</span></>}
         description="Create goals for the things that matter — a home, education, retirement, a trip. Fydaa builds a mutual fund portfolio matched to each goal's timeline and your risk comfort, then tracks it for you."
+        mobileDescription="Every SIP you run should be working toward something real. With Fydaa, you can link any existing SIP to a goal, or create a new SIP with a goal already assigned. No more nameless investments sitting idle without direction."
         points={[
           'SIP from ₹1,000/month or ₹100/day, no lock-in',
           'Portfolio auto-matched to goal timeline',
           'Real-time progress on every goal',
+        ]}
+        mobilePoints={[
+          'Link an existing SIP to a goal like a home, education, or retirement',
+          'Set up a new SIP and assign a goal from the start',
+          'Track how each SIP is contributing to its goal in real time',
         ]}
         ctaText="Book a Free Call →"
         ctaHref="/#book-a-call"
