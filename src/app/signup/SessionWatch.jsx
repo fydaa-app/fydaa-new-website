@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { accessTokenExpiresAt, endSession, getAccessToken, isAccessTokenExpired } from "./lib/authApi";
 
-/** Signs the user out when the saved access token is past its expiry. */
+/** Signs the user out when the saved access token is past its expiry */
 export default function SessionWatch() {
   useEffect(() => {
     let timer = 0;
