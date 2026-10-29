@@ -43,11 +43,11 @@ export default function MandateSuccessPage() {
       const pending = getPendingSipFirstDebit();
       if (pending?.sipId) {
         setStatus("Activating your SIP and debiting the first installment…");
-        const result = await runPendingSipFirstDebit((msg) => {
+        const result = await runPendingSipFirstDebit((msg: string) => {
           if (!cancelled && msg) setStatus(msg);
         });
         if (cancelled) return;
-        if (!result.ok && !result.skipped) {
+        if (!result.ok && !("skipped" in result && result.skipped)) {
           setError(result.message || "First debit failed. Open the dashboard and retry from Dreams if needed.");
           setStatus("Mandate set — first debit needs a retry");
           setTimeout(() => router.replace("/dashboard"), 4000);

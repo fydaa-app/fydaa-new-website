@@ -282,20 +282,33 @@ export async function completeLumpsum({
 
 export async function captureLumpsumPayment(paymentId) {
   const result = await authed(PAYMENT_BASE, `subscription/payment/${paymentId}`);
-  if (!result.ok) return result;
+  if (!result.ok) {
+    return {
+      ok: false,
+      success: false,
+      fail: true,
+      status: result.status,
+      amount: undefined,
+      reason: result.message || "",
+      message: result.message || "",
+      data: result.data,
+    };
+  }
   const raw = result.data?.data && typeof result.data.data === "object"
     ? { ...result.data, ...result.data.data }
     : result.data;
   const status = String(raw?.status || "").toUpperCase();
   const success = ["SUCCESS", "SUCCESSFUL", "PAID", "APPROVED", "COMPLETED"].includes(status);
   const fail = ["FAILED", "FAILURE", "REJECTED", "CANCELLED", "CANCELED", "EXPIRED"].includes(status);
+  const reason = raw?.failed_reason || raw?.failure_reason || raw?.failure_message || raw?.message || "";
   return {
     ok: true,
     success,
     fail,
     status,
     amount: raw?.amount,
-    reason: raw?.failed_reason || raw?.failure_reason || raw?.failure_message || raw?.message || "",
+    reason,
+    message: reason,
     data: raw,
   };
 }
