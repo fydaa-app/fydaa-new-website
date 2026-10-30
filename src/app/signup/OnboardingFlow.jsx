@@ -13,6 +13,7 @@ import {
 import SignaturePad from './components/SignaturePad';
 import {
   bandFromIndicators,
+  checkMobile,
   clearTokens,
   createPin as createPinApi,
   createUserRiskProfile,
@@ -70,6 +71,7 @@ import {
   waitForModifyFormSubmitted,
   waitForPopupClose,
   isModifyEsignCallback,
+  lookupIfsc,
 } from './lib/kycApi';
 import { getEmailFromApple, getEmailFromGoogle } from './lib/oauthEmail';
 import {
@@ -103,10 +105,14 @@ const STEP_MAP = {
 
 const BACK_MAP = {
   otp: 'mobile',
-  score: 'risk', email: 'score', emailotp: 'email',
+  email: 'score', emailotp: 'email',
   digilocker: 'kyc', signature: 'digilocker', nsdl: 'signature',
   bank: 'esign', nominee: 'bank',
 };
+
+/** Mobile + OTP keep the marketing navbar; PIN and KYC screens hide it. */
+const AUTH_ENTRY_SCREENS = new Set(['mobile', 'otp']);
+const KYC_NAV_EVENT = 'fydaa-onboarding-nav';
 
 const RELATIONS = NOMINEE_RELATIONS.map((r) => r.label);
 
@@ -123,15 +129,21 @@ function AccountSwitch({ isLogin }) {
   );
 }
 
-export default function OnboardingFlow({ mode = 'signup' }) {
+export default function OnboardingFlow({
+  mode = 'signup',
+  embedded = false,
+  start = null,
+  onExit = null,
+  onComplete = null,
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [screen, setScreen] = useState('mobile');
+  const [screen, setScreen] = useState(embedded ? '' : 'mobile');
   const [pep, setPep] = useState(false);
   const [esignAgree, setEsignAgree] = useState(false);
   const [esignSigned, setEsignSigned] = useState(false);
   const [nomineeOptOut, setNomineeOptOut] = useState(false);
-  const [nomineeRelation, setNomineeRelation] = useState('father');
+  const [nomineeRelation, setNomineeRelation] = useState('');
   const [kycModalOpen, setKycModalOpen] = useState(false);
   const [kycPath, setKycPath] = useState('compliant'); // compliant | noncompliant | modify
   const [kycNotice, setKycNotice] = useState('');
@@ -146,11 +158,16 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   const [signatureB64, setSignatureB64] = useState('');
   const [signatureBlank, setSignatureBlank] = useState(true);
   const [ifsc, setIfsc] = useState('');
+  const [ifscInfo, setIfscInfo] = useState(null);
+  const [ifscLookupBusy, setIfscLookupBusy] = useState(false);
+  const [ifscLookupError, setIfscLookupError] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
   const [confirmAccountNumber, setConfirmAccountNumber] = useState('');
   const [accountType, setAccountType] = useState('savings');
   const [nomineeName, setNomineeName] = useState('');
   const [nomineeDob, setNomineeDob] = useState('');
+  const [guardianName, setGuardianName] = useState('');
+  const [guardianRelation, setGuardianRelation] = useState('');
   const [mobile, setMobile] = useState('');
   const [pin, setPin] = useState('');
   const [createPinValue, setCreatePinValue] = useState('');
@@ -176,6 +193,8 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   const [panNumber, setPanNumber] = useState('');
   const [dob, setDob] = useState('');
   const maxDobIso = toIsoDate(maxDobForMinAge(18));
+  const todayIso = toIsoDate(new Date());
+  const nomineeIsMinor = Boolean(nomineeDob) && !isAdultDob(nomineeDob, 18);
 
   const go = (next) => {
     setAuthError('');
@@ -210,6 +229,8 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     setAccountType('savings');
     setNomineeName('');
     setNomineeDob('');
+    setGuardianName('');
+    setGuardianRelation('');
     setMobile('');
     setPin('');
     setCreatePinValue('');
@@ -235,7 +256,26 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   };
 
   const mobileNumber = mobile.replace(/\D/g, '').slice(0, 10);
-  const goHome = () => router.push('/dashboard');
+  const goHome = () => {
+    // Finished KYC steps successfully — may resume invest flow.
+    if (typeof onComplete === 'function') {
+      onComplete();
+      return;
+    }
+    if (typeof onExit === 'function') {
+      onExit();
+      return;
+    }
+    router.push('/dashboard');
+  };
+  const exitToDashboard = () => {
+    // Explicit "Back to dashboard" — always leave KYC, do not resume invest.
+    if (typeof onExit === 'function') {
+      onExit();
+      return;
+    }
+    router.push('/dashboard');
+  };
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -250,6 +290,23 @@ export default function OnboardingFlow({ mode = 'signup' }) {
       setMobile(savedMobile);
     }
   }, [mode]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    // Keep dashboard chrome when KYC runs inside /dashboard.
+    if (embedded) {
+      document.body.classList.remove('fydaa-hide-site-chrome');
+      window.dispatchEvent(new CustomEvent(KYC_NAV_EVENT, { detail: { hideNav: false } }));
+      return undefined;
+    }
+    const hideNav = Boolean(screen) && !AUTH_ENTRY_SCREENS.has(screen);
+    document.body.classList.toggle('fydaa-hide-site-chrome', hideNav);
+    window.dispatchEvent(new CustomEvent(KYC_NAV_EVENT, { detail: { hideNav } }));
+    return () => {
+      document.body.classList.remove('fydaa-hide-site-chrome');
+      window.dispatchEvent(new CustomEvent(KYC_NAV_EVENT, { detail: { hideNav: false } }));
+    };
+  }, [screen, embedded]);
 
   useEffect(() => {
     if (mode === 'login' || !searchParams) return;
@@ -305,8 +362,14 @@ export default function OnboardingFlow({ mode = 'signup' }) {
 
   useEffect(() => {
     if (mode === 'login') return;
-    if (searchParams?.get('start') !== 'risk') return;
+    const startKey = start || searchParams?.get('start');
+    if (startKey !== 'risk') return;
     if (!getAccessToken()) return;
+    // Logged-in KYC/risk always runs inside dashboard (sidebar + back).
+    if (!embedded) {
+      router.replace('/dashboard?start=risk');
+      return undefined;
+    }
     let cancelled = false;
     (async () => {
       setAuthBusy('risk');
@@ -330,7 +393,7 @@ export default function OnboardingFlow({ mode = 'signup' }) {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, searchParams]);
+  }, [mode, searchParams, start, embedded]);
 
   async function routeAfterKycStage(stage) {
     // §2.2 resume order
@@ -452,9 +515,48 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   }
 
   useEffect(() => {
+    const code = ifsc.trim().toUpperCase();
+    if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(code)) {
+      setIfscInfo(null);
+      setIfscLookupBusy(false);
+      setIfscLookupError(code.length === 11 ? 'Enter a valid IFSC (e.g. HDFC0001234).' : '');
+      return undefined;
+    }
+    let cancelled = false;
+    const timer = setTimeout(async () => {
+      setIfscLookupBusy(true);
+      setIfscLookupError('');
+      try {
+        const info = await lookupIfsc(code);
+        if (!cancelled) {
+          setIfscInfo(info);
+          setIfscLookupError('');
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setIfscInfo(null);
+          setIfscLookupError(err.message || 'Could not fetch branch details.');
+        }
+      } finally {
+        if (!cancelled) setIfscLookupBusy(false);
+      }
+    }, 350);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [ifsc]);
+
+  useEffect(() => {
     if (mode === 'login') return;
-    if (searchParams?.get('start') !== 'kyc') return;
+    const startKey = start || searchParams?.get('start');
+    if (startKey !== 'kyc') return;
     if (!getAccessToken()) return;
+    // Logged-in KYC always runs inside dashboard (sidebar + back).
+    if (!embedded) {
+      router.replace('/dashboard?start=kyc');
+      return undefined;
+    }
     let cancelled = false;
     (async () => {
       setAuthBusy('kyc');
@@ -470,7 +572,7 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     })();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, searchParams]);
+  }, [mode, searchParams, start, embedded]);
 
   async function submitSignupMobile() {
     if (mobileNumber.length !== 10) {
@@ -482,6 +584,18 @@ export default function OnboardingFlow({ mode = 'signup' }) {
     const typed = referralInput.trim();
     const referredBy = storedReferral || typed || undefined;
     try {
+      const check = await checkMobile(mobileNumber);
+      if (check?.exists === true) {
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem(
+            'fydaa-auth-notice',
+            'This number is already registered. Please log in.'
+          );
+          sessionStorage.setItem('fydaa-auth-mobile', mobileNumber);
+        }
+        router.replace('/login');
+        return;
+      }
       await requestOtp({ mobileNumber, referredBy });
       if (typed) setStoredReferral(typed);
       setResendReadyAt(Date.now() + 30000);
@@ -519,11 +633,7 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   }
 
   async function finishLoginAfterOtp() {
-    const stage = await getUserStage();
-    if (!isSignupComplete(stage)) {
-      await routeAfterKycStage(stage);
-      return;
-    }
+    // Login always lands on dashboard; KYC continues only from signup.
     goHome();
   }
 
@@ -1164,17 +1274,27 @@ export default function OnboardingFlow({ mode = 'signup' }) {
           setAuthBusy('');
           return;
         }
+        const isMinor = !isAdultDob(nomineeDob, 18);
+        if (isMinor && (!guardianName.trim() || !guardianRelation)) {
+          setAuthError('Guardian name and relationship are required for a minor nominee.');
+          setAuthBusy('');
+          return;
+        }
+        const nominee = {
+          nominee_name: toTitleCaseName(nomineeName),
+          nominee_dob: nomineeDob,
+          allocation_percentage: 100,
+          nominee_relationship: nomineeRelation,
+          nominee_order: 1,
+          is_minor: isMinor,
+        };
+        if (isMinor) {
+          nominee.guardian_name = toTitleCaseName(guardianName);
+          nominee.guardian_relationship = guardianRelation;
+        }
         await saveNominee({
           opt_out_nomination: false,
-          nominees: [
-            {
-              nominee_name: toTitleCaseName(nomineeName),
-              nominee_dob: nomineeDob,
-              allocation_percentage: 100,
-              nominee_relationship: nomineeRelation,
-              nominee_order: 1,
-            },
-          ],
+          nominees: [nominee],
         });
       }
       goHome();
@@ -1262,7 +1382,18 @@ export default function OnboardingFlow({ mode = 'signup' }) {
   }
 
   return (
-    <div className="max-w-[640px] mx-auto px-6 pt-10 pb-24">
+    <div className={`max-w-[640px] mx-auto px-6 ${embedded ? 'pt-2 pb-16' : 'pt-10 pb-24'}`}>
+      {embedded && (
+        <button
+          type="button"
+          onClick={exitToDashboard}
+          className="inline-flex items-center gap-2 text-sm font-semibold text-[#0C4A3E] mb-5"
+        >
+          <BackIcon className="w-[16px] h-[16px]" />
+          Back to dashboard
+        </button>
+      )}
+
       {cfg && (
         <Stepper
           activeStep={cfg.s}
@@ -1280,6 +1411,12 @@ export default function OnboardingFlow({ mode = 'signup' }) {
         >
           <BackIcon className="w-[18px] h-[18px] text-neutral-600" />
         </button>
+      )}
+
+      {embedded && !screen && (
+        <div className="text-sm text-neutral-500 pt-6">
+          {authError || (authBusy ? 'Loading your KYC steps…' : 'Preparing KYC…')}
+        </div>
       )}
 
       {/* MOBILE NUMBER */}
@@ -1435,7 +1572,16 @@ export default function OnboardingFlow({ mode = 'signup' }) {
           <p className="text-sm text-neutral-500 mt-5 leading-relaxed max-w-[400px]">
             Your personalized risk profile is ready. Continue to verify your email and finish KYC.
           </p>
-          <Button onClick={() => go('email')} className="max-w-none">Continue</Button>
+          <Button onClick={() => go('email')} className="max-w-none" disabled={Boolean(authBusy)}>
+            Continue
+          </Button>
+          <OutlineButton
+            onClick={startRiskQuestionnaire}
+            className="max-w-none mt-3"
+            disabled={Boolean(authBusy)}
+          >
+            {authBusy === 'risk' ? 'Loading…' : 'Retake Quiz'}
+          </OutlineButton>
         </div>
       )}
 
@@ -1722,20 +1868,45 @@ export default function OnboardingFlow({ mode = 'signup' }) {
           <Overline emerald>Connected</Overline>
           <PageHeading>Add Bank Details</PageHeading>
           <FieldRow>
-            <FieldInput
-              label="IFSC Code"
-              placeholder="Enter code"
-              className="uppercase"
-              maxLength={11}
-              autoCapitalize="characters"
-              autoCorrect="off"
-              spellCheck={false}
-              value={ifsc}
-              onChange={(e) => {
-                setIfsc(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 11));
-                setAuthError('');
-              }}
-            />
+            <div>
+              <FieldInput
+                label="IFSC Code"
+                placeholder="Enter code"
+                className="uppercase"
+                maxLength={11}
+                autoCapitalize="characters"
+                autoCorrect="off"
+                spellCheck={false}
+                value={ifsc}
+                onChange={(e) => {
+                  setIfsc(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 11));
+                  setAuthError('');
+                }}
+              />
+              {ifscLookupBusy && (
+                <p className="-mt-2 mb-4 text-xs text-neutral-500">Looking up branch…</p>
+              )}
+              {!ifscLookupBusy && ifscLookupError && (
+                <p className="-mt-2 mb-4 text-xs text-red-600">{ifscLookupError}</p>
+              )}
+              {!ifscLookupBusy && ifscInfo && (
+                <div className="-mt-2 mb-4 rounded-[11px] border border-[#0C4A3E]/15 bg-[#0C4A3E]/[0.04] px-3.5 py-3 text-left">
+                  <div className="text-sm font-semibold text-[#0C4A3E]">
+                    {[ifscInfo.bank, ifscInfo.branch].filter(Boolean).join(' · ')}
+                  </div>
+                  {(ifscInfo.city || ifscInfo.state) && (
+                    <div className="text-xs text-neutral-600 mt-1">
+                      {[ifscInfo.city, ifscInfo.state].filter(Boolean).join(', ')}
+                    </div>
+                  )}
+                  {ifscInfo.address && (
+                    <div className="text-xs text-neutral-500 mt-1 leading-relaxed">
+                      {ifscInfo.address}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
             <FieldSelect
               label="Account type"
               value={accountType}
@@ -1793,38 +1964,95 @@ export default function OnboardingFlow({ mode = 'signup' }) {
         <>
           <Overline>Add a trusted person</Overline>
           <PageHeading>Add Nominee</PageHeading>
-          <FieldInput
-            label="Nominee full name"
-            placeholder="Enter name"
-            value={nomineeName}
-            onChange={(e) => setNomineeName(e.target.value)}
-          />
-          <div className="mb-4">
-            <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-400 mb-1.5">
-              Nominee is my
-            </label>
-            <div className="flex flex-wrap gap-2 mt-1.5">
-              {NOMINEE_RELATIONS.map((rel) => (
-                <Chip
-                  key={rel.value}
-                  label={rel.label}
-                  selected={nomineeRelation === rel.value}
-                  onClick={() => setNomineeRelation(rel.value)}
-                />
-              ))}
-            </div>
+          <div className="mb-5">
+            <Checkbox
+              checked={nomineeOptOut}
+              onChange={() => {
+                setNomineeOptOut((v) => !v);
+                setAuthError('');
+              }}
+            >
+              I do not wish to nominate anyone (opt out of nominee)
+            </Checkbox>
           </div>
-          <FieldInput
-            label="Nominee's Date of Birth"
-            type="date"
-            value={nomineeDob}
-            onChange={(e) => setNomineeDob(e.target.value)}
-          />
+
+          {!nomineeOptOut && (
+            <>
+              <FieldInput
+                label="Nominee Name"
+                placeholder="Nominee Name"
+                value={nomineeName}
+                onChange={(e) => {
+                  setNomineeName(e.target.value.replace(/[^a-zA-Z\s]/g, ''));
+                  setAuthError('');
+                }}
+              />
+              <FieldInput
+                label="Date of Birth"
+                type="date"
+                max={todayIso}
+                value={nomineeDob}
+                onChange={(e) => {
+                  const next = e.target.value;
+                  setNomineeDob(next && next > todayIso ? todayIso : next);
+                  setAuthError('');
+                }}
+              />
+              <FieldSelect
+                label="Relationship"
+                value={nomineeRelation}
+                onChange={(e) => {
+                  setNomineeRelation(e.target.value);
+                  setAuthError('');
+                }}
+              >
+                <option value="">Select relationship</option>
+                {NOMINEE_RELATIONS.map((rel) => (
+                  <option key={rel.value} value={rel.value}>
+                    {rel.label}
+                  </option>
+                ))}
+              </FieldSelect>
+
+              {nomineeIsMinor && (
+                <>
+                  <p className="text-xs text-amber-800 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2 mb-4">
+                    Nominee is a minor. Guardian details are required.
+                  </p>
+                  <FieldInput
+                    label="Guardian Name"
+                    placeholder="Guardian Name"
+                    value={guardianName}
+                    onChange={(e) => {
+                      setGuardianName(e.target.value.replace(/[^a-zA-Z\s]/g, ''));
+                      setAuthError('');
+                    }}
+                  />
+                  <FieldSelect
+                    label="Guardian Relationship"
+                    value={guardianRelation}
+                    onChange={(e) => {
+                      setGuardianRelation(e.target.value);
+                      setAuthError('');
+                    }}
+                  >
+                    <option value="">Select guardian relationship</option>
+                    {NOMINEE_RELATIONS.map((rel) => (
+                      <option key={rel.value} value={rel.value}>
+                        {rel.label}
+                      </option>
+                    ))}
+                  </FieldSelect>
+                </>
+              )}
+            </>
+          )}
+
           {authError && screen === 'nominee' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
           <Button onClick={() => submitNominee()} disabled={Boolean(authBusy)}>
-            {authBusy === 'nominee' ? 'Saving...' : 'Continue'}
+            {authBusy === 'nominee' ? 'Saving...' : 'Submit Nominee'}
           </Button>
         </>
       )}

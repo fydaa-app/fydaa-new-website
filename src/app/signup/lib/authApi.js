@@ -233,6 +233,23 @@ export async function putJson(path, body = {}, { auth = true, base = STOCK_BASE 
   return { res, data };
 }
 
+/**
+ * GET auth/check-mobile?mobileNumber=...
+ * Returns { exists, isPinCreated, pinSetupType, ... }
+ */
+export async function checkMobile(mobileNumber) {
+  const qs = new URLSearchParams({ mobileNumber: String(mobileNumber) });
+  const res = await fetch(`${AUTH_BASE}auth/check-mobile?${qs}`, {
+    method: 'GET',
+    headers: { Accept: 'application/json' },
+  });
+  const data = await parseJson(res);
+  if (!(res.status === 200 || res.status === 201) || data?.error === true) {
+    throw new Error(messageFrom(data, 'Could not verify mobile number. Please try again.'));
+  }
+  return data;
+}
+
 export async function requestOtp({ mobileNumber, referredBy, whatsapp = true }) {
   const fields = {
     callingCode: '+91',

@@ -179,8 +179,7 @@ function BankAutopaySection({ user }) {
   );
 }
 
-function InvestmentStyleSection() {
-  const router = useRouter();
+function InvestmentStyleSection({ setActivePage }) {
   const [score, setScore] = useState(null);
   const [band, setBand] = useState("");
   const [assessed, setAssessed] = useState("");
@@ -324,7 +323,7 @@ function InvestmentStyleSection() {
 
         <button
           type="button"
-          onClick={() => router.push("/signup?start=risk")}
+          onClick={() => setActivePage?.("kyc", { start: "risk" })}
           className="w-full py-3.5 rounded-btn border border-border bg-white text-[15px] font-semibold text-jade hover:bg-surface transition-colors"
         >
           Retake Risk Assessment
@@ -334,7 +333,7 @@ function InvestmentStyleSection() {
   );
 }
 
-export default function ProfilePage({ user }) {
+export default function ProfilePage({ user, setActivePage }) {
   const router = useRouter();
   const [activeSection, setActiveSection] = useState("personal");
   const content = activeSection === "personal"
@@ -406,7 +405,7 @@ export default function ProfilePage({ user }) {
 
         {/* Detail */}
         {activeSection === "risk" ? (
-          <InvestmentStyleSection />
+          <InvestmentStyleSection setActivePage={setActivePage} />
         ) : activeSection === "bank" ? (
           <BankAutopaySection user={user} />
         ) : (

@@ -68,7 +68,7 @@ function Progress({ step, total = 3 }) {
 /**
  * Basket SIP: detail → amount/tenure → date → review (no advisory) → SipInvestWizard.
  */
-export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit, onDeleted }) {
+export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit, onDeleted, onCompleteKyc }) {
   const [step, setStep] = useState(0);
   const [basket, setBasket] = useState(seed || null);
   const [amount, setAmount] = useState(() => {
@@ -206,12 +206,21 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
 
   async function onReviewPrimary() {
     setError("");
-    if (reviewAction.step === "kyc") {
-      setError("Complete KYC from Home, then return here.");
-      return;
-    }
-    if (reviewAction.step === "bank") {
-      setError("Add your bank details in KYC, then return here.");
+    if (reviewAction.step === "kyc" || reviewAction.step === "bank" || reviewAction.step === "nominee") {
+      onCompleteKyc?.({
+        basketId: basket?.id,
+        basketName: basket?.name,
+        goalName: basket?.name,
+        amount,
+        tenureYears: yearsNum,
+        frequency: "monthly",
+        fundMode: "rec",
+        fund: null,
+        monthlyDay: sipDay,
+        fromBasket: true,
+        openReview: true,
+        resumeReview: true,
+      });
       return;
     }
     setBusy(true);

@@ -26,7 +26,13 @@ function resolveGoalId(goalsById, goal) {
 /**
  * Goals tab — recommended goals catalog + SIP / lumpsum handoff.
  */
-export default function GoalsPage({ setActivePage, pendingGoalSip, clearPendingGoalSip }) {
+export default function GoalsPage({
+  setActivePage,
+  pendingGoalSip,
+  clearPendingGoalSip,
+  resumeInvestDraft,
+  clearResumeInvestDraft,
+}) {
   const [modeGoal, setModeGoal] = useState(null);
   const [flowGoal, setFlowGoal] = useState(null);
   const [investDraft, setInvestDraft] = useState(null);
@@ -39,6 +45,23 @@ export default function GoalsPage({ setActivePage, pendingGoalSip, clearPendingG
     setModeError("");
     clearPendingGoalSip?.();
   }, [pendingGoalSip, clearPendingGoalSip]);
+
+  useEffect(() => {
+    if (!resumeInvestDraft) return;
+    setFlowGoal(null);
+    setInvestDraft(resumeInvestDraft);
+    clearResumeInvestDraft?.();
+  }, [resumeInvestDraft, clearResumeInvestDraft]);
+
+  const goCompleteKyc = (draft) => {
+    setActivePage?.("kyc", {
+      start: "kyc",
+      returnPage: "goals",
+      returnDraft: draft
+        ? { ...draft, resumeReview: true, openReview: true, fromGoals: true }
+        : null,
+    });
+  };
 
   function pickGoal(goal, badge) {
     setModeError("");
@@ -101,6 +124,10 @@ export default function GoalsPage({ setActivePage, pendingGoalSip, clearPendingG
         goal={flowGoal}
         onBack={() => setFlowGoal(null)}
         onContinue={(draft) => setInvestDraft(draft)}
+        onCompleteKyc={(draft) => {
+          goCompleteKyc(draft);
+          setFlowGoal(null);
+        }}
       />
     );
   }
@@ -116,6 +143,11 @@ export default function GoalsPage({ setActivePage, pendingGoalSip, clearPendingG
           setFlowGoal(null);
           setModeGoal(null);
           setActivePage?.("home");
+        }}
+        onCompleteKyc={(draft) => {
+          goCompleteKyc(draft || investDraft);
+          setInvestDraft(null);
+          setFlowGoal(null);
         }}
       />
     );

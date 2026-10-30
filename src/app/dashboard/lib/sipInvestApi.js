@@ -1,4 +1,5 @@
 import { endSession, getAccessToken, getUserStage } from "../../signup/lib/authApi";
+import { isHomeKycComplete, isTruthyFlag } from "../../signup/lib/kycApi";
 import { AUTH_BASE, PAYMENT_BASE, STOCK_BASE } from "../../signup/lib/apiHosts";
 import { cutAtFund, projectSip, PRODUCT_TABS } from "./investmentApi";
 
@@ -235,10 +236,12 @@ export async function checkInvestReadiness() {
   const stage = await getUserStage().catch(() => null);
   const kyc = await authed(AUTH_BASE, "kyc/check-kyc", { method: "POST", body: {} });
   const entity = kyc.data?.entity_details?.name || kyc.data?.data?.entity_details?.name || "";
-  const kycOk = kyc.ok && (kyc.data?.status === true || kyc.data?.status === "true")
+  const checkKycOk = kyc.ok && (kyc.data?.status === true || kyc.data?.status === "true")
     && String(kyc.data?.action || "").toLowerCase() !== "modify";
-  const bankOk = stage?.isBank === true || stage?.isBank === "true";
-  const nomineeOk = stage?.isNominee === true || stage?.isNominee === "true";
+  // Identity KYC must be finished on stage — check-kyc alone can look "verified" mid-flow.
+  const kycOk = checkKycOk && isHomeKycComplete(stage || {});
+  const bankOk = isTruthyFlag(stage?.isBank);
+  const nomineeOk = isTruthyFlag(stage?.isNominee);
   const model = String(stage?.investmentModel || "").toUpperCase();
   const modelSet = model === "RIA" || model === "ARN";
   const packagePaid = (stage?.isPackage === true || stage?.isPackage === "true")
@@ -257,8 +260,22 @@ export async function checkInvestReadiness() {
       {
         id: "kyc",
         label: "KYC",
-        detail: entity ? `${entity} · verified` : "Complete KYC before mandate and first installment",
+        detail: kycOk
+          ? (entity ? `${entity} · verified` : "KYC verified")
+          : "Complete KYC before mandate and first installment",
         done: kycOk,
+      },
+      {
+        id: "bank",
+        label: "Bank account",
+        detail: bankOk ? "Bank linked" : "Add bank account before investing",
+        done: bankOk,
+      },
+      {
+        id: "nominee",
+        label: "Nominee",
+        detail: nomineeOk ? "Nominee added" : "Add nominee before investing",
+        done: nomineeOk,
       },
       {
         id: "consent",
@@ -279,6 +296,7 @@ export async function checkInvestReadiness() {
 export function nextReviewAction({ readiness, consentDone, mandateDone }) {
   if (!readiness?.kycOk) return { label: "Complete KYC →", step: "kyc" };
   if (!readiness?.bankOk) return { label: "Add bank details →", step: "bank" };
+  if (!readiness?.nomineeOk) return { label: "Add nominee →", step: "nominee" };
   if (!consentDone) return { label: "Verify consent otp →", step: "consent" };
   if (!mandateDone) return { label: "Set up UPI AutoPay →", step: "mandate" };
   return { label: "Start first debit →", step: "debit" };
