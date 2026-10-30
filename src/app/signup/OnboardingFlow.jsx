@@ -74,6 +74,7 @@ import {
   lookupIfsc,
 } from './lib/kycApi';
 import { getEmailFromApple, getEmailFromGoogle } from './lib/oauthEmail';
+import { assignAdvisorAfterOtp } from '../dashboard/lib/crmApi';
 import {
   isAdultDob,
   isValidPan,
@@ -648,6 +649,8 @@ export default function OnboardingFlow({
       const verified = await verifyOtp({ mobileNumber, otp });
       // Same token save for signup and login: data.accessToken → localStorage.
       storeTokens(verified);
+      // Map advisor / RM in CRM (login + signup). Non-blocking.
+      await assignAdvisorAfterOtp();
       if (mode === 'login') {
         await finishLoginAfterOtp();
         return;
