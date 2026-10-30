@@ -4,6 +4,16 @@ import { useEffect, useMemo, useState } from 'react';
 import { SIP_CATEGORIES, SIP_CATEGORY_ORDER, SIP_TENURE_OPTIONS } from '../data/sipCategories';
 import { fmt, sipFV } from '../utils/format';
 
+const LIMITS = {
+  daily: { min: 100, max: 1000, step: 50 },
+  monthly: { min: 1000, max: 100000, step: 500 }, // max ₹1 lakh
+};
+
+function clampAmount(value, frequency) {
+  const { min, max } = LIMITS[frequency];
+  return Math.min(max, Math.max(min, value));
+}
+
 export default function HeroCalculator() {
   const [cat, setCat] = useState('equity');
   const [freq, setFreq] = useState('monthly'); // 'monthly' | 'daily'
@@ -24,23 +34,54 @@ export default function HeroCalculator() {
   const category = SIP_CATEGORIES[cat];
   const rate = isMobile && cat === 'multi' ? 11 : category.rate;
   const rateLabel = isMobile && cat === 'multi' ? '11% CAGR' : category.rateLabel;
+  const limits = LIMITS[freq];
+  const clampedAmount = clampAmount(amount, freq);
 
   const { invested, returns, total } = useMemo(() => {
-    const monthly = freq === 'daily' ? amount * 30 : amount;
+    const monthly = freq === 'daily' ? clampedAmount * 30 : clampedAmount;
     const investedAmt = monthly * years * 12;
     const fv = sipFV(monthly, years, rate);
     return { invested: investedAmt, returns: fv - investedAmt, total: fv };
-  }, [amount, freq, years, rate]);
+  }, [clampedAmount, freq, years, rate]);
+
+  function applyAmount(next, frequency = freq) {
+    const clamped = clampAmount(next, frequency);
+    setAmount(clamped);
+    setAmountInput(clamped.toLocaleString('en-IN'));
+  }
+
+  function parseAmount(raw) {
+    const digits = String(raw).replace(/[^\d]/g, '');
+    if (!digits) return { amount: 0, display: '' };
+    const next = parseInt(digits, 10);
+    return { amount: next, display: next.toLocaleString('en-IN') };
+  }
 
   function handleAmountChange(e) {
-    const raw = e.target.value;
-    setAmountInput(raw);
-    const n = parseInt(raw.replace(/[^\d]/g, ''), 10) || 0;
-    setAmount(n);
+    const { amount: next, display } = parseAmount(e.target.value);
+    // Reject digits that would push past the max — keep current value as-is
+    if (next > limits.max) return;
+    setAmount(next);
+    setAmountInput(display);
+  }
+
+  function handleAmountPaste(e) {
+    e.preventDefault();
+    const pasted = e.clipboardData?.getData('text') || '';
+    const { amount: next, display } = parseAmount(pasted);
+    if (next > limits.max) return;
+    setAmount(next);
+    setAmountInput(display);
   }
 
   function handleAmountBlur() {
-    setAmountInput(amount.toLocaleString('en-IN'));
+    applyAmount(amount || limits.min);
+  }
+
+  function handleFreqChange(nextFreq) {
+    if (nextFreq === freq) return;
+    setFreq(nextFreq);
+    applyAmount(amount, nextFreq);
   }
 
   return (
@@ -67,33 +108,37 @@ export default function HeroCalculator() {
           <div className="hc-field">
             <div className="hc-label">You invest</div>
             <div className="hc-amt-wrap">
-              <span className="hc-amt-mobile">
-                {fmt(amount)}
-                {freq === 'daily' ? <span className="hc-per"> / day</span> : null}
-              </span>
               <span className="hc-rs">₹</span>
               <input
                 type="text"
                 className="hc-amt"
                 inputMode="numeric"
+                pattern="[0-9,]*"
+                min={limits.min}
+                max={limits.max}
+                maxLength={limits.max.toLocaleString('en-IN').length}
                 value={amountInput}
                 onChange={handleAmountChange}
+                onPaste={handleAmountPaste}
                 onBlur={handleAmountBlur}
+                aria-valuemin={limits.min}
+                aria-valuemax={limits.max}
               />
+              {freq === 'daily' ? <span className="hc-per"> / day</span> : null}
             </div>
           </div>
           <div className="hc-freq-wrap">
             <button
               type="button"
               className={`hc-freq${freq === 'monthly' ? ' active' : ''}`}
-              onClick={() => setFreq('monthly')}
+              onClick={() => handleFreqChange('monthly')}
             >
               Monthly
             </button>
             <button
               type="button"
               className={`hc-freq${freq === 'daily' ? ' active' : ''}`}
-              onClick={() => setFreq('daily')}
+              onClick={() => handleFreqChange('daily')}
             >
               Daily
             </button>
@@ -103,17 +148,13 @@ export default function HeroCalculator() {
         <input
           type="range"
           className="hc-range"
-          min={freq === 'daily' ? 100 : 1000}
-          max={freq === 'daily' ? 5000 : 100000}
-          step={freq === 'daily' ? 50 : 500}
-          value={Math.min(freq === 'daily' ? 5000 : 100000, Math.max(freq === 'daily' ? 100 : 1000, amount))}
-          onChange={(e) => {
-            const next = Number(e.target.value);
-            setAmount(next);
-            setAmountInput(next.toLocaleString('en-IN'));
-          }}
+          min={limits.min}
+          max={limits.max}
+          step={limits.step}
+          value={clampedAmount}
+          onChange={(e) => applyAmount(Number(e.target.value))}
           style={{
-            '--p': `${((Math.min(freq === 'daily' ? 5000 : 100000, Math.max(freq === 'daily' ? 100 : 1000, amount)) - (freq === 'daily' ? 100 : 1000)) / ((freq === 'daily' ? 5000 : 100000) - (freq === 'daily' ? 100 : 1000))) * 100}%`,
+            '--p': `${((clampedAmount - limits.min) / (limits.max - limits.min)) * 100}%`,
           }}
           aria-label="Investment amount"
         />

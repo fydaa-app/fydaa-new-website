@@ -9,7 +9,6 @@ import AdvisorySection from "./home/components/AdvisorySection";
 import Testimonials from "./home/components/Testimonials";
 import FaqSection from "./home/components/FaqSection";
 import FinalCta from "./home/components/FinalCta";
-import StickyCtaBar from "./home/components/StickyCtaBar";
 import HashScroll from "./components/HashScroll";
 
 export default function HomePage() {
@@ -26,7 +25,6 @@ export default function HomePage() {
       <Testimonials />
       <FaqSection />
       <FinalCta />
-      <StickyCtaBar />
     </main>
   );
 }

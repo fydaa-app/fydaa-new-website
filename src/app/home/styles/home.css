@@ -54,7 +54,9 @@
 .fydaa-home .hero-trust{display:flex;gap:24px;flex-wrap:wrap}
 .fydaa-home .hero-trust-item{font-size:.8rem;color:var(--ink3);display:flex;align-items:center;gap:6px}
 .fydaa-home .hero-trust-item svg{color:var(--g);flex-shrink:0}
-.fydaa-home .hero-calc{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:440px;margin-left:auto;box-shadow:var(--shadow-card)}
+.fydaa-home .hero-calc-col{max-width:440px;margin-left:auto;width:100%}
+.fydaa-home .hero-calc{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:100%;box-shadow:var(--shadow-card)}
+.fydaa-home .hc-note{margin:8px 2px 0;font-size:.68rem;line-height:1.35;font-weight:400;color:var(--ink3)}
 .fydaa-home .hc-cats{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;padding:4px;background:#fff;border-bottom:1px solid var(--border)}
 .fydaa-home .hc-cats::-webkit-scrollbar{display:none}
 .fydaa-home .hc-cat{flex:1 0 auto;border:none;background:transparent;padding:10px 14px;font-family:inherit;font-size:.78rem;font-weight:600;color:var(--ink3);cursor:pointer;border-radius:10px;transition:all .2s;white-space:nowrap}
@@ -68,7 +70,7 @@
 .fydaa-home .hc-label{font-size:.72rem;font-weight:500;color:var(--ink3);margin-bottom:4px}
 .fydaa-home .hc-amt-wrap{display:flex;align-items:baseline}
 .fydaa-home .hc-rs{font-size:1.2rem;font-weight:700;color:var(--ink)}
-.fydaa-home .hc-amt{font-family:inherit;font-size:1.2rem;font-weight:700;color:var(--ink);background:none;border:none;border-bottom:2px solid transparent;outline:none;width:100px;padding:0 0 2px 2px;transition:border-color .2s}
+.fydaa-home .hc-amt{font-family:inherit;font-size:1.2rem;font-weight:700;color:var(--ink);background:none;border:none;border-bottom:2px solid transparent;outline:none;width:7.5ch;min-width:7.5ch;padding:0 0 2px 2px;transition:border-color .2s}
 .fydaa-home .hc-amt:focus{border-bottom-color:var(--g)}
 .fydaa-home .hc-freq-wrap{display:flex;gap:0;background:#E8E8E8;border-radius:8px;padding:2px}
 .fydaa-home .hc-freq{border:none;background:transparent;padding:7px 12px;font-family:inherit;font-size:.72rem;font-weight:600;color:var(--ink3);border-radius:6px;cursor:pointer;transition:all .2s}
@@ -271,7 +273,8 @@
   .fydaa-home .hero-cta{width:100%}
   .fydaa-home .hero-ctas .btn-invest,
   .fydaa-home .hero-ctas .btn-download{width:100%;justify-content:center}
-  .fydaa-home .hero-calc{max-width:100%;margin-left:0;margin-top:8px}
+  .fydaa-home .hero-calc-col{margin-left:0;margin-top:8px;max-width:100%}
+  .fydaa-home .hc-note{margin-top:6px;font-size:.62rem}
   .fydaa-home .hc-row{flex-wrap:wrap}
   .fydaa-home .hc-tenure-row{flex-wrap:wrap}
   .fydaa-home .hc-body{padding:16px}
@@ -313,7 +316,7 @@
   .fydaa-home .footer-grid{grid-template-columns:1fr}
   .fydaa-home .hc-cats{gap:0}
   .fydaa-home .hc-cat{padding:8px 10px;font-size:.7rem}
-  .fydaa-home .hc-amt{width:80px;font-size:1.05rem}
+  .fydaa-home .hc-amt{width:7.5ch;font-size:1.05rem}
   .fydaa-home .hc-rs{font-size:1.05rem}
   .fydaa-home .purpose-icon-item{padding:10px 16px;flex-wrap:wrap;justify-content:center}
   .fydaa-home .amc-logo{height:44px;padding:6px 12px;gap:8px}
