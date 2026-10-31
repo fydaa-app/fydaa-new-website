@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import HeroCard from "../components/HeroCard";
 import ProductShowcase from "../components/ProductShowcase";
@@ -13,7 +12,7 @@ import AdvisorTalkPage from "../components/AdvisorTalkPage";
 import { AllocationBar, AMCStrip, RMCard, RecommendedGoals } from "../components/DashboardWidgets";
 import BasketsHomeSection from "../components/BasketsHomeSection";
 import { getUserStage } from "../../signup/lib/authApi";
-import { isHomeKycComplete } from "../../signup/lib/kycApi";
+import { isSignupComplete } from "../../signup/lib/kycApi";
 import { deletePendingSip, loadHomePending } from "../lib/dreamsApi";
 import { PRODUCT_TABS } from "../lib/investmentApi";
 import { userFacingMessage } from "../lib/sipInvestApi";
@@ -25,9 +24,30 @@ function tabKeyFromGoalId(goalId) {
   return tab?.key || "equity";
 }
 
-export default function HomePage({ setActivePage, user }) {
+export default function HomePage({
+  setActivePage,
+  user,
+  resumeInvestDraft,
+  clearResumeInvestDraft,
+}) {
   const [showcase, setShowcase] = useState(null);
   const [investDraft, setInvestDraft] = useState(null);
+
+  useEffect(() => {
+    if (!resumeInvestDraft) return;
+    setInvestDraft(resumeInvestDraft);
+    clearResumeInvestDraft?.();
+  }, [resumeInvestDraft, clearResumeInvestDraft]);
+
+  const goCompleteKyc = (draft) => {
+    setActivePage?.("kyc", {
+      start: "kyc",
+      returnPage: "home",
+      returnDraft: draft
+        ? { ...draft, resumeReview: true, openReview: true }
+        : null,
+    });
+  };
   const [basketFlow, setBasketFlow] = useState(null);
   const [createBasketOpen, setCreateBasketOpen] = useState(false);
   const [editBasket, setEditBasket] = useState(null);
@@ -55,6 +75,10 @@ export default function HomePage({ setActivePage, user }) {
           onDeleted={() => {
             setBasketFlow(null);
             setBasketTick((value) => value + 1);
+          }}
+          onCompleteKyc={(draft) => {
+            goCompleteKyc(draft || null);
+            setBasketFlow(null);
           }}
         />
         <CreateBasketFlow
@@ -95,7 +119,7 @@ export default function HomePage({ setActivePage, user }) {
         onAdviserClick={() => setAdvisorOpen(true)}
         onPortfolioClick={() => setActivePage("dreams")}
       />
-      <CompleteKycBanner />
+      <CompleteKycBanner setActivePage={setActivePage} />
       <PendingList
         refreshKey={pendingTick}
         onResume={(row) => {
@@ -133,6 +157,10 @@ export default function HomePage({ setActivePage, user }) {
         onDone={() => {
           setPendingTick((value) => value + 1);
           setActivePage("home");
+        }}
+        onCompleteKyc={(draft) => {
+          goCompleteKyc(draft || investDraft);
+          setInvestDraft(null);
         }}
       />
       <AllocationBar onStart={startProduct} />
@@ -269,15 +297,14 @@ function PendingList({ refreshKey, onResume, onDeleted }) {
   );
 }
 
-function CompleteKycBanner() {
-  const router = useRouter();
+function CompleteKycBanner({ setActivePage }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     getUserStage()
       .then((stage) => {
-        if (!cancelled) setShow(!isHomeKycComplete(stage));
+        if (!cancelled) setShow(!isSignupComplete(stage));
       })
       .catch(() => {
         if (!cancelled) setShow(false);
@@ -292,11 +319,29 @@ function CompleteKycBanner() {
   return (
     <button
       type="button"
-      onClick={() => router.push("/signup?start=kyc")}
-      className="w-full text-left bg-white border border-border rounded-card px-5 py-4 mb-7 shadow-card hover:border-jade"
+      onClick={() => setActivePage?.("kyc", { start: "kyc" })}
+      className="group w-full mb-7 flex items-center gap-4 text-left rounded-card border border-jade/25 bg-tint px-5 py-4 shadow-card transition-all hover:border-jade hover:bg-white hover:shadow-elevated active:scale-[0.99] cursor-pointer"
     >
-      <div className="text-sm font-semibold text-ink">Complete Your KYC</div>
-      <div className="text-xs text-muted mt-1">Finish the remaining steps to start investing.</div>
+      <span className="w-11 h-11 rounded-full bg-jade text-white flex items-center justify-center shrink-0 shadow-sm">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="M9 12l2 2 4-4" />
+        </svg>
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm font-bold text-ink group-hover:text-jade transition-colors">
+          Complete Your KYC
+        </span>
+        <span className="block text-xs text-muted mt-0.5">
+          Finish the remaining steps to start investing.
+        </span>
+      </span>
+      <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-jade text-white text-xs font-bold px-3 py-1.5 group-hover:bg-jade/90">
+        Continue
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
+          <path d="M5 12h14M13 5l7 7-7 7" />
+        </svg>
+      </span>
     </button>
   );
 }

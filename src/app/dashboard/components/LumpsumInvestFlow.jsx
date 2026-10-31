@@ -53,7 +53,7 @@ function fundPlanConflict(fund, model) {
 /**
  * Home one-time invest: review (amount + method) → readiness → consent → payment gateway.
  */
-export default function LumpsumInvestFlow({ open, draft, onClose, onDone }) {
+export default function LumpsumInvestFlow({ open, draft, onClose, onDone, onCompleteKyc }) {
   const [page, setPage] = useState("review");
   const [readyOpen, setReadyOpen] = useState(false);
   const [portfolio, setPortfolio] = useState(null);
@@ -142,10 +142,21 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone }) {
         setPortfolio(null);
       }
       if (!cancelled) setLoading(false);
+
+      // Returning from KYC: show checklist once so user can continue (consent/pay).
+      if (!cancelled && (draft.resumeReview || draft.openReview)) {
+        setBusy(true);
+        const ready = await checkLumpsumReadiness();
+        if (cancelled) return;
+        setReadiness(ready);
+        setBusy(false);
+        setReadyOpen(true);
+      }
     })();
     return () => {
       cancelled = true;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, draft, ownFund]);
 
   if (!open || !draft) return null;
@@ -186,13 +197,7 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone }) {
     }
     if (next.step === "kyc" || next.step === "bank" || next.step === "nominee") {
       setBusy(false);
-      setError(
-        next.step === "bank"
-          ? "Add your bank account from Complete KYC, then return here."
-          : next.step === "nominee"
-            ? "Add a nominee from Complete KYC, then return here."
-          : "Complete KYC from the Home banner, then return here.",
-      );
+      onCompleteKyc?.(draft);
       return;
     }
     if (next.step === "consent") {

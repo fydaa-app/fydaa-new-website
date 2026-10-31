@@ -1,4 +1,5 @@
 import { endSession, getAccessToken, getUserStage, storeTokens } from "../../signup/lib/authApi";
+import { isHomeKycComplete, isTruthyFlag } from "../../signup/lib/kycApi";
 import { AUTH_BASE, PAYMENT_BASE, STOCK_BASE } from "../../signup/lib/apiHosts";
 import { cutAtFund } from "./investmentApi";
 import { loadPortfolioForSip, resolveUserIp, updateMfia, userFacingMessage } from "./sipInvestApi";
@@ -83,10 +84,11 @@ export async function checkLumpsumReadiness() {
   const stage = await getUserStage().catch(() => null);
   const kyc = await authed(AUTH_BASE, "kyc/check-kyc", { method: "POST", body: {} });
   const entity = kyc.data?.entity_details?.name || kyc.data?.data?.entity_details?.name || "";
-  const kycOk = kyc.ok && (kyc.data?.status === true || kyc.data?.status === "true")
+  const checkKycOk = kyc.ok && (kyc.data?.status === true || kyc.data?.status === "true")
     && String(kyc.data?.action || "").toLowerCase() !== "modify";
-  const bankOk = stage?.isBank === true || stage?.isBank === "true";
-  const nomineeOk = stage?.isNominee === true || stage?.isNominee === "true";
+  const kycOk = checkKycOk && isHomeKycComplete(stage || {});
+  const bankOk = isTruthyFlag(stage?.isBank);
+  const nomineeOk = isTruthyFlag(stage?.isNominee);
   const model = String(stage?.investmentModel || "").toUpperCase();
   const modelSet = model === "RIA" || model === "ARN";
 
@@ -110,8 +112,22 @@ export async function checkLumpsumReadiness() {
       {
         id: "kyc",
         label: "KYC",
-        detail: entity ? `${entity} · verified` : "Complete KYC and bank before payment",
-        done: kycOk && bankOk,
+        detail: kycOk
+          ? (entity ? `${entity} · verified` : "KYC verified")
+          : "Complete KYC before payment",
+        done: kycOk,
+      },
+      {
+        id: "bank",
+        label: "Bank account",
+        detail: bankOk ? "Bank linked" : "Add bank account before payment",
+        done: bankOk,
+      },
+      {
+        id: "nominee",
+        label: "Nominee",
+        detail: nomineeOk ? "Nominee added" : "Add nominee before payment",
+        done: nomineeOk,
       },
       {
         id: "consent",

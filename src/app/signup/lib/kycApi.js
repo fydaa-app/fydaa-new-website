@@ -659,3 +659,33 @@ export const NOMINEE_RELATIONS = [
   { value: 'brother', label: 'Brother' },
   { value: 'sister', label: 'Sister' },
 ];
+
+const IFSC_REGEX = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+
+/** Lookup branch details for an IFSC via Razorpay public IFSC API. */
+export async function lookupIfsc(ifscCode) {
+  const code = String(ifscCode || '').trim().toUpperCase();
+  if (!IFSC_REGEX.test(code)) {
+    throw new Error('Enter a valid IFSC (e.g. HDFC0001234).');
+  }
+  const res = await fetch(`https://ifsc.razorpay.com/${encodeURIComponent(code)}`, {
+    method: 'GET',
+    headers: { Accept: 'application/json' },
+  });
+  if (res.status === 404) throw new Error('IFSC not found. Check the code and try again.');
+  if (!res.ok) throw new Error('Could not fetch branch details. Try again.');
+  const data = await parseJson(res);
+  if (!data || typeof data !== 'object' || !data.IFSC) {
+    throw new Error('IFSC not found. Check the code and try again.');
+  }
+  return {
+    ifsc: data.IFSC,
+    bank: data.BANK || '',
+    branch: data.BRANCH || '',
+    address: data.ADDRESS || '',
+    city: data.CITY || data.CENTRE || '',
+    state: data.STATE || '',
+    district: data.DISTRICT || '',
+    contact: data.CONTACT || '',
+  };
+}

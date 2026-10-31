@@ -71,7 +71,7 @@ function nextDebitLabel(day) {
 /**
  * Goal SIP setup (amount → date). Consent / mandate stay in SipInvestWizard.
  */
-export default function GoalSipFlow({ goal, onBack, onContinue }) {
+export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc }) {
   const tenureOptions = useMemo(
     () => tenureOptionsForBadge(goal?.badge),
     [goal?.badge],
@@ -200,12 +200,22 @@ export default function GoalSipFlow({ goal, onBack, onContinue }) {
       setError("This goal is not available yet.");
       return;
     }
-    if (reviewAction.step === "kyc") {
-      setError("Complete KYC in the signup flow, then return here.");
-      return;
-    }
-    if (reviewAction.step === "bank") {
-      setError("Add your bank details in KYC, then return here.");
+    if (reviewAction.step === "kyc" || reviewAction.step === "bank" || reviewAction.step === "nominee") {
+      const productTab = PRODUCT_TABS.find((item) => item.goalId === goalId);
+      onCompleteKyc?.({
+        tab: productTab?.key || "equity",
+        goalId,
+        goalName: goal?.name,
+        amount,
+        tenureYears: years,
+        frequency: "monthly",
+        fundMode: "rec",
+        fund: null,
+        monthlyDay: sipDay,
+        fromGoals: true,
+        openReview: true,
+        resumeReview: true,
+      });
       return;
     }
     const productTab = PRODUCT_TABS.find((item) => item.goalId === goalId);

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
 import HomePage from "./pages/HomePage";
@@ -10,7 +11,7 @@ import HistoryPage from "./pages/HistoryPage";
 import ProfilePage from "./pages/ProfilePage";
 import KycPage from "./pages/KycPage";
 import { getUserBankDetails, getUserDetails, getUserStage } from "../signup/lib/authApi";
-import { isHomeKycComplete, isSignupComplete } from "../signup/lib/kycApi";
+import { isSignupComplete } from "../signup/lib/kycApi";
 import { mapBankDetails, mapStageProfile, mapUserDetails } from "./lib/userProfile";
 import { emailFromAdvisorPayload, getAdvisorAndRelationshipManager, mapRelationshipManager } from "./lib/crmApi";
 const pages = {
@@ -22,19 +23,86 @@ const pages = {
   profile: ProfilePage,
 };
 
-export default function App() {
+function DashboardShell() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [activePage, setActivePage] = useState("home");
   const [showKyc, setShowKyc] = useState(false);
   const [user, setUser] = useState(undefined);
   const [pendingGoalSip, setPendingGoalSip] = useState(null);
+  const [kycStart, setKycStart] = useState("kyc");
+  const [kycReturnPage, setKycReturnPage] = useState("home");
+  const [resumeInvestDraft, setResumeInvestDraft] = useState(null);
   const [navOpen, setNavOpen] = useState(false);
   const Page = pages[activePage] || HomePage;
 
-  const goToPage = (page, goal) => {
-    if (goal) setPendingGoalSip(goal);
+  const refreshKycVisibility = () => {
+    getUserStage()
+      .then((stage) => {
+        const needsKyc = !isSignupComplete(stage);
+        setShowKyc(needsKyc);
+        return needsKyc;
+      })
+      .catch(() => {
+        setShowKyc(false);
+      });
+  };
+
+  const goToPage = (page, goalOrOpts) => {
+    if (page === "kyc") {
+      const opts = goalOrOpts && typeof goalOrOpts === "object" ? goalOrOpts : {};
+      const start = opts.start === "risk" ? "risk" : "kyc";
+      setKycStart(start);
+      if (opts.returnDraft) {
+        setResumeInvestDraft({ ...opts.returnDraft, resumeReview: true });
+        setKycReturnPage(opts.returnPage || "home");
+      } else if (!opts.keepReturn) {
+        setResumeInvestDraft(null);
+        setKycReturnPage("home");
+      }
+    } else if (goalOrOpts && !(goalOrOpts && goalOrOpts.start)) {
+      setPendingGoalSip(goalOrOpts);
+    }
     setActivePage(page);
     setNavOpen(false);
   };
+
+  /** User tapped "Back to dashboard" — leave KYC and clear any pending invest resume. */
+  const exitKycToDashboard = () => {
+    setResumeInvestDraft(null);
+    setKycReturnPage("home");
+    getUserStage()
+      .then((stage) => setShowKyc(!isSignupComplete(stage)))
+      .catch(() => setShowKyc(false))
+      .finally(() => setActivePage("home"));
+  };
+
+  /** KYC steps finished successfully — resume invest review if we came from there. */
+  const finishKycFlow = () => {
+    const returnPage = resumeInvestDraft
+      ? (kycReturnPage === "goals" ? "goals" : "home")
+      : "home";
+    getUserStage()
+      .then((stage) => {
+        setShowKyc(!isSignupComplete(stage));
+      })
+      .catch(() => {
+        setShowKyc(false);
+      })
+      .finally(() => {
+        setActivePage(returnPage);
+        setKycReturnPage("home");
+      });
+  };
+
+  // Open embedded KYC when arriving as /dashboard?start=kyc|risk
+  useEffect(() => {
+    const start = searchParams?.get("start");
+    if (start !== "kyc" && start !== "risk") return;
+    setKycStart(start);
+    setActivePage("kyc");
+    router.replace("/dashboard", { scroll: false });
+  }, [searchParams, router]);
 
   useEffect(() => {
     if (!navOpen) return undefined;
@@ -50,7 +118,7 @@ export default function App() {
     getUserStage()
       .then((stage) => {
         if (cancelled) return;
-        setShowKyc(!isHomeKycComplete(stage) || !isSignupComplete(stage));
+        setShowKyc(!isSignupComplete(stage));
         setUser((current) => ({
           ...(current || {}),
           ...mapStageProfile(stage),
@@ -134,8 +202,22 @@ export default function App() {
           user={user}
           pendingGoalSip={pendingGoalSip}
           clearPendingGoalSip={() => setPendingGoalSip(null)}
+          kycStart={kycStart}
+          onKycFinished={finishKycFlow}
+          onKycExit={exitKycToDashboard}
+          resumeInvestDraft={resumeInvestDraft}
+          clearResumeInvestDraft={() => setResumeInvestDraft(null)}
+          refreshKycVisibility={refreshKycVisibility}
         />
       </main>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Suspense fallback={<div className="min-h-dvh bg-bg" />}>
+      <DashboardShell />
+    </Suspense>
   );
 }

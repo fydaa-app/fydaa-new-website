@@ -68,8 +68,8 @@ function Progress({ step }) {
  * Product (Daily/Monthly SIP from Home): portfolio → Review & confirm → consent → mandate → debit
  * Goals (after GoalSipFlow): skip portfolio/review → consent → mandate → debit
  */
-export default function SipInvestWizard({ open, draft, onClose, onDone }) {
-  const fromGoals = !!draft?.fromGoals || !!draft?.fromBasket || !!draft?.openReview;
+export default function SipInvestWizard({ open, draft, onClose, onDone, onCompleteKyc }) {
+  const fromGoals = !!draft?.fromGoals || !!draft?.fromBasket || !!draft?.openReview || !!draft?.resumeReview;
   const [page, setPage] = useState(fromGoals ? "loading" : "portfolio");
   const [reviewOpen, setReviewOpen] = useState(false);
   const [autoDebitOpen, setAutoDebitOpen] = useState(false);
@@ -261,14 +261,10 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
   async function beginGoalsSetup(ready, port) {
     const failPage = fromGoals ? "goals" : "portfolio";
     const next = nextReviewAction({ readiness: ready, consentDone: false, mandateDone: false });
-    if (next.step === "kyc") {
-      setError("Complete KYC in the signup flow, then return here.");
+    // Let the user open Review & confirm and click Complete KYC themselves.
+    if (next.step === "kyc" || next.step === "bank" || next.step === "nominee") {
       setPage(failPage);
-      return;
-    }
-    if (next.step === "bank") {
-      setError("Add your bank details in KYC, then return here.");
-      setPage(failPage);
+      setReviewOpen(true);
       return;
     }
     setBusy(true);
@@ -303,11 +299,12 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
     if (!open || !draft) return undefined;
     let cancelled = false;
     const goals = !!draft.fromGoals || !!draft.fromBasket;
-    const showGoalsReview = goals && !!draft.openReview;
-    const startGoalsSetup = (goals && (draft.startSetup || !draft.openReview))
-      || (!!draft.fromOwnFund && !!draft.startSetup);
+    const resumeReview = !!draft.resumeReview || !!draft.openReview;
+    const showGoalsReview = (goals && !!draft.openReview) || resumeReview;
+    const startGoalsSetup = (goals && (draft.startSetup || !draft.openReview) && !resumeReview)
+      || (!!draft.fromOwnFund && !!draft.startSetup && !resumeReview);
     const enterLoading = showGoalsReview || startGoalsSetup;
-    setPage(enterLoading ? (showGoalsReview ? "goals" : "loading") : "portfolio");
+    setPage(enterLoading ? (showGoalsReview ? (goals ? "goals" : "portfolio") : "loading") : "portfolio");
     setReviewOpen(false);
     setConsentDone(false);
     setMandateDone(false);
@@ -336,7 +333,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
           await ensureSipCreated(port);
           setBusy(false);
         }
-        setPage("goals");
+        setPage(goals ? "goals" : "portfolio");
         setReviewOpen(true);
         return;
       }
@@ -364,12 +361,8 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
 
   async function onReviewPrimary() {
     setError("");
-    if (action.step === "kyc") {
-      setError("Complete KYC in the signup flow, then return here.");
-      return;
-    }
-    if (action.step === "bank") {
-      setError("Add your bank details in KYC, then return here.");
+    if (action.step === "kyc" || action.step === "bank" || action.step === "nominee") {
+      onCompleteKyc?.(draft);
       return;
     }
     if (action.step === "consent") {
@@ -441,6 +434,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone }) {
         draft={draft}
         onClose={onClose}
         onDone={onDone}
+        onCompleteKyc={onCompleteKyc}
       />
     );
   }
