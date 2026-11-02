@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { fetchPublicPartnerWebsite } from '../config/partnerWebsiteApi';
+import PartnerMobileCheck from './PartnerMobileCheck';
 
 export const dynamic = 'force-dynamic';
 
@@ -114,6 +115,8 @@ export default async function PartnerWebsitePage({ params }: PageProps) {
           </ol>
         </section>
       ) : null}
+
+      <PartnerMobileCheck slug={slug} />
     </main>
   );
 }
