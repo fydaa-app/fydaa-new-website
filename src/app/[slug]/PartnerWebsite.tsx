@@ -100,7 +100,7 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
             </h1>
             <p className="pw-lead">
               <span className="pw-lead-line">
-                Meet {name}, your Fydaa partner advisor in Mumbai, helping individuals and
+                Meet {name}, your Fydaa partner in Mumbai, helping individuals and
               </span>
               <br />
               <span className="pw-lead-line">
@@ -119,7 +119,9 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
               rel="noopener noreferrer"
             >
               Book a Consultation
-              <span aria-hidden="true">→</span>
+              <span className="pw-cta-chevron" aria-hidden="true">
+                ›
+              </span>
             </a>
           </div>
         </div>
@@ -141,7 +143,7 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
             <div className="pw-invest-actions">
               <Link href={signupHref} className="pw-btn pw-btn-primary pw-invest-cta">
                 Start Investing
-                <span className="pw-invest-cta-chevron" aria-hidden="true">
+                <span className="pw-cta-chevron" aria-hidden="true">
                   ›
                 </span>
               </Link>
