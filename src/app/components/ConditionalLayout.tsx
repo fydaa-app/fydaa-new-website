@@ -27,8 +27,31 @@ export default function ConditionalLayout({
     };
   }, [pathname]);
 
+  const reservedTopLevel = new Set([
+    'about',
+    'careers',
+    'features',
+    'partner',
+    'programme',
+    'login',
+    'signup',
+    'dashboard',
+    'upi-faq',
+    'quicklinks',
+    'api',
+  ]);
+
+  const segments = (pathname || '/').split('/').filter(Boolean);
+  const pathSegment = segments[0] || '';
+  const isPartnerWebsiteLanding =
+    segments.length === 1 &&
+    Boolean(pathSegment) &&
+    !reservedTopLevel.has(pathSegment.toLowerCase()) &&
+    !pathSegment.toLowerCase().startsWith('successpage');
+
   const hideNavbar =
     hideOnboardingChrome ||
+    isPartnerWebsiteLanding ||
     pathname?.startsWith('/dashboard') ||
     pathname?.startsWith('/upi-faq') ||
     pathname?.startsWith('/SuccesspageDigi') ||

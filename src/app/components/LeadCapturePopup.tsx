@@ -15,15 +15,37 @@ const LeadCapturePopup = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
 
-  // Check if we're on a success page or partner page
-  const isSuccessPage = 
+  const reservedTopLevel = new Set([
+    'about',
+    'careers',
+    'features',
+    'partner',
+    'programme',
+    'login',
+    'signup',
+    'dashboard',
+    'upi-faq',
+    'quicklinks',
+    'api',
+  ]);
+  const segments = (pathname || '/').split('/').filter(Boolean);
+  const pathSegment = segments[0] || '';
+  const isPartnerWebsiteLanding =
+    segments.length === 1 &&
+    Boolean(pathSegment) &&
+    !reservedTopLevel.has(pathSegment.toLowerCase()) &&
+    !pathSegment.toLowerCase().startsWith('successpage');
+
+  // Check if we're on a success page, partner registration, or partner website landing
+  const isSuccessPage =
     pathname?.startsWith('/SuccesspageDigi') ||
     pathname?.startsWith('/SuccesspageFund') ||
     pathname?.startsWith('/Successpagemandate') ||
     pathname?.startsWith('/SuccesspageNSDL') ||
     pathname?.startsWith('/SuccesspageSetu') ||
     pathname?.startsWith('/partner') ||
-    pathname?.startsWith('/programme');
+    pathname?.startsWith('/programme') ||
+    isPartnerWebsiteLanding;
 
   useEffect(() => {
     const timer = setTimeout(() => {

@@ -42,7 +42,7 @@
 .fydaa-home .hero h1{margin-bottom:20px}
 .fydaa-home .hero h1 .serif{color:var(--g)}
 .fydaa-home .hero-sub{font-size:1.05rem;color:var(--ink2);max-width:440px;margin-bottom:36px;line-height:1.7}
-.fydaa-home .hero-ctas{display:flex;gap:12px;margin-bottom:40px;flex-wrap:wrap;align-items:flex-end}
+.fydaa-home .hero-ctas{display:flex;gap:12px;margin-bottom:40px;flex-wrap:wrap;align-items:flex-start}
 .fydaa-home .hero-cta{display:flex;flex-direction:column;gap:6px;width:180px}
 .fydaa-home .hero-cta-label{font-size:.75rem;font-weight:600;letter-spacing:.02em;color:var(--ink3);text-transform:none}
 .fydaa-home .hero-cta .btn-invest,
@@ -56,10 +56,10 @@
 .fydaa-home .hero-trust-item svg{color:var(--g);flex-shrink:0}
 .fydaa-home .hero-calc-col{max-width:440px;margin-left:auto;width:100%}
 .fydaa-home .hero-calc{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:100%;box-shadow:var(--shadow-card)}
-.fydaa-home .hc-note{margin:8px 2px 0;font-size:.68rem;line-height:1.35;font-weight:400;color:var(--ink3)}
+.fydaa-home .hc-note{margin:8px 2px 0;font-size:.68rem;line-height:1.35;font-weight:400;color:var(--ink3);text-align:right}
 .fydaa-home .hc-cats{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;padding:4px;background:#fff;border-bottom:1px solid var(--border)}
 .fydaa-home .hc-cats::-webkit-scrollbar{display:none}
-.fydaa-home .hc-cat{flex:1 0 auto;border:none;background:transparent;padding:10px 14px;font-family:inherit;font-size:.78rem;font-weight:600;color:var(--ink3);cursor:pointer;border-radius:10px;transition:all .2s;white-space:nowrap}
+.fydaa-home .hc-cat{flex:1 0 auto;border:none;background:transparent;padding:10px 14px;font-family:inherit;font-size:.78rem;font-weight:600;color:var(--ink);cursor:pointer;border-radius:10px;transition:all .2s;white-space:nowrap}
 .fydaa-home .hc-cat:hover{color:var(--ink2)}
 .fydaa-home .hc-cat.active{background:var(--g);color:#fff;box-shadow:0 2px 8px rgba(12,74,62,.15)}
 .fydaa-home .hc-body{padding:20px 24px 16px}

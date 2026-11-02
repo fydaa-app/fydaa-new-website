@@ -37,6 +37,7 @@ export default function HeroCalculator() {
   const limits = LIMITS[freq];
   const clampedAmount = clampAmount(amount, freq);
 
+  
   const { invested, returns, total } = useMemo(() => {
     const monthly = freq === 'daily' ? clampedAmount * 30 : clampedAmount;
     const investedAmt = monthly * years * 12;

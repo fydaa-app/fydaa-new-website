@@ -17,16 +17,16 @@ export default function Hero() {
             </p>
             <div className="hero-ctas">
               <div className="hero-cta">
-                <span className="hero-cta-label">New users</span>
                 <a href="/signup" className="btn-invest">
                   Start Investing
                 </a>
+                <span className="hero-cta-label">New users</span>
               </div>
               <div className="hero-cta">
-                <span className="hero-cta-label">Existing user</span>
                 <a href="/login" className="btn-download">
                   Login
                 </a>
+                <span className="hero-cta-label">Existing user</span>
               </div>
             </div>
             <div className="hero-trust">
