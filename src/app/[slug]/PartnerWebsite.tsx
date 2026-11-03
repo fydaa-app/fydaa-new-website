@@ -6,10 +6,9 @@ import HashScroll from '../components/HashScroll';
 import PartnerNavbar from './PartnerNavbar';
 import PartnerFundSearch from './PartnerFundSearch';
 import PartnerCalculator from './PartnerCalculator';
+import PartnerBookConsultationTrigger from './PartnerBookConsultation';
 import './partner-website.css';
 import '../home/styles/home.css';
-
-const BOOK_URL = 'https://www.cal.eu/fydaa/30min?overlayCalendar=true';
 
 type PartnerWebsiteProps = {
   data: PublicPartnerWebsite;
@@ -74,8 +73,10 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
   const photo = data.photoUrl || '/images/hero.jpg';
   const phone = data.mobileNumber ? String(data.mobileNumber).replace(/\D/g, '') : '';
   const telHref = phone ? `tel:+91${phone.slice(-10)}` : undefined;
-  const signupHref = `/signup?ref=${encodeURIComponent(slug)}`;
-  const loginHref = `/login?ref=${encodeURIComponent(slug)}`;
+  const referralParam =
+    data.referralCode?.trim() || slug;
+  const signupHref = `/signup?referredBy=${encodeURIComponent(referralParam)}`;
+  const loginHref = `/login?referredBy=${encodeURIComponent(referralParam)}`;
   const paragraphs = aboutParagraphs(data.about, data.name);
   const reviews = Array.isArray(data.reviews) ? data.reviews : [];
   const certifications = Array.isArray(data.certifications) ? data.certifications : [];
@@ -83,7 +84,7 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
   return (
     <div className="partner-site fydaa-home">
       <HashScroll />
-      <PartnerNavbar slug={slug} />
+      <PartnerNavbar slug={slug} referralCode={data.referralCode} />
 
       {/* 1. Hero */}
       <section className="pw-hero" id="overview">
@@ -111,17 +112,15 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
               <br />
               <span className="pw-support-line">goals, backed by the Fydaa ecosystem.</span>
             </p>
-            <a
-              href={BOOK_URL}
+            <PartnerBookConsultationTrigger
+              slug={slug}
               className="pw-btn pw-btn-primary pw-hero-cta"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               Book a Consultation
               <span className="pw-cta-chevron" aria-hidden="true">
                 ›
               </span>
-            </a>
+            </PartnerBookConsultationTrigger>
           </div>
         </div>
       </section>
@@ -274,9 +273,9 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
               to you.
             </p>
             <div className="pw-cta-actions">
-              <a href={BOOK_URL} className="pw-btn pw-btn-light" target="_blank" rel="noopener noreferrer">
+              <PartnerBookConsultationTrigger slug={slug} className="pw-btn pw-btn-light">
                 Book a Consultation
-              </a>
+              </PartnerBookConsultationTrigger>
               {telHref ? (
                 <a href={telHref} className="pw-btn pw-btn-call">
                   Call Now
@@ -285,12 +284,12 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
                   </svg>
                 </a>
               ) : (
-                <a href={BOOK_URL} className="pw-btn pw-btn-call" target="_blank" rel="noopener noreferrer">
+                <PartnerBookConsultationTrigger slug={slug} className="pw-btn pw-btn-call">
                   Call Now
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z" />
                   </svg>
-                </a>
+                </PartnerBookConsultationTrigger>
               )}
             </div>
           </div>

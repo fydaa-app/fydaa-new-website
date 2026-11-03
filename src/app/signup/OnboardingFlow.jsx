@@ -310,8 +310,8 @@ export default function OnboardingFlow({
   }, [screen, embedded]);
 
   useEffect(() => {
-    if (mode === 'login' || !searchParams) return;
-    const keys = ['ref_code', 'referredBy', 'referralCode', 'referral_code'];
+    if (!searchParams) return;
+    const keys = ['referredBy', 'referralCode', 'referral_code', 'ref_code', 'ref'];
     for (const key of keys) {
       const value = searchParams.get(key)?.trim();
       if (value) {
@@ -319,7 +319,7 @@ export default function OnboardingFlow({
         break;
       }
     }
-  }, [mode, searchParams]);
+  }, [searchParams]);
 
   useEffect(() => {
     if (screen !== 'emailotp' || !emailResendReadyAt) {
@@ -622,7 +622,10 @@ export default function OnboardingFlow({
     setAuthError('');
     try {
       await verifyPin({ mobileNumber, pin });
-      await requestOtp({ mobileNumber });
+      await requestOtp({
+        mobileNumber,
+        referredBy: storedReferral || undefined,
+      });
       setOtp('');
       setResendReadyAt(Date.now() + 30000);
       go('otp');
@@ -675,7 +678,7 @@ export default function OnboardingFlow({
     try {
       await requestOtp({
         mobileNumber,
-        referredBy: mode === 'login' ? undefined : storedReferral || undefined,
+        referredBy: storedReferral || undefined,
       });
       setResendReadyAt(Date.now() + 30000);
     } catch (err) {

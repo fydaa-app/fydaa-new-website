@@ -1999,3 +1999,125 @@
     padding: 0 12px;
   }
 }
+
+/* —— Book consultation modal —— */
+.partner-site button.pw-btn {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  appearance: none;
+}
+
+.pw-consult-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(16, 24, 40, 0.48);
+}
+
+.pw-consult-dialog {
+  width: min(440px, 100%);
+  max-height: min(90vh, 640px);
+  overflow: auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 24px 64px rgba(16, 24, 40, 0.18);
+}
+
+.pw-consult-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.pw-consult-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #101828;
+}
+
+.pw-consult-close {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #667085;
+  padding: 4px 8px;
+}
+
+.pw-consult-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pw-consult-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: #344054;
+}
+
+.pw-consult-field input {
+  border: 1px solid #d0d5dd;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+  color: #101828;
+  background: #fff;
+}
+
+.pw-consult-field input:focus {
+  outline: 2px solid rgba(16, 24, 40, 0.18);
+  outline-offset: 1px;
+}
+
+.pw-consult-field.has-error input {
+  border-color: #f04438;
+  background: #fef3f2;
+}
+
+.pw-consult-field.has-error input:focus {
+  outline: 2px solid rgba(240, 68, 56, 0.28);
+}
+
+.pw-consult-field-error {
+  color: #b42318;
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
+.pw-consult-error {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.875rem;
+}
+
+.pw-consult-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.pw-consult-success {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pw-consult-success p {
+  margin: 0;
+  color: #344054;
+  line-height: 1.5;
+}
