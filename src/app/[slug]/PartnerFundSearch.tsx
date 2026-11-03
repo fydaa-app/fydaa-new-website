@@ -72,7 +72,6 @@ export default function PartnerFundSearch() {
                 <div className={`pw-amc-track${isSearching ? ' is-static' : ''}`}>
                   {logos.map((amc, i) => (
                     <div className="pw-amc-card" key={`${amc.name}-${i}`} aria-label={amc.name}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={amc.src} alt="" />
                       <span>{amc.name}</span>
                     </div>
