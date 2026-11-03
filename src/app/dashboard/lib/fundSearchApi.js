@@ -1,4 +1,4 @@
-import { endSession, getAccessToken } from "../../signup/lib/authApi";
+import { getAccessToken } from "../../signup/lib/authApi";
 import { getStockBase } from "../../signup/lib/apiHosts";
 
 const RECENT_KEY = "fydaa-fund-recent-searches";
@@ -11,23 +11,19 @@ const CHIPS = [
 
 export { CHIPS };
 
+/** Public fund search — no token required (Bearer sent only if already logged in). */
 async function stockGet(path) {
+  const headers = { Accept: "application/json" };
   const token = getAccessToken();
-  if (!token) return { ok: false, message: "Unable to search funds" };
+  if (token) headers.Authorization = `Bearer ${token}`;
   let res;
   try {
     res = await fetch(`${getStockBase()}${path}`, {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
+      cache: "no-store",
     });
   } catch {
     return { ok: false, message: "Unable to reach fund search. Try again." };
-  }
-  if (res.status === 401) {
-    endSession();
-    return { ok: false, message: "Unable to search funds" };
   }
   const data = await res.json().catch(() => null);
   if (!res.ok || data?.error) {

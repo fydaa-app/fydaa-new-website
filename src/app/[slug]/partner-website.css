@@ -887,6 +887,117 @@
   }
 }
 
+.partner-site .pw-fund-results {
+  margin-top: 22px;
+  width: 100%;
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.partner-site .pw-fund-status {
+  text-align: center;
+  color: var(--ink2);
+  font-size: 0.9rem;
+  padding: 18px 8px;
+  margin: 0;
+}
+
+.partner-site .pw-fund-status-error {
+  color: #b42318;
+}
+
+.partner-site .pw-fund-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: min(52vh, 420px);
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.partner-site .pw-fund-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #d7e5df;
+  border-radius: 16px;
+  padding: 14px 18px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.partner-site .pw-fund-card:hover {
+  border-color: #0c4a3e;
+  box-shadow: 0 8px 24px rgba(12, 74, 62, 0.08);
+}
+
+.partner-site .pw-fund-card-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.partner-site .pw-fund-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.partner-site .pw-fund-sub {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--ink2);
+}
+
+.partner-site .pw-fund-card-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.partner-site .pw-fund-min {
+  font-size: 0.75rem;
+  color: var(--ink2);
+  white-space: nowrap;
+}
+
+.partner-site .pw-fund-cta {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0c4a3e;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .partner-site .pw-fund-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .partner-site .pw-fund-card-meta {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .partner-site .pw-fund-list {
+    max-height: min(48vh, 360px);
+  }
+}
+
 .partner-site .pw-amc-label {
   text-align: center;
   margin: 28px 0 14px;

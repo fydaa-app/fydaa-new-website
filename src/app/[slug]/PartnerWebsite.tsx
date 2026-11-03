@@ -170,7 +170,7 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
       </section>
 
       {/* 3. Fund search + AMC logos */}
-      <PartnerFundSearch />
+      <PartnerFundSearch signupHref={signupHref} />
 
       {/* 4. About */}
       <section className="pw-about" id="about">
