@@ -14,9 +14,10 @@ const NAV_LINKS = [
 
 type PartnerNavbarProps = {
   slug: string;
+  referralCode?: string | null;
 };
 
-export default function PartnerNavbar({ slug }: PartnerNavbarProps) {
+export default function PartnerNavbar({ slug, referralCode }: PartnerNavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('overview');
@@ -38,7 +39,8 @@ export default function PartnerNavbar({ slug }: PartnerNavbarProps) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const loginHref = `/login?ref=${encodeURIComponent(slug)}`;
+  const referralParam = String(referralCode || '').trim() || slug;
+  const loginHref = `/login?referredBy=${encodeURIComponent(referralParam)}`;
 
   return (
     <div className="site-nav">
