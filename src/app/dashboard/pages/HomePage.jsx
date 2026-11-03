@@ -9,6 +9,8 @@ import BasketSipFlow from "../components/BasketSipFlow";
 import CreateBasketFlow from "../components/CreateBasketFlow";
 import OwnFundSipFlow from "../components/OwnFundSipFlow";
 import AdvisorTalkPage from "../components/AdvisorTalkPage";
+import TrackOrdersFlow, { TrackOrdersBanner } from "../components/TrackOrdersFlow";
+import RepairOrdersFlow, { RepairOrdersBanner } from "../components/RepairOrdersFlow";
 import { AllocationBar, AMCStrip, RMCard, RecommendedGoals } from "../components/DashboardWidgets";
 import BasketsHomeSection from "../components/BasketsHomeSection";
 import { getUserStage } from "../../signup/lib/authApi";
@@ -16,6 +18,7 @@ import { isSignupComplete } from "../../signup/lib/kycApi";
 import { deletePendingSip, loadHomePending } from "../lib/dreamsApi";
 import { PRODUCT_TABS } from "../lib/investmentApi";
 import { userFacingMessage } from "../lib/sipInvestApi";
+import { settlePendingRepairPayment } from "../lib/repairOrdersApi";
 import { PAGE_SHELL } from "../lib/layoutClasses";
 
 function tabKeyFromGoalId(goalId) {
@@ -54,7 +57,36 @@ export default function HomePage({
   const [basketTick, setBasketTick] = useState(0);
   const [ownFundFlow, setOwnFundFlow] = useState(null);
   const [advisorOpen, setAdvisorOpen] = useState(false);
+  const [trackOrdersOpen, setTrackOrdersOpen] = useState(false);
+  const [repairOrdersOpen, setRepairOrdersOpen] = useState(false);
+  const [homeToast, setHomeToast] = useState(null);
   const [pendingTick, setPendingTick] = useState(0);
+  const [bannerTick, setBannerTick] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    settlePendingRepairPayment().then((result) => {
+      if (cancelled || result?.skipped) return;
+      if (result.ok) {
+        setHomeToast({ tone: "success", text: "Payment completed successfully!" });
+      } else {
+        setHomeToast({
+          tone: "error",
+          text: `Payment unsuccessful: ${result.message || "Please try again"}`,
+        });
+      }
+      setBannerTick((value) => value + 1);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!homeToast) return undefined;
+    const id = setTimeout(() => setHomeToast(null), 3500);
+    return () => clearTimeout(id);
+  }, [homeToast]);
 
   const startProduct = (key) => {
     setShowcase({ key, at: Date.now() });
@@ -112,6 +144,22 @@ export default function HomePage({
     return <AdvisorTalkPage onBack={() => setAdvisorOpen(false)} />;
   }
 
+  if (trackOrdersOpen) {
+    return <TrackOrdersFlow onBack={() => setTrackOrdersOpen(false)} />;
+  }
+
+  if (repairOrdersOpen) {
+    return (
+      <RepairOrdersFlow
+        onBack={() => {
+          setRepairOrdersOpen(false);
+          setBannerTick((value) => value + 1);
+        }}
+        onHomeRefresh={() => setBannerTick((value) => value + 1)}
+      />
+    );
+  }
+
   return (
     <div className={PAGE_SHELL}>
       <HeroCard
@@ -119,6 +167,17 @@ export default function HomePage({
         onAdviserClick={() => setAdvisorOpen(true)}
         onPortfolioClick={() => setActivePage("dreams")}
       />
+      {homeToast ? (
+        <div
+          className={`mb-4 rounded-xl px-4 py-3 text-sm font-medium ${
+            homeToast.tone === "success"
+              ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+              : "bg-red-50 text-red-700 border border-red-200"
+          }`}
+        >
+          {homeToast.text}
+        </div>
+      ) : null}
       <CompleteKycBanner setActivePage={setActivePage} />
       <PendingList
         refreshKey={pendingTick}
@@ -147,6 +206,8 @@ export default function HomePage({
         onStartInvest={(draft) => setInvestDraft({ ...draft, fromGoals: false })}
         onStartOwnFundSip={(seed) => setOwnFundFlow(seed)}
       />
+      <TrackOrdersBanner key={`track-${bannerTick}`} onOpen={() => setTrackOrdersOpen(true)} />
+      <RepairOrdersBanner key={`repair-${bannerTick}`} onOpen={() => setRepairOrdersOpen(true)} />
       <SipInvestWizard
         open={!!investDraft}
         draft={investDraft}
