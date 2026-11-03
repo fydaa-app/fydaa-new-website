@@ -30,7 +30,7 @@ const RESERVED_SLUGS = new Set([
 ]);
 
 type PageProps = {
-  params: Promise<{ slug: string }> | { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 function isReservedSlug(slug: string): boolean {
@@ -41,7 +41,7 @@ function isReservedSlug(slug: string): boolean {
 }
 
 export default async function PartnerWebsitePage({ params }: PageProps) {
-  const resolved = await Promise.resolve(params);
+  const resolved = await params;
   const slug = String(resolved?.slug || '').trim();
 
   if (!slug || isReservedSlug(slug)) {

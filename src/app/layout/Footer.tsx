@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 
 const UPI_HANDLES = [
   "multistrato.capitaladvisors.ia@validyes",
@@ -102,60 +103,60 @@ const Footer: React.FC = () => {
                   Quick Links
                 </h3>
                 <div className="space-y-3">
-                  <a
+                  <Link
                     href="/quicklinks/Terms&Conditions"
                     className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
                   >
                     Terms & Conditions
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/quicklinks/PrivacyPolicy"
                     className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
                   >
                     Privacy Policy
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/quicklinks/RefundPolicy"
                     className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
                   >
                     Refund Policy
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/quicklinks/InvestorCharter"
                     className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
                   >
                     Investor Charter
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/quicklinks/Complaints"
                     className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
                   >
                     Complaints
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/quicklinks/Grievance"
                     className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
                   >
                     Grievance Redressal / Escalation Matrix
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/quicklinks/InvestorWarning"
                     className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
                   >
                     Investor Warning - Fraudulent Misuse of Our Details
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/quicklinks/VigilanceAwarenessWeek"
                     className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
                   >
                     Vigilance Awareness Week
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/quicklinks/Disclosure"
                     className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
                   >
                     Disclosure
-                  </a>
+                  </Link>
                 </div>
               </div>
 

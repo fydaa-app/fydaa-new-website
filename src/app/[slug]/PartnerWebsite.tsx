@@ -89,7 +89,6 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
       <section className="pw-hero" id="overview">
         <div className="pw-container pw-hero-grid">
           <figure className="pw-hero-media">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={photo} alt={name} />
           </figure>
           <div className="pw-hero-copy">
@@ -254,7 +253,6 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
             </ol>
           </div>
           <div className="pw-start-visual">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/partner/getting-started.png"
               alt="Video call with your Fydaa relationship manager"
