@@ -610,3 +610,157 @@ export async function runPendingSipFirstDebit(onProgress) {
   })();
   return firstDebitInFlight;
 }
+
+const STOCK_TYPE_LABELS = {
+  IndianStock: "Equity",
+  Equity: "Equity",
+  Gold: "Digital Gold",
+  InstaFD: "InstaFD",
+  MultiAsset: "Multi-Asset",
+  FixedIncomeBonds: "Debt",
+  Debt: "Debt",
+  Hybrid: "Hybrid",
+  Global: "Global",
+  Liquid: "Liquid",
+  Custom: "Equity",
+};
+
+function dayOrdinalLabel(day) {
+  const n = Number(day) || 1;
+  if (n % 10 === 1 && n % 100 !== 11) return `${n}st`;
+  if (n % 10 === 2 && n % 100 !== 12) return `${n}nd`;
+  if (n % 10 === 3 && n % 100 !== 13) return `${n}rd`;
+  return `${n}th`;
+}
+
+function formatDdMmYyyy(date) {
+  const d = new Date(date);
+  if (Number.isNaN(d.getTime())) return "";
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  return `${dd}-${mm}-${d.getFullYear()}`;
+}
+
+function sipDayFromRecord(sip) {
+  const dayHint = Number(sip?.sipDateDay);
+  if (Number.isFinite(dayHint) && dayHint >= 1 && dayHint <= 28) return dayHint;
+  for (const key of ["sipDate", "startDate", "autoRenewDate"]) {
+    const raw = sip?.[key];
+    if (!raw) continue;
+    const d = new Date(raw);
+    if (!Number.isNaN(d.getTime())) return Math.min(28, Math.max(1, d.getDate()));
+  }
+  return 10;
+}
+
+function nextMonthlyDebitLine(day) {
+  const n = Math.min(28, Math.max(1, Number(day) || 10));
+  const now = new Date();
+  const next = new Date(now.getFullYear(), now.getMonth(), n);
+  if (now.getDate() >= n) next.setMonth(next.getMonth() + 1);
+  return `Next: ${formatDdMmYyyy(next)} · then ${dayOrdinalLabel(n)}/month`;
+}
+
+function moneyRoundLabel(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "₹0";
+  return `₹${Math.round(n).toLocaleString("en-IN")}`;
+}
+
+function stockTypeLabel(raw) {
+  const key = String(raw || "").trim();
+  if (!key) return "Equity";
+  return STOCK_TYPE_LABELS[key] || key;
+}
+
+function assetChipsFromOrders(orders, { amountSuffix = "" } = {}) {
+  const totals = new Map();
+  for (const row of orders || []) {
+    const label = stockTypeLabel(
+      row?.stockType || row?.stock_type || row?.assetClass || row?.type || row?.category,
+    );
+    const amt = Number(
+      row?.orderValue ?? row?.order_value ?? row?.minimumamount ?? row?.minimumAmount ?? row?.price ?? 0,
+    );
+    const add = Number.isFinite(amt) ? amt : 0;
+    totals.set(label, (totals.get(label) || 0) + add);
+  }
+  return [...totals.entries()]
+    .filter(([, amt]) => amt > 0)
+    .map(([label, amt]) => `${label} ${moneyRoundLabel(amt)}${amountSuffix}`);
+}
+
+function asSipList(raw) {
+  if (Array.isArray(raw)) return raw;
+  if (Array.isArray(raw?.data)) return raw.data;
+  if (Array.isArray(raw?.sips)) return raw.sips;
+  if (Array.isArray(raw?.data?.data)) return raw.data.data;
+  return [];
+}
+
+/**
+ * Flutter parity: success numbers come from getMySipMf + buyOrderMf (not the setup POSTs).
+ */
+export async function fetchSipSuccessViewData({ sipId, amount, portfolioId, fallbackLabel } = {}) {
+  const id = Number(sipId);
+  const fallbackAmount = Number(amount) || 0;
+
+  const sipResult = await authed(STOCK_BASE, "orders/getMySipMf");
+  const sips = sipResult.ok ? asSipList(sipResult.data) : [];
+  const sip =
+    (Number.isFinite(id) && id > 0
+      ? sips.find((row) => Number(row?.id) === id)
+      : null) || sips[0] || null;
+
+  const sipAmount = Number(sip?.sipAmount) || fallbackAmount;
+  const frequency =
+    String(sip?.sipFrequency || "").toLowerCase() === "daily" ? "daily" : "monthly";
+  const daily = frequency === "daily";
+  const day = sipDayFromRecord(sip);
+  const goalName =
+    firstString(sip?.goal || {}, ["name", "goalName"]) ||
+    firstString(sip || {}, ["sipName", "userSipName", "goalName"]) ||
+    fallbackLabel ||
+    "";
+
+  const portId = portfolioId ?? sip?.portfolioId ?? sip?.portfolio?.id ?? null;
+  const buy = await loadBuyOrdersForSip({
+    sipId: Number.isFinite(id) && id > 0 ? id : sip?.id,
+    amount: sipAmount || fallbackAmount || 1,
+    portfolioId: portId,
+  });
+
+  const orders = buy.ok ? buy.orders : [];
+  const recurringChips = assetChipsFromOrders(orders, { amountSuffix: daily ? "/day" : "/mo" });
+  const firstChips = assetChipsFromOrders(orders, { amountSuffix: "" });
+  const fallbackChipBase = goalName || "Equity";
+  if (!recurringChips.length && sipAmount > 0) {
+    recurringChips.push(
+      `${fallbackChipBase} ${moneyRoundLabel(sipAmount)}${daily ? "/day" : "/mo"}`,
+    );
+  }
+  if (!firstChips.length && sipAmount > 0) {
+    firstChips.push(`${fallbackChipBase} ${moneyRoundLabel(sipAmount)}`);
+  }
+
+  return {
+    ok: true,
+    sipId: sip?.id ?? id,
+    sipAmount,
+    daily,
+    frequency,
+    title: daily ? "Daily SIP" : "Monthly SIP",
+    amountLabel: `${moneyRoundLabel(sipAmount)}${daily ? "/day" : "/mo"}`,
+    firstAmountLabel: moneyRoundLabel(sipAmount),
+    scheduleLine: daily
+      ? "Next: each business day"
+      : nextMonthlyDebitLine(day),
+    subtitle: daily
+      ? "First payment initiated. Daily auto-debit on each business day."
+      : "First payment initiated. Monthly SIP set for next month.",
+    recurringChips,
+    firstChips,
+    sip,
+    buyOk: buy.ok,
+  };
+}

@@ -15,17 +15,25 @@ const NAV_LINKS = [
 type PartnerNavbarProps = {
   slug: string;
   referralCode?: string | null;
+  showReviews?: boolean;
 };
 
-export default function PartnerNavbar({ slug, referralCode }: PartnerNavbarProps) {
+export default function PartnerNavbar({
+  slug,
+  referralCode,
+  showReviews = true,
+}: PartnerNavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('overview');
+  const links = NAV_LINKS.filter((link) => showReviews || link.href !== '#reviews');
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 10);
-      const ids = NAV_LINKS.map((l) => l.href.slice(1));
+      const ids = NAV_LINKS.filter((l) => showReviews || l.href !== '#reviews').map(
+        (l) => l.href.slice(1),
+      );
       let current = ids[0];
       for (const id of ids) {
         const el = document.getElementById(id);
@@ -37,7 +45,7 @@ export default function PartnerNavbar({ slug, referralCode }: PartnerNavbarProps
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [showReviews]);
 
   const referralParam = String(referralCode || '').trim() || slug;
   const loginHref = `/login?referredBy=${encodeURIComponent(referralParam)}`;
@@ -56,7 +64,7 @@ export default function PartnerNavbar({ slug, referralCode }: PartnerNavbarProps
           </Link>
 
           <div className={`nav-center${open ? ' open' : ''}`}>
-            {NAV_LINKS.map((link) => (
+            {links.map((link) => (
               <a
                 key={link.label}
                 href={link.href}

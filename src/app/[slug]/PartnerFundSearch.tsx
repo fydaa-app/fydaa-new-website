@@ -1,23 +1,87 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
 import { AMC_PARTNERS } from '../home/data/amcPartners';
+import { searchFunds } from '../dashboard/lib/fundSearchApi';
 
 const FILTERS = ['All', 'Equity', 'Liquid', 'Debt'] as const;
 
-export default function PartnerFundSearch() {
+type FundHit = {
+  name: string;
+  scheme: string;
+  subtitle?: string;
+  minSip?: number | null;
+  minInitial?: number | null;
+};
+
+type PartnerFundSearchProps = {
+  signupHref?: string;
+};
+
+function money(n: number | null | undefined) {
+  const value = Number(n);
+  if (!Number.isFinite(value) || value <= 0) return null;
+  return `₹${Math.round(value).toLocaleString('en-IN')}`;
+}
+
+export default function PartnerFundSearch({ signupHref = '/signup' }: PartnerFundSearchProps) {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>('All');
+  const [funds, setFunds] = useState<FundHit[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [hint, setHint] = useState('');
+  const requestId = useRef(0);
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return AMC_PARTNERS;
-    return AMC_PARTNERS.filter((amc) => amc.name.toLowerCase().includes(q));
-  }, [query]);
-
-  // Duplicate for seamless marquee (same pattern as home AmcStrip).
-  const logos = filtered.length > 0 ? [...filtered, ...filtered] : [];
   const isSearching = query.trim().length > 0;
+  const canSearch = query.trim().length >= 2;
+
+  useEffect(() => {
+    const text = query.trim();
+    if (!text) {
+      requestId.current += 1;
+      setFunds([]);
+      setError('');
+      setHint('');
+      setLoading(false);
+      return undefined;
+    }
+    if (text.length < 2) {
+      requestId.current += 1;
+      setFunds([]);
+      setError('');
+      setHint('Type at least 2 characters to search');
+      setLoading(false);
+      return undefined;
+    }
+
+    setHint('');
+    const id = ++requestId.current;
+    setLoading(true);
+    const timer = window.setTimeout(() => {
+      searchFunds(text, filter)
+        .then((result) => {
+          if (id !== requestId.current) return;
+          setLoading(false);
+          setFunds((result.funds || []) as FundHit[]);
+          setError(result.message || '');
+        })
+        .catch(() => {
+          if (id !== requestId.current) return;
+          setLoading(false);
+          setFunds([]);
+          setError('Unable to search funds');
+        });
+    }, 300);
+
+    return () => window.clearTimeout(timer);
+  }, [query, filter]);
+
+  const logos = useMemo(() => {
+    if (isSearching) return [];
+    return [...AMC_PARTNERS, ...AMC_PARTNERS];
+  }, [isSearching]);
 
   return (
     <section className="pw-funds" aria-label="Search mutual funds">
@@ -62,22 +126,55 @@ export default function PartnerFundSearch() {
               </div>
             </div>
 
-            <div className="pw-amc-label">Invest in Funds from</div>
-            {logos.length === 0 ? (
-              <p style={{ color: '#525252', fontSize: 14, padding: '8px 4px', textAlign: 'center' }}>
-                No fund houses match “{query}”.
-              </p>
-            ) : (
-              <div className={`pw-amc-track-wrap${isSearching ? ' is-static' : ''}`}>
-                <div className={`pw-amc-track${isSearching ? ' is-static' : ''}`}>
-                  {logos.map((amc, i) => (
-                    <div className="pw-amc-card" key={`${amc.name}-${i}`} aria-label={amc.name}>
-                      <img src={amc.src} alt="" />
-                      <span>{amc.name}</span>
-                    </div>
-                  ))}
-                </div>
+            {isSearching ? (
+              <div className="pw-fund-results" aria-live="polite">
+                {loading ? (
+                  <p className="pw-fund-status">Searching funds…</p>
+                ) : null}
+                {!loading && hint ? <p className="pw-fund-status">{hint}</p> : null}
+                {!loading && error ? <p className="pw-fund-status pw-fund-status-error">{error}</p> : null}
+                {!loading && !error && !hint && canSearch && funds.length === 0 ? (
+                  <p className="pw-fund-status">No funds found for “{query.trim()}”.</p>
+                ) : null}
+                {!loading && !error && funds.length > 0 ? (
+                  <ul className="pw-fund-list">
+                    {funds.map((fund) => {
+                      const minLabel = money(fund.minSip) || money(fund.minInitial);
+                      const href = `${signupHref}${signupHref.includes('?') ? '&' : '?'}fund=${encodeURIComponent(fund.scheme)}`;
+                      return (
+                        <li key={`${fund.scheme}-${fund.name}`}>
+                          <Link href={href} className="pw-fund-card">
+                            <div className="pw-fund-card-main">
+                              <div className="pw-fund-name">{fund.name}</div>
+                              {fund.subtitle ? (
+                                <div className="pw-fund-sub">{fund.subtitle}</div>
+                              ) : null}
+                            </div>
+                            <div className="pw-fund-card-meta">
+                              {minLabel ? <span className="pw-fund-min">Min {minLabel}</span> : null}
+                              <span className="pw-fund-cta">Invest ›</span>
+                            </div>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : null}
               </div>
+            ) : (
+              <>
+                <div className="pw-amc-label">Invest in Funds from</div>
+                <div className="pw-amc-track-wrap">
+                  <div className="pw-amc-track">
+                    {logos.map((amc, i) => (
+                      <div className="pw-amc-card" key={`${amc.name}-${i}`} aria-label={amc.name}>
+                        <img src={amc.src} alt="" />
+                        <span>{amc.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
             )}
           </div>
         </div>

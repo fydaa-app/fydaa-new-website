@@ -6,6 +6,7 @@ import {
   checkInvestReadiness,
   createMandate,
   createSipSetup,
+  fetchSipSuccessViewData,
   horizonLabel,
   illustratedCorpus,
   loadPortfolioForSip,
@@ -19,7 +20,14 @@ import {
   userFacingMessage,
   verifyConsentOtp,
 } from "../lib/sipInvestApi";
-import { WIZARD_INNER } from "../lib/layoutClasses";
+import {
+  WIZARD_CARD,
+  WIZARD_CTA,
+  WIZARD_INNER,
+  WIZARD_STAGE,
+  WIZARD_SUB,
+  WIZARD_TITLE,
+} from "../lib/layoutClasses";
 import LumpsumInvestFlow from "./LumpsumInvestFlow";
 
 function money(value) {
@@ -88,6 +96,8 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
   );
   const [progressMsg, setProgressMsg] = useState("");
   const [partialNote, setPartialNote] = useState("");
+  const [successView, setSuccessView] = useState(null);
+  const [successLoading, setSuccessLoading] = useState(false);
 
   const tab = tabMeta(draft?.tab);
   const daily = frequency === "daily";
@@ -167,9 +177,42 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
     return id;
   }
 
+  async function loadSuccessView(id) {
+    setSuccessLoading(true);
+    try {
+      const view = await fetchSipSuccessViewData({
+        sipId: id,
+        amount,
+        portfolioId,
+        fallbackLabel: portfolioTitle || tab?.label || "Equity",
+      });
+      setSuccessView(view);
+    } catch {
+      setSuccessView({
+        ok: true,
+        sipAmount: amount,
+        daily,
+        title: daily ? "Daily SIP" : "Monthly SIP",
+        amountLabel: `${money(amount)}${daily ? "/day" : "/mo"}`,
+        firstAmountLabel: money(amount),
+        scheduleLine: daily
+          ? "Next: each business day"
+          : `Next: ${goalDates.next} · then ${dayOrdinal(monthlyDay)}/month`,
+        subtitle: daily
+          ? "First payment initiated. Daily auto-debit on each business day."
+          : "First payment initiated. Monthly SIP set for next month.",
+        recurringChips: [`${portfolioTitle || tab?.label || "Equity"} ${money(amount)}${daily ? "/day" : "/mo"}`],
+        firstChips: [`${portfolioTitle || tab?.label || "Equity"} ${money(amount)}`],
+      });
+    } finally {
+      setSuccessLoading(false);
+    }
+  }
+
   async function runFirstDebit(id) {
     setError("");
     setPartialNote("");
+    setSuccessView(null);
     setMandateDone(true);
     setReviewOpen(false);
     setPage("debit");
@@ -180,6 +223,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
     setBusy(false);
     if (result.skipped) {
       setPage("success");
+      await loadSuccessView(id);
       return true;
     }
     if (!result.ok) {
@@ -188,6 +232,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
     }
     if (result.partialMessage) setPartialNote(result.partialMessage);
     setPage("success");
+    await loadSuccessView(id);
     return true;
   }
 
@@ -394,8 +439,10 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
       await runFirstDebit(id);
       return;
     }
-    setPage("success");
+    const id = sipId || await ensureSipCreated();
     setReviewOpen(false);
+    setPage("success");
+    if (id) await loadSuccessView(id);
   }
 
   async function confirmOtp() {
@@ -481,11 +528,11 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
 
   return (
     <div className="fixed inset-0 z-[70] bg-bg flex flex-col overflow-hidden">
-      <div className={`${WIZARD_INNER} pt-4 sm:pt-6 shrink-0 flex items-center gap-3`}>
+      <div className={`${WIZARD_INNER} pt-4 sm:pt-6 4xl:pt-8 shrink-0 flex items-center gap-3`}>
         <button
           type="button"
           onClick={goBack}
-          className="w-10 h-10 rounded-full border border-border bg-white flex items-center justify-center hover:bg-surface"
+          className="w-10 h-10 4xl:w-11 4xl:h-11 rounded-full border border-border bg-white flex items-center justify-center hover:bg-surface shrink-0"
         >
           <ArrowLeft size={18} />
         </button>
@@ -494,29 +541,29 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
 
       <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
         <div
-          className={`${WIZARD_INNER} py-5 sm:py-8 min-h-full flex flex-col ${
+          className={`${WIZARD_INNER} py-5 sm:py-8 4xl:py-10 min-h-full flex flex-col ${
             centerStage ? "justify-center" : ""
           }`}
         >
         {page === "loading" && (fromGoals || draft?.fromOwnFund) && (
-          <div className="max-w-xl mx-auto w-full">
-            <h1 className="text-2xl sm:text-3xl font-bold text-ink mb-1">
+          <div className={`${WIZARD_STAGE}`}>
+            <h1 className={`${WIZARD_TITLE} mb-1`}>
               {draft?.fromBasket || draft?.basketId
                 ? "Continuing your basket SIP"
                 : draft?.fromOwnFund
                   ? "Continuing your SIP"
                   : "Continuing your goal SIP"}
             </h1>
-            <p className="text-sm text-muted mb-6">Preparing consent and auto-debit…</p>
-            {error ? <div className="text-sm text-red-600">{error}</div> : null}
+            <p className={`${WIZARD_SUB} mb-6`}>Preparing consent and auto-debit…</p>
+            {error ? <div className="text-sm 4xl:text-base text-red-600">{error}</div> : null}
           </div>
         )}
 
         {page === "goals" && fromGoals && !reviewOpen && (
-          <div className="max-w-lg mx-auto w-full bg-white border border-border rounded-card p-6 sm:p-8 shadow-card">
-            <h1 className="text-2xl sm:text-3xl font-bold text-ink mb-1">Finish setup</h1>
-            <p className="text-sm text-muted mb-6">Complete the required step, then continue your goal SIP.</p>
-            {error ? <div className="text-sm text-red-600 mb-4">{error}</div> : null}
+          <div className={WIZARD_CARD}>
+            <h1 className={`${WIZARD_TITLE} mb-1`}>Finish setup</h1>
+            <p className={`${WIZARD_SUB} mb-6`}>Complete the required step, then continue your goal SIP.</p>
+            {error ? <div className="text-sm 4xl:text-base text-red-600 mb-4">{error}</div> : null}
             <button
               type="button"
               disabled={busy}
@@ -528,51 +575,51 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                 setBusy(false);
                 await beginGoalsSetup(ready, portfolio);
               }}
-              className="w-full h-12 rounded-btn bg-jade text-white font-semibold disabled:opacity-60"
+              className={WIZARD_CTA}
             >
               {busy ? "Checking…" : "Try again"}
             </button>
-            <button type="button" onClick={onClose} className="block mt-4 text-sm text-ink underline">
+            <button type="button" onClick={onClose} className="block mt-4 text-sm 4xl:text-[15px] text-ink underline">
               Back to edit date
             </button>
           </div>
         )}
 
         {page === "portfolio" && !fromGoals && (
-          <div className="w-full">
-            <div className="mb-5 sm:mb-6">
-              <h1 className="text-[28px] sm:text-[34px] font-bold text-ink tracking-tight leading-tight">
+          <div className="w-full min-w-0">
+            <div className="mb-5 sm:mb-6 4xl:mb-8">
+              <h1 className={WIZARD_TITLE}>
                 {daily ? (
                   <>Daily SIP <span className="text-emerald">payments</span></>
                 ) : (
                   <>Monthly SIP <span className="text-emerald">payments</span></>
                 )}
               </h1>
-              <p className="text-sm sm:text-base text-muted mt-1.5">Review your portfolio and payment schedule.</p>
+              <p className={`${WIZARD_SUB} mt-1.5`}>Review your portfolio and payment schedule.</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.85fr)] gap-5 lg:gap-6 items-stretch">
-              <div className="min-w-0 space-y-4 flex flex-col">
-                <div className="bg-white border border-border rounded-card overflow-hidden shadow-card">
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,380px)] 4xl:grid-cols-[minmax(0,1.4fr)_420px] gap-5 lg:gap-6 xl:gap-8 4xl:gap-10 items-stretch">
+              <div className="min-w-0 space-y-4 4xl:space-y-5 flex flex-col">
+                <div className="bg-white border border-border rounded-card 4xl:rounded-3xl overflow-hidden shadow-card">
                   <button
                     type="button"
                     onClick={() => setAutoDebitOpen((value) => !value)}
-                    className="w-full flex items-center gap-3 px-5 py-4 text-left hover:bg-surface/60"
+                    className="w-full flex items-center gap-3 px-4 sm:px-5 4xl:px-6 py-4 4xl:py-5 text-left hover:bg-surface/60"
                   >
-                    <span className="w-9 h-9 rounded-lg bg-tint text-jade text-sm font-bold flex items-center justify-center shrink-0">i</span>
-                    <span className="flex-1 text-sm sm:text-[15px] font-semibold text-ink">How the auto-debit works</span>
+                    <span className="w-9 h-9 4xl:w-10 4xl:h-10 rounded-lg bg-tint text-jade text-sm font-bold flex items-center justify-center shrink-0">i</span>
+                    <span className="flex-1 text-sm sm:text-[15px] 4xl:text-base font-semibold text-ink">How the auto-debit works</span>
                     <ChevronDown size={16} className={`text-muted shrink-0 transition-transform ${autoDebitOpen ? "rotate-180" : ""}`} />
                   </button>
                   {autoDebitOpen && (
-                    <div className="px-5 pb-5 pt-1 grid sm:grid-cols-3 gap-4 sm:gap-5">
+                    <div className="px-4 sm:px-5 4xl:px-6 pb-5 4xl:pb-6 pt-1 grid sm:grid-cols-3 gap-4 sm:gap-5 4xl:gap-6">
                       {autoDebitSteps.map((item, index) => (
                         <div key={item.title} className="flex sm:flex-col gap-3">
-                          <span className="w-7 h-7 rounded-full bg-tint text-jade text-xs font-bold flex items-center justify-center shrink-0">
+                          <span className="w-7 h-7 4xl:w-8 4xl:h-8 rounded-full bg-tint text-jade text-xs 4xl:text-sm font-bold flex items-center justify-center shrink-0">
                             {index + 1}
                           </span>
                           <div className="min-w-0">
-                            <div className="text-sm font-semibold text-ink leading-5">{item.title}</div>
-                            <div className="text-xs text-muted mt-1 leading-relaxed">{item.detail}</div>
+                            <div className="text-sm 4xl:text-[15px] font-semibold text-ink leading-5">{item.title}</div>
+                            <div className="text-xs 4xl:text-sm text-muted mt-1 leading-relaxed">{item.detail}</div>
                           </div>
                         </div>
                       ))}
@@ -582,14 +629,14 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
 
                 {!daily && (
                   <div>
-                    <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">SIP date</div>
+                    <div className="text-[11px] 4xl:text-xs font-bold text-muted uppercase tracking-wider mb-2">SIP date</div>
                     <div className="flex flex-wrap gap-2">
                       {[1, 5, 10, 15, 20, 25, 28].map((day) => (
                         <button
                           key={day}
                           type="button"
                           onClick={() => setMonthlyDay(day)}
-                          className={`px-3.5 py-2 rounded-full text-xs font-semibold border ${
+                          className={`px-3.5 py-2 4xl:px-4 4xl:py-2.5 rounded-full text-xs 4xl:text-sm font-semibold border ${
                             monthlyDay === day ? "bg-jade text-white border-jade" : "bg-white text-secondary border-border hover:border-jade"
                           }`}
                         >
@@ -601,32 +648,32 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                 )}
 
                 <div className="flex-1 flex flex-col min-h-0">
-                  <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Your portfolio</div>
-                  <div className="rounded-card overflow-hidden text-white shadow-card" style={{ background: "linear-gradient(160deg,#0C4A3E,#047857)" }}>
-                    <div className="px-5 sm:px-6 pt-5 sm:pt-6 pb-3 flex items-start justify-between gap-3">
-                      <div>
-                        <div className="text-lg sm:text-xl font-bold">{portfolioTitle}</div>
-                        <div className="text-sm text-white/70 mt-1">
+                  <div className="text-[11px] 4xl:text-xs font-bold text-muted uppercase tracking-wider mb-2">Your portfolio</div>
+                  <div className="rounded-card 4xl:rounded-3xl overflow-hidden text-white shadow-card" style={{ background: "linear-gradient(160deg,#0C4A3E,#047857)" }}>
+                    <div className="px-5 sm:px-6 4xl:px-8 pt-5 sm:pt-6 4xl:pt-8 pb-3 flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="text-lg sm:text-xl 4xl:text-2xl font-bold">{portfolioTitle}</div>
+                        <div className="text-sm 4xl:text-[15px] text-white/70 mt-1">
                           {funds.length || 1} fund · {money(amount)}/{daily ? "day" : "month"}
                         </div>
                       </div>
                     </div>
-                    <div className="px-4 sm:px-5 pb-4 space-y-2.5">
+                    <div className="px-4 sm:px-5 4xl:px-7 pb-4 4xl:pb-6 space-y-2.5">
                       <div className="px-1">
                         <div className="h-1.5 rounded-full bg-white/20 overflow-hidden mb-2">
                           <div className="h-full bg-emerald-300 rounded-full" style={{ width: "100%" }} />
                         </div>
-                        <div className="text-[11px] font-semibold tracking-wider text-emerald-200">
+                        <div className="text-[11px] 4xl:text-xs font-semibold tracking-wider text-emerald-200">
                           {(tab?.label || "EQUITY").toUpperCase()} 100%
                         </div>
                       </div>
                       {loading && <div className="bg-white/10 rounded-btn px-4 py-3.5 text-sm">Loading fund…</div>}
                       {!loading && funds.map((fund) => (
-                        <div key={`${fund.scheme || fund.name}`} className="bg-white/10 rounded-btn px-4 py-3.5">
-                          <div className="text-sm sm:text-[15px] font-semibold uppercase leading-snug">
+                        <div key={`${fund.scheme || fund.name}`} className="bg-white/10 rounded-btn px-4 4xl:px-5 py-3.5 4xl:py-4">
+                          <div className="text-sm sm:text-[15px] 4xl:text-base font-semibold uppercase leading-snug break-words">
                             {fund.fullName || fund.name}
                           </div>
-                          <div className="text-xs text-white/65 mt-1">
+                          <div className="text-xs 4xl:text-sm text-white/65 mt-1">
                             {[
                               fund.cagr != null ? `3yr CAGR ${fund.cagr}%` : null,
                               fund.risk ? `Risk ${fund.risk}` : "Risk Moderate",
@@ -639,36 +686,36 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                 </div>
               </div>
 
-              <aside className="space-y-4 flex flex-col justify-center">
-                <div className="bg-white border border-border rounded-card px-5 py-2 shadow-card">
-                  <div className="flex justify-between py-3.5 text-sm sm:text-[15px]">
+              <aside className="space-y-4 4xl:space-y-5 flex flex-col justify-center min-w-0">
+                <div className="bg-white border border-border rounded-card 4xl:rounded-3xl px-5 4xl:px-6 py-2 shadow-card">
+                  <div className="flex justify-between gap-3 py-3.5 text-sm sm:text-[15px] 4xl:text-base">
                     <span className="text-secondary">{freqLabel}</span>
-                    <span className="font-semibold text-ink">{money(amount)}</span>
+                    <span className="font-semibold text-ink shrink-0">{money(amount)}</span>
                   </div>
-                  <div className="flex justify-between py-3.5 text-sm sm:text-[15px] border-t border-border">
+                  <div className="flex justify-between gap-3 py-3.5 text-sm sm:text-[15px] 4xl:text-base border-t border-border">
                     <span className="text-secondary">Transaction charges</span>
-                    <span className="font-semibold text-ink">₹0</span>
+                    <span className="font-semibold text-ink shrink-0">₹0</span>
                   </div>
-                  <div className="flex justify-between py-3.5 text-sm sm:text-[15px] border-t border-border">
+                  <div className="flex justify-between gap-3 py-3.5 text-sm sm:text-[15px] 4xl:text-base border-t border-border">
                     <span className="font-bold text-ink">First debit today</span>
-                    <span className="font-bold text-emerald">{money(amount)}</span>
+                    <span className="font-bold text-emerald shrink-0">{money(amount)}</span>
                   </div>
                 </div>
 
-                {error ? <div className="text-sm text-red-600">{error}</div> : null}
+                {error ? <div className="text-sm 4xl:text-base text-red-600">{error}</div> : null}
 
                 <button
                   type="button"
                   disabled={busy || loading}
                   onClick={openReview}
-                  className="w-full h-12 rounded-btn bg-jade text-white text-[15px] font-semibold hover:bg-jade-hover disabled:opacity-60"
+                  className={WIZARD_CTA}
                 >
                   {busy ? "Preparing…" : "Review & confirm →"}
                 </button>
-                <button type="button" onClick={onClose} className="w-full text-sm text-ink underline underline-offset-2">
+                <button type="button" onClick={onClose} className="w-full text-sm 4xl:text-[15px] text-ink underline underline-offset-2">
                   Back to edit amount
                 </button>
-                <div className="text-center text-xs text-muted pt-1">
+                <div className="text-center text-xs 4xl:text-sm text-muted pt-1">
                   Invested with · {funds[0]?.name?.split(" ")[0] || "fydaa"}
                 </div>
               </aside>
@@ -677,24 +724,24 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
         )}
 
         {page === "consent" && (
-          <div className="max-w-lg mx-auto w-full bg-white border border-border rounded-card p-6 sm:p-8 shadow-card">
-            <h1 className="text-2xl sm:text-3xl font-bold text-ink mb-1">Verify Consent OTP</h1>
-            <p className="text-sm text-muted mb-6">Enter the 6-digit OTP sent to your registered mobile.</p>
+          <div className={WIZARD_CARD}>
+            <h1 className={`${WIZARD_TITLE} mb-1`}>Verify Consent OTP</h1>
+            <p className={`${WIZARD_SUB} mb-6`}>Enter the 6-digit OTP sent to your registered mobile.</p>
             <input
               type="text"
               inputMode="numeric"
               maxLength={6}
               value={otp}
               onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))}
-              className="w-full px-4 py-3.5 rounded-btn border border-border text-center text-2xl tracking-[0.4em] font-bold mb-4"
+              className="w-full px-4 py-3.5 4xl:py-4 rounded-btn border border-border text-center text-2xl 4xl:text-3xl tracking-[0.4em] font-bold mb-4"
               placeholder="••••••"
             />
-            {error ? <div className="text-sm text-red-600 mb-3">{error}</div> : null}
+            {error ? <div className="text-sm 4xl:text-base text-red-600 mb-3">{error}</div> : null}
             <button
               type="button"
               disabled={busy || otp.length < 6}
               onClick={confirmOtp}
-              className="w-full h-12 rounded-btn bg-jade text-white font-semibold disabled:opacity-60"
+              className={WIZARD_CTA}
             >
               {busy ? "Verifying…" : "Confirm OTP"}
             </button>
@@ -707,7 +754,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                 setBusy(false);
                 if (!sent.ok) setError(userFacingMessage(sent.message, "OTP resend failed"));
               }}
-              className="w-full mt-3 text-sm text-muted underline"
+              className="w-full mt-3 text-sm 4xl:text-[15px] text-muted underline"
             >
               Resend OTP
             </button>
@@ -715,13 +762,13 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
         )}
 
         {page === "mandate" && (
-          <div className="max-w-lg mx-auto w-full bg-white border border-border rounded-card p-6 sm:p-8 shadow-card">
-            <h1 className="text-2xl sm:text-3xl font-bold text-ink mb-1">UPI AutoPay</h1>
-            <p className="text-sm text-muted mb-6">
+          <div className={WIZARD_CARD}>
+            <h1 className={`${WIZARD_TITLE} mb-1`}>UPI AutoPay</h1>
+            <p className={`${WIZARD_SUB} mb-6`}>
               Approve the mandate in your UPI app. Limit {money(amount)}. First debit starts after approval.
             </p>
-            {busy ? <div className="text-sm text-jade mb-4">Waiting for mandate approval…</div> : null}
-            {error ? <div className="text-sm text-red-600 mb-3">{error}</div> : null}
+            {busy ? <div className="text-sm 4xl:text-base text-jade mb-4">Waiting for mandate approval…</div> : null}
+            {error ? <div className="text-sm 4xl:text-base text-red-600 mb-3">{error}</div> : null}
             <button
               type="button"
               disabled={busy}
@@ -741,7 +788,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                 }
                 setError("Mandate not approved yet. Approve in UPI, then check again.");
               }}
-              className="w-full h-12 rounded-btn bg-jade text-white font-semibold"
+              className={WIZARD_CTA}
             >
               Check again
             </button>
@@ -752,7 +799,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                 const id = sipId || await ensureSipCreated();
                 if (id) await startMandate(id);
               }}
-              className="w-full mt-3 text-sm text-ink underline"
+              className="w-full mt-3 text-sm 4xl:text-[15px] text-ink underline"
             >
               Open UPI AutoPay again
             </button>
@@ -760,18 +807,18 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
         )}
 
         {page === "debit" && (
-          <div className="max-w-lg mx-auto w-full bg-white border border-border rounded-card p-6 sm:p-8 shadow-card">
-            <h1 className="text-2xl sm:text-3xl font-bold text-ink mb-1">Activating your SIP</h1>
-            <p className="text-sm text-muted mb-6">
+          <div className={WIZARD_CARD}>
+            <h1 className={`${WIZARD_TITLE} mb-1`}>Activating your SIP</h1>
+            <p className={`${WIZARD_SUB} mb-6`}>
               Setting up purchase plans and debiting the first installment. This can take up to a couple of minutes.
             </p>
-            <div className="bg-surface border border-border rounded-card p-5 mb-4">
-              <div className="text-sm font-semibold text-jade mb-1">
+            <div className="bg-surface border border-border rounded-card 4xl:rounded-2xl p-5 4xl:p-6 mb-4">
+              <div className="text-sm 4xl:text-[15px] font-semibold text-jade mb-1">
                 {busy ? (progressMsg || "Working…") : "Ready to retry"}
               </div>
-              <div className="text-xs text-muted">SIP #{sipId} · {money(amount)} first debit</div>
+              <div className="text-xs 4xl:text-sm text-muted">SIP #{sipId} · {money(amount)} first debit</div>
             </div>
-            {error ? <div className="text-sm text-red-600 mb-3">{error}</div> : null}
+            {error ? <div className="text-sm 4xl:text-base text-red-600 mb-3">{error}</div> : null}
             {!busy && error ? (
               <button
                 type="button"
@@ -779,7 +826,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                   const id = sipId || await ensureSipCreated();
                   if (id) await runFirstDebit(id);
                 }}
-                className="w-full h-12 rounded-btn bg-jade text-white font-semibold"
+                className={WIZARD_CTA}
               >
                 Retry first debit
               </button>
@@ -788,22 +835,96 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
         )}
 
         {page === "success" && (
-          <div className="max-w-lg mx-auto text-center py-8 sm:py-14 bg-white border border-border rounded-card px-6 sm:px-10 shadow-card">
-            <div className="w-14 h-14 rounded-full bg-tint text-jade flex items-center justify-center mx-auto mb-4">
-              <Check size={28} />
+          <div className={`${WIZARD_STAGE} py-4 sm:py-8 4xl:py-10`}>
+            <div className="text-center mb-6 4xl:mb-8">
+              <div className="w-14 h-14 4xl:w-16 4xl:h-16 rounded-full bg-tint text-jade flex items-center justify-center mx-auto mb-4">
+                <Check size={28} />
+              </div>
+              <h1 className={`${WIZARD_TITLE} mb-2`}>Your SIP is set up!</h1>
+              <p className={`${WIZARD_SUB} max-w-md 4xl:max-w-lg mx-auto`}>
+                {successView?.subtitle
+                  || (daily
+                    ? "First payment initiated. Daily auto-debit on each business day."
+                    : "First payment initiated. Monthly SIP set for next month.")}
+              </p>
+              {partialNote ? <p className="text-sm 4xl:text-base text-amber-700 mt-3">{partialNote}</p> : null}
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-ink mb-2">SIP setup successful</h1>
-            <div className="inline-flex px-3 py-1 rounded-full bg-tint text-jade text-xs font-bold mb-4">Auto-debit set</div>
-            <p className="text-sm text-muted mb-6 max-w-sm mx-auto">
-              {daily
-                ? "First payment initiated. Daily auto-debit on each business day."
-                : "First payment initiated. Monthly SIP set for next month."}
-            </p>
-            {partialNote ? <p className="text-sm text-amber-700 mb-4">{partialNote}</p> : null}
+
+            {successLoading && !successView ? (
+              <div className="rounded-card border border-border bg-white px-5 py-8 text-center text-sm 4xl:text-base text-muted shadow-card mb-4">
+                Loading your SIP details…
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 4xl:gap-5 mb-6 4xl:mb-8">
+                <div className="rounded-card 4xl:rounded-3xl border border-border bg-white px-4 sm:px-5 4xl:px-6 py-4 4xl:py-5 shadow-card text-left min-w-0">
+                  <span className="inline-flex px-2.5 py-0.5 rounded-full bg-jade text-white text-[11px] 4xl:text-xs font-bold mb-3">
+                    Auto-debit set
+                  </span>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="text-base sm:text-lg 4xl:text-xl font-bold text-jade">
+                        {successView?.title || (daily ? "Daily SIP" : "Monthly SIP")}
+                      </div>
+                      <div className="text-xs sm:text-[13px] 4xl:text-sm text-muted mt-1 break-words">
+                        {successView?.scheduleLine
+                          || (daily
+                            ? "Next: each business day"
+                            : `Next: ${goalDates.next} · then ${dayOrdinal(monthlyDay)}/month`)}
+                      </div>
+                    </div>
+                    <div className="text-lg sm:text-xl 4xl:text-2xl font-bold text-jade shrink-0">
+                      {successView?.amountLabel || `${money(amount)}${daily ? "/day" : "/mo"}`}
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {(successView?.recurringChips?.length
+                      ? successView.recurringChips
+                      : [`${portfolioTitle || tab?.label || "Equity"} ${money(amount)}${daily ? "/day" : "/mo"}`]
+                    ).map((chip) => (
+                      <span
+                        key={chip}
+                        className="inline-flex px-2.5 py-1 rounded-full bg-tint text-jade text-xs 4xl:text-[13px] font-semibold"
+                      >
+                        {chip}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-card 4xl:rounded-3xl border border-border bg-white px-4 sm:px-5 4xl:px-6 py-4 4xl:py-5 shadow-card text-left min-w-0">
+                  <span className="inline-flex px-2.5 py-0.5 rounded-full bg-amber-600 text-white text-[11px] 4xl:text-xs font-bold mb-3">
+                    Debited · mandate
+                  </span>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="text-base sm:text-lg 4xl:text-xl font-bold text-amber-900">First instalment</div>
+                      <div className="text-xs sm:text-[13px] 4xl:text-sm text-amber-800/80 mt-1">Today · at today&apos;s NAV</div>
+                    </div>
+                    <div className="text-lg sm:text-xl 4xl:text-2xl font-bold text-amber-900 shrink-0">
+                      {successView?.firstAmountLabel || money(amount)}
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {(successView?.firstChips?.length
+                      ? successView.firstChips
+                      : [`${portfolioTitle || tab?.label || "Equity"} ${money(amount)}`]
+                    ).map((chip) => (
+                      <span
+                        key={chip}
+                        className="inline-flex px-2.5 py-1 rounded-full bg-tint text-jade text-xs 4xl:text-[13px] font-semibold"
+                      >
+                        {chip}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
             <button
               type="button"
               onClick={() => { onDone?.({ sipId }); onClose?.(); }}
-              className="w-full h-12 rounded-btn bg-jade text-white font-semibold"
+              className={`${WIZARD_CTA} max-w-md 4xl:max-w-lg mx-auto block`}
             >
               Continue to Dashboard
             </button>
@@ -813,19 +934,19 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
       </div>
 
       {reviewOpen && (
-        <div className="fixed inset-0 z-[80] bg-black/40 flex items-center justify-center p-3 sm:p-5">
+        <div className="fixed inset-0 z-[80] bg-black/40 flex items-end sm:items-center justify-center p-0 sm:p-5 4xl:p-8">
           <div
-            className="bg-white w-full max-w-[min(100%,520px)] sm:max-w-[540px] rounded-2xl shadow-elevated overflow-hidden flex flex-col"
+            className="bg-white w-full max-w-[min(100%,520px)] sm:max-w-[540px] lg:max-w-[580px] 4xl:max-w-[640px] rounded-t-2xl sm:rounded-2xl 4xl:rounded-3xl shadow-elevated overflow-hidden flex flex-col max-h-[min(92dvh,900px)]"
             role="dialog"
             aria-modal="true"
             aria-labelledby="sip-review-title"
           >
-            <div className="px-4 sm:px-5 pt-4 pb-3 flex items-start justify-between gap-3">
+            <div className="px-4 sm:px-5 4xl:px-6 pt-4 4xl:pt-5 pb-3 flex items-start justify-between gap-3 shrink-0">
               <div className="min-w-0">
-                <h2 id="sip-review-title" className="text-lg font-bold text-ink leading-tight">
+                <h2 id="sip-review-title" className="text-lg sm:text-xl 4xl:text-2xl font-bold text-ink leading-tight">
                   Review & confirm
                 </h2>
-                <p className="text-xs text-muted mt-1 leading-snug">
+                <p className="text-xs sm:text-[13px] 4xl:text-sm text-muted mt-1 leading-snug">
                   Check your SIP details before starting.
                 </p>
               </div>
@@ -835,14 +956,14 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                   setReviewOpen(false);
                   if (fromGoals) onClose?.();
                 }}
-                className="w-8 h-8 -mt-0.5 -mr-1 rounded-full hover:bg-surface flex items-center justify-center shrink-0"
+                className="w-8 h-8 4xl:w-9 4xl:h-9 -mt-0.5 -mr-1 rounded-full hover:bg-surface flex items-center justify-center shrink-0"
                 aria-label="Close"
               >
                 <X size={16} />
               </button>
             </div>
 
-            <div className="px-4 sm:px-5 pb-0">
+            <div className="px-4 sm:px-5 4xl:px-6 pb-0 overflow-y-auto min-h-0 flex-1">
               <div className="border-t border-border">
                 {(fromGoals
                   ? [
@@ -864,7 +985,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                   const isFund = label === "Fund" || label === "Basket";
                   if (isFund) {
                     return (
-                      <div key={label} className="py-2 border-b border-border text-[13px]">
+                      <div key={label} className="py-2 4xl:py-2.5 border-b border-border text-[13px] 4xl:text-sm">
                         <div className="text-ink mb-1">{label}</div>
                         <div className="text-ink font-medium leading-snug break-words w-full">
                           {value}
@@ -875,7 +996,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                   return (
                     <div
                       key={label}
-                      className="flex items-start justify-between gap-4 py-2 border-b border-border text-[13px]"
+                      className="flex items-start justify-between gap-4 py-2 4xl:py-2.5 border-b border-border text-[13px] 4xl:text-sm"
                     >
                       <span className="text-ink shrink-0 pt-px">{label}</span>
                       <span className="text-ink text-right leading-snug break-words min-w-0 max-w-[68%]">
@@ -886,23 +1007,23 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                 })}
               </div>
 
-              <div className="mt-3 border border-border rounded-xl px-3 py-2.5">
-                <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-2">
+              <div className="mt-3 border border-border rounded-xl px-3 4xl:px-4 py-2.5 4xl:py-3">
+                <div className="text-[10px] 4xl:text-[11px] font-bold text-muted uppercase tracking-wider mb-2">
                   Setup checklist
                 </div>
                 <div className="space-y-2">
                   {checklist.map((item) => (
                     <div key={item.id} className="flex items-start gap-2">
                       <span
-                        className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                        className={`mt-0.5 w-4 h-4 4xl:w-[18px] 4xl:h-[18px] rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
                           item.done ? "bg-emerald text-white" : "bg-red-100 text-red-600"
                         }`}
                       >
                         {item.done ? "✓" : "×"}
                       </span>
                       <div className="min-w-0 flex-1">
-                        <div className="text-[13px] font-semibold text-ink leading-tight">{item.label}</div>
-                        <div className="text-[11px] text-muted mt-0.5 leading-snug line-clamp-1">{item.detail}</div>
+                        <div className="text-[13px] 4xl:text-sm font-semibold text-ink leading-tight">{item.label}</div>
+                        <div className="text-[11px] 4xl:text-xs text-muted mt-0.5 leading-snug line-clamp-1">{item.detail}</div>
                       </div>
                     </div>
                   ))}
@@ -910,15 +1031,15 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
               </div>
             </div>
 
-            <div className="px-4 sm:px-5 pt-3 pb-4 flex flex-col gap-2">
+            <div className="px-4 sm:px-5 4xl:px-6 pt-3 pb-4 4xl:pb-5 flex flex-col gap-2 shrink-0">
               {error ? (
-                <div className="text-xs text-red-600 leading-snug">{error}</div>
+                <div className="text-xs 4xl:text-sm text-red-600 leading-snug">{error}</div>
               ) : null}
               <button
                 type="button"
                 disabled={busy}
                 onClick={onReviewPrimary}
-                className="w-full h-11 rounded-btn bg-jade text-white text-[14px] font-semibold disabled:opacity-60"
+                className="w-full h-11 4xl:h-12 rounded-btn bg-jade text-white text-[14px] 4xl:text-[15px] font-semibold disabled:opacity-60"
               >
                 {busy ? "Working…" : action.label}
               </button>
@@ -928,7 +1049,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                   setReviewOpen(false);
                   if (fromGoals) onClose?.();
                 }}
-                className="w-full text-[13px] text-ink underline underline-offset-2 py-0.5"
+                className="w-full text-[13px] 4xl:text-sm text-ink underline underline-offset-2 py-0.5"
               >
                 {fromGoals ? "Back to edit date" : "Back"}
               </button>

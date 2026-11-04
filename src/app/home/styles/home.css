@@ -232,7 +232,8 @@
 .fydaa-home .final-cta h2{margin-bottom:12px}
 .fydaa-home .final-cta p{color:var(--ink2);margin-bottom:32px;font-size:1rem}
 .fydaa-home .final-cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.fydaa-home footer{background:var(--ink);color:rgba(255,255,255,.6);padding:56px 0 32px}
+/* Home marketing footer only — skip shared #footer used on partner pages */
+.fydaa-home footer:not(#footer){background:var(--ink);color:rgba(255,255,255,.6);padding:56px 0 32px}
 .fydaa-home .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
 .fydaa-home .footer-brand .logo{font-weight:700;font-size:1.4rem;color:#fff;margin-bottom:10px}
 .fydaa-home .footer-brand p{font-size:.82rem;line-height:1.7;max-width:260px}

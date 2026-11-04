@@ -315,7 +315,22 @@ export async function searchCategoryFunds(stockType, query = "") {
   const params = new URLSearchParams({ page: "1", limit: "20", stockType });
   const text = String(query || "").trim();
   if (text.length >= 2) params.set("search", text);
-  const data = await stockGet(`mutualFund/search?${params.toString()}`);
+  // Search is public (no token required). Prefer anonymous fetch; fall back to authed stockGet.
+  let data = null;
+  try {
+    const headers = { Accept: "application/json" };
+    const token = getAccessToken();
+    if (token) headers.Authorization = `Bearer ${token}`;
+    const res = await fetch(`${STOCK_BASE}mutualFund/search?${params.toString()}`, {
+      headers,
+      cache: "no-store",
+    });
+    const body = await res.json().catch(() => null);
+    if (res.ok && !body?.error) data = body;
+  } catch {
+    data = null;
+  }
+  if (!data) data = await stockGet(`mutualFund/search?${params.toString()}`);
   if (!data) return { funds: [], message: "Unable to load funds" };
   const funds = firstList(data, ["items", "data", "funds", "results", "schemes", "list"])
     .map((row) => {
