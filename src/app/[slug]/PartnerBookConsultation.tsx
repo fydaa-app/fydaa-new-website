@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useId, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { bookPartnerConsultation } from '../config/partnerWebsiteApi';
 
 type PartnerBookConsultationTriggerProps = {
@@ -54,6 +55,11 @@ function PartnerBookConsultationModal({ slug, onClose }: ModalProps) {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -132,7 +138,7 @@ function PartnerBookConsultationModal({ slug, onClose }: ModalProps) {
     }
   }
 
-  return (
+  const modal = (
     <div className="pw-consult-overlay" role="presentation" onClick={() => !busy && onClose()}>
       <div
         className="pw-consult-dialog"
@@ -157,7 +163,7 @@ function PartnerBookConsultationModal({ slug, onClose }: ModalProps) {
         {done ? (
           <div className="pw-consult-success">
             <p>Thanks — your consultation request has been sent. The partner will reach out shortly.</p>
-            <button type="button" className="pw-btn pw-btn-primary" onClick={onClose}>
+            <button type="button" className="pw-consult-btn pw-consult-btn-primary" onClick={onClose}>
               Close
             </button>
           </div>
@@ -239,10 +245,15 @@ function PartnerBookConsultationModal({ slug, onClose }: ModalProps) {
             {error ? <p className="pw-consult-error">{error}</p> : null}
 
             <div className="pw-consult-actions">
-              <button type="button" className="pw-btn pw-btn-secondary" onClick={onClose} disabled={busy}>
+              <button
+                type="button"
+                className="pw-consult-btn pw-consult-btn-secondary"
+                onClick={onClose}
+                disabled={busy}
+              >
                 Cancel
               </button>
-              <button type="submit" className="pw-btn pw-btn-primary" disabled={busy}>
+              <button type="submit" className="pw-consult-btn pw-consult-btn-primary" disabled={busy}>
                 {busy ? 'Booking…' : 'Book consultation'}
               </button>
             </div>
@@ -251,4 +262,7 @@ function PartnerBookConsultationModal({ slug, onClose }: ModalProps) {
       </div>
     </div>
   );
+
+  if (!mounted || typeof document === 'undefined') return null;
+  return createPortal(modal, document.body);
 }

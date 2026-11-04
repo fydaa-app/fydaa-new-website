@@ -7,6 +7,7 @@ import PartnerNavbar from './PartnerNavbar';
 import PartnerFundSearch from './PartnerFundSearch';
 import PartnerCalculator from './PartnerCalculator';
 import PartnerBookConsultationTrigger from './PartnerBookConsultation';
+import PartnerCallNow from './PartnerCallNow';
 import './partner-website.css';
 import '../home/styles/home.css';
 
@@ -72,7 +73,6 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
   const name = data.name?.trim() || 'Your Fydaa partner';
   const photo = data.photoUrl || '/images/hero.jpg';
   const phone = data.mobileNumber ? String(data.mobileNumber).replace(/\D/g, '') : '';
-  const telHref = phone ? `tel:+91${phone.slice(-10)}` : undefined;
   const referralParam =
     data.referralCode?.trim() || slug;
   const signupHref = `/signup?referredBy=${encodeURIComponent(referralParam)}`;
@@ -84,7 +84,11 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
   return (
     <div className="partner-site fydaa-home">
       <HashScroll />
-      <PartnerNavbar slug={slug} referralCode={data.referralCode} />
+      <PartnerNavbar
+        slug={slug}
+        referralCode={data.referralCode}
+        showReviews={reviews.length > 0}
+      />
 
       {/* 1. Hero */}
       <section className="pw-hero" id="overview">
@@ -183,21 +187,29 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
             {paragraphs.map((p) => (
               <p key={p.slice(0, 48)}>{p}</p>
             ))}
-            {certifications[0] ? (
-              <div className="pw-about-pill">{certifications[0]}</div>
-            ) : (
-              <div className="pw-about-pill">Personal guidance, backed by Fydaa</div>
-            )}
+            <div className="pw-about-pills">
+              {(certifications.length
+                ? certifications
+                    .map((item) => String(item || '').trim())
+                    .filter(Boolean)
+                    .slice(0, 3)
+                : ['Personal guidance, backed by Fydaa']
+              ).map((label) => (
+                <div className="pw-about-pill" key={label}>
+                  {label}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 5. Reviews */}
-      <section className="pw-reviews" id="reviews">
-        <div className="pw-container">
-          <div className="pw-reviews-label">TESTIMONIALS</div>
-          <h2>Client Success Stories.</h2>
-          {reviews.length > 0 ? (
+      {/* 5. Reviews — only when partner has testimonials */}
+      {reviews.length > 0 ? (
+        <section className="pw-reviews" id="reviews">
+          <div className="pw-container">
+            <div className="pw-reviews-label">TESTIMONIALS</div>
+            <h2>Client Success Stories.</h2>
             <div className="pw-reviews-grid">
               {reviews.slice(0, 8).map((review) => (
                 <article className="pw-review-card" key={review.id}>
@@ -219,13 +231,9 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
                 </article>
               ))}
             </div>
-          ) : (
-            <p style={{ textAlign: 'center', color: '#525252' }}>
-              Client stories from {name} will appear here soon.
-            </p>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      ) : null}
 
       {/* 6. Getting started */}
       <section className="pw-start">
@@ -276,13 +284,8 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
               <PartnerBookConsultationTrigger slug={slug} className="pw-btn pw-btn-light">
                 Book a Consultation
               </PartnerBookConsultationTrigger>
-              {telHref ? (
-                <a href={telHref} className="pw-btn pw-btn-call">
-                  Call Now
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z" />
-                  </svg>
-                </a>
+              {phone ? (
+                <PartnerCallNow phone={phone} partnerName={name} className="pw-btn pw-btn-call" />
               ) : (
                 <PartnerBookConsultationTrigger slug={slug} className="pw-btn pw-btn-call">
                   Call Now
