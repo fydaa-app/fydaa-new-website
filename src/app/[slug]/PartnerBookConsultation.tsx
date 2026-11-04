@@ -3,23 +3,36 @@
 import { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { bookPartnerConsultation } from '../config/partnerWebsiteApi';
+import { captureEvent } from '../../lib/posthog';
 
 type PartnerBookConsultationTriggerProps = {
   slug: string;
   className?: string;
+  location?: string;
   children: React.ReactNode;
 };
 
 export default function PartnerBookConsultationTrigger({
   slug,
   className,
+  location,
   children,
 }: PartnerBookConsultationTriggerProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <button type="button" className={className} onClick={() => setOpen(true)}>
+      <button
+        type="button"
+        className={className}
+        onClick={() => {
+          captureEvent('partner_book_consultation_click', {
+            slug,
+            location: location || null,
+          });
+          setOpen(true);
+        }}
+      >
         {children}
       </button>
       {open ? (
@@ -130,6 +143,7 @@ function PartnerBookConsultationModal({ slug, onClose }: ModalProps) {
         preferredTime: preferredTime.trim(),
         name: name.trim(),
       });
+      captureEvent('partner_consultation_submit', { slug });
       setDone(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to book consultation.');
