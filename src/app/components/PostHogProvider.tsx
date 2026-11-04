@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { posthog } from '../../lib/posthog';
+import { installGlobalButtonTracking, posthog } from '../../lib/posthog';
 
 const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
 const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com';
@@ -23,8 +23,10 @@ function PostHogPageViews() {
         person_profiles: 'identified_only',
         capture_pageview: false,
         capture_pageleave: true,
-        autocapture: true,
+        // Named button_click events handle labels; skip noisy input autocapture
+        autocapture: false,
       });
+      installGlobalButtonTracking();
       posthogInitialized = true;
     }
 

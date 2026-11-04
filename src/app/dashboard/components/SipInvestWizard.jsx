@@ -30,6 +30,7 @@ import {
 } from "../lib/layoutClasses";
 import SipSuccessView from "./SipSuccessView";
 import LumpsumInvestFlow from "./LumpsumInvestFlow";
+import { captureEvent } from "../../../lib/posthog";
 
 function money(value) {
   const n = Number(value);
@@ -109,6 +110,19 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
   const ownFund = draft?.fundMode === "own";
   const portfolioId = ownFund ? null : portfolio?.portfolioId;
   const portfolioTitle = draft?.goalName || (tab?.label === "Equity" ? "Equities" : tab?.label);
+
+  function trackSip(buttonName, step, extra = {}) {
+    captureEvent("sip_flow_button_click", {
+      button_name: buttonName,
+      step,
+      tab: draft?.tab || tab?.key || null,
+      goal_name: draft?.goalName || null,
+      amount,
+      frequency,
+      from_goals: fromGoals,
+      ...extra,
+    });
+  }
 
   const funds = portfolio?.funds?.length
     ? portfolio.funds
@@ -238,6 +252,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
   }
 
   async function startMandate(id) {
+    trackSip("Set up UPI AutoPay", "mandate_start", { sip_id: id });
     setBusy(true);
     setError("");
     try {
@@ -394,6 +409,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
   }, [open, draft, ownFund]);
 
   async function openReview() {
+    trackSip("Review & confirm", "open_review");
     setError("");
     setBusy(true);
     const ready = readiness || await checkInvestReadiness();
@@ -406,6 +422,8 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
   }
 
   async function onReviewPrimary() {
+    const reviewLabel = action?.label || "Review continue";
+    trackSip(String(reviewLabel).replace(/\s*→\s*$/, "").trim() || "Review continue", `review_${action?.step || "next"}`);
     setError("");
     if (action.step === "kyc" || action.step === "bank" || action.step === "nominee") {
       onCompleteKyc?.(draft);
@@ -447,6 +465,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
   }
 
   async function confirmOtp() {
+    trackSip("Confirm OTP", "consent_confirm");
     setBusy(true);
     setError("");
     const result = await verifyConsentOtp(otp);
@@ -732,9 +751,12 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
             <p className={`${WIZARD_SUB} mb-6`}>Enter the 6-digit OTP sent to your registered mobile.</p>
             <input
               type="text"
+              name="sip_consent_otp"
+              aria-label="Consent OTP"
               inputMode="numeric"
               maxLength={6}
               value={otp}
+              onFocus={() => trackSip("Consent OTP", "consent_otp_focus")}
               onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))}
               className="w-full px-4 py-3.5 4xl:py-4 rounded-btn border border-border text-center text-2xl 4xl:text-3xl tracking-[0.4em] font-bold mb-4"
               placeholder="••••••"
@@ -752,6 +774,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
               type="button"
               disabled={busy}
               onClick={async () => {
+                trackSip("Resend OTP", "consent_resend");
                 setBusy(true);
                 const sent = await sendConsentOtp();
                 setBusy(false);
@@ -776,6 +799,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
               type="button"
               disabled={busy}
               onClick={async () => {
+                trackSip("Check again", "mandate_check");
                 setError("");
                 setBusy(true);
                 const id = sipId || await ensureSipCreated();
@@ -799,6 +823,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
               type="button"
               disabled={busy}
               onClick={async () => {
+                trackSip("Open UPI AutoPay again", "mandate_reopen");
                 const id = sipId || await ensureSipCreated();
                 if (id) await startMandate(id);
               }}
@@ -826,6 +851,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
               <button
                 type="button"
                 onClick={async () => {
+                  trackSip("Retry first debit", "debit_retry");
                   const id = sipId || await ensureSipCreated();
                   if (id) await runFirstDebit(id);
                 }}
@@ -852,6 +878,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
             }
             fallbackChips={[`${portfolioTitle || tab?.label || "Equity"} ${money(amount)}`]}
             onContinue={() => {
+              trackSip("Continue to Dashboard", "success_continue", { sip_id: sipId });
               onDone?.({ sipId });
               onClose?.();
             }}
