@@ -14,6 +14,7 @@ import { getUserBankDetails, getUserDetails, getUserStage } from "../signup/lib/
 import { isSignupComplete } from "../signup/lib/kycApi";
 import { mapBankDetails, mapStageProfile, mapUserDetails } from "./lib/userProfile";
 import { emailFromAdvisorPayload, getAdvisorAndRelationshipManager, mapRelationshipManager } from "./lib/crmApi";
+import { captureEvent, identifyUser } from "../../lib/posthog";
 const pages = {
   home: HomePage,
   kyc: KycPage,
@@ -63,9 +64,25 @@ function DashboardShell() {
     } else if (goalOrOpts && !(goalOrOpts && goalOrOpts.start)) {
       setPendingGoalSip(goalOrOpts);
     }
+    captureEvent("webapp_nav_click", { page });
     setActivePage(page);
     setNavOpen(false);
   };
+
+  useEffect(() => {
+    captureEvent("webapp_page_view", { page: activePage });
+  }, [activePage]);
+
+  useEffect(() => {
+    if (!user) return;
+    const id = user.email || user.phone || user.name;
+    if (!id) return;
+    identifyUser(String(id), {
+      email: user.email || undefined,
+      name: user.name || undefined,
+      phone: user.phone || undefined,
+    });
+  }, [user]);
 
   /** User tapped "Back to dashboard" — leave KYC and clear any pending invest resume. */
   const exitKycToDashboard = () => {

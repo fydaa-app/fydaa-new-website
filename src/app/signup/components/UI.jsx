@@ -1,4 +1,5 @@
 import React from 'react';
+import { captureButtonClick, labelFromChildren } from '../../../lib/posthog';
 
 /**
  * Shared primitives for the Fydaa KYC onboarding flow.
@@ -106,7 +107,10 @@ export function Button({ children, onClick, className = '', ...rest }) {
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={(e) => {
+        captureButtonClick(labelFromChildren(children), { button_variant: 'primary' });
+        onClick?.(e);
+      }}
       className={`w-full h-[52px] rounded-xl bg-[#0C4A3E] text-white text-[15px] font-bold hover:bg-[#0A3D33] transition-colors mt-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#0C4A3E] ${className}`}
       {...rest}
     >
@@ -119,7 +123,10 @@ export function OutlineButton({ children, onClick, className = '', ...rest }) {
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={(e) => {
+        captureButtonClick(labelFromChildren(children), { button_variant: 'outline' });
+        onClick?.(e);
+      }}
       className={`w-full h-[52px] rounded-xl bg-white text-neutral-800 text-[15px] font-semibold border-[1.5px] border-neutral-200 hover:border-neutral-300 transition-colors mt-2 flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       {...rest}
     >
