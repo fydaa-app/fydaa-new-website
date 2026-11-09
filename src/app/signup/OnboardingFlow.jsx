@@ -32,7 +32,7 @@ import {
   verifyOtp,
   verifyPin,
 } from './lib/authApi';
-import { captureEvent } from '../../lib/posthog';
+import { captureEvent, toEventName } from '../../lib/posthog';
 import { isValidEmail } from './lib/emailValidation';
 import {
   INCOME_OPTIONS,
@@ -205,7 +205,7 @@ export default function OnboardingFlow({
 
   useEffect(() => {
     if (!screen) return;
-    captureEvent('webapp_onboarding_screen', {
+    captureEvent(toEventName(`onboarding_${screen}`, 'viewed'), {
       screen,
       mode: mode || (embedded ? 'embedded' : 'signup'),
     });

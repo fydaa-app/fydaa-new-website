@@ -23,7 +23,7 @@ function PostHogPageViews() {
         person_profiles: 'identified_only',
         capture_pageview: false,
         capture_pageleave: true,
-        // Named button_click events handle labels; skip noisy input autocapture
+        // Explicit *_btn_clicked events via global tracker; skip noisy autocapture
         autocapture: false,
       });
       installGlobalButtonTracking();

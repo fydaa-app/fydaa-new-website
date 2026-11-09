@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from 'react';
-import { captureEvent } from '../../../lib/posthog';
+import { captureEvent, captureNamedButton, toEventName } from '../../../lib/posthog';
 
 const CALLING_CODE = '+91';
 
@@ -64,10 +64,7 @@ export default function BookCallForm() {
     setError('');
     if (!validateDetails()) return;
 
-    captureEvent('book_call_button_click', {
-      button_name: buttonName,
-      step,
-    });
+    captureNamedButton(buttonName, { step });
     setIsSubmitting(true);
     try {
       await postJson(leadUrl('/send-otp'), {
@@ -96,10 +93,7 @@ export default function BookCallForm() {
       return;
     }
 
-    captureEvent('book_call_button_click', {
-      button_name: 'Verify',
-      step: 'verify_otp',
-    });
+    captureNamedButton('Verify', { step: 'verify_otp' });
     setIsSubmitting(true);
     try {
       await postJson(leadUrl('/verify-otp'), {
@@ -171,7 +165,7 @@ export default function BookCallForm() {
           className="advisory-input"
           value={name}
           onFocus={() =>
-            captureEvent('book_call_field_focus', {
+            captureEvent(toEventName('Your name', 'field_focused'), {
               field_name: 'Your name',
               input_name: 'call_name',
             })
@@ -195,7 +189,7 @@ export default function BookCallForm() {
           className="advisory-input"
           value={phone}
           onFocus={() =>
-            captureEvent('book_call_field_focus', {
+            captureEvent(toEventName('Phone number', 'field_focused'), {
               field_name: 'Phone number',
               input_name: 'call_phone',
             })
@@ -222,7 +216,7 @@ export default function BookCallForm() {
             className="advisory-input"
             value={otp}
             onFocus={() =>
-              captureEvent('book_call_field_focus', {
+              captureEvent(toEventName('OTP', 'field_focused'), {
                 field_name: 'OTP',
                 input_name: 'call_otp',
               })

@@ -12,7 +12,7 @@ import {
   searchCategoryFunds,
 } from "../lib/investmentApi";
 import InvestModeSheet from "./InvestModeSheet";
-import { captureEvent } from "../../../lib/posthog";
+import { captureNamedButton } from "../../../lib/posthog";
 
 const DAILY_YEARS = [1, 2, 3, 4];
 const ALL_YEARS = [1, 2, 3, 4, 5, 7, 10, 15, 20, 25, 30];
@@ -313,8 +313,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
     }
     setAmountError("");
     const label = primaryLabel();
-    captureEvent("sip_flow_button_click", {
-      button_name: label,
+    captureNamedButton(label, {
       step: "start_product_sip",
       tab: tab.key,
       amount,
