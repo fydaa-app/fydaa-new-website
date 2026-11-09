@@ -1,6 +1,7 @@
 "use client";
 
 import { Home, Target, Clock, User, Shield, X, Flag } from "lucide-react";
+import { captureButtonClick } from "../../../lib/posthog";
 
 const iconMap = { home: Home, target: Target, flag: Flag, clock: Clock, user: User, shield: Shield };
 
@@ -14,7 +15,8 @@ export default function Sidebar({ activePage, setActivePage, showKyc, user, open
     { id: "profile", label: "Profile", icon: "user" },
   ];
 
-  function go(page) {
+  function go(page, label) {
+    captureButtonClick(label || page, { area: "sidebar", page });
     setActivePage(page);
     onClose?.();
   }
@@ -39,7 +41,7 @@ export default function Sidebar({ activePage, setActivePage, showKyc, user, open
           <button
             type="button"
             className="flex items-center cursor-pointer"
-            onClick={() => go("home")}
+            onClick={() => go("home", "Fydaa home")}
             aria-label="Fydaa home"
           >
             <img src="/fydaa-logo.png" alt="Fydaa" className="h-8 sm:h-9 w-auto object-contain" />
@@ -62,7 +64,7 @@ export default function Sidebar({ activePage, setActivePage, showKyc, user, open
               <button
                 key={item.id}
                 type="button"
-                onClick={() => go(item.id)}
+                onClick={() => go(item.id, item.label)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-btn text-sm font-medium transition-all w-full text-left ${
                   isActive
                     ? "bg-tint text-jade"
@@ -79,7 +81,7 @@ export default function Sidebar({ activePage, setActivePage, showKyc, user, open
         <div className="border-t border-border p-3">
           <button
             type="button"
-            onClick={() => go("profile")}
+            onClick={() => go("profile", "Profile")}
             className="flex items-center gap-3 w-full px-3 py-2.5 rounded-btn hover:bg-surface cursor-pointer text-left"
           >
             <div className="w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-sm font-semibold text-tertiary">

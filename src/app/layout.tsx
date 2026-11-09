@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import ConditionalLayout from "./components/ConditionalLayout";
 import Chatbot from "./components/Chatbot";
+import PostHogProvider from "./components/PostHogProvider";
 
 
 // Load Google fonts with CSS variable support
@@ -60,10 +61,12 @@ export default function RootLayout({
             gtag('config', 'G-DMWN4CQK6D');
           `}
         </Script>
-        <ConditionalLayout>
-          {children}
-        </ConditionalLayout>
-        <Chatbot /> 
+        <PostHogProvider>
+          <ConditionalLayout>
+            {children}
+          </ConditionalLayout>
+          <Chatbot />
+        </PostHogProvider>
       </body>
     </html>
   );

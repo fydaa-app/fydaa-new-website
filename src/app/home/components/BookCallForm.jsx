@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from 'react';
+import { captureEvent } from '../../../lib/posthog';
 
 const CALLING_CODE = '+91';
 
@@ -59,16 +60,21 @@ export default function BookCallForm() {
     return trimmedName;
   }
 
-  async function sendOtp() {
+  async function sendOtp({ buttonName = 'Book a Call', step = 'send_otp' } = {}) {
     setError('');
     if (!validateDetails()) return;
 
+    captureEvent('book_call_button_click', {
+      button_name: buttonName,
+      step,
+    });
     setIsSubmitting(true);
     try {
       await postJson(leadUrl('/send-otp'), {
         mobileNumber: phone,
         callingCode: CALLING_CODE,
       });
+      captureEvent('book_call_otp_sent', { field_name: 'Phone number' });
       setOtpSent(true);
       setOtp('');
       setTimeout(() => otpRef.current?.focus(), 0);
@@ -90,6 +96,10 @@ export default function BookCallForm() {
       return;
     }
 
+    captureEvent('book_call_button_click', {
+      button_name: 'Verify',
+      step: 'verify_otp',
+    });
     setIsSubmitting(true);
     try {
       await postJson(leadUrl('/verify-otp'), {
@@ -102,6 +112,10 @@ export default function BookCallForm() {
         mobileNumber: phone,
       });
 
+      captureEvent('book_call_submitted', {
+        button_name: 'Verify',
+        field_name: 'OTP',
+      });
       setName('');
       setPhone('');
       setOtp('');
@@ -150,9 +164,18 @@ export default function BookCallForm() {
           ref={nameRef}
           type="text"
           id="callName"
+          name="call_name"
+          data-ph-capture="book_call_name"
+          aria-label="Your name"
           placeholder="Full name"
           className="advisory-input"
           value={name}
+          onFocus={() =>
+            captureEvent('book_call_field_focus', {
+              field_name: 'Your name',
+              input_name: 'call_name',
+            })
+          }
           onChange={(e) => setName(e.target.value)}
           disabled={isSubmitting}
           autoComplete="name"
@@ -165,9 +188,18 @@ export default function BookCallForm() {
           ref={phoneRef}
           type="tel"
           id="callPhone"
+          name="call_phone"
+          data-ph-capture="book_call_phone"
+          aria-label="Phone number"
           placeholder="10-digit mobile number"
           className="advisory-input"
           value={phone}
+          onFocus={() =>
+            captureEvent('book_call_field_focus', {
+              field_name: 'Phone number',
+              input_name: 'call_phone',
+            })
+          }
           onChange={(e) => onPhoneChange(e.target.value)}
           disabled={isSubmitting}
           inputMode="numeric"
@@ -183,9 +215,18 @@ export default function BookCallForm() {
             ref={otpRef}
             type="text"
             id="callOtp"
+            name="call_otp"
+            data-ph-capture="book_call_otp"
+            aria-label="OTP"
             placeholder="Enter OTP"
             className="advisory-input"
             value={otp}
+            onFocus={() =>
+              captureEvent('book_call_field_focus', {
+                field_name: 'OTP',
+                input_name: 'call_otp',
+              })
+            }
             onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 8))}
             disabled={isSubmitting}
             inputMode="numeric"
@@ -193,7 +234,8 @@ export default function BookCallForm() {
           />
           <button
             type="button"
-            onClick={sendOtp}
+            data-ph-capture="book_call_resend_otp"
+            onClick={() => sendOtp({ buttonName: 'Resend OTP', step: 'resend_otp' })}
             disabled={isSubmitting}
             style={{
               marginTop: 8,
@@ -229,7 +271,8 @@ export default function BookCallForm() {
       <button
         type="button"
         className="advisory-submit"
-        onClick={otpSent ? verifyAndCreateLead : sendOtp}
+        data-ph-capture={otpSent ? 'book_call_verify' : 'book_call_submit'}
+        onClick={otpSent ? verifyAndCreateLead : () => sendOtp()}
         disabled={isSubmitting}
         style={isSubmitting ? { opacity: 0.7, cursor: 'not-allowed' } : undefined}
       >

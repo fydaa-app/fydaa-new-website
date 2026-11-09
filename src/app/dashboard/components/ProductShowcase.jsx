@@ -12,6 +12,7 @@ import {
   searchCategoryFunds,
 } from "../lib/investmentApi";
 import InvestModeSheet from "./InvestModeSheet";
+import { captureEvent } from "../../../lib/posthog";
 
 const DAILY_YEARS = [1, 2, 3, 4];
 const ALL_YEARS = [1, 2, 3, 4, 5, 7, 10, 15, 20, 25, 30];
@@ -311,6 +312,16 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
       }
     }
     setAmountError("");
+    const label = primaryLabel();
+    captureEvent("sip_flow_button_click", {
+      button_name: label,
+      step: "start_product_sip",
+      tab: tab.key,
+      amount,
+      frequency: freq,
+      fund_mode: fundMode,
+      from_goals: false,
+    });
     onStartInvest?.({
       tab: tab.key,
       goalId: tab.goalId,

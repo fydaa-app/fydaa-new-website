@@ -413,23 +413,51 @@ export function illustratedCorpus(amount, rate, tenureYears, daily) {
 }
 
 const PENDING_FIRST_DEBIT_KEY = "fydaa.pendingSipFirstDebit";
+/** Keep pending across BillDesk redirect tabs (sessionStorage is per-tab). */
+const PENDING_FIRST_DEBIT_TTL_MS = 2 * 60 * 60 * 1000;
 let firstDebitInFlight = null;
 
+function pendingStorage() {
+  if (typeof window === "undefined") return null;
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
 export function setPendingSipFirstDebit(payload) {
-  if (typeof sessionStorage === "undefined") return;
-  sessionStorage.setItem(
-    PENDING_FIRST_DEBIT_KEY,
-    JSON.stringify({ ...payload, at: Date.now() }),
-  );
+  const store = pendingStorage();
+  if (!store) return;
+  const value = JSON.stringify({ ...payload, at: Date.now() });
+  store.setItem(PENDING_FIRST_DEBIT_KEY, value);
+  try {
+    sessionStorage.setItem(PENDING_FIRST_DEBIT_KEY, value);
+  } catch {
+    /* ignore */
+  }
 }
 
 export function getPendingSipFirstDebit() {
-  if (typeof sessionStorage === "undefined") return null;
+  const store = pendingStorage();
+  if (!store) return null;
   try {
-    const raw = sessionStorage.getItem(PENDING_FIRST_DEBIT_KEY);
+    let raw = store.getItem(PENDING_FIRST_DEBIT_KEY);
+    if (!raw) {
+      try {
+        raw = sessionStorage.getItem(PENDING_FIRST_DEBIT_KEY);
+      } catch {
+        raw = null;
+      }
+      if (raw) store.setItem(PENDING_FIRST_DEBIT_KEY, raw);
+    }
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (!parsed?.sipId) return null;
+    if (parsed.at && Date.now() - Number(parsed.at) > PENDING_FIRST_DEBIT_TTL_MS) {
+      clearPendingSipFirstDebit();
+      return null;
+    }
     return parsed;
   } catch {
     return null;
@@ -437,8 +465,17 @@ export function getPendingSipFirstDebit() {
 }
 
 export function clearPendingSipFirstDebit() {
-  if (typeof sessionStorage === "undefined") return;
-  sessionStorage.removeItem(PENDING_FIRST_DEBIT_KEY);
+  const store = pendingStorage();
+  try {
+    store?.removeItem(PENDING_FIRST_DEBIT_KEY);
+  } catch {
+    /* ignore */
+  }
+  try {
+    sessionStorage.removeItem(PENDING_FIRST_DEBIT_KEY);
+  } catch {
+    /* ignore */
+  }
 }
 
 export async function updateMfia() {

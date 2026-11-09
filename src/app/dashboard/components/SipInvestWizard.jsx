@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Check, ChevronDown, X } from "lucide-react";
+import { ArrowLeft, ChevronDown, X } from "lucide-react";
 import {
   checkInvestReadiness,
   createMandate,
@@ -28,7 +28,9 @@ import {
   WIZARD_SUB,
   WIZARD_TITLE,
 } from "../lib/layoutClasses";
+import SipSuccessView from "./SipSuccessView";
 import LumpsumInvestFlow from "./LumpsumInvestFlow";
+import { captureEvent } from "../../../lib/posthog";
 
 function money(value) {
   const n = Number(value);
@@ -108,6 +110,19 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
   const ownFund = draft?.fundMode === "own";
   const portfolioId = ownFund ? null : portfolio?.portfolioId;
   const portfolioTitle = draft?.goalName || (tab?.label === "Equity" ? "Equities" : tab?.label);
+
+  function trackSip(buttonName, step, extra = {}) {
+    captureEvent("sip_flow_button_click", {
+      button_name: buttonName,
+      step,
+      tab: draft?.tab || tab?.key || null,
+      goal_name: draft?.goalName || null,
+      amount,
+      frequency,
+      from_goals: fromGoals,
+      ...extra,
+    });
+  }
 
   const funds = portfolio?.funds?.length
     ? portfolio.funds
@@ -237,6 +252,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
   }
 
   async function startMandate(id) {
+    trackSip("Set up UPI AutoPay", "mandate_start", { sip_id: id });
     setBusy(true);
     setError("");
     try {
@@ -393,6 +409,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
   }, [open, draft, ownFund]);
 
   async function openReview() {
+    trackSip("Review & confirm", "open_review");
     setError("");
     setBusy(true);
     const ready = readiness || await checkInvestReadiness();
@@ -405,6 +422,8 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
   }
 
   async function onReviewPrimary() {
+    const reviewLabel = action?.label || "Review continue";
+    trackSip(String(reviewLabel).replace(/\s*→\s*$/, "").trim() || "Review continue", `review_${action?.step || "next"}`);
     setError("");
     if (action.step === "kyc" || action.step === "bank" || action.step === "nominee") {
       onCompleteKyc?.(draft);
@@ -446,6 +465,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
   }
 
   async function confirmOtp() {
+    trackSip("Confirm OTP", "consent_confirm");
     setBusy(true);
     setError("");
     const result = await verifyConsentOtp(otp);
@@ -463,7 +483,9 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
       if (!fromGoals) setReviewOpen(true);
       return;
     }
-    if (fromGoals) {
+    // Digital Gold keeps the old step: OTP → back to review before mandate.
+    const isDigitalGold = String(draft?.tab || tab?.key || "").toLowerCase() === "gold";
+    if (fromGoals || !isDigitalGold) {
       await startMandate(id);
       return;
     }
@@ -729,9 +751,12 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
             <p className={`${WIZARD_SUB} mb-6`}>Enter the 6-digit OTP sent to your registered mobile.</p>
             <input
               type="text"
+              name="sip_consent_otp"
+              aria-label="Consent OTP"
               inputMode="numeric"
               maxLength={6}
               value={otp}
+              onFocus={() => trackSip("Consent OTP", "consent_otp_focus")}
               onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))}
               className="w-full px-4 py-3.5 4xl:py-4 rounded-btn border border-border text-center text-2xl 4xl:text-3xl tracking-[0.4em] font-bold mb-4"
               placeholder="••••••"
@@ -749,6 +774,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
               type="button"
               disabled={busy}
               onClick={async () => {
+                trackSip("Resend OTP", "consent_resend");
                 setBusy(true);
                 const sent = await sendConsentOtp();
                 setBusy(false);
@@ -773,6 +799,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
               type="button"
               disabled={busy}
               onClick={async () => {
+                trackSip("Check again", "mandate_check");
                 setError("");
                 setBusy(true);
                 const id = sipId || await ensureSipCreated();
@@ -796,6 +823,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
               type="button"
               disabled={busy}
               onClick={async () => {
+                trackSip("Open UPI AutoPay again", "mandate_reopen");
                 const id = sipId || await ensureSipCreated();
                 if (id) await startMandate(id);
               }}
@@ -823,6 +851,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
               <button
                 type="button"
                 onClick={async () => {
+                  trackSip("Retry first debit", "debit_retry");
                   const id = sipId || await ensureSipCreated();
                   if (id) await runFirstDebit(id);
                 }}
@@ -835,100 +864,25 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
         )}
 
         {page === "success" && (
-          <div className={`${WIZARD_STAGE} py-4 sm:py-8 4xl:py-10`}>
-            <div className="text-center mb-6 4xl:mb-8">
-              <div className="w-14 h-14 4xl:w-16 4xl:h-16 rounded-full bg-tint text-jade flex items-center justify-center mx-auto mb-4">
-                <Check size={28} />
-              </div>
-              <h1 className={`${WIZARD_TITLE} mb-2`}>Your SIP is set up!</h1>
-              <p className={`${WIZARD_SUB} max-w-md 4xl:max-w-lg mx-auto`}>
-                {successView?.subtitle
-                  || (daily
-                    ? "First payment initiated. Daily auto-debit on each business day."
-                    : "First payment initiated. Monthly SIP set for next month.")}
-              </p>
-              {partialNote ? <p className="text-sm 4xl:text-base text-amber-700 mt-3">{partialNote}</p> : null}
-            </div>
-
-            {successLoading && !successView ? (
-              <div className="rounded-card border border-border bg-white px-5 py-8 text-center text-sm 4xl:text-base text-muted shadow-card mb-4">
-                Loading your SIP details…
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 4xl:gap-5 mb-6 4xl:mb-8">
-                <div className="rounded-card 4xl:rounded-3xl border border-border bg-white px-4 sm:px-5 4xl:px-6 py-4 4xl:py-5 shadow-card text-left min-w-0">
-                  <span className="inline-flex px-2.5 py-0.5 rounded-full bg-jade text-white text-[11px] 4xl:text-xs font-bold mb-3">
-                    Auto-debit set
-                  </span>
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="text-base sm:text-lg 4xl:text-xl font-bold text-jade">
-                        {successView?.title || (daily ? "Daily SIP" : "Monthly SIP")}
-                      </div>
-                      <div className="text-xs sm:text-[13px] 4xl:text-sm text-muted mt-1 break-words">
-                        {successView?.scheduleLine
-                          || (daily
-                            ? "Next: each business day"
-                            : `Next: ${goalDates.next} · then ${dayOrdinal(monthlyDay)}/month`)}
-                      </div>
-                    </div>
-                    <div className="text-lg sm:text-xl 4xl:text-2xl font-bold text-jade shrink-0">
-                      {successView?.amountLabel || `${money(amount)}${daily ? "/day" : "/mo"}`}
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {(successView?.recurringChips?.length
-                      ? successView.recurringChips
-                      : [`${portfolioTitle || tab?.label || "Equity"} ${money(amount)}${daily ? "/day" : "/mo"}`]
-                    ).map((chip) => (
-                      <span
-                        key={chip}
-                        className="inline-flex px-2.5 py-1 rounded-full bg-tint text-jade text-xs 4xl:text-[13px] font-semibold"
-                      >
-                        {chip}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="rounded-card 4xl:rounded-3xl border border-border bg-white px-4 sm:px-5 4xl:px-6 py-4 4xl:py-5 shadow-card text-left min-w-0">
-                  <span className="inline-flex px-2.5 py-0.5 rounded-full bg-amber-600 text-white text-[11px] 4xl:text-xs font-bold mb-3">
-                    Debited · mandate
-                  </span>
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="text-base sm:text-lg 4xl:text-xl font-bold text-amber-900">First instalment</div>
-                      <div className="text-xs sm:text-[13px] 4xl:text-sm text-amber-800/80 mt-1">Today · at today&apos;s NAV</div>
-                    </div>
-                    <div className="text-lg sm:text-xl 4xl:text-2xl font-bold text-amber-900 shrink-0">
-                      {successView?.firstAmountLabel || money(amount)}
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {(successView?.firstChips?.length
-                      ? successView.firstChips
-                      : [`${portfolioTitle || tab?.label || "Equity"} ${money(amount)}`]
-                    ).map((chip) => (
-                      <span
-                        key={chip}
-                        className="inline-flex px-2.5 py-1 rounded-full bg-tint text-jade text-xs 4xl:text-[13px] font-semibold"
-                      >
-                        {chip}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <button
-              type="button"
-              onClick={() => { onDone?.({ sipId }); onClose?.(); }}
-              className={`${WIZARD_CTA} max-w-md 4xl:max-w-lg mx-auto block`}
-            >
-              Continue to Dashboard
-            </button>
-          </div>
+          <SipSuccessView
+            successView={successView}
+            loading={successLoading}
+            partialNote={partialNote}
+            fallbackDaily={daily}
+            fallbackAmountLabel={`${money(amount)}${daily ? "/day" : "/mo"}`}
+            fallbackFirstAmountLabel={money(amount)}
+            fallbackScheduleLine={
+              daily
+                ? "Next: each business day"
+                : `Next: ${goalDates.next} · then ${dayOrdinal(monthlyDay)}/month`
+            }
+            fallbackChips={[`${portfolioTitle || tab?.label || "Equity"} ${money(amount)}`]}
+            onContinue={() => {
+              trackSip("Continue to Dashboard", "success_continue", { sip_id: sipId });
+              onDone?.({ sipId });
+              onClose?.();
+            }}
+          />
         )}
         </div>
       </div>

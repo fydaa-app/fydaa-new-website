@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { captureEvent } from '../../lib/posthog';
 
 type PartnerCallNowProps = {
   phone: string;
@@ -58,6 +59,10 @@ export default function PartnerCallNow({ phone, partnerName, className }: Partne
 
   function onClick() {
     if (!telHref) return;
+    captureEvent('partner_call_now_click', {
+      partner_name: partnerName || null,
+      is_desktop: isDesktop,
+    });
     if (isDesktop) {
       setOpen(true);
       return;

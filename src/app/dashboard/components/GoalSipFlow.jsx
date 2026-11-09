@@ -12,6 +12,7 @@ import {
   tabMeta,
 } from "../lib/sipInvestApi";
 import { FLOW_SHELL } from "../lib/layoutClasses";
+import { captureEvent } from "../../../lib/posthog";
 
 const AMOUNT_CHIPS = [1000, 5000, 10000, 20000];
 const SIP_DAYS = [1, 5, 10, 15, 20, 25, 28];
@@ -200,8 +201,18 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
       setError("This goal is not available yet.");
       return;
     }
+    const productTab = PRODUCT_TABS.find((item) => item.goalId === goalId);
+    const buttonName = String(reviewAction?.label || "Continue setup").replace(/\s*→\s*$/, "").trim();
+    captureEvent("sip_flow_button_click", {
+      button_name: buttonName,
+      step: `goal_${reviewAction?.step || "continue"}`,
+      tab: productTab?.key || "equity",
+      goal_name: goal?.name || null,
+      amount,
+      frequency: "monthly",
+      from_goals: true,
+    });
     if (reviewAction.step === "kyc" || reviewAction.step === "bank" || reviewAction.step === "nominee") {
-      const productTab = PRODUCT_TABS.find((item) => item.goalId === goalId);
       onCompleteKyc?.({
         tab: productTab?.key || "equity",
         goalId,
@@ -218,7 +229,6 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
       });
       return;
     }
-    const productTab = PRODUCT_TABS.find((item) => item.goalId === goalId);
     setBusy(true);
     setReviewOpen(false);
     onContinue?.({

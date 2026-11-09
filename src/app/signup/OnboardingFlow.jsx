@@ -32,6 +32,7 @@ import {
   verifyOtp,
   verifyPin,
 } from './lib/authApi';
+import { captureEvent } from '../../lib/posthog';
 import { isValidEmail } from './lib/emailValidation';
 import {
   INCOME_OPTIONS,
@@ -201,6 +202,14 @@ export default function OnboardingFlow({
     setAuthError('');
     setScreen(next);
   };
+
+  useEffect(() => {
+    if (!screen) return;
+    captureEvent('webapp_onboarding_screen', {
+      screen,
+      mode: mode || (embedded ? 'embedded' : 'signup'),
+    });
+  }, [screen, mode, embedded]);
 
   const bankNext = () => (nomineeOptOut ? submitNominee() : go('nominee'));
 

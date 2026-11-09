@@ -118,6 +118,7 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
             </p>
             <PartnerBookConsultationTrigger
               slug={slug}
+              location="hero"
               className="pw-btn pw-btn-primary pw-hero-cta"
             >
               Book a Consultation
@@ -281,13 +282,21 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
               to you.
             </p>
             <div className="pw-cta-actions">
-              <PartnerBookConsultationTrigger slug={slug} className="pw-btn pw-btn-light">
+              <PartnerBookConsultationTrigger
+                slug={slug}
+                location="contact"
+                className="pw-btn pw-btn-light"
+              >
                 Book a Consultation
               </PartnerBookConsultationTrigger>
               {phone ? (
                 <PartnerCallNow phone={phone} partnerName={name} className="pw-btn pw-btn-call" />
               ) : (
-                <PartnerBookConsultationTrigger slug={slug} className="pw-btn pw-btn-call">
+                <PartnerBookConsultationTrigger
+                  slug={slug}
+                  location="contact_call"
+                  className="pw-btn pw-btn-call"
+                >
                   Call Now
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z" />
