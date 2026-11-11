@@ -13,6 +13,27 @@ export function captureEvent(
   }
 }
 
+/**
+ * Turn a human label into an explicit PostHog event name.
+ * "Book a Call" + "btn_clicked" → book_a_call_btn_clicked
+ */
+export function toEventName(label: string, suffix = 'btn_clicked'): string {
+  const slug = String(label || '')
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+    .replace(/_+/g, '_')
+    .slice(0, 64);
+  const base = slug || 'unknown';
+  const cleanSuffix = String(suffix || 'btn_clicked')
+    .toLowerCase()
+    .replace(/[^a-z0-9_]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+  if (base.endsWith(`_${cleanSuffix}`) || base === cleanSuffix) return base;
+  return `${base}_${cleanSuffix}`;
+}
+
 /** Flatten React children into a short label for button tracking. */
 export function labelFromChildren(children: ReactNode): string {
   if (children == null || typeof children === 'boolean') return '';
@@ -26,16 +47,40 @@ export function labelFromChildren(children: ReactNode): string {
   return '';
 }
 
+/** Suppress one global click capture after a manual named capture in the same tick. */
+let suppressNextGlobalClick = false;
+
 export function captureButtonClick(
   label: string,
   properties?: Record<string, string | number | boolean | null | undefined>,
 ) {
   const trimmed = String(label || '').trim().slice(0, 120);
   if (!trimmed) return;
-  captureEvent('button_click', {
+  suppressNextGlobalClick = true;
+  captureEvent(toEventName(trimmed, 'btn_clicked'), {
     button_name: trimmed,
-    button_label: trimmed,
     ...properties,
+  });
+  queueMicrotask(() => {
+    suppressNextGlobalClick = false;
+  });
+}
+
+/** Manual capture that also suppresses the global button listener for this click. */
+export function captureNamedButton(
+  label: string,
+  properties?: Record<string, string | number | boolean | null | undefined>,
+  suffix = 'btn_clicked',
+) {
+  const trimmed = String(label || '').trim().slice(0, 120);
+  if (!trimmed) return;
+  suppressNextGlobalClick = true;
+  captureEvent(toEventName(trimmed, suffix), {
+    button_name: trimmed,
+    ...properties,
+  });
+  queueMicrotask(() => {
+    suppressNextGlobalClick = false;
   });
 }
 
@@ -47,6 +92,10 @@ export function labelFromElement(target: EventTarget | null): string {
     'button, a[href], [role="button"], input[type="submit"], input[type="button"], input[type="reset"]',
   );
   if (!el) return '';
+
+  // Prefer stable analytics id when present
+  const dataEvent = el.getAttribute('data-ph-event')?.trim();
+  if (dataEvent) return dataEvent;
 
   if (el instanceof HTMLInputElement) {
     return (
@@ -81,7 +130,8 @@ export function labelFromElement(target: EventTarget | null): string {
 let globalButtonTrackingInstalled = false;
 
 /**
- * Capture every button / CTA click site-wide with button_name = visible label.
+ * Capture every button / CTA click with an explicit event name:
+ * e.g. book_a_call_btn_clicked (not a generic button_click).
  */
 export function installGlobalButtonTracking() {
   if (typeof window === 'undefined' || globalButtonTrackingInstalled) return;
@@ -90,6 +140,11 @@ export function installGlobalButtonTracking() {
   document.addEventListener(
     'click',
     (event) => {
+      if (suppressNextGlobalClick) {
+        suppressNextGlobalClick = false;
+        return;
+      }
+
       const buttonName = labelFromElement(event.target);
       if (!buttonName) return;
 
@@ -100,7 +155,14 @@ export function installGlobalButtonTracking() {
             )
           : null;
 
-      captureEvent('button_click', {
+      // data-ph-event may already be a full event name
+      const eventName = /_btn_clicked$|_clicked$|_submitted$|_viewed$|_focused$|_sent$/.test(
+        buttonName,
+      )
+        ? buttonName
+        : toEventName(buttonName, 'btn_clicked');
+
+      captureEvent(eventName, {
         button_name: buttonName,
         element_tag: el?.tagName?.toLowerCase() || null,
         element_id: el?.id || null,

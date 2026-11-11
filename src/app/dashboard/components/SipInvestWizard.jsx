@@ -30,7 +30,7 @@ import {
 } from "../lib/layoutClasses";
 import SipSuccessView from "./SipSuccessView";
 import LumpsumInvestFlow from "./LumpsumInvestFlow";
-import { captureEvent } from "../../../lib/posthog";
+import { captureNamedButton } from "../../../lib/posthog";
 
 function money(value) {
   const n = Number(value);
@@ -112,8 +112,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
   const portfolioTitle = draft?.goalName || (tab?.label === "Equity" ? "Equities" : tab?.label);
 
   function trackSip(buttonName, step, extra = {}) {
-    captureEvent("sip_flow_button_click", {
-      button_name: buttonName,
+    captureNamedButton(buttonName, {
       step,
       tab: draft?.tab || tab?.key || null,
       goal_name: draft?.goalName || null,

@@ -12,7 +12,7 @@ import {
   tabMeta,
 } from "../lib/sipInvestApi";
 import { FLOW_SHELL } from "../lib/layoutClasses";
-import { captureEvent } from "../../../lib/posthog";
+import { captureNamedButton } from "../../../lib/posthog";
 
 const AMOUNT_CHIPS = [1000, 5000, 10000, 20000];
 const SIP_DAYS = [1, 5, 10, 15, 20, 25, 28];
@@ -203,8 +203,7 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
     }
     const productTab = PRODUCT_TABS.find((item) => item.goalId === goalId);
     const buttonName = String(reviewAction?.label || "Continue setup").replace(/\s*→\s*$/, "").trim();
-    captureEvent("sip_flow_button_click", {
-      button_name: buttonName,
+    captureNamedButton(buttonName, {
       step: `goal_${reviewAction?.step || "continue"}`,
       tab: productTab?.key || "equity",
       goal_name: goal?.name || null,

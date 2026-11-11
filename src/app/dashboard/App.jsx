@@ -14,7 +14,7 @@ import { getUserBankDetails, getUserDetails, getUserStage } from "../signup/lib/
 import { isSignupComplete } from "../signup/lib/kycApi";
 import { mapBankDetails, mapStageProfile, mapUserDetails } from "./lib/userProfile";
 import { emailFromAdvisorPayload, getAdvisorAndRelationshipManager, mapRelationshipManager } from "./lib/crmApi";
-import { captureEvent, identifyUser } from "../../lib/posthog";
+import { captureEvent, identifyUser, toEventName } from "../../lib/posthog";
 const pages = {
   home: HomePage,
   kyc: KycPage,
@@ -64,13 +64,13 @@ function DashboardShell() {
     } else if (goalOrOpts && !(goalOrOpts && goalOrOpts.start)) {
       setPendingGoalSip(goalOrOpts);
     }
-    captureEvent("webapp_nav_click", { page });
+    captureEvent(toEventName(`dashboard_${page}_nav`, "btn_clicked"), { page });
     setActivePage(page);
     setNavOpen(false);
   };
 
   useEffect(() => {
-    captureEvent("webapp_page_view", { page: activePage });
+    captureEvent(toEventName(`dashboard_${activePage}`, "page_viewed"), { page: activePage });
   }, [activePage]);
 
   useEffect(() => {
