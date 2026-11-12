@@ -20,11 +20,11 @@ export default function HomePage() {
       <Dreams />
       <DirectPlanSection />
       <PurposeSection />
-      <TrustSection />
       <AdvisorySection />
+      <TrustSection />
       <Testimonials />
-      <FaqSection />
       <FinalCta />
+      <FaqSection />
     </main>
   );
 }

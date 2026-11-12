@@ -175,7 +175,7 @@ export default function Dreams() {
   }, [isDesktop, isLottieLoaded]);
 
   return (
-    <div className="dreams-section bg-grey-50 relative mt-5 sm:mt-6 md:mt-7 lg:mt-8 xl:mt-9 2xl:mt-10 mb-0">
+    <div className="dreams-section bg-white relative mt-5 sm:mt-6 md:mt-7 lg:mt-8 xl:mt-9 2xl:mt-10 mb-0">
       {/* Header — reference text layout */}
       <header className="relative z-30 px-4 sm:px-6 pt-12 sm:pt-16 pb-6 sm:pb-8">
         <div className="max-w-4xl mx-auto text-center">
