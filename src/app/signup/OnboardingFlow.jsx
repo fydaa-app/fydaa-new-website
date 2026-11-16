@@ -124,7 +124,11 @@ function AccountSwitch({ isLogin }) {
       <span className="text-neutral-500">
         {isLogin ? 'New to Fydaa? ' : 'Already have an account? '}
       </span>
-      <Link href={isLogin ? '/signup' : '/login'} className="font-semibold text-[#0C4A3E]">
+      <Link
+        href={isLogin ? '/signup' : '/login'}
+        className="font-semibold text-[#0C4A3E]"
+        data-ph-event={isLogin ? 'Sign up' : 'Log in'}
+      >
         {isLogin ? 'Sign up' : 'Log in'}
       </Link>
     </p>
@@ -1475,7 +1479,11 @@ export default function OnboardingFlow({
           {authError && screen === 'mobile' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={isLogin ? submitLoginPin : submitSignupMobile} disabled={Boolean(authBusy)}>
+          <Button
+            phEvent={isLogin ? 'Login Proceed' : 'Sign up Proceed'}
+            onClick={isLogin ? submitLoginPin : submitSignupMobile}
+            disabled={Boolean(authBusy)}
+          >
             {authBusy === 'pin' || authBusy === 'otp-request' ? 'Please wait...' : 'Proceed'}
           </Button>
           <AccountSwitch isLogin={isLogin} />
@@ -1499,7 +1507,7 @@ export default function OnboardingFlow({
           {authError && screen === 'otp' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={submitSignupOtp} disabled={Boolean(authBusy)}>
+          <Button phEvent="Verify OTP" onClick={submitSignupOtp} disabled={Boolean(authBusy)}>
             {authBusy === 'otp' ? 'Verifying...' : 'Proceed'}
           </Button>
           <AccountSwitch isLogin={isLogin} />
@@ -1532,7 +1540,7 @@ export default function OnboardingFlow({
           {authError && screen === 'pin' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={submitCreatePin} disabled={Boolean(authBusy)}>
+          <Button phEvent="Create PIN" onClick={submitCreatePin} disabled={Boolean(authBusy)}>
             {authBusy === 'create-pin' ? 'Saving...' : 'Get Started'}
           </Button>
         </>
@@ -1587,7 +1595,7 @@ export default function OnboardingFlow({
           <p className="text-sm text-neutral-500 mt-5 leading-relaxed max-w-[400px]">
             Your personalized risk profile is ready. Continue to verify your email and finish KYC.
           </p>
-          <Button onClick={() => go('email')} className="max-w-none" disabled={Boolean(authBusy)}>
+          <Button phEvent="Continue" onClick={() => go('email')} className="max-w-none" disabled={Boolean(authBusy)}>
             Continue
           </Button>
           <OutlineButton
@@ -1621,7 +1629,7 @@ export default function OnboardingFlow({
           {authError && screen === 'email' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={submitRequestEmailOtp} disabled={Boolean(authBusy)}>
+          <Button phEvent="Send Email OTP" onClick={submitRequestEmailOtp} disabled={Boolean(authBusy)}>
             {authBusy === 'email-request' ? 'Sending...' : 'Next'}
           </Button>
           <div className="flex items-center gap-3 my-4">
@@ -1677,7 +1685,7 @@ export default function OnboardingFlow({
           {authError && screen === 'emailotp' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={submitVerifyEmailOtp} disabled={Boolean(authBusy)}>
+          <Button phEvent="Verify Email OTP" onClick={submitVerifyEmailOtp} disabled={Boolean(authBusy)}>
             {authBusy === 'email-verify' ? 'Verifying...' : 'Verify'}
           </Button>
         </>
@@ -1733,7 +1741,7 @@ export default function OnboardingFlow({
           {authError && screen === 'pan' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={submitPanDetails} disabled={Boolean(authBusy)}>
+          <Button phEvent="Submit PAN" onClick={submitPanDetails} disabled={Boolean(authBusy)}>
             {authBusy === 'pan' ? 'Verifying...' : 'Verify'}
           </Button>
         </>
@@ -1807,7 +1815,7 @@ export default function OnboardingFlow({
           {authError && screen === 'kyc' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={submitKycExtra} disabled={Boolean(authBusy)}>
+          <Button phEvent="Continue KYC" onClick={submitKycExtra} disabled={Boolean(authBusy)}>
             {authBusy === 'kyc-extra' ? 'Saving...' : 'Continue'}
           </Button>
         </>
@@ -1823,7 +1831,7 @@ export default function OnboardingFlow({
           {authError && screen === 'digilocker' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={startDigiLocker} disabled={Boolean(authBusy)}>
+          <Button phEvent="Start DigiLocker" onClick={startDigiLocker} disabled={Boolean(authBusy)}>
             {authBusy === 'digilocker' ? 'Waiting for DigiLocker...' : 'Continue DigiLocker'}
           </Button>
         </>
@@ -1844,7 +1852,7 @@ export default function OnboardingFlow({
           {authError && screen === 'signature' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={submitSignatureAndNsdl} disabled={Boolean(authBusy)}>
+          <Button phEvent="Submit Signature" onClick={submitSignatureAndNsdl} disabled={Boolean(authBusy)}>
             {authBusy === 'signature' || authBusy === 'nsdl' ? 'Please wait...' : 'Continue to e-sign'}
           </Button>
         </>
@@ -1862,7 +1870,7 @@ export default function OnboardingFlow({
           {authError && screen === 'nsdl' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={runNsdlEsign} disabled={Boolean(authBusy)}>
+          <Button phEvent="NSDL eSign" onClick={runNsdlEsign} disabled={Boolean(authBusy)}>
             {authBusy === 'nsdl' ? 'Waiting…' : 'Continue e-sign'}
           </Button>
         </>
@@ -1873,7 +1881,7 @@ export default function OnboardingFlow({
         <>
           <PageHeading size="text-[22px]">Almost done</PageHeading>
           <PageSub>Continue to add your bank account.</PageSub>
-          <Button onClick={() => go('bank')}>Continue</Button>
+          <Button phEvent="Continue" onClick={() => go('bank')}>Continue</Button>
         </>
       )}
 
@@ -1968,7 +1976,7 @@ export default function OnboardingFlow({
           {authError && screen === 'bank' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={submitBank} disabled={Boolean(authBusy)}>
+          <Button phEvent="Submit Bank" onClick={submitBank} disabled={Boolean(authBusy)}>
             {authBusy === 'bank' || authBusy === 'nominee' ? 'Saving...' : 'Add Bank Details'}
           </Button>
         </>
@@ -2066,7 +2074,7 @@ export default function OnboardingFlow({
           {authError && screen === 'nominee' && (
             <p className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button onClick={() => submitNominee()} disabled={Boolean(authBusy)}>
+          <Button phEvent="Submit Nominee" onClick={() => submitNominee()} disabled={Boolean(authBusy)}>
             {authBusy === 'nominee' ? 'Saving...' : 'Submit Nominee'}
           </Button>
         </>

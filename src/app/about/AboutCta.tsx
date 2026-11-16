@@ -16,6 +16,7 @@ export default function AboutCta() {
           <Link
             href="/#book-a-call"
             className="inline-flex items-center justify-center gap-2 bg-white text-jade px-8 py-3.5 rounded-[10px] font-bold text-[0.95rem] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-all min-h-[44px]"
+            data-ph-event="Book a Free Call"
           >
             Book a Free Call
           </Link>
@@ -23,6 +24,7 @@ export default function AboutCta() {
             href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
             target="_blank"
             rel="noopener noreferrer"
+            data-ph-event="Download App"
             className="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/[.18] text-white px-7 py-3.5 rounded-[10px] font-bold text-[0.95rem] hover:bg-white/[.18] transition-all min-h-[44px]"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

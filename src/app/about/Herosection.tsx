@@ -105,6 +105,7 @@ const HeroSection: React.FC = () => {
               <Link
                 href="/#book-a-call"
                 className="inline-flex items-center gap-2 bg-jade text-white px-6 py-3 rounded-[10px] font-inter font-bold text-[12px] sm:text-[14px] tracking-[-0.01em] hover:bg-jade-hover active:scale-[0.985] transition-all pointer-events-auto"
+                data-ph-event="Book a Free Call"
               >
                 Book a Free Call
               </Link>

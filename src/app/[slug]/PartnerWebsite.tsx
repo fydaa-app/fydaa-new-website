@@ -144,13 +144,21 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
               with everything you need to build, manage and grow your money over time.
             </p>
             <div className="pw-invest-actions">
-              <Link href={signupHref} className="pw-btn pw-btn-primary pw-invest-cta">
+              <Link
+                href={signupHref}
+                className="pw-btn pw-btn-primary pw-invest-cta"
+                data-ph-event="Start Investing"
+              >
                 Start Investing
                 <span className="pw-cta-chevron" aria-hidden="true">
                   ›
                 </span>
               </Link>
-              <Link href={loginHref} className="pw-btn pw-btn-secondary pw-invest-login">
+              <Link
+                href={loginHref}
+                className="pw-btn pw-btn-secondary pw-invest-login"
+                data-ph-event="Log In"
+              >
                 Log In
               </Link>
             </div>

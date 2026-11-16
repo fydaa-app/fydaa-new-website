@@ -22,6 +22,7 @@ export default function Portfolios() {
             <Link
               href="/#book-a-call"
               className="inline-flex bg-jade text-white px-7 py-[13px] rounded-[10px] font-bold text-sm hover:bg-jade-hover transition-colors min-h-[44px] items-center"
+              data-ph-event="Book a Free Call"
             >
               Book a Free Call
             </Link>

@@ -103,32 +103,44 @@ export function LinkText({ children, onClick, className = '' }) {
 }
 
 // ── Buttons / form controls ───────────────────────────────────────
-export function Button({ children, onClick, className = '', ...rest }) {
+export function Button({ children, onClick, className = '', phEvent, ...rest }) {
+  const { ['data-ph-event']: dataPhEvent, ...buttonRest } = rest;
+  const label =
+    phEvent ||
+    dataPhEvent ||
+    labelFromChildren(children).replace(/[→←↑↓➜➝➞➡︎▶️]/g, '').replace(/\s+/g, ' ').trim();
   return (
     <button
       type="button"
+      {...buttonRest}
+      data-ph-event={label || undefined}
       onClick={(e) => {
-        captureButtonClick(labelFromChildren(children), { button_variant: 'primary' });
+        captureButtonClick(label || 'Button', { button_variant: 'primary' });
         onClick?.(e);
       }}
       className={`w-full h-[52px] rounded-xl bg-[#0C4A3E] text-white text-[15px] font-bold hover:bg-[#0A3D33] transition-colors mt-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#0C4A3E] ${className}`}
-      {...rest}
     >
       {children}
     </button>
   );
 }
 
-export function OutlineButton({ children, onClick, className = '', ...rest }) {
+export function OutlineButton({ children, onClick, className = '', phEvent, ...rest }) {
+  const { ['data-ph-event']: dataPhEvent, ...buttonRest } = rest;
+  const label =
+    phEvent ||
+    dataPhEvent ||
+    labelFromChildren(children).replace(/[→←↑↓➜➝➞➡︎▶️]/g, '').replace(/\s+/g, ' ').trim();
   return (
     <button
       type="button"
+      {...buttonRest}
+      data-ph-event={label || undefined}
       onClick={(e) => {
-        captureButtonClick(labelFromChildren(children), { button_variant: 'outline' });
+        captureButtonClick(label || 'Button', { button_variant: 'outline' });
         onClick?.(e);
       }}
       className={`w-full h-[52px] rounded-xl bg-white text-neutral-800 text-[15px] font-semibold border-[1.5px] border-neutral-200 hover:border-neutral-300 transition-colors mt-2 flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
-      {...rest}
     >
       {children}
     </button>

@@ -42,6 +42,7 @@ export default function FyiapProgramBoxes() {
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <Link
                 href="/programme"
+                data-ph-event="Apply now"
                 className="inline-flex items-center gap-1.5 rounded-[10px] bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
               >
                 Apply now
@@ -57,6 +58,7 @@ export default function FyiapProgramBoxes() {
               </Link>
               <Link
                 href="/programme"
+                data-ph-event="Learn more"
                 className="rounded-[10px] border border-grey-300 px-6 py-3 text-sm font-bold text-ink hover:border-jade hover:text-jade"
               >
                 Learn more

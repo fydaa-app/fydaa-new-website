@@ -247,6 +247,7 @@ const LeadCapturePopup = () => {
 
             <PrimaryButton
               type="submit"
+              phEvent="Submit"
               disabled={isSubmitting}
               className="w-full py-3 rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed font-gilroy"
             >

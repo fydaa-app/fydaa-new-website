@@ -117,6 +117,7 @@ export function labelFromElement(target: EventTarget | null): string {
   if (dataName) return dataName.slice(0, 120);
 
   const text = String(el.textContent || '')
+    .replace(/[→←↑↓➜➝➞➡︎▶️]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
   if (text) return text.slice(0, 120);
