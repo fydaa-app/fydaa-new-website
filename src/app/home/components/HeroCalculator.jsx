@@ -201,6 +201,7 @@ export default function HeroCalculator() {
       <a
         href="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
         className="hc-cta"
+        data-ph-event="Start this SIP"
         target="_blank"
         rel="noopener noreferrer"
       >

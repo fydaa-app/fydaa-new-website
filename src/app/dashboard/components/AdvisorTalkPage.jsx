@@ -92,6 +92,7 @@ export default function AdvisorTalkPage({ onBack }) {
               href={BOOK_CALL_URL}
               target="_blank"
               rel="noopener noreferrer"
+              data-ph-event="Book a Free Call"
               className="w-full h-12 sm:h-[52px] rounded-btn bg-jade text-white text-[15px] font-semibold hover:bg-jade-hover flex items-center justify-center gap-2.5"
             >
               <Phone size={18} strokeWidth={2} />
@@ -102,6 +103,7 @@ export default function AdvisorTalkPage({ onBack }) {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
+              data-ph-event="Chat on WhatsApp"
               className="w-full h-12 sm:h-[52px] rounded-btn border-2 border-emerald-200 bg-white text-emerald text-[15px] font-semibold hover:bg-tint flex items-center justify-center gap-2.5"
             >
               <WhatsAppIcon className="text-[#25D366]" />

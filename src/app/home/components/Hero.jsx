@@ -17,13 +17,13 @@ export default function Hero() {
             </p>
             <div className="hero-ctas">
               <div className="hero-cta">
-                <a href="/signup" className="btn-invest">
+                <a href="/signup" className="btn-invest" data-ph-event="Start Investing">
                   Start Investing
                 </a>
                 <span className="hero-cta-label">New users</span>
               </div>
               <div className="hero-cta">
-                <a href="/login" className="btn-download">
+                <a href="/login" className="btn-download" data-ph-event="Login">
                   Login
                 </a>
                 <span className="hero-cta-label">Existing user</span>

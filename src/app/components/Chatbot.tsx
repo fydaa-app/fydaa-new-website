@@ -438,7 +438,10 @@ const Chatbot: React.FC = () => {
 
       {/* Chat Toggle Button */}
       <button
+        type="button"
         onClick={toggleChat}
+        data-ph-event="Open Chat"
+        aria-label="Open Chat"
         className={`w-12 h-12 sm:w-14 sm:h-14 bg-black text-white rounded-full shadow-lg hover:bg-gray-800 transition-all duration-300 flex items-center justify-center ${
           isOpen ? "hidden" : ""
         }`}

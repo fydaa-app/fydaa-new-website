@@ -58,6 +58,7 @@ export default function Navbar() {
             <a
               href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
               className="nav-download"
+              data-ph-event="Download App"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}

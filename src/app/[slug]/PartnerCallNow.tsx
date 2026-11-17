@@ -104,7 +104,13 @@ export default function PartnerCallNow({ phone, partnerName, className }: Partne
 
   return (
     <>
-      <button type="button" className={className} onClick={onClick} disabled={!telHref}>
+      <button
+        type="button"
+        className={className}
+        data-ph-event="Call Now"
+        onClick={onClick}
+        disabled={!telHref}
+      >
         Call Now
         <PhoneIcon />
       </button>

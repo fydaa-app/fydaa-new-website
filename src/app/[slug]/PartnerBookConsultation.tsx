@@ -25,6 +25,7 @@ export default function PartnerBookConsultationTrigger({
       <button
         type="button"
         className={className}
+        data-ph-event="Book a Consultation"
         onClick={() => {
           captureNamedButton('Book a Consultation', {
             slug,

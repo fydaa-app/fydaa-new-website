@@ -574,6 +574,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                   <button
                     type="button"
                     onClick={back}
+                    data-ph-event="Back"
                     className="inline-flex items-center gap-1 rounded-full border border-gray-300 bg-white px-4 py-2 font-inter text-sm font-medium text-[#001E3C] transition hover:bg-gray-50"
                   >
                     <ArrowLeft className="h-4 w-4" />
@@ -584,6 +585,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                   <button
                     type="button"
                     onClick={next}
+                    data-ph-event="Next"
                     className="inline-flex items-center gap-1 rounded-full bg-jade px-5 py-2 font-inter text-sm font-medium text-white transition hover:bg-jade-hover"
                   >
                     Next
@@ -594,6 +596,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                     type="button"
                     onClick={handleSubmit}
                     disabled={submitting}
+                    data-ph-event="Submit Application"
                     className="inline-flex items-center gap-1 rounded-full border border-jade bg-jade px-5 py-2 font-inter text-sm font-medium text-white transition hover:bg-jade-hover disabled:opacity-60"
                   >
                     {submitting ? 'Submitting…' : 'Submit Application'}

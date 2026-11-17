@@ -69,6 +69,10 @@ export default function ProductSection({
                 <a
                   href={ctaHref}
                   className="prod-cta"
+                  data-ph-event={String(ctaText || '')
+                    .replace(/[→←↑↓➜➝➞➡︎▶️]/g, '')
+                    .replace(/\s+/g, ' ')
+                    .trim()}
                   {...(ctaHref.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
                   {ctaText}
@@ -79,6 +83,10 @@ export default function ProductSection({
               <a
                 href={ctaHref}
                 className="prod-cta"
+                data-ph-event={String(ctaText || '')
+                  .replace(/[→←↑↓➜➝➞➡︎▶️]/g, '')
+                  .replace(/\s+/g, ' ')
+                  .trim()}
                 {...(ctaHref.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
                 {ctaText}

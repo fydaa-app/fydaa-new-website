@@ -79,6 +79,7 @@ function JobDetail({ job, onApply }: { job: JobOpening; onApply: () => void }) {
         <button
           type="button"
           onClick={onApply}
+          data-ph-event="Apply now"
           className="flex items-center gap-1.5 rounded-[10px] bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
         >
           Apply now

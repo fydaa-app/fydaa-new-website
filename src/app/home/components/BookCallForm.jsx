@@ -228,6 +228,7 @@ export default function BookCallForm() {
           />
           <button
             type="button"
+            data-ph-event="Resend OTP"
             data-ph-capture="book_call_resend_otp"
             onClick={() => sendOtp({ buttonName: 'Resend OTP', step: 'resend_otp' })}
             disabled={isSubmitting}
@@ -265,6 +266,7 @@ export default function BookCallForm() {
       <button
         type="button"
         className="advisory-submit"
+        data-ph-event={otpSent ? 'Verify' : 'Book a Call'}
         data-ph-capture={otpSent ? 'book_call_verify' : 'book_call_submit'}
         onClick={otpSent ? verifyAndCreateLead : () => sendOtp()}
         disabled={isSubmitting}

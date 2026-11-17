@@ -260,6 +260,7 @@ export default function RegisterCvModal({ open, onClose }: Props) {
                 <button
                   type="button"
                   onClick={onClose}
+                  data-ph-event="Cancel"
                   className="rounded-full border border-gray-300 bg-white px-5 py-2 font-inter text-sm font-medium text-[#001E3C] transition hover:bg-gray-50"
                 >
                   Cancel
@@ -267,6 +268,7 @@ export default function RegisterCvModal({ open, onClose }: Props) {
                 <button
                   type="submit"
                   disabled={submitting}
+                  data-ph-event="Submit"
                   className="inline-flex items-center gap-1 rounded-full border border-jade bg-jade px-5 py-2 font-inter text-sm font-medium text-white transition hover:bg-jade-hover disabled:opacity-60"
                 >
                   {submitting ? 'Submitting…' : 'Submit'}
