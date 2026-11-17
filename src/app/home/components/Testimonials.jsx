@@ -8,7 +8,8 @@ export default function Testimonials() {
   return (
     <section className="testimonials">
       <div className="container">
-        <div className="testi-layout">
+        <div className="testi-layout testi-layout--no-video">
+          {/* Temporarily hidden: Prachi phone mock video (Risk Score / Verify Email screen)
           <div className="testi-video-col">
             <div className="testi-video-frame">
               <video
@@ -23,6 +24,7 @@ export default function Testimonials() {
               <div className="testi-video-name">Prachi</div>
             </div>
           </div>
+          */}
 
           <div className="testi-content-col">
             <h2 className="testi-heading">People who invest with Fydaa</h2>
