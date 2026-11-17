@@ -91,7 +91,7 @@ function PurposePhone({ progress, amount }) {
   );
 }
 
-function SipSlider({ progress, onChange }) {
+function SipSlider({ progress, onChange, onDragStart, onDragEnd }) {
   const trackRef = useRef(null);
   const dragging = useRef(false);
 
@@ -120,7 +120,9 @@ function SipSlider({ progress, onChange }) {
       setFromClientX(point.clientX);
     };
     const onUp = () => {
+      if (!dragging.current) return;
       dragging.current = false;
+      onDragEnd?.();
     };
     window.addEventListener('pointermove', onMove);
     window.addEventListener('pointerup', onUp);
@@ -132,10 +134,11 @@ function SipSlider({ progress, onChange }) {
       window.removeEventListener('touchmove', onMove);
       window.removeEventListener('touchend', onUp);
     };
-  }, [setFromClientX]);
+  }, [setFromClientX, onDragEnd]);
 
   const startDrag = (e) => {
     dragging.current = true;
+    onDragStart?.();
     if (e.cancelable) e.preventDefault();
     const point = e.touches ? e.touches[0] : e;
     setFromClientX(point.clientX);
@@ -198,11 +201,76 @@ function SipSlider({ progress, onChange }) {
 }
 
 export default function PurposeSection() {
-  const [progress, setProgress] = useState(0.284);
+  const [progress, setProgress] = useState(0);
+  const sectionRef = useRef(null);
+  const draggingRef = useRef(false);
+  const isVisibleRef = useRef(false);
   const amount = progress * TARGET_AMOUNT;
 
+  const updateFromScroll = useCallback(() => {
+    if (draggingRef.current) return;
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const rect = section.getBoundingClientRect();
+    const vh = window.innerHeight || 1;
+
+    // 0% when Purpose section first lands mid-viewport (as in the trigger screenshot),
+    // then scrub to 100% as the section continues scrolling upward.
+    // Wider start→end span = slower fill (ends less abruptly).
+    const start = vh * 0.48;
+    const end = -vh * 0.08;
+
+    if (rect.bottom <= 0) {
+      setProgress((prev) => (prev === 1 ? prev : 1));
+      return;
+    }
+    if (rect.top >= vh || !isVisibleRef.current || rect.top > start) {
+      setProgress((prev) => (prev === 0 ? prev : 0));
+      return;
+    }
+
+    const raw = (start - rect.top) / (start - end);
+    const next = Math.min(1, Math.max(0, raw));
+    setProgress((prev) => (Math.abs(prev - next) < 0.001 ? prev : next));
+  }, []);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Fire as soon as a meaningful portion of the section is on screen.
+        isVisibleRef.current = entry.isIntersecting && entry.intersectionRatio >= 0.25;
+        updateFromScroll();
+      },
+      { threshold: [0, 0.25, 0.4, 0.6, 0.8, 1] },
+    );
+    observer.observe(section);
+
+    let ticking = false;
+    const onScrollOrResize = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        updateFromScroll();
+      });
+    };
+
+    updateFromScroll();
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+    window.addEventListener('resize', onScrollOrResize);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', onScrollOrResize);
+      window.removeEventListener('resize', onScrollOrResize);
+    };
+  }, [updateFromScroll]);
+
   return (
-    <section className="purpose-section">
+    <section className="purpose-section" ref={sectionRef}>
       <div className="container">
         <div className="purpose-grid">
           <div className="purpose-copy">
@@ -219,7 +287,16 @@ export default function PurposeSection() {
             </p>
           </div>
 
-          <SipSlider progress={progress} onChange={setProgress} />
+          <SipSlider
+            progress={progress}
+            onChange={setProgress}
+            onDragStart={() => {
+              draggingRef.current = true;
+            }}
+            onDragEnd={() => {
+              draggingRef.current = false;
+            }}
+          />
 
           <div className="purpose-points">
             {POINTS.map((text) => (
