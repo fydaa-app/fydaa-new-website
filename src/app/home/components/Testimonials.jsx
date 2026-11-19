@@ -8,8 +8,7 @@ export default function Testimonials() {
   return (
     <section className="testimonials">
       <div className="container">
-        <div className="testi-layout testi-layout--no-video">
-          {/* Temporarily hidden: Prachi phone mock video (Risk Score / Verify Email screen)
+        <div className="testi-layout">
           <div className="testi-video-col">
             <div className="testi-video-frame">
               <video
@@ -17,14 +16,14 @@ export default function Testimonials() {
                 controls
                 playsInline
                 preload="metadata"
-                poster=""
               >
-                <source src="/experience/experience.mp4" type="video/mp4" />
+                <source
+                  src="https://fydaa-v2.s3.ap-south-1.amazonaws.com/public/webVideos/IMG_2372.mp4"
+                  type="video/mp4"
+                />
               </video>
-              <div className="testi-video-name">Prachi</div>
             </div>
           </div>
-          */}
 
           <div className="testi-content-col">
             <h2 className="testi-heading">People who invest with Fydaa</h2>
