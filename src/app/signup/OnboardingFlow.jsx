@@ -115,17 +115,35 @@ const BACK_MAP = {
 /** Mobile + OTP keep the marketing navbar; PIN and KYC screens hide it. */
 const AUTH_ENTRY_SCREENS = new Set(['mobile', 'otp']);
 const KYC_NAV_EVENT = 'fydaa-onboarding-nav';
+const REFERRAL_QUERY_KEYS = ['referredBy', 'referralCode', 'referral_code', 'ref_code', 'ref'];
 
 const RELATIONS = NOMINEE_RELATIONS.map((r) => r.label);
 
-function AccountSwitch({ isLogin }) {
+function getReferralFromSearchParams(searchParams) {
+  if (!searchParams) return '';
+  for (const key of REFERRAL_QUERY_KEYS) {
+    const value = searchParams.get(key)?.trim();
+    if (value) return value;
+  }
+  return '';
+}
+
+/** Keep partner referral in the URL when toggling login ↔ signup. */
+function authPathWithReferral(path, searchParams) {
+  const referral = getReferralFromSearchParams(searchParams);
+  if (!referral) return path;
+  return `${path}?referredBy=${encodeURIComponent(referral)}`;
+}
+
+function AccountSwitch({ isLogin, searchParams }) {
+  const href = authPathWithReferral(isLogin ? '/signup' : '/login', searchParams);
   return (
     <p className="text-center text-[15px] mt-6">
       <span className="text-neutral-500">
         {isLogin ? 'New to Fydaa? ' : 'Already have an account? '}
       </span>
       <Link
-        href={isLogin ? '/signup' : '/login'}
+        href={href}
         className="font-semibold text-[#0C4A3E]"
         data-ph-event={isLogin ? 'Sign up' : 'Log in'}
       >
@@ -324,14 +342,11 @@ export default function OnboardingFlow({
 
   useEffect(() => {
     if (!searchParams) return;
-    const keys = ['referredBy', 'referralCode', 'referral_code', 'ref_code', 'ref'];
-    for (const key of keys) {
-      const value = searchParams.get(key)?.trim();
-      if (value) {
-        setStoredReferral(value);
-        break;
-      }
-    }
+    const value = getReferralFromSearchParams(searchParams);
+    if (!value) return;
+    setStoredReferral(value);
+    setReferralInput(value);
+    setShowReferral(true);
   }, [searchParams]);
 
   useEffect(() => {
@@ -1486,7 +1501,7 @@ export default function OnboardingFlow({
           >
             {authBusy === 'pin' || authBusy === 'otp-request' ? 'Please wait...' : 'Proceed'}
           </Button>
-          <AccountSwitch isLogin={isLogin} />
+          <AccountSwitch isLogin={isLogin} searchParams={searchParams} />
         </>
       )}
 
@@ -1510,7 +1525,7 @@ export default function OnboardingFlow({
           <Button phEvent="Verify OTP" onClick={submitSignupOtp} disabled={Boolean(authBusy)}>
             {authBusy === 'otp' ? 'Verifying...' : 'Proceed'}
           </Button>
-          <AccountSwitch isLogin={isLogin} />
+          <AccountSwitch isLogin={isLogin} searchParams={searchParams} />
         </>
       )}
 
