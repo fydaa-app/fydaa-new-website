@@ -26,7 +26,6 @@ src/features/onboarding/
 src/features/partner-registration/
 src/features/partner-site/
 src/features/programme/
-src/components/layout/Navbar.tsx
 src/components/layout/Footer.tsx
 src/components/layout/site-nav.css
 src/components/legacy/

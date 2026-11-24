@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils/cn";
 
 export interface ProductSectionCta {
   label: string;
@@ -83,9 +84,9 @@ export default function ProductSection({
   children,
 }: ProductSectionProps) {
   return (
-    <section className={`prod-section${className ? ` ${className}` : ""}`}>
+    <section className={cn("prod-section", className)}>
       <div className="container">
-        <div className={`prod-grid${reverse ? " reverse" : ""}`}>
+        <div className={cn("prod-grid", reverse && "reverse")}>
           <div className="prod-text">
             <div className="label">{label}</div>
             <h2>
@@ -96,7 +97,7 @@ export default function ProductSection({
               <span className={mobileDescription ? "copy-desktop" : undefined}>{description}</span>
               {mobileDescription ? <span className="copy-mobile">{mobileDescription}</span> : null}
             </p>
-            <PointList points={points} className={`prod-points${mobilePoints ? " copy-desktop" : ""}`} />
+            <PointList points={points} className={cn("prod-points", mobilePoints && "copy-desktop")} />
             {mobilePoints ? <PointList points={mobilePoints} className="prod-points copy-mobile" /> : null}
             {cta || aside ? (
               <div className="prod-cta-row">
