@@ -7,7 +7,7 @@ export const colors = {
   dark:      "#262626",
   tertiary:  "#525252",
   secondary: "#737373",
-  muted:     "#A3A3A3",
+  muted:     "#6B6B6B",
   borderMid: "#D4D4D4",
   border:    "#E5E5E5",
   surface:   "#F5F5F5",

@@ -1458,7 +1458,7 @@ export default function OnboardingFlow({
           />
           {isLogin && (
             <div className="mb-2">
-              <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-400 mb-3">
+              <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-600 mb-3">
                 4-digit PIN
               </label>
               <CodeInputs count={4} value={pin} onChange={(next) => { setPin(next); setAuthError(''); }} />
@@ -1521,7 +1521,7 @@ export default function OnboardingFlow({
           <PageHeading>{pinTitle}</PageHeading>
           <PageSub>{pinSub}</PageSub>
           <div className="bg-white border border-neutral-200 rounded-2xl p-6 mb-5 shadow-sm">
-            <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-400 mb-3">
+            <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-600 mb-3">
               Enter 4-Digit PIN
             </label>
             <CodeInputs
@@ -1529,7 +1529,7 @@ export default function OnboardingFlow({
               value={createPinValue}
               onChange={(next) => { setCreatePinValue(next); setAuthError(''); }}
             />
-            <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-400 mb-3">
+            <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-600 mb-3">
               Re-Enter PIN
             </label>
             <CodeInputs
@@ -1635,7 +1635,7 @@ export default function OnboardingFlow({
           </Button>
           <div className="flex items-center gap-3 my-4">
             <div className="flex-1 h-px bg-neutral-200" />
-            <span className="text-xs font-semibold uppercase tracking-wide text-neutral-400">or</span>
+            <span className="text-xs font-semibold uppercase tracking-wide text-neutral-500">or</span>
             <div className="flex-1 h-px bg-neutral-200" />
           </div>
           <OutlineButton
@@ -1670,7 +1670,7 @@ export default function OnboardingFlow({
                 onChange={(next) => { setEmailOtp(next); setAuthError(''); }}
               />
               {emailResendSecs > 0 ? (
-                <p className="text-[12.5px] text-neutral-400 font-medium">
+                <p className="text-[12.5px] text-neutral-500 font-medium">
                   Resend code in{' '}
                   <b className="text-[#0C4A3E]">
                     00:{String(emailResendSecs).padStart(2, '0')}
@@ -1734,7 +1734,7 @@ export default function OnboardingFlow({
                   }}
                 />
               </FieldRow>
-              <p className="text-[12px] text-neutral-400 font-medium -mt-2">
+              <p className="text-[12px] text-neutral-500 font-medium -mt-2">
                 You must be 18 years or older.
               </p>
             </div>

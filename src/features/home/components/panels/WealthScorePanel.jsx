@@ -3,7 +3,8 @@ import { WEALTH_SCORE } from '../../data/productPanels';
 const RADIUS = 52;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
-const TONE_COLOR = { good: 'var(--g)', warn: '#D97706' };
+// Amber 700: amber 600 (#D97706) was 3.2:1 on white, below AA for 12px text.
+const TONE_COLOR = { good: 'var(--g)', warn: '#B45309' };
 
 export default function WealthScorePanel() {
   const { score, max, pillars } = WEALTH_SCORE;

@@ -43,7 +43,7 @@ export const PARTNER_STEPS: StepConfig[] = [
 ];
 
 export const INPUT_CLASS =
-  'w-full h-12 px-4 border border-gray-300 rounded-[12px] text-sm text-[#001E3C] placeholder:text-gray-400 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter';
+  'w-full h-12 px-4 border border-gray-300 rounded-[12px] text-sm text-[#001E3C] placeholder:text-gray-500 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter';
 
 export const LABEL_CLASS =
   'block text-sm font-medium text-gray-700 mb-1 font-inter';

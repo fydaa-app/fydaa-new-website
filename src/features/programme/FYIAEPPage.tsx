@@ -183,7 +183,7 @@ function Journey() {
         {JOURNEY.map((j) => (
           <div key={j.num} className="bg-white rounded-2xl p-5 sm:p-7 border border-grey-200 shadow-card flex flex-col gap-4 hover:shadow-card-hover hover:-translate-y-0.5 transition-all">
             <div className="flex justify-between items-start">
-              <span className="text-3xl sm:text-4xl font-bold text-grey-150 tracking-[-0.04em] leading-none">{j.num}</span>
+              <span className="text-3xl sm:text-4xl font-bold text-[#949494] tracking-[-0.04em] leading-none">{j.num}</span>
               <span className="text-[11px] font-semibold text-grey-500 bg-grey-100 px-2.5 py-1 rounded-md">{j.period}</span>
             </div>
             <h3 className="text-[16px] sm:text-[17px] font-bold text-ink tracking-[-0.01em]">{j.title}</h3>
@@ -383,14 +383,14 @@ function ProgrammeFooter() {
       <div className="max-w-[1000px] mx-auto flex justify-center items-center flex-wrap gap-6 sm:gap-8">
         <div className="flex gap-1.5 items-center">
           <PhoneIcon />
-          <span className="text-[11px] text-grey-400">Counsellor</span>
+          <span className="text-[11px] text-grey-500">Counsellor</span>
           <a href="tel:+919987308778" className="text-xs text-grey-600 no-underline font-semibold">
             +91 99873 08778
           </a>
         </div>
         <div className="flex gap-1.5 items-center">
           <PhoneIcon />
-          <span className="text-[11px] text-grey-400">Support</span>
+          <span className="text-[11px] text-grey-500">Support</span>
           <a href="tel:+919503359949" className="text-xs text-grey-600 no-underline font-semibold">
             +91 95033 59949
           </a>
@@ -431,7 +431,7 @@ function CTACard({ onApply }: { onApply: () => void }) {
     <section className="px-4 sm:px-6 pt-12 sm:pt-16 md:pt-20 pb-12 sm:pb-20">
       <div className="max-w-[1000px] mx-auto">
         <div className="text-center max-w-[560px] mx-auto mb-8 sm:mb-10">
-          <p className="text-[11px] font-semibold tracking-[0.08em] uppercase text-grey-400 mb-3">
+          <p className="text-[11px] font-semibold tracking-[0.08em] uppercase text-grey-500 mb-3">
             Ready to start your advisory career?
           </p>
           <h2 className="text-[24px] sm:text-[28px] md:text-[30px] font-bold tracking-[-0.03em] leading-[1.2] text-ink mb-3">
@@ -559,7 +559,7 @@ function Field({
           const raw = e.target.value;
           onChange(name, transform ? transform(raw) : raw);
         }}
-        className={`w-full py-[11px] px-3.5 border rounded-[10px] text-[15px] font-sans text-ink outline-none bg-white transition-all focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] placeholder:text-grey-400 ${
+        className={`w-full py-[11px] px-3.5 border rounded-[10px] text-[15px] font-sans text-ink outline-none bg-white transition-all focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] placeholder:text-grey-500 ${
           error ? "border-red-400" : "border-grey-200"
         }`}
       />
@@ -665,7 +665,7 @@ function TextArea({
       <textarea
         placeholder={placeholder} value={asStr(value)}
         onChange={(e) => onChange(name, e.target.value)}
-        className={`w-full py-[11px] px-3.5 border rounded-[10px] text-[15px] font-sans text-ink outline-none bg-white min-h-[80px] resize-y transition-all focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] placeholder:text-grey-400 ${
+        className={`w-full py-[11px] px-3.5 border rounded-[10px] text-[15px] font-sans text-ink outline-none bg-white min-h-[80px] resize-y transition-all focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] placeholder:text-grey-500 ${
           error ? "border-red-400" : "border-grey-200"
         }`}
       />
@@ -711,13 +711,13 @@ function Upload({
           }}
         />
         <span className="text-sm font-semibold text-jade">Click to upload</span>
-        <p className="text-[13px] text-grey-400 mt-1">PDF, JPG, PNG up to 5 MB</p>
+        <p className="text-[13px] text-grey-500 mt-1">PDF, JPG, PNG up to 5 MB</p>
       </div>
       {(files || []).map((f, i) => (
         <div key={i} className="flex items-center gap-2 px-3 py-2 bg-grey-100 rounded-lg mt-1.5 text-[13px] text-grey-600">
           <FileIcon />
           <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">{f.name}</span>
-          <button onClick={() => onRemove(name, i)} className="bg-none border-none text-grey-400 cursor-pointer text-sm px-1.5">✕</button>
+          <button onClick={() => onRemove(name, i)} className="bg-none border-none text-grey-500 cursor-pointer text-sm px-1.5">✕</button>
         </div>
       ))}
     </div>
@@ -1443,7 +1443,7 @@ function MobileVerifyPage({
               if (e.key === "Enter") handleSend();
             }}
             placeholder="10-digit mobile number"
-            className={`flex-1 min-w-0 h-[50px] px-4 border rounded-[12px] text-[15px] font-sans text-ink outline-none bg-white placeholder:text-grey-400 focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] ${
+            className={`flex-1 min-w-0 h-[50px] px-4 border rounded-[12px] text-[15px] font-sans text-ink outline-none bg-white placeholder:text-grey-500 focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] ${
               error ? "border-red-400" : "border-grey-200"
             }`}
           />
@@ -2155,7 +2155,7 @@ function FormPage({
             >
               <div className={`h-1 rounded-sm transition-colors ${i <= step ? "bg-jade" : "bg-grey-200"}`} />
               <span className={`text-[10px] font-medium truncate transition-colors ${
-                i === step ? "text-jade-deep font-semibold" : i < step ? "text-grey-600" : "text-grey-400"
+                i === step ? "text-jade-deep font-semibold" : i < step ? "text-grey-600" : "text-grey-500"
               }`}>{st.short}</span>
             </div>
           );

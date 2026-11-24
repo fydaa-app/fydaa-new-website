@@ -80,7 +80,7 @@ export function CheckIcon({ className }) {
 // ── Text ───────────────────────────────────────────────────────────
 export function Overline({ children, emerald = false, className = '' }) {
   return (
-    <p className={`text-[11px] font-bold uppercase tracking-wider mb-2 ${emerald ? 'text-emerald-700' : 'text-neutral-400'} ${className}`}>
+    <p className={`text-[11px] font-bold uppercase tracking-wider mb-2 ${emerald ? 'text-emerald-700' : 'text-neutral-600'} ${className}`}>
       {children}
     </p>
   );
@@ -179,7 +179,7 @@ export function AppleIcon({ className = 'w-5 h-5' }) {
 }
 
 export function FieldLabel({ children }) {
-  return <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-400 mb-1.5">{children}</label>;
+  return <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-600 mb-1.5">{children}</label>;
 }
 
 export function FieldInput({ label, prefix, className = '', ...rest }) {
@@ -290,10 +290,10 @@ export function QuestionCard({ icon, title, subtitle, counter, children }) {
     <div className="bg-white border border-neutral-200 rounded-2xl p-6 mb-5 shadow-sm">
       <div className="flex items-center justify-between mb-3.5">
         <div className="w-[42px] h-[42px] bg-emerald-50 rounded-[11px] flex items-center justify-center text-emerald-700">{icon}</div>
-        {counter && <span className="text-[13px] font-semibold text-neutral-400">{counter}</span>}
+        {counter && <span className="text-[13px] font-semibold text-neutral-500">{counter}</span>}
       </div>
       <div className="text-[17px] font-bold text-neutral-950 leading-snug mb-1.5">{title}</div>
-      {subtitle && <div className="text-[13px] text-neutral-400 font-medium">{subtitle}</div>}
+      {subtitle && <div className="text-[13px] text-neutral-500 font-medium">{subtitle}</div>}
       {children}
     </div>
   );
@@ -314,7 +314,7 @@ export function ScoreRing({ score = 75, max = 100 }) {
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-4xl font-extrabold text-[#0C4A3E] tracking-tight">{score}</span>
-        <span className="text-xs text-neutral-400 mt-0.5">out of {max}</span>
+        <span className="text-xs text-neutral-500 mt-0.5">out of {max}</span>
       </div>
     </div>
   );

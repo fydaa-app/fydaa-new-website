@@ -19,7 +19,7 @@ const STEPS = ['Personal Info', 'Experience', 'Upload'] as const;
 const NOTICE_OPTIONS = ['Immediate', '15 days', '30 days', '60 days', '90 days'];
 
 const inputClass =
-  'w-full border-b border-gray-400 bg-transparent py-2 text-sm text-[#001E3C] placeholder:text-gray-400 focus:outline-none focus:border-black';
+  'w-full border-b border-gray-400 bg-transparent py-2 text-sm text-[#001E3C] placeholder:text-gray-500 focus:outline-none focus:border-black';
 const labelClass = 'block text-sm text-[#001E3C] mb-1';
 
 type Props = {
@@ -279,7 +279,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                                 ? 'bg-black text-white'
                                 : active
                                   ? 'border-2 border-black bg-white text-black shadow-sm'
-                                  : 'border border-gray-300 bg-white text-gray-400'
+                                  : 'border border-gray-300 bg-white text-gray-500'
                             }`}
                             aria-current={active ? 'step' : undefined}
                           >
@@ -287,7 +287,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                           </span>
                           <span
                             className={`max-w-[5.25rem] text-center font-inter text-[10px] font-medium leading-tight sm:max-w-none sm:text-[11px] ${
-                              active ? 'font-semibold text-black' : done ? 'text-gray-600' : 'text-gray-400'
+                              active ? 'font-semibold text-black' : done ? 'text-gray-600' : 'text-gray-500'
                             }`}
                           >
                             {label}

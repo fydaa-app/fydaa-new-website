@@ -711,7 +711,7 @@
   display: block;
   text-align: center;
   font-size: 0.8rem;
-  color: #a3a3a3;
+  color: #6b6b6b;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -722,7 +722,7 @@
   font-size: 11px !important;
   line-height: 1.35 !important;
   font-weight: 400 !important;
-  color: #a3a3a3 !important;
+  color: #6b6b6b !important;
   font-style: italic !important;
 }
 

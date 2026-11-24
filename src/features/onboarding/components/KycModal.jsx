@@ -27,7 +27,7 @@ export default function KycModal({
           )}
         </div>
         <div className="text-[17px] font-bold text-neutral-950 mb-1.5">{title}</div>
-        <div className="text-[13px] text-neutral-400 font-medium mb-6">{subtitle}</div>
+        <div className="text-[13px] text-neutral-500 font-medium mb-6">{subtitle}</div>
         <button
           type="button"
           onClick={onComplete}

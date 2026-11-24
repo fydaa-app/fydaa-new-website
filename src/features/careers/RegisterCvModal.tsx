@@ -5,7 +5,7 @@ import { Check, FileText, X } from 'lucide-react';
 import CareersApplySuccess from './CareersApplySuccess';
 
 const inputClass =
-  'w-full border-b border-gray-400 bg-transparent py-2 text-sm text-[#001E3C] placeholder:text-gray-400 focus:outline-none focus:border-black';
+  'w-full border-b border-gray-400 bg-transparent py-2 text-sm text-[#001E3C] placeholder:text-gray-500 focus:outline-none focus:border-black';
 const labelClass = 'block text-sm text-[#001E3C] mb-1';
 
 type Props = {

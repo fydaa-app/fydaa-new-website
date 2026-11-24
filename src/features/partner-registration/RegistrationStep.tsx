@@ -21,7 +21,7 @@ const OTP_LENGTH = 6;
 const RESEND_COUNTDOWN_SECONDS = 30;
 
 const otpInputClass =
-  'w-10 sm:w-12 h-10 sm:h-12 border border-gray-300 rounded-[12px] text-center text-sm text-[#001E3C] placeholder:text-gray-400 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter';
+  'w-10 sm:w-12 h-10 sm:h-12 border border-gray-300 rounded-[12px] text-center text-sm text-[#001E3C] placeholder:text-gray-500 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter';
 
 interface OtpRowProps {
   value: string;
@@ -409,7 +409,7 @@ export default function RegistrationStep({
               handleInputChange('registration_number', e.target.value)
             }
             readOnly={arnLocked}
-            className={`flex-1 h-12 min-w-0 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-r-[12px] text-sm text-[#001E3C] placeholder:text-gray-400 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter ${
+            className={`flex-1 h-12 min-w-0 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-r-[12px] text-sm text-[#001E3C] placeholder:text-gray-500 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter ${
               arnLocked ? 'bg-gray-100 cursor-not-allowed' : ''
             } ${
               errors.registration_number
@@ -437,7 +437,7 @@ export default function RegistrationStep({
             value={formData.email}
             onChange={(e) => handleInputChange('email', e.target.value)}
             readOnly={arnLocked}
-            className={`flex-1 h-12 min-w-0 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-l-[12px] text-sm text-[#001E3C] placeholder:text-gray-400 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter ${
+            className={`flex-1 h-12 min-w-0 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-l-[12px] text-sm text-[#001E3C] placeholder:text-gray-500 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter ${
               arnLocked ? 'bg-gray-100 cursor-not-allowed' : ''
             } ${
               errors.email
@@ -463,7 +463,7 @@ export default function RegistrationStep({
                 Verified
               </div>
             ) : emailOtpRequested ? (
-              <span className="text-gray-400 font-inter text-sm">
+              <span className="text-gray-500 font-inter text-sm">
                 OTP Sent
               </span>
             ) : (
@@ -558,7 +558,7 @@ export default function RegistrationStep({
                 Verified
               </div>
             ) : mobileOtpRequested ? (
-              <span className="text-gray-400 font-inter text-sm">
+              <span className="text-gray-500 font-inter text-sm">
                 OTP Sent
               </span>
             ) : (
@@ -576,7 +576,7 @@ export default function RegistrationStep({
               </button>
             )
           ) : (
-            <span className="text-gray-400 font-inter text-sm">
+            <span className="text-gray-500 font-inter text-sm">
               Verify email first
             </span>
           )

@@ -193,7 +193,7 @@ export default function PartnerCalculator({ signupHref = '/signup' }) {
       <p
         className="pw-calc-note"
         style={{
-          color: '#a3a3a3',
+          color: '#6b6b6b',
           fontSize: '11px',
           fontWeight: 400,
           fontStyle: 'italic',
