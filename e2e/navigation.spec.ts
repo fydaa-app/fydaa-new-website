@@ -62,14 +62,14 @@ test("shows exactly one account link at every width", async ({ page }) => {
   );
 });
 
-test("hero calculator's Start this SIP goes to signup with the chosen plan", async ({ page }) => {
+test("hero planner's Start this SIP goes to signup with the chosen plan", async ({ page }) => {
   await page.goto("/");
-  const cta = page.getByRole("link", { name: "Start this SIP →" });
+  const cta = page.getByRole("link", { name: "Start this SIP", exact: true });
   await expect(cta).toHaveAttribute(
     "href",
     /^\/signup\?intent=sip&category=equity&frequency=monthly&amount=5000&years=10$/,
   );
-  await page.getByRole("button", { name: "Debt", exact: true }).click();
+  await page.getByRole("radio", { name: "Debt", exact: true }).click();
   await expect(cta).toHaveAttribute("href", /category=debt/);
   await cta.click();
   await expect(page).toHaveURL(/\/signup\?intent=sip&category=debt/);

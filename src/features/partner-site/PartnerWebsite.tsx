@@ -10,7 +10,7 @@ import PartnerCalculator from './PartnerCalculator';
 import PartnerBookConsultationTrigger from './PartnerBookConsultation';
 import PartnerCallNow from './PartnerCallNow';
 import './partner-website.css';
-import '@/features/home/styles/home.css';
+import './legacy-home.css';
 
 type PartnerWebsiteProps = {
   data: PublicPartnerWebsite;

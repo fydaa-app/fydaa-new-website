@@ -1,10 +1,3 @@
-export const TRUST_CARDS = [
-  { title: 'SEBI-regulated', desc: 'Registered with the Securities and Exchange Board of India.' },
-  { title: 'Direct to AMC', desc: 'Money goes directly to the fund house. Verify on MF Central anytime.' },
-  { title: 'Bank-grade security', desc: '256-bit SSL encryption and secure payment processing.' },
-  { title: 'Withdraw anytime', desc: 'No lock-in. Pause, modify or withdraw investments whenever you want.' },
-];
-
 export const TESTIMONIALS = [
   {
     text: 'Investing through Fydaa is effortless. I can invest in multiple asset classes like equity, gold, and real estate — all within a single app. Highly recommended for disciplined investing.',
@@ -67,21 +60,3 @@ export const NAV_LINKS = [
   { label: 'About', href: '/about' },
   { label: 'Partner', href: '/partner' },
 ];
-
-export const FOOTER_COLUMNS = [
-  {
-    heading: 'Products',
-    links: ['Goal Investing', 'Money Vault', 'Financial Plan', 'Wealth Score', 'AI Coach'],
-  },
-  {
-    heading: 'Company',
-    links: ['About', 'Careers', 'Blog', 'Partner', 'Support'],
-  },
-  {
-    heading: 'Legal',
-    links: ['Privacy Policy', 'Terms & Conditions', 'Investor Charter', 'Disclosures', 'Grievance Redressal'],
-  },
-];
-
-export const LEGAL_FOOTER_TEXT =
-  "Multistarto Capital Advisors Pvt. Ltd. · SEBI Registered Investment Adviser (INA000015969) · Registered Office: 903, Ecostar Building, Off Aarey Road, Goregaon (East), Mumbai 400063. Investment in securities market is subject to market risks. Read all scheme-related documents carefully before investing. Past performance is not indicative of future returns.";

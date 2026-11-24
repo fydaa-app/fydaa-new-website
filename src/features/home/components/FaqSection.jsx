@@ -9,17 +9,17 @@ const items = FAQS.map((faq) => ({ id: faq.q, title: faq.q, content: <p>{faq.a}<
 
 export default function FaqSection() {
   return (
-    <section className="faqs" id="faqs" aria-labelledby="home-faqs">
-      <Container className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] lg:gap-16">
+    <section className="section bg-mist" id="faqs" aria-labelledby="home-faqs">
+      <Container className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
         <SectionHeader
-          title={<span id="home-faqs">Questions?</span>}
+          title={<span id="home-faqs">Questions people ask first</span>}
           description={
             <>
-              If you don&apos;t find what you&apos;re looking for, email{' '}
-              <a href={`mailto:${siteConfig.contact.email}`} className="font-semibold text-jade underline">
+              Something else on your mind? Email{' '}
+              <a href={`mailto:${siteConfig.contact.email}`} className="link">
                 {siteConfig.contact.email}
               </a>{' '}
-              and we&apos;ll get back to you quickly.
+              and we&apos;ll get back to you.
             </>
           }
         />

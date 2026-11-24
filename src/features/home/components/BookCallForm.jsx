@@ -144,27 +144,28 @@ export default function BookCallForm() {
 
   if (submitted) {
     return (
-      <div style={{ textAlign: 'center', padding: '32px 0' }}>
-        <div style={{ fontSize: '2.5rem', marginBottom: 16 }}>✅</div>
-        <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ink)', marginBottom: 8 }}>
-          We&apos;ve got your details!
-        </div>
-        <div style={{ fontSize: '.9rem', color: 'var(--ink2)', lineHeight: 1.6 }}>
-          One of our relationship managers will get back to you within a few hours.
-        </div>
+      <div className="flex flex-col items-start gap-4 py-6" role="status">
+        <svg className="t-check size-14" viewBox="0 0 56 56" aria-hidden="true">
+          <circle cx="28" cy="28" r="26" className="t-check-ring" />
+          <path d="M17 29.5l7 7 15-16" className="t-check-path" />
+        </svg>
+        <h3 className="text-title text-ink">Thanks, we&apos;ve got your details</h3>
+        <p className="text-base leading-relaxed text-grey-600">
+          A relationship manager will call you within a few hours on working days.
+        </p>
       </div>
     );
   }
 
   return (
     <div>
-      <div className="advisory-form-title">Book a call with our team</div>
-      <div className="advisory-form-sub">
-        Share your details and one of our relationship managers will get back to you within a few hours.
-      </div>
+      <h3 className="text-title text-ink">Book a free call</h3>
+      <p className="mb-6 mt-1 text-sm leading-relaxed text-grey-600">
+        Leave your number and a relationship manager will call you back within a few hours.
+      </p>
 
-      <div className="advisory-field">
-        <label htmlFor="callName">Your name</label>
+      <div className="mb-4 flex flex-col gap-1.5">
+        <label htmlFor="callName" className="text-sm font-semibold text-ink">Your name</label>
         <input
           ref={nameRef}
           type="text"
@@ -173,7 +174,7 @@ export default function BookCallForm() {
           data-ph-capture="book_call_name"
           aria-label="Your name"
           placeholder="Full name"
-          className="advisory-input"
+          className="h-12 w-full rounded-card border border-line bg-mist px-4 text-base text-ink outline-none transition-colors duration-quick placeholder:text-grey-500 focus:border-jade focus:bg-white focus:ring-2 focus:ring-jade/15 disabled:opacity-60"
           value={name}
           onFocus={() =>
             captureEvent(toEventName('Your name', 'field_focused'), {
@@ -187,8 +188,8 @@ export default function BookCallForm() {
         />
       </div>
 
-      <div className="advisory-field">
-        <label htmlFor="callPhone">Phone number</label>
+      <div className="mb-4 flex flex-col gap-1.5">
+        <label htmlFor="callPhone" className="text-sm font-semibold text-ink">Phone number</label>
         <input
           ref={phoneRef}
           type="tel"
@@ -197,7 +198,7 @@ export default function BookCallForm() {
           data-ph-capture="book_call_phone"
           aria-label="Phone number"
           placeholder="10-digit mobile number"
-          className="advisory-input"
+          className="h-12 w-full rounded-card border border-line bg-mist px-4 text-base text-ink outline-none transition-colors duration-quick placeholder:text-grey-500 focus:border-jade focus:bg-white focus:ring-2 focus:ring-jade/15 disabled:opacity-60"
           value={phone}
           onFocus={() =>
             captureEvent(toEventName('Phone number', 'field_focused'), {
@@ -214,8 +215,8 @@ export default function BookCallForm() {
       </div>
 
       {otpSent ? (
-        <div className="advisory-field">
-          <label htmlFor="callOtp">OTP</label>
+        <div className="mb-4 flex flex-col gap-1.5">
+          <label htmlFor="callOtp" className="text-sm font-semibold text-ink">OTP</label>
           <input
             ref={otpRef}
             type="text"
@@ -224,7 +225,7 @@ export default function BookCallForm() {
             data-ph-capture="book_call_otp"
             aria-label="OTP"
             placeholder="Enter OTP"
-            className="advisory-input"
+            className="h-12 w-full rounded-card border border-line bg-mist px-4 text-base text-ink outline-none transition-colors duration-quick placeholder:text-grey-500 focus:border-jade focus:bg-white focus:ring-2 focus:ring-jade/15 disabled:opacity-60"
             value={otp}
             onFocus={() =>
               captureEvent(toEventName('OTP', 'field_focused'), {
@@ -245,15 +246,9 @@ export default function BookCallForm() {
             disabled={isSubmitting || resendIn > 0}
             aria-live="polite"
             style={{
-              marginTop: 8,
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              color: 'var(--g)',
-              fontWeight: 600,
-              fontSize: '0.82rem',
               cursor: isSubmitting || resendIn > 0 ? 'not-allowed' : 'pointer',
             }}
+            className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-emerald disabled:text-grey-500"
           >
             {resendIn > 0 ? `Resend OTP in ${resendIn}s` : 'Resend OTP'}
           </button>
@@ -261,28 +256,18 @@ export default function BookCallForm() {
       ) : null}
 
       {error ? (
-        <div
-          style={{
-            marginBottom: 12,
-            padding: '10px 12px',
-            borderRadius: 10,
-            background: '#FEF2F2',
-            color: '#B91C1C',
-            fontSize: '0.85rem',
-          }}
-        >
+        <p key={error} role="alert" className="t-shake mb-3 rounded-card bg-red-50 px-3 py-2.5 text-sm text-danger">
           {error}
-        </div>
+        </p>
       ) : null}
 
       <button
         type="button"
-        className="advisory-submit"
+        className="btn btn-primary btn-lg w-full"
         data-ph-event={otpSent ? 'Verify' : 'Book a Call'}
         data-ph-capture={otpSent ? 'book_call_verify' : 'book_call_submit'}
         onClick={otpSent ? verifyAndCreateLead : () => sendOtp()}
         disabled={isSubmitting}
-        style={isSubmitting ? { opacity: 0.7, cursor: 'not-allowed' } : undefined}
       >
         {isSubmitting
           ? otpSent
@@ -292,7 +277,7 @@ export default function BookCallForm() {
             ? 'Verify'
             : 'Book a free call'}
       </button>
-      <div className="advisory-privacy">We&apos;ll only use this to contact you. No spam, ever.</div>
+      <p className="mt-3 text-xs text-grey-500">We&apos;ll only use your number to call you about Fydaa.</p>
     </div>
   );
 }

@@ -1,15 +1,14 @@
 import "@/features/home/styles/home.css";
 import Hero from "@/features/home/components/Hero";
-import AmcStrip from "@/features/home/components/AmcStrip";
-import DreamsSection from "@/features/home/components/DreamsSection";
-import DirectPlanSection from "@/features/home/components/DirectPlanSection";
-import PurposeSection from "@/features/home/components/PurposeSection";
-import TrustSection from "@/features/home/components/TrustSection";
-import AdvisorySection from "@/features/home/components/AdvisorySection";
+import FundHouses from "@/features/home/components/FundHouses";
+import GoalsSection from "@/features/home/components/GoalsSection";
+import MoneySection from "@/features/home/components/MoneySection";
+import AdviceSection from "@/features/home/components/AdviceSection";
 import Testimonials from "@/features/home/components/Testimonials";
 import FaqSection from "@/features/home/components/FaqSection";
-import FinalCta from "@/features/home/components/FinalCta";
+import ClosingCta from "@/features/home/components/ClosingCta";
 import HashScroll from "@/components/HashScroll";
+import { ProofBand } from "@/components/layout/proof-band";
 import { FAQS } from "@/features/home/data/content";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { faqPageJsonLd } from "@/lib/seo/structured-data";
@@ -25,18 +24,17 @@ export const metadata = pageMetadata({
 
 export default function HomePage() {
   return (
-    <main className="fydaa-home relative m-0 w-full p-0">
+    <main className="relative m-0 w-full bg-white p-0">
       <HashScroll />
       <Hero />
-      <AmcStrip />
-      <DreamsSection />
-      <DirectPlanSection />
-      <PurposeSection />
-      <AdvisorySection />
-      <TrustSection />
+      <FundHouses />
+      <GoalsSection />
+      <MoneySection />
+      <AdviceSection />
+      <ProofBand />
       <Testimonials />
-      <FinalCta />
       <FaqSection />
+      <ClosingCta />
       <JsonLd data={faqPageJsonLd(FAQS.map((faq) => ({ question: faq.q, answer: faq.a })))} />
     </main>
   );
