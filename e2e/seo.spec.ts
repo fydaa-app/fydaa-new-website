@@ -33,3 +33,16 @@ for (const [from, to] of [
     expect(new URL(response.headers()["location"] ?? "", "http://x").pathname).toBe(to);
   });
 }
+
+test("the retired /api/careers/apply relay no longer exists", async ({ request }) => {
+  const response = await request.post("/api/careers/apply", {
+    multipart: { firstName: "x", email: "x@y.z" },
+  });
+  expect(response.status()).toBe(404);
+});
+
+test("cv-register validates input server-side", async ({ request }) => {
+  const response = await request.post("/api/careers/cv-register", { multipart: { firstName: "A" } });
+  expect(response.status()).toBe(400);
+  expect((await response.json()) as { ok: boolean }).toMatchObject({ ok: false });
+});

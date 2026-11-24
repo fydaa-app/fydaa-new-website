@@ -30,7 +30,6 @@ src/components/layout/Footer.tsx
 src/components/layout/site-nav.css
 src/components/legacy/
 src/components/HashScroll.tsx
-src/app/api/careers/
 src/app/(site)/legal/
 src/app/(transactional)/Successpagemandate/
 src/app/upi-faq/
