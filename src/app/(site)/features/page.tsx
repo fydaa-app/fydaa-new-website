@@ -1,4 +1,4 @@
-import "@/features/home/styles/home.css";
+import "@/features/home/styles/product.css";
 import { Container } from "@/components/layout/container";
 import { ProofBand } from "@/components/layout/proof-band";
 import { ButtonLink } from "@/components/ui/button";

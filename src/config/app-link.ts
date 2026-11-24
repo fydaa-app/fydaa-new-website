@@ -5,7 +5,7 @@ import { siteConfig } from "./site";
 /** Values passed into the app with the link (Branch hands query params to the app as link data). */
 export type AppLinkData = Record<string, string | number | undefined>;
 
-/** True once NEXT_PUBLIC_BRANCH_LINK is set (TODO.md). Until then every button uses /download. */
+/** TODO(branch): true once NEXT_PUBLIC_BRANCH_LINK is set (TODO.md). Until then every button uses /download. */
 export const hasBranchLink = Boolean(env.appLink);
 
 /** The href for every "Get the app" button. */

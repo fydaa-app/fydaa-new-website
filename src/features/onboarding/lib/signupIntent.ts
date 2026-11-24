@@ -13,7 +13,7 @@ export type SignupPlan = {
   years: number;
 };
 
-/** Same limits as the planner (src/features/home/components/GoalPlanner.tsx). */
+/** Same limits as the home calculator (src/features/home/components/HeroCalculator.jsx). */
 const LIMITS = {
   daily: { min: 100, max: 1000 },
   monthly: { min: 1000, max: 100000 },

@@ -1,0 +1,35 @@
+/*
+ * Features page product sections: the few styles Tailwind can't express. Everything else is
+ * utilities on the shared tokens (DESIGN.md).
+ */
+
+/*
+ * Wealth Score ring (transitions.dev donut family): draws from empty to its value once, when the
+ * window scrolls into view. Reduced motion shows the value at once.
+ */
+.score-ring-fill {
+  transition: stroke-dashoffset 1100ms var(--ease-smooth-out) 150ms;
+}
+[data-inview="false"] .score-ring-fill {
+  stroke-dashoffset: var(--ring-c);
+}
+.score-bar {
+  transform-origin: left center;
+  transition: transform 900ms var(--ease-smooth-out);
+  transition-delay: calc(250ms + var(--i, 0) * var(--duration-stagger) * 2);
+}
+[data-inview="false"] .score-bar {
+  transform: scaleX(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .score-ring-fill,
+  .score-bar {
+    transition: none;
+  }
+  [data-inview="false"] .score-ring-fill {
+    stroke-dashoffset: var(--ring-to);
+  }
+  [data-inview="false"] .score-bar {
+    transform: none;
+  }
+}

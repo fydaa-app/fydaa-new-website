@@ -62,20 +62,17 @@ test("shows exactly one account link at every width", async ({ page }) => {
   );
 });
 
-test("home planner starts from a goal and carries the plan to signup", async ({ page }) => {
+test("hero calculator's Start this SIP goes to signup with the chosen plan", async ({ page }) => {
   await page.goto("/");
-  const web = page.getByRole("link", { name: "or start on the web" });
-  await expect(web).toHaveAttribute(
+  const cta = page.getByRole("link", { name: "Start this SIP →" });
+  await expect(cta).toHaveAttribute(
     "href",
-    /^\/signup\?intent=sip&goal=wedding&category=hybrid&frequency=monthly&amount=\d+&years=5$/,
+    /^\/signup\?intent=sip&category=equity&frequency=monthly&amount=5000&years=10$/,
   );
-  await page.getByRole("radio", { name: "Education" }).click();
-  await expect(web).toHaveAttribute(
-    "href",
-    /goal=education&category=equity&frequency=monthly&amount=\d+&years=12$/,
-  );
-  await web.click();
-  await expect(page).toHaveURL(/\/signup\?intent=sip&goal=education/);
+  await page.getByRole("button", { name: "Debt", exact: true }).click();
+  await expect(cta).toHaveAttribute("href", /category=debt/);
+  await cta.click();
+  await expect(page).toHaveURL(/\/signup\?intent=sip&category=debt/);
 });
 
 test("the header offers the app: a store link on phones, a QR code on a desktop", async ({
