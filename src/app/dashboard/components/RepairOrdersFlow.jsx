@@ -67,7 +67,7 @@ export default function RepairOrdersFlow({ onBack, onHomeRefresh }) {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, []);
 
   useEffect(() => {

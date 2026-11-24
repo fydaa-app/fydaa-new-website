@@ -1,12 +1,8 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    './app/**/*.{js,ts,jsx,tsx}',          // Next.js App Router
-    './pages/**/*.{js,ts,jsx,tsx}',        // Optional: pages folder if using
-    './components/**/*.{js,ts,jsx,tsx}',   // All components
-    './src/**/*.{js,ts,jsx,tsx}',          // Optional: if you use /src structure
-    'node_modules/flowbite-react/lib/esm/**/*.js', // Flowbite React components
-  ],
+import type { Config } from "tailwindcss";
+import flowbitePlugin from "flowbite/plugin";
+
+const config: Config = {
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       screens: {
@@ -76,6 +72,8 @@ module.exports = {
     },
   },
   plugins: [
-    require('flowbite/plugin'),
+    flowbitePlugin,
   ],
 };
+
+export default config;

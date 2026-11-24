@@ -1,17 +1,14 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
+import nextTypescript from "eslint-config-next/typescript";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+export default defineConfig([
+  ...nextCoreWebVitals,
+  ...nextTypescript,
+  globalIgnores([".next/**", "out/**", "build/**", "coverage/**", "next-env.d.ts"]),
   {
+    // Legacy relaxations carried over unchanged from the previous config.
+    // They are removed in the foundation step as each area is rewritten.
     rules: {
       "react/no-unescaped-entities": "off",
       "@next/next/no-img-element": "off",
@@ -19,8 +16,12 @@ const eslintConfig = [
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/ban-ts-comment": "off",
       "react-hooks/exhaustive-deps": "off",
+      // React Compiler rules introduced by eslint-config-next 16. Legacy code
+      // violates them (setState in effects, Math.random in render); they are
+      // warnings until the affected areas are rewritten, then become errors.
+      "react-hooks/set-state-in-effect": "warn",
+      "react-hooks/purity": "warn",
+      "react-hooks/immutability": "warn",
     },
   },
-];
-
-export default eslintConfig;
+]);

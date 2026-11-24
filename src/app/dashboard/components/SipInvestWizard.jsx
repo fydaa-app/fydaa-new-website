@@ -404,7 +404,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [open, draft, ownFund]);
 
   async function openReview() {

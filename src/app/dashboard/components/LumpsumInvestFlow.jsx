@@ -156,7 +156,7 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone, onComp
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [open, draft, ownFund]);
 
   if (!open || !draft) return null;

@@ -406,7 +406,7 @@ export default function OnboardingFlow({
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [mode, searchParams, start, embedded]);
 
   async function routeAfterKycStage(stage) {
@@ -585,7 +585,7 @@ export default function OnboardingFlow({
       }
     })();
     return () => { cancelled = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [mode, searchParams, start, embedded]);
 
   async function submitSignupMobile() {

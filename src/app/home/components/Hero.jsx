@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import HeroCalculator from './HeroCalculator';
 
 export default function Hero() {
@@ -17,15 +18,15 @@ export default function Hero() {
             </p>
             <div className="hero-ctas">
               <div className="hero-cta">
-                <a href="/signup" className="btn-invest" data-ph-event="Start Investing">
+                <Link href="/signup" className="btn-invest" data-ph-event="Start Investing">
                   Start Investing
-                </a>
+                </Link>
                 <span className="hero-cta-label">New users</span>
               </div>
               <div className="hero-cta">
-                <a href="/login" className="btn-download" data-ph-event="Login">
+                <Link href="/login" className="btn-download" data-ph-event="Login">
                   Login
-                </a>
+                </Link>
                 <span className="hero-cta-label">Existing user</span>
               </div>
             </div>
