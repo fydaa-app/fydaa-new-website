@@ -1,5 +1,6 @@
 "use client";
 
+import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { SIP_CATEGORIES, SIP_CATEGORY_ORDER, SIP_TENURE_OPTIONS } from '../data/sipCategories';
 import { fmt, sipFV } from '../utils/format';
@@ -32,6 +33,14 @@ export default function HeroCalculator() {
   }, []);
 
   const category = SIP_CATEGORIES[cat];
+  // Carry the chosen plan into signup so onboarding can pre-fill it.
+  const startSipHref = `/signup?${new URLSearchParams({
+    intent: 'sip',
+    category: cat,
+    frequency: freq,
+    amount: String(amount),
+    years: String(years),
+  })}`;
   const rate = isMobile && cat === 'multi' ? 11 : category.rate;
   const rateLabel = isMobile && cat === 'multi' ? '11% CAGR' : category.rateLabel;
   const limits = LIMITS[freq];
@@ -198,15 +207,9 @@ export default function HeroCalculator() {
         </div>
       </div>
 
-      <a
-        href="https://www.cal.eu/fydaa/30min?overlayCalendar=true"
-        className="hc-cta"
-        data-ph-event="Start this SIP"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <Link href={startSipHref} className="hc-cta" data-ph-event="Start this SIP">
         Start this SIP →
-      </a>
+      </Link>
     </div>
     <p className="hc-note">* Based on historical returns</p>
     </div>
