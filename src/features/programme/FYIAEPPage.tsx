@@ -384,14 +384,14 @@ function ProgrammeFooter() {
         <div className="flex gap-1.5 items-center">
           <PhoneIcon />
           <span className="text-xs text-grey-500">Counsellor</span>
-          <a href="tel:+919987308778" className="text-xs text-grey-600 no-underline font-semibold">
+          <a href="tel:+919987308778" className="inline-flex min-h-11 items-center text-sm font-semibold text-grey-600 no-underline">
             +91 99873 08778
           </a>
         </div>
         <div className="flex gap-1.5 items-center">
           <PhoneIcon />
           <span className="text-xs text-grey-500">Support</span>
-          <a href="tel:+919503359949" className="text-xs text-grey-600 no-underline font-semibold">
+          <a href="tel:+919503359949" className="inline-flex min-h-11 items-center text-sm font-semibold text-grey-600 no-underline">
             +91 95033 59949
           </a>
         </div>

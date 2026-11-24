@@ -147,7 +147,7 @@
 .fydaa-home .prod-points{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
 .fydaa-home .prod-point{display:flex;gap:10px;font-size:.875rem;color:var(--ink2);align-items:flex-start}
 .fydaa-home .prod-point svg{flex-shrink:0;margin-top:3px;color:var(--g)}
-.fydaa-home .prod-cta{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:.875rem;color:var(--g);transition:gap .2s}
+.fydaa-home .prod-cta{display:inline-flex;align-items:center;min-height:44px;gap:6px;font-weight:600;font-size:.875rem;color:var(--g);transition:gap .2s}
 .fydaa-home .prod-cta:hover{gap:10px}
 .fydaa-home .prod-cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
 .fydaa-home .prod-panel{background:var(--card);border-radius:16px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow-card);transition:box-shadow .25s,transform .25s}
