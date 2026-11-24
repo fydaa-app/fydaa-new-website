@@ -19,8 +19,9 @@ export interface AccordionProps {
   icon?: (open: boolean) => ReactNode;
   /**
    * "hidden" (default): closed panels use the `hidden` attribute.
-   * "css": panels stay rendered so CSS can animate them; closed ones are `inert`
-   * (skipped by keyboard and assistive tech). Style with the `openItem` class.
+   * "css": panels stay rendered and open/close with the transitions.dev accordion (grid rows
+   * 0fr → 1fr, content fades in from a 2px blur); closed ones are `inert` (skipped by keyboard and
+   * assistive tech). Style the open row with the `openItem` class.
    */
   collapse?: "hidden" | "css";
   classNames?: {
@@ -69,7 +70,11 @@ export function Accordion({
         const triggerId = `${baseId}-${index}-trigger`;
         const panelId = `${baseId}-${index}-panel`;
         return (
-          <div key={item.id} className={cn(classNames.item, open && classNames.openItem)}>
+          <div
+            key={item.id}
+            className={cn(collapse === "css" && "t-acc", classNames.item, open && classNames.openItem)}
+            data-open={collapse === "css" ? String(open) : undefined}
+          >
             <Heading className={cn("m-0", classNames.heading)}>
               <button
                 type="button"
@@ -90,8 +95,8 @@ export function Accordion({
                     aria-hidden="true"
                     viewBox="0 0 24 24"
                     className={cn(
-                      "size-4 shrink-0 transition-transform",
-                      open && "rotate-180",
+                      "size-4 shrink-0",
+                      collapse === "css" ? "t-acc-chevron" : open && "rotate-180",
                       classNames.icon,
                     )}
                     fill="none"
@@ -109,9 +114,15 @@ export function Accordion({
               aria-labelledby={triggerId}
               hidden={collapse === "hidden" ? !open : undefined}
               inert={collapse === "css" && !open ? true : undefined}
-              className={classNames.panel}
+              className={collapse === "css" ? "t-acc-panel" : classNames.panel}
             >
-              {item.content}
+              {collapse === "css" ? (
+                <div className="t-acc-panel-inner">
+                  <div className={classNames.panel}>{item.content}</div>
+                </div>
+              ) : (
+                item.content
+              )}
             </div>
           </div>
         );

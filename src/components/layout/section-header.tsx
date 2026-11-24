@@ -2,7 +2,10 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils/cn";
 
 export interface SectionHeaderProps {
-  /** Short label above the title, e.g. "FAQs". */
+  /**
+   * Optional short context line above the title, sentence case (no all-caps labels). Only use it
+   * when it adds information the title doesn't, e.g. a product name above a benefit headline.
+   */
   eyebrow?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
@@ -13,7 +16,7 @@ export interface SectionHeaderProps {
 }
 
 /**
- * Eyebrow, title and description with one type treatment site-wide. Page titles
+ * Title and description with one type treatment site-wide, left-aligned by default. Page titles
  * (`level={1}`) use the display size; section titles the heading size.
  */
 export function SectionHeader({
@@ -27,20 +30,15 @@ export function SectionHeader({
   const Heading = level === 1 ? "h1" : "h2";
   return (
     <div className={cn("flex flex-col gap-3", align === "center" && "items-center text-center", className)}>
-      {eyebrow ? <p className="text-xs font-semibold uppercase tracking-wider text-jade">{eyebrow}</p> : null}
-      <Heading
-        className={cn(
-          "text-balance font-bold tracking-tight text-ink",
-          level === 1 ? "text-display" : "text-heading",
-        )}
-      >
+      {eyebrow ? <p className="text-sm font-semibold text-emerald">{eyebrow}</p> : null}
+      <Heading className={cn("text-ink", level === 1 ? "text-display" : "text-heading")}>
         {title}
       </Heading>
       {description ? (
         <p
           className={cn(
             "text-pretty text-lead text-grey-600",
-            align === "center" ? "max-w-2xl" : "max-w-prose",
+            align === "center" ? "max-w-2xl" : "max-w-[60ch]",
           )}
         >
           {description}

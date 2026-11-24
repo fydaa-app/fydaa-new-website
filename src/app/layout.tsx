@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
-import { inter } from "./fonts";
+import { monaSans } from "./fonts";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { rootMetadata } from "@/lib/seo/metadata";
 import { siteGraphJsonLd } from "@/lib/seo/structured-data";
@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en-IN" data-scroll-behavior="smooth">
 
       <body
-        className={`${inter.variable} m-0 p-0 font-sans text-ink antialiased`}
+        className={`${monaSans.variable} m-0 p-0 font-sans text-ink antialiased`}
       >
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-DMWN4CQK6D"

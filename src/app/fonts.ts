@@ -1,7 +1,14 @@
-import { Inter } from "next/font/google";
+import { Mona_Sans } from "next/font/google";
 
 /**
- * The site's single typeface: Inter (variable, self-hosted and subset by next/font, with a
- * size-adjusted fallback so there is no layout shift). Weights 400–700 are used.
+ * The site's one typeface: Mona Sans, variable in weight (200–900) and width (75–125), self-hosted
+ * and subset by next/font with a size-adjusted fallback (no layout shift). latin-ext carries the
+ * rupee sign (U+20B9). Width is the expressive axis: display type and money figures run wide
+ * (see `stretch-*` utilities and the type tokens in globals.css).
  */
-export const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
+export const monaSans = Mona_Sans({
+  variable: "--font-sans",
+  subsets: ["latin", "latin-ext"],
+  axes: ["wdth"],
+  display: "swap",
+});

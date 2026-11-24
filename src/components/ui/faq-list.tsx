@@ -9,23 +9,22 @@ export interface FaqListProps {
 }
 
 /**
- * The one FAQ presentation for the site: bordered rows, full-width 56px+ triggers and a
- * chevron that turns when open. Built on the WAI-ARIA `Accordion`.
+ * The one FAQ presentation for the site: hairline rows, full-width 56px+ triggers, answers that
+ * open on the transitions.dev accordion and a chevron that flips. Built on the WAI-ARIA `Accordion`.
  */
 export function FaqList({ items, headingLevel = 3, className }: FaqListProps) {
   return (
     <Accordion
       items={items}
       headingLevel={headingLevel}
+      collapse="css"
       classNames={{
-        root: cn(
-          "divide-y divide-grey-200 overflow-hidden rounded-card border border-grey-200 bg-white",
-          className,
-        ),
+        root: cn("border-t border-line", className),
+        item: "border-b border-line",
         trigger:
-          "min-h-14 px-5 py-4 text-base font-semibold text-ink transition-colors hover:bg-grey-50 focus-visible:-outline-offset-2",
+          "min-h-16 py-5 text-base font-semibold text-ink transition-colors duration-quick hover:text-jade sm:text-lg [font-stretch:104%] focus-visible:outline-offset-4",
         icon: "size-5 text-grey-500",
-        panel: "px-5 pb-5 text-base leading-relaxed text-grey-600",
+        panel: "max-w-[64ch] pb-6 pr-8 text-base leading-relaxed text-grey-600",
       }}
     />
   );

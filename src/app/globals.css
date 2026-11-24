@@ -5,13 +5,31 @@
 /*
  * Buttons: the single source of button styling. `buttonClasses()` / <Button> /
  * <ButtonLink> emit these classes, and plain markup can use them directly.
- * Sizes: md 44px, lg 48px (both meet the 44px touch target).
+ * Sizes: md 44px, lg 48px (both meet the 44px touch target). Hover lifts 1px, press settles
+ * to 98% (DESIGN.md, Motion); colours and transform share the motion tokens.
  */
 @layer components {
   .btn {
-    @apply inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-btn font-semibold no-underline transition-colors;
+    @apply inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-btn font-semibold no-underline;
     @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade;
     @apply disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50;
+    font-stretch: 104%;
+    letter-spacing: -0.005em;
+    transition:
+      background-color var(--duration-quick) var(--ease-out),
+      border-color var(--duration-quick) var(--ease-out),
+      color var(--duration-quick) var(--ease-out),
+      transform var(--duration-quick) var(--ease-smooth-out),
+      box-shadow var(--duration-quick) var(--ease-out);
+  }
+  @media (hover: hover) {
+    .btn:not(:disabled):hover {
+      transform: translateY(-1px);
+    }
+  }
+  .btn:not(:disabled):active {
+    transform: scale(0.98);
+    transition-duration: var(--duration-micro);
   }
   .btn-md {
     @apply h-11 px-5 text-sm;
@@ -21,31 +39,79 @@
   }
   .btn-primary {
     @apply bg-jade text-white hover:bg-jade-hover;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 1px 2px rgb(14 39 33 / 0.18);
   }
   .btn-secondary {
-    @apply border border-grey-200 bg-white text-ink hover:bg-grey-100;
+    @apply border border-line bg-white text-ink hover:border-grey-300 hover:bg-mist;
   }
   .btn-ghost {
     @apply text-jade hover:bg-jade-tint;
   }
-  /* On dark (jade/ink) surfaces. */
+  /* On the jade band. */
   .btn-inverse {
     @apply bg-white text-jade hover:bg-jade-tint;
   }
   .btn-outline-inverse {
     @apply border border-white/40 bg-transparent text-white hover:bg-white/10;
   }
+
+  /* Text link: emerald, underline drawn on hover (transitions.dev "learn more" family). */
+  .link {
+    @apply font-semibold text-emerald;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: rgb(4 120 87 / 0.35);
+    transition: text-decoration-color var(--duration-quick) var(--ease-out);
+  }
+  .link:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* Money and scores: wide, tabular, never jumping as digits change. */
+  .figure {
+    font-variant-numeric: tabular-nums;
+    font-stretch: 112%;
+    font-variation-settings: "wdth" 112;
+    letter-spacing: -0.03em;
+  }
+
+  /* Vertical rhythm for page sections. */
+  .section {
+    padding-block: var(--space-section);
+  }
+}
+
+/* Type tokens carry their Mona Sans width (Tailwind sets size, line height, tracking, weight). */
+.text-display {
+  font-stretch: 112%;
+  font-variation-settings: "wdth" 112;
+  text-wrap: balance;
+}
+.text-heading {
+  font-stretch: 108%;
+  font-variation-settings: "wdth" 108;
+  text-wrap: balance;
+}
+.text-title {
+  font-stretch: 104%;
+  font-variation-settings: "wdth" 104;
+}
+.text-figure {
+  font-variant-numeric: tabular-nums;
+  font-stretch: 112%;
+  font-variation-settings: "wdth" 112;
 }
 
 @layer utilities {
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: #d4d4d4 transparent;
+    scrollbar-color: #c9d4d0 transparent;
   }
   .scrollbar-thin::-webkit-scrollbar { width: 5px; }
   .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-  .scrollbar-thin::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 3px; }
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #a3a3a3; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #c9d4d0; border-radius: 3px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #98a6a1; }
 }
 
 @keyframes marquee {
@@ -58,15 +124,47 @@
 }
 
 /*
- * Design tokens: the single source for fluid heading and lead sizes. Tailwind's
- * `text-display | text-heading | text-title | text-lead` and the scoped page stylesheets
- * both read these, so a page title looks the same on every page and at every width.
+ * Design tokens. Type: fluid sizes shared by Tailwind (`text-display | heading | title | lead |
+ * figure`) and the page stylesheets. Motion: the transitions.dev scale; components reference these
+ * names, never raw durations (DESIGN.md, Motion).
  */
 :root {
-  --text-display: clamp(2rem, 1.25rem + 3.2vw, 3.5rem);
-  --text-heading: clamp(1.625rem, 1.2rem + 1.8vw, 2.5rem);
+  --text-display: clamp(2.5rem, 1.55rem + 4.2vw, 5rem);
+  --text-heading: clamp(1.875rem, 1.35rem + 2.1vw, 3rem);
   --text-title: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
-  --text-lead: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-figure: clamp(2.25rem, 1.6rem + 2.8vw, 3.75rem);
+
+  --space-section: clamp(4rem, 3rem + 4vw, 7.5rem);
+
+  /* Durations */
+  --duration-stagger: 40ms;
+  --duration-micro: 80ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --duration-very-slow: 500ms;
+  /* Easings */
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: ease-in-out;
+  --ease-out: ease-out;
+  --ease-linear: linear;
+  /* Distances */
+  --distance-micro: 4px;
+  --distance-small: 6px;
+  --distance-base: 8px;
+  --distance-medium: 12px;
+  --distance-large: 30px;
+  /* Scales */
+  --scale-large: 0.96;
+  --scale-medium: 0.97;
+  --scale-small: 0.98;
+  --scale-tiny: 0.99;
+  /* Blur */
+  --blur-small: 2px;
+  --blur-medium: 3px;
+  --blur-large: 8px;
 }
 
 html {
@@ -89,7 +187,7 @@ html {
 html, body {
   margin: 0;
   padding: 0;
-  background: #F7F7F7;
+  background: #ffffff;
 }
 
 /*
@@ -101,6 +199,27 @@ body {
   min-height: 100dvh;
 }
 
+::selection {
+  background: #fdf1dc;
+  color: #0e2721;
+}
+
+/*
+ * Hero entrance (transitions.dev "texts reveal"): children marked `data-enter-item` rise once,
+ * staggered by --i, with a soft blur. Runs on load only; reduced motion shows the final state.
+ */
+@keyframes enter-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--distance-medium));
+    filter: blur(var(--blur-medium));
+  }
+}
+[data-enter] [data-enter-item] {
+  animation: enter-rise var(--duration-very-slow) var(--ease-smooth-out) both;
+  animation-delay: calc(120ms + var(--i, 0) * 90ms);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -108,8 +227,14 @@ body {
 
   .animate-scroll-seamless,
   .animate-slide-in-left,
-  .animate-slide-in-right {
+  .animate-slide-in-right,
+  [data-enter] [data-enter-item] {
     animation: none !important;
+  }
+
+  .btn:not(:disabled):hover,
+  .btn:not(:disabled):active {
+    transform: none;
   }
 }
 
@@ -408,12 +533,6 @@ body {
   animation-delay: 0.3s;
 }
 
-/* Font utility classes */
-
-.font-inter {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-}
-
 /* Popup animation */
 @keyframes pop-in {
   0% {
@@ -435,65 +554,285 @@ body.fydaa-hide-site-chrome .fydaa-auth-main {
   padding-top: 1.5rem;
 }
 /*
- * Legal documents (app/(site)/legal/layout.tsx). The pages keep their legal text verbatim;
- * this gives them one readable document style: ~70 character lines, phone-friendly
- * gutters, consistent headings and paragraph spacing.
+ * Accordion (transitions.dev #21): grid rows 0fr → 1fr, no JS measurement. Used by
+ * <Accordion collapse="css"> and so by every FaqList. Padding lives on the inner element.
  */
-.legal-doc main:has(> section) {
-  padding: 6.5rem 1rem 4rem;
+:root {
+  --acc-expand: 250ms;
+  --acc-collapse: 250ms;
+  --acc-chevron: 250ms;
+  --acc-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
-@media (min-width: 640px) {
-  .legal-doc main:has(> section) {
-    padding: 8rem 1.5rem 5rem;
+.t-acc-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--acc-collapse) var(--acc-ease);
+}
+.t-acc[data-open="true"] .t-acc-panel {
+  grid-template-rows: 1fr;
+  transition: grid-template-rows var(--acc-expand) var(--acc-ease);
+}
+.t-acc-panel-inner {
+  overflow: hidden;
+  opacity: 0;
+  filter: blur(2px);
+  transition:
+    opacity var(--acc-collapse) var(--acc-ease),
+    filter var(--acc-collapse) var(--acc-ease);
+}
+.t-acc[data-open="true"] .t-acc-panel-inner {
+  opacity: 1;
+  filter: blur(0);
+  transition:
+    opacity var(--acc-expand) var(--acc-ease),
+    filter var(--acc-expand) var(--acc-ease);
+}
+.t-acc-chevron {
+  transform: scaleY(1);
+  transform-origin: center;
+  transition: transform var(--acc-chevron) var(--acc-ease);
+}
+.t-acc-chevron :is(path, polyline) {
+  vector-effect: non-scaling-stroke;
+}
+.t-acc[data-open="true"] .t-acc-chevron {
+  transform: scaleY(-1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-acc-panel,
+  .t-acc-panel-inner,
+  .t-acc-chevron {
+    transition: none !important;
   }
 }
-.legal-doc main > section,
-.legal-doc main > section > .container {
-  width: 100%;
-  max-width: 46rem;
-  margin-inline: auto;
-  padding-inline: 0;
+
+/*
+ * Number subtle change (transitions.dev #36): changed digits cross-fade, rising or falling with
+ * the value. Used by <SubtleNumber>.
+ */
+:root {
+  --subtle-dur: 455ms;
+  --subtle-distance: 0.14em;
+  --subtle-blur: 0.042em;
+  --subtle-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
-.legal-doc main > section > br {
-  display: none;
+.t-subtle-number {
+  display: inline-flex;
+  align-items: baseline;
+  font-variant-numeric: tabular-nums;
 }
-.legal-doc main > section :is(p, li) {
-  max-width: 70ch;
-  margin-bottom: 0.875rem;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: theme("colors.grey.800");
+.t-subtle-slot {
+  position: relative;
+  display: inline-block;
 }
-.legal-doc main > section :is(ul, ol) {
-  margin: 0 0 1rem;
-  padding-left: 1.25rem;
+.t-subtle-new {
+  display: inline-block;
 }
-.legal-doc main > section ul {
-  list-style: disc;
+.t-subtle-old {
+  position: absolute;
+  inset: 0;
+  text-align: center;
+  pointer-events: none;
 }
-.legal-doc main > section ol {
-  list-style: decimal;
+.t-subtle-number.is-animating .t-subtle-new {
+  animation: t-subtle-in var(--subtle-dur) var(--subtle-ease) both;
 }
-.legal-doc main > section h1 {
-  margin-bottom: 0.5rem;
-  text-align: left;
+.t-subtle-number.is-animating .t-subtle-old {
+  animation: t-subtle-out var(--subtle-dur) var(--subtle-ease) both;
 }
-.legal-doc main > section h2 {
-  margin: 2rem 0 0.75rem;
-  font-size: var(--text-title);
-  font-weight: 700;
-  line-height: 1.3;
-  text-align: left;
-  color: theme("colors.ink");
+@keyframes t-subtle-in {
+  from {
+    transform: translateY(calc(var(--subtle-distance) * var(--subtle-dir, 1)));
+    opacity: 0;
+    filter: blur(var(--subtle-blur));
+  }
 }
-.legal-doc main > section h3 {
-  margin: 1.5rem 0 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: theme("colors.ink");
+@keyframes t-subtle-out {
+  to {
+    transform: translateY(calc(var(--subtle-distance) * var(--subtle-dir, 1) * -1));
+    opacity: 0;
+    filter: blur(var(--subtle-blur));
+  }
 }
-.legal-doc main > section a {
-  color: theme("colors.jade.DEFAULT");
-  text-decoration: underline;
-  overflow-wrap: anywhere;
+@media (prefers-reduced-motion: reduce) {
+  .t-subtle-number .t-subtle-new {
+    animation: none !important;
+  }
+  .t-subtle-number .t-subtle-old {
+    display: none;
+  }
+}
+
+/*
+ * Segmented control (transitions.dev #16, "tabs sliding", extended to wrap onto rows): the pill
+ * is positioned by <SegmentedControl> from the checked option's offset box.
+ */
+:root {
+  --tabs-dur: 250ms;
+  --tabs-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+@layer components {
+  .t-seg {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 12px;
+    background: theme("colors.mist");
+    box-shadow: inset 0 0 0 1px theme("colors.line");
+  }
+  .t-seg-option {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    min-height: 40px;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    padding: 0 10px;
+    white-space: nowrap;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-stretch: 104%;
+    color: theme("colors.grey.600");
+    cursor: pointer;
+    transition: color var(--tabs-dur) var(--tabs-ease);
+  }
+  .t-seg-option:hover,
+  .t-seg-option[aria-checked="true"] {
+    color: theme("colors.ink");
+  }
+  .t-seg-option:focus-visible {
+    outline: 2px solid theme("colors.jade.DEFAULT");
+    outline-offset: 1px;
+  }
+  .t-seg-pill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 0;
+    height: 0;
+    border-radius: 9px;
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgb(14 39 33 / 0.1), 0 0 0 1px rgb(14 39 33 / 0.06);
+    pointer-events: none;
+    transition:
+      transform var(--tabs-dur) var(--tabs-ease),
+      width var(--tabs-dur) var(--tabs-ease),
+      height var(--tabs-dur) var(--tabs-ease);
+    will-change: transform, width;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-seg-pill,
+  .t-seg-option {
+    transition: none !important;
+  }
+}
+
+/*
+ * Dialogs (transitions.dev #06, modal open): the panel scales up from 96% as it fades in; the
+ * scrim fades. Add `t-dialog` to the panel and `t-scrim` to the backdrop.
+ */
+@keyframes t-dialog-in {
+  from {
+    opacity: 0;
+    transform: scale(var(--scale-large));
+  }
+}
+@keyframes t-scrim-in {
+  from {
+    opacity: 0;
+  }
+}
+.t-dialog {
+  animation: t-dialog-in var(--duration-fast) var(--ease-smooth-out) both;
+}
+.t-scrim {
+  animation: t-scrim-in var(--duration-fast) var(--ease-out) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-dialog,
+  .t-scrim {
+    animation: none;
+  }
+}
+
+/*
+ * Error shake (transitions.dev #12): four legs, 80/60/80/60ms, ±8px then ±6px. Put `t-shake` on an
+ * error message or field and give it a new React `key` to replay it.
+ */
+@keyframes t-shake {
+  0% {
+    transform: translateX(0);
+  }
+  28.57% {
+    transform: translateX(var(--distance-base));
+    animation-timing-function: cubic-bezier(0.33, 0, 0.67, 1);
+  }
+  57.14% {
+    transform: translateX(calc(var(--distance-base) * -1));
+    animation-timing-function: cubic-bezier(0.33, 0, 0.67, 1);
+  }
+  78.57% {
+    transform: translateX(var(--distance-small));
+    animation-timing-function: cubic-bezier(0.33, 0, 0.67, 1);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.t-shake {
+  animation: t-shake 280ms linear;
+}
+
+/*
+ * Success check (transitions.dev #10): the ring draws, then the tick, with a soft settle.
+ */
+.t-check {
+  animation: t-check-in var(--duration-very-slow) var(--ease-smooth-out) both;
+}
+.t-check-ring {
+  fill: theme("colors.jade.tint");
+  stroke: theme("colors.sprout");
+  stroke-width: 2.5;
+  stroke-dasharray: 164;
+  stroke-dashoffset: 164;
+  animation: t-check-draw 600ms var(--ease-smooth-out) 80ms forwards;
+}
+.t-check-path {
+  fill: none;
+  stroke: theme("colors.jade.DEFAULT");
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 34;
+  stroke-dashoffset: 34;
+  animation: t-check-draw 420ms var(--ease-smooth-out) 420ms forwards;
+}
+@keyframes t-check-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--distance-base)) rotate(-8deg) scale(0.9);
+    filter: blur(var(--blur-large));
+  }
+}
+@keyframes t-check-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-shake,
+  .t-check {
+    animation: none;
+  }
+  .t-check-ring,
+  .t-check-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
 }
