@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import animationData from "@/animations/homepage_animation.json";
@@ -204,10 +205,13 @@ export default function Dreams() {
           {/* Current pipe + Lottie — desktop only */}
           {isDesktop && (
             <>
-              <img
+              <Image
                 src="/dreams/new.pipe.png"
                 alt=""
-                className="absolute h-full object-contain pointer-events-none"
+                width={1011}
+                height={1580}
+                sizes="(min-width: 1024px) 640px, 0px"
+                className="absolute h-full w-auto object-contain pointer-events-none"
                 style={{
                   top: "150px",
                   left: "44%",

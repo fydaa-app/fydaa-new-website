@@ -1,13 +1,16 @@
+import Image from "next/image";
 export default function Founder() {
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-grey-50 font-inter">
       <div className="max-w-[1120px] 2xl:max-w-[1280px] mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-[1fr_2fr] gap-8 md:gap-14 items-start">
-          <div className="w-full max-w-[240px] sm:max-w-[280px] md:max-w-none aspect-[3/4] bg-grey-100 rounded-2xl overflow-hidden mx-auto md:mx-0">
-            <img
+          <div className="relative w-full max-w-[240px] sm:max-w-[280px] md:max-w-none aspect-[3/4] bg-grey-100 rounded-2xl overflow-hidden mx-auto md:mx-0">
+            <Image
               src="/about-us/Kuntalsir.png"
-              alt="Kuntal Bhansali"
-              className="h-full w-full object-cover"
+              alt="Kuntal Bhansali, founder of Fydaa"
+              fill
+              sizes="(min-width: 1280px) 400px, (min-width: 768px) 33vw, 280px"
+              className="object-cover"
             />
           </div>
 

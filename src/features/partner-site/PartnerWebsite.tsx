@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from 'next/link';
 import type { PublicPartnerWebsite } from '@/features/partner-site/api';
 import FaqSection from '@/features/home/components/FaqSection';
@@ -269,9 +270,11 @@ export default function PartnerWebsite({ data, slug }: PartnerWebsiteProps) {
             </ol>
           </div>
           <div className="pw-start-visual">
-            <img
+            <Image
               src="/partner/getting-started.png"
               alt="Video call with your Fydaa relationship manager"
+              fill
+              sizes="(min-width: 1024px) 591px, 100vw"
             />
           </div>
         </div>

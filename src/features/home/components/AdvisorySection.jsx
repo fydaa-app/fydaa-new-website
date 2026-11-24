@@ -1,3 +1,4 @@
+import Image from "next/image";
 import BookCallForm from './BookCallForm';
 
 export default function AdvisorySection() {
@@ -7,9 +8,12 @@ export default function AdvisorySection() {
         <div className="advisory-grid">
           <div className="advisory-text">
             <div className="advisory-visual">
-              <img
+              <Image
                 src="/home/advisory/advisor-chat.png"
                 alt="Fydaa relationship manager chatting with a client about SIPs and goals"
+                width={866}
+                height={308}
+                sizes="(min-width: 1024px) 520px, 100vw"
                 className="advisory-visual-img"
               />
             </div>
