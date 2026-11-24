@@ -169,7 +169,7 @@ export default function Complaints() {
   const monthlyComplaintTrend = buildMonthlyComplaintTrend(reference);
 
   return (
-    <div className="min-h-screen w-full bg-white pb-8 pl-2 pr-2 pt-24 text-gray-900 sm:pt-28 md:pt-32">
+    <main className="min-h-screen w-full bg-white pb-8 pl-2 pr-2 pt-24 text-gray-900 sm:pt-28 md:pt-32">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 md:px-8">
         <h1 className="mb-3 text-center text-2xl font-semibold md:text-3xl">Complaint Data</h1>
         <p className="mb-8 text-center text-gray-600">
@@ -326,6 +326,6 @@ export default function Complaints() {
           </a>
         </p>
       </div>
-    </div>
+    </main>
   );
 }

@@ -87,6 +87,18 @@ export function CallbackStatus({
   );
 }
 
+/** Server-rendered placeholder until the provider's query string is read on the client. */
+export function CallbackFallback() {
+  return (
+    <StatusScreen
+      tone="pending"
+      busy
+      title="Returning you to Fydaa"
+      message="We're confirming the status. This takes a moment."
+    />
+  );
+}
+
 function capitalise(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }

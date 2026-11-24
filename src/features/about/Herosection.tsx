@@ -19,9 +19,9 @@ const HeroSection: React.FC = () => {
             </h1>
             <p className="text-sm md:text-base xl:text-lg 2xl:text-xl text-grey-600 font-inter font-normal leading-[1.8] max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto px-2 sm:px-4">
               We&apos;re on a mission to make smart investing accessible,
-              understandable,
+              understandable,{" "}
               <br className="hidden sm:block" />
-              and achievable - no matter your income, background, or experience.
+              and achievable – no matter your income, background, or experience.
             </p>
           </div>
         </div>

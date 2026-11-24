@@ -9,5 +9,9 @@ export const metadata = pageMetadata({
 });
 
 export default function ProgrammePage() {
-  return <FYIAEPPage />;
+  return (
+    <main>
+      <FYIAEPPage />
+    </main>
+  );
 }

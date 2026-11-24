@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { pageMetadata } from "@/lib/seo/metadata";
+import { pageMetadata, robotsFor } from "@/lib/seo/metadata";
 import { getPartnerWebsite } from "@/features/partner-site/partner-website.server";
 import PartnerWebsite from "@/features/partner-site/PartnerWebsite";
 
@@ -18,8 +18,8 @@ type PageProps = {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const slug = String((await params)?.slug || "").trim();
   const data = await getPartnerWebsite(slug);
-  // Unknown partner: hand over to the 404 boundary so its metadata (title, noindex) applies.
-  if (!data) notFound();
+  // Unknown partner: the page renders the 404 UI (server-side); keep its title and noindex.
+  if (!data) return { title: "Page not found", robots: robotsFor(true) };
   const name = data.name?.trim() || "Fydaa Partner";
   const about = data.about?.replace(/\s+/g, " ").trim();
   return pageMetadata({

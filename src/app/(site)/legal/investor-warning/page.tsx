@@ -7,7 +7,7 @@ export const metadata = pageMetadata(legalPageSeo("/legal/investor-warning"));
 
 const InvestorWarning: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white">
       {/* Header Section */}
       <div className="bg-red-600 text-white py-16 px-4 sm:px-6 md:px-8 lg:px-12">
         <div className="max-w-4xl mx-auto">
@@ -103,7 +103,7 @@ const InvestorWarning: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

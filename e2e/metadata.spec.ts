@@ -85,3 +85,26 @@ for (const path of [
     expect(html.match(/<h1[\s>]/g) ?? []).toHaveLength(1);
   });
 }
+
+for (const path of [
+  "/",
+  "/about",
+  "/features",
+  "/programme",
+  "/careers",
+  "/partner",
+  "/login",
+  "/signup",
+  "/download",
+  "/legal/complaints",
+  "/legal/grievance-redressal",
+  "/legal/investor-warning",
+  "/legal/privacy-policy",
+  "/SuccesspageFund",
+  "/about/does-not-exist",
+]) {
+  test(`${path} has exactly one <main> landmark in the server HTML`, async ({ request }) => {
+    const html = await (await request.get(path)).text();
+    expect(html.match(/<main[\s>]/g) ?? []).toHaveLength(1);
+  });
+}

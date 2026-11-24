@@ -53,7 +53,7 @@ const Grievance = () => {
   return (
     <>
 
-      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-50 to-white">
+      <main className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-50 to-white">
         {/* Header Section */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-800 py-16 px-6 mt-8">
           <div className="max-w-7xl mx-auto text-center">
@@ -130,8 +130,7 @@ const Grievance = () => {
             </p>
           </div>
         </div>
-      </div>
- 
+      </main>
     </>
   );
 };

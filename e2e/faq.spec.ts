@@ -21,3 +21,10 @@ test("home FAQ is keyboard operable and opens one answer at a time", async ({ pa
   await expect(second).toHaveAttribute("aria-expanded", "true");
   await expect(first).toHaveAttribute("aria-expanded", "false");
 });
+
+test("about hero copy has no missing spaces at phone width", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 800 });
+  await page.goto("/about");
+  await expect(page.locator("main")).toContainText("understandable, and achievable");
+  await expect(page.locator("body")).not.toContainText("understandable,and");
+});

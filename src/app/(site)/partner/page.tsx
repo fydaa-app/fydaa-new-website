@@ -9,5 +9,9 @@ export const metadata = pageMetadata({
 });
 
 export default function PartnerPage() {
-  return <PartnerRegistrationCard />;
+  return (
+    <main>
+      <PartnerRegistrationCard />
+    </main>
+  );
 }

@@ -18,7 +18,7 @@ export const metadata = pageMetadata({
 
 const AboutPage = () => {
   return (
-    <div className="bg-grey-50 font-inter text-ink antialiased">
+    <main className="bg-grey-50 font-inter text-ink antialiased">
       <HeroSection />
       <PageDivider />
       <Portfolios />
@@ -28,7 +28,7 @@ const AboutPage = () => {
       <WhyFydaa />
       <AboutCta />
       <AboutFaq />
-    </div>
+    </main>
   );
 };
 
