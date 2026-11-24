@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { devices, expect, test } from "@playwright/test";
 
 const INDEXABLE = [
   "/",
@@ -61,12 +61,13 @@ test("careers list is server-rendered and job pages carry JobPosting data", asyn
   test.skip(!jobLink, "no open roles returned by the jobs API at build time");
 
   const html = await (await request.get(jobLink!)).text();
-  const ld = /<script type="application\/ld\+json">([^<]+)<\/script>/.exec(html)?.[1];
-  expect(ld).toBeTruthy();
-  const data = JSON.parse(ld!) as Record<string, unknown>;
-  expect(data["@type"]).toBe("JobPosting");
+  // The page also carries the site-wide organisation graph, so pick the JobPosting block.
+  const data = [...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)]
+    .map((match) => JSON.parse(match[1] ?? "{}") as Record<string, unknown>)
+    .find((block) => block["@type"] === "JobPosting");
+  expect(data, "JobPosting JSON-LD block").toBeTruthy();
   expect(data).toHaveProperty("hiringOrganization");
-  expect(new URL(String(data.url)).pathname).toBe(jobLink);
+  expect(new URL(String(data!.url)).pathname).toBe(jobLink);
 });
 
 for (const path of [
@@ -104,7 +105,12 @@ for (const path of [
   "/about/does-not-exist",
 ]) {
   test(`${path} has exactly one <main> landmark in the server HTML`, async ({ request }) => {
-    const html = await (await request.get(path)).text();
+    // A desktop UA keeps /download on its fallback page instead of redirecting to an app store.
+    const response = await request.get(path, {
+      headers: { "user-agent": devices["Desktop Chrome"].userAgent },
+      maxRedirects: 0,
+    });
+    const html = await response.text();
     expect(html.match(/<main[\s>]/g) ?? []).toHaveLength(1);
   });
 }

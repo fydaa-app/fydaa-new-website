@@ -35,10 +35,15 @@ for (const [from, to] of [
 }
 
 test("the retired /api/careers/apply relay no longer exists", async ({ request }) => {
-  const response = await request.post("/api/careers/apply", {
+  expect((await request.get("/api/careers/apply")).status()).toBe(404);
+  expect((await request.post("/api/careers/apply", { data: { firstName: "x" } })).status()).toBe(404);
+
+  // Next.js answers multipart POSTs to unknown paths as a missing Server Action (409)
+  // rather than 404; either way no handler runs and nothing is forwarded.
+  const multipart = await request.post("/api/careers/apply", {
     multipart: { firstName: "x", email: "x@y.z" },
   });
-  expect(response.status()).toBe(404);
+  expect([404, 409]).toContain(multipart.status());
 });
 
 test("cv-register validates input server-side", async ({ request }) => {
