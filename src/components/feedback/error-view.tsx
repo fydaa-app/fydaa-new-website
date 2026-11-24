@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { StatusPage } from "@/components/feedback/status-page";
 import { Button, ButtonLink } from "@/components/ui/button";
+import { siteConfig } from "@/config/site";
 
 export interface ErrorViewProps {
   error: Error & { digest?: string };
@@ -21,8 +22,17 @@ export function ErrorView({ error, reset }: ErrorViewProps) {
       title="This page hit a problem"
       description={
         <>
-          Please try again. If it keeps happening, contact us and quote reference{" "}
-          <span className="font-mono text-ink">{error.digest ?? "N/A"}</span>.
+          Try again. If it keeps happening, email{" "}
+          <a href={`mailto:${siteConfig.contact.email}`} className="link">
+            {siteConfig.contact.email}
+          </a>
+          {error.digest ? (
+            <>
+              {" "}
+              and quote reference <span className="break-all font-mono text-base text-ink">{error.digest}</span>
+            </>
+          ) : null}
+          .
         </>
       }
       actions={

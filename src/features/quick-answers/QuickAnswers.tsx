@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { Accordion } from "@/components/ui/accordion";
+import { buttonClasses } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { useScrollState } from "@/lib/hooks/use-scroll-direction";
 import { cn } from "@/lib/utils/cn";
@@ -12,14 +13,29 @@ import { QUICK_ANSWERS } from "./answers";
 const items = QUICK_ANSWERS.map((entry) => ({
   id: entry.id,
   title: entry.question,
-  content: <p className="pb-3 text-sm leading-relaxed text-grey-600">{entry.answer}</p>,
+  content: <p>{entry.answer}</p>,
 }));
 
-const contactLinkClass =
-  "flex items-center justify-center rounded-btn border border-grey-200 bg-white px-3 py-2 text-sm font-semibold text-jade hover:border-jade focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade";
+const contactLinkClass = buttonClasses({ variant: "secondary", size: "md", className: "flex-1 px-4" });
 
 /** Focused-task pages where a floating help button would compete with the form. */
 const HIDDEN_ON = ["/login", "/signup", "/partner", "/download", "/careers/jobs"];
+
+function CloseIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    >
+      <path d="M18 6 6 18M6 6l12 12" />
+    </svg>
+  );
+}
 
 /**
  * Floating "Quick answers" help panel: curated answers plus ways to reach a person.
@@ -63,14 +79,14 @@ export default function QuickAnswers() {
           role="dialog"
           aria-labelledby={titleId}
           tabIndex={-1}
-          className="flex max-h-[min(70vh,560px)] w-[min(360px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-grey-200 bg-white shadow-modal focus:outline-none"
+          className="t-dialog flex max-h-[min(70vh,560px)] w-[min(380px,calc(100vw-2rem))] origin-bottom-right flex-col overflow-hidden rounded-4xl border border-line bg-white shadow-window focus:outline-none"
         >
-          <div className="flex items-start justify-between gap-4 border-b border-grey-200 px-5 py-4">
-            <div>
-              <h2 id={titleId} className="text-base font-bold text-ink">
+          <div className="flex items-start justify-between gap-3 border-b border-line bg-mist/60 py-3 pl-5 pr-2">
+            <div className="pt-1.5">
+              <h2 id={titleId} className="text-base font-semibold text-ink [font-stretch:104%]">
                 Quick answers
               </h2>
-              <p className="mt-0.5 text-xs text-grey-600">Common questions, answered instantly.</p>
+              <p className="mt-0.5 text-sm text-grey-500">Short answers to common questions.</p>
             </div>
             <button
               type="button"
@@ -79,19 +95,9 @@ export default function QuickAnswers() {
                 triggerRef.current?.focus();
               }}
               aria-label="Close quick answers"
-              className="rounded-md p-1 text-grey-600 hover:bg-grey-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-jade"
+              className="flex size-11 shrink-0 items-center justify-center rounded-btn text-grey-600 transition-colors duration-quick hover:bg-white hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-jade"
             >
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                className="size-5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              <CloseIcon className="size-5" />
             </button>
           </div>
 
@@ -99,16 +105,20 @@ export default function QuickAnswers() {
             <Accordion
               items={items}
               headingLevel={3}
+              collapse="css"
               classNames={{
-                item: "border-b border-grey-200 last:border-b-0",
-                trigger: "py-3 text-sm font-semibold text-ink",
+                item: "border-b border-line last:border-b-0",
+                trigger:
+                  "min-h-12 py-3 text-sm font-semibold text-ink transition-colors duration-quick hover:text-jade [font-stretch:104%]",
+                icon: "text-grey-500",
+                panel: "pb-4 pr-6 text-sm leading-relaxed text-grey-600",
               }}
             />
           </div>
 
-          <div className="border-t border-grey-200 bg-grey-50 px-5 py-4">
-            <p className="mb-2.5 text-xs font-semibold uppercase tracking-wide text-grey-600">Talk to us</p>
-            <div className="grid grid-cols-3 gap-2">
+          <div className="border-t border-line bg-mist px-5 py-4">
+            <p className="mb-3 text-sm font-semibold text-ink [font-stretch:104%]">Talk to a person</p>
+            <div className="flex flex-wrap gap-2">
               <a href={siteConfig.contact.phoneHref} className={contactLinkClass}>
                 Call
               </a>
@@ -131,28 +141,28 @@ export default function QuickAnswers() {
         aria-controls={open ? panelId : undefined}
         aria-label={open ? "Close quick answers" : "Quick answers"}
         className={cn(
-          "flex size-12 items-center justify-center rounded-full bg-ink text-white shadow-modal transition-[transform,opacity] duration-200 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade sm:size-14",
+          "flex size-12 items-center justify-center rounded-full bg-jade text-white shadow-window transition-[transform,opacity,background-color] duration-fast ease-smooth-out hover:bg-jade-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade active:scale-[0.98] motion-reduce:transition-none sm:size-14 [@media(hover:hover)]:hover:-translate-y-px",
           tucked &&
             "max-md:pointer-events-none max-md:translate-y-20 max-md:opacity-0 max-md:focus-visible:pointer-events-auto max-md:focus-visible:translate-y-0 max-md:focus-visible:opacity-100",
         )}
       >
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          className="size-6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          {open ? (
-            <>
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </>
-          ) : (
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          )}
-        </svg>
+        {open ? (
+          <CloseIcon className="size-6" />
+        ) : (
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            className="size-6"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M9.2 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4.5" />
+            <path d="M12 18.5h.01" />
+          </svg>
+        )}
       </button>
     </div>
   );

@@ -22,7 +22,7 @@ export default function NotFound() {
       <StatusPage
         eyebrow="Error 404"
         title="We couldn't find that page"
-        description="The link may be broken or the page may have moved. These are good places to start:"
+        description="The link may be broken, or the page may have moved."
         actions={
           <>
             <ButtonLink href={routes.home.path} size="lg">

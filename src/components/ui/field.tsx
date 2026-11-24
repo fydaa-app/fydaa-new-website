@@ -3,12 +3,13 @@
 import { useId, type ComponentProps, type ReactNode } from "react";
 import { cn } from "@/lib/utils/cn";
 
-export const labelClasses = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-grey-600";
+// Sentence-case labels (no all-caps), the same treatment as the planner and book-a-call fields.
+export const labelClasses = "mb-1.5 block text-sm font-semibold text-ink";
 
 export const inputClasses =
-  "h-12 w-full rounded-xl border border-grey-300 bg-white px-3.5 text-sm font-medium text-ink " +
-  "placeholder:text-grey-500 transition-colors focus:border-jade focus:outline-none focus:ring-2 " +
-  "focus:ring-jade/20 aria-[invalid=true]:border-red-600 disabled:bg-grey-100";
+  "h-12 w-full rounded-card border border-line bg-white px-3.5 text-base font-medium text-ink " +
+  "placeholder:text-grey-500 transition-colors duration-quick focus:border-jade focus:outline-none focus:ring-2 " +
+  "focus:ring-jade/15 aria-[invalid=true]:border-danger disabled:bg-grey-100";
 
 export interface TextFieldProps extends Omit<ComponentProps<"input">, "id" | "prefix"> {
   label: string;
