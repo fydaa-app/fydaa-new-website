@@ -7,7 +7,9 @@ import { MONEY_VAULT, WEALTH_SCORE } from "../data/productPanels";
 
 const RADIUS = 52;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+// Bars use the chart green (sprout); figures use the text-safe greens and ambers (AA on white).
 const TONE = { good: "#1A9E6E", warn: "#B45309" } as const;
+const TEXT_TONE = { good: "#047857", warn: "#B45309" } as const;
 
 /** True once the element has been on screen; starts true without IntersectionObserver. */
 function useSeenOnce<T extends Element>() {
@@ -68,7 +70,10 @@ function WealthScore() {
           <li key={p.key}>
             <div className="flex justify-between text-sm">
               <span className="text-grey-600">{p.key}</span>
-              <span className="figure font-semibold" style={{ color: TONE[p.tone as keyof typeof TONE] }}>
+              <span
+                className="figure font-semibold"
+                style={{ color: TEXT_TONE[p.tone as keyof typeof TEXT_TONE] }}
+              >
                 {p.value}
               </span>
             </div>

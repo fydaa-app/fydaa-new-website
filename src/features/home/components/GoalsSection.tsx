@@ -99,7 +99,7 @@ export default function GoalsSection() {
                 >
                   <Image src={goal.icon} alt="" width={44} height={44} className="size-11 rounded-card" />
                   <div className="min-w-0">
-                    <p className="truncate text-base font-semibold text-ink">{goal.name}</p>
+                    <p className="text-base font-semibold leading-snug text-ink">{goal.name}</p>
                     <p className="figure text-sm text-grey-500">
                       {formatInr(goal.saved)} of {formatInr(goal.target)}
                     </p>
