@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { safeRedirectPath } from '@/lib/auth/session';
 import Stepper from './components/Stepper';
 import KycModal from './components/KycModal';
 import {
@@ -280,7 +281,8 @@ export default function OnboardingFlow({
       onExit();
       return;
     }
-    router.push('/dashboard');
+    // Return to the page that sent the user to log in (same-origin paths only).
+    router.push(safeRedirectPath(searchParams?.get('next')));
   };
   const exitToDashboard = () => {
     // Explicit "Back to dashboard" — always leave KYC, do not resume invest.
