@@ -1,36 +1,36 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import RegistrationStep from './RegistrationStep';
-import PartnerDetailsStep from './PartnerDetailsStep';
-import BankStep from './BankStep';
-import NomineeStep from './NomineeStep';
-import PartnerSidebar from './PartnerSidebar';
-import PartnerSuccessModal from './PartnerSuccessModal';
-import { PartnerFormData } from './types';
+import React, { useState, useEffect, useRef, type CSSProperties } from "react";
+import { Container } from "@/components/layout/container";
+import RegistrationStep from "./RegistrationStep";
+import PartnerDetailsStep from "./PartnerDetailsStep";
+import BankStep from "./BankStep";
+import NomineeStep from "./NomineeStep";
+import PartnerSidebar from "./PartnerSidebar";
+import PartnerSuccessModal from "./PartnerSuccessModal";
+import { PartnerFormData } from "./types";
 
 const initialFormData: PartnerFormData = {
-  partner_id: '',
-  registration_number: '',
-  email: '',
-  phone: '',
-  email_otp: '',
-  mobile_otp: '',
-  name: '',
-  location: '',
-  expiry_date: '',
-  main_euin: '',
-  other_euins: [''],
-  account_holder: '',
-  bank_name: '',
-  account_number: '',
-  confirm_account_number: '',
-  ifsc: '',
-  nominee_name: '',
-  relationship: '',
-  dob: '',
-  pan_card: '',
+  partner_id: "",
+  registration_number: "",
+  email: "",
+  phone: "",
+  email_otp: "",
+  mobile_otp: "",
+  name: "",
+  location: "",
+  expiry_date: "",
+  main_euin: "",
+  other_euins: [""],
+  account_holder: "",
+  bank_name: "",
+  account_number: "",
+  confirm_account_number: "",
+  ifsc: "",
+  nominee_name: "",
+  relationship: "",
+  dob: "",
+  pan_card: "",
 };
 
 const STEP_COUNT = 4;
@@ -40,7 +40,7 @@ export default function PartnerRegistrationCard() {
   const [formData, setFormData] = useState<PartnerFormData>(initialFormData);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState(
-    'We will share the login details in 24-48 hours after verification.',
+    "We will share the login details in 24-48 hours after verification.",
   );
 
   const updateField = (field: string, value: string) => {
@@ -66,7 +66,7 @@ export default function PartnerRegistrationCard() {
 
   const handleOk = () => {
     setShowSuccessModal(false);
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
   const resetForm = () => {
@@ -74,20 +74,22 @@ export default function PartnerRegistrationCard() {
     setCurrentStep(1);
   };
 
+  const stepRef = useRef<HTMLDivElement>(null);
+  const shownStep = useRef(currentStep);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    // On a new step, move focus to its heading so keyboard and screen reader users start there.
+    if (shownStep.current !== currentStep) {
+      shownStep.current = currentStep;
+      stepRef.current?.querySelector<HTMLElement>("[data-step-heading]")?.focus({ preventScroll: true });
+    }
   }, [currentStep]);
 
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return (
-          <RegistrationStep
-            formData={formData}
-            updateField={updateField}
-            onNext={handleNext}
-          />
-        );
+        return <RegistrationStep formData={formData} updateField={updateField} onNext={handleNext} />;
       case 2:
         return (
           <PartnerDetailsStep
@@ -100,12 +102,7 @@ export default function PartnerRegistrationCard() {
         );
       case 3:
         return (
-          <BankStep
-            formData={formData}
-            updateField={updateField}
-            onNext={handleNext}
-            onBack={handleBack}
-          />
+          <BankStep formData={formData} updateField={updateField} onNext={handleNext} onBack={handleBack} />
         );
       case 4:
         return (
@@ -122,38 +119,26 @@ export default function PartnerRegistrationCard() {
   };
 
   return (
-    <div className="bg-grey-50 min-h-screen pt-12 lg:pt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col lg:flex-row">
-          <PartnerSidebar currentStep={currentStep} />
-          <div className="flex-1 p-6 sm:p-8 md:p-12">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentStep}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >
-                {renderStep()}
-              </motion.div>
-            </AnimatePresence>
-          </div>
+    <section
+      aria-labelledby="partner-title"
+      className="pb-16 pt-24 sm:pb-20 sm:pt-28 lg:pb-24 lg:pt-32"
+      data-enter
+    >
+      <Container className="grid grid-cols-[minmax(0,1fr)] items-start gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+        <PartnerSidebar currentStep={currentStep} />
+        <div
+          ref={stepRef}
+          className="rounded-4xl border border-line bg-white p-5 shadow-window sm:p-8 lg:p-10"
+          data-enter-item
+          style={{ "--i": 3 } as CSSProperties}
+        >
+          {renderStep()}
         </div>
-      </div>
+      </Container>
 
-      <PartnerSuccessModal
-        open={showSuccessModal}
-        message={successMessage}
-        onOk={handleOk}
-      />
+      <PartnerSuccessModal open={showSuccessModal} message={successMessage} onOk={handleOk} />
 
-      <button
-        type="button"
-        onClick={resetForm}
-        className="hidden"
-        aria-label="Reset form"
-      />
-    </div>
+      <button type="button" onClick={resetForm} className="hidden" aria-label="Reset form" />
+    </section>
   );
 }

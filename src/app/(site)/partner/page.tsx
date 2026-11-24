@@ -10,7 +10,7 @@ export const metadata = pageMetadata({
 
 export default function PartnerPage() {
   return (
-    <main>
+    <main className="bg-white">
       <PartnerRegistrationCard />
     </main>
   );

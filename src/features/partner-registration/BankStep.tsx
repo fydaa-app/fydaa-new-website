@@ -1,16 +1,18 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { cn } from "@/lib/utils/cn";
 import {
-  INPUT_CLASS,
-  LABEL_CLASS,
+  ICON_BUTTON_CLASS,
   PRIMARY_BUTTON_CLASS,
   SECONDARY_BUTTON_CLASS,
+  STEP_ACTIONS_CLASS,
   StepProps,
   inputClassWithError,
-} from './types';
-import { Eye, EyeOff } from 'lucide-react';
-import { saveBankDetails } from '@/features/partner-registration/api';
+} from "./types";
+import { FieldError, FieldLabel, StepAlert, StepHeader } from "./Field";
+import { Eye, EyeOff } from "lucide-react";
+import { saveBankDetails } from "@/features/partner-registration/api";
 
 const IFSC_REGEX = /^[A-Z]{4}0[A-Z0-9]{6}$/;
 const ACCOUNT_NUMBER_REGEX = /^\d{9,18}$/;
@@ -33,12 +35,7 @@ const INITIAL_ERRORS: BankErrors = {
   match: false,
 };
 
-export default function BankStep({
-  formData,
-  updateField,
-  onNext,
-  onBack,
-}: StepProps) {
+export default function BankStep({ formData, updateField, onNext, onBack }: StepProps) {
   const [errors, setErrors] = useState<BankErrors>(INITIAL_ERRORS);
   const [showAccount, setShowAccount] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -50,15 +47,12 @@ export default function BankStep({
       account_holder: !formData.account_holder.trim(),
       bank_name: !formData.bank_name.trim(),
       account_number:
-        !formData.account_number.trim() ||
-        !ACCOUNT_NUMBER_REGEX.test(formData.account_number.trim()),
+        !formData.account_number.trim() || !ACCOUNT_NUMBER_REGEX.test(formData.account_number.trim()),
       confirm_account_number: !formData.confirm_account_number.trim(),
-      ifsc:
-        !formData.ifsc.trim() ||
-        !IFSC_REGEX.test(formData.ifsc.trim().toUpperCase()),
+      ifsc: !formData.ifsc.trim() || !IFSC_REGEX.test(formData.ifsc.trim().toUpperCase()),
       match:
-        formData.account_number.trim() !== '' &&
-        formData.confirm_account_number.trim() !== '' &&
+        formData.account_number.trim() !== "" &&
+        formData.confirm_account_number.trim() !== "" &&
         formData.account_number !== formData.confirm_account_number,
     };
     setErrors(newErrors);
@@ -66,11 +60,11 @@ export default function BankStep({
   };
 
   const handleChange = (field: string, value: string) => {
-    if (field === 'account_number' || field === 'confirm_account_number') {
-      value = value.replace(/\D/g, '');
+    if (field === "account_number" || field === "confirm_account_number") {
+      value = value.replace(/\D/g, "");
     }
-    if (field === 'account_holder') {
-      value = value.replace(/[^a-zA-Z\s]/g, '');
+    if (field === "account_holder") {
+      value = value.replace(/[^a-zA-Z\s]/g, "");
     }
     updateField(field, value);
     if (errors[field as keyof BankErrors]) {
@@ -96,181 +90,177 @@ export default function BankStep({
       });
       onNext?.();
     } catch (error) {
-      setApiError(
-        error instanceof Error ? error.message : 'Failed to save bank details',
-      );
+      setApiError(error instanceof Error ? error.message : "Failed to save bank details");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-heading font-bold text-ink">
-          Bank Details
-        </h2>
-        <p className="font-inter text-sm text-gray-600 mt-1">
-          Enter your bank account details.
-        </p>
-      </div>
+    <div className="flex flex-col gap-6">
+      <StepHeader title="Bank details" description="Enter your bank account details." />
 
-      <div>
-        <label htmlFor="account_holder" className={LABEL_CLASS}>
-          Account Holder <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="text"
-          id="account_holder"
-          value={formData.account_holder}
-          onChange={(e) => handleChange('account_holder', e.target.value)}
-          className={inputClassWithError(errors.account_holder)}
-          placeholder="Enter account holder name"
-        />
-        {errors.account_holder && (
-          <p className="text-red-500 text-xs mt-1 font-inter">
-            Account holder name is required
-          </p>
-        )}
-      </div>
-
-      <div>
-        <label htmlFor="bank_name" className={LABEL_CLASS}>
-          Bank Name <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="text"
-          id="bank_name"
-          value={formData.bank_name}
-          onChange={(e) => handleChange('bank_name', e.target.value)}
-          className={inputClassWithError(errors.bank_name)}
-          placeholder="Enter bank name"
-        />
-        {errors.bank_name && (
-          <p className="text-red-500 text-xs mt-1 font-inter">
-            Bank name is required
-          </p>
-        )}
-      </div>
-
-      <div>
-        <label htmlFor="account_number" className={LABEL_CLASS}>
-          Account Number <span className="text-red-500">*</span>
-        </label>
-        <div className="relative">
+      <div className="grid gap-6 sm:grid-cols-2">
+        <div>
+          <FieldLabel htmlFor="account_holder" required>
+            Account holder
+          </FieldLabel>
           <input
-            type={showAccount ? 'text' : 'password'}
-            id="account_number"
-            value={formData.account_number}
-            onChange={(e) => handleChange('account_number', e.target.value)}
-            className={inputClassWithError(
-              errors.account_number || errors.match
-            )}
-            placeholder="Enter account number"
+            type="text"
+            id="account_holder"
+            autoComplete="name"
+            value={formData.account_holder}
+            onChange={(e) => handleChange("account_holder", e.target.value)}
+            aria-required="true"
+            aria-invalid={errors.account_holder || undefined}
+            aria-describedby={errors.account_holder ? "account_holder-error" : undefined}
+            className={inputClassWithError(errors.account_holder)}
+            placeholder="Enter account holder name"
           />
-          <button
-            type="button"
-            tabIndex={-1}
-            onClick={() => setShowAccount((v) => !v)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-500 hover:text-gray-700 transition-colors"
-            aria-label={showAccount ? 'Hide' : 'Show'}
-          >
-            {showAccount ? (
-              <EyeOff className="w-5 h-5" />
-            ) : (
-              <Eye className="w-5 h-5" />
-            )}
-          </button>
+          {errors.account_holder && (
+            <FieldError id="account_holder-error">Account holder name is required</FieldError>
+          )}
         </div>
-        {errors.account_number && (
-          <p className="text-red-500 text-xs mt-1 font-inter">
-            Enter a valid account number (9-18 digits)
-          </p>
-        )}
-      </div>
 
-      <div>
-        <label htmlFor="confirm_account_number" className={LABEL_CLASS}>
-          Confirm Account Number <span className="text-red-500">*</span>
-        </label>
-        <div className="relative">
+        <div>
+          <FieldLabel htmlFor="bank_name" required>
+            Bank name
+          </FieldLabel>
           <input
-            type={showConfirm ? 'text' : 'password'}
-            id="confirm_account_number"
-            value={formData.confirm_account_number}
-            onChange={(e) =>
-              handleChange('confirm_account_number', e.target.value)
-            }
-            className={inputClassWithError(
-              errors.confirm_account_number || errors.match
-            )}
-            placeholder="Confirm account number"
+            type="text"
+            id="bank_name"
+            autoComplete="off"
+            value={formData.bank_name}
+            onChange={(e) => handleChange("bank_name", e.target.value)}
+            aria-required="true"
+            aria-invalid={errors.bank_name || undefined}
+            aria-describedby={errors.bank_name ? "bank_name-error" : undefined}
+            className={inputClassWithError(errors.bank_name)}
+            placeholder="Enter bank name"
           />
-          <button
-            type="button"
-            tabIndex={-1}
-            onClick={() => setShowConfirm((v) => !v)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-500 hover:text-gray-700 transition-colors"
-            aria-label={showConfirm ? 'Hide' : 'Show'}
-          >
-            {showConfirm ? (
-              <EyeOff className="w-5 h-5" />
-            ) : (
-              <Eye className="w-5 h-5" />
-            )}
-          </button>
+          {errors.bank_name && <FieldError id="bank_name-error">Bank name is required</FieldError>}
         </div>
-        {errors.confirm_account_number && (
-          <p className="text-red-500 text-xs mt-1 font-inter">
-            Confirm account number is required
-          </p>
-        )}
-        {errors.match && (
-          <p className="text-red-500 text-xs mt-1 font-inter">
-            Account numbers do not match
-          </p>
-        )}
       </div>
 
-      <div>
-        <label htmlFor="ifsc" className={LABEL_CLASS}>
-          IFSC <span className="text-red-500">*</span>
-        </label>
+      <div className="grid gap-6 sm:grid-cols-2">
+        <div>
+          <FieldLabel htmlFor="account_number" required>
+            Account number
+          </FieldLabel>
+          <div className="relative">
+            <input
+              type={showAccount ? "text" : "password"}
+              id="account_number"
+              inputMode="numeric"
+              autoComplete="off"
+              value={formData.account_number}
+              onChange={(e) => handleChange("account_number", e.target.value)}
+              aria-required="true"
+              aria-invalid={errors.account_number || errors.match || undefined}
+              aria-describedby={
+                [errors.account_number && "account_number-error", errors.match && "account_match-error"]
+                  .filter(Boolean)
+                  .join(" ") || undefined
+              }
+              className={cn(inputClassWithError(errors.account_number || errors.match), "figure pr-14")}
+              placeholder="Enter account number"
+            />
+            <button
+              type="button"
+              onClick={() => setShowAccount((v) => !v)}
+              className={`${ICON_BUTTON_CLASS} absolute right-0.5 top-0.5`}
+              aria-label={showAccount ? "Hide account number" : "Show account number"}
+              aria-pressed={showAccount}
+            >
+              {showAccount ? (
+                <EyeOff aria-hidden="true" className="size-5" />
+              ) : (
+                <Eye aria-hidden="true" className="size-5" />
+              )}
+            </button>
+          </div>
+          {errors.account_number && (
+            <FieldError id="account_number-error">Enter a valid account number (9-18 digits)</FieldError>
+          )}
+        </div>
+
+        <div>
+          <FieldLabel htmlFor="confirm_account_number" required>
+            Confirm account number
+          </FieldLabel>
+          <div className="relative">
+            <input
+              type={showConfirm ? "text" : "password"}
+              id="confirm_account_number"
+              inputMode="numeric"
+              autoComplete="off"
+              value={formData.confirm_account_number}
+              onChange={(e) => handleChange("confirm_account_number", e.target.value)}
+              aria-required="true"
+              aria-invalid={errors.confirm_account_number || errors.match || undefined}
+              aria-describedby={
+                [
+                  errors.confirm_account_number && "confirm_account_number-error",
+                  errors.match && "account_match-error",
+                ]
+                  .filter(Boolean)
+                  .join(" ") || undefined
+              }
+              className={cn(
+                inputClassWithError(errors.confirm_account_number || errors.match),
+                "figure pr-14",
+              )}
+              placeholder="Confirm account number"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirm((v) => !v)}
+              className={`${ICON_BUTTON_CLASS} absolute right-0.5 top-0.5`}
+              aria-label={showConfirm ? "Hide confirmed account number" : "Show confirmed account number"}
+              aria-pressed={showConfirm}
+            >
+              {showConfirm ? (
+                <EyeOff aria-hidden="true" className="size-5" />
+              ) : (
+                <Eye aria-hidden="true" className="size-5" />
+              )}
+            </button>
+          </div>
+          {errors.confirm_account_number && (
+            <FieldError id="confirm_account_number-error">Confirm account number is required</FieldError>
+          )}
+          {errors.match && <FieldError id="account_match-error">Account numbers do not match</FieldError>}
+        </div>
+      </div>
+
+      <div className="sm:max-w-[calc(50%-0.75rem)]">
+        <FieldLabel htmlFor="ifsc" required>
+          IFSC
+        </FieldLabel>
         <input
           type="text"
           id="ifsc"
+          autoComplete="off"
+          autoCapitalize="characters"
           value={formData.ifsc}
-          onChange={(e) => handleChange('ifsc', e.target.value.toUpperCase())}
+          onChange={(e) => handleChange("ifsc", e.target.value.toUpperCase())}
+          aria-required="true"
+          aria-invalid={errors.ifsc || undefined}
+          aria-describedby={errors.ifsc ? "ifsc-error" : undefined}
           className={inputClassWithError(errors.ifsc)}
           placeholder="Enter IFSC code"
         />
-        {errors.ifsc && (
-          <p className="text-red-500 text-xs mt-1 font-inter">
-            Enter a valid IFSC code (e.g. ABCD0123456)
-          </p>
-        )}
+        {errors.ifsc && <FieldError id="ifsc-error">Enter a valid IFSC code (e.g. ABCD0123456)</FieldError>}
       </div>
 
-      {apiError && (
-        <p className="text-xs text-red-500 font-inter">{apiError}</p>
-      )}
+      {apiError && <StepAlert key={apiError} message={apiError} />}
 
-      <div className="flex flex-col sm:flex-row gap-4">
-        <button
-          type="button"
-          onClick={onBack}
-          disabled={isLoading}
-          className={SECONDARY_BUTTON_CLASS}
-        >
+      <div className={STEP_ACTIONS_CLASS}>
+        <button type="button" onClick={onBack} disabled={isLoading} className={SECONDARY_BUTTON_CLASS}>
           Back
         </button>
-        <button
-          type="button"
-          onClick={handleNext}
-          disabled={isLoading}
-          className={PRIMARY_BUTTON_CLASS}
-        >
-          {isLoading ? 'Saving...' : 'Continue'}
+        <button type="button" onClick={handleNext} disabled={isLoading} className={PRIMARY_BUTTON_CLASS}>
+          {isLoading ? "Saving..." : "Continue"}
         </button>
       </div>
     </div>

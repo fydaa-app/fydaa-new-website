@@ -1,15 +1,17 @@
-'use client';
+"use client";
 
-import { Check, ChevronRight, CircleDashed } from 'lucide-react';
-import { PARTNER_STEPS, StepConfig } from './types';
+import { Check } from "lucide-react";
+import { cn } from "@/lib/utils/cn";
+import { PARTNER_STEPS, StepConfig } from "./types";
 
 interface Props {
   currentStep: number;
 }
 
 /**
- * Registration progress. Phones and tablets get a one-line "Step n of 4" with a progress
- * bar, so the form starts near the top of the screen; desktops get the full step list.
+ * Registration progress. Phones and tablets get a one-line "Step n of 4" over four round-capped
+ * bars, so the form starts near the top of the screen; desktops get the full step list, joined by
+ * a thin rule that turns green as steps are completed.
  */
 export default function StepIndicator({ currentStep }: Props) {
   const total = PARTNER_STEPS.length;
@@ -18,42 +20,65 @@ export default function StepIndicator({ currentStep }: Props) {
   return (
     <>
       <div className="lg:hidden">
-        <p className="text-sm font-medium text-white">
-          Step {current?.id} of {total}: <span className="font-semibold">{current?.label}</span>
+        <p className="text-sm text-grey-600" aria-live="polite">
+          <span className="font-semibold text-ink">
+            Step {current?.id} of {total}
+          </span>
+          : {current?.label}
         </p>
-        <div className="mt-3 grid grid-cols-4 gap-1.5" aria-hidden>
+        <div className="mt-3 grid grid-cols-4 gap-1.5" aria-hidden="true">
           {PARTNER_STEPS.map((step) => (
             <span
               key={step.id}
-              className={`h-1.5 rounded-full ${step.id <= currentStep ? 'bg-white' : 'bg-white/30'}`}
+              className={cn(
+                "h-1.5 rounded-full transition-colors duration-medium",
+                step.id <= currentStep ? "bg-jade" : "bg-line",
+              )}
             />
           ))}
         </div>
       </div>
 
-      <ol aria-label="Registration steps" className="hidden w-full flex-col space-y-2 lg:flex">
-        {PARTNER_STEPS.map((step: StepConfig) => {
+      <ol aria-label="Registration steps" className="hidden w-full flex-col lg:flex">
+        {PARTNER_STEPS.map((step: StepConfig, index) => {
           const isActive = step.id === currentStep;
           const isCompleted = step.id < currentStep;
+          const isLast = index === PARTNER_STEPS.length - 1;
           return (
             <li
               key={step.id}
-              aria-current={isActive ? 'step' : undefined}
-              className={`flex w-full items-center justify-between rounded-xl px-4 py-3 ${
-                isActive ? 'border border-grey-200 bg-white' : ''
-              }`}
+              aria-current={isActive ? "step" : undefined}
+              className={cn("relative flex items-center gap-4", !isLast && "pb-6")}
             >
-              <span className={`flex items-center truncate text-base ${isActive ? 'font-medium text-ink' : 'text-white'}`}>
-                <span className="mr-2 whitespace-nowrap">{step.id}.</span>
-                <span>{step.label}</span>
+              {!isLast ? (
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "absolute bottom-1 left-4 top-10 w-0.5 -translate-x-1/2 rounded-full transition-colors duration-medium",
+                    isCompleted ? "bg-sprout" : "bg-line",
+                  )}
+                />
+              ) : null}
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "figure flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-semibold transition-colors duration-medium",
+                  isCompleted && "bg-jade text-white",
+                  isActive && "border-2 border-jade bg-white text-jade",
+                  !isCompleted && !isActive && "border border-line bg-white text-grey-500",
+                )}
+              >
+                {isCompleted ? <Check className="size-4" strokeWidth={2.75} /> : step.id}
               </span>
-              {isCompleted ? (
-                <Check className="h-4 w-4 shrink-0 text-jade-300" aria-label="Completed" />
-              ) : isActive ? (
-                <ChevronRight className="h-4 w-4 shrink-0 text-ink" aria-hidden />
-              ) : (
-                <CircleDashed className="h-4 w-4 shrink-0 text-white" aria-hidden />
-              )}
+              <span
+                className={cn(
+                  "text-base",
+                  isActive ? "font-semibold text-ink" : isCompleted ? "text-ink" : "text-grey-500",
+                )}
+              >
+                {step.label}
+                {isCompleted ? <span className="sr-only"> (completed)</span> : null}
+              </span>
             </li>
           );
         })}
