@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import type { JobOpening } from "./jobsData";
+import type { JobOpening } from "./types";
 import JobDetailContent from "./JobDetailContent";
+import Link from "next/link";
 import JobApplicationModal from "./JobApplicationModal";
+import { jobPath } from "./job-openings";
 
 type Props = {
   jobs: JobOpening[];
-  loading: boolean;
   error: string | null;
 };
 
@@ -71,11 +72,32 @@ function JobCard({
   );
 }
 
-function JobDetail({ job, onApply }: { job: JobOpening; onApply: () => void }) {
+export function JobDetail({
+  job,
+  onApply,
+  headingLevel = 3,
+  showPermalink = true,
+}: {
+  job: JobOpening;
+  onApply: () => void;
+  headingLevel?: 1 | 3;
+  showPermalink?: boolean;
+}) {
+  const Heading = headingLevel === 1 ? "h1" : "h3";
   return (
     <>
       <div className="mb-4 flex flex-wrap items-start justify-between gap-5">
-        <h3 className="text-[clamp(22px,2.6vw,27px)] font-extrabold tracking-tight text-ink">{job.title}</h3>
+        <div>
+          <Heading className="text-[clamp(22px,2.6vw,27px)] font-extrabold tracking-tight text-ink">{job.title}</Heading>
+          {showPermalink ? (
+            <Link
+              href={jobPath(job.id)}
+              className="mt-1 inline-block text-sm font-semibold text-jade underline-offset-4 hover:underline"
+            >
+              View full job page<span className="sr-only">: {job.title}</span>
+            </Link>
+          ) : null}
+        </div>
         <button
           type="button"
           onClick={onApply}
@@ -114,33 +136,37 @@ function JobDetail({ job, onApply }: { job: JobOpening; onApply: () => void }) {
   );
 }
 
-export default function OpenPositionsSection({ jobs, loading, error }: Props) {
+/**
+ * Opens the application modal for `?apply=<jobId>` links. Isolated in its own Suspense
+ * boundary: useSearchParams() forces client rendering up to the nearest boundary, and
+ * the job list itself must stay in the server-rendered HTML.
+ */
+function ApplyFromQuery({ jobs, onApply }: { jobs: JobOpening[]; onApply: (job: JobOpening) => void }) {
+  const applyId = useSearchParams().get("apply");
+  useEffect(() => {
+    const job = applyId ? jobs.find((candidate) => candidate.id === applyId) : undefined;
+    if (job) onApply(job);
+  }, [applyId, jobs, onApply]);
+  return null;
+}
+
+export default function OpenPositionsSection({ jobs, error }: Props) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [applyJob, setApplyJob] = useState<JobOpening | null>(null);
 
-  useEffect(() => {
-    if (selectedIndex >= jobs.length) setSelectedIndex(0);
-  }, [jobs.length, selectedIndex]);
+  const selectedJob = jobs.find((job) => job.id === selectedId) ?? jobs[0];
 
-  useEffect(() => {
-    const applyJobId = searchParams.get("apply");
-    if (applyJobId && jobs.length > 0) {
-      const job = jobs.find((j) => j.id === applyJobId);
-      if (job) {
-        setApplyJob(job);
-        const idx = jobs.findIndex((j) => j.id === applyJobId);
-        if (idx >= 0) setSelectedIndex(idx);
-      }
-    }
-  }, [searchParams, jobs]);
+  // Stable identity: ApplyFromQuery's effect must only re-run when the URL changes,
+  // otherwise closing the modal would immediately reopen it from the stale ?apply=.
+  const showApplication = useCallback((job: JobOpening) => {
+    setSelectedId(job.id);
+    setApplyJob(job);
+  }, []);
 
   const openApply = (job: JobOpening) => {
-    setApplyJob(job);
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("apply", job.id);
-    router.push(`?${params.toString()}`, { scroll: false });
+    showApplication(job);
+    router.push(`/careers?apply=${encodeURIComponent(job.id)}`, { scroll: false });
   };
 
   const closeApply = () => {
@@ -148,11 +174,12 @@ export default function OpenPositionsSection({ jobs, loading, error }: Props) {
     router.push("/careers", { scroll: false });
   };
 
-  const selectedJob = jobs[selectedIndex] ?? jobs[0];
-
   return (
     <section className="px-6 py-16 font-inter">
       <JobApplicationModal open={applyJob !== null} job={applyJob} onClose={closeApply} />
+      <Suspense fallback={null}>
+        <ApplyFromQuery jobs={jobs} onApply={showApplication} />
+      </Suspense>
 
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-wrap items-baseline justify-between gap-5">
@@ -162,17 +189,28 @@ export default function OpenPositionsSection({ jobs, loading, error }: Props) {
             </span>
             <h2 className="mt-3.5 text-[clamp(26px,3.4vw,32px)] font-bold tracking-tight text-ink">See where you fit</h2>
           </div>
-          <span className="text-sm font-medium text-grey-500">
-            {loading
-              ? "Loading jobs..."
-              : `Showing ${jobs.length} job${jobs.length === 1 ? "" : "s"}`}
-          </span>
+          {error ? null : (
+            <span className="text-sm font-medium text-grey-600">
+              {`Showing ${jobs.length} job${jobs.length === 1 ? "" : "s"}`}
+            </span>
+          )}
         </div>
 
         {error ? (
-          <p className="mt-11 text-[15px] text-red-600">{error}</p>
-        ) : loading ? (
-          <p className="mt-11 text-[15px] text-grey-500">Loading jobs...</p>
+          <div
+            role="alert"
+            className="mt-11 rounded-[20px] border border-grey-200 bg-white p-10 text-center shadow-card"
+          >
+            <h3 className="text-xl font-bold text-ink">Open roles are unavailable right now</h3>
+            <p className="mt-3 text-[15px] text-grey-600">{error} You can also register your CV below and we&apos;ll reach out.</p>
+            <button
+              type="button"
+              onClick={() => router.refresh()}
+              className="mt-6 rounded-[10px] bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
+            >
+              Try again
+            </button>
+          </div>
         ) : jobs.length === 0 ? (
           <div className="mt-11 rounded-[20px] border border-grey-200 bg-white p-10 text-center shadow-card">
             <h3 className="text-xl font-bold text-ink">We&apos;re not hiring right now</h3>
@@ -183,12 +221,12 @@ export default function OpenPositionsSection({ jobs, loading, error }: Props) {
         ) : (
           <div className="mt-11 grid items-stretch gap-5 md:h-[min(680px,calc(100vh-10rem))] md:grid-cols-[minmax(0,320px)_1fr] lg:grid-cols-[360px_1fr]">
             <div className="flex min-h-0 max-h-[320px] flex-col gap-3 overflow-y-auto overscroll-contain pr-1 md:max-h-none">
-              {jobs.map((job, idx) => (
+              {jobs.map((job) => (
                 <JobCard
                   key={job.id}
                   job={job}
-                  active={idx === selectedIndex}
-                  onSelect={() => setSelectedIndex(idx)}
+                  active={job.id === selectedJob?.id}
+                  onSelect={() => setSelectedId(job.id)}
                 />
               ))}
             </div>

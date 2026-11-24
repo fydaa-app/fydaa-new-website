@@ -2,7 +2,8 @@
 
 import { Fragment, useCallback, useEffect, useId, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, FileText, Linkedin, X } from 'lucide-react';
-import type { JobOpening } from './jobsData';
+import { env } from '@/config/env';
+import type { JobOpening } from './types';
 import CareersApplySuccess from './CareersApplySuccess';
 
 /** Keep digits and one decimal point, cap decimals and clamp to `max` (replaced by `overflow`). */
@@ -187,7 +188,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
       if (cvFile) fd.append('resume', cvFile);
       if (coverLetterFile) fd.append('coverLetter', coverLetterFile);
 
-       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}referrals/apply`, {
+       const res = await fetch(`${env.api.crm}referrals/apply`, {
          method: 'POST',
          body: fd,
        });

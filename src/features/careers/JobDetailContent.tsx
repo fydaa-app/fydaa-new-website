@@ -1,6 +1,6 @@
 "use client";
 
-import type { JobOpening, ResponsibilitiesData } from "./jobsData";
+import type { JobOpening, ResponsibilitiesData } from "./types";
 
 function hasMeaningfulFlatList(arr: string[] | undefined | null): boolean {
   return Array.isArray(arr) && arr.some((item) => item && item.trim().length > 0);

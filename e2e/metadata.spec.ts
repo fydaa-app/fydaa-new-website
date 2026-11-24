@@ -54,3 +54,17 @@ for (const path of PRIVATE) {
     expect(head.robots).toContain("noindex");
   });
 }
+
+test("careers list is server-rendered and job pages carry JobPosting data", async ({ request }) => {
+  const careers = await (await request.get("/careers")).text();
+  const jobLink = /href="(\/careers\/jobs\/[^"]+)"/.exec(careers)?.[1];
+  test.skip(!jobLink, "no open roles returned by the jobs API at build time");
+
+  const html = await (await request.get(jobLink!)).text();
+  const ld = /<script type="application\/ld\+json">([^<]+)<\/script>/.exec(html)?.[1];
+  expect(ld).toBeTruthy();
+  const data = JSON.parse(ld!) as Record<string, unknown>;
+  expect(data["@type"]).toBe("JobPosting");
+  expect(data).toHaveProperty("hiringOrganization");
+  expect(new URL(String(data.url)).pathname).toBe(jobLink);
+});

@@ -1,8 +1,9 @@
 type Props = {
-  jobCount?: number;
+  /** Null when the list could not be loaded: never show a misleading "0". */
+  jobCount: number | null;
 };
 
-export default function CareerHeroCard({ jobCount = 0 }: Props) {
+export default function CareerHeroCard({ jobCount }: Props) {
   return (
     <section className="px-4 sm:px-6 pb-12 sm:pb-16 pt-24 sm:pt-28 font-inter">
       <div className="mx-auto max-w-5xl 2xl:max-w-6xl">
@@ -18,7 +19,7 @@ export default function CareerHeroCard({ jobCount = 0 }: Props) {
 
         <div className="mt-2 grid grid-cols-1 xs:grid-cols-3 sm:flex sm:flex-wrap sm:justify-between gap-6 sm:gap-8 rounded-2xl bg-jade-tint px-5 sm:px-9 py-6 sm:py-7">
           <div className="min-w-0 sm:min-w-[140px] flex-1">
-            <div className="text-[20px] sm:text-[22px] font-extrabold tracking-tight text-jade">{jobCount}</div>
+            <div className="text-[20px] sm:text-[22px] font-extrabold tracking-tight text-jade">{jobCount ?? "—"}</div>
             <div className="mt-1 text-[12px] sm:text-[13px] font-medium text-grey-500">
               {jobCount === 1 ? "Open role right now" : "Open roles right now"}
             </div>

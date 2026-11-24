@@ -1,5 +1,9 @@
-import { pageMetadata } from "@/lib/seo/metadata";
+import { getJobOpenings } from "@/features/careers/job-openings.server";
 import CareersView from "@/features/careers/CareersView";
+import { pageMetadata } from "@/lib/seo/metadata";
+
+/** Regenerate at most every 10 minutes (matches the job openings fetch). */
+export const revalidate = 600;
 
 export const metadata = pageMetadata({
   title: "Careers",
@@ -8,6 +12,7 @@ export const metadata = pageMetadata({
   path: "/careers",
 });
 
-export default function CareersPage() {
-  return <CareersView />;
+export default async function CareersPage() {
+  const result = await getJobOpenings();
+  return <CareersView {...result} />;
 }
