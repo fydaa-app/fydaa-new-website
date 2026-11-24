@@ -27,11 +27,13 @@ export const siteConfig = {
     adviser: {
       legalName: "Multistrato Capital Advisors Private Limited",
       registration: "SEBI RIA INA000015969",
+      sebiRegistrationNumber: "INA000015969",
       gstin: "27AAHCM9321Q1ZS",
     },
     distributor: {
       legalName: "Fydaa Analytics Private Limited",
       registration: "AMFI ARN 358522",
+      arn: "ARN-358522",
     },
     principalOfficer: "Kuntal Bhansali",
   },

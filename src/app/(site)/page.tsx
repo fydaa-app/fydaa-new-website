@@ -10,6 +10,9 @@ import Testimonials from "@/features/home/components/Testimonials";
 import FaqSection from "@/features/home/components/FaqSection";
 import FinalCta from "@/features/home/components/FinalCta";
 import HashScroll from "@/components/HashScroll";
+import { FAQS } from "@/features/home/data/content";
+import { JsonLd } from "@/lib/seo/json-ld";
+import { faqPageJsonLd } from "@/lib/seo/structured-data";
 import { siteConfig } from "@/config/site";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -34,6 +37,7 @@ export default function HomePage() {
       <Testimonials />
       <FinalCta />
       <FaqSection />
+      <JsonLd data={faqPageJsonLd(FAQS.map((faq) => ({ question: faq.q, answer: faq.a })))} />
     </main>
   );
 }

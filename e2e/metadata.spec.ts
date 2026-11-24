@@ -108,3 +108,22 @@ for (const path of [
     expect(html.match(/<main[\s>]/g) ?? []).toHaveLength(1);
   });
 }
+
+async function jsonLdTypes(request: import("@playwright/test").APIRequestContext, path: string) {
+  const html = await (await request.get(path)).text();
+  return [...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)].flatMap((match) => {
+    const data = JSON.parse(match[1] ?? "{}") as { "@type"?: string; "@graph"?: { "@type": string }[] };
+    return data["@graph"]?.map((node) => node["@type"]) ?? [data["@type"]];
+  });
+}
+
+test("structured data: organisation on every page, FAQPage where FAQs are shown", async ({ request }) => {
+  expect(await jsonLdTypes(request, "/")).toEqual(
+    expect.arrayContaining(["FinancialService", "WebSite", "FAQPage"]),
+  );
+  expect(await jsonLdTypes(request, "/about")).toEqual(
+    expect.arrayContaining(["FinancialService", "FAQPage"]),
+  );
+  expect(await jsonLdTypes(request, "/careers")).toEqual(expect.arrayContaining(["FAQPage"]));
+  expect(await jsonLdTypes(request, "/legal/privacy-policy")).not.toContain("FAQPage");
+});

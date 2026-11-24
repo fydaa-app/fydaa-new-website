@@ -1,3 +1,5 @@
+import { JsonLd } from "@/lib/seo/json-ld";
+import { faqPageJsonLd } from "@/lib/seo/structured-data";
 const FAQS = [
   {
     q: "Is Fydaa registered with any financial regulators in India?",
@@ -20,6 +22,7 @@ const FAQS = [
 export default function AboutFaq() {
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-white font-inter">
+        <JsonLd data={faqPageJsonLd(FAQS.map((faq) => ({ question: faq.q, answer: faq.a })))} />
       <div className="max-w-[1120px] 2xl:max-w-[1280px] mx-auto px-4 sm:px-6">
         <h2 className="mb-2 text-[clamp(1.5rem,3vw,2.05rem)] font-bold tracking-[-0.02em] text-ink">FAQs</h2>
         <p className="mb-8 text-grey-600">Feel free to reach out if you have any other questions.</p>

@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import { geist, gilroy, inter } from "./fonts";
+import { JsonLd } from "@/lib/seo/json-ld";
 import { rootMetadata } from "@/lib/seo/metadata";
+import { siteGraphJsonLd } from "@/lib/seo/structured-data";
 import Chatbot from "@/features/chatbot/Chatbot";
 import PostHogProvider from "@/features/analytics/PostHogProvider";
 
@@ -39,6 +41,7 @@ export default function RootLayout({
             gtag('config', 'G-DMWN4CQK6D');
           `}
         </Script>
+        <JsonLd data={siteGraphJsonLd()} />
         <PostHogProvider>
           {children}
           <Chatbot />
