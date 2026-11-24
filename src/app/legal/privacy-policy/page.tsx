@@ -1,4 +1,9 @@
 
+import { legalPageSeo } from "@/config/routes";
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = pageMetadata(legalPageSeo("/legal/privacy-policy"));
+
 
 export default function Privacy() {
     return (

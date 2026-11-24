@@ -1,5 +1,10 @@
 import React from 'react';
 
+import { legalPageSeo } from "@/config/routes";
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = pageMetadata(legalPageSeo("/legal/investor-warning"));
+
 const InvestorWarning: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">

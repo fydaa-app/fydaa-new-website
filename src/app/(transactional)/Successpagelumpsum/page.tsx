@@ -7,7 +7,7 @@ import {
   captureLumpsumPayment,
   clearPendingLumpsumPayment,
   getPendingLumpsumPayment,
-} from "../dashboard/lib/lumpsumApi";
+} from "@/app/dashboard/lib/lumpsumApi";
 
 const TickIcon = ({ size = 128 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 128 128">

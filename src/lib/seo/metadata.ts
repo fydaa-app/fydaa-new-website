@@ -12,9 +12,11 @@ export interface PageSeo {
   noIndex?: boolean;
   /** Absolute or root-relative Open Graph image. Defaults to the site image. */
   image?: string;
+  /** Use the title as-is, without the "| Fydaa" template (e.g. the home page). */
+  absoluteTitle?: boolean;
 }
 
-export const DEFAULT_OG_IMAGE = "/opengraph-image.png";
+export const DEFAULT_OG_IMAGE = "/og-image.png";
 
 /** Robots directive: everything is noindex outside production. */
 export function robotsFor(noIndex: boolean | undefined): Metadata["robots"] {
@@ -49,10 +51,11 @@ export function rootMetadata(): Metadata {
 }
 
 /** Per-page metadata with a canonical URL and matching Open Graph/Twitter data. */
-export function pageMetadata({ title, description, path, noIndex, image }: PageSeo): Metadata {
+export function pageMetadata({ title, description, path, noIndex, image, absoluteTitle }: PageSeo): Metadata {
+  const fullTitle = absoluteTitle ? title : `${title} | ${siteConfig.name}`;
   const images = [image ?? DEFAULT_OG_IMAGE];
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: { canonical: path },
     robots: robotsFor(noIndex),
@@ -61,10 +64,10 @@ export function pageMetadata({ title, description, path, noIndex, image }: PageS
       siteName: siteConfig.name,
       locale: siteConfig.locale,
       url: path,
-      title: `${title} | ${siteConfig.name}`,
+      title: fullTitle,
       description,
       images,
     },
-    twitter: { card: "summary_large_image", title: `${title} | ${siteConfig.name}`, description, images },
+    twitter: { card: "summary_large_image", title: fullTitle, description, images },
   };
 }

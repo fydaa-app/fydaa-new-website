@@ -1,3 +1,12 @@
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = pageMetadata({
+  title: "Validated UPI Handle FAQs",
+  description: "Frequently asked questions about SEBI's validated UPI handle system for paying registered intermediaries.",
+  path: "/upi-faq",
+  noIndex: true,
+});
+
 export default function UpiFaqPage() {
   return (
     <main className="fixed inset-0 bg-black">

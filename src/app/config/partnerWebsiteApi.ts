@@ -1,3 +1,5 @@
+import { cache } from 'react';
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '';
 
 export type PublicPartnerReview = {
@@ -42,7 +44,7 @@ export type PartnerMobileCheckResult = {
   message: string;
 };
 
-export async function fetchPublicPartnerWebsite(
+async function loadPublicPartnerWebsite(
   slug: string,
 ): Promise<PublicPartnerWebsite | null> {
   const normalized = String(slug || '').trim().toLowerCase();
@@ -67,6 +69,9 @@ export async function fetchPublicPartnerWebsite(
     return null;
   }
 }
+
+/** Request-scoped memoisation so generateMetadata and the page share one fetch. */
+export const fetchPublicPartnerWebsite = cache(loadPublicPartnerWebsite);
 
 export async function checkPartnerMobile(
   slug: string,

@@ -31,7 +31,7 @@ src/app/partner/
 src/app/programme/
 src/app/legal/
 src/app/signup/
-src/app/Successpage*/
+src/app/(transactional)/Successpage*/
 src/app/upi-faq/
 src/app/globals.css
 src/app/layout.tsx

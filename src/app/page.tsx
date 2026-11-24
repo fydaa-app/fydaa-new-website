@@ -10,6 +10,16 @@ import Testimonials from "./home/components/Testimonials";
 import FaqSection from "./home/components/FaqSection";
 import FinalCta from "./home/components/FinalCta";
 import HashScroll from "./components/HashScroll";
+import { siteConfig } from "@/config/site";
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = pageMetadata({
+  title: "Fydaa: Goal-Based Investing & Financial Planning",
+  description: siteConfig.description,
+  path: "/",
+  absoluteTitle: true,
+});
+
 
 export default function HomePage() {
   return (

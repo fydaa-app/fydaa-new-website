@@ -1,5 +1,14 @@
 import "../home/styles/home.css";
 import ProductSections from "../home/components/ProductSections";
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = pageMetadata({
+  title: "Features",
+  description:
+    "Goal-based SIPs, a money vault for every rupee, one view of all your finances and a single financial-health score. See what you can do with Fydaa.",
+  path: "/features",
+});
+
 
 export default function FeaturesPage() {
   return (

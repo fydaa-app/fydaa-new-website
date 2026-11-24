@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import { rootMetadata } from "@/lib/seo/metadata";
 import ConditionalLayout from "./components/ConditionalLayout";
 import Chatbot from "./components/Chatbot";
 import PostHogProvider from "./components/PostHogProvider";
@@ -25,10 +26,7 @@ const inter = Inter({
   style: ["normal", "italic"],
 });
 
-export const metadata: Metadata = {
-  title: "fydaa – Your money, your mission",
-  description: "Plan your money better with Fydaa. Get goal-based financial planning, investing, budgeting, debt management & retirement planning from SEBI-registered advisers.",
-};
+export const metadata: Metadata = rootMetadata();
 
 export const viewport = {
   width: "device-width",
@@ -43,9 +41,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
-      <head><link rel="icon" href="/favicon.ico" sizes="any"/></head>
-      
+    <html lang="en-IN" data-scroll-behavior="smooth">
+
       <body
         className={`text-black font-sans m-0 p-0 ${geistSans.variable} ${geistMono.variable} ${inter.variable}`}
       >

@@ -1,3 +1,8 @@
+
+import { legalPageSeo } from "@/config/routes";
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = pageMetadata(legalPageSeo("/legal/complaints"));
 /** Recompute on each request so the reporting month rolls forward with the calendar. */
 export const dynamic = 'force-dynamic';
 

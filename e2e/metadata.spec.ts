@@ -1,0 +1,56 @@
+import { expect, test } from "@playwright/test";
+
+const INDEXABLE = [
+  "/",
+  "/about",
+  "/features",
+  "/programme",
+  "/careers",
+  "/partner",
+  "/legal/privacy-policy",
+  "/legal/terms-and-conditions",
+  "/legal/complaints",
+];
+
+const PRIVATE = ["/login", "/signup", "/dashboard", "/upi-faq", "/SuccesspageFund", "/Successpagelumpsum"];
+
+/** Reads metadata from the server-rendered HTML (what crawlers see), not the hydrated DOM. */
+async function headOf(request: import("@playwright/test").APIRequestContext, path: string) {
+  const html = await (await request.get(path)).text();
+  const pick = (pattern: RegExp) => pattern.exec(html)?.[1] ?? null;
+  return {
+    title: pick(/<title>([^<]*)<\/title>/),
+    description: pick(/<meta name="description" content="([^"]*)"/),
+    canonical: pick(/<link rel="canonical" href="([^"]*)"/),
+    robots: pick(/<meta name="robots" content="([^"]*)"/),
+    ogImage: pick(/<meta property="og:image" content="([^"]*)"/),
+  };
+}
+
+test("indexable pages have unique titles, descriptions and self-referencing canonicals", async ({
+  request,
+}) => {
+  const titles = new Set<string>();
+  const descriptions = new Set<string>();
+
+  for (const path of INDEXABLE) {
+    const head = await headOf(request, path);
+    expect(head.title, `${path} title`).toBeTruthy();
+    expect(head.description?.length ?? 0, `${path} description length`).toBeGreaterThan(50);
+    expect(new URL(head.canonical ?? "", "https://x").pathname, `${path} canonical`).toBe(path);
+    expect(head.robots ?? "index, follow", `${path} robots`).not.toContain("noindex");
+    expect(head.ogImage, `${path} og:image`).toMatch(/^https?:\/\/.+\/og-image\.png$/);
+    titles.add(head.title ?? "");
+    descriptions.add(head.description ?? "");
+  }
+
+  expect(titles.size).toBe(INDEXABLE.length);
+  expect(descriptions.size).toBe(INDEXABLE.length);
+});
+
+for (const path of PRIVATE) {
+  test(`${path} is noindex`, async ({ request }) => {
+    const head = await headOf(request, path);
+    expect(head.robots).toContain("noindex");
+  });
+}

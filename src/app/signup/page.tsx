@@ -1,6 +1,15 @@
 import { Suspense } from "react";
 import OnboardingFlow from "./OnboardingFlow";
 import SessionWatch from "./SessionWatch";
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = pageMetadata({
+  title: "Sign up",
+  description: "Create your Fydaa account in minutes and start investing towards your goals.",
+  path: "/signup",
+  noIndex: true,
+});
+
 
 export default function SignupPage() {
   return (

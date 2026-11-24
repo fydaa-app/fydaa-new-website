@@ -36,65 +36,91 @@ const legal = { priority: 0.3, changeFrequency: "yearly" } as const;
 export interface LegalRoute extends SiteRoute {
   /** Previous URL, permanently redirected to `path`. */
   legacyPath: `/${string}`;
+  /** Meta description for search results. */
+  description: string;
 }
 
 /** Regulatory and policy pages linked from the footer. */
 export const legalRoutes = [
   {
     path: "/legal/terms-and-conditions",
+    description:
+      "Terms of service for using Fydaa's website, app and investment advisory services by Multistrato Capital Advisors Pvt Ltd (SEBI RIA INA000015969).",
     legacyPath: "/quicklinks/Terms&Conditions",
     label: "Terms & Conditions",
     sitemap: legal,
   },
   {
     path: "/legal/privacy-policy",
+    description:
+      "How Fydaa collects, uses, stores and protects your personal information, and the choices you have over your data.",
     legacyPath: "/quicklinks/PrivacyPolicy",
     label: "Privacy Policy",
     sitemap: legal,
   },
   {
     path: "/legal/refund-policy",
+    description: "Fydaa's refund policy for subscriptions and how to reach us with questions about payments.",
     legacyPath: "/quicklinks/RefundPolicy",
     label: "Refund Policy",
     sitemap: legal,
   },
   {
     path: "/legal/investor-charter",
+    description:
+      "SEBI-mandated investor charter for investment advisers: our vision, services, your rights and how grievances are handled.",
     legacyPath: "/quicklinks/InvestorCharter",
     label: "Investor Charter",
     sitemap: legal,
   },
   {
     path: "/legal/complaints",
+    description:
+      "Monthly and annual data on investor complaints received, resolved and pending at Fydaa, published as required by SEBI.",
     legacyPath: "/quicklinks/Complaints",
     label: "Complaints",
     sitemap: { ...legal, changeFrequency: "monthly" },
   },
   {
     path: "/legal/grievance-redressal",
+    description:
+      "How to raise a grievance with Fydaa and escalate it, with contact details for each level of the escalation matrix.",
     legacyPath: "/quicklinks/Grievance",
     label: "Grievance Redressal / Escalation Matrix",
     sitemap: legal,
   },
   {
     path: "/legal/investor-warning",
+    description:
+      "Fraudsters are misusing Fydaa's name and SEBI registration. Learn how to spot fake communication and verify genuine Fydaa contacts.",
     legacyPath: "/quicklinks/InvestorWarning",
     label: "Investor Warning - Fraudulent Misuse of Our Details",
     sitemap: legal,
   },
   {
     path: "/legal/vigilance-awareness-week",
+    description:
+      "Vigilance Awareness Week at Fydaa: promoting integrity, transparency and accountability, and how to take the integrity pledge.",
     legacyPath: "/quicklinks/VigilanceAwarenessWeek",
     label: "Vigilance Awareness Week",
     sitemap: legal,
   },
   {
     path: "/legal/disclosure",
+    description:
+      "Regulation 18 disclosures to clients by Multistrato Capital Advisors Pvt Ltd, SEBI-registered investment adviser INA000015969.",
     legacyPath: "/quicklinks/Disclosure",
     label: "Disclosure",
     sitemap: legal,
   },
 ] as const satisfies readonly LegalRoute[];
+
+/** Metadata inputs for a legal page, looked up by its path. */
+export function legalPageSeo(path: (typeof legalRoutes)[number]["path"]) {
+  const route = legalRoutes.find((candidate) => candidate.path === path);
+  if (!route) throw new Error(`Unknown legal route: ${path}`);
+  return { title: route.label, description: route.description, path: route.path };
+}
 
 /** Permanent redirects from retired URLs, consumed by next.config.ts. */
 export function legacyRedirects() {

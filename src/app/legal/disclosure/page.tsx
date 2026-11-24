@@ -1,5 +1,10 @@
 import React from "react"
 
+import { legalPageSeo } from "@/config/routes";
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = pageMetadata(legalPageSeo("/legal/disclosure"));
+
 export default function Disclosure() {
     return (
         <>

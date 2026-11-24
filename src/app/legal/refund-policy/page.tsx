@@ -1,4 +1,9 @@
 
+import { legalPageSeo } from "@/config/routes";
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = pageMetadata(legalPageSeo("/legal/refund-policy"));
+
 
 export default function Terms() {
   return (
