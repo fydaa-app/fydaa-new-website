@@ -27,8 +27,3 @@ export function getStockBase() {
 
 /** Resolved once per runtime; prefer getStockBase() when in doubt. */
 export const STOCK_BASE = getStockBase();
-
-export const AUTH_PROD_BASE = String(process.env.NEXT_PUBLIC_AUTH_BASE_URL_PROD || 'https://auth.fydaa.com/').replace(
-  /\/?$/,
-  '/'
-);

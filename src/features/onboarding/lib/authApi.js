@@ -1,4 +1,4 @@
-import { ADMIN_BASE, AUTH_BASE, AUTH_PROD_BASE, ONBOARDING_BASE, STOCK_BASE } from './apiHosts';
+import { ADMIN_BASE, AUTH_BASE, ONBOARDING_BASE, STOCK_BASE } from './apiHosts';
 import {
   getAccessToken as readAccessToken,
   getTokenExpiry,
@@ -292,7 +292,8 @@ export async function getUserStage() {
 }
 
 export async function getUserBankDetails() {
-  const { data } = await postJson('user/user-details', {}, { auth: true, base: AUTH_PROD_BASE });
+  // Same environment as the token: a staging token must never be sent to production.
+  const { data } = await postJson('user/user-details', {}, { auth: true, base: AUTH_BASE });
   return data;
 }
 
