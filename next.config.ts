@@ -11,6 +11,7 @@ const stockRemote = String(
 ).replace(/\/$/, "");
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
   async headers() {
     return [
       {
