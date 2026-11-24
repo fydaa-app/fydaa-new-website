@@ -127,6 +127,7 @@
   background: var(--g);
   height: 40px;
   padding: 0 16px;
+  white-space: nowrap;
   border-radius: 8px;
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 1px 2px rgb(14 39 33 / 0.18);
   transition: background-color var(--duration-quick) var(--ease-out), transform var(--duration-quick) var(--ease-smooth-out);
@@ -339,5 +340,15 @@
 @media (min-width: 640px) and (max-width: 1023px) {
   .site-nav .nav-inner {
     padding: 0 24px;
+  }
+}
+
+/* Smallest phones: the download button drops its icon so the bar never wraps. */
+@media (max-width: 374px) {
+  .site-nav .nav-download {
+    padding: 0 12px;
+  }
+  .site-nav .nav-download svg {
+    display: none;
   }
 }
