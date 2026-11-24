@@ -66,7 +66,7 @@ export function CodeInput({
       <label htmlFor={inputId} className={labelHidden ? "sr-only" : labelClasses}>
         {label}
       </label>
-      <div className="relative inline-flex gap-2.5">
+      <div className="relative grid w-full max-w-[22rem] gap-1.5 sm:gap-2.5" style={{ gridTemplateColumns: `repeat(${length}, minmax(0, 1fr))` }}>
         {Array.from({ length }, (_, index) => {
           const char = value[index] ?? "";
           return (
@@ -74,9 +74,9 @@ export function CodeInput({
               key={index}
               aria-hidden="true"
               className={cn(
-                "flex h-[52px] w-[46px] items-center justify-center rounded-btn border-[1.5px] border-grey-300 bg-white text-lg font-bold text-ink transition-colors",
+                "figure flex aspect-[46/52] max-h-14 min-h-11 items-center justify-center rounded-btn border-[1.5px] border-line bg-white text-lg font-semibold text-ink transition-colors duration-quick",
                 focused && index === activeIndex && "border-jade ring-2 ring-jade/20",
-                error && "border-red-600",
+                error && "border-danger",
                 disabled && "bg-grey-100",
               )}
             >
@@ -104,7 +104,7 @@ export function CodeInput({
         />
       </div>
       {error ? (
-        <p id={errorId} role="alert" className="mt-1.5 text-sm text-red-700">
+        <p key={error} id={errorId} role="alert" className="t-shake mt-1.5 text-sm text-danger">
           {error}
         </p>
       ) : null}
