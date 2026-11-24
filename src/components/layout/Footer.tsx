@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { legalRoutes } from "@/config/routes";
+import { siteConfig } from "@/config/site";
 
 const UPI_HANDLES = [
   "multistrato.capitaladvisors.ia@validyes",
@@ -28,11 +29,14 @@ const Footer: React.FC = () => {
           <div className="space-y-6 min-w-0">
             <div className="flex items-center gap-4 sm:gap-5 md:gap-6">
               <a
-                href="https://www.linkedin.com/company/fydaaoffical"
+                href={siteConfig.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white hover:text-gray-300 transition-colors duration-200"
-                aria-label="LinkedIn"
+                aria-label="Fydaa on LinkedIn"
               >
                 <svg
+                  aria-hidden="true"
                   className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 2xl:w-8 2xl:h-8"
                   fill="currentColor"
                   viewBox="0 0 24 24"
@@ -41,11 +45,14 @@ const Footer: React.FC = () => {
                 </svg>
               </a>
               <a
-                href="https://www.instagram.com/fydaaofficial/"
+                href={siteConfig.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white hover:text-gray-300 transition-colors duration-200"
-                aria-label="Instagram"
+                aria-label="Fydaa on Instagram"
               >
                 <svg
+                  aria-hidden="true"
                   className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 2xl:w-8 2xl:h-8"
                   fill="currentColor"
                   viewBox="0 0 24 24"
@@ -54,13 +61,14 @@ const Footer: React.FC = () => {
                 </svg>
               </a>
               <a
-                href="https://www.facebook.com/fydaaofficial/"
+                href={siteConfig.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-gray-300 transition-colors duration-200"
-                aria-label="Facebook"
+                aria-label="Fydaa on Facebook"
               >
                 <svg
+                  aria-hidden="true"
                   className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 2xl:w-8 2xl:h-8"
                   fill="currentColor"
                   viewBox="0 0 24 24"
@@ -81,7 +89,7 @@ const Footer: React.FC = () => {
               <p className="text-white text-[14px] sm:text-[16px] md:text-[18px] xl:text-[19px] 2xl:text-[20px] font-inter font-normal">
                 Phone:{" "}
                 <a
-                  href="tel:+919136935300"
+                  href={siteConfig.contact.phoneHref}
                   className="underline hover:text-gray-300 transition-colors duration-200"
                 >
                   +91 9136935300
@@ -197,7 +205,7 @@ const Footer: React.FC = () => {
         {/* Bottom Section - Copyright */}
         <div className="flex justify-center">
           <p className="text-white text-[16px] font-inter font-normal">
-            © 2025 - Copyright
+            © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Fydaa · {siteConfig.entities.adviser.legalName}
           </p>
         </div>
       </div>

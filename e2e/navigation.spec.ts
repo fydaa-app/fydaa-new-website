@@ -60,3 +60,14 @@ test("hero calculator's Start this SIP goes to signup with the chosen plan", asy
   await cta.click();
   await expect(page).toHaveURL(/\/signup\?intent=sip&category=debt/);
 });
+
+test("footer shows the current year and opens social links safely", async ({ page }) => {
+  await page.goto("/about");
+  const footer = page.locator("footer#footer");
+  await expect(footer).toContainText(`© ${new Date().getFullYear()} Fydaa`);
+  for (const name of ["Fydaa on LinkedIn", "Fydaa on Instagram", "Fydaa on Facebook"]) {
+    const link = footer.getByRole("link", { name });
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", /noopener/);
+  }
+});
