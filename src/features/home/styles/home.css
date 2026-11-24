@@ -28,7 +28,7 @@
 .fydaa-home .dreams-section h1,
 .fydaa-home .dreams-section h2,
 .fydaa-home .dreams-section h3{
-  font-family:Gilroy,Inter,system-ui,sans-serif;
+  font-family:var(--font-gilroy),var(--font-inter),Inter,system-ui,sans-serif;
   font-size:unset;
   font-weight:unset;
   letter-spacing:normal;

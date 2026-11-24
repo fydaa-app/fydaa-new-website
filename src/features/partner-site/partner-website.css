@@ -127,7 +127,7 @@
 }
 
 .partner-site .pw-hero-copy h1 {
-  font-family: 'Gilroy', var(--font-inter), Inter, system-ui, sans-serif;
+  font-family: var(--font-gilroy), var(--font-inter), Inter, system-ui, sans-serif;
   font-weight: 600;
   font-size: clamp(1.5rem, 1.1rem + 2.2vw, 56px);
   line-height: 1.2;
@@ -156,7 +156,7 @@
 }
 
 .partner-site .pw-hero-copy .pw-support {
-  font-family: 'Gilroy', var(--font-inter), Inter, system-ui, sans-serif;
+  font-family: var(--font-gilroy), var(--font-inter), Inter, system-ui, sans-serif;
   font-weight: 500;
   font-size: clamp(1.05rem, 0.85rem + 1.1vw, 32px);
   line-height: 1.25;
@@ -307,7 +307,7 @@
 
 .partner-site .pw-invest h2,
 .partner-site .pw-invest-title {
-  font-family: 'Gilroy', var(--font-inter), Inter, system-ui, sans-serif;
+  font-family: var(--font-gilroy), var(--font-inter), Inter, system-ui, sans-serif;
   font-weight: 600;
   font-size: clamp(1.75rem, 1.2rem + 2.2vw, 56px);
   line-height: 1.214;
@@ -511,7 +511,7 @@
 
 .partner-site .pw-calc-tagline {
   margin: 0;
-  font-family: 'Gilroy', var(--font-inter), Inter, system-ui, sans-serif;
+  font-family: var(--font-gilroy), var(--font-inter), Inter, system-ui, sans-serif;
   font-size: clamp(0.95rem, 1.5vw, 1.1rem);
   font-weight: 700;
   line-height: 1.3;
@@ -1326,7 +1326,7 @@
 }
 
 .partner-site .pw-start-copy h2 {
-  font-family: 'Gilroy', var(--font-inter), Inter, system-ui, sans-serif;
+  font-family: var(--font-gilroy), var(--font-inter), Inter, system-ui, sans-serif;
   font-weight: 600;
   font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem);
   line-height: 1.15;

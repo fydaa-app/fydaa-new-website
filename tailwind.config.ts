@@ -12,9 +12,9 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-geist-sans)', 'sans-serif'],
-        mono: ['var(--font-geist-mono)', 'monospace'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
         inter: ['var(--font-inter)', 'sans-serif'],
-        gilroy: ['Gilroy', 'Inter', 'system-ui', 'sans-serif'],
+        gilroy: ['var(--font-gilroy)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       colors: {
         jade: {

@@ -1,29 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import { geist, gilroy, inter } from "./fonts";
 import { rootMetadata } from "@/lib/seo/metadata";
 import Chatbot from "@/features/chatbot/Chatbot";
 import PostHogProvider from "@/features/analytics/PostHogProvider";
 
-
-// Load Google fonts with CSS variable support
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  style: ["normal", "italic"],
-});
 
 export const metadata: Metadata = rootMetadata();
 
@@ -43,7 +25,7 @@ export default function RootLayout({
     <html lang="en-IN" data-scroll-behavior="smooth">
 
       <body
-        className={`text-ink font-sans m-0 p-0 ${geistSans.variable} ${geistMono.variable} ${inter.variable}`}
+        className={`text-ink font-sans m-0 p-0 ${geist.variable} ${inter.variable} ${gilroy.variable}`}
       >
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-DMWN4CQK6D"

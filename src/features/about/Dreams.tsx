@@ -20,7 +20,7 @@ function BookCallButton() {
   return (
     <button
       type="button"
-      className="px-4 py-2 sm:px-6 sm:py-2 bg-jade text-white font-medium text-[12px] sm:text-[14px] font-['Gilroy'] rounded-full hover:bg-jade-hover transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
+      className="px-4 py-2 sm:px-6 sm:py-2 bg-jade text-white font-medium text-[12px] sm:text-[14px] font-gilroy rounded-full hover:bg-jade-hover transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
       data-ph-event="Book a Free Call"
       onClick={scrollToBookCall}
     >
