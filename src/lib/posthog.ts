@@ -175,12 +175,23 @@ export function installGlobalButtonTracking() {
   );
 }
 
-export function identifyUser(distinctId: string, traits?: Record<string, string | null | undefined>) {
+/** Identify with an opaque id only. Contact details must never be sent as traits. */
+export function identifyUser(distinctId: string) {
   if (typeof window === 'undefined' || !distinctId) return;
   try {
-    posthog.identify(distinctId, traits);
+    posthog.identify(distinctId);
   } catch {
     // ignore
+  }
+}
+
+/** Forget the identified user (call on logout). */
+export function resetAnalyticsIdentity() {
+  if (typeof window === 'undefined') return;
+  try {
+    posthog.reset();
+  } catch {
+    // PostHog not initialised - nothing to reset
   }
 }
 

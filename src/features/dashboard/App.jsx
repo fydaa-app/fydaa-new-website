@@ -14,6 +14,7 @@ import { getUserBankDetails, getUserDetails, getUserStage } from "@/features/onb
 import { isSignupComplete } from "@/features/onboarding/lib/kycApi";
 import { mapBankDetails, mapStageProfile, mapUserDetails } from "./lib/userProfile";
 import { emailFromAdvisorPayload, getAdvisorAndRelationshipManager, mapRelationshipManager } from "./lib/crmApi";
+import { getAccessToken, getTokenSubject } from "@/lib/auth/token-store";
 import { captureEvent, identifyUser, toEventName } from "@/lib/posthog";
 const pages = {
   home: HomePage,
@@ -75,13 +76,9 @@ function DashboardShell() {
 
   useEffect(() => {
     if (!user) return;
-    const id = user.email || user.phone || user.name;
-    if (!id) return;
-    identifyUser(String(id), {
-      email: user.email || undefined,
-      name: user.name || undefined,
-      phone: user.phone || undefined,
-    });
+    // Privacy: identify by an opaque account id only - never email, phone or name.
+    const subject = getTokenSubject(getAccessToken());
+    if (subject) identifyUser(subject);
   }, [user]);
 
   /** User tapped "Back to dashboard" — leave KYC and clear any pending invest resume. */

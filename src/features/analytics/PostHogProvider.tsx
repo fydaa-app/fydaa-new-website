@@ -25,6 +25,12 @@ function PostHogPageViews() {
         capture_pageleave: true,
         // Explicit *_btn_clicked events via global tracker; skip noisy autocapture
         autocapture: false,
+        // Privacy: financial screens must never be recorded; honour Do Not Track;
+        // never capture on-screen text or element attributes.
+        disable_session_recording: true,
+        respect_dnt: true,
+        mask_all_text: true,
+        mask_all_element_attributes: true,
       });
       installGlobalButtonTracking();
       posthogInitialized = true;

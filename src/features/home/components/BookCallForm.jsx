@@ -1,9 +1,11 @@
 "use client";
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { captureEvent, captureNamedButton, toEventName } from '@/lib/posthog';
 
 const CALLING_CODE = '+91';
+/** Client-side resend cooldown; the server must still rate-limit send-otp (FYD-93). */
+const RESEND_COOLDOWN_SECONDS = 30;
 
 function leadUrl(path) {
   const base = process.env.NEXT_PUBLIC_BASE_URL || 'https://crm-prod.fydaa.com/';
@@ -41,6 +43,7 @@ export default function BookCallForm() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [resendIn, setResendIn] = useState(0);
   const nameRef = useRef(null);
   const phoneRef = useRef(null);
   const otpRef = useRef(null);
@@ -60,9 +63,16 @@ export default function BookCallForm() {
     return trimmedName;
   }
 
+  useEffect(() => {
+    if (resendIn <= 0) return undefined;
+    const timer = window.setTimeout(() => setResendIn((seconds) => seconds - 1), 1000);
+    return () => window.clearTimeout(timer);
+  }, [resendIn]);
+
   async function sendOtp({ buttonName = 'Book a Call', step = 'send_otp' } = {}) {
     setError('');
     if (!validateDetails()) return;
+    if (resendIn > 0) return;
 
     captureNamedButton(buttonName, { step });
     setIsSubmitting(true);
@@ -73,6 +83,7 @@ export default function BookCallForm() {
       });
       captureEvent('book_call_otp_sent', { field_name: 'Phone number' });
       setOtpSent(true);
+      setResendIn(RESEND_COOLDOWN_SECONDS);
       setOtp('');
       setTimeout(() => otpRef.current?.focus(), 0);
     } catch (err) {
@@ -231,7 +242,8 @@ export default function BookCallForm() {
             data-ph-event="Resend OTP"
             data-ph-capture="book_call_resend_otp"
             onClick={() => sendOtp({ buttonName: 'Resend OTP', step: 'resend_otp' })}
-            disabled={isSubmitting}
+            disabled={isSubmitting || resendIn > 0}
+            aria-live="polite"
             style={{
               marginTop: 8,
               background: 'none',
@@ -240,10 +252,10 @@ export default function BookCallForm() {
               color: 'var(--g)',
               fontWeight: 600,
               fontSize: '0.82rem',
-              cursor: isSubmitting ? 'not-allowed' : 'pointer',
+              cursor: isSubmitting || resendIn > 0 ? 'not-allowed' : 'pointer',
             }}
           >
-            Resend OTP
+            {resendIn > 0 ? `Resend OTP in ${resendIn}s` : 'Resend OTP'}
           </button>
         </div>
       ) : null}

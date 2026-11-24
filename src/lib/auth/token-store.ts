@@ -77,6 +77,35 @@ function decodeBase64Url(segment: string): string {
   return atob(padded);
 }
 
+/** Decoded JWT payload, or null when the token is missing or not a readable JWT. */
+export function getTokenClaims(token: string | null | undefined): Record<string, unknown> | null {
+  const payload = token?.split(".")[1];
+  if (!payload) return null;
+  try {
+    const claims: unknown = JSON.parse(decodeBase64Url(payload));
+    return claims && typeof claims === "object" ? (claims as Record<string, unknown>) : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Opaque, stable user id from the token (`sub`, `id`, `userId` or `user_id`), suitable
+ * for analytics identification. Never returns contact details.
+ */
+export function getTokenSubject(token: string | null | undefined): string | null {
+  const claims = getTokenClaims(token);
+  for (const key of ["sub", "id", "userId", "user_id"]) {
+    const value = claims?.[key];
+    if ((typeof value === "string" && value.trim()) || typeof value === "number") {
+      const id = String(value).trim();
+      // Phone numbers and emails are personal data, not ids.
+      if (!/@/.test(id) && !/^\+?\d{10,13}$/.test(id)) return id;
+    }
+  }
+  return null;
+}
+
 /** Expiry of a JWT in epoch milliseconds, or null when it has no readable `exp` claim. */
 export function getTokenExpiry(token: string | null | undefined): number | null {
   const payload = token?.split(".")[1];

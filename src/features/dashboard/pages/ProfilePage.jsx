@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { User, Activity, Building, Info, ChevronRight, LogOut, Check, Landmark } from "lucide-react";
-import { bandFromIndicators, clearTokens, getRiskIndicators, scoreFromIndicators } from "@/features/onboarding/lib/authApi";
+import { bandFromIndicators, getRiskIndicators, scoreFromIndicators } from "@/features/onboarding/lib/authApi";
+import { signOut as signOutOfAccount } from "@/lib/auth/sign-out";
 import { PAGE_SHELL } from "../lib/layoutClasses";
 
 const sections = [
@@ -356,7 +357,7 @@ export default function ProfilePage({ user, setActivePage }) {
     : sectionContent[activeSection];
 
   function signOut() {
-    clearTokens();
+    signOutOfAccount();
     router.replace("/login");
   }
 

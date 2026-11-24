@@ -1,9 +1,9 @@
 "use client";
 
+import { signOut } from "@/lib/auth/sign-out";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Bell, Settings, LogOut, Menu } from "lucide-react";
-import { clearTokens } from "@/features/onboarding/lib/authApi";
 import FundSearchOverlay from "./FundSearchOverlay";
 
 export default function Topbar({ activePage, onMenuOpen }) {
@@ -37,7 +37,7 @@ export default function Topbar({ activePage, onMenuOpen }) {
   }, [hideSearch]);
 
   function logout() {
-    clearTokens();
+    signOut();
     setOpen(false);
     router.replace("/login");
   }

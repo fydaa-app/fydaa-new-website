@@ -71,3 +71,19 @@ describe("JWT expiry", () => {
     expect(isTokenExpired("opaque-token")).toBe(false);
   });
 });
+
+describe("getTokenSubject", () => {
+  it("returns an opaque id claim", async () => {
+    const { getTokenSubject } = await import("./token-store");
+    expect(getTokenSubject(jwt({ sub: "usr_42" }))).toBe("usr_42");
+    expect(getTokenSubject(jwt({ id: 1234 }))).toBe("1234");
+  });
+
+  it("never returns contact details or garbage", async () => {
+    const { getTokenSubject } = await import("./token-store");
+    expect(getTokenSubject(jwt({ sub: "9876543210" }))).toBeNull();
+    expect(getTokenSubject(jwt({ sub: "+919876543210" }))).toBeNull();
+    expect(getTokenSubject(jwt({ sub: "a@b.com" }))).toBeNull();
+    expect(getTokenSubject("not-a-jwt")).toBeNull();
+  });
+});
