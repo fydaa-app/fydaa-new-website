@@ -1,59 +1,71 @@
-import Link from "next/link";
+import { Container } from "@/components/layout/container";
+import { ButtonLink } from "@/components/ui/button";
+import { ProductWindow } from "@/components/ui/product-window";
+import { cn } from "@/lib/utils/cn";
 
-const PORTFOLIOS = [
-  { label: "Conservative", dash: "30,70" },
-  { label: "Balanced", dash: "55,45" },
-  { label: "Aggressive", dash: "80,20" },
+/** The three risk profiles, with how much of the ups and downs each accepts (relative, illustrative). */
+const PROFILES = [
+  { name: "Conservative", body: "Fewer ups and downs", risk: 30 },
+  { name: "Balanced", body: "A mix of steady and growth", risk: 55, current: true },
+  { name: "Aggressive", body: "Aims for more growth, with bigger swings", risk: 80 },
 ];
 
+/** Different people, different portfolios: the copy beside a risk-profile window from the app. */
 export default function Portfolios() {
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-grey-50 font-inter">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-[1.1fr_0.9fr] gap-8 md:gap-14 items-center">
-          <div className="text-center md:text-left">
-            <h2 className="text-heading mb-3.5 font-bold text-ink">
+    <section aria-labelledby="portfolios-title" className="section bg-mist">
+      <Container className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-16">
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
+            <h2 id="portfolios-title" className="max-w-[14ch] text-heading text-ink">
               Different people, different portfolios
             </h2>
-            <p className="max-w-[440px] mx-auto md:mx-0 mb-6 text-grey-600 leading-[1.75] text-sm sm:text-base">
-              Fydaa is an investment app that adapts to your appetite for investing, whether you play it safe, stay
-              balanced, or chase growth.
+            <p className="max-w-[46ch] text-pretty text-lead text-grey-600">
+              After KYC, a risk assessment shows how comfortable you are with ups and downs. Your portfolio follows
+              from it, whether you want a steadier ride, a balance, or more growth.
             </p>
-            <Link
-              href="/#book-a-call"
-              className="btn btn-primary btn-md"
-              data-ph-event="Book a Free Call"
-            >
-              Book a free call
-            </Link>
           </div>
-
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-2 md:mt-0">
-            {PORTFOLIOS.map((p) => (
-              <div key={p.label} className="flex flex-col items-center gap-2.5">
-                <svg
-                  viewBox="0 0 36 36"
-                  className="w-14 h-14 sm:w-[76px] sm:h-[76px] -rotate-90"
-                >
-                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#A7F3D0" strokeWidth="3.5" />
-                  <circle
-                    cx="18"
-                    cy="18"
-                    r="15.9"
-                    fill="none"
-                    stroke="#0C4A3E"
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                    strokeDasharray={p.dash}
-                    strokeDashoffset="25"
-                  />
-                </svg>
-                <div className="text-xs sm:text-xs font-medium text-grey-500">{p.label}</div>
-              </div>
-            ))}
-          </div>
+          <ButtonLink href="/#book-a-call" size="lg" data-ph-event="Book a Free Call" className="self-start">
+            Book a free call
+          </ButtonLink>
         </div>
-      </div>
+
+        <ProductWindow title="Risk profile" meta="Example" bodyClassName="p-0 sm:p-0">
+          <div aria-hidden="true" className="flex items-center justify-between gap-4 border-b border-line px-4 py-3 text-xs font-medium text-grey-500 sm:px-6">
+            <span>Profile</span>
+            <span className="w-24 sm:w-36">Ups and downs</span>
+          </div>
+          <ul aria-label="Example risk profiles" className="divide-y divide-line">
+            {PROFILES.map((profile) => (
+              <li
+                key={profile.name}
+                className={cn(
+                  "grid grid-cols-[minmax(0,1fr)_6rem] items-center gap-4 px-4 py-4 sm:grid-cols-[minmax(0,1fr)_9rem] sm:px-6 sm:py-5",
+                  profile.current && "bg-jade-tint/50",
+                )}
+              >
+                <div className="min-w-0">
+                  <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-base font-semibold text-ink">
+                    {profile.name}
+                    {profile.current ? (
+                      <span className="rounded-full bg-white px-2 py-0.5 text-xs font-semibold text-emerald ring-1 ring-line">
+                        Your profile
+                      </span>
+                    ) : null}
+                  </p>
+                  <p className="mt-0.5 text-sm text-grey-500">{profile.body}</p>
+                </div>
+                <div className="h-1.5 overflow-hidden rounded-full bg-line" aria-hidden="true">
+                  <div
+                    className={cn("h-full rounded-full", profile.current ? "bg-jade" : "bg-sprout")}
+                    style={{ width: `${profile.risk}%` }}
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </ProductWindow>
+      </Container>
     </section>
   );
 }

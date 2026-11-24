@@ -1,123 +1,54 @@
-"use client";
+import type { CSSProperties } from "react";
+import Image from "next/image";
+import { Container } from "@/components/layout/container";
+import { ButtonLink } from "@/components/ui/button";
+import { siteConfig } from "@/config/site";
 
-import React from "react";
-import Link from "next/link";
+const step = (i: number) => ({ "--i": i }) as CSSProperties;
+const { adviser, distributor } = siteConfig.entities;
 
-const HeroSection: React.FC = () => {
+/**
+ * About hero: the mission set large, one way in, both registrations, and a still line of people
+ * standing on a hairline ground (who "for all" means). No marquee.
+ */
+export default function HeroSection() {
   return (
-    <section className="w-full bg-grey-50 relative overflow-hidden">
-      {/* Main Content Container */}
-      <div className="relative z-30 flex flex-col px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 pt-28 pb-20 sm:pt-32 sm:pb-24 md:pt-36 md:pb-28 lg:pt-40 lg:pb-32 xl:pt-44 xl:pb-36 2xl:pt-48 2xl:pb-48">
-        {/* Hero Text Content */}
-        <div className="text-center mb-12 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 2xl:mb-20">
-          <div className="space-y-6 sm:space-y-4 md:space-y-5 lg:space-y-6 xl:space-y-8 2xl:space-y-10">
-            <h1 className="mx-auto max-w-[20ch] text-balance text-display font-bold text-ink">
-              Wealth shouldn&apos;t be a privilege. It should be a{" "}
-              <span className="text-jade">possibility</span> for all.
-            </h1>
-            <p className="mx-auto max-w-2xl text-pretty text-lead text-grey-600">
-              We&apos;re on a mission to make smart investing accessible, understandable, and achievable – no matter
-              your income, background, or experience.
+    <section aria-labelledby="about-title" className="pt-28 sm:pt-32 lg:pt-36" data-enter>
+      <Container className="flex flex-col gap-12 lg:gap-16">
+        <div className="flex flex-col gap-6">
+          <h1 id="about-title" className="max-w-[19ch] text-display text-ink" data-enter-item style={step(0)}>
+            Wealth shouldn&apos;t be a privilege. It should be a possibility for all.
+          </h1>
+          <p className="max-w-[52ch] text-pretty text-lead text-grey-600" data-enter-item style={step(1)}>
+            We&apos;re on a mission to make smart investing accessible, understandable, and achievable, no matter
+            your income, background or experience.
+          </p>
+          <div className="flex flex-col gap-x-6 gap-y-4 pt-2 sm:flex-row sm:items-center" data-enter-item style={step(2)}>
+            <ButtonLink href="/#book-a-call" size="lg" data-ph-event="Book a Free Call" className="self-start">
+              Book a free call
+            </ButtonLink>
+            <p className="flex flex-col text-sm text-grey-500">
+              <span>
+                SEBI-registered investment adviser, <span className="whitespace-nowrap">{adviser.sebiRegistrationNumber}</span>.
+              </span>
+              <span>
+                AMFI-registered mutual fund distributor, <span className="whitespace-nowrap">{distributor.arn}</span>.
+              </span>
             </p>
           </div>
         </div>
-
-        {/* People Icons with continuous horizontal scrolling animation */}
-        <div data-allow-clip className="w-full overflow-hidden mb-10 sm:mb-8 md:mb-10 lg:mb-8 xl:mb-12 2xl:mb-16">
-          <div className="animate-scroll-seamless">
-            <img
-              src="/Heropage/diverse-people.png"
-              alt="Diverse people icons"
-              className="h-16 sm:h-[70px] md:h-20 lg:h-[90px] xl:h-28 2xl:h-32 max-h-32 opacity-80 object-contain"
-            />
-            <img
-              src="/Heropage/diverse-people.png"
-              alt="Diverse people icons"
-              className="h-16 sm:h-[70px] md:h-20 lg:h-[90px] xl:h-28 2xl:h-32 max-h-32 opacity-80 object-contain"
-            />
-            <img
-              src="/Heropage/diverse-people.png"
-              alt="Diverse people icons"
-              className="h-16 sm:h-[70px] md:h-20 lg:h-[90px] xl:h-28 2xl:h-32 max-h-32 opacity-80 object-contain"
-            />
-          </div>
+        <div className="overflow-hidden" data-allow-clip data-enter-item style={step(3)}>
+          <Image
+            src="/Heropage/diverse-people.png"
+            alt="Line drawings of people of different ages, backgrounds and abilities"
+            width={1596}
+            height={151}
+            loading="eager"
+            sizes="(min-width: 1152px) 1088px, 760px"
+            className="h-16 w-auto max-w-none sm:h-20 lg:h-auto lg:w-full"
+          />
         </div>
-
-        {/* Feature Highlights and CTA Button */}
-        <div className="text-center">
-          <div className="max-w-4xl mx-auto">
-            {/* Three Feature Highlights */}
-            <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-2 md:space-x-3 lg:space-x-4 xl:space-x-6 2xl:space-x-8 mb-6 sm:mb-5 md:mb-6 lg:mb-6 xl:mb-8 2xl:mb-10">
-              <div className="flex items-center space-x-2 sm:space-x-2">
-                <img
-                  src="/Heropage/sebi.png"
-                  alt="SEBI"
-                  className="w-4 h-4 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7"
-                />
-                <span className="text-grey-600 font-inter font-medium text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">
-                  SEBI-registered
-                </span>
-              </div>
-
-              <div className="flex items-center space-x-2 sm:space-x-2">
-                <img
-                  src="/Heropage/bank.png"
-                  alt="Security"
-                  className="w-4 h-4 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7"
-                />
-                <span className="text-grey-600 font-inter font-medium text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">
-                  Bank-grade security
-                </span>
-              </div>
-
-              <div className="flex items-center space-x-2 sm:space-x-2">
-                <img
-                  src="/Heropage/transplant.png"
-                  alt="Fees"
-                  className="w-4 h-4 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7"
-                />
-                <span className="text-grey-600 font-inter font-medium text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg">
-                  Transparent fees
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <Link
-                href="/#book-a-call"
-                className="btn btn-primary btn-lg"
-                data-ph-event="Book a Free Call"
-              >
-                Book a free call
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Custom CSS for seamless horizontal scrolling animation */}
-      <style jsx>{`
-        .animate-scroll-seamless {
-          display: flex;
-          animation: scroll-seamless 50s linear infinite;
-          width: max-content;
-        }
-
-        @keyframes scroll-seamless {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-33.333%);
-          }
-        }
-
-        .animate-scroll-seamless img {
-          display: block;
-          flex-shrink: 0;
-        }
-      `}</style>
+      </Container>
     </section>
   );
-};
-
-export default HeroSection;
+}

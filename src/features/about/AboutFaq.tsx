@@ -1,12 +1,16 @@
 import { Container } from "@/components/layout/container";
 import { SectionHeader } from "@/components/layout/section-header";
 import { FaqList } from "@/components/ui/faq-list";
+import { siteConfig } from "@/config/site";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { faqPageJsonLd } from "@/lib/seo/structured-data";
+
+const { adviser } = siteConfig.entities;
+
 const FAQS = [
   {
     q: "Is Fydaa registered with any financial regulators in India?",
-    a: "Yes. Fydaa is offered by Multistrato Capital Advisors Pvt. Ltd., a SEBI-Registered Investment Adviser (INA000015969), and is also a member of BASL and NISM-certified.",
+    a: `Yes. Fydaa is offered by ${adviser.legalName}, a SEBI-registered investment adviser (${adviser.sebiRegistrationNumber}), and is also a member of BASL and NISM-certified.`,
   },
   {
     q: "How is Fydaa different from a broker or mutual fund distributor?",
@@ -22,16 +26,27 @@ const FAQS = [
   },
 ];
 
+const items = FAQS.map((faq) => ({ id: faq.q, title: faq.q, content: <p>{faq.a}</p> }));
+
+/** About FAQs: who regulates Fydaa and how it is paid. Answers stay in the HTML (and JSON-LD). */
 export default function AboutFaq() {
   return (
-    <section aria-labelledby="about-faqs" className="bg-white py-12 sm:py-16 md:py-20">
+    <section aria-labelledby="about-faqs" className="section bg-mist">
       <JsonLd data={faqPageJsonLd(FAQS.map((faq) => ({ question: faq.q, answer: faq.a })))} />
-      <Container size="content" className="flex flex-col gap-8">
+      <Container className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
         <SectionHeader
-          title={<span id="about-faqs">FAQs</span>}
-          description="Feel free to reach out if you have any other questions."
+          title={<span id="about-faqs">Questions about Fydaa</span>}
+          description={
+            <>
+              Something else on your mind? Email{" "}
+              <a href={`mailto:${siteConfig.contact.email}`} className="link">
+                {siteConfig.contact.email}
+              </a>{" "}
+              and we&apos;ll get back to you.
+            </>
+          }
         />
-        <FaqList className="max-w-3xl" items={FAQS.map((faq) => ({ id: faq.q, title: faq.q, content: <p>{faq.a}</p> }))} />
+        <FaqList items={items} />
       </Container>
     </section>
   );

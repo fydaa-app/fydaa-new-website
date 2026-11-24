@@ -1,46 +1,47 @@
 import Image from "next/image";
+import { Container } from "@/components/layout/container";
+import { siteConfig } from "@/config/site";
+
+/** The person behind Fydaa: portrait, role and a short, factual career line. */
 export default function Founder() {
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-grey-50 font-inter">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-[1fr_2fr] gap-8 md:gap-14 items-start">
-          <div className="relative w-full max-w-[240px] sm:max-w-[280px] md:max-w-none aspect-[3/4] bg-grey-100 rounded-2xl overflow-hidden mx-auto md:mx-0">
-            <Image
-              src="/about-us/Kuntalsir.png"
-              alt="Kuntal Bhansali, founder of Fydaa"
-              fill
-              sizes="(min-width: 1280px) 400px, (min-width: 768px) 33vw, 280px"
-              className="object-cover"
-            />
-          </div>
+    <section aria-labelledby="founder-title" className="section">
+      <Container className="grid gap-10 md:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] md:items-start lg:gap-16">
+        <div className="relative aspect-[4/5] w-full max-w-xs overflow-hidden rounded-4xl bg-mist md:max-w-none" data-allow-clip>
+          <Image
+            src="/about-us/Kuntalsir.png"
+            alt="Kuntal Bhansali, founder of Fydaa"
+            fill
+            sizes="(min-width: 1152px) 400px, (min-width: 768px) 36vw, 320px"
+            className="object-cover object-top"
+          />
+        </div>
 
-          <div className="text-center md:text-left">
-            <div className="mb-2 text-xs font-bold tracking-[0.08em] uppercase text-grey-500">
-              Meet the Founder
-            </div>
-            <h2 className="text-heading mb-2 font-bold text-ink">
-              Kuntal Bhansali
+        <div className="flex flex-col gap-6 md:pt-2">
+          <div className="flex flex-col gap-2">
+            <h2 id="founder-title" className="max-w-[16ch] text-heading text-ink">
+              Founded by Kuntal Bhansali
             </h2>
-            <div className="mb-6 text-sm text-grey-500">
-              Founder &amp; CEO, Multistrato Capital Advisors Pvt. Ltd.
-            </div>
-            <p className="max-w-[560px] mx-auto md:mx-0 mb-4 text-grey-600 leading-[1.8] text-sm sm:text-base">
-              Kuntal started his journey over 20 years ago as an Equity Research Analyst and went on to become a
-              fund manager with Reliance Capital PMS, where he managed money for high-net-worth individuals early
-              in his career.
+            <p className="text-base text-grey-500">
+              Founder and CEO, {siteConfig.entities.adviser.legalName}
             </p>
-            <p className="max-w-[560px] mx-auto md:mx-0 mb-4 text-grey-600 leading-[1.8] text-sm sm:text-base">
-              He launched his entrepreneurial journey almost 10 years ago, working in investment banking and fund
-              management. That path led him into the world of tech startups, where he saw firsthand how technology
-              can empower people at scale.
+          </div>
+          <div className="flex max-w-[60ch] flex-col gap-4 text-base leading-relaxed text-grey-600 sm:text-lead">
+            <p>
+              Kuntal started over 20 years ago as an equity research analyst and went on to become a fund manager with
+              Reliance Capital PMS, managing money for high-net-worth individuals.
             </p>
-            <p className="max-w-[560px] mx-auto md:mx-0 text-grey-600 leading-[1.8] text-sm sm:text-base">
-              Fydaa was born from that combination: deep domain knowledge of managing money, and an understanding
-              of how technology can make expert financial planning accessible to everyone, not just the wealthy.
+            <p>
+              Almost 10 years ago he turned entrepreneur, working in investment banking and fund management. That led
+              him to tech startups, where he saw how technology can reach people at scale.
+            </p>
+            <p>
+              Fydaa comes from both: years of managing money, and technology that makes expert financial planning
+              available to everyone, not only the wealthy.
             </p>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

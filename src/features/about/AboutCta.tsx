@@ -1,40 +1,39 @@
-import Link from "next/link";
+import { Container } from "@/components/layout/container";
+import { ButtonLink } from "@/components/ui/button";
+import { routes } from "@/config/routes";
 
+/** The last word before the footer: the tagline, a free call, or the app. */
 export default function AboutCta() {
   return (
-    <section className="py-12 sm:py-16 md:py-20 text-center text-white font-inter bg-jade">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-2.5 text-base sm:text-xl font-medium text-white/85">Bharosa Humara, Fydaa Aapka</div>
-        <h2 className="text-heading mb-3 font-bold text-white">
-          Your financial journey starts here
-        </h2>
-        <p className="max-w-[560px] mx-auto mb-8 text-sm sm:text-base text-white/70">
-          Let&apos;s embark on this journey together, towards a tomorrow filled with financial freedom and growth.
-          Welcome to Fydaa, where your money is managed for tomorrow, today.
-        </p>
-        <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3">
-          <Link
-            href="/#book-a-call"
-            className="btn btn-inverse btn-lg"
-            data-ph-event="Book a Free Call"
-          >
-            Book a free call
-          </Link>
-          <Link
-            href="/download"
-            prefetch={false}
-            data-ph-event="Download App"
-            className="btn btn-outline-inverse btn-lg"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            Download app
-          </Link>
+    <section aria-labelledby="about-cta-title" className="section">
+      <Container className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <div className="flex flex-col gap-4">
+          <p className="text-sm font-semibold text-emerald" lang="hi-Latn">
+            Bharosa humara, Fydaa aapka
+          </p>
+          <h2 id="about-cta-title" className="max-w-[16ch] text-heading text-ink">
+            Start with a free call
+          </h2>
+          <p className="max-w-[46ch] text-lead text-grey-600">
+            Leave your number and a relationship manager will call you back. Or get the app and set up your first
+            goal yourself.
+          </p>
         </div>
-      </div>
+        <div className="flex flex-wrap gap-3">
+          <ButtonLink href="/#book-a-call" size="lg" data-ph-event="Book a Free Call">
+            Book a free call
+          </ButtonLink>
+          <ButtonLink
+            href={routes.download.path}
+            prefetch={false}
+            size="lg"
+            variant="secondary"
+            data-ph-event="Download App"
+          >
+            Download the app
+          </ButtonLink>
+        </div>
+      </Container>
     </section>
   );
 }
