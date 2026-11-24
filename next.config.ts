@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { securityHeaders } from "./src/config/security-headers";
 
 const appEnv = (process.env.NEXT_PUBLIC_APP_ENV || "prod").toLowerCase();
 const isStage = appEnv === "stage" || appEnv === "staging" || appEnv === "dev";
@@ -10,6 +11,14 @@ const stockRemote = String(
 ).replace(/\/$/, "");
 
 const nextConfig: NextConfig = {
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: securityHeaders({ isDev: process.env.NODE_ENV === "development" }),
+      },
+    ];
+  },
   async redirects() {
     return [
       { source: "/carrers", destination: "/careers", permanent: true },

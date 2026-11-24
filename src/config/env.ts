@@ -1,4 +1,7 @@
-import { z } from "zod";
+import * as z from "zod/mini";
+
+// Parse without JIT code generation: no `new Function` (CSP-clean) and a smaller bundle.
+z.config({ jitless: true });
 
 /**
  * Public runtime configuration, validated once at module load.
@@ -51,10 +54,18 @@ const DEFAULTS: Record<AppEnv, Record<string, string | undefined>> = {
 const httpUrl = z.url({ protocol: /^https?$/, error: "must be an absolute http(s) URL" });
 
 /** API base URL, normalised to end with exactly one slash. */
-const baseUrl = httpUrl.transform((value) => value.replace(/\/+$/, "") + "/");
+const baseUrl = z.pipe(
+  httpUrl,
+  z.transform((value: string) => value.replace(/\/+$/, "") + "/"),
+);
 
 /** Origin-style URL without a trailing slash (used for canonical links). */
-const originUrl = httpUrl.transform((value) => value.replace(/\/+$/, ""));
+const originUrl = z.pipe(
+  httpUrl,
+  z.transform((value: string) => value.replace(/\/+$/, "")),
+);
+
+const optionalString = z.optional(z.string().check(z.minLength(1)));
 
 const envSchema = z.object({
   appEnv: z.enum(["production", "staging"]),
@@ -67,19 +78,19 @@ const envSchema = z.object({
     payment: baseUrl,
     crm: baseUrl,
   }),
-  chatbotUrl: httpUrl.optional(),
+  chatbotUrl: z.optional(httpUrl),
   posthog: z.object({
-    key: z.string().min(1).optional(),
+    key: optionalString,
     host: originUrl,
   }),
   oauth: z.object({
-    googleClientId: z.string().min(1).optional(),
-    appleClientId: z.string().min(1).optional(),
-    appleRedirectUri: httpUrl.optional(),
+    googleClientId: optionalString,
+    appleClientId: optionalString,
+    appleRedirectUri: z.optional(httpUrl),
   }),
 });
 
-export type Env = z.infer<typeof envSchema>;
+export type Env = z.output<typeof envSchema>;
 
 const defaults = DEFAULTS[appEnv];
 

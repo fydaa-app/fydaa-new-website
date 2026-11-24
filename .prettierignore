@@ -17,7 +17,8 @@ src/animations/
 src/types/
 src/app/\[slug\]/
 src/app/about/
-src/app/api/
+src/app/api/careers/
+src/app/api/proxy/
 src/app/careers/
 src/app/components/
 src/app/config/
