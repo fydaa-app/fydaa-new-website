@@ -1,63 +1,52 @@
 import React from 'react';
-import { RiskIcon, PersonalIcon, EsignIcon, BankIcon } from './UI';
 
-const STEP_LABELS = ['Risk Profile', 'Personal Info', 'E-Sign', 'Bank'];
-const STEP_ICONS = [RiskIcon, PersonalIcon, EsignIcon, BankIcon];
+const STEP_LABELS = ['Risk profile', 'Personal info', 'E-sign', 'Bank'];
 
 /**
+ * Where the reader is in KYC: four round-capped bars (the logo's stroke) with their names.
+ *
  * activeStep: 1-4 (which macro step is current)
- * headline: optional supporting line shown under the steps
- * progress: optional 0-100, shows a sub-progress bar (used during the 7 risk questions)
+ * progress: optional 0-100, fills the active bar (used during the risk questions)
  */
-export default function Stepper({ activeStep, headline, progress }) {
+export default function Stepper({ activeStep, progress }) {
+  const current = STEP_LABELS[activeStep - 1];
   return (
-    <div className="bg-gradient-to-br from-jade to-jade-hover rounded-4xl px-7 pt-7 pb-5 mb-8 text-white">
-      <div className="flex items-start justify-between">
+    <div className="mb-8">
+      <p className="text-sm text-grey-600">
+        <span className="font-semibold text-ink">
+          Step {activeStep} of {STEP_LABELS.length}
+        </span>
+        {current ? `: ${current}` : null}
+      </p>
+      <ol aria-label="KYC steps" className="mt-3 grid grid-cols-4 gap-2">
         {STEP_LABELS.map((label, i) => {
           const num = i + 1;
           const state = num < activeStep ? 'completed' : num === activeStep ? 'active' : 'upcoming';
-          const Icon = STEP_ICONS[i];
+          const fill = state === 'completed' ? 100 : state === 'active' ? (progress ?? 100) : 0;
           return (
-            <div key={label} className="flex-1 flex flex-col items-center gap-2 relative">
-              {i < STEP_LABELS.length - 1 && (
-                <div
-                  className={`absolute top-5 left-[calc(50%+22px)] w-[calc(100%-44px)] h-[1.5px] ${
-                    state === 'completed' ? 'bg-white/45' : 'border-t-[1.5px] border-dashed border-white/20'
-                  }`}
-                />
-              )}
-              <div
-                className={`w-10 h-10 rounded-full border-[1.5px] flex items-center justify-center relative z-10 transition-colors ${
-                  state === 'active'
-                    ? 'border-white/80 bg-white/15 shadow-[0_0_0_4px_rgba(255,255,255,0.08)]'
-                    : state === 'completed'
-                    ? 'border-white/35 bg-white/10'
-                    : 'border-white/20 bg-white/[0.06]'
-                }`}
-              >
-                <Icon
-                  className={`w-[18px] h-[18px] ${
-                    state === 'active' ? 'text-white' : state === 'completed' ? 'text-white/60' : 'text-white/35'
-                  }`}
-                />
-              </div>
+            <li key={label} aria-current={state === 'active' ? 'step' : undefined} className="min-w-0">
+              <span aria-hidden="true" className="block h-1.5 overflow-hidden rounded-full bg-line">
+                {fill > 0 ? (
+                  <span
+                    className={`block h-full w-full rounded-full transition-transform duration-slow ease-smooth-out motion-reduce:transition-none ${
+                      state === 'completed' ? 'bg-jade' : 'bg-sprout'
+                    }`}
+                    style={{ transform: `translateX(${fill - 100}%)` }}
+                  />
+                ) : null}
+              </span>
               <span
-                className={`text-xs font-semibold tracking-wide text-center ${
-                  state === 'active' ? 'text-white font-bold' : state === 'completed' ? 'text-white/55' : 'text-white/35'
+                className={`mt-2 block text-xs leading-snug ${
+                  state === 'active' ? 'font-semibold text-ink' : state === 'completed' ? 'text-grey-600' : 'text-grey-500'
                 }`}
               >
                 {label}
+                {state === 'completed' ? <span className="sr-only"> (done)</span> : null}
               </span>
-            </div>
+            </li>
           );
         })}
-      </div>
-      {headline && <div className="text-base font-semibold text-white/85 leading-snug mt-[18px]">{headline}</div>}
-      {progress != null && (
-        <div className="w-full h-1 bg-white/15 rounded-full mt-4 overflow-hidden">
-          <div className="h-full bg-white/60 rounded-full transition-all" style={{ width: `${progress}%` }} />
-        </div>
-      )}
+      </ol>
     </div>
   );
 }

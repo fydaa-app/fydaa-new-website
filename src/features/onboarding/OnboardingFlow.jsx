@@ -1,16 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { safeRedirectPath } from '@/lib/auth/session';
 import Stepper from './components/Stepper';
 import KycModal from './components/KycModal';
 import {
-  Overline, PageHeading, PageSub, Button, OutlineButton, LinkText, FieldInput, FieldSelect, FieldRow,
-  CodeInputs, Chip, Checkbox, QuestionCard, ScoreRing,
-  RiskIcon, EnvelopeIcon, DocIcon, ShieldIcon, BackIcon, CheckIcon, GoogleIcon, AppleIcon,
+  PageHeading, PageSub, Button, OutlineButton, LinkText, BackButton, FieldInput, FieldSelect, FieldRow,
+  CodeInputs, Checkbox, OptionButton, OrDivider, ScoreRing, ErrorNote, SuccessState,
+  CheckIcon, GoogleIcon, AppleIcon,
 } from './components/UI';
+import { SegmentedControl } from '@/components/ui/segmented-control';
+import { AuthLayout, FocusLayout } from './components/AuthLayout';
+import { AuthAside } from './components/AuthAside';
+import { AUTH_SUBS, AUTH_TITLES } from './AuthFallback';
+import { planFromParams } from './lib/signupIntent';
 import SignaturePad from './components/SignaturePad';
 import {
   bandFromIndicators,
@@ -91,19 +96,20 @@ import {
  * Risk quiz opens when KYC starts (isRiskProfileComplete false), not after create PIN.
  */
 
+/** Which KYC step (1-4) each screen belongs to; `p` fills the active bar. */
 const STEP_MAP = {
-  risk: { s: 1, p: null, h: 'Just a few steps to tailor your financial journey' },
-  score: { s: 1, p: [1, 1], h: 'Your risk profile is ready' },
-  email: { s: 1, p: null, h: 'Get your risk profile report and financial insights' },
-  emailotp: { s: 1, p: null, h: 'Get your risk profile report and financial insights' },
-  pan: { s: 2, p: null, h: "You're one step away" },
-  kyc: { s: 2, p: null, h: "You're one step away" },
-  digilocker: { s: 2, p: null, h: "You're one step away" },
-  signature: { s: 3, p: null, h: "You're one step away" },
-  nsdl: { s: 3, p: null, h: "You're one step away" },
-  esign: { s: 3, p: null, h: "You're one step away" },
-  bank: { s: 4, p: null, h: null },
-  nominee: { s: 4, p: null, h: null },
+  risk: { s: 1, p: null },
+  score: { s: 1, p: [1, 1] },
+  email: { s: 1, p: null },
+  emailotp: { s: 1, p: null },
+  pan: { s: 2, p: null },
+  kyc: { s: 2, p: null },
+  digilocker: { s: 2, p: null },
+  signature: { s: 3, p: null },
+  nsdl: { s: 3, p: null },
+  esign: { s: 3, p: null },
+  bank: { s: 4, p: null },
+  nominee: { s: 4, p: null },
 };
 
 const BACK_MAP = {
@@ -117,23 +123,34 @@ const BACK_MAP = {
 const AUTH_ENTRY_SCREENS = new Set(['mobile', 'otp']);
 const KYC_NAV_EVENT = 'fydaa-onboarding-nav';
 
-const RELATIONS = NOMINEE_RELATIONS.map((r) => r.label);
+const ACCOUNT_TYPES = [
+  { value: 'savings', label: 'Savings' },
+  { value: 'current', label: 'Current' },
+];
 
 function AccountSwitch({ isLogin }) {
   return (
-    <p className="text-center text-base mt-6">
-      <span className="text-neutral-500">
-        {isLogin ? 'New to Fydaa? ' : 'Already have an account? '}
-      </span>
+    <p className="mt-1 flex flex-wrap items-center gap-x-1.5 border-t border-line pt-3 text-sm text-grey-600">
+      {isLogin ? 'New to Fydaa?' : 'Already have an account?'}
       <Link
         href={isLogin ? '/signup' : '/login'}
-        className="inline-flex min-h-11 items-center px-1 font-semibold text-jade underline-offset-4 hover:underline"
+        className="link inline-flex min-h-11 items-center"
         data-ph-event={isLogin ? 'Sign up' : 'Log in'}
       >
         {isLogin ? 'Sign up' : 'Log in'}
       </Link>
     </p>
   );
+}
+
+/** "+91 98765 43210" */
+function formatMobile(digits) {
+  return digits.length === 10 ? `+91 ${digits.slice(0, 5)} ${digits.slice(5)}` : `+91 ${digits}`;
+}
+
+/** Seconds as "0:24". */
+function formatSeconds(secs) {
+  return `0:${String(secs).padStart(2, '0')}`;
 }
 
 export default function OnboardingFlow({
@@ -181,7 +198,15 @@ export default function OnboardingFlow({
   const [confirmPin, setConfirmPin] = useState('');
   const [pinSetupType, setPinSetupType] = useState('NEW_USER');
   const [otp, setOtp] = useState('');
-  const [authError, setAuthError] = useState('');
+  const [authError, setAuthErrorText] = useState('');
+  /** Which field the error is about (shown under that field), or null for a general error. */
+  const [errorField, setErrorField] = useState(null);
+  /** Bumped on every new error so the shake replays even when the message repeats. */
+  const [errorTick, setErrorTick] = useState(0);
+  /** A finished moment ({ title, body }) shown with a success check while the next page loads. */
+  const [done, setDone] = useState(null);
+  /** Wall clock for the OTP resend countdown, refreshed while the OTP screen is open. */
+  const [now, setNow] = useState(0);
   const [authBusy, setAuthBusy] = useState('');
   const [showReferral, setShowReferral] = useState(false);
   const [referralInput, setReferralInput] = useState('');
@@ -202,6 +227,15 @@ export default function OnboardingFlow({
   const maxDobIso = toIsoDate(maxDobForMinAge(18));
   const todayIso = toIsoDate(new Date());
   const nomineeIsMinor = Boolean(nomineeDob) && !isAdultDob(nomineeDob, 18);
+
+  /** Show (or clear) the screen's error; `field` places it under one input. */
+  const setAuthError = (message, field = null) => {
+    setAuthErrorText(message);
+    setErrorField(message ? field : null);
+    if (message) setErrorTick((tick) => tick + 1);
+  };
+  const errorFor = (field) => (authError && errorField === field ? authError : '');
+  const generalError = authError && !errorField ? authError : '';
 
   const go = (next) => {
     setAuthError('');
@@ -349,6 +383,19 @@ export default function OnboardingFlow({
     const id = setInterval(tick, 250);
     return () => clearInterval(id);
   }, [screen, emailResendReadyAt]);
+
+  useEffect(() => {
+    if (screen !== 'otp') return undefined;
+    const tick = () => setNow(Date.now());
+    const first = setTimeout(tick, 0);
+    const id = setInterval(tick, 500);
+    return () => {
+      clearTimeout(first);
+      clearInterval(id);
+    };
+  }, [screen, resendReadyAt]);
+  // Clamped to the 30s cooldown so a stale clock never shows a longer wait.
+  const resendSecs = now ? Math.min(30, Math.max(0, Math.ceil((resendReadyAt - now) / 1000))) : 30;
 
   async function loadRiskResult() {
     const indicators = await getRiskIndicators();
@@ -592,7 +639,7 @@ export default function OnboardingFlow({
 
   async function submitSignupMobile() {
     if (mobileNumber.length !== 10) {
-      setAuthError('Enter a 10-digit mobile number.');
+      setAuthError('Enter a 10-digit mobile number.', 'mobile');
       return;
     }
     setAuthBusy('otp-request');
@@ -626,17 +673,19 @@ export default function OnboardingFlow({
 
   async function submitLoginPin() {
     if (mobileNumber.length !== 10) {
-      setAuthError('Enter a 10-digit mobile number.');
+      setAuthError('Enter a 10-digit mobile number.', 'mobile');
       return;
     }
     if (pin.length !== 4) {
-      setAuthError('Enter your 4-digit PIN.');
+      setAuthError('Enter your 4-digit PIN.', 'pin');
       return;
     }
     setAuthBusy('pin');
     setAuthError('');
+    let failedField = 'pin';
     try {
       await verifyPin({ mobileNumber, pin });
+      failedField = null;
       await requestOtp({
         mobileNumber,
         referredBy: storedReferral || undefined,
@@ -645,7 +694,7 @@ export default function OnboardingFlow({
       setResendReadyAt(Date.now() + 30000);
       go('otp');
     } catch (err) {
-      setAuthError(err.message || 'Could not verify PIN.');
+      setAuthError(err.message || 'Could not verify PIN.', failedField);
     } finally {
       setAuthBusy('');
     }
@@ -653,18 +702,21 @@ export default function OnboardingFlow({
 
   async function finishLoginAfterOtp() {
     // Login always lands on dashboard; KYC continues only from signup.
+    setDone({ title: "You're logged in", body: 'Opening your account…' });
     goHome();
   }
 
   async function submitSignupOtp() {
     if (otp.length !== 6) {
-      setAuthError('Enter the 6-digit OTP.');
+      setAuthError('Enter the 6-digit OTP.', 'otp');
       return;
     }
     setAuthBusy('otp');
     setAuthError('');
+    let failedField = 'otp';
     try {
       const verified = await verifyOtp({ mobileNumber, otp });
+      failedField = null;
       // Same token save for signup and login: data.accessToken → localStorage.
       storeTokens(verified);
       // Map advisor / RM in CRM (login + signup). Non-blocking.
@@ -675,7 +727,7 @@ export default function OnboardingFlow({
       }
       await routeAfterAuth();
     } catch (err) {
-      setAuthError(err.message || 'Could not verify OTP.');
+      setAuthError(err.message || 'Could not verify OTP.', failedField);
     } finally {
       setAuthBusy('');
     }
@@ -705,17 +757,18 @@ export default function OnboardingFlow({
 
   async function submitCreatePin() {
     if (createPinValue.length !== 4) {
-      setAuthError('Enter a 4-digit PIN.');
+      setAuthError('Enter a 4-digit PIN.', 'createPin');
       return;
     }
     if (createPinValue !== confirmPin) {
-      setAuthError('PINs do not match.');
+      setAuthError('PINs do not match.', 'confirmPin');
       return;
     }
     setAuthBusy('create-pin');
     setAuthError('');
     try {
       await createPinApi({ pin: createPinValue, confirmPin });
+      setDone({ title: 'Your PIN is set', body: 'Opening your account…' });
       goHome();
     } catch (err) {
       setAuthError(err.message || 'Could not create PIN.');
@@ -735,7 +788,7 @@ export default function OnboardingFlow({
   async function submitRequestEmailOtp() {
     const nextEmail = email.trim();
     if (!isValidEmail(nextEmail)) {
-      setAuthError('Enter a valid email address.');
+      setAuthError('Enter a valid email address.', 'email');
       return;
     }
     setAuthBusy('email-request');
@@ -755,16 +808,18 @@ export default function OnboardingFlow({
 
   async function submitVerifyEmailOtp() {
     if (emailOtp.length !== 6) {
-      setAuthError('Enter the 6-digit verification code.');
+      setAuthError('Enter the 6-digit verification code.', 'emailOtp');
       return;
     }
     setAuthBusy('email-verify');
     setAuthError('');
+    let failedField = 'emailOtp';
     try {
       await verifyLinkEmail({ email: email.trim(), otp: emailOtp });
+      failedField = null;
       await continueAfterEmailLinked();
     } catch (err) {
-      setAuthError(err.message || 'Something went wrong, try again after sometime.');
+      setAuthError(err.message || 'Something went wrong, try again after sometime.', failedField);
     } finally {
       setAuthBusy('');
     }
@@ -803,19 +858,19 @@ export default function OnboardingFlow({
   function submitPanDetails() {
     const pan = normalizePan(panNumber);
     if (!isValidPan(pan)) {
-      setAuthError('Enter a valid PAN (e.g. ABCDE1234F).');
+      setAuthError('Enter a valid PAN (e.g. ABCDE1234F).', 'pan');
       return;
     }
     if (!isValidFullName(panName)) {
-      setAuthError('Enter your full name as on PAN (letters only).');
+      setAuthError('Enter your full name as on PAN (letters only).', 'panName');
       return;
     }
     if (!dob) {
-      setAuthError('Select your date of birth.');
+      setAuthError('Select your date of birth.', 'dob');
       return;
     }
     if (!isAdultDob(dob, 18)) {
-      setAuthError('You must be at least 18 years old.');
+      setAuthError('You must be at least 18 years old.', 'dob');
       return;
     }
     setPanNumber(pan);
@@ -1242,7 +1297,7 @@ export default function OnboardingFlow({
     const confirmAcct = confirmAccountNumber.trim();
 
     if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifscCode)) {
-      setAuthError('Enter a valid IFSC (e.g. HDFC0001234).');
+      setAuthError('Enter a valid IFSC (e.g. HDFC0001234).', 'ifsc');
       return;
     }
     if (!['savings', 'current'].includes(accountType)) {
@@ -1250,11 +1305,11 @@ export default function OnboardingFlow({
       return;
     }
     if (!/^\d{9,18}$/.test(acct)) {
-      setAuthError('Enter a valid account number (9–18 digits).');
+      setAuthError('Enter a valid account number (9–18 digits).', 'accountNumber');
       return;
     }
     if (acct !== confirmAcct) {
-      setAuthError('Account numbers do not match.');
+      setAuthError('Account numbers do not match.', 'confirmAccountNumber');
       return;
     }
     setAuthBusy('bank');
@@ -1319,6 +1374,7 @@ export default function OnboardingFlow({
           nominees: [nominee],
         });
       }
+      setDone({ title: 'Your details are saved', body: 'Opening your account…' });
       goHome();
     } catch (err) {
       setAuthError(err.message || 'Could not save nominee.');
@@ -1368,7 +1424,7 @@ export default function OnboardingFlow({
 
   const cfg = STEP_MAP[screen];
   const isLogin = mode === 'login';
-  const entryLabel = isLogin ? 'Login' : 'Sign up';
+  const busy = Boolean(authBusy);
   /** Real <form> submit: Enter / the phone keyboard's "Go" key run the screen's action. */
   const submitWith = (handler) => (event) => {
     event.preventDefault();
@@ -1390,11 +1446,14 @@ export default function OnboardingFlow({
   const riskProgress = questions.length
     ? Math.round(((riskIndex + 1) / questions.length) * 100)
     : null;
-  const pinTitle = pinSetupType === 'LEGACY_MIGRATION' ? 'Update Your pin' : 'Create Your pin';
-  const pinSub =
-    pinSetupType === 'LEGACY_MIGRATION'
-      ? 'Your old 6-digit pin no longer works. Set a new 4-digit pin.'
-      : 'Create a 4-digit pin to secure your account.';
+  const isLegacyPin = pinSetupType === 'LEGACY_MIGRATION';
+  const pinTitle = isLegacyPin ? 'Set a new PIN' : 'Create your PIN';
+  const pinSub = isLegacyPin
+    ? 'Your old 6-digit PIN no longer works. Set a new 4-digit PIN to log in with.'
+    : "You'll use this 4-digit PIN with your mobile number to log in.";
+  /** The SIP picked in the home planner (?intent=sip&…), shown beside the signup form. */
+  const plan = useMemo(() => (isLogin ? null : planFromParams(searchParams)), [isLogin, searchParams]);
+  const authKey = isLogin ? 'login' : 'signup';
 
   function handleBack() {
     if (backTarget === 'risk-prev') {
@@ -1409,382 +1468,387 @@ export default function OnboardingFlow({
     if (backTarget) go(backTarget);
   }
 
-  return (
-    <div className={`max-w-[640px] mx-auto px-6 ${embedded ? 'pt-2 pb-16' : 'pt-10 pb-24'}`}>
-      {embedded && (
-        <button
-          type="button"
-          onClick={exitToDashboard}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-jade mb-5"
-        >
-          <BackIcon className="w-[16px] h-[16px]" />
-          Back to dashboard
-        </button>
-      )}
+  const kycModalCopy = {
+    compliant: {
+      title: 'Your KYC is already done',
+      subtitle: 'Answer a few questions, then add your bank account and a nominee.',
+      cta: 'Continue',
+    },
+    modify: {
+      title: 'Update your KYC',
+      subtitle: kycNotice || 'Your KYC details need an update before you can invest.',
+      cta: 'Update KYC',
+    },
+    noncompliant: {
+      title: 'Complete your KYC',
+      subtitle:
+        "Your KYC isn't complete yet. Next: a few details, a DigiLocker check, your signature and an Aadhaar e-sign.",
+      cta: 'Complete your KYC',
+    },
+  }[kycPath] || {};
 
-      {cfg && (
-        <Stepper
-          activeStep={cfg.s}
-          headline={cfg.h}
-          progress={screen === 'risk' ? riskProgress : cfg.p ? Math.round((cfg.p[0] / cfg.p[1]) * 100) : null}
+  /* ── Entry screens: mobile number and OTP ───────────────────────── */
+
+  const entryHeading = done ? (
+    <PageHeading>{AUTH_TITLES[authKey]}</PageHeading>
+  ) : screen === 'otp' ? (
+    <>
+      <PageHeading>Verify your mobile number</PageHeading>
+      <p className="mt-2 flex flex-wrap items-center gap-x-3 text-base leading-relaxed text-grey-600">
+        <span>
+          We sent a 6-digit code to{' '}
+          <span className="whitespace-nowrap font-semibold tabular-nums text-ink">{formatMobile(mobileNumber)}</span>.
+        </span>
+        <LinkText onClick={handleBack}>Change number</LinkText>
+      </p>
+    </>
+  ) : (
+    <>
+      <PageHeading>{AUTH_TITLES[authKey]}</PageHeading>
+      <PageSub>{AUTH_SUBS[authKey]}</PageSub>
+    </>
+  );
+
+  const entryForm = done ? (
+    <SuccessState title={done.title}>{done.body}</SuccessState>
+  ) : screen === 'mobile' ? (
+    <form noValidate className="flex flex-col gap-5" onSubmit={submitWith(isLogin ? submitLoginPin : submitSignupMobile)}>
+      <FieldInput
+        label="Mobile number"
+        prefix="+91"
+        type="tel"
+        name="mobile"
+        inputMode="numeric"
+        autoComplete="tel-national"
+        maxLength={10}
+        placeholder="10-digit number"
+        value={mobileNumber}
+        error={errorFor('mobile')}
+        errorKey={errorTick}
+        onChange={(e) => { setMobile(e.target.value); setAuthError(''); }}
+      />
+      {isLogin && (
+        <CodeInputs
+          count={4}
+          kind="pin"
+          label="4-digit PIN"
+          value={pin}
+          error={errorFor('pin')}
+          shakeKey={errorTick}
+          onChange={(next) => { setPin(next); setAuthError(''); }}
         />
       )}
-
-      {backTarget && (
-        <button
-          type="button"
-          onClick={handleBack}
-          aria-label="Back"
-          className="w-9 h-9 rounded-full border border-neutral-200 bg-white flex items-center justify-center mb-5"
-        >
-          <BackIcon className="w-[18px] h-[18px] text-neutral-600" />
-        </button>
-      )}
-
-      {embedded && !screen && (
-        <div className="text-sm text-neutral-500 pt-6">
-          {authError || (authBusy ? 'Loading your KYC steps…' : 'Preparing KYC…')}
-        </div>
-      )}
-
-      {/* MOBILE NUMBER */}
-      {screen === 'mobile' && (
-        <form noValidate className="contents" onSubmit={submitWith(isLogin ? submitLoginPin : submitSignupMobile)}>
-          <PageHeading>{isLogin ? 'Log in to Fydaa' : 'Create your Fydaa account'}</PageHeading>
-          <PageSub>
-            {isLogin ? 'Enter the mobile number linked to your account' : 'We will send you an OTP to verify'}
-          </PageSub>
-          <FieldInput
-            label="Mobile Number"
-            prefix="+91"
-            type="tel"
-            name="mobile"
-            inputMode="numeric"
-            autoComplete="tel-national"
-            maxLength={10}
-            placeholder="Enter mobile number"
-            value={mobileNumber}
-            onChange={(e) => { setMobile(e.target.value); setAuthError(''); }}
-          />
-          {isLogin && (
-            <div className="mb-2">
-              <CodeInputs
-                count={4}
-                kind="pin"
-                label="4-digit PIN"
-                value={pin}
-                onChange={(next) => { setPin(next); setAuthError(''); }}
+      {!isLogin && (
+        <div className="-my-2 flex flex-col gap-2">
+          <LinkText
+            aria-expanded={showReferral}
+            aria-controls="signup-referral"
+            onClick={() => setShowReferral((v) => !v)}
+          >
+            Have a referral code?
+          </LinkText>
+          {showReferral && (
+            <div id="signup-referral" className="pb-2">
+              <FieldInput
+                label="Referral code (optional)"
+                name="referral"
+                autoComplete="off"
+                autoCapitalize="characters"
+                spellCheck={false}
+                value={referralInput}
+                onChange={(e) => setReferralInput(e.target.value)}
               />
             </div>
           )}
-          {!isLogin && (
-            <>
-              <LinkText onClick={() => setShowReferral((v) => !v)}>Have a Referral Code?</LinkText>
-              {showReferral && (
-                <FieldInput
-                  label="Referral Code"
-                  placeholder="Optional"
-                  value={referralInput}
-                  onChange={(e) => setReferralInput(e.target.value)}
-                />
-              )}
-            </>
-          )}
-          {authError && screen === 'mobile' && (
-            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
-          )}
-          <Button
-            phEvent={isLogin ? 'Login Proceed' : 'Sign up Proceed'}
-            type="submit"
-            disabled={Boolean(authBusy)}
-          >
-            {authBusy === 'pin' || authBusy === 'otp-request' ? 'Please wait...' : 'Proceed'}
-          </Button>
-          <AccountSwitch isLogin={isLogin} />
-        </form>
+        </div>
       )}
+      <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+      <Button
+        phEvent={isLogin ? 'Login Proceed' : 'Sign up Proceed'}
+        type="submit"
+        disabled={busy}
+        loading={authBusy === 'pin' || authBusy === 'otp-request'}
+      >
+        {isLogin
+          ? authBusy === 'pin' ? 'Checking your PIN' : 'Log in'
+          : authBusy === 'otp-request' ? 'Sending OTP' : 'Send OTP'}
+      </Button>
+      <AccountSwitch isLogin={isLogin} />
+    </form>
+  ) : screen === 'otp' ? (
+    <form noValidate className="flex flex-col gap-5" onSubmit={submitWith(submitSignupOtp)}>
+      <CodeInputs
+        count={6}
+        label="6-digit OTP"
+        autoFocus
+        value={otp}
+        error={errorFor('otp')}
+        shakeKey={errorTick}
+        onChange={(next) => { setOtp(next); setAuthError(''); }}
+      />
+      <LinkText className="-my-3" onClick={resendSignupOtp} disabled={busy || resendSecs > 0}>
+        {authBusy === 'resend'
+          ? 'Sending a new OTP…'
+          : resendSecs > 0
+            ? `Resend OTP in ${formatSeconds(resendSecs)}`
+            : 'Resend OTP'}
+      </LinkText>
+      <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+      <Button phEvent="Verify OTP" type="submit" disabled={busy} loading={authBusy === 'otp'}>
+        {authBusy === 'otp' ? 'Verifying' : isLogin ? 'Log in' : 'Verify'}
+      </Button>
+    </form>
+  ) : null;
 
-      {/* OTP — signup first visit / login after PIN */}
-      {screen === 'otp' && (
-        <form noValidate className="contents" onSubmit={submitWith(submitSignupOtp)}>
-          <Overline>{entryLabel}</Overline>
-          <PageHeading>Enter the OTP sent to</PageHeading>
-          <PageSub>{mobileNumber ? `+91 ${mobileNumber}` : '+91'}</PageSub>
-          <CodeInputs
-            count={6}
-            label="6-digit OTP"
-            labelHidden
-            autoFocus
-            value={otp}
-            onChange={(next) => { setOtp(next); setAuthError(''); }}
-          />
-          <LinkText onClick={resendSignupOtp}>
-            {authBusy === 'resend' ? 'Sending...' : 'Resend OTP'}
-          </LinkText>
-          {authError && screen === 'otp' && (
-            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
-          )}
-          <Button phEvent="Verify OTP" type="submit" disabled={Boolean(authBusy)}>
-            {authBusy === 'otp' ? 'Verifying...' : 'Proceed'}
-          </Button>
-          <AccountSwitch isLogin={isLogin} />
-        </form>
+  /* ── Focused screens: PIN, risk profile, KYC ───────────────────── */
+
+  const stepHeader = (
+    <>
+      {backTarget && screen !== 'otp' && !done && (
+        <div className="-mt-2 mb-4">
+          <BackButton onClick={handleBack}>{backTarget === 'risk-prev' ? 'Previous question' : 'Back'}</BackButton>
+        </div>
       )}
+      {cfg && !done && (
+        <Stepper
+          activeStep={cfg.s}
+          progress={screen === 'risk' ? riskProgress : cfg.p ? Math.round((cfg.p[0] / cfg.p[1]) * 100) : null}
+        />
+      )}
+    </>
+  );
 
+  const heading = (title, sub) => (
+    <div className="mb-1">
+      <PageHeading size="step">{title}</PageHeading>
+      {sub ? <PageSub>{sub}</PageSub> : null}
+    </div>
+  );
+
+  const stepScreens = done ? (
+    <SuccessState title={done.title} titleAs="h1">{done.body}</SuccessState>
+  ) : (
+    <>
       {/* PIN — create / legacy migrate; then home (not risk quiz) */}
       {screen === 'pin' && (
-        <form noValidate className="contents" onSubmit={submitWith(submitCreatePin)}>
-          <PageHeading>{pinTitle}</PageHeading>
-          <PageSub>{pinSub}</PageSub>
-          <div className="bg-white border border-neutral-200 rounded-2xl p-6 mb-5 shadow-sm">
-            <CodeInputs
-              count={4}
-              kind="pin"
-              label="Enter 4-digit PIN"
-              value={createPinValue}
-              onChange={(next) => { setCreatePinValue(next); setAuthError(''); }}
-            />
-            <CodeInputs
-              count={4}
-              kind="pin"
-              label="Re-enter PIN"
-              value={confirmPin}
-              onChange={(next) => { setConfirmPin(next); setAuthError(''); }}
-            />
-          </div>
-          {authError && screen === 'pin' && (
-            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
-          )}
-          <Button phEvent="Create PIN" type="submit" disabled={Boolean(authBusy)}>
-            {authBusy === 'create-pin' ? 'Saving...' : 'Get started'}
+        <form noValidate className="flex flex-col gap-5" onSubmit={submitWith(submitCreatePin)}>
+          {heading(pinTitle, pinSub)}
+          <CodeInputs
+            count={4}
+            kind="pin"
+            label="New 4-digit PIN"
+            autoFocus
+            value={createPinValue}
+            error={errorFor('createPin')}
+            shakeKey={errorTick}
+            onChange={(next) => { setCreatePinValue(next); setAuthError(''); }}
+          />
+          <CodeInputs
+            count={4}
+            kind="pin"
+            label="Enter the PIN again"
+            value={confirmPin}
+            error={errorFor('confirmPin')}
+            shakeKey={errorTick}
+            onChange={(next) => { setConfirmPin(next); setAuthError(''); }}
+          />
+          <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+          <Button phEvent="Create PIN" type="submit" disabled={busy} loading={authBusy === 'create-pin'}>
+            {authBusy === 'create-pin' ? 'Saving your PIN' : isLegacyPin ? 'Save PIN' : 'Create PIN'}
           </Button>
         </form>
       )}
 
       {/* RISK QUESTIONS — API questionnaire, one at a time */}
       {screen === 'risk' && currentQuestion && (
-        <>
-          <QuestionCard
-            icon={<RiskIcon className="w-[21px] h-[21px]" />}
-            counter={`(${riskIndex + 1} of ${questions.length})`}
-            title={currentQuestion.question || currentQuestion.text || ''}
-            subtitle={currentQuestion.subtitle || currentQuestion.description || ''}
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="flex flex-col gap-5">
+          <div className="mb-1">
+            <p className="mb-2 text-sm font-medium text-grey-600">
+              Question {riskIndex + 1} of {questions.length}
+            </p>
+            <PageHeading size="step">{currentQuestion.question || currentQuestion.text || ''}</PageHeading>
+            {(currentQuestion.subtitle || currentQuestion.description) && (
+              <PageSub>{currentQuestion.subtitle || currentQuestion.description}</PageSub>
+            )}
+          </div>
+          <div role="group" aria-label="Answers" className="grid gap-3 sm:grid-cols-2">
             {visibleOptions.map((opt, i) => {
               const label = typeof opt === 'string' ? opt : opt?.answer || opt?.option || opt?.text || opt?.label || String(opt);
               return (
-                <button
+                <OptionButton
                   key={`${currentQuestion.id}-${i}`}
-                  type="button"
-                  disabled={Boolean(authBusy)}
+                  selected={riskSel === i}
+                  disabled={busy}
                   onClick={() => pickRiskOption(i)}
-                  className={`text-left rounded-2xl border-[1.5px] px-4 py-[18px] text-sm font-semibold transition-colors ${
-                    riskSel === i
-                      ? 'border-emerald-700 bg-emerald-50 text-jade'
-                      : 'border-neutral-200 text-neutral-600 hover:border-neutral-300'
-                  }`}
                 >
                   {label}
-                </button>
+                </OptionButton>
               );
             })}
           </div>
-          {authError && (
-            <p className="text-sm text-red-600 mt-4">{authError}</p>
-          )}
+          <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
           {authBusy === 'risk-submit' && (
-            <p className="text-sm text-neutral-500 mt-4">Saving your risk profile...</p>
+            <p role="status" className="text-sm text-grey-600">Saving your risk profile…</p>
           )}
-        </>
+        </div>
       )}
 
       {/* SCORE */}
       {screen === 'score' && (
-        <div className="flex flex-col items-center text-center">
-          <ScoreRing score={riskScore} max={100} />
-          <div className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 rounded-full px-[18px] py-2 text-sm font-bold text-jade">
-            <ShieldIcon className="w-4 h-4" />
-            {riskBand || 'Your risk profile'}
+        <div className="flex flex-col gap-6">
+          {heading('Your risk profile is ready')}
+          <div className="flex flex-wrap items-center gap-6 rounded-card bg-mist p-5 sm:p-6">
+            <ScoreRing score={riskScore} max={100} />
+            <div className="flex min-w-0 flex-1 basis-40 flex-col items-start gap-2">
+              <p className="text-sm text-grey-600">Your profile</p>
+              <p className="rounded-full bg-jade-tint px-3.5 py-1.5 text-sm font-semibold text-jade">
+                {riskBand || 'Your risk profile'}
+              </p>
+            </div>
           </div>
-          <p className="text-sm text-neutral-500 mt-5 leading-relaxed max-w-[400px]">
-            Your personalized risk profile is ready. Continue to verify your email and finish KYC.
+          <p className="text-base leading-relaxed text-grey-600">
+            Next, verify your email to get your risk profile report. Then finish KYC with your PAN and bank details.
           </p>
-          <Button phEvent="Continue" onClick={() => go('email')} className="max-w-none" disabled={Boolean(authBusy)}>
-            Continue
-          </Button>
-          <OutlineButton
-            onClick={startRiskQuestionnaire}
-            className="max-w-none mt-3"
-            disabled={Boolean(authBusy)}
-          >
-            {authBusy === 'risk' ? 'Loading…' : 'Retake Quiz'}
-          </OutlineButton>
+          <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+          <div className="flex flex-col gap-3">
+            <Button phEvent="Continue" onClick={() => go('email')} disabled={busy}>
+              Continue
+            </Button>
+            <OutlineButton phEvent="Retake Quiz" onClick={startRiskQuestionnaire} disabled={busy} loading={authBusy === 'risk'}>
+              {authBusy === 'risk' ? 'Loading the questions' : 'Retake the quiz'}
+            </OutlineButton>
+          </div>
         </div>
       )}
 
       {/* EMAIL */}
       {screen === 'email' && (
-        <form noValidate className="contents" onSubmit={submitWith(submitRequestEmailOtp)}>
-          <QuestionCard
-            icon={<EnvelopeIcon className="w-[21px] h-[21px]" />}
-            title="Verify Your Email address"
-            subtitle="Verify your email to receive your personalized risk profile report"
-          >
-            <div className="mt-4">
-              <FieldInput
-                label="Email"
-                type="email"
-                name="email"
-                autoComplete="email"
-                placeholder="Enter your email-id"
-                value={email}
-                onChange={(e) => { setEmail(e.target.value); setAuthError(''); }}
-              />
-            </div>
-          </QuestionCard>
-          {authError && screen === 'email' && (
-            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
-          )}
-          <Button phEvent="Send Email OTP" type="submit" disabled={Boolean(authBusy)}>
-            {authBusy === 'email-request' ? 'Sending...' : 'Next'}
+        <form noValidate className="flex flex-col gap-5" onSubmit={submitWith(submitRequestEmailOtp)}>
+          {heading('Verify your email', "We'll send your risk profile report to this address.")}
+          <FieldInput
+            label="Email"
+            type="email"
+            name="email"
+            inputMode="email"
+            autoComplete="email"
+            placeholder="you@example.com"
+            value={email}
+            error={errorFor('email')}
+            errorKey={errorTick}
+            onChange={(e) => { setEmail(e.target.value); setAuthError(''); }}
+          />
+          <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+          <Button phEvent="Send Email OTP" type="submit" disabled={busy} loading={authBusy === 'email-request'}>
+            {authBusy === 'email-request' ? 'Sending code' : 'Send code'}
           </Button>
-          <div className="flex items-center gap-3 my-4">
-            <div className="flex-1 h-px bg-neutral-200" />
-            <span className="text-xs font-semibold uppercase tracking-wide text-neutral-500">or</span>
-            <div className="flex-1 h-px bg-neutral-200" />
+          <OrDivider />
+          <div className="flex flex-col gap-3">
+            <OutlineButton phEvent="Continue with Google" onClick={() => submitOAuthEmail('GOOGLE')} disabled={busy}>
+              <GoogleIcon />
+              {authBusy === 'google' ? 'Connecting to Google…' : 'Continue with Google'}
+            </OutlineButton>
+            <OutlineButton phEvent="Continue with Apple" onClick={() => submitOAuthEmail('APPLE')} disabled={busy}>
+              <AppleIcon />
+              {authBusy === 'apple' ? 'Connecting to Apple…' : 'Continue with Apple'}
+            </OutlineButton>
           </div>
-          <OutlineButton
-            onClick={() => submitOAuthEmail('GOOGLE')}
-            disabled={Boolean(authBusy)}
-          >
-            <GoogleIcon />
-            {authBusy === 'google' ? 'Connecting...' : 'Continue with Google'}
-          </OutlineButton>
-          <OutlineButton
-            onClick={() => submitOAuthEmail('APPLE')}
-            disabled={Boolean(authBusy)}
-          >
-            <AppleIcon />
-            {authBusy === 'apple' ? 'Connecting...' : 'Continue with Apple'}
-          </OutlineButton>
         </form>
       )}
 
       {/* EMAIL OTP */}
       {screen === 'emailotp' && (
-        <form noValidate className="contents" onSubmit={submitWith(submitVerifyEmailOtp)}>
-          <QuestionCard
-            icon={<EnvelopeIcon className="w-[21px] h-[21px]" />}
-            title="Verify Your Email address"
-            subtitle={`Please enter the 6-digit verification code sent to ${email || 'your email address'}`}
-          >
-            <div className="mt-4">
-              <CodeInputs
-                count={6}
-                label="6-digit email code"
-                labelHidden
-                autoFocus
-                value={emailOtp}
-                onChange={(next) => { setEmailOtp(next); setAuthError(''); }}
-              />
-              {emailResendSecs > 0 ? (
-                <p className="text-xs text-neutral-500 font-medium">
-                  Resend code in{' '}
-                  <b className="text-jade">
-                    00:{String(emailResendSecs).padStart(2, '0')}
-                  </b>
-                </p>
-              ) : (
-                <LinkText className="!mb-0" onClick={resendEmailOtp}>
-                  {authBusy === 'email-resend' ? 'Sending...' : 'Resend code'}
-                </LinkText>
-              )}
-            </div>
-          </QuestionCard>
-          {authError && screen === 'emailotp' && (
-            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
+        <form noValidate className="flex flex-col gap-5" onSubmit={submitWith(submitVerifyEmailOtp)}>
+          {heading(
+            'Enter the code from your email',
+            <>
+              We sent a 6-digit code to{' '}
+              <span className="break-words font-semibold text-ink">{email || 'your email address'}</span>.
+            </>
           )}
-          <Button phEvent="Verify Email OTP" type="submit" disabled={Boolean(authBusy)}>
-            {authBusy === 'email-verify' ? 'Verifying...' : 'Verify'}
+          <CodeInputs
+            count={6}
+            label="6-digit email code"
+            autoFocus
+            value={emailOtp}
+            error={errorFor('emailOtp')}
+            shakeKey={errorTick}
+            onChange={(next) => { setEmailOtp(next); setAuthError(''); }}
+          />
+          {emailResendSecs > 0 ? (
+            <p className="-my-3 flex min-h-11 items-center text-sm text-grey-600">
+              Resend code in <span className="ml-1 tabular-nums">{formatSeconds(emailResendSecs)}</span>
+            </p>
+          ) : (
+            <LinkText className="-my-3" onClick={resendEmailOtp}>
+              {authBusy === 'email-resend' ? 'Sending a new code…' : 'Resend code'}
+            </LinkText>
+          )}
+          <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+          <Button phEvent="Verify Email OTP" type="submit" disabled={busy} loading={authBusy === 'email-verify'}>
+            {authBusy === 'email-verify' ? 'Verifying' : 'Verify email'}
           </Button>
         </form>
       )}
 
       {/* PAN + NAME + DOB */}
       {screen === 'pan' && (
-        <form noValidate className="contents" onSubmit={submitWith(submitPanDetails)}>
-          <PageHeading size="text-2xl">Complete Your KYC</PageHeading>
-          <QuestionCard
-            icon={<DocIcon className="w-[21px] h-[21px]" />}
-            title="PAN details"
-            subtitle="Please provide your PAN, name as on PAN, and date of birth."
-          >
-            <div className="mt-4">
-              <FieldInput
-                label="Full name (as on PAN)"
-                placeholder="Enter full name"
-                value={panName}
-                onChange={(e) => { setPanName(e.target.value); setAuthError(''); }}
-              />
-              <FieldRow>
-                <FieldInput
-                  label="PAN Number"
-                  placeholder="Enter your PAN number"
-                  maxLength={10}
-                  autoCapitalize="characters"
-                  autoCorrect="off"
-                  spellCheck={false}
-                  className="uppercase"
-                  value={panNumber}
-                  onChange={(e) => {
-                    setPanNumber(normalizePan(e.target.value));
-                    setAuthError('');
-                  }}
-                />
-                <FieldInput
-                  label="Date of Birth"
-                  type="date"
-                  max={maxDobIso}
-                  value={dob}
-                  onChange={(e) => {
-                    setDob(e.target.value);
-                    setAuthError('');
-                  }}
-                />
-              </FieldRow>
-              <p className="text-xs text-neutral-500 font-medium -mt-2">
-                You must be 18 years or older.
-              </p>
-            </div>
-          </QuestionCard>
-          {authError && screen === 'pan' && (
-            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
-          )}
-          <Button phEvent="Submit PAN" type="submit" disabled={Boolean(authBusy)}>
-            {authBusy === 'pan' ? 'Verifying...' : 'Verify'}
+        <form noValidate className="flex flex-col gap-5" onSubmit={submitWith(submitPanDetails)}>
+          {heading('Add your PAN details', 'Enter your name exactly as it appears on your PAN card.')}
+          <FieldInput
+            label="Full name (as on PAN)"
+            autoComplete="name"
+            value={panName}
+            error={errorFor('panName')}
+            errorKey={errorTick}
+            onChange={(e) => { setPanName(e.target.value); setAuthError(''); }}
+          />
+          <FieldRow>
+            <FieldInput
+              label="PAN"
+              placeholder="ABCDE1234F"
+              maxLength={10}
+              autoCapitalize="characters"
+              autoCorrect="off"
+              spellCheck={false}
+              className="uppercase"
+              value={panNumber}
+              error={errorFor('pan')}
+              errorKey={errorTick}
+              onChange={(e) => {
+                setPanNumber(normalizePan(e.target.value));
+                setAuthError('');
+              }}
+            />
+            <FieldInput
+              label="Date of birth"
+              type="date"
+              max={maxDobIso}
+              hint="You must be 18 or older."
+              value={dob}
+              error={errorFor('dob')}
+              errorKey={errorTick}
+              onChange={(e) => {
+                setDob(e.target.value);
+                setAuthError('');
+              }}
+            />
+          </FieldRow>
+          <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+          <Button phEvent="Submit PAN" type="submit" disabled={busy} loading={authBusy === 'pan'}>
+            {authBusy === 'pan' ? 'Checking your PAN' : 'Verify PAN'}
           </Button>
         </form>
       )}
 
       {/* KYC EXTRA QUESTIONS */}
       {screen === 'kyc' && (
-        <form noValidate className="contents" onSubmit={submitWith(submitKycExtra)}>
-          <PageHeading size="text-2xl">Complete Your KYC</PageHeading>
-          <QuestionCard
-            icon={<DocIcon className="w-[21px] h-[21px]" />}
-            title="Answer following questions"
-            subtitle={
-              kycPath === 'noncompliant'
-                ? 'Provide personal and financial details to continue KYC.'
-                : 'Please provide your income, occupation, and source of wealth.'
-            }
-          />
+        <form noValidate className="flex flex-col gap-5" onSubmit={submitWith(submitKycExtra)}>
+          {heading('A few details for KYC', 'We need these to complete your KYC.')}
           {kycPath !== 'compliant' && (
             <>
               <FieldInput
                 label="Father's name"
-                placeholder="Enter father's name"
+                autoComplete="off"
                 value={fatherName}
                 onChange={(e) => setFatherName(e.target.value)}
               />
@@ -1807,8 +1871,8 @@ export default function OnboardingFlow({
               </FieldRow>
             </>
           )}
-          <FieldSelect label="Income slab" value={incomeSlab} onChange={(e) => setIncomeSlab(e.target.value)}>
-            <option value="">Select income slab</option>
+          <FieldSelect label="Income" value={incomeSlab} onChange={(e) => setIncomeSlab(e.target.value)}>
+            <option value="">Select your income</option>
             {INCOME_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>{o.label}</option>
             ))}
@@ -1832,36 +1896,36 @@ export default function OnboardingFlow({
           <Checkbox checked={pep} onChange={() => setPep((v) => !v)}>
             I am not a politically exposed person
           </Checkbox>
-          {authError && screen === 'kyc' && (
-            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
-          )}
-          <Button phEvent="Continue KYC" type="submit" disabled={Boolean(authBusy)}>
-            {authBusy === 'kyc-extra' ? 'Saving...' : 'Continue'}
+          <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+          <Button phEvent="Continue KYC" type="submit" disabled={busy} loading={authBusy === 'kyc-extra'}>
+            {authBusy === 'kyc-extra' ? 'Saving' : 'Continue'}
           </Button>
         </form>
       )}
 
       {/* DIGILOCKER */}
       {screen === 'digilocker' && (
-        <>
-          <PageHeading size="text-2xl">Verify with DigiLocker</PageHeading>
-          <PageSub>
-            Link your Aadhaar via DigiLocker to continue KYC. A secure window will open.
-          </PageSub>
-          {authError && screen === 'digilocker' && (
-            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
+        <div className="flex flex-col gap-5">
+          {heading(
+            'Verify with DigiLocker',
+            "Link your Aadhaar through DigiLocker to continue KYC. It opens in a new window; come back here when you're done."
           )}
-          <Button phEvent="Start DigiLocker" onClick={startDigiLocker} disabled={Boolean(authBusy)}>
-            {authBusy === 'digilocker' ? 'Waiting for DigiLocker...' : 'Continue DigiLocker'}
+          <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+          <Button
+            phEvent="Start DigiLocker"
+            onClick={startDigiLocker}
+            disabled={busy}
+            loading={authBusy === 'digilocker' || authBusy === 'modify-start'}
+          >
+            {authBusy === 'digilocker' ? 'Waiting for DigiLocker' : 'Open DigiLocker'}
           </Button>
-        </>
+        </div>
       )}
 
       {/* SIGNATURE */}
       {screen === 'signature' && (
-        <>
-          <PageHeading size="text-2xl">Draw your signature</PageHeading>
-          <PageSub>Sign inside the box. This is used for your KYC agreement.</PageSub>
+        <div className="flex flex-col gap-5">
+          {heading('Draw your signature', 'Sign inside the box with your finger or mouse. It goes on your KYC form.')}
           <SignaturePad
             onChange={({ base64, blank }) => {
               setSignatureB64(base64);
@@ -1869,202 +1933,210 @@ export default function OnboardingFlow({
               setAuthError('');
             }}
           />
-          {authError && screen === 'signature' && (
-            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
-          )}
-          <Button phEvent="Submit Signature" onClick={submitSignatureAndNsdl} disabled={Boolean(authBusy)}>
-            {authBusy === 'signature' || authBusy === 'nsdl' ? 'Please wait...' : 'Continue to e-sign'}
+          <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+          <Button
+            phEvent="Submit Signature"
+            onClick={submitSignatureAndNsdl}
+            disabled={busy}
+            loading={authBusy === 'signature' || authBusy === 'nsdl'}
+          >
+            {authBusy === 'signature' || authBusy === 'nsdl' ? 'Preparing e-sign' : 'Continue to e-sign'}
           </Button>
-        </>
+        </div>
       )}
 
       {/* NSDL STATUS */}
       {screen === 'nsdl' && (
-        <>
-          <PageHeading size="text-2xl">Aadhaar e-sign</PageHeading>
-          <PageSub>
-            {authBusy === 'nsdl'
-              ? 'Complete e-sign in the popup window…'
-              : 'If the window closed early, tap below to try again.'}
-          </PageSub>
-          {authError && screen === 'nsdl' && (
-            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
+        <div className="flex flex-col gap-5">
+          {heading(
+            'Aadhaar e-sign',
+            authBusy === 'nsdl'
+              ? 'Finish the e-sign in the window that opened.'
+              : 'If the e-sign window closed early, open it again.'
           )}
-          <Button phEvent="NSDL eSign" onClick={runNsdlEsign} disabled={Boolean(authBusy)}>
-            {authBusy === 'nsdl' ? 'Waiting…' : 'Continue e-sign'}
+          <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+          <Button phEvent="NSDL eSign" onClick={runNsdlEsign} disabled={busy} loading={authBusy === 'nsdl'}>
+            {authBusy === 'nsdl' ? 'Waiting for e-sign' : 'Open e-sign'}
           </Button>
-        </>
+        </div>
       )}
 
       {/* E-SIGN bridge */}
       {screen === 'esign' && (
-        <>
-          <PageHeading size="text-2xl">Almost done</PageHeading>
-          <PageSub>Continue to add your bank account.</PageSub>
-          <Button phEvent="Continue" onClick={() => go('bank')}>Continue</Button>
-        </>
+        <div className="flex flex-col gap-5">
+          {heading('Almost done', 'Add your bank account to finish.')}
+          <Button phEvent="Continue" onClick={() => go('bank')}>Add bank account</Button>
+        </div>
       )}
 
       {/* BANK */}
       {screen === 'bank' && (
-        <form noValidate className="contents" onSubmit={submitWith(submitBank)}>
-          <Overline emerald>Connected</Overline>
-          <PageHeading>Add Bank Details</PageHeading>
-          <FieldRow>
-            <div>
-              <FieldInput
-                label="IFSC Code"
-                placeholder="Enter code"
-                className="uppercase"
-                maxLength={11}
-                autoCapitalize="characters"
-                autoCorrect="off"
-                spellCheck={false}
-                value={ifsc}
-                onChange={(e) => {
-                  setIfsc(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 11));
-                  setAuthError('');
-                }}
-              />
-              {ifscLookupBusy && (
-                <p className="-mt-2 mb-4 text-xs text-neutral-500">Looking up branch…</p>
-              )}
-              {!ifscLookupBusy && ifscLookupError && (
-                <p className="-mt-2 mb-4 text-xs text-red-600">{ifscLookupError}</p>
-              )}
-              {!ifscLookupBusy && ifscInfo && (
-                <div className="-mt-2 mb-4 rounded-xl border border-jade/15 bg-jade/[0.04] px-3.5 py-3 text-left">
-                  <div className="text-sm font-semibold text-jade">
-                    {[ifscInfo.bank, ifscInfo.branch].filter(Boolean).join(' · ')}
-                  </div>
-                  {(ifscInfo.city || ifscInfo.state) && (
-                    <div className="text-xs text-neutral-600 mt-1">
-                      {[ifscInfo.city, ifscInfo.state].filter(Boolean).join(', ')}
-                    </div>
-                  )}
-                  {ifscInfo.address && (
-                    <div className="text-xs text-neutral-500 mt-1 leading-relaxed">
-                      {ifscInfo.address}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-            <FieldSelect
-              label="Account type"
-              value={accountType}
+        <form noValidate className="flex flex-col gap-5" onSubmit={submitWith(submitBank)}>
+          {heading('Add your bank account')}
+          <div className="flex flex-col gap-2">
+            <FieldInput
+              label="IFSC"
+              hint="It's on your cheque book or bank passbook."
+              className="uppercase"
+              maxLength={11}
+              autoCapitalize="characters"
+              autoCorrect="off"
+              spellCheck={false}
+              value={ifsc}
+              error={errorFor('ifsc') || (!ifscLookupBusy ? ifscLookupError : '')}
+              errorKey={errorTick}
               onChange={(e) => {
-                setAccountType(e.target.value);
+                setIfsc(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 11));
                 setAuthError('');
               }}
-            >
-              <option value="savings">Savings</option>
-              <option value="current">Current</option>
-            </FieldSelect>
-          </FieldRow>
+            />
+            {ifscLookupBusy && (
+              <p role="status" className="text-sm text-grey-600">Looking up the branch…</p>
+            )}
+            {!ifscLookupBusy && ifscInfo && (
+              <div className="flex gap-3 rounded-card bg-mist px-4 py-3">
+                <CheckIcon className="mt-1 size-4 shrink-0 text-emerald" />
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-ink">
+                    {[ifscInfo.bank, ifscInfo.branch].filter(Boolean).join(', ')}
+                  </p>
+                  {(ifscInfo.city || ifscInfo.state) && (
+                    <p className="mt-0.5 text-sm text-grey-600">
+                      {[ifscInfo.city, ifscInfo.state].filter(Boolean).join(', ')}
+                    </p>
+                  )}
+                  {ifscInfo.address && (
+                    <p className="mt-0.5 break-words text-sm leading-relaxed text-grey-600">{ifscInfo.address}</p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <span aria-hidden="true" className="text-sm font-semibold text-ink [font-stretch:104%]">
+              Account type
+            </span>
+            <SegmentedControl
+              label="Account type"
+              options={ACCOUNT_TYPES}
+              value={accountType}
+              onChange={(next) => {
+                setAccountType(next);
+                setAuthError('');
+              }}
+              className="grid max-w-xs grid-cols-2"
+            />
+          </div>
           <FieldRow>
             <FieldInput
-              label="Account Number"
+              label="Account number"
               type="tel"
               inputMode="numeric"
-              placeholder="XXXX XXXX XX XXXX"
+              autoComplete="off"
               maxLength={18}
               value={accountNumber}
+              error={errorFor('accountNumber')}
+              errorKey={errorTick}
               onChange={(e) => {
                 setAccountNumber(e.target.value.replace(/\D/g, '').slice(0, 18));
                 setAuthError('');
               }}
             />
             <FieldInput
-              label="Confirm Account Number"
+              label="Confirm account number"
               type="tel"
               inputMode="numeric"
-              placeholder="XXXX XXXX XX XXXX"
+              autoComplete="off"
               maxLength={18}
               value={confirmAccountNumber}
+              error={errorFor('confirmAccountNumber')}
+              errorKey={errorTick}
               onChange={(e) => {
                 setConfirmAccountNumber(e.target.value.replace(/\D/g, '').slice(0, 18));
                 setAuthError('');
               }}
             />
           </FieldRow>
-          <div className="border-t border-neutral-200 pt-4">
+          <div className="border-t border-line pt-3">
             <Checkbox checked={nomineeOptOut} onChange={() => setNomineeOptOut((v) => !v)}>
-              I wish to opt out of adding a nominee
+              I don&apos;t want to add a nominee
             </Checkbox>
           </div>
-          {authError && screen === 'bank' && (
-            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
-          )}
-          <Button phEvent="Submit Bank" type="submit" disabled={Boolean(authBusy)}>
-            {authBusy === 'bank' || authBusy === 'nominee' ? 'Saving...' : 'Add Bank Details'}
+          <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+          <Button
+            phEvent="Submit Bank"
+            type="submit"
+            disabled={busy}
+            loading={authBusy === 'bank' || authBusy === 'nominee'}
+          >
+            {authBusy === 'bank' ? 'Verifying your account' : authBusy === 'nominee' ? 'Saving' : 'Add bank account'}
           </Button>
         </form>
       )}
 
       {/* NOMINEE */}
       {screen === 'nominee' && (
-        <form noValidate className="contents" onSubmit={submitWith(() => submitNominee())}>
-          <Overline>Add a trusted person</Overline>
-          <PageHeading>Add Nominee</PageHeading>
-          <div className="mb-5">
-            <Checkbox
-              checked={nomineeOptOut}
-              onChange={() => {
-                setNomineeOptOut((v) => !v);
-                setAuthError('');
-              }}
-            >
-              I do not wish to nominate anyone (opt out of nominee)
-            </Checkbox>
-          </div>
+        <form noValidate className="flex flex-col gap-5" onSubmit={submitWith(() => submitNominee())}>
+          {heading('Add a nominee', 'The person your investments go to if something happens to you.')}
+          <Checkbox
+            checked={nomineeOptOut}
+            onChange={() => {
+              setNomineeOptOut((v) => !v);
+              setAuthError('');
+            }}
+          >
+            I don&apos;t want to add a nominee
+          </Checkbox>
 
           {!nomineeOptOut && (
             <>
               <FieldInput
-                label="Nominee Name"
-                placeholder="Nominee Name"
+                label="Nominee's full name"
+                autoComplete="off"
                 value={nomineeName}
                 onChange={(e) => {
                   setNomineeName(e.target.value.replace(/[^a-zA-Z\s]/g, ''));
                   setAuthError('');
                 }}
               />
-              <FieldInput
-                label="Date of Birth"
-                type="date"
-                max={todayIso}
-                value={nomineeDob}
-                onChange={(e) => {
-                  const next = e.target.value;
-                  setNomineeDob(next && next > todayIso ? todayIso : next);
-                  setAuthError('');
-                }}
-              />
-              <FieldSelect
-                label="Relationship"
-                value={nomineeRelation}
-                onChange={(e) => {
-                  setNomineeRelation(e.target.value);
-                  setAuthError('');
-                }}
-              >
-                <option value="">Select relationship</option>
-                {NOMINEE_RELATIONS.map((rel) => (
-                  <option key={rel.value} value={rel.value}>
-                    {rel.label}
-                  </option>
-                ))}
-              </FieldSelect>
+              <FieldRow>
+                <FieldInput
+                  label="Date of birth"
+                  type="date"
+                  max={todayIso}
+                  value={nomineeDob}
+                  onChange={(e) => {
+                    const next = e.target.value;
+                    setNomineeDob(next && next > todayIso ? todayIso : next);
+                    setAuthError('');
+                  }}
+                />
+                <FieldSelect
+                  label="Relationship"
+                  value={nomineeRelation}
+                  onChange={(e) => {
+                    setNomineeRelation(e.target.value);
+                    setAuthError('');
+                  }}
+                >
+                  <option value="">Select relationship</option>
+                  {NOMINEE_RELATIONS.map((rel) => (
+                    <option key={rel.value} value={rel.value}>
+                      {rel.label}
+                    </option>
+                  ))}
+                </FieldSelect>
+              </FieldRow>
 
               {nomineeIsMinor && (
                 <>
-                  <p className="text-xs text-amber-800 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2 mb-4">
-                    Nominee is a minor. Guardian details are required.
+                  <p className="flex gap-3 rounded-card bg-marigold-tint px-4 py-3 text-sm leading-relaxed text-ink">
+                    <i aria-hidden="true" className="mt-0.5 block h-3.5 w-1.5 shrink-0 -rotate-[38deg] rounded-full bg-marigold" />
+                    Your nominee is under 18, so add a guardian.
                   </p>
                   <FieldInput
-                    label="Guardian Name"
-                    placeholder="Guardian Name"
+                    label="Guardian's full name"
+                    autoComplete="off"
                     value={guardianName}
                     onChange={(e) => {
                       setGuardianName(e.target.value.replace(/[^a-zA-Z\s]/g, ''));
@@ -2072,14 +2144,14 @@ export default function OnboardingFlow({
                     }}
                   />
                   <FieldSelect
-                    label="Guardian Relationship"
+                    label="Guardian's relationship to the nominee"
                     value={guardianRelation}
                     onChange={(e) => {
                       setGuardianRelation(e.target.value);
                       setAuthError('');
                     }}
                   >
-                    <option value="">Select guardian relationship</option>
+                    <option value="">Select relationship</option>
                     {NOMINEE_RELATIONS.map((rel) => (
                       <option key={rel.value} value={rel.value}>
                         {rel.label}
@@ -2091,28 +2163,72 @@ export default function OnboardingFlow({
             </>
           )}
 
-          {authError && screen === 'nominee' && (
-            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
-          )}
-          <Button phEvent="Submit Nominee" type="submit" disabled={Boolean(authBusy)}>
-            {authBusy === 'nominee' ? 'Saving...' : 'Submit Nominee'}
+          <ErrorNote tick={errorTick}>{generalError}</ErrorNote>
+          <Button phEvent="Submit Nominee" type="submit" disabled={busy} loading={authBusy === 'nominee'}>
+            {authBusy === 'nominee' ? 'Saving' : nomineeOptOut ? 'Continue without a nominee' : 'Save nominee'}
           </Button>
         </form>
       )}
+    </>
+  );
 
-      <KycModal
-        open={kycModalOpen}
-        title={
-          kycPath === 'compliant'
-            ? 'Your KYC is compliant'
-            : kycPath === 'modify'
-              ? 'Update your KYC'
-              : 'Your KYC is NOT compliant'
-        }
-        subtitle={kycNotice || (kycPath === 'compliant' ? 'Continue to answer a few questions.' : 'Please first complete your KYC')}
-        cta={kycPath === 'modify' ? 'Update KYC' : 'Complete your KYC'}
-        onComplete={continueAfterKycModal}
-      />
-    </div>
+  const modal = (
+    <KycModal
+      open={kycModalOpen}
+      status={kycPath}
+      title={kycModalCopy.title}
+      subtitle={kycModalCopy.subtitle}
+      cta={kycModalCopy.cta}
+      onComplete={continueAfterKycModal}
+    />
+  );
+
+  // Inside /dashboard: the dashboard is the frame, so no layout of our own.
+  if (embedded) {
+    return (
+      <div className="pb-16 pt-2">
+        <div className="mb-5">
+          <BackButton onClick={exitToDashboard}>Back to dashboard</BackButton>
+        </div>
+        {!screen && (
+          <p role="status" className="flex items-center gap-3 pt-2 text-sm text-grey-600">
+            {!authError && (
+              <span
+                aria-hidden="true"
+                className="size-4 animate-spin rounded-full border-2 border-jade border-r-transparent motion-reduce:animate-none"
+              />
+            )}
+            {authError || (authBusy ? 'Loading your KYC steps…' : 'Preparing KYC…')}
+          </p>
+        )}
+        {AUTH_ENTRY_SCREENS.has(screen) && (
+          <div className="flex flex-col gap-8">
+            <div>{entryHeading}</div>
+            {entryForm}
+          </div>
+        )}
+        {stepHeader}
+        {stepScreens}
+        {modal}
+      </div>
+    );
+  }
+
+  if (AUTH_ENTRY_SCREENS.has(screen)) {
+    return (
+      <AuthLayout heading={entryHeading} aside={<AuthAside mode={authKey} plan={plan} />}>
+        {entryForm}
+      </AuthLayout>
+    );
+  }
+
+  return (
+    <>
+      <FocusLayout>
+        {stepHeader}
+        {stepScreens}
+      </FocusLayout>
+      {modal}
+    </>
   );
 }

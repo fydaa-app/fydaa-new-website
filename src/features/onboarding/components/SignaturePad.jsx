@@ -19,7 +19,7 @@ export default function SignaturePad({ onChange, className = '' }) {
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
       ctx.lineWidth = 2.5;
       ctx.lineCap = 'round';
-      ctx.strokeStyle = '#0C4A3E';
+      ctx.strokeStyle = '#0C4A3E'; // jade (canvas can't read Tailwind tokens)
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, rect.width, rect.height);
     };
@@ -90,10 +90,12 @@ export default function SignaturePad({ onChange, className = '' }) {
   }
 
   return (
-    <div className={className}>
+    <div className={`flex flex-col items-start gap-1 ${className}`}>
       <canvas
         ref={canvasRef}
-        className="w-full h-40 border-[1.5px] border-neutral-200 rounded-2xl bg-white touch-none cursor-crosshair"
+        role="img"
+        aria-label="Signature box. Draw your signature here."
+        className="h-40 w-full cursor-crosshair touch-none rounded-card border border-grey-300 bg-paper"
         onMouseDown={start}
         onMouseMove={move}
         onMouseUp={end}
@@ -105,9 +107,9 @@ export default function SignaturePad({ onChange, className = '' }) {
       <button
         type="button"
         onClick={clear}
-        className="mt-2 text-sm font-semibold text-emerald-700"
+        className="link inline-flex min-h-11 items-center rounded-sm text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade"
       >
-        Clear
+        Clear signature
       </button>
     </div>
   );

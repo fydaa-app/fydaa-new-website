@@ -13,7 +13,7 @@ export const metadata = pageMetadata({
 
 export default function SignupPage() {
   return (
-    <main className="fydaa-auth-main min-h-screen bg-grey-50 pb-8 pt-24">
+    <main className="fydaa-auth-main min-h-dvh bg-paper pb-16 pt-24 sm:pb-20 lg:pt-28">
       <SessionWatch />
       <Suspense fallback={<AuthFallback mode="signup" />}>
         <OnboardingFlow />

@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 
 export default function LoginPage() {
   return (
-    <main className="fydaa-auth-main min-h-screen bg-grey-50 pb-8 pt-24">
+    <main className="fydaa-auth-main min-h-dvh bg-paper pb-16 pt-24 sm:pb-20 lg:pt-28">
       <Suspense fallback={<AuthFallback mode="login" />}>
         <OnboardingFlow mode="login" />
       </Suspense>
