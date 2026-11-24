@@ -1,15 +1,6 @@
 import type { NextConfig } from "next";
 import { securityHeaders } from "./src/config/security-headers";
 
-const appEnv = (process.env.NEXT_PUBLIC_APP_ENV || "prod").toLowerCase();
-const isStage = appEnv === "stage" || appEnv === "staging" || appEnv === "dev";
-const stockRemote = String(
-  (isStage
-    ? process.env.NEXT_PUBLIC_STOCK_BASE_URL_STAGE || process.env.NEXT_PUBLIC_STOCK_BASE_URL
-    : process.env.NEXT_PUBLIC_STOCK_BASE_URL_PROD || process.env.NEXT_PUBLIC_STOCK_BASE_URL) ||
-    (isStage ? "https://stocktransaction-stage.fydaa.com" : "https://stocktransaction.fydaa.com"),
-).replace(/\/$/, "");
-
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
@@ -25,14 +16,6 @@ const nextConfig: NextConfig = {
       { source: "/carrers", destination: "/careers", permanent: true },
       { source: "/fydaaFYIP", destination: "/programme", permanent: true },
       { source: "/fydaaFYIP/:path*", destination: "/programme", permanent: true },
-    ];
-  },
-  async rewrites() {
-    return [
-      {
-        source: "/api/proxy/stock/:path*",
-        destination: `${stockRemote}/:path*`,
-      },
     ];
   },
   images: {

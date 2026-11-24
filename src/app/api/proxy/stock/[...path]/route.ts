@@ -1,53 +1,61 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
+import { env } from "@/config/env";
 
-const appEnv = (process.env.NEXT_PUBLIC_APP_ENV || "prod").toLowerCase();
-const isStage = appEnv === "stage" || appEnv === "staging" || appEnv === "dev";
-const stockRemote = String(
-  (isStage
-    ? process.env.NEXT_PUBLIC_STOCK_BASE_URL_STAGE || process.env.NEXT_PUBLIC_STOCK_BASE_URL
-    : process.env.NEXT_PUBLIC_STOCK_BASE_URL_PROD || process.env.NEXT_PUBLIC_STOCK_BASE_URL) ||
-    (isStage ? "https://stocktransaction-stage.fydaa.com" : "https://stocktransaction.fydaa.com"),
-).replace(/\/$/, "");
+/**
+ * DEVELOPMENT-ONLY same-origin proxy to the stock transaction API.
+ *
+ * The stock API's CORS allowlist does not include localhost, so `npm run dev` routes
+ * browser calls through here (see getStockBase in signup/lib/apiHosts.js). Production
+ * builds never call it and it answers 404, so the site cannot be used as an open relay
+ * that hides client IPs from the backend's rate limiting.
+ */
 
-type Ctx = { params: Promise<{ path: string[] }> };
+const isEnabled = process.env.NODE_ENV === "development";
 
-async function proxy(req: NextRequest, context: Ctx) {
+type Context = { params: Promise<{ path: string[] }> };
+
+function notFound() {
+  return NextResponse.json({ error: true, message: "Not found" }, { status: 404 });
+}
+
+async function proxy(request: NextRequest, context: Context) {
+  if (!isEnabled) return notFound();
+
   const { path } = await context.params;
-  const target = `${stockRemote}/${path.join("/")}${req.nextUrl.search}`;
+  if (path.some((segment) => segment === ".." || segment === "." || segment.includes("\\"))) {
+    return notFound();
+  }
+
+  const target = new URL(path.map(encodeURIComponent).join("/"), env.api.stock);
+  target.search = request.nextUrl.search;
 
   const headers = new Headers();
-  const accept = req.headers.get("accept");
-  const authorization = req.headers.get("authorization");
-  const contentType = req.headers.get("content-type");
-  if (accept) headers.set("accept", accept);
-  if (authorization) headers.set("authorization", authorization);
-  if (contentType) headers.set("content-type", contentType);
+  for (const name of ["accept", "authorization", "content-type"]) {
+    const value = request.headers.get(name);
+    if (value) headers.set(name, value);
+  }
 
-  const init: RequestInit = { method: req.method, headers, redirect: "manual" };
-  if (req.method !== "GET" && req.method !== "HEAD") {
-    init.body = req.body;
-    // Required by Node fetch when streaming a request body
-    (init as RequestInit & { duplex?: string }).duplex = "half";
+  const init: RequestInit & { duplex?: "half" } = { method: request.method, headers, redirect: "manual" };
+  if (request.method !== "GET" && request.method !== "HEAD") {
+    init.body = request.body;
+    init.duplex = "half"; // required by Node fetch when streaming a request body
   }
 
   let upstream: Response;
   try {
     upstream = await fetch(target, init);
   } catch {
-    return NextResponse.json(
-      { error: true, message: "Unable to reach stock service" },
-      { status: 502 },
-    );
+    return NextResponse.json({ error: true, message: "Unable to reach stock service" }, { status: 502 });
   }
 
-  const out = new Headers();
-  const upstreamType = upstream.headers.get("content-type");
-  if (upstreamType) out.set("content-type", upstreamType);
+  const responseHeaders = new Headers();
+  const contentType = upstream.headers.get("content-type");
+  if (contentType) responseHeaders.set("content-type", contentType);
 
   return new NextResponse(upstream.body, {
     status: upstream.status,
     statusText: upstream.statusText,
-    headers: out,
+    headers: responseHeaders,
   });
 }
 

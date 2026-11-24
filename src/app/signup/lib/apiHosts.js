@@ -13,22 +13,19 @@ export const ADMIN_BASE = env.api.admin;
 export const PAYMENT_BASE = env.api.payment;
 
 /**
- * Browser calls from localhost/127.0.0.1 go through a same-origin proxy
- * (/api/proxy/stock) so CORS allowlist gaps don't break fund search and other stock APIs.
- * Call at request time in browser code; safe to use on the server (returns remote host).
+ * In `npm run dev` on localhost, browser calls go through the development-only proxy
+ * (/api/proxy/stock) because the stock API's CORS allowlist excludes localhost.
+ * Production builds always call the stock API directly.
  */
 export function getStockBase() {
-  if (typeof window !== 'undefined') {
+  if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
     const host = window.location.hostname;
     if (host === 'localhost' || host === '127.0.0.1') return '/api/proxy/stock/';
   }
   return STOCK_BASE_REMOTE;
 }
 
-/**
- * Resolved once per runtime. Client bundle on localhost → `/api/proxy/stock/`;
- * server / production → STOCK_BASE_REMOTE. Prefer getStockBase() when in doubt.
- */
+/** Resolved once per runtime; prefer getStockBase() when in doubt. */
 export const STOCK_BASE = getStockBase();
 
 export const AUTH_PROD_BASE = String(process.env.NEXT_PUBLIC_AUTH_BASE_URL_PROD || 'https://auth.fydaa.com/').replace(
