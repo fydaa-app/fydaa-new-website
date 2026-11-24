@@ -164,7 +164,7 @@ export default function PartnerFundSearch({ signupHref = '/signup' }: PartnerFun
             ) : (
               <>
                 <div className="pw-amc-label">Invest in Funds from</div>
-                <div className="pw-amc-track-wrap">
+                <div className="pw-amc-track-wrap" data-allow-clip>
                   <div className="pw-amc-track">
                     {logos.map((amc, i) => (
                       <div className="pw-amc-card" key={`${amc.name}-${i}`} aria-label={amc.name}>

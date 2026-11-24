@@ -57,20 +57,4 @@ for (const path of ["/", "/about", "/features", "/programme", "/careers", "/part
   });
 }
 
-for (const path of [
-  "/",
-  "/about",
-  "/features",
-  "/programme",
-  "/careers",
-  "/partner",
-  "/login",
-  "/legal/complaints",
-]) {
-  test(`${path}: no horizontal scrolling on phones`, async ({ page, isMobile }) => {
-    test.skip(!isMobile, "phone layout");
-    await page.goto(path);
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-    expect(overflow).toBeLessThanOrEqual(0);
-  });
-}
+// Horizontal overflow and clipped content are checked at every width in layout.spec.ts.

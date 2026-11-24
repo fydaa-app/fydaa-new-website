@@ -39,7 +39,8 @@
 .fydaa-home .container{max-width:1120px;margin:0 auto;padding:0 24px}
 .fydaa-home section{padding:96px 0}
 .fydaa-home .hero{padding:130px 0 80px;overflow:hidden}
-.fydaa-home .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.fydaa-home .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.fydaa-home .hero-grid>*{min-width:0}
 .fydaa-home .hero h1{margin-bottom:20px}
 .fydaa-home .hero h1 .serif{color:var(--g)}
 .fydaa-home .hero-sub{font-size:1.05rem;color:var(--ink2);max-width:440px;margin-bottom:36px;line-height:1.7}
@@ -86,7 +87,7 @@
     radial-gradient(ellipse 70% 80% at 90% 10%, rgba(12,74,62,.45) 0%, transparent 50%),
     radial-gradient(ellipse 100% 60% at 50% 50%, rgba(10,61,51,.35) 0%, transparent 55%),
     #0C4A3E}
-.fydaa-home .hc-result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.fydaa-home .hc-result-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:12px}
 .fydaa-home .hc-res-item{background:rgba(255,255,255,.1);border-radius:10px;padding:12px;text-align:center}
 .fydaa-home .hc-res-label{font-size:.75rem;color:rgba(255,255,255,.6);margin-bottom:3px}
 .fydaa-home .hc-res-val{font-size:1rem;font-weight:700;color:#fff}
@@ -133,7 +134,7 @@
 .fydaa-home .purpose-fund-pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
 .fydaa-home .purpose-fund-pct strong{font-size:clamp(11px,5cqi,24px);font-weight:800;letter-spacing:-.02em;line-height:1;color:#fff}
 .fydaa-home .purpose-fund-pct span{font-size:clamp(5px,2cqi,10px);letter-spacing:.1em;color:rgba(200,220,210,.65);margin-top:clamp(2px,2.4cqi,10px);font-weight:600}
-.fydaa-home .purpose-fund-stats{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:clamp(6px,2.6cqi,12px);width:100%;height:100%;min-width:0;min-height:0}
+.fydaa-home .purpose-fund-stats{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:1fr 1fr;gap:clamp(6px,2.6cqi,12px);width:100%;height:100%;min-width:0;min-height:0}
 .fydaa-home .purpose-fund-stat{background:#2E564B;border:none;border-radius:clamp(6px,2.2cqi,10px);padding:clamp(6px,3.2cqi,14px) clamp(6px,2.8cqi,12px);display:flex;flex-direction:column;justify-content:center;min-height:0;min-width:0}
 .fydaa-home .purpose-fund-stat span{display:block;font-size:clamp(6px,2.1cqi,10px);font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:rgba(200,220,210,.65);margin-bottom:clamp(2px,2.2cqi,8px)}
 .fydaa-home .purpose-fund-stat strong{display:block;font-size:clamp(9px,3.6cqi,16px);font-weight:700;letter-spacing:-.01em;line-height:1.2;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -148,7 +149,7 @@
 .fydaa-home .prod-section{padding:56px 0}
 .fydaa-home .prod-section:nth-child(even){background:var(--surface)}
 .fydaa-home .prod-section--merge{padding-top:56px;padding-bottom:56px;background:#fff}
-.fydaa-home .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.fydaa-home .prod-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:center}
 .fydaa-home .prod-grid.reverse .prod-text{order:2}
 .fydaa-home .prod-grid.reverse .prod-visual{order:1}
 .fydaa-home .prod-text .label{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--g-deep);background:var(--g-light);padding:5px 12px;border-radius:999px;margin-bottom:14px}
@@ -233,7 +234,7 @@
 .fydaa-home .advisory-privacy{font-size:.75rem;color:var(--ink3);text-align:center;margin-top:12px}
 .fydaa-home .testimonials{padding:clamp(56px,6vw,88px) 0;background:#EAF6EF}
 .fydaa-home .testi-layout{display:grid;grid-template-columns:248px minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:stretch}
-.fydaa-home .testi-layout--no-video{grid-template-columns:1fr;justify-items:center}
+.fydaa-home .testi-layout--no-video{grid-template-columns:minmax(0,1fr);justify-items:center}
 .fydaa-home .testi-layout--no-video .testi-content-col{min-height:0;justify-content:center;align-items:center;width:100%;max-width:920px;text-align:center}
 .fydaa-home .testi-layout--no-video .testi-heading{text-align:center}
 .fydaa-home .testi-layout--no-video .testi-grid{width:100%}
@@ -243,7 +244,7 @@
 .fydaa-home .testi-video-name{position:absolute;left:14px;bottom:52px;z-index:2;color:#fff;font-weight:700;font-size:.95rem;letter-spacing:-.01em;text-shadow:0 1px 8px rgba(0,0,0,.45);pointer-events:none}
 .fydaa-home .testi-content-col{min-width:0;display:flex;flex-direction:column;justify-content:flex-end;min-height:452px;padding-top:0;box-sizing:border-box}
 .fydaa-home .testi-heading{font-family:var(--font-inter),Inter,sans-serif;font-weight:700;font-size:40px;line-height:48px;letter-spacing:0;color:#000;margin:0 0 clamp(24px,3vw,36px);text-align:left}
-.fydaa-home .testi-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:0}
+.fydaa-home .testi-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:0}
 .fydaa-home .testi-card{background:#fff;border-radius:12px;padding:24px 22px 22px;border:.5px solid #999;box-shadow:0 8px 24px rgba(0,0,0,.12);transition:box-shadow .2s;box-sizing:border-box}
 .fydaa-home .testi-card:hover{box-shadow:0 12px 32px rgba(0,0,0,.16)}
 .fydaa-home .testi-stars{color:#F59E0B;font-size:.85rem;margin-bottom:12px;letter-spacing:2px;line-height:1}
@@ -253,7 +254,7 @@
 .fydaa-home .testi-name{font-size:.85rem;font-weight:600;color:var(--ink)}
 .fydaa-home .testi-role{font-size:.75rem;color:var(--ink3)}
 .fydaa-home .faqs{padding:56px 0;background:var(--surface)}
-.fydaa-home .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.fydaa-home .faq-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start}
 .fydaa-home .faq-left h2{margin-bottom:12px}
 .fydaa-home .faq-left p{color:var(--ink2);margin-bottom:24px;line-height:1.7}
 .fydaa-home .faq-list{display:flex;flex-direction:column;gap:8px}
@@ -407,10 +408,10 @@
   .fydaa-home .testi-layout{grid-template-columns:180px minmax(0,1fr);gap:28px}
   .fydaa-home .testi-layout--no-video{grid-template-columns:1fr}
   .fydaa-home .testi-video-frame{width:180px;height:328px;border-radius:12px}
-  .fydaa-home .testi-grid{grid-template-columns:1fr 1fr;gap:14px}
+  .fydaa-home .testi-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
   .fydaa-home .testi-card{padding:20px 18px}
   .fydaa-home .purpose-section{border-radius:40px}
-  .fydaa-home .purpose-grid{grid-template-columns:1fr 0.9fr;column-gap:20px;row-gap:8px}
+  .fydaa-home .purpose-grid{grid-template-columns:minmax(0,1fr) minmax(0,.9fr);column-gap:20px;row-gap:8px}
   .fydaa-home .purpose-copy h2{font-size:30px;line-height:38px;white-space:normal;max-width:100%}
   .fydaa-home .purpose-sub{font-size:16px;line-height:23px;max-width:100%}
   .fydaa-home .purpose-sub-line{white-space:normal}
@@ -420,7 +421,7 @@
   .fydaa-home .purpose-phone{width:min(100%,280px);margin-right:-20px}
   .fydaa-home .purpose-fund-card{width:calc(126% - 12px);top:calc(2% + 10px);border-radius:15px}
   .fydaa-home .advisory{padding:56px 0}
-  .fydaa-home .advisory-grid{grid-template-columns:1fr;gap:36px;align-items:stretch}
+  .fydaa-home .advisory-grid{grid-template-columns:minmax(0,1fr);gap:36px;align-items:stretch}
   .fydaa-home .advisory-form-wrap{align-self:stretch;max-width:480px;margin:0 auto;width:100%}
   .fydaa-home .advisory-text h2{font-size:clamp(1.6rem,3.5vw,2rem)}
   .fydaa-home .advisory-text p.advisory-sub{font-size:.95rem}
@@ -438,7 +439,7 @@
   .fydaa-home .container{padding:0 16px}
   .fydaa-home section{padding:64px 0}
   .fydaa-home .hero{padding:96px 0 48px}
-  .fydaa-home .hero-grid{grid-template-columns:1fr;gap:32px}
+  .fydaa-home .hero-grid{grid-template-columns:minmax(0,1fr);gap:32px}
   .fydaa-home .hero-sub{max-width:100%;font-size:1rem;margin-bottom:28px}
   .fydaa-home .hero-ctas{flex-direction:column;align-items:stretch}
   .fydaa-home .hero-cta{width:100%}
@@ -450,12 +451,12 @@
   .fydaa-home .hc-tenure-row{flex-wrap:wrap}
   .fydaa-home .hc-body{padding:16px}
   .fydaa-home .hc-result{padding:14px 16px}
-  .fydaa-home .prod-grid{grid-template-columns:1fr;gap:32px}
+  .fydaa-home .prod-grid{grid-template-columns:minmax(0,1fr);gap:32px}
   .fydaa-home .prod-grid.reverse .prod-text,
   .fydaa-home .prod-grid.reverse .prod-visual{order:unset}
   .fydaa-home .prod-text p{max-width:100%}
   .fydaa-home .purpose-section{border-radius:32px;padding:48px 0 40px;overflow:hidden}
-  .fydaa-home .purpose-grid{grid-template-columns:1fr;grid-template-rows:none;gap:24px;row-gap:24px}
+  .fydaa-home .purpose-grid{grid-template-columns:minmax(0,1fr);grid-template-rows:none;gap:24px;row-gap:24px}
   .fydaa-home .purpose-copy{grid-column:1;grid-row:auto}
   .fydaa-home .purpose-sip-track{grid-column:1;grid-row:auto;margin:0;width:100%}
   .fydaa-home .purpose-sip-rail{height:44px;--sip-thumb:44px}
@@ -470,16 +471,16 @@
   .fydaa-home .purpose-phone{width:min(78%,280px);margin:0 auto;transform:none}
   .fydaa-home .purpose-fund-card{width:calc(132% - 10px);top:calc(2.5% + 6px);border-radius:14px;box-shadow:0 14px 32px rgba(6,40,32,.38)}
   .fydaa-home .purpose-fund-card-body{grid-template-columns:minmax(52px,26cqi) minmax(0,1fr);gap:3.2cqi}
-  .fydaa-home .trust-grid{grid-template-columns:1fr 1fr;gap:14px}
+  .fydaa-home .trust-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
   .fydaa-home .advisory{padding:48px 0}
-  .fydaa-home .advisory-grid{grid-template-columns:1fr;gap:28px;align-items:stretch}
+  .fydaa-home .advisory-grid{grid-template-columns:minmax(0,1fr);gap:28px;align-items:stretch}
   .fydaa-home .advisory-visual{margin-bottom:16px}
   .fydaa-home .advisory-text h2{font-size:1.55rem;line-height:1.25;margin-bottom:12px}
   .fydaa-home .advisory-text p.advisory-sub{max-width:100%;font-size:.9rem;line-height:1.55}
   .fydaa-home .advisory-sub-line{display:inline}
   .fydaa-home .advisory-form-wrap{justify-content:stretch;align-self:stretch;max-width:100%;margin:0}
   .fydaa-home .advisory-form-card{max-width:100%;padding:24px;border-radius:16px}
-  .fydaa-home .testi-layout{grid-template-columns:1fr;gap:28px}
+  .fydaa-home .testi-layout{grid-template-columns:minmax(0,1fr);gap:28px}
   .fydaa-home .testi-layout--no-video{grid-template-columns:1fr}
   .fydaa-home .testi-video-col{order:2}
   .fydaa-home .testi-content-col{order:1;padding-top:0}
@@ -488,8 +489,8 @@
   .fydaa-home .testi-layout--no-video .testi-heading{text-align:center}
   .fydaa-home .testi-video-col{justify-content:center}
   .fydaa-home .testi-video-frame{width:min(248px,100%);height:auto;aspect-ratio:248/452;margin:0 auto}
-  .fydaa-home .testi-grid{grid-template-columns:1fr;gap:14px;margin-top:0}
-  .fydaa-home .faq-grid{grid-template-columns:1fr;gap:28px}
+  .fydaa-home .testi-grid{grid-template-columns:minmax(0,1fr);gap:14px;margin-top:0}
+  .fydaa-home .faq-grid{grid-template-columns:minmax(0,1fr);gap:28px}
   .fydaa-home .final-cta-card{border-radius:28px;padding:40px 20px}
   .fydaa-home .final-cta-card h2{font-size:26px;line-height:34px;margin-bottom:12px}
   .fydaa-home .final-cta-card p{font-size:.92rem;margin-bottom:24px;max-width:100%}
@@ -573,3 +574,6 @@
   .fydaa-home .prod-panel:hover,
   .fydaa-home .trust-card:hover{transform:none}
 }
+
+/* The fund card deliberately overhangs its column; never let it overhang past the section edge. */
+@media (min-width:769px) and (max-width:1279px){.fydaa-home .purpose-fund-card{max-width:100%}}

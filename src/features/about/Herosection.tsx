@@ -27,7 +27,7 @@ const HeroSection: React.FC = () => {
         </div>
 
         {/* People Icons with continuous horizontal scrolling animation */}
-        <div className="w-full overflow-hidden mb-10 sm:mb-8 md:mb-10 lg:mb-8 xl:mb-12 2xl:mb-16">
+        <div data-allow-clip className="w-full overflow-hidden mb-10 sm:mb-8 md:mb-10 lg:mb-8 xl:mb-12 2xl:mb-16">
           <div className="animate-scroll-seamless">
             <img
               src="/Heropage/diverse-people.png"

@@ -7,7 +7,7 @@ export default function AmcStrip() {
   return (
     <div className="amc-strip">
       <div className="amc-label">Invest in funds from</div>
-      <div className="amc-track-wrap">
+      <div className="amc-track-wrap" data-allow-clip>
         <div className="amc-track">
           {logos.map((amc, i) => (
             <span className="amc-logo" key={`${amc.name}-${i}`} aria-label={amc.name}>
