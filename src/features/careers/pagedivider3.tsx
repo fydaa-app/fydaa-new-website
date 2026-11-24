@@ -29,7 +29,7 @@ export default function PageDivider() {
             type="button"
             onClick={() => setRegisterCvOpen(true)}
             data-ph-event="Register your CV"
-            className="rounded-btn bg-white px-6 py-3 text-sm font-bold text-jade-deep hover:bg-grey-100"
+            className="btn btn-inverse btn-md"
           >
             Register your CV
           </button>

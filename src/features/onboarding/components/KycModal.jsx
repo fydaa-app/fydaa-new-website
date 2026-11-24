@@ -31,7 +31,7 @@ export default function KycModal({
         <button
           type="button"
           onClick={onComplete}
-          className="w-full h-[52px] rounded-xl bg-jade text-white text-base font-bold hover:bg-jade-hover"
+          className="btn btn-primary btn-lg w-full"
         >
           {cta}
         </button>

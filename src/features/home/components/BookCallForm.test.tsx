@@ -20,7 +20,7 @@ describe("BookCallForm OTP resend", () => {
 
     await user.type(screen.getByLabelText("Your name"), "Asha Rao");
     await user.type(screen.getByLabelText("Phone number"), "9876543210");
-    await user.click(screen.getByRole("button", { name: /book a call/i }));
+    await user.click(screen.getByRole("button", { name: /book a free call/i }));
 
     const resend = await screen.findByRole("button", { name: /Resend OTP in 30s/ });
     expect(resend).toBeDisabled();

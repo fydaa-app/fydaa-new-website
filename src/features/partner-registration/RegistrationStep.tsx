@@ -686,14 +686,7 @@ export default function RegistrationStep({
           isLoading ||
           isConfirming
         }
-        className={`w-full h-12 rounded-xl font-medium font-inter transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 ${
-          bothVerified &&
-          !isConfirming &&
-          agreeCheckbox &&
-          indiaResidentCheckbox
-            ? 'bg-black text-white hover:bg-gray-800'
-            : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-        }`}
+        className="btn btn-primary btn-lg w-full"
       >
         {isConfirming
           ? 'Confirming...'

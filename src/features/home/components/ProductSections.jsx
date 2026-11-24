@@ -22,7 +22,7 @@ export default function ProductSections() {
           'Set up a new SIP and assign a goal from the start',
           'Track how each SIP is contributing to its goal in real time',
         ]}
-        cta={{ label: 'Book a Free Call →', href: '/#book-a-call' }}
+        cta={{ label: 'Book a free call →', href: '/#book-a-call' }}
       >
         <GoalsPanel />
       </ProductSection>

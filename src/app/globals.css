@@ -2,6 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Buttons: the single source of button styling. `buttonClasses()` / <Button> /
+ * <ButtonLink> emit these classes, and plain markup can use them directly.
+ * Sizes: md 44px, lg 48px (both meet the 44px touch target).
+ */
+@layer components {
+  .btn {
+    @apply inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-btn font-semibold no-underline transition-colors;
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade;
+    @apply disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50;
+  }
+  .btn-md {
+    @apply h-11 px-5 text-sm;
+  }
+  .btn-lg {
+    @apply h-12 px-6 text-base;
+  }
+  .btn-primary {
+    @apply bg-jade text-white hover:bg-jade-hover;
+  }
+  .btn-secondary {
+    @apply border border-grey-200 bg-white text-ink hover:bg-grey-100;
+  }
+  .btn-ghost {
+    @apply text-jade hover:bg-jade-tint;
+  }
+  /* On dark (jade/ink) surfaces. */
+  .btn-inverse {
+    @apply bg-white text-jade hover:bg-jade-tint;
+  }
+  .btn-outline-inverse {
+    @apply border border-white/40 bg-transparent text-white hover:bg-white/10;
+  }
+}
+
 @layer utilities {
   .scrollbar-thin {
     scrollbar-width: thin;

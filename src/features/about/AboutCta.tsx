@@ -15,23 +15,23 @@ export default function AboutCta() {
         <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3">
           <Link
             href="/#book-a-call"
-            className="inline-flex items-center justify-center gap-2 bg-white text-jade px-8 py-3.5 rounded-btn font-bold text-base hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-all min-h-[44px]"
+            className="btn btn-inverse btn-lg"
             data-ph-event="Book a Free Call"
           >
-            Book a Free Call
+            Book a free call
           </Link>
           <Link
             href="/download"
             prefetch={false}
             data-ph-event="Download App"
-            className="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/[.18] text-white px-7 py-3.5 rounded-btn font-bold text-base hover:bg-white/[.18] transition-all min-h-[44px]"
+            className="btn btn-outline-inverse btn-lg"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            Download App
+            Download app
           </Link>
         </div>
       </div>

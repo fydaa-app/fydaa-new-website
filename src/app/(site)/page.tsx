@@ -1,7 +1,7 @@
 import "@/features/home/styles/home.css";
 import Hero from "@/features/home/components/Hero";
 import AmcStrip from "@/features/home/components/AmcStrip";
-import Dreams from "@/features/about/Dreams";
+import DreamsSection from "@/features/home/components/DreamsSection";
 import DirectPlanSection from "@/features/home/components/DirectPlanSection";
 import PurposeSection from "@/features/home/components/PurposeSection";
 import TrustSection from "@/features/home/components/TrustSection";
@@ -29,7 +29,7 @@ export default function HomePage() {
       <HashScroll />
       <Hero />
       <AmcStrip />
-      <Dreams />
+      <DreamsSection />
       <DirectPlanSection />
       <PurposeSection />
       <AdvisorySection />

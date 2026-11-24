@@ -129,16 +129,16 @@ function Hero({ onApply }: { onApply: () => void }) {
             type="button"
             onClick={onApply}
             data-ph-event="Apply Now"
-            className="w-full sm:w-auto justify-center px-6 sm:px-9 py-3 sm:py-3.5 bg-white text-jade border-none rounded-btn text-sm sm:text-base font-bold cursor-pointer font-sans tracking-[-0.01em] inline-flex items-center hover:-translate-y-px transition-transform"
+            className="btn btn-inverse btn-lg w-full sm:w-auto"
           >
-            Apply Now <ArrowIcon />
+            Apply now <ArrowIcon />
           </button>
           <a
             href={FYIAEP_BROCHURE_PDF}
             target="_blank"
             rel="noopener noreferrer"
             data-ph-event="Learn more"
-            className="w-full sm:w-auto justify-center px-6 sm:px-9 py-3 sm:py-3.5 bg-transparent border border-white/30 rounded-btn text-sm sm:text-base font-semibold text-white cursor-pointer font-sans hover:bg-white/10 transition-colors inline-flex items-center text-center no-underline"
+            className="btn btn-outline-inverse btn-lg w-full sm:w-auto"
           >
             Learn more
           </a>
@@ -226,7 +226,7 @@ function Curriculum({ onApply }: { onApply: () => void }) {
               type="button"
               onClick={onApply}
               data-ph-event="Start your application"
-              className="mt-5 sm:mt-6 w-full sm:w-auto justify-center px-6 sm:px-7 py-3 bg-jade text-white border-none rounded-btn text-sm sm:text-base font-bold cursor-pointer font-sans tracking-[-0.01em] inline-flex items-center hover:bg-jade-hover transition-colors"
+              className="btn btn-primary btn-lg mt-5 sm:mt-6 w-full sm:w-auto"
             >
               Start your application <ArrowIcon />
             </button>
@@ -488,16 +488,16 @@ function CTACard({ onApply }: { onApply: () => void }) {
                   type="button"
                   onClick={onApply}
                   data-ph-event="Apply Now"
-                  className="w-full sm:flex-1 justify-center px-5 py-3 border-none rounded-btn text-sm font-bold cursor-pointer font-sans inline-flex items-center hover:-translate-y-px transition-transform bg-white text-ink"
+                  className="btn btn-secondary btn-md w-full sm:flex-1"
                 >
-                  Apply Now <ArrowIcon />
+                  Apply now <ArrowIcon />
                 </button>
                 <a
                   href={card.detailsHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   data-ph-event="Details"
-                  className="w-full sm:flex-1 justify-center px-5 py-3 rounded-btn text-sm font-semibold cursor-pointer font-sans inline-flex items-center gap-1.5 transition-colors no-underline text-white border border-white/30 hover:bg-white/10"
+                  className="btn btn-outline-inverse btn-md w-full sm:flex-1"
                 >
                   Details <ArrowIcon />
                 </a>
@@ -1456,7 +1456,7 @@ function MobileVerifyPage({
           onClick={handleSend}
           disabled={sending || mobile.length !== 10}
           data-ph-event="Send OTP"
-          className="w-full mt-2 h-[50px] bg-jade text-white border-none rounded-xl text-base font-bold cursor-pointer font-sans hover:bg-jade-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn btn-primary btn-lg mt-2 w-full"
         >
           {sending ? "Sending..." : "Send OTP"}
         </button>
@@ -1632,7 +1632,7 @@ function OtpVerifyPage({
           onClick={handleVerify}
           disabled={verifying || otpValue.length !== OTP_LENGTH}
           data-ph-event="Verify & Continue"
-          className="w-full mt-2 h-[50px] bg-jade text-white border-none rounded-xl text-base font-bold cursor-pointer font-sans hover:bg-jade-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn btn-primary btn-lg mt-2 w-full"
         >
           {verifying ? "Verifying..." : "Verify & Continue"}
         </button>
@@ -1711,7 +1711,7 @@ function PaymentScreen({
           onClick={onPay}
           disabled={paying}
           data-ph-event={failed ? "Retry Payment" : "Pay Programme Fee"}
-          className="px-9 py-3.5 bg-jade text-white border-none rounded-btn text-base font-bold cursor-pointer font-sans hover:bg-jade-hover disabled:opacity-50"
+          className="btn btn-primary btn-lg"
         >
           {paying ? "Opening payment…" : failed ? "Retry Payment" : "Pay Programme Fee"}
         </button>
@@ -1720,7 +1720,7 @@ function PaymentScreen({
           onClick={onBack}
           disabled={paying}
           data-ph-event="Back to programme page"
-          className="px-9 py-3.5 bg-white border border-grey-200 rounded-btn text-base font-semibold cursor-pointer font-sans text-grey-800 hover:border-grey-300 disabled:opacity-50"
+          className="btn btn-secondary btn-lg"
         >
           Back to programme page
         </button>
@@ -1743,7 +1743,7 @@ function CancelledScreen({ onBack }: { onBack: () => void }) {
       </p>
       <button
         onClick={onBack}
-        className="px-9 py-3.5 bg-jade text-white border-none rounded-btn text-base font-bold cursor-pointer font-sans"
+        className="btn btn-primary btn-lg"
       >
         Back to programme page
       </button>
@@ -2098,7 +2098,7 @@ function FormPage({
           {applicationNo ? ` for ${applicationNo}` : ""}.
           Our admissions team will review your application and reach out within 3 working days.
         </p>
-        <button onClick={onBack} className="px-9 py-3.5 bg-jade text-white border-none rounded-btn text-base font-bold cursor-pointer font-sans">
+        <button onClick={onBack} className="btn btn-primary btn-lg">
           Back to Programme page
         </button>
       </div>
@@ -2178,7 +2178,7 @@ function FormPage({
           disabled={step === 0 || saving}
           onClick={() => goToStep(step - 1)}
           data-ph-event="Back"
-          className="px-6 py-2.5 bg-white border border-grey-200 rounded-btn text-sm font-sans text-grey-800 font-medium cursor-pointer flex items-center gap-1.5 hover:border-grey-300 disabled:text-grey-300 disabled:border-grey-150 disabled:cursor-default"
+          className="btn btn-secondary btn-md"
         >
           <ChevronLeft /> Back
         </button>
@@ -2188,7 +2188,7 @@ function FormPage({
             onClick={saveProgress}
             disabled={saving}
             data-ph-event="Save progress"
-            className="px-6 py-2.5 bg-white border border-jade-200 rounded-btn text-sm font-sans text-jade-deep font-semibold cursor-pointer hover:bg-jade-tint transition-colors max-sm:flex-1 disabled:opacity-50"
+            className="btn btn-inverse btn-md max-sm:flex-1"
           >
             {saving ? "Saving..." : "Save progress"}
           </button>
@@ -2197,7 +2197,7 @@ function FormPage({
             onClick={goNext}
             disabled={proceedDisabled}
             data-ph-event={isLast ? "Proceed to Pay" : "Save & Continue"}
-            className="px-7 py-2.5 bg-jade text-white border-none rounded-btn text-sm font-bold font-sans tracking-[-0.01em] cursor-pointer flex items-center gap-1.5 hover:bg-jade-hover transition-colors max-sm:flex-1 disabled:opacity-50"
+            className="btn btn-primary btn-md max-sm:flex-1"
           >
             {saving ? (isLast ? "Processing..." : "Saving...") : isLast ? "Proceed to Pay" : "Save & Continue"} {!saving && <ChevronRight />}
           </button>

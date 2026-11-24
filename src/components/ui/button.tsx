@@ -2,32 +2,20 @@ import Link from "next/link";
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils/cn";
 
-type Variant = "primary" | "secondary" | "ghost";
+type Variant = "primary" | "secondary" | "ghost" | "inverse" | "outline-inverse";
 type Size = "md" | "lg";
 
-const base =
-  "inline-flex items-center justify-center gap-2 rounded-btn font-semibold transition-colors " +
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade " +
-  "disabled:pointer-events-none disabled:opacity-60 aria-disabled:pointer-events-none aria-disabled:opacity-60";
-
-const variants: Record<Variant, string> = {
-  primary: "bg-jade text-white hover:bg-jade-hover",
-  secondary: "border border-grey-200 bg-white text-ink hover:bg-grey-100",
-  ghost: "text-jade hover:bg-jade-tint",
-};
-
-const sizes: Record<Size, string> = {
-  md: "h-11 px-5 text-sm",
-  lg: "h-12 px-6 text-base",
-};
-
+/**
+ * Class names for a button. The styles live once in globals.css (`.btn`, `.btn-<variant>`,
+ * `.btn-<size>`), so components and plain markup render identical buttons.
+ */
 export function buttonClasses({
   variant = "primary",
   size = "md",
-  block = false,
+  block,
   className,
 }: { variant?: Variant; size?: Size; block?: boolean; className?: string } = {}) {
-  return cn(base, variants[variant], sizes[size], block && "w-full", className);
+  return cn("btn", `btn-${variant}`, `btn-${size}`, block && "w-full", className);
 }
 
 interface ButtonStyleProps {

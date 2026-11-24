@@ -24,16 +24,6 @@
 .fydaa-home h1{font-size:var(--text-display);font-weight:700;letter-spacing:-.035em}
 .fydaa-home h2{font-size:var(--text-heading);font-weight:700;letter-spacing:-.02em}
 .fydaa-home h3{font-size:var(--text-title);font-weight:700;letter-spacing:-.01em}
-/* Dreams uses its own Tailwind typography — don't inherit homepage heading defaults */
-.fydaa-home .dreams-section h1,
-.fydaa-home .dreams-section h2,
-.fydaa-home .dreams-section h3{
-  font-family:var(--font-inter),Inter,system-ui,sans-serif;
-  font-size:unset;
-  font-weight:unset;
-  letter-spacing:normal;
-  line-height:inherit;
-}
 .fydaa-home .serif{font-family:inherit;font-style:normal;font-weight:inherit;color:var(--g)}
 .fydaa-home .copy-mobile{display:none!important}
 .fydaa-home .container{max-width:1120px;margin:0 auto;padding:0 24px}
@@ -48,11 +38,11 @@
 .fydaa-home .hero-cta{display:flex;flex-direction:column;gap:6px;width:180px}
 .fydaa-home .hero-cta-label{font-size:.75rem;font-weight:600;letter-spacing:.02em;color:var(--ink3);text-transform:none}
 .fydaa-home .hero-cta .btn-invest,
-.fydaa-home .hero-cta .btn-download{width:100%;justify-content:center;box-sizing:border-box;padding:14px 20px}
-.fydaa-home .btn-invest{display:inline-flex;align-items:center;gap:8px;background:var(--g);color:#fff;padding:14px 32px;border-radius:14px;font-weight:700;font-size:1rem;letter-spacing:-.01em;transition:all .2s;border:none;cursor:pointer}
-.fydaa-home .btn-invest:hover{background:var(--g-dark);transform:translateY(-1px);box-shadow:0 8px 24px rgba(12,74,62,.18)}
-.fydaa-home .btn-download{display:inline-flex;align-items:center;gap:8px;background:var(--surface);color:var(--ink);padding:14px 28px;border-radius:14px;font-weight:700;font-size:1rem;letter-spacing:-.01em;border:1px solid var(--border);transition:all .2s;cursor:pointer}
-.fydaa-home .btn-download:hover{border-color:var(--ink3);background:#f5f5f5}
+.fydaa-home .hero-cta .btn-download{width:100%}
+.fydaa-home .btn-invest{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:10px;font-family:inherit;font-weight:600;font-size:1rem;cursor:pointer;transition:background-color .2s,border-color .2s;background:var(--g);color:#fff;border:none}
+.fydaa-home .btn-invest:hover{background:var(--g-dark)}
+.fydaa-home .btn-download{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:10px;font-family:inherit;font-weight:600;font-size:1rem;cursor:pointer;transition:background-color .2s,border-color .2s;background:#fff;color:var(--ink);border:1px solid var(--border)}
+.fydaa-home .btn-download:hover{background:var(--surface-alt)}
 .fydaa-home .hero-trust{display:flex;gap:24px;flex-wrap:wrap}
 .fydaa-home .hero-trust-item{font-size:.75rem;color:var(--ink3);display:flex;align-items:center;gap:6px}
 .fydaa-home .hero-trust-item svg{color:var(--g);flex-shrink:0}
@@ -229,8 +219,8 @@
 .fydaa-home .advisory-field label{display:block;font-size:.75rem;font-weight:600;color:var(--ink2);margin-bottom:6px}
 .fydaa-home .advisory-input{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:inherit;font-size:.875rem;color:var(--ink);background:var(--bg);outline:none;transition:border-color .2s,box-shadow .2s}
 .fydaa-home .advisory-input:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(12,74,62,.08)}
-.fydaa-home .advisory-submit{width:100%;padding:14px;border:none;border-radius:14px;background:var(--g);color:#fff;font-family:inherit;font-weight:700;font-size:1rem;letter-spacing:-.01em;cursor:pointer;transition:all .2s;margin-top:4px}
-.fydaa-home .advisory-submit:hover{background:var(--g-dark);transform:translateY(-1px);box-shadow:0 6px 20px rgba(12,74,62,.18)}
+.fydaa-home .advisory-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:10px;font-family:inherit;font-weight:600;font-size:1rem;cursor:pointer;transition:background-color .2s,border-color .2s;width:100%;margin-top:4px;background:var(--g);color:#fff;border:none}
+.fydaa-home .advisory-submit:hover{background:var(--g-dark)}
 .fydaa-home .advisory-privacy{font-size:.75rem;color:var(--ink3);text-align:center;margin-top:12px}
 .fydaa-home .testimonials{padding:clamp(56px,6vw,88px) 0;background:#EAF6EF}
 .fydaa-home .testi-layout{display:grid;grid-template-columns:248px minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:stretch}
@@ -288,8 +278,8 @@
 .fydaa-home .final-cta-accent{color:var(--g-mint)}
 .fydaa-home .final-cta-card p{color:rgba(255,255,255,.92);margin:0 auto 28px;font-size:var(--text-lead);line-height:1.6;max-width:640px}
 .fydaa-home .final-cta-buttons{display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap}
-.fydaa-home .final-cta-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#fff;color:var(--g);padding:14px 28px;border-radius:14px;font-weight:700;font-size:1rem;letter-spacing:-.01em;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s}
-.fydaa-home .final-cta-btn:hover{background:#f5f5f5;transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.fydaa-home .final-cta-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:10px;font-family:inherit;font-weight:600;font-size:1rem;cursor:pointer;transition:background-color .2s,border-color .2s;background:#fff;color:var(--g);border:none}
+.fydaa-home .final-cta-btn:hover{background:var(--g-light)}
 /* Home marketing footer only — skip shared #footer used on partner pages */
 .fydaa-home footer:not(#footer){background:var(--ink);color:rgba(255,255,255,.6);padding:56px 0 32px}
 .fydaa-home .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
@@ -324,7 +314,6 @@
   .fydaa-home .final-cta-card{border-radius:64px;padding:96px 80px}
   .fydaa-home .final-cta-card h2{line-height:56px}
   .fydaa-home .final-cta-card p{max-width:720px;margin-bottom:36px}
-  .fydaa-home .final-cta-btn{padding:16px 36px;font-size:1rem;border-radius:16px}
   .fydaa-home .testi-layout{grid-template-columns:248px minmax(0,1fr);gap:72px}
   .fydaa-home .testi-layout--no-video{grid-template-columns:1fr}
   .fydaa-home .testi-video-frame{width:248px;height:452px}
@@ -344,7 +333,6 @@
   .fydaa-home .final-cta-card{border-radius:56px;padding:88px 72px}
   .fydaa-home .final-cta-card h2{line-height:52px}
   .fydaa-home .final-cta-card p{max-width:700px}
-  .fydaa-home .final-cta-btn{padding:15px 32px;font-size:1rem}
 }
 
 @media (min-width:1536px) and (max-width:1919px) {
@@ -389,7 +377,6 @@
   .fydaa-home .final-cta-card{border-radius:40px;padding:56px 40px}
   .fydaa-home .final-cta-card h2{line-height:40px}
   .fydaa-home .final-cta-card p{max-width:560px}
-  .fydaa-home .final-cta-btn{padding:13px 24px;font-size:.875rem}
 }
 
 @media (max-width:1024px) {
@@ -484,7 +471,6 @@
   .fydaa-home .final-cta-card h2{line-height:34px;margin-bottom:12px}
   .fydaa-home .final-cta-card p{margin-bottom:24px;max-width:100%}
   .fydaa-home .final-cta-buttons{flex-direction:column;align-items:stretch;gap:10px}
-  .fydaa-home .final-cta-buttons .final-cta-btn{width:100%;padding:14px 20px;font-size:.875rem;min-height:48px}
   .fydaa-home .footer-grid{grid-template-columns:1fr 1fr}
   .fydaa-home .prod-section,
   .fydaa-home .prod-section--merge,
@@ -514,11 +500,9 @@
   .fydaa-home .advisory{padding:40px 0}
   .fydaa-home .advisory-form-card{padding:20px;border-radius:14px}
   .fydaa-home .advisory-input{padding:12px 14px;font-size:.875rem}
-  .fydaa-home .advisory-submit{padding:13px;font-size:.875rem;min-height:48px}
   .fydaa-home .final-cta-card{border-radius:24px;padding:36px 16px}
   .fydaa-home .final-cta-card h2{line-height:32px}
   .fydaa-home .final-cta-card p{margin-bottom:20px}
-  .fydaa-home .final-cta-btn{padding:13px 18px;font-size:.875rem;border-radius:12px}
   .fydaa-home .footer-grid{grid-template-columns:1fr}
   .fydaa-home .hc-cats{gap:0}
   .fydaa-home .hc-cat{padding:8px 10px;font-size:.75rem}
@@ -548,7 +532,6 @@
   .fydaa-home .purpose-section{border-radius:18px;padding:32px 0 28px}
   .fydaa-home .final-cta-card{border-radius:18px;padding:28px 12px}
   .fydaa-home .final-cta-card h2{line-height:28px}
-  .fydaa-home .final-cta-btn{font-size:.875rem;padding:12px 16px}
 }
 
 @media (prefers-reduced-motion:reduce) {

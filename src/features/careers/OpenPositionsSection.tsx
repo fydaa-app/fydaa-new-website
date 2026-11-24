@@ -102,7 +102,7 @@ export function JobDetail({
           type="button"
           onClick={onApply}
           data-ph-event="Apply now"
-          className="flex items-center gap-1.5 rounded-btn bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
+          className="btn btn-primary btn-md"
         >
           Apply now
         </button>
@@ -206,7 +206,7 @@ export default function OpenPositionsSection({ jobs, error }: Props) {
             <button
               type="button"
               onClick={() => router.refresh()}
-              className="mt-6 rounded-btn bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
+              className="btn btn-primary btn-md mt-6"
             >
               Try again
             </button>

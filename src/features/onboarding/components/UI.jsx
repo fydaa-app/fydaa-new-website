@@ -124,7 +124,7 @@ export function Button({ children, onClick, className = '', phEvent, ...rest }) 
         captureButtonClick(label || 'Button', { button_variant: 'primary' });
         onClick?.(e);
       }}
-      className={`w-full h-[52px] rounded-xl bg-jade text-white text-base font-bold hover:bg-jade-hover transition-colors mt-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-jade ${className}`}
+      className={`btn btn-primary btn-lg mt-2 w-full ${className}`}
     >
       {children}
     </button>
@@ -146,7 +146,7 @@ export function OutlineButton({ children, onClick, className = '', phEvent, ...r
         captureButtonClick(label || 'Button', { button_variant: 'outline' });
         onClick?.(e);
       }}
-      className={`w-full h-[52px] rounded-xl bg-white text-neutral-800 text-base font-semibold border-[1.5px] border-neutral-200 hover:border-neutral-300 transition-colors mt-2 flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`btn btn-secondary btn-lg mt-2 w-full ${className}`}
     >
       {children}
     </button>

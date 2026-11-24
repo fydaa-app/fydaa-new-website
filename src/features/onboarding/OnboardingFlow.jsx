@@ -1557,7 +1557,7 @@ export default function OnboardingFlow({
             <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
           <Button phEvent="Create PIN" type="submit" disabled={Boolean(authBusy)}>
-            {authBusy === 'create-pin' ? 'Saving...' : 'Get Started'}
+            {authBusy === 'create-pin' ? 'Saving...' : 'Get started'}
           </Button>
         </form>
       )}

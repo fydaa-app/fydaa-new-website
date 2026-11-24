@@ -20,7 +20,7 @@ export default function FinalCta() {
             className="final-cta-btn"
             data-ph-event="Book a Free Call"
           >
-            Book a Free Call
+            Book a free call
           </a>
           <Link
             href="/download"
@@ -41,7 +41,7 @@ export default function FinalCta() {
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            Download App
+            Download app
           </Link>
         </div>
       </div>

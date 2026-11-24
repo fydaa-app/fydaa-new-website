@@ -43,7 +43,7 @@ export default function FyiapProgramBoxes() {
               <Link
                 href="/programme"
                 data-ph-event="Apply now"
-                className="inline-flex items-center gap-1.5 rounded-btn bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
+                className="btn btn-primary btn-md"
               >
                 Apply now
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0">
@@ -59,7 +59,7 @@ export default function FyiapProgramBoxes() {
               <Link
                 href="/programme"
                 data-ph-event="Learn more"
-                className="rounded-btn border border-grey-300 px-6 py-3 text-sm font-bold text-ink hover:border-jade hover:text-jade"
+                className="btn btn-secondary btn-md"
               >
                 Learn more
               </Link>

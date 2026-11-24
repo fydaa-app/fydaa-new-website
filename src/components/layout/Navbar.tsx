@@ -101,7 +101,7 @@ export default function Navbar() {
               data-ph-event="Download App"
             >
               {DownloadIcon}
-              Download App
+              Download app
             </Link>
           </div>
 

@@ -19,7 +19,7 @@ export default function Hero() {
             <div className="hero-ctas">
               <div className="hero-cta">
                 <Link href="/signup" className="btn-invest" data-ph-event="Start Investing">
-                  Start Investing
+                  Start investing
                 </Link>
                 <span className="hero-cta-label">New users</span>
               </div>

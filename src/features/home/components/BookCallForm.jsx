@@ -290,7 +290,7 @@ export default function BookCallForm() {
             : 'Sending...'
           : otpSent
             ? 'Verify'
-            : 'Book a Call'}
+            : 'Book a free call'}
       </button>
       <div className="advisory-privacy">We&apos;ll only use this to contact you. No spam, ever.</div>
     </div>

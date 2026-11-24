@@ -85,29 +85,13 @@ const HeroSection: React.FC = () => {
                 </span>
               </div>
             </div>
-
-            {/* Start Investing Now Button */}
-            {/* <div className="flex justify-center">
-              <button 
-                onClick={() => window.open('https://www.cal.eu/fydaa/30min?overlayCalendar=true', '_blank')}
-                className="bg-black text-white px-5 sm:px-5 md:px-6 lg:px-6 xl:px-8 2xl:px-10 py-2.5 sm:py-2.5 md:py-3 lg:py-3 xl:py-4 2xl:py-5 rounded-full font-medium flex items-center space-x-2 sm:space-x-2 hover:bg-gray-800 transition-colors text-sm sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-lg"
-              >
-                <span>Start Investing Now</span>
-                <svg className="w-3 h-3 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5 2xl:w-6 2xl:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </button>
-              
-            </div> */}
-
-            {/* Replaced Buttons */}
             <div className="flex items-center justify-center">
               <Link
                 href="/#book-a-call"
-                className="inline-flex items-center gap-2 bg-jade text-white px-6 py-3 rounded-btn font-inter font-bold text-xs sm:text-sm tracking-[-0.01em] hover:bg-jade-hover active:scale-[0.985] transition-all pointer-events-auto"
+                className="btn btn-primary btn-lg"
                 data-ph-event="Book a Free Call"
               >
-                Book a Free Call
+                Book a free call
               </Link>
             </div>
           </div>
