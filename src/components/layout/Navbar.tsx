@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useState, useSyncExternalStore } from "react";
-import { mainNavigation, routes } from "@/config/routes";
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
+import { mainNavigation, professionalNavigation, routes } from "@/config/routes";
+import { GetAppButton } from "@/components/app/get-app-button";
 import { siteConfig } from "@/config/site";
 import { useAuthStatus } from "@/lib/auth/use-auth-status";
 import { buttonClasses } from "@/components/ui/button";
@@ -28,21 +29,68 @@ function useScrolled(threshold = 10): boolean {
   );
 }
 
-const DownloadIcon = (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    aria-hidden="true"
-  >
-    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-    <polyline points="7 10 12 15 17 10" />
-    <line x1="12" y1="15" x2="12" y2="3" />
-  </svg>
-);
+/**
+ * "For professionals": partners, the programme and careers. A dropdown on desktop (transitions.dev
+ * menu dropdown); a labelled group inside the phone menu.
+ */
+function ProfessionalsMenu({ pathname }: { pathname: string | null }) {
+  const panelId = useId();
+  const ref = useRef<HTMLDivElement>(null);
+  const [openFor, setOpenFor] = useState<string | null>(null);
+  const open = openFor !== null && openFor === pathname;
+  const active = professionalNavigation.some((link) => isActive(pathname, link.path));
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (event: Event) => {
+      if (
+        event instanceof KeyboardEvent ? event.key === "Escape" : !ref.current?.contains(event.target as Node)
+      )
+        setOpenFor(null);
+    };
+    window.addEventListener("keydown", close);
+    window.addEventListener("pointerdown", close);
+    return () => {
+      window.removeEventListener("keydown", close);
+      window.removeEventListener("pointerdown", close);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className={cn("nav-group", open && "open")}>
+      <button
+        type="button"
+        className={cn("nav-group-toggle", active && "active")}
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={() => setOpenFor(open ? null : pathname)}
+      >
+        For professionals
+        <svg viewBox="0 0 16 16" aria-hidden="true" className="nav-group-chevron">
+          <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+        </svg>
+      </button>
+      <div id={panelId} className="nav-group-panel">
+        <p className="nav-group-label">For professionals</p>
+        {professionalNavigation.map((link) => {
+          const current = isActive(pathname, link.path);
+          return (
+            <Link
+              key={link.path}
+              href={link.path}
+              className={current ? "active" : undefined}
+              aria-current={current ? "page" : undefined}
+              onClick={() => setOpenFor(null)}
+            >
+              <span className="nav-group-title">{link.label}</span>
+              <span className="nav-group-desc">{link.description}</span>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -94,6 +142,7 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            <ProfessionalsMenu pathname={pathname} />
             <div className="nav-menu-actions">
               <Link
                 href={account.path}
@@ -118,15 +167,9 @@ export default function Navbar() {
             <Link href={account.path} className="nav-login" data-ph-event={account.label}>
               {account.label}
             </Link>
-            <Link
-              href={routes.download.path}
-              prefetch={false}
-              className="nav-download"
-              data-ph-event="Download App"
-            >
-              {DownloadIcon}
-              Download app
-            </Link>
+            <GetAppButton size="md" align="end" className="nav-get-app">
+              Get the app
+            </GetAppButton>
           </div>
 
           <button

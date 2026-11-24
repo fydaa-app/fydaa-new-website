@@ -22,7 +22,7 @@ export default function Testimonials() {
             What people investing with Fydaa say
           </h2>
           <div
-            className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-4xl bg-ink"
+            className="relative aspect-[16/10] w-full max-w-sm overflow-hidden rounded-4xl bg-ink sm:aspect-[4/5]"
             data-allow-clip
           >
             <video
@@ -63,7 +63,7 @@ export default function Testimonials() {
           {TESTIMONIALS.map((t) => (
             <li
               key={t.name}
-              className="border-t border-line py-8 first:border-t-0 first:pt-0 lg:first:border-t lg:first:pt-8"
+              className="border-t border-line py-8 first:border-t-0 first:pt-0 lg:first:border-t lg:first:pt-8 max-sm:[&:nth-child(3)]:hidden"
             >
               <figure className="flex flex-col gap-5">
                 <blockquote className="text-lead leading-relaxed text-ink">

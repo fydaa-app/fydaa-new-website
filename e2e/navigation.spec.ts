@@ -62,17 +62,50 @@ test("shows exactly one account link at every width", async ({ page }) => {
   );
 });
 
-test("hero planner's Start this SIP goes to signup with the chosen plan", async ({ page }) => {
+test("home planner starts from a goal and carries the plan to signup", async ({ page }) => {
   await page.goto("/");
-  const cta = page.getByRole("link", { name: "Start this SIP", exact: true });
-  await expect(cta).toHaveAttribute(
+  const web = page.getByRole("link", { name: "or start on the web" });
+  await expect(web).toHaveAttribute(
     "href",
-    /^\/signup\?intent=sip&category=equity&frequency=monthly&amount=5000&years=10$/,
+    /^\/signup\?intent=sip&goal=wedding&category=hybrid&frequency=monthly&amount=\d+&years=5$/,
   );
-  await page.getByRole("radio", { name: "Debt", exact: true }).click();
-  await expect(cta).toHaveAttribute("href", /category=debt/);
-  await cta.click();
-  await expect(page).toHaveURL(/\/signup\?intent=sip&category=debt/);
+  await page.getByRole("radio", { name: "Education" }).click();
+  await expect(web).toHaveAttribute(
+    "href",
+    /goal=education&category=equity&frequency=monthly&amount=\d+&years=12$/,
+  );
+  await web.click();
+  await expect(page).toHaveURL(/\/signup\?intent=sip&goal=education/);
+});
+
+test("the header offers the app: a store link on phones, a QR code on a desktop", async ({
+  page,
+  isMobile,
+}) => {
+  await page.goto("/about");
+  if (isMobile) {
+    await expect(page.locator("nav#nav").getByRole("link", { name: "Get the app" })).toHaveAttribute(
+      "href",
+      "/download",
+    );
+    return;
+  }
+  await page.locator("nav#nav").getByRole("button", { name: "Get the app" }).click();
+  const panel = page.getByRole("dialog", { name: "Get Fydaa on your phone" });
+  await expect(panel.getByRole("img", { name: "QR code to get the Fydaa app" }).locator("svg")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(panel).toHaveCount(0);
+});
+
+test("For professionals groups partners, the programme and careers", async ({ page, isMobile }) => {
+  test.skip(isMobile, "desktop dropdown; the phone menu is covered above");
+  await page.goto("/about");
+  await page.getByRole("button", { name: "For professionals" }).click();
+  await page
+    .locator("nav#nav")
+    .getByRole("link", { name: /Partners/ })
+    .click();
+  await expect(page).toHaveURL(/\/partner$/);
 });
 
 test("footer shows the current year and opens social links safely", async ({ page }) => {

@@ -11,7 +11,8 @@
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-.site-nav a {
+/* Plain links take the bar's colour; buttons (.btn) keep their own. */
+:where(.site-nav) a:not(.btn) {
   text-decoration: none;
   color: inherit;
 }
@@ -352,6 +353,192 @@
     padding: 0 12px;
   }
   .site-nav .nav-download svg {
+    display: none;
+  }
+}
+
+/* "Get the app" in the bar: 40px tall like the rest of the header. */
+.site-nav .nav-get-app {
+  height: 40px;
+  padding: 0 16px;
+}
+
+/*
+ * "For professionals": a dropdown on desktop (transitions.dev menu dropdown: fade + 0.97 scale from
+ * the trigger), a labelled group inside the phone menu.
+ */
+.site-nav .nav-group {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.site-nav .nav-group-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9375rem;
+  font-weight: 550;
+  font-stretch: 104%;
+  color: var(--ink2);
+  white-space: nowrap;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color var(--duration-quick) var(--ease-out);
+}
+
+.site-nav .nav-group-toggle:hover,
+.site-nav .nav-group.open .nav-group-toggle,
+.site-nav .nav-group-toggle.active {
+  color: var(--ink);
+}
+
+.site-nav .nav-group-toggle.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  width: 14px;
+  height: 3px;
+  margin-left: -7px;
+  background: var(--g);
+  border-radius: 999px;
+}
+
+.site-nav .nav-group-chevron {
+  width: 14px;
+  height: 14px;
+  transition: transform var(--duration-fast) var(--ease-smooth-out);
+}
+
+.site-nav .nav-group.open .nav-group-chevron {
+  transform: scaleY(-1);
+}
+
+.site-nav .nav-group-panel {
+  position: absolute;
+  top: calc(100% - 10px);
+  left: 50%;
+  width: 320px;
+  margin-left: -160px;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow:
+    0 1px 2px rgb(14 39 33 / 0.06),
+    0 16px 40px -12px rgb(14 39 33 / 0.18);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-4px) scale(0.97);
+  transform-origin: top center;
+  transition:
+    opacity var(--duration-quick) var(--ease-smooth-out),
+    transform var(--duration-quick) var(--ease-smooth-out),
+    visibility 0s linear var(--duration-quick);
+}
+
+.site-nav .nav-group.open .nav-group-panel {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--duration-fast) var(--ease-smooth-out),
+    transform var(--duration-fast) var(--ease-smooth-out),
+    visibility 0s;
+}
+
+.site-nav .nav-group-label {
+  display: none;
+}
+
+.site-nav .nav-center .nav-group-panel a {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  white-space: normal;
+  transition: background-color var(--duration-quick) var(--ease-out);
+}
+
+.site-nav .nav-center .nav-group-panel a:hover,
+.site-nav .nav-center .nav-group-panel a.active {
+  background: var(--surface);
+}
+
+.site-nav .nav-center .nav-group-panel a.active::after {
+  display: none;
+}
+
+.site-nav .nav-group-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.site-nav .nav-group-desc {
+  font-size: 0.8125rem;
+  font-weight: 450;
+  color: var(--ink3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav .nav-group-panel,
+  .site-nav .nav-group-chevron {
+    transition: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .site-nav .nav-group {
+    display: block;
+  }
+
+  .site-nav .nav-group-toggle {
+    display: none;
+  }
+
+  .site-nav .nav-group-panel {
+    position: static;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    visibility: inherit;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .site-nav .nav-group-label {
+    display: block;
+    padding: 20px 0 4px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ink3);
+  }
+
+  .site-nav .nav-center.open .nav-group-panel a:not(.btn) {
+    padding: 12px 0;
+    border-radius: 0;
+  }
+
+  .site-nav .nav-center .nav-group-panel a:hover,
+  .site-nav .nav-center .nav-group-panel a.active {
+    background: none;
+  }
+}
+
+@media (max-width: 374px) {
+  .site-nav .nav-get-app {
+    padding: 0 12px;
+  }
+  .site-nav .nav-get-app svg {
     display: none;
   }
 }

@@ -24,6 +24,9 @@ export function robotsFor(noIndex: boolean | undefined): Metadata["robots"] {
 }
 
 /** Metadata for the root layout: base URL, title template and site-wide defaults. */
+/** The App Store id, taken from the store link in siteConfig. */
+const APP_STORE_ID = siteConfig.apps.ios.match(/id(\d+)/)?.[1] ?? "";
+
 export function rootMetadata(): Metadata {
   return {
     metadataBase: new URL(siteConfig.url),
@@ -47,6 +50,8 @@ export function rootMetadata(): Metadata {
       images: [DEFAULT_OG_IMAGE],
     },
     icons: { icon: [{ url: "/favicon.ico", sizes: "any" }] },
+    // iPhone Safari shows its native "Open in the App Store" banner for the Fydaa app.
+    itunes: { appId: APP_STORE_ID },
   };
 }
 

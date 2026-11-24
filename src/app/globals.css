@@ -57,6 +57,22 @@
     @apply border border-white/40 bg-transparent text-white hover:bg-white/10;
   }
 
+  /*
+   * "Get the app": a store link by default; on a desktop with a mouse, a button that opens the QR
+   * popover instead (GetAppButton renders both).
+   */
+  .btn.get-app-qr {
+    display: none;
+  }
+  @media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
+    .btn.get-app-link {
+      display: none;
+    }
+    .btn.get-app-qr {
+      display: inline-flex;
+    }
+  }
+
   /* Text link: emerald, underline drawn on hover (transitions.dev "learn more" family). */
   .link {
     @apply font-semibold text-emerald;
@@ -853,5 +869,43 @@ body.fydaa-hide-site-chrome .fydaa-auth-main {
   .t-check-path {
     animation: none;
     stroke-dashoffset: 0;
+  }
+}
+
+/*
+ * Popover open (transitions.dev #05, menu dropdown): grows from the edge of its trigger.
+ */
+@keyframes t-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--distance-micro) * -1)) scale(var(--scale-medium));
+  }
+}
+.t-pop {
+  animation: t-pop-in var(--duration-fast) var(--ease-smooth-out) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-pop {
+    animation: none;
+  }
+}
+
+/*
+ * Content swap (transitions.dev panel reveal): new content fades in through a soft blur when its
+ * React key changes.
+ */
+@keyframes t-swap-in {
+  from {
+    opacity: 0;
+    filter: blur(var(--blur-small));
+    transform: translateY(var(--distance-micro));
+  }
+}
+.t-swap {
+  animation: t-swap-in var(--duration-slow) var(--ease-smooth-out) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-swap {
+    animation: none;
   }
 }

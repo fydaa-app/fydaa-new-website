@@ -71,7 +71,7 @@ export default function QuickAnswers() {
   const tucked = scroll !== "up" && !open;
 
   return (
-    <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-[60] flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
+    <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom)+var(--app-bar-h,0px))] right-4 z-[60] flex flex-col items-end gap-3 transition-[bottom] duration-fast ease-smooth-out sm:right-6 lg:bottom-6">
       {open ? (
         <div
           ref={panelRef}

@@ -87,6 +87,8 @@ const envSchema = z.object({
     appleClientId: optionalString,
     appleRedirectUri: z.optional(httpUrl),
   }),
+  /** Branch deep link for "Get the app" (optional until it exists; see TODO.md). */
+  appLink: z.optional(httpUrl),
 });
 
 export type Env = z.output<typeof envSchema>;
@@ -143,6 +145,7 @@ const raw = {
     appleClientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID?.trim() || undefined,
     appleRedirectUri: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI?.trim() || undefined,
   },
+  appLink: process.env.NEXT_PUBLIC_BRANCH_LINK?.trim() || undefined,
 };
 
 export function parseEnv(input: unknown): Env {

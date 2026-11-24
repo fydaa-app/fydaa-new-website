@@ -133,13 +133,14 @@ export function legacyRedirects() {
 }
 
 /** Primary navigation, in display order. */
-export const mainNavigation = [
-  routes.home,
-  routes.about,
-  routes.features,
-  routes.programme,
-  routes.careers,
-  routes.partner,
+/** Investor-facing links in the header. */
+export const mainNavigation = [routes.features, routes.about] as const;
+
+/** Grouped under "For professionals" in the header: people who work with or for Fydaa. */
+export const professionalNavigation = [
+  { ...routes.partner, label: "Partners", description: "Mutual fund distributors: grow with Fydaa" },
+  { ...routes.programme, description: "FYIAEP: become an investment adviser in 4 months" },
+  { ...routes.careers, description: "Open roles at Fydaa" },
 ] as const;
 
 export type IndexableRoute = SiteRoute & { sitemap: NonNullable<SiteRoute["sitemap"]> };
