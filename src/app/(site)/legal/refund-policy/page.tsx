@@ -1,36 +1,25 @@
-
 import { legalPageSeo } from "@/config/routes";
 import { pageMetadata } from "@/lib/seo/metadata";
+import { LegalDocument } from "../_components/legal-document";
 
 export const metadata = pageMetadata(legalPageSeo("/legal/refund-policy"));
 
-
 export default function Terms() {
   return (
-    <div>
-      <main className="w-full flex flex-col items-center p-10 pt-20">
-        <section className="flex flex-col items-start">
-          <br /> <br /> <br /> <br />
-          <h1 className="text-heading w-full font-bold text-center">
-            Refund Policy
-          </h1>
-          <br /> <br />
-          <h2 className="text-heading w-full text-center font-semibod mb-8">
-            Multistrato Capital Advisers Private Limited / fydaa Refund policy
-          </h2>
-          <h3 className="text-bold text-xl mt-8">REFUNDS</h3>
-          <p>All subscriptions are final and no refund will be issued.</p>
-          <h3 className="text-bold text-xl mt-8">QUESTIONS</h3>
-          <p>
-            If you have any questions concerning our return policy, please
-            contact us at:
-            <br />
-            +91 9136935300
-            <br />
-            support@fydaa.com
-          </p>
-        </section>
-      </main>
-    </div>
+    <LegalDocument
+      title="Refund Policy"
+      subtitle="Multistrato Capital Advisers Private Limited / fydaa Refund policy"
+    >
+      <h2>REFUNDS</h2>
+      <p>All subscriptions are final and no refund will be issued.</p>
+      <h2>QUESTIONS</h2>
+      <p>
+        If you have any questions concerning our return policy, please contact us at:
+        <br />
+        +91 9136935300
+        <br />
+        support@fydaa.com
+      </p>
+    </LegalDocument>
   );
 }

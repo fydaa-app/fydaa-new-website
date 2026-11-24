@@ -2,9 +2,10 @@ import type { ReactNode } from "react";
 import "./legal.css";
 
 /**
- * Shared document styling for the legal pages (see `legal.css`): a readable measure,
- * consistent spacing and heading sizes, without rewriting the legal text each page carries.
+ * Legal pages share one document style (`legal.css`) and one layout (`<LegalDocument>` in
+ * `_components`): a readable measure, consistent headings and lists, without rewriting the
+ * legal text each page carries.
  */
 export default function LegalLayout({ children }: { children: ReactNode }) {
-  return <div className="legal-doc">{children}</div>;
+  return children;
 }

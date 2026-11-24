@@ -1,35 +1,60 @@
+import Image from "next/image";
 import type { ReactNode } from "react";
+import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils/cn";
 
 export type StatusTone = "success" | "failure" | "pending";
 
-const TONES: Record<StatusTone, { ring: string; icon: ReactNode; label: string }> = {
-  success: {
-    ring: "bg-jade-tint text-jade",
-    label: "Completed",
-    icon: <polyline points="20 6 9 17 4 12" />,
-  },
-  failure: {
-    ring: "bg-red-50 text-red-700",
-    label: "Not completed",
-    icon: (
-      <>
-        <line x1="18" y1="6" x2="6" y2="18" />
-        <line x1="6" y1="6" x2="18" y2="18" />
-      </>
-    ),
-  },
-  pending: {
-    ring: "bg-grey-100 text-grey-600",
-    label: "Checking status",
-    icon: (
-      <>
-        <circle cx="12" cy="12" r="9" />
-        <polyline points="12 7 12 12 15 14" />
-      </>
-    ),
-  },
-};
+/**
+ * The tone's mark. Success draws the transitions.dev check (`t-check`: ring, then tick); failure
+ * is a cross on the danger tint; pending is a clock (or a spinner while work is in progress).
+ */
+function ToneMark({ tone, busy }: { tone: StatusTone; busy: boolean }) {
+  if (tone === "success" && !busy) {
+    return (
+      <svg className="t-check size-16" viewBox="0 0 56 56" aria-hidden="true">
+        <circle cx="28" cy="28" r="26" className="t-check-ring" />
+        <path d="M17 29.5l7 7 15-16" className="t-check-path" />
+      </svg>
+    );
+  }
+
+  return (
+    <span
+      aria-hidden="true"
+      className={cn(
+        "flex size-16 items-center justify-center rounded-full",
+        tone === "failure" ? "bg-danger/10 text-danger" : "bg-mist text-grey-600",
+      )}
+    >
+      {busy ? (
+        <span className="size-7 animate-spin rounded-full border-[3px] border-current border-r-transparent motion-reduce:animate-none" />
+      ) : (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.25"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {tone === "failure" ? (
+            <>
+              <line x1="17" y1="7" x2="7" y2="17" />
+              <line x1="7" y1="7" x2="17" y2="17" />
+            </>
+          ) : (
+            <>
+              <circle cx="12" cy="12" r="9" />
+              <polyline points="12 7 12 12 15 14" />
+            </>
+          )}
+        </svg>
+      )}
+    </span>
+  );
+}
 
 export interface StatusScreenProps {
   tone: StatusTone;
@@ -41,40 +66,37 @@ export interface StatusScreenProps {
   children?: ReactNode;
 }
 
-/** Full-screen, announced status message for payment and KYC callbacks. */
+/**
+ * Full-screen, announced status message for payment, mandate and KYC callbacks. These pages have
+ * no site header, so the logo sits above the message to show where you are. Left-aligned on the
+ * same measure as the rest of the site; the outcome itself comes from the caller, which only
+ * reports success on a verified signal.
+ */
 export function StatusScreen({ tone, title, message, actions, busy = false, children }: StatusScreenProps) {
-  const config = TONES[tone];
   return (
-    <main className="flex min-h-dvh items-center justify-center bg-white px-6 py-12">
-      <div role="status" aria-live="polite" className="flex max-w-md flex-col items-center text-center">
-        <div className={cn("flex size-20 items-center justify-center rounded-full", config.ring)}>
-          {busy ? (
-            <span
-              aria-hidden="true"
-              className="size-9 animate-spin rounded-full border-4 border-current border-r-transparent"
-            />
-          ) : (
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              className="size-10"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {config.icon}
-            </svg>
-          )}
+    <main className="flex min-h-dvh flex-col bg-white px-4 py-8 sm:px-6 sm:py-10">
+      <div className="mx-auto w-full max-w-md">
+        <Image
+          src="/fydaa-logo.png"
+          alt={siteConfig.name}
+          width={409}
+          height={147}
+          priority
+          className="h-7 w-auto"
+        />
+      </div>
+      <div className="mx-auto flex w-full max-w-md flex-1 items-center py-12">
+        <div role="status" aria-live="polite" className="flex w-full flex-col items-start">
+          <ToneMark tone={tone} busy={busy} />
+          <h1 className="mt-6 text-heading text-ink">{title}</h1>
+          <div className="mt-3 text-base leading-relaxed text-grey-600">{message}</div>
+          {children}
+          {actions ? (
+            <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row [&>*]:w-full sm:[&>*]:w-auto">
+              {actions}
+            </div>
+          ) : null}
         </div>
-        <p className="mt-6 text-xs font-semibold uppercase tracking-wide text-grey-600">
-          {busy ? "Please wait" : config.label}
-        </p>
-        <h1 className="mt-2 text-heading font-bold text-ink">{title}</h1>
-        <div className="mt-3 text-base leading-relaxed text-grey-600">{message}</div>
-        {children}
-        {actions ? <div className="mt-8 flex flex-wrap justify-center gap-3">{actions}</div> : null}
       </div>
     </main>
   );
