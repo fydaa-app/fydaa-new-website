@@ -23,7 +23,7 @@ export const routes = {
     label: "Programme",
     sitemap: { priority: 0.8, changeFrequency: "monthly" },
   },
-  careers: { path: "/careers", label: "Career", sitemap: { priority: 0.7, changeFrequency: "weekly" } },
+  careers: { path: "/careers", label: "Careers", sitemap: { priority: 0.7, changeFrequency: "weekly" } },
   partner: { path: "/partner", label: "Partner", sitemap: { priority: 0.6, changeFrequency: "monthly" } },
   login: { path: "/login", label: "Login" },
   signup: { path: "/signup", label: "Sign up" },

@@ -33,15 +33,54 @@ const SOCIAL: { label: string; href: string; icon: ReactNode }[] = [
   },
 ];
 
-/** Site footer: contact, legal links, UPI payment details and the regulatory disclaimer. */
+const PRODUCT_LINKS = [routes.features, routes.programme, routes.download] as const;
+const COMPANY_LINKS = [routes.about, routes.careers, routes.partner, routes.upiFaq] as const;
+
+const columnLink =
+  "flex min-h-11 items-center text-sm text-grey-600 transition-colors duration-quick hover:text-ink lg:min-h-9";
+
+function LinkColumn({ id, title, links }: { id: string; title: string; links: readonly { path: string; label: string }[] }) {
+  return (
+    <nav aria-labelledby={id}>
+      <h2 id={id} className="mb-2 text-sm font-semibold text-ink [font-stretch:104%]">
+        {title}
+      </h2>
+      <ul>
+        {links.map((route) => (
+          <li key={route.path}>
+            <Link href={route.path} className={columnLink} prefetch={route.path === routes.download.path ? false : undefined}>
+              {route.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
+/** Site footer: contact, product/company/legal links, UPI payment details and the regulatory disclaimer. */
 export default function Footer() {
   const [qrOpen, setQrOpen] = useState(false);
 
   return (
-    <footer id="footer" className="relative z-50 bg-black py-10 text-white sm:py-12">
-      <Container className="flex flex-col gap-10">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_auto] lg:gap-12">
-          <div className="flex flex-col gap-4">
+    <footer id="footer" className="relative z-50 border-t border-line bg-mist pb-10 pt-14 text-ink sm:pt-16">
+      <Container className="flex flex-col gap-12">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] lg:gap-12">
+          <div className="flex flex-col gap-5 sm:col-span-2 lg:col-span-1">
+            <Link href="/" aria-label={`${siteConfig.name} home`} className="w-fit">
+              <img src="/fydaa-logo.png" alt={siteConfig.name} width={409} height={147} className="h-9 w-auto" />
+            </Link>
+            <address className="flex flex-col gap-1 text-sm not-italic leading-relaxed text-grey-600">
+              <a href={siteConfig.contact.phoneHref} className="inline-flex min-h-11 w-fit items-center font-semibold text-ink hover:text-jade lg:min-h-8">
+                {siteConfig.contact.phone}
+              </a>
+              <a href={`mailto:${siteConfig.contact.email}`} className="inline-flex min-h-11 w-fit items-center font-semibold text-ink hover:text-jade lg:min-h-8">
+                {siteConfig.contact.email}
+              </a>
+              <span className="mt-1 hidden max-w-xs sm:inline">
+                903, Ecostar Building, Off Aarey Road, Goregaon (East), Mumbai 400063
+              </span>
+            </address>
             <ul className="-ml-2.5 flex items-center gap-1">
               {SOCIAL.map((item) => (
                 <li key={item.href}>
@@ -50,67 +89,54 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={item.label}
-                    className="flex size-11 items-center justify-center rounded-btn text-white transition-colors hover:bg-white/10"
+                    className="flex size-11 items-center justify-center rounded-btn text-grey-600 transition-colors duration-quick hover:bg-white hover:text-ink"
                   >
-                    <svg aria-hidden="true" className="size-6" fill="currentColor" viewBox="0 0 24 24">
+                    <svg aria-hidden="true" className="size-5" fill="currentColor" viewBox="0 0 24 24">
                       {item.icon}
                     </svg>
                   </a>
                 </li>
               ))}
             </ul>
-            <address className="flex flex-col gap-1 text-sm not-italic leading-relaxed text-white/80 sm:text-base">
-              {/* The address also appears in the disclaimer below, so phones skip it here. */}
-              <span className="hidden font-semibold text-white sm:inline">Registered office</span>
-              <span className="hidden max-w-sm sm:inline">
-                #903, Ecostar Building, Off Aarey Road, Churi Wadi, Goregaon (East), Mumbai, Maharashtra - 400063.
-              </span>
-              <span>
-                Phone:{" "}
-                <a href={siteConfig.contact.phoneHref} className="inline-flex min-h-11 items-center underline">
-                  {siteConfig.contact.phone}
-                </a>
-              </span>
-            </address>
           </div>
 
-          <nav aria-labelledby="footer-legal">
-            <h2 id="footer-legal" className="mb-2 text-base font-semibold text-white">
-              Quick links
-            </h2>
-            <ul className="grid grid-cols-2 gap-x-6 sm:grid-cols-3 lg:grid-cols-1">
-              {legalRoutes.map((route) => (
-                <li key={route.path}>
-                  <Link
-                    href={route.path}
-                    className="flex min-h-11 items-center text-sm text-white/80 transition-colors hover:text-white lg:min-h-9"
-                  >
-                    {route.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <LinkColumn id="footer-product" title="Product" links={PRODUCT_LINKS} />
+          <LinkColumn id="footer-company" title="Company" links={COMPANY_LINKS} />
 
-          <div className="grid grid-cols-2 gap-2.5 sm:flex sm:flex-row lg:flex-col">
-            <Link href={routes.upiFaq.path} className={buttonClasses({ variant: "outline-inverse" })}>
-              UPI handles
-            </Link>
-            <button
-              type="button"
-              onClick={() => setQrOpen(true)}
-              className={buttonClasses({ variant: "outline-inverse" })}
-            >
-              Scan QR code
-            </button>
+          <div className="flex flex-col gap-8 sm:col-span-2 sm:grid sm:grid-cols-2 lg:col-span-1 lg:flex">
+            <nav aria-labelledby="footer-legal">
+              <h2 id="footer-legal" className="mb-2 text-sm font-semibold text-ink [font-stretch:104%]">
+                Legal
+              </h2>
+              <ul className="grid grid-cols-2 gap-x-6 sm:grid-cols-1">
+                {legalRoutes.map((route) => (
+                  <li key={route.path}>
+                    <Link href={route.path} className={columnLink}>
+                      {route.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <div>
+              <h2 className="mb-3 text-sm font-semibold text-ink [font-stretch:104%]">Pay advisory fees by UPI</h2>
+              <div className="flex flex-wrap gap-2">
+                <Link href={routes.upiFaq.path} className={buttonClasses({ variant: "secondary" })}>
+                  UPI handles
+                </Link>
+                <button type="button" onClick={() => setQrOpen(true)} className={buttonClasses({ variant: "secondary" })}>
+                  Scan QR code
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <section aria-labelledby="footer-disclaimer" className="border-t border-white/15 pt-8">
-          <h2 id="footer-disclaimer" className="mb-3 text-sm font-semibold text-white">
+        <section aria-labelledby="footer-disclaimer" className="border-t border-line pt-8">
+          <h2 id="footer-disclaimer" className="mb-3 text-sm font-semibold text-ink">
             Disclaimer
           </h2>
-          <div className="grid gap-x-10 gap-y-3 text-xs leading-relaxed text-white/75 sm:text-sm lg:grid-cols-2">
+          <div className="grid gap-x-10 gap-y-3 text-xs leading-relaxed text-grey-600 sm:text-[0.8125rem] lg:grid-cols-2">
             <div className="flex flex-col gap-3">
               <p>
                 By using this website, you understand the information being presented is provided for informational
@@ -136,7 +162,7 @@ export default function Footer() {
             </div>
             <dl className="grid gap-3 sm:grid-cols-2">
               <div>
-                <dt className="font-semibold text-white">{adviser.legalName}</dt>
+                <dt className="font-semibold text-ink">{adviser.legalName}</dt>
                 <dd>
                   Type of Registration: Non-Individual. RIA Registration Number: {adviser.sebiRegistrationNumber},
                   Validity: Perpetual
@@ -148,11 +174,11 @@ export default function Footer() {
                 </dd>
               </div>
               <div>
-                <dt className="font-semibold text-white">{distributor.legalName}</dt>
+                <dt className="font-semibold text-ink">{distributor.legalName}</dt>
                 <dd>AMFI registered ARN: {distributor.arn.replace("ARN-", "")}</dd>
               </div>
               <div>
-                <dt className="font-semibold text-white">Contact details of Principal Officer</dt>
+                <dt className="font-semibold text-ink">Contact details of Principal Officer</dt>
                 <dd>
                   Name: {principalOfficer}
                   <br />
@@ -160,7 +186,7 @@ export default function Footer() {
                 </dd>
               </div>
               <div>
-                <dt className="font-semibold text-white">SEBI regional/local address</dt>
+                <dt className="font-semibold text-ink">SEBI regional/local address</dt>
                 <dd>
                   SEBI Bhavan BKC, Plot No.C4-A, ‘G’ Block, Bandra-Kurla Complex, Bandra (East), Mumbai - 400051,
                   Maharashtra
@@ -172,8 +198,8 @@ export default function Footer() {
           </div>
         </section>
 
-        <p className="text-center text-sm text-white/80">
-          © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Fydaa · {adviser.legalName}
+        <p className="text-sm text-grey-500">
+          © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Fydaa. Investment advice by {adviser.legalName}.
         </p>
       </Container>
 
@@ -200,7 +226,7 @@ function QrDialog({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-end justify-center bg-black/80 sm:items-center sm:p-4"
+      className="t-scrim fixed inset-0 z-[9999] flex items-end justify-center bg-ink/50 sm:items-center sm:p-4"
       onClick={onClose}
       role="presentation"
     >
@@ -211,9 +237,9 @@ function QrDialog({ onClose }: { onClose: () => void }) {
         aria-modal="true"
         aria-labelledby="scan-qr-title"
         onClick={(event) => event.stopPropagation()}
-        className="flex max-h-[92dvh] w-full flex-col rounded-t-2xl bg-white text-ink shadow-modal outline-none sm:w-[min(560px,95vw)] sm:rounded-card"
+        className="t-dialog flex max-h-[92dvh] w-full flex-col rounded-t-4xl bg-white text-ink shadow-modal outline-none sm:w-[min(560px,95vw)] sm:rounded-4xl"
       >
-        <h2 id="scan-qr-title" className="px-5 pb-2 pt-5 text-title font-bold">
+        <h2 id="scan-qr-title" className="px-5 pb-2 pt-5 text-title">
           Scan to pay with UPI
         </h2>
         <p className="px-5 text-sm text-grey-600">
@@ -223,7 +249,7 @@ function QrDialog({ onClose }: { onClose: () => void }) {
           {siteConfig.upi.qrCodes.map((qr) => (
             <figure
               key={qr.handle}
-              className="flex flex-col items-center gap-2 rounded-card border border-grey-200 p-3"
+              className="flex flex-col items-center gap-2 rounded-card border border-line p-3"
             >
               <img
                 src={qr.src}
@@ -236,7 +262,7 @@ function QrDialog({ onClose }: { onClose: () => void }) {
             </figure>
           ))}
         </div>
-        <div className="flex justify-end gap-2 border-t border-grey-200 px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3">
+        <div className="flex justify-end gap-2 border-t border-line px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3">
           <Link href={routes.upiFaq.path} className={buttonClasses({ variant: "secondary" })} onClick={onClose}>
             UPI FAQs
           </Link>
