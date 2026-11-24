@@ -394,7 +394,7 @@ export default function CreateBasketFlow({ open, onClose, onCreated, onSaved, ed
 
         {step === 2 && (
           <div className="flex flex-col pb-6">
-            <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">
+            <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">
               {isSip ? "Monthly SIP amount" : "Lumpsum amount"}
             </div>
             <div className="bg-white border border-border rounded-card px-4 py-3.5 shadow-card mb-2">
@@ -418,7 +418,7 @@ export default function CreateBasketFlow({ open, onClose, onCreated, onSaved, ed
             </p>
 
             <div className="flex items-center justify-between gap-3 mb-3">
-              <div className="text-[11px] font-bold text-muted uppercase tracking-wider">Allocation</div>
+              <div className="text-xs font-bold text-muted uppercase tracking-wider">Allocation</div>
               <div className="flex items-center gap-3 text-[13px]">
                 <span className={`font-semibold ${Math.abs(weightTotal - 100) <= 0.51 ? "text-jade" : "text-red-600"}`}>
                   Total {Math.round(weightTotal)}%
@@ -489,7 +489,7 @@ export default function CreateBasketFlow({ open, onClose, onCreated, onSaved, ed
 
         {step === 3 && (
           <div className="flex flex-col pb-6 max-w-xl mx-auto w-full">
-            <label className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">
+            <label className="text-xs font-bold text-muted uppercase tracking-wider mb-2">
               Basket name
             </label>
             <input
@@ -504,7 +504,7 @@ export default function CreateBasketFlow({ open, onClose, onCreated, onSaved, ed
               className="w-full px-4 py-3 rounded-btn border border-jade bg-white text-[15px] text-ink outline-none mb-4"
             />
 
-            <label className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">
+            <label className="text-xs font-bold text-muted uppercase tracking-wider mb-2">
               Description (optional)
             </label>
             <textarea

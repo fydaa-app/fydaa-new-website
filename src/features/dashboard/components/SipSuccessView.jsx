@@ -59,7 +59,7 @@ export default function SipSuccessView({
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 4xl:gap-5 mb-6 4xl:mb-8">
           <div className="rounded-card 4xl:rounded-3xl border border-border bg-white px-4 sm:px-5 4xl:px-6 py-4 4xl:py-5 shadow-card text-left min-w-0">
-            <span className="inline-flex px-2.5 py-0.5 rounded-full bg-jade text-white text-[11px] 4xl:text-xs font-bold mb-3">
+            <span className="inline-flex px-2.5 py-0.5 rounded-full bg-jade text-white text-xs 4xl:text-xs font-bold mb-3">
               Auto-debit set
             </span>
             <div className="flex items-start justify-between gap-3">
@@ -90,7 +90,7 @@ export default function SipSuccessView({
           </div>
 
           <div className="rounded-card 4xl:rounded-3xl border border-border bg-white px-4 sm:px-5 4xl:px-6 py-4 4xl:py-5 shadow-card text-left min-w-0">
-            <span className="inline-flex px-2.5 py-0.5 rounded-full bg-amber-600 text-white text-[11px] 4xl:text-xs font-bold mb-3">
+            <span className="inline-flex px-2.5 py-0.5 rounded-full bg-amber-600 text-white text-xs 4xl:text-xs font-bold mb-3">
               Debited · mandate
             </span>
             <div className="flex items-start justify-between gap-3">

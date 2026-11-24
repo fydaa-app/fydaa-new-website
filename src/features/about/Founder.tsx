@@ -15,7 +15,7 @@ export default function Founder() {
           </div>
 
           <div className="text-center md:text-left">
-            <div className="mb-2 text-[0.72rem] font-bold tracking-[0.08em] uppercase text-grey-500">
+            <div className="mb-2 text-xs font-bold tracking-[0.08em] uppercase text-grey-500">
               Meet the Founder
             </div>
             <h2 className="mb-2 text-[clamp(1.5rem,3vw,2.05rem)] font-bold tracking-[-0.02em] text-ink">

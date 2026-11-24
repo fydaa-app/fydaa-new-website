@@ -55,11 +55,11 @@ function JourneyCard({ id, goal, isActive, onClick, compact: isCompact }) {
           <div className={`font-bold text-ink ${isCompact ? "text-sm" : "text-base"}`}>
             {goal.name}
           </div>
-          <div className={`text-muted mt-0.5 ${isCompact ? "text-[11px]" : "text-xs"}`}>
+          <div className={`text-muted mt-0.5 ${isCompact ? "text-xs" : "text-xs"}`}>
             {goal.forLabel}
           </div>
         </div>
-        <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-tint text-emerald shrink-0">
+        <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-tint text-emerald shrink-0">
           {goal.badge}
         </span>
       </div>
@@ -170,9 +170,9 @@ function GoalDetail({ goal, onClose, onRefresh }) {
         <div className="flex justify-between items-start mb-5">
           <div>
             <div className="text-[22px] font-bold tracking-tight">{goal.name}</div>
-            <div className="text-[11px] text-white/45 mt-0.5">{goal.forLabel}</div>
+            <div className="text-xs text-white/70 mt-0.5">{goal.forLabel}</div>
           </div>
-          <span className="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1.5 rounded-md bg-emerald-300/15 text-emerald-300">
+          <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1.5 rounded-md bg-emerald-300/15 text-emerald-300">
             {goal.badge}
           </span>
         </div>
@@ -187,7 +187,7 @@ function GoalDetail({ goal, onClose, onRefresh }) {
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <div className="text-lg font-extrabold text-white">{Number(goal.pct || 0).toFixed(2)}%</div>
-              <div className="text-[8px] font-semibold text-white/40 uppercase tracking-wider">Complete</div>
+              <div className="text-xs font-semibold text-white/70 uppercase tracking-wider">Complete</div>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-2 flex-1">
@@ -201,7 +201,7 @@ function GoalDetail({ goal, onClose, onRefresh }) {
               { k: "Duration", v: goal.duration || "—" },
             ].map((s) => (
               <div key={s.k} className="px-3 py-2 rounded-lg bg-white/7">
-                <div className="text-[9px] font-medium text-white/40 uppercase tracking-wider">{s.k}</div>
+                <div className="text-xs font-medium text-white/70 uppercase tracking-wider">{s.k}</div>
                 <div className="text-[15px] font-bold text-white mt-0.5">{s.v}</div>
               </div>
             ))}
@@ -250,7 +250,7 @@ function GoalDetail({ goal, onClose, onRefresh }) {
         </div>
 
         {/* Progress */}
-        <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-2.5">Progress</div>
+        <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2.5">Progress</div>
         <div className="bg-surface rounded-btn p-3.5 mb-5">
           <div className="h-1.5 rounded-full bg-border mb-2 overflow-hidden">
             <div className="h-full rounded-full bg-gradient-to-r from-jade to-emerald" style={{ width: `${Math.min(100, Math.max(goal.pct || 0, 0))}%` }} />
@@ -264,20 +264,20 @@ function GoalDetail({ goal, onClose, onRefresh }) {
         </div>
 
         {/* Allocation */}
-        <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-2.5">Allocation</div>
+        <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2.5">Allocation</div>
         <div className="space-y-0">
           {goal.funds.map((f, i) => (
             <div key={i} className="flex items-start gap-2.5 py-3.5 border-t border-bg first:border-0 first:pt-0">
               <span className="w-1.5 h-1.5 rounded-sm mt-1.5 shrink-0" style={{ background: f.color }} />
               <div className="flex-1 min-w-0">
                 <div className="text-[13px] font-semibold text-ink leading-snug">{f.name}</div>
-                <div className="text-[11px] text-muted mt-0.5">{f.type}</div>
+                <div className="text-xs text-muted mt-0.5">{f.type}</div>
               </div>
               <div className="text-right shrink-0">
                 <div className={`text-[13px] font-bold ${f.up ? "text-emerald" : "text-red-600"}`}>
                   {f.gain == null && f.gainPct == null ? "—" : `${signedMoney(f.gain)} ${signedPct(f.gainPct)}`.trim()}
                 </div>
-                <div className="text-[11px] text-muted mt-0.5">{money(f.val)}</div>
+                <div className="text-xs text-muted mt-0.5">{money(f.val)}</div>
               </div>
             </div>
           ))}

@@ -85,7 +85,7 @@ export default function HeroCard({ firstName, onAdviserClick, onPortfolioClick }
         <button
           type="button"
           onClick={onAdviserClick}
-          className="flex items-center gap-1.5 text-[11px] font-semibold text-white/80 bg-white/10 border border-white/12 px-2.5 sm:px-3 py-1.5 rounded-full hover:bg-white/18 transition-all shrink-0"
+          className="flex items-center gap-1.5 text-xs font-semibold text-white/80 bg-white/10 border border-white/12 px-2.5 sm:px-3 py-1.5 rounded-full hover:bg-white/18 transition-all shrink-0"
         >
           <Headphones size={14} />
           <span className="hidden xs:inline">Adviser</span>
@@ -140,7 +140,7 @@ export default function HeroCard({ firstName, onAdviserClick, onPortfolioClick }
                 key={stat.label}
                 className={`px-2.5 sm:px-4 ${index > 0 ? "border-l border-white/10" : ""}`}
               >
-                <div className="text-[10px] sm:text-xs text-white/45 font-medium uppercase tracking-wider mb-1.5">
+                <div className="text-xs sm:text-xs text-white/70 font-medium uppercase tracking-wider mb-1.5">
                   {stat.label}
                 </div>
                 <div
@@ -149,7 +149,7 @@ export default function HeroCard({ firstName, onAdviserClick, onPortfolioClick }
                   {stat.value}
                 </div>
                 {stat.sub ? (
-                  <div className={`text-[11px] sm:text-xs mt-0.5 font-medium ${stat.tone}`}>
+                  <div className={`text-xs sm:text-xs mt-0.5 font-medium ${stat.tone}`}>
                     {stat.sub}
                   </div>
                 ) : null}

@@ -396,7 +396,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
           <>
             <div className="flex items-start justify-between gap-3 sm:gap-6 mb-6">
               <div className="min-w-0">
-                <div className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-1">You Invested</div>
+                <div className="text-xs font-semibold text-muted uppercase tracking-wider mb-1">You Invested</div>
                 <div className="text-[28px] sm:text-4xl font-bold text-ink tracking-tight leading-none">{moneyFull(tabModel.invested)}</div>
                 <div className="text-[13px] text-muted mt-1">
                   {[tabModel.cadence, tabModel.sinceShort ? `since ${tabModel.sinceShort}` : ""].filter(Boolean).join(" ")}
@@ -404,7 +404,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
               </div>
               <div className="pt-6 text-muted">→</div>
               <div className="text-right">
-                <div className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-1">Now Worth</div>
+                <div className="text-xs font-semibold text-muted uppercase tracking-wider mb-1">Now Worth</div>
                 <div className="text-[32px] font-bold text-emerald tracking-tight leading-none">{moneyFull(tabModel.current)}</div>
               </div>
             </div>
@@ -412,7 +412,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
             {tabModel.fundRows.length > 0 ? (
               <>
                 <div className="flex items-center justify-between mb-2">
-                  <div className="text-[11px] font-bold text-muted uppercase tracking-wider">
+                  <div className="text-xs font-bold text-muted uppercase tracking-wider">
                     {tab.holdingList}
                   </div>
                 </div>
@@ -453,7 +453,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
           <>
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5 sm:gap-6 mb-6 sm:mb-7">
               <div className="min-w-0">
-                <div className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-1">You Invest</div>
+                <div className="text-xs font-semibold text-muted uppercase tracking-wider mb-1">You Invest</div>
                 <div className="flex items-baseline">
                   <span className="text-[28px] sm:text-4xl font-bold text-ink">₹</span>
                   <input
@@ -495,7 +495,7 @@ export default function ProductShowcase({ focusKey, focusAt, onViewHolding, onSt
                   </div>
                 )}
                 {freq === "lumpsum" && (
-                  <div className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-2">You Get</div>
+                  <div className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">You Get</div>
                 )}
                 <div className="text-[28px] sm:text-[32px] font-bold text-emerald tracking-tight leading-none">
                   {compactProjection(corpus)}

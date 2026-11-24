@@ -173,7 +173,7 @@ export default function SipOptionsSheet({
               {limits.label === "daily" ? "Daily" : "Monthly"} amount · ₹{limits.min.toLocaleString("en-IN")}–₹{limits.max.toLocaleString("en-IN")}
             </p>
             <div className="rounded-xl bg-surface border border-border px-4 py-3.5">
-              <label className="block text-[10px] font-bold text-muted uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1">
                 New amount
               </label>
               <div className="flex items-center gap-1">

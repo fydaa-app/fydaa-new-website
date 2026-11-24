@@ -40,7 +40,7 @@ export default function CareersFaq() {
     <section className="bg-grey-100 px-6 py-16 font-inter">
         <JsonLd data={faqPageJsonLd(FAQS.map((faq) => ({ question: faq.q, answer: faq.a })))} />
       <div className="mx-auto max-w-5xl">
-        <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wide text-jade-deep">
+        <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-jade-deep">
           FAQs
         </span>
         <h2 className="mt-3.5 text-[clamp(26px,3.4vw,32px)] font-bold tracking-tight text-ink">Common questions</h2>

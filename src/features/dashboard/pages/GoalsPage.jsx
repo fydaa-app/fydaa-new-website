@@ -181,10 +181,10 @@ export default function GoalsPage({
       {goalCategories.map((cat) => (
         <div key={cat.label} className="mb-7">
           <div className="flex items-center justify-between gap-2 mb-3">
-            <span className="text-[11px] font-bold text-tertiary uppercase tracking-wider">
+            <span className="text-xs font-bold text-tertiary uppercase tracking-wider">
               {cat.label}
             </span>
-            <span className="text-[10px] font-semibold text-jade bg-tint px-2.5 py-1 rounded-md shrink-0">
+            <span className="text-xs font-semibold text-jade bg-tint px-2.5 py-1 rounded-md shrink-0">
               {cat.badge}
             </span>
           </div>
@@ -207,7 +207,7 @@ export default function GoalsPage({
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-[13px] font-semibold text-ink">{g.name}</div>
-                  <div className="text-[10px] text-muted mt-0.5">{g.sub}</div>
+                  <div className="text-xs text-muted mt-0.5">{g.sub}</div>
                 </div>
                 <svg width="14" height="14" fill="none" stroke="#D4D4D4" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M9 18l6-6-6-6" />

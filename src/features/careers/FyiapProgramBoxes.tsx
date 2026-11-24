@@ -28,7 +28,7 @@ export default function FyiapProgramBoxes() {
       <section className="px-6 py-16">
         <div className="mx-auto grid max-w-5xl items-start gap-10 md:grid-cols-2">
           <div>
-            <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wide text-jade-deep">
+            <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-jade-deep">
               FYIAEP: Young Investment Advisor Entrepreneurship Programme
             </span>
             <h2 className="mt-3.5 text-[clamp(24px,3vw,30px)] font-bold tracking-tight text-ink">

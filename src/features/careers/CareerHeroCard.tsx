@@ -7,7 +7,7 @@ export default function CareerHeroCard({ jobCount }: Props) {
   return (
     <section className="px-4 sm:px-6 pb-12 sm:pb-16 pt-24 sm:pt-28 font-inter">
       <div className="mx-auto max-w-5xl 2xl:max-w-6xl">
-        <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wide text-jade-deep">
+        <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-jade-deep">
           Careers at Fydaa
         </span>
         <h1 className="mt-5 max-w-[16ch] text-[clamp(28px,6vw,54px)] font-extrabold leading-[1.06] tracking-[-0.035em] text-ink">

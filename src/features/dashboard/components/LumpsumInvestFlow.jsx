@@ -324,7 +324,7 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone, onComp
                       {funds.length || 1} fund · {money(amount)} one-time
                     </div>
                   </div>
-                  <div className="text-[11px] font-semibold tracking-wider text-emerald-200 shrink-0 pt-1">
+                  <div className="text-xs font-semibold tracking-wider text-emerald-200 shrink-0 pt-1">
                     {(tab?.label || "EQUITY").toUpperCase()} 100%
                   </div>
                 </div>
@@ -352,7 +352,7 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone, onComp
               <div className="bg-white border border-border rounded-card px-5 py-5 shadow-card mb-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Amount</div>
+                    <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Amount</div>
                     <div className="flex items-center gap-1 border border-border rounded-btn px-3 py-2.5">
                       <span className="text-ink font-bold text-lg">₹</span>
                       <input
@@ -375,7 +375,7 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone, onComp
                     </p>
                   </div>
                   <div>
-                    <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Pay with</div>
+                    <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Pay with</div>
                     <div className="grid grid-cols-2 gap-2">
                       {[
                         { id: "UPI", title: "UPI", detail: "Any UPI app", Icon: QrCode },
@@ -403,7 +403,7 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone, onComp
                               <Icon size={20} strokeWidth={1.8} className="text-ink shrink-0 mt-0.5" />
                               <span className="min-w-0">
                                 <span className="block text-sm font-semibold text-ink leading-tight">{method.title}</span>
-                                <span className="block text-[11px] text-muted mt-0.5 leading-snug">{method.detail}</span>
+                                <span className="block text-xs text-muted mt-0.5 leading-snug">{method.detail}</span>
                               </span>
                             </div>
                           </button>
@@ -621,14 +621,14 @@ export default function LumpsumInvestFlow({ open, draft, onClose, onDone, onComp
               </div>
 
               <div className="mt-4 border border-border rounded-xl px-4 py-3.5">
-                <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-3">
+                <div className="text-xs font-bold text-muted uppercase tracking-wider mb-3">
                   Setup checklist
                 </div>
                 <div className="space-y-3.5">
                   {checklist.map((item) => (
                     <div key={item.id} className="flex items-start gap-2.5">
                       <span
-                        className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 ${
+                        className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
                           item.done ? "bg-emerald text-white" : "bg-red-100 text-red-600"
                         }`}
                       >

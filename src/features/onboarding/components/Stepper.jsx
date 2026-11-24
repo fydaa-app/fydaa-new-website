@@ -42,7 +42,7 @@ export default function Stepper({ activeStep, headline, progress }) {
                 />
               </div>
               <span
-                className={`text-[11px] font-semibold tracking-wide text-center ${
+                className={`text-xs font-semibold tracking-wide text-center ${
                   state === 'active' ? 'text-white font-bold' : state === 'completed' ? 'text-white/55' : 'text-white/35'
                 }`}
               >

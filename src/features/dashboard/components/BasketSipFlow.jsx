@@ -289,7 +289,7 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
               <div className="text-[15px] sm:text-lg 4xl:text-xl font-bold text-ink truncate">
                 {basket?.name || "Basket"}
               </div>
-              <div className="text-[11px] sm:text-xs 4xl:text-sm text-muted mt-0.5">
+              <div className="text-xs sm:text-xs 4xl:text-sm text-muted mt-0.5">
                 {isLumpsumBasket ? "Lumpsum basket" : "SIP basket"}
               </div>
             </div>
@@ -365,7 +365,7 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
                 {/* Left — allocation composition */}
                 <div className="min-w-0 p-5 sm:p-6 lg:p-8 4xl:p-10 border-b lg:border-b-0 lg:border-r border-border/70">
                   <div className="flex flex-wrap items-center gap-2 mb-3">
-                    <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-tint text-jade">
+                    <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-tint text-jade">
                       {isLumpsumBasket ? "Lumpsum" : "SIP"}
                     </span>
                     <span className="text-sm text-muted">
@@ -379,7 +379,7 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
                     </p>
                   ) : null}
 
-                  <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-3">
+                  <div className="text-xs font-bold text-muted uppercase tracking-wider mb-3">
                     Allocation
                   </div>
 
@@ -429,7 +429,7 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
 
                 {/* Right — invest panel (fills column height on desktop) */}
                 <aside className="min-w-0 bg-white/90 lg:bg-white p-5 sm:p-6 lg:p-8 4xl:p-10 flex flex-col">
-                  <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">
+                  <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">
                     {isLumpsumBasket ? "One-time amount" : "Monthly SIP"}
                   </div>
                   <div className="text-[32px] sm:text-[36px] 4xl:text-[42px] font-bold text-ink tracking-tight leading-none mb-2">
@@ -483,7 +483,7 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 xl:gap-8 4xl:gap-10 items-start">
               <div className="min-w-0 space-y-5 order-1">
                 <div>
-                  <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Monthly SIP</div>
+                  <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Monthly SIP</div>
                   <div className="bg-white border border-border rounded-card px-5 py-4 shadow-card mb-2">
                     <div className="text-[32px] font-bold text-ink tracking-tight">{money(amount)}</div>
                     {!amountLocked && (
@@ -504,7 +504,7 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
                 </div>
 
                 <div>
-                  <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Tenure</div>
+                  <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Tenure</div>
                   <p className="text-xs text-muted mb-2">
                     Quick picks are in years; you can type any horizon from 1 to 30.
                   </p>
@@ -572,12 +572,12 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
                 >
                   <div className="flex justify-between gap-4 mb-4">
                     <div>
-                      <div className="text-[11px] text-white/60 uppercase tracking-wider">You&apos;ll have</div>
+                      <div className="text-xs text-white/60 uppercase tracking-wider">You&apos;ll have</div>
                       <div className="text-2xl sm:text-3xl font-bold">{compact(corpus)}</div>
                       <div className="text-xs text-white/60 mt-0.5">in {yearsNum} years</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-[11px] text-white/60 uppercase tracking-wider">You invest</div>
+                      <div className="text-xs text-white/60 uppercase tracking-wider">You invest</div>
                       <div className="text-xl font-bold">{compact(invested)}</div>
                     </div>
                   </div>
@@ -596,11 +596,11 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
                     </div>
                   </div>
                 </div>
-                <p className="text-[11px] text-muted leading-relaxed">
+                <p className="text-xs text-muted leading-relaxed">
                   Assumption: Illustrative corpus at {ASSUMED_CAGR}% p.a. blended. Returns not guaranteed.
                 </p>
 
-                <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">
+                <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">
                   Split across {funds.length || 0} funds
                 </div>
                 <div className="space-y-2">
@@ -639,7 +639,7 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(300px,380px)] xl:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] gap-6 xl:gap-8 items-start">
               <div className="space-y-4">
                 <div>
-                  <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Debit date</div>
+                  <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Debit date</div>
                   <div className="flex flex-wrap gap-2">
                     {SIP_DAYS.map((day) => (
                       <button
@@ -691,7 +691,7 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
                 </div>
 
                 <div>
-                  <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Your portfolio</div>
+                  <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Your portfolio</div>
                   <div
                     className="rounded-card overflow-hidden text-white shadow-card"
                     style={{ background: "linear-gradient(160deg,#0C4A3E,#047857)" }}
@@ -716,7 +716,7 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
                             />
                           ))}
                         </div>
-                        <div className="text-[11px] font-semibold tracking-wider text-emerald-200">
+                        <div className="text-xs font-semibold tracking-wider text-emerald-200">
                           {(basket.assetClassName || "EQUITY").toUpperCase()} 100%
                         </div>
                       </div>
@@ -826,14 +826,14 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
               </div>
 
               <div className="mt-3 border border-border rounded-xl px-3 py-2.5">
-                <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-2">
+                <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">
                   Setup checklist
                 </div>
                 <div className="space-y-2">
                   {checklist.map((item) => (
                     <div key={item.id} className="flex items-start gap-2">
                       <span
-                        className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                        className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
                           item.done ? "bg-emerald text-white" : "bg-red-100 text-red-600"
                         }`}
                       >
@@ -841,7 +841,7 @@ export default function BasketSipFlow({ basket: seed, onBack, onContinue, onEdit
                       </span>
                       <div className="min-w-0 flex-1">
                         <div className="text-[13px] font-semibold text-ink leading-tight">{item.label}</div>
-                        <div className="text-[11px] text-muted mt-0.5 leading-snug line-clamp-1">{item.detail}</div>
+                        <div className="text-xs text-muted mt-0.5 leading-snug line-clamp-1">{item.detail}</div>
                       </div>
                     </div>
                   ))}

@@ -331,7 +331,7 @@ function PendingList({ refreshKey, onResume, onDeleted }) {
               <div className="text-sm font-bold text-ink truncate">{row.name}</div>
               {row.forLabel ? <div className="text-xs text-muted mt-0.5 truncate">{row.forLabel}</div> : null}
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-amber-50 text-amber-800 shrink-0">
+            <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-amber-50 text-amber-800 shrink-0">
               {row.badge || "INACTIVE"}
             </span>
             <span

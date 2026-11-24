@@ -650,7 +650,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
 
                 {!daily && (
                   <div>
-                    <div className="text-[11px] 4xl:text-xs font-bold text-muted uppercase tracking-wider mb-2">SIP date</div>
+                    <div className="text-xs 4xl:text-xs font-bold text-muted uppercase tracking-wider mb-2">SIP date</div>
                     <div className="flex flex-wrap gap-2">
                       {[1, 5, 10, 15, 20, 25, 28].map((day) => (
                         <button
@@ -669,7 +669,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                 )}
 
                 <div className="flex-1 flex flex-col min-h-0">
-                  <div className="text-[11px] 4xl:text-xs font-bold text-muted uppercase tracking-wider mb-2">Your portfolio</div>
+                  <div className="text-xs 4xl:text-xs font-bold text-muted uppercase tracking-wider mb-2">Your portfolio</div>
                   <div className="rounded-card 4xl:rounded-3xl overflow-hidden text-white shadow-card" style={{ background: "linear-gradient(160deg,#0C4A3E,#047857)" }}>
                     <div className="px-5 sm:px-6 4xl:px-8 pt-5 sm:pt-6 4xl:pt-8 pb-3 flex items-start justify-between gap-3">
                       <div className="min-w-0">
@@ -684,7 +684,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                         <div className="h-1.5 rounded-full bg-white/20 overflow-hidden mb-2">
                           <div className="h-full bg-emerald-300 rounded-full" style={{ width: "100%" }} />
                         </div>
-                        <div className="text-[11px] 4xl:text-xs font-semibold tracking-wider text-emerald-200">
+                        <div className="text-xs 4xl:text-xs font-semibold tracking-wider text-emerald-200">
                           {(tab?.label || "EQUITY").toUpperCase()} 100%
                         </div>
                       </div>
@@ -961,14 +961,14 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
               </div>
 
               <div className="mt-3 border border-border rounded-xl px-3 4xl:px-4 py-2.5 4xl:py-3">
-                <div className="text-[10px] 4xl:text-[11px] font-bold text-muted uppercase tracking-wider mb-2">
+                <div className="text-xs 4xl:text-xs font-bold text-muted uppercase tracking-wider mb-2">
                   Setup checklist
                 </div>
                 <div className="space-y-2">
                   {checklist.map((item) => (
                     <div key={item.id} className="flex items-start gap-2">
                       <span
-                        className={`mt-0.5 w-4 h-4 4xl:w-[18px] 4xl:h-[18px] rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                        className={`mt-0.5 w-4 h-4 4xl:w-[18px] 4xl:h-[18px] rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
                           item.done ? "bg-emerald text-white" : "bg-red-100 text-red-600"
                         }`}
                       >
@@ -976,7 +976,7 @@ export default function SipInvestWizard({ open, draft, onClose, onDone, onComple
                       </span>
                       <div className="min-w-0 flex-1">
                         <div className="text-[13px] 4xl:text-sm font-semibold text-ink leading-tight">{item.label}</div>
-                        <div className="text-[11px] 4xl:text-xs text-muted mt-0.5 leading-snug line-clamp-1">{item.detail}</div>
+                        <div className="text-xs 4xl:text-xs text-muted mt-0.5 leading-snug line-clamp-1">{item.detail}</div>
                       </div>
                     </div>
                   ))}

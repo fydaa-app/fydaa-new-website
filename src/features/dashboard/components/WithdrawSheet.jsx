@@ -188,7 +188,7 @@ export default function WithdrawSheet({
               )}
 
               <div className="rounded-xl border border-emerald-200/80 bg-tint px-4 py-3.5 sm:py-4">
-                <div className="text-[10px] font-bold text-jade/70 uppercase tracking-wider mb-1.5">
+                <div className="text-xs font-bold text-jade/70 uppercase tracking-wider mb-1.5">
                   Remaining amount (Available to withdraw)
                 </div>
                 <div className="flex items-center gap-2.5 mb-2.5">
@@ -198,7 +198,7 @@ export default function WithdrawSheet({
                   <span className="text-xl sm:text-2xl font-bold text-jade tracking-tight">{money(max)}</span>
                 </div>
                 <div className="flex items-baseline justify-between gap-3 mb-3">
-                  <span className="text-[10px] font-semibold text-jade/60 uppercase tracking-wider">
+                  <span className="text-xs font-semibold text-jade/60 uppercase tracking-wider">
                     Total withdrawn
                   </span>
                   <span className="text-sm font-bold text-jade">{money(totalWithdrawn)}</span>
@@ -208,13 +208,13 @@ export default function WithdrawSheet({
                     <div className="text-[12px] font-semibold text-jade">
                       {mode === "complete" ? "Complete Withdrawal" : "Partial Withdrawal"}
                     </div>
-                    <div className="text-[11px] text-jade/60 mt-0.5 leading-snug">
+                    <div className="text-xs text-jade/60 mt-0.5 leading-snug">
                       {mode === "complete" ? "Withdraw full available amount" : "Withdraw specific amount"}
                     </div>
                   </div>
                   <div>
                     <div className="text-[12px] font-semibold text-jade">Processing Time</div>
-                    <div className="text-[11px] text-jade/60 mt-0.5">
+                    <div className="text-xs text-jade/60 mt-0.5">
                       {canInstant ? "1–2 hours" : "24-48 hours"}
                     </div>
                   </div>
@@ -228,7 +228,7 @@ export default function WithdrawSheet({
               </p>
 
               <div className="rounded-xl bg-surface border border-border px-4 py-3 sm:py-3.5">
-                <label className="block text-[10px] font-bold text-muted uppercase tracking-wider mb-1">
+                <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1">
                   Withdrawal amount
                 </label>
                 <div className="flex items-center gap-1">

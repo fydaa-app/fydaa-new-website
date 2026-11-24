@@ -48,7 +48,7 @@ export default function Portfolios() {
                     strokeDashoffset="25"
                   />
                 </svg>
-                <div className="text-[11px] sm:text-xs font-medium text-grey-500">{p.label}</div>
+                <div className="text-xs sm:text-xs font-medium text-grey-500">{p.label}</div>
               </div>
             ))}
           </div>

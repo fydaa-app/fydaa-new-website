@@ -369,7 +369,7 @@ export default function HistoryPage() {
         ].map((item) => (
           <div key={item.k} className="bg-white border border-border rounded-card px-2 sm:px-4 py-3 sm:py-3.5 text-center shadow-card min-w-0">
             <div className={`text-base sm:text-xl font-bold tracking-tight truncate ${item.green ? "text-emerald" : "text-ink"}`}>{item.v}</div>
-            <div className="text-[9px] sm:text-[10px] font-semibold text-muted uppercase tracking-wider mt-0.5">{item.k}</div>
+            <div className="text-xs sm:text-xs font-semibold text-muted uppercase tracking-wider mt-0.5">{item.k}</div>
           </div>
         ))}
       </div>
@@ -437,7 +437,7 @@ export default function HistoryPage() {
                   </div>
                   <div className="text-right shrink-0">
                     <div className="text-sm font-bold text-ink">{rowInr(tx.amount)}</div>
-                    <div className={`text-[10px] font-medium mt-0.5 flex items-center justify-end gap-1 ${tone}`}>
+                    <div className={`text-xs font-medium mt-0.5 flex items-center justify-end gap-1 ${tone}`}>
                       <span className={`w-[5px] h-[5px] rounded-full ${dot}`} />
                       {status.label}
                     </div>
@@ -452,7 +452,7 @@ export default function HistoryPage() {
                       </div>
                     )}
                     {steps && (
-                      <div className="flex items-center gap-2 mt-3 text-[11px] text-muted">
+                      <div className="flex items-center gap-2 mt-3 text-xs text-muted">
                         {steps.map((step, stepIndex) => (
                           <div key={step.label} className="flex items-center gap-2">
                             {stepIndex > 0 ? <span className="w-4 h-px bg-border" /> : null}

@@ -161,7 +161,7 @@ export default function TrackOrdersFlow({
           {groups.map((group) => (
             <section key={String(group.goalId ?? group.goalName)} className="min-w-0">
               <div className="flex items-baseline justify-between gap-3 mb-2 sm:mb-3 4xl:mb-4 px-0.5">
-                <h2 className="text-[11px] sm:text-xs 4xl:text-[13px] font-bold uppercase tracking-[0.08em] text-muted truncate">
+                <h2 className="text-xs sm:text-xs 4xl:text-[13px] font-bold uppercase tracking-[0.08em] text-muted truncate">
                   {group.goalName}
                 </h2>
                 <div className="text-sm sm:text-[15px] 4xl:text-base font-semibold text-ink shrink-0">{money(group.totalAmount)}</div>
@@ -202,7 +202,7 @@ function OrderCard({ order, onClick }) {
           </div>
         </div>
         <span
-          className={`shrink-0 text-[10px] 4xl:text-[11px] font-bold uppercase tracking-wide px-2.5 4xl:px-3 py-1 rounded-full ${statusChipClass(tone)}`}
+          className={`shrink-0 text-xs 4xl:text-xs font-bold uppercase tracking-wide px-2.5 4xl:px-3 py-1 rounded-full ${statusChipClass(tone)}`}
         >
           {order.status || "Pending"}
         </span>
@@ -274,15 +274,15 @@ function OrderDetail({ order, onBack, onTalkAdvisor }) {
 
             <div className="grid grid-cols-3 gap-2 sm:gap-4 4xl:gap-6 mb-4">
               <div className="min-w-0">
-                <div className="text-[11px] 4xl:text-xs text-muted mb-1">Total amount</div>
+                <div className="text-xs 4xl:text-xs text-muted mb-1">Total amount</div>
                 <div className="text-sm sm:text-base 4xl:text-lg font-bold text-ink break-words">{money(order.totalAmount)}</div>
               </div>
               <div className="min-w-0">
-                <div className="text-[11px] 4xl:text-xs text-muted mb-1">Processed</div>
+                <div className="text-xs 4xl:text-xs text-muted mb-1">Processed</div>
                 <div className="text-sm sm:text-base 4xl:text-lg font-bold text-emerald-700 break-words">{money(order.processedAmount)}</div>
               </div>
               <div className="min-w-0">
-                <div className="text-[11px] 4xl:text-xs text-muted mb-1">Remaining</div>
+                <div className="text-xs 4xl:text-xs text-muted mb-1">Remaining</div>
                 <div className="text-sm sm:text-base 4xl:text-lg font-bold text-amber-600 break-words">{money(order.remainingAmount)}</div>
               </div>
             </div>
@@ -292,11 +292,11 @@ function OrderDetail({ order, onBack, onTalkAdvisor }) {
                 {order.goalName || "Investment"} · {order.type === "lumpsum" ? "Lumpsum" : "SIP"}
               </span>
               {order.paymentStatus ? (
-                <span className={`text-[10px] 4xl:text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full ${statusChipClass(orderStatusTone(order.paymentStatus))}`}>
+                <span className={`text-xs 4xl:text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full ${statusChipClass(orderStatusTone(order.paymentStatus))}`}>
                   {order.paymentStatus}
                 </span>
               ) : (
-                <span className={`text-[10px] 4xl:text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full ${statusChipClass(orderStatusTone(order.status))}`}>
+                <span className={`text-xs 4xl:text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full ${statusChipClass(orderStatusTone(order.status))}`}>
                   {order.status || "PENDING"}
                 </span>
               )}
@@ -304,7 +304,7 @@ function OrderDetail({ order, onBack, onTalkAdvisor }) {
           </div>
 
           <div className="rounded-2xl 4xl:rounded-3xl border border-border bg-white px-4 sm:px-5 4xl:px-7 py-5 4xl:py-6 shadow-card">
-            <div className="text-[11px] 4xl:text-xs font-bold uppercase tracking-[0.08em] text-muted mb-1">
+            <div className="text-xs 4xl:text-xs font-bold uppercase tracking-[0.08em] text-muted mb-1">
               Need help?
             </div>
             <h3 className="text-base 4xl:text-lg font-bold text-ink mb-1">Contact Customer Care</h3>
@@ -342,7 +342,7 @@ function OrderDetail({ order, onBack, onTalkAdvisor }) {
                           <div className="text-sm 4xl:text-[15px] font-bold text-ink leading-snug break-words">
                             {fund.schemeName || fund.scheme || "Fund"}
                           </div>
-                          <span className={`shrink-0 text-[10px] 4xl:text-[11px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${statusChipClass(orderStatusTone(fund.status))}`}>
+                          <span className={`shrink-0 text-xs 4xl:text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${statusChipClass(orderStatusTone(fund.status))}`}>
                             {fund.status || "—"}
                           </span>
                         </div>
@@ -409,7 +409,7 @@ function Timeline({ steps }) {
               ) : active || failed ? (
                 <Clock size={14} />
               ) : (
-                <span className="text-[11px] font-bold">{index + 1}</span>
+                <span className="text-xs font-bold">{index + 1}</span>
               )}
             </span>
             <div className="min-w-0 pt-0.5 pb-1">

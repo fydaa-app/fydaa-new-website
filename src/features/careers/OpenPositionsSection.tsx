@@ -118,15 +118,15 @@ export function JobDetail({
 
       <div className="mb-7 mt-4 grid grid-cols-1 xs:grid-cols-2 gap-3 sm:grid-cols-3">
         <div className="rounded-xl bg-grey-100 px-4 py-4">
-          <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-grey-500">Experience</div>
+          <div className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-grey-500">Experience</div>
           <div className="text-[19px] font-bold tracking-tight text-ink">{job.experienceRange || "—"}</div>
         </div>
         <div className="rounded-xl bg-grey-100 px-4 py-4">
-          <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-grey-500">Location</div>
+          <div className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-grey-500">Location</div>
           <div className="text-[19px] font-bold tracking-tight text-ink">{job.location || "—"}</div>
         </div>
         <div className="rounded-xl bg-grey-100 px-4 py-4">
-          <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-grey-500">Posted</div>
+          <div className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-grey-500">Posted</div>
           <div className="text-[19px] font-bold tracking-tight text-ink">{job.posted || "—"}</div>
         </div>
       </div>
@@ -184,7 +184,7 @@ export default function OpenPositionsSection({ jobs, error }: Props) {
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-wrap items-baseline justify-between gap-5">
           <div>
-            <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wide text-jade-deep">
+            <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-jade-deep">
               Open Positions
             </span>
             <h2 className="mt-3.5 text-[clamp(26px,3.4vw,32px)] font-bold tracking-tight text-ink">See where you fit</h2>

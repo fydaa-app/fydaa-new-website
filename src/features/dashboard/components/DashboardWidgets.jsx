@@ -277,7 +277,7 @@ export function AMCStrip() {
   const doubled = [...amcPartners, ...amcPartners]; // seamless loop
   return (
     <div className="bg-white border border-border rounded-card px-4 sm:px-5 py-4 shadow-card mb-8 overflow-hidden">
-      <div className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-3">
+      <div className="text-xs font-semibold text-muted uppercase tracking-wider mb-3">
         Invest in Funds from
       </div>
       <div className="overflow-hidden">
@@ -329,7 +329,7 @@ export function RMCard({ manager }) {
             <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
         </div>
-        <div className="text-[11px] font-semibold text-muted uppercase tracking-wider mt-0.5">
+        <div className="text-xs font-semibold text-muted uppercase tracking-wider mt-0.5">
           Relationship Manager
         </div>
         {manager?.description ? (
@@ -386,7 +386,7 @@ export function RecommendedGoals({ onExplore, onGoalClick }) {
           </div>
           <div className="flex-1">
             <div className="text-[13px] font-semibold text-ink">Emergency Fund</div>
-            <div className="text-[10px] text-muted mt-0.5">Your safety net</div>
+            <div className="text-xs text-muted mt-0.5">Your safety net</div>
           </div>
           <svg width="14" height="14" fill="none" stroke="#D4D4D4" strokeWidth="2" viewBox="0 0 24 24">
             <path d="M9 18l6-6-6-6" />
@@ -410,7 +410,7 @@ export function RecommendedGoals({ onExplore, onGoalClick }) {
           </div>
           <div className="flex-1">
             <div className="text-[13px] font-semibold text-ink">Retirement</div>
-            <div className="text-[10px] text-muted mt-0.5">Peaceful life after work</div>
+            <div className="text-xs text-muted mt-0.5">Peaceful life after work</div>
           </div>
           <svg width="14" height="14" fill="none" stroke="#D4D4D4" strokeWidth="2" viewBox="0 0 24 24">
             <path d="M9 18l6-6-6-6" />

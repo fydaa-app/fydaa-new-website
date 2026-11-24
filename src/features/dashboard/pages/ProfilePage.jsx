@@ -79,7 +79,7 @@ function BankAutopaySection({ user }) {
               </div>
             </div>
             <div className="text-center">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-jade mb-1.5">
+              <div className="text-xs font-bold uppercase tracking-wider text-jade mb-1.5">
                 Connected
               </div>
               <h4 className="text-xl sm:text-[22px] font-bold text-ink leading-snug">
@@ -93,7 +93,7 @@ function BankAutopaySection({ user }) {
               <p className="text-sm text-muted">Loading bank details…</p>
             ) : (
               <>
-                <div className="text-[11px] font-bold uppercase tracking-wider text-muted mb-1.5">
+                <div className="text-xs font-bold uppercase tracking-wider text-muted mb-1.5">
                   Not connected
                 </div>
                 <h4 className="text-xl sm:text-[22px] font-bold text-ink leading-snug">
@@ -120,7 +120,7 @@ function BankAutopaySection({ user }) {
               {bank.ifsc ? (
                 <div className="text-[12px] text-muted mt-0.5">IFSC: {bank.ifsc}</div>
               ) : null}
-              <div className="mt-2.5 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tint text-jade text-[11px] font-semibold">
+              <div className="mt-2.5 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tint text-jade text-xs font-semibold">
                 <Check size={12} strokeWidth={2.5} />
                 Verified
               </div>
@@ -134,14 +134,14 @@ function BankAutopaySection({ user }) {
 
         {/* Auto-pay */}
         <div>
-          <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2.5">
+          <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2.5">
             Auto-pay
           </div>
           <div className="bg-white border border-border rounded-card px-4 py-4 shadow-sm">
             <div className="flex items-center justify-between gap-3 mb-3">
               <div className="text-[15px] font-bold text-ink">UPI Auto-pay</div>
               <span
-                className={`text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-md ${
+                className={`text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-md ${
                   mandateActive
                     ? "bg-tint text-jade"
                     : "bg-surface text-muted"
@@ -166,7 +166,7 @@ function BankAutopaySection({ user }) {
         </div>
 
         <div className="flex gap-2.5 rounded-btn bg-tint/80 border border-jade/10 px-3.5 py-3 text-[13px] text-secondary leading-snug">
-          <span className="w-5 h-5 rounded-full bg-jade text-white text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+          <span className="w-5 h-5 rounded-full bg-jade text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
             i
           </span>
           <p>
@@ -288,7 +288,7 @@ function InvestmentStyleSection({ setActivePage }) {
               <div key={color} className="flex-1 rounded-full" style={{ background: color }} />
             ))}
           </div>
-          <div className="flex justify-between text-[11px] text-muted font-medium mb-3.5">
+          <div className="flex justify-between text-xs text-muted font-medium mb-3.5">
             <span>Conservative</span>
             <span>Moderate</span>
             <span>Aggressive</span>
@@ -307,7 +307,7 @@ function InvestmentStyleSection({ setActivePage }) {
               </svg>
             </div>
             <div className="text-lg font-bold text-ink">{volatility}</div>
-            <div className="text-[11px] text-muted mt-0.5">Volatility OK</div>
+            <div className="text-xs text-muted mt-0.5">Volatility OK</div>
           </div>
           <div className="bg-surface rounded-card p-4 text-center">
             <div className="w-9 h-9 rounded-btn bg-amber-100 flex items-center justify-center mx-auto mb-2">
@@ -317,7 +317,7 @@ function InvestmentStyleSection({ setActivePage }) {
               </svg>
             </div>
             <div className="text-lg font-bold text-ink">{assessed || "…"}</div>
-            <div className="text-[11px] text-muted mt-0.5">Assessed</div>
+            <div className="text-xs text-muted mt-0.5">Assessed</div>
           </div>
         </div>
 
@@ -423,7 +423,7 @@ export default function ProfilePage({ user, setActivePage }) {
             <div className="space-y-6">
               {content.groups.map((group, gi) => (
                 <div key={gi}>
-                  <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-1">
+                  <div className="text-xs font-bold text-muted uppercase tracking-wider mb-1">
                     {group.label}
                   </div>
                   {group.rows.map(([label, val], ri) => {

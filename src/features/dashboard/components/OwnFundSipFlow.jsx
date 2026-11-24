@@ -211,7 +211,7 @@ export default function OwnFundSipFlow({ seed, onBack, onContinue }) {
             </button>
           </div>
 
-          <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">
+          <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">
             {daily ? "Daily SIP" : "Monthly SIP"}
           </div>
           <div className="bg-white border border-border rounded-card px-5 py-4 shadow-card mb-2">
@@ -238,7 +238,7 @@ export default function OwnFundSipFlow({ seed, onBack, onContinue }) {
             {" · "}Max {money(bounds.max)}
           </p>
 
-          <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Tenure</div>
+          <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Tenure</div>
           <p className="text-xs text-muted mb-2">
             {daily
               ? "Quick picks are in years."
@@ -314,12 +314,12 @@ export default function OwnFundSipFlow({ seed, onBack, onContinue }) {
           >
             <div className="flex justify-between gap-4 mb-4">
               <div>
-                <div className="text-[11px] text-white/60 uppercase tracking-wider">You&apos;ll have</div>
+                <div className="text-xs text-white/60 uppercase tracking-wider">You&apos;ll have</div>
                 <div className="text-2xl sm:text-3xl font-bold">{compact(corpus)}</div>
                 <div className="text-xs text-white/60 mt-0.5">in {yearsNum} years</div>
               </div>
               <div className="text-right">
-                <div className="text-[11px] text-white/60 uppercase tracking-wider">You invest</div>
+                <div className="text-xs text-white/60 uppercase tracking-wider">You invest</div>
                 <div className="text-xl font-bold">{compact(invested)}</div>
               </div>
             </div>
@@ -374,7 +374,7 @@ export default function OwnFundSipFlow({ seed, onBack, onContinue }) {
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] gap-6 items-start">
             <div className="space-y-4">
               <div>
-                <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Debit date</div>
+                <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Debit date</div>
                 <div className="flex flex-wrap gap-2">
                   {SIP_DAYS.map((day) => (
                     <button

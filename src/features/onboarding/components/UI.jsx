@@ -81,7 +81,7 @@ export function CheckIcon({ className }) {
 // ── Text ───────────────────────────────────────────────────────────
 export function Overline({ children, emerald = false, className = '' }) {
   return (
-    <p className={`text-[11px] font-bold uppercase tracking-wider mb-2 ${emerald ? 'text-emerald-700' : 'text-neutral-600'} ${className}`}>
+    <p className={`text-xs font-bold uppercase tracking-wider mb-2 ${emerald ? 'text-emerald-700' : 'text-neutral-600'} ${className}`}>
       {children}
     </p>
   );
@@ -185,7 +185,7 @@ export function AppleIcon({ className = 'w-5 h-5' }) {
 }
 
 export function FieldLabel({ children, htmlFor }) {
-  return <label htmlFor={htmlFor} className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-600 mb-1.5">{children}</label>;
+  return <label htmlFor={htmlFor} className="block text-xs font-semibold uppercase tracking-wide text-neutral-600 mb-1.5">{children}</label>;
 }
 
 export function FieldInput({ label, prefix, className = '', id, ...rest }) {

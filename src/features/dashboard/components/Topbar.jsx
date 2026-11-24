@@ -79,7 +79,7 @@ export default function Topbar({ activePage, onMenuOpen }) {
             >
               <Search size={16} className="text-muted shrink-0" />
               <span className="text-sm text-muted w-full truncate">Search mutual funds</span>
-              <span className="hidden sm:inline text-[11px] text-muted bg-surface px-1.5 py-0.5 rounded border border-border font-medium shrink-0">
+              <span className="hidden sm:inline text-xs text-muted bg-surface px-1.5 py-0.5 rounded border border-border font-medium shrink-0">
                 /
               </span>
             </div>

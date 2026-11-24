@@ -286,7 +286,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                             {done ? <Check className="h-4 w-4" strokeWidth={3} aria-hidden /> : i + 1}
                           </span>
                           <span
-                            className={`max-w-[5.25rem] text-center font-inter text-[10px] font-medium leading-tight sm:max-w-none sm:text-[11px] ${
+                            className={`max-w-[5.25rem] text-center font-inter text-xs font-medium leading-tight sm:max-w-none sm:text-xs ${
                               active ? 'font-semibold text-black' : done ? 'text-gray-600' : 'text-gray-500'
                             }`}
                           >

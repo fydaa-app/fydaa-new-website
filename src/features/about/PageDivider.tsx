@@ -59,7 +59,7 @@ const PageDivider: React.FC = () => {
               <div className="mb-2 text-[20px] font-extrabold leading-tight tracking-[-0.03em] text-white sm:mb-3 sm:text-[24px] md:mb-4 md:text-[28px] lg:mb-5 lg:text-[32px] xl:mb-6 xl:text-[40px] 2xl:mb-8 2xl:text-[48px]">
                 {stat.value}
               </div>
-              <p className="mx-auto max-w-[140px] text-[10px] font-normal leading-tight text-white/70 sm:max-w-[160px] sm:text-[11px] md:max-w-[180px] md:text-[12px] lg:max-w-[200px] lg:text-[13px] xl:max-w-[220px] xl:text-[14px] 2xl:max-w-[240px] 2xl:text-[15px]">
+              <p className="mx-auto max-w-[140px] text-xs font-normal leading-tight text-white/70 sm:max-w-[160px] sm:text-xs md:max-w-[180px] md:text-[12px] lg:max-w-[200px] lg:text-[13px] xl:max-w-[220px] xl:text-[14px] 2xl:max-w-[240px] 2xl:text-[15px]">
                 {stat.label}
               </p>
             </div>

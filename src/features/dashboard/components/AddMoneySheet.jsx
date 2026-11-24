@@ -155,7 +155,7 @@ export default function AddMoneySheet({
         {step === "amount" && (
           <>
             <div className="rounded-xl bg-surface border border-border px-4 py-4 mb-4">
-              <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-1.5">
+              <div className="text-xs font-bold text-muted uppercase tracking-wider mb-1.5">
                 Your current portfolio value
               </div>
               <div className="text-2xl font-bold text-ink tracking-tight">{money(currentValue)}</div>
@@ -163,7 +163,7 @@ export default function AddMoneySheet({
 
             <div>
               <div className="rounded-xl bg-surface border border-border px-4 py-3.5">
-                <label className="block text-[10px] font-bold text-muted uppercase tracking-wider mb-1">
+                <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1">
                   Add amount
                 </label>
                 <div className="flex items-center gap-1">

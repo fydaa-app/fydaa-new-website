@@ -32,3 +32,45 @@ for (const path of PAGES) {
     expect(failures, `contrast failures on ${path}`).toEqual([]);
   });
 }
+
+for (const path of ["/", "/about", "/features", "/programme", "/careers", "/partner", "/login", "/signup"]) {
+  test(`${path}: readable text is at least 12px`, async ({ page }) => {
+    await page.goto(path);
+    const tooSmall = await page.evaluate(() =>
+      [...document.querySelectorAll("body *")]
+        .filter((element) => {
+          if (element.closest('[aria-hidden="true"], script, style, noscript')) return false;
+          const ownText = [...element.childNodes].some(
+            (node) => node.nodeType === Node.TEXT_NODE && (node.textContent ?? "").trim().length > 1,
+          );
+          const box = element.getBoundingClientRect();
+          return (
+            ownText && box.width > 0 && box.height > 0 && parseFloat(getComputedStyle(element).fontSize) < 12
+          );
+        })
+        .map(
+          (element) =>
+            `${(element.textContent ?? "").trim().slice(0, 30)} @ ${getComputedStyle(element).fontSize}`,
+        ),
+    );
+    expect(tooSmall, `text below 12px on ${path}`).toEqual([]);
+  });
+}
+
+for (const path of [
+  "/",
+  "/about",
+  "/features",
+  "/programme",
+  "/careers",
+  "/partner",
+  "/login",
+  "/legal/complaints",
+]) {
+  test(`${path}: no horizontal scrolling on phones`, async ({ page, isMobile }) => {
+    test.skip(!isMobile, "phone layout");
+    await page.goto(path);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(overflow).toBeLessThanOrEqual(0);
+  });
+}

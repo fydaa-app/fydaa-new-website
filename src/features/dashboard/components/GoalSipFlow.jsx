@@ -279,7 +279,7 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
           </h1>
           <p className="text-sm sm:text-base text-muted mt-2 mb-6 sm:mb-8">Set your monthly SIP — watch the corpus grow live.</p>
 
-          <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Monthly SIP</div>
+          <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Monthly SIP</div>
           <div className="bg-white border border-border rounded-card px-5 py-4 shadow-card mb-3">
             <div className="text-[32px] font-bold text-ink tracking-tight">{money(amount)}</div>
             <input
@@ -307,7 +307,7 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
             ))}
           </div>
 
-          <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Tenure</div>
+          <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Tenure</div>
           <div className="bg-white border border-border rounded-card px-5 py-4 shadow-card mb-3 flex items-end justify-between">
             <div className="text-[32px] font-bold text-ink">{years}</div>
             <div className="text-sm text-muted mb-1.5">years</div>
@@ -328,7 +328,7 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
           </div>
           {goal?.badge ? (
             <div className="mb-6">
-              <span className="inline-flex text-[10px] font-semibold text-jade bg-tint px-2.5 py-1 rounded-md">
+              <span className="inline-flex text-xs font-semibold text-jade bg-tint px-2.5 py-1 rounded-md">
                 {goal.badge}
               </span>
             </div>
@@ -342,11 +342,11 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
           >
             <div className="flex items-start justify-between gap-4 mb-4">
               <div>
-                <div className="text-[11px] font-bold uppercase tracking-wider text-white/70">You&apos;ll have</div>
+                <div className="text-xs font-bold uppercase tracking-wider text-white/70">You&apos;ll have</div>
                 <div className="text-2xl font-bold mt-1">{compact(corpus)} <span className="text-base font-semibold text-white/80">in {years} years</span></div>
               </div>
               <div className="text-right">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-white/70">You invest</div>
+                <div className="text-xs font-bold uppercase tracking-wider text-white/70">You invest</div>
                 <div className="text-lg font-bold mt-1">{compact(invested)}</div>
               </div>
             </div>
@@ -358,25 +358,25 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
             <div className="grid grid-cols-3 gap-3 text-center text-sm">
               <div>
                 <div className="font-bold">{compact(gains)}</div>
-                <div className="text-[11px] text-white/65">Estimated gains</div>
+                <div className="text-xs text-white/65">Estimated gains</div>
               </div>
               <div>
                 <div className="font-bold">{growthPct}%</div>
-                <div className="text-[11px] text-white/65">Growth</div>
+                <div className="text-xs text-white/65">Growth</div>
               </div>
               <div>
                 <div className="font-bold">{cagr}%</div>
-                <div className="text-[11px] text-white/65">Assumed CAGR</div>
+                <div className="text-xs text-white/65">Assumed CAGR</div>
               </div>
             </div>
           </div>
-          <p className="text-[11px] text-muted mb-5 leading-relaxed">
+          <p className="text-xs text-muted mb-5 leading-relaxed">
             <span className="font-semibold text-secondary">Assumption:</span>{" "}
             Illustrative corpus at {cagr}% p.a. blended. Your live split follows {splitLabel}. Returns not guaranteed.
           </p>
 
           <div className="mb-5">
-            <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">
+            <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">
               {loading
                 ? "Split across funds"
                 : `Split across ${Math.max(funds.length, 1)} fund${funds.length === 1 || !funds.length ? "" : "s"}`}
@@ -427,7 +427,7 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_400px] xl:grid-cols-[minmax(0,1fr)_440px] gap-6 lg:gap-8 items-start">
             <div className="min-w-0 space-y-5">
               <div>
-                <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Debit date</div>
+                <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Debit date</div>
                 <div className="flex flex-wrap gap-2 mb-2">
                   {SIP_DAYS.map((day) => (
                     <button
@@ -488,7 +488,7 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
               </div>
 
               <div>
-                <div className="text-[11px] font-bold text-muted uppercase tracking-wider mb-2">Your portfolio</div>
+                <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Your portfolio</div>
                 <div className="rounded-card overflow-hidden text-white shadow-card" style={{ background: "linear-gradient(160deg,#0C4A3E,#047857)" }}>
                   <div className="px-5 sm:px-6 pt-5 sm:pt-6 pb-3">
                     <div className="text-lg sm:text-xl font-bold">{goal?.name}</div>
@@ -501,7 +501,7 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
                       <div className="h-1.5 rounded-full bg-white/20 overflow-hidden mb-2">
                         <div className="h-full bg-emerald-300 rounded-full" style={{ width: "100%" }} />
                       </div>
-                      <div className="text-[11px] font-semibold tracking-wider text-emerald-200">
+                      <div className="text-xs font-semibold tracking-wider text-emerald-200">
                         {(splitLabel || tabMeta("equity")?.label || "EQUITY").toUpperCase()} 100%
                       </div>
                     </div>
@@ -628,7 +628,7 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
                   </div>
 
                   <div className="mt-3 border border-border rounded-xl px-3 py-2.5">
-                    <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-2">
+                    <div className="text-xs font-bold text-muted uppercase tracking-wider mb-2">
                       Setup checklist
                     </div>
                     <div className="space-y-2">
@@ -642,7 +642,7 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
                       ).map((item) => (
                         <div key={item.id} className="flex items-start gap-2">
                           <span
-                            className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                            className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
                               item.done ? "bg-emerald text-white" : "bg-red-100 text-red-600"
                             }`}
                           >
@@ -650,7 +650,7 @@ export default function GoalSipFlow({ goal, onBack, onContinue, onCompleteKyc })
                           </span>
                           <div className="min-w-0 flex-1">
                             <div className="text-[13px] font-semibold text-ink leading-tight">{item.label}</div>
-                            <div className="text-[11px] text-muted mt-0.5 leading-snug line-clamp-1">{item.detail}</div>
+                            <div className="text-xs text-muted mt-0.5 leading-snug line-clamp-1">{item.detail}</div>
                           </div>
                         </div>
                       ))}

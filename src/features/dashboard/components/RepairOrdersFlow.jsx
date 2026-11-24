@@ -262,7 +262,7 @@ function StatBox({ value, label }) {
   return (
     <div className="rounded-lg 4xl:rounded-xl bg-red-100/70 px-2 4xl:px-2.5 py-2 4xl:py-2.5 text-center min-w-0">
       <div className="text-sm 4xl:text-[15px] font-bold text-red-800 break-words">{value}</div>
-      <div className="text-[10px] 4xl:text-[11px] text-red-700/80 mt-0.5">{label}</div>
+      <div className="text-xs 4xl:text-xs text-red-700/80 mt-0.5">{label}</div>
     </div>
   );
 }
@@ -327,7 +327,7 @@ function MiniStat({ value, label, tone }) {
   return (
     <div className="rounded-xl 4xl:rounded-2xl border border-border bg-surface px-2 4xl:px-3 py-2.5 4xl:py-3 text-center min-w-0">
       <div className={`text-base sm:text-lg 4xl:text-xl font-bold break-words ${tone}`}>{value}</div>
-      <div className="text-[11px] 4xl:text-xs text-muted mt-0.5">{label}</div>
+      <div className="text-xs 4xl:text-xs text-muted mt-0.5">{label}</div>
     </div>
   );
 }
@@ -426,7 +426,7 @@ function ConfirmSheet({ sip, month, onClose, onConfirm }) {
               <div className="min-w-0">
                 <div className="text-sm 4xl:text-[15px] font-bold text-ink truncate">{scheme.schemeName}</div>
                 {scheme.failureReason ? (
-                  <div className="text-[11px] 4xl:text-xs font-bold text-red-600 mt-1 tracking-wide">
+                  <div className="text-xs 4xl:text-xs font-bold text-red-600 mt-1 tracking-wide">
                     {formatFailureReasonUpper(scheme.failureReason)}
                   </div>
                 ) : null}

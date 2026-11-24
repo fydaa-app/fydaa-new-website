@@ -91,7 +91,7 @@ const FileIcon = () => (
    SMALL COMPONENTS
    ══════════════════════════════════════ */
 const Pill = ({ children }: { children: ReactNode }) => (
-  <span className="inline-block bg-jade-tint text-jade-deep text-[11px] font-semibold px-3.5 py-[5px] rounded-full tracking-[0.04em] uppercase">
+  <span className="inline-block bg-jade-tint text-jade-deep text-xs font-semibold px-3.5 py-[5px] rounded-full tracking-[0.04em] uppercase">
     {children}
   </span>
 );
@@ -152,7 +152,7 @@ function Hero({ onApply }: { onApply: () => void }) {
           ].map(([val, label]) => (
             <div key={val}>
               <div className="text-lg sm:text-xl font-bold text-white tracking-[-0.03em]">{val}</div>
-              <div className="text-[12px] sm:text-[13px] text-white/50 mt-0.5 font-medium">{label}</div>
+              <div className="text-[12px] sm:text-[13px] text-white/70 mt-0.5 font-medium">{label}</div>
             </div>
           ))}
         </div>
@@ -184,7 +184,7 @@ function Journey() {
           <div key={j.num} className="bg-white rounded-2xl p-5 sm:p-7 border border-grey-200 shadow-card flex flex-col gap-4 hover:shadow-card-hover hover:-translate-y-0.5 transition-all">
             <div className="flex justify-between items-start">
               <span className="text-3xl sm:text-4xl font-bold text-[#949494] tracking-[-0.04em] leading-none">{j.num}</span>
-              <span className="text-[11px] font-semibold text-grey-500 bg-grey-100 px-2.5 py-1 rounded-md">{j.period}</span>
+              <span className="text-xs font-semibold text-grey-500 bg-grey-100 px-2.5 py-1 rounded-md">{j.period}</span>
             </div>
             <h3 className="text-[16px] sm:text-[17px] font-bold text-ink tracking-[-0.01em]">{j.title}</h3>
             <ul className="flex flex-col gap-2">
@@ -298,7 +298,7 @@ function WhoIsThisFor() {
       <div className="max-w-[1000px] mx-auto py-14 sm:py-16 md:py-[72px] px-5 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center">
         <div className="min-w-0">
           <p
-            className="text-[10px] font-semibold uppercase mb-3 tracking-[0.08em]"
+            className="text-xs font-semibold uppercase mb-3 tracking-[0.08em]"
             style={{ color: "rgba(255,255,255,0.35)" }}
           >
             Who is this for
@@ -346,7 +346,7 @@ function AboutFydaa() {
           <div className="mt-5 flex flex-col sm:inline-flex sm:flex-row gap-px bg-grey-200 rounded-xl overflow-hidden w-full sm:w-auto">
             {[["SEBI Registration", "INA000015969"], ["ARN", "358522"]].map(([l, v]) => (
               <div key={l} className="bg-grey-100 px-5 sm:px-6 py-3.5 flex-1 sm:flex-none">
-                <div className="text-[10px] font-semibold text-grey-500 tracking-[0.06em] uppercase">{l}</div>
+                <div className="text-xs font-semibold text-grey-500 tracking-[0.06em] uppercase">{l}</div>
                 <div className="text-base font-bold text-ink mt-0.5 tracking-[-0.02em]">{v}</div>
               </div>
             ))}
@@ -383,14 +383,14 @@ function ProgrammeFooter() {
       <div className="max-w-[1000px] mx-auto flex justify-center items-center flex-wrap gap-6 sm:gap-8">
         <div className="flex gap-1.5 items-center">
           <PhoneIcon />
-          <span className="text-[11px] text-grey-500">Counsellor</span>
+          <span className="text-xs text-grey-500">Counsellor</span>
           <a href="tel:+919987308778" className="text-xs text-grey-600 no-underline font-semibold">
             +91 99873 08778
           </a>
         </div>
         <div className="flex gap-1.5 items-center">
           <PhoneIcon />
-          <span className="text-[11px] text-grey-500">Support</span>
+          <span className="text-xs text-grey-500">Support</span>
           <a href="tel:+919503359949" className="text-xs text-grey-600 no-underline font-semibold">
             +91 95033 59949
           </a>
@@ -431,7 +431,7 @@ function CTACard({ onApply }: { onApply: () => void }) {
     <section className="px-4 sm:px-6 pt-12 sm:pt-16 md:pt-20 pb-12 sm:pb-20">
       <div className="max-w-[1000px] mx-auto">
         <div className="text-center max-w-[560px] mx-auto mb-8 sm:mb-10">
-          <p className="text-[11px] font-semibold tracking-[0.08em] uppercase text-grey-500 mb-3">
+          <p className="text-xs font-semibold tracking-[0.08em] uppercase text-grey-500 mb-3">
             Ready to start your advisory career?
           </p>
           <h2 className="text-[24px] sm:text-[28px] md:text-[30px] font-bold tracking-[-0.03em] leading-[1.2] text-ink mb-3">
@@ -453,7 +453,7 @@ function CTACard({ onApply }: { onApply: () => void }) {
                   "radial-gradient(ellipse 90% 70% at 15% 0%, rgba(4,120,87,0.55) 0%, transparent 55%)",
               }}
             >
-              <span className="inline-flex items-center gap-1.5 self-start text-[11px] font-semibold text-white tracking-[0.02em] px-2.5 py-1 rounded-full mb-4 bg-black/25">
+              <span className="inline-flex items-center gap-1.5 self-start text-xs font-semibold text-white tracking-[0.02em] px-2.5 py-1 rounded-full mb-4 bg-black/25">
                 <span className="w-1.5 h-1.5 rounded-full bg-jade-300 shrink-0" aria-hidden />
                 {card.badge}
               </span>
@@ -467,10 +467,10 @@ function CTACard({ onApply }: { onApply: () => void }) {
 
               <div className="bg-white rounded-[14px] p-4 sm:p-5 mb-5">
                 <div className="flex justify-between items-center mb-2 gap-2">
-                  <div className="text-[11px] font-semibold text-grey-500 tracking-[0.06em] uppercase">
+                  <div className="text-xs font-semibold text-grey-500 tracking-[0.06em] uppercase">
                     Programme Fee
                   </div>
-                  <span className="text-[11px] font-semibold text-jade-deep bg-jade-tint px-2.5 py-[3px] rounded-full tracking-[0.03em] shrink-0">
+                  <span className="text-xs font-semibold text-jade-deep bg-jade-tint px-2.5 py-[3px] rounded-full tracking-[0.03em] shrink-0">
                     One-time
                   </span>
                 </div>
@@ -1297,7 +1297,7 @@ function getSteps(
                   >
                     <div className="flex items-start justify-between gap-3 mb-3">
                       <span
-                        className={`inline-flex text-[11px] font-semibold px-2.5 py-1 rounded-full tracking-[0.02em] ${
+                        className={`inline-flex text-xs font-semibold px-2.5 py-1 rounded-full tracking-[0.02em] ${
                           option.badgeTone === "jade"
                             ? "bg-jade text-white"
                             : "bg-grey-100 text-grey-600"
@@ -2154,7 +2154,7 @@ function FormPage({
               onClick={() => goToStep(i)}
             >
               <div className={`h-1 rounded-sm transition-colors ${i <= step ? "bg-jade" : "bg-grey-200"}`} />
-              <span className={`text-[10px] font-medium truncate transition-colors ${
+              <span className={`text-xs font-medium truncate transition-colors ${
                 i === step ? "text-jade-deep font-semibold" : i < step ? "text-grey-600" : "text-grey-500"
               }`}>{st.short}</span>
             </div>
