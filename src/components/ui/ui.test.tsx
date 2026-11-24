@@ -79,9 +79,10 @@ describe("Button", () => {
 });
 
 describe("Accordion", () => {
+  // Ids with spaces (e.g. the question text) must still produce valid ARIA references.
   const items = [
-    { id: "a", title: "First question", content: "First answer" },
-    { id: "b", title: "Second question", content: "Second answer" },
+    { id: "first question?", title: "First question", content: "First answer" },
+    { id: "second question?", title: "Second question", content: "Second answer" },
   ];
 
   it("keeps answers in the DOM and toggles one panel at a time", async () => {
@@ -100,6 +101,25 @@ describe("Accordion", () => {
     await user.click(second);
     expect(first).toHaveAttribute("aria-expanded", "false");
     expect(second).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("keeps panels rendered but inert in css collapse mode, with a custom icon", async () => {
+    const user = userEvent.setup();
+    render(
+      <Accordion
+        items={items}
+        collapse="css"
+        icon={(open) => <span data-testid="icon">{open ? "−" : "+"}</span>}
+      />,
+    );
+    const panel = screen.getByText("First answer").closest("[role=region]")!;
+    expect(panel).not.toHaveAttribute("hidden");
+    expect(panel).toHaveAttribute("inert");
+    expect(screen.getAllByTestId("icon")[0]).toHaveTextContent("+");
+
+    await user.click(screen.getByRole("button", { name: /First question/ }));
+    expect(panel).not.toHaveAttribute("inert");
+    expect(screen.getAllByTestId("icon")[0]).toHaveTextContent("−");
   });
 
   it("is operable from the keyboard", async () => {

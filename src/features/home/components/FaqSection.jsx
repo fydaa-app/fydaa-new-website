@@ -1,11 +1,26 @@
 "use client";
 
-import { useState } from 'react';
+import { Accordion } from '@/components/ui/accordion';
 import { FAQS } from '../data/content';
 
-export default function FaqSection() {
-  const [openIndex, setOpenIndex] = useState(null); // only one open at a time, matches reference behaviour
+const items = FAQS.map((faq) => ({
+  id: faq.q,
+  title: faq.q,
+  content: (
+    <div className="faq-a-inner">
+      {faq.mobileA ? (
+        <>
+          <span className="copy-desktop">{faq.a}</span>
+          <span className="copy-mobile">{faq.mobileA}</span>
+        </>
+      ) : (
+        faq.a
+      )}
+    </div>
+  ),
+}));
 
+export default function FaqSection() {
   return (
     <section className="faqs" id="faqs">
       <div className="container">
@@ -19,31 +34,24 @@ export default function FaqSection() {
             </p>
           </div>
 
-          <div className="faq-list">
-            {FAQS.map((faq, i) => {
-              const open = openIndex === i;
-              return (
-                <div className={`faq-item${open ? ' open' : ''}`} key={faq.q}>
-                  <div className="faq-q" onClick={() => setOpenIndex(open ? null : i)}>
-                    {faq.q}
-                    <span className="arr">▼</span>
-                  </div>
-                  <div className="faq-a">
-                    <div className="faq-a-inner">
-                      {faq.mobileA ? (
-                        <>
-                          <span className="copy-desktop">{faq.a}</span>
-                          <span className="copy-mobile">{faq.mobileA}</span>
-                        </>
-                      ) : (
-                        faq.a
-                      )}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          {/* One panel open at a time; answers stay in the HTML for search engines. */}
+          <Accordion
+            items={items}
+            collapse="css"
+            icon={() => (
+              <span className="arr" aria-hidden="true">
+                ▼
+              </span>
+            )}
+            classNames={{
+              root: 'faq-list',
+              item: 'faq-item',
+              openItem: 'open',
+              heading: 'faq-heading',
+              trigger: 'faq-q',
+              panel: 'faq-a',
+            }}
+          />
         </div>
       </div>
     </section>
