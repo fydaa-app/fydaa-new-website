@@ -1,5 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { formatPostedDate, jobPath, jobPostingJsonLd, mapJobOpening, mapJobOpenings } from "./job-openings";
+import {
+  formatExperience,
+  formatPostedDate,
+  jobPath,
+  jobPostingJsonLd,
+  jobSummary,
+  jobTags,
+  mapJobOpening,
+  mapJobOpenings,
+} from "./job-openings";
 
 const NOW = new Date("2026-11-24T12:00:00Z");
 
@@ -31,6 +40,44 @@ describe("formatPostedDate", () => {
   it("returns an empty string for missing or invalid dates", () => {
     expect(formatPostedDate(undefined, NOW)).toBe("");
     expect(formatPostedDate("not a date", NOW)).toBe("");
+  });
+});
+
+describe("formatExperience", () => {
+  it.each([
+    ["4-8", "4–8 years"],
+    ["2 - 4", "2–4 years"],
+    ["2–6 Years", "2–6 years"],
+    ["2-4 yrs", "2–4 years"],
+    ["1", "1 year"],
+    ["5+", "5+ years"],
+    ["Fresher", "Fresher"],
+  ])("formats %s as %s", (value, expected) => {
+    expect(formatExperience(value)).toBe(expected);
+  });
+
+  it("returns null when there is no range", () => {
+    expect(formatExperience(null)).toBeNull();
+    expect(formatExperience("  ")).toBeNull();
+  });
+});
+
+describe("jobSummary and jobTags", () => {
+  const job = {
+    location: "Pan India",
+    division: "Growth",
+    experienceRange: "4-8",
+    tags: ["Full-time", "4-5 years", "BFSI Distributor", "Pan India", "Remote"],
+  };
+
+  it("summarises location and experience", () => {
+    expect(jobSummary(job)).toBe("Pan India, 4–8 years");
+    expect(jobSummary({ location: null, experienceRange: null })).toBe("");
+  });
+
+  it("drops tags that repeat or contradict the job facts", () => {
+    expect(jobTags(job)).toEqual(["Full-time", "BFSI Distributor", "Remote"]);
+    expect(jobTags({ ...job, experienceRange: null })).toContain("4-5 years");
   });
 });
 

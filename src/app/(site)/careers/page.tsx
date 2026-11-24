@@ -8,7 +8,7 @@ export const revalidate = 600;
 export const metadata = pageMetadata({
   title: "Careers",
   description:
-    "Build the future of wealth for every Indian. Explore open roles at Fydaa, a SEBI-registered fintech, or register your CV for upcoming opportunities.",
+    "Help people across India invest for their goals. See open roles at Fydaa and apply online, or register your CV and we'll get in touch when a role that fits opens.",
   path: "/careers",
 });
 

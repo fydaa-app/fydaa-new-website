@@ -29,7 +29,7 @@ const FAQS = [
     question: "I'm new to advisory. Is there a way in?",
     answer:
       "Our FYIAEP programme prepares you for the NISM Series X-A and X-B certifications and gives you on-field advisory experience, with a path to a role at Fydaa.",
-    link: { href: routes.programme.path, label: "Explore the programme" },
+    link: { href: routes.programme.path, label: "Read about the programme" },
   },
   {
     id: "regulated",
@@ -40,16 +40,15 @@ const FAQS = [
 
 export default function CareersFaq() {
   return (
-    <section aria-labelledby="careers-faq" className="bg-grey-100 py-16">
+    <section aria-labelledby="careers-faq" className="section bg-mist">
       <JsonLd data={faqPageJsonLd(FAQS.map((faq) => ({ question: faq.question, answer: faq.answer })))} />
-      <Container className="flex flex-col gap-8">
+      <Container className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
         <SectionHeader
-          eyebrow="FAQs"
           title={<span id="careers-faq">Questions from candidates</span>}
           description={
             <>
               Can&apos;t find your answer? Email{" "}
-              <a href={`mailto:${siteConfig.contact.email}`} className="font-semibold text-jade underline">
+              <a href={`mailto:${siteConfig.contact.email}`} className="link">
                 {siteConfig.contact.email}
               </a>
               .
@@ -66,7 +65,7 @@ export default function CareersFaq() {
                 {faq.link ? (
                   <>
                     {" "}
-                    <Link href={faq.link.href} className="font-semibold text-jade underline">
+                    <Link href={faq.link.href} className="link">
                       {faq.link.label}
                     </Link>
                   </>

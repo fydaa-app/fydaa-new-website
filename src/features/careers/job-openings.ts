@@ -21,6 +21,39 @@ export function formatPostedDate(value: string | null | undefined, now: Date = n
   return plural(Math.floor(days / 365), "year");
 }
 
+/**
+ * Experience as people read it: "4-8", "2 - 4" or "2–6 Years" become "4–8 years". Text without
+ * digits ("Fresher") is returned unchanged.
+ */
+export function formatExperience(range: string | null | undefined): string | null {
+  const value = range?.trim();
+  if (!value) return null;
+  if (!/\d/.test(value)) return value;
+  const core = value
+    .replace(/\s*(?:years?|yrs?)\.?\s*$/i, "")
+    .replace(/\s*[-–—]\s*/g, "–")
+    .trim();
+  return `${core} ${core === "1" ? "year" : "years"}`;
+}
+
+/** "Pan India, 4–8 years": the two facts a candidate checks first, for list rows. */
+export function jobSummary(job: Pick<JobOpening, "location" | "experienceRange">): string {
+  return [job.location, formatExperience(job.experienceRange)].filter(Boolean).join(", ");
+}
+
+/**
+ * Tags worth showing next to the job facts: drops tags that repeat the location or team, and
+ * experience tags when the listing already has an experience range (they can disagree).
+ */
+export function jobTags(job: Pick<JobOpening, "tags" | "location" | "division" | "experienceRange">): string[] {
+  const repeats = [job.location, job.division].filter(Boolean).map((value) => value!.toLowerCase());
+  return job.tags.filter((tag) => {
+    if (repeats.includes(tag.toLowerCase())) return false;
+    if (job.experienceRange && /\d/.test(tag) && /\b(?:years?|yrs?)\b/i.test(tag)) return false;
+    return true;
+  });
+}
+
 function text(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }

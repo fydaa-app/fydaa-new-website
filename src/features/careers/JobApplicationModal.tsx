@@ -1,26 +1,44 @@
-'use client';
+"use client";
 
-import { Fragment, useCallback, useEffect, useId, useState } from 'react';
-import { ArrowLeft, ArrowRight, Check, FileText, Linkedin, X } from 'lucide-react';
-import { env } from '@/config/env';
-import type { JobOpening } from './types';
-import CareersApplySuccess from './CareersApplySuccess';
+import { useId, useRef, useState, type FormEvent } from "react";
+import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { env } from "@/config/env";
+import { cn } from "@/lib/utils/cn";
+import CareersApplySuccess from "./CareersApplySuccess";
+import {
+  CareersDialog,
+  DialogHeader,
+  Field,
+  FilePicker,
+  FormError,
+  MAX_FILE_BYTES,
+  NAME_CHARS,
+  allowOnly,
+  decimalOnly,
+  fieldClass,
+  isDocument,
+  mobileKeys,
+  toMobile,
+} from "./CareersDialog";
+import type { JobOpening } from "./types";
 
 /** Keep digits and one decimal point, cap decimals and clamp to `max` (replaced by `overflow`). */
 function limitDecimal(raw: string, maxDecimals: number, max: number, overflow: string): string {
-  const [whole = '', decimals] = raw.replace(/[^\d.]/g, '').split('.');
+  const [whole = "", decimals] = raw.replace(/[^\d.]/g, "").split(".");
   const value = decimals === undefined ? whole : `${whole}.${decimals.slice(0, maxDecimals)}`;
   return parseFloat(value) > max ? overflow : value;
 }
 
+const STEPS = ["Your details", "Experience", "CV"] as const;
 
-const STEPS = ['Personal Info', 'Experience', 'Upload'] as const;
+const NOTICE_OPTIONS = ["Immediate", "15 days", "30 days", "60 days", "90 days"];
 
-const NOTICE_OPTIONS = ['Immediate', '15 days', '30 days', '60 days', '90 days'];
-
-const inputClass =
-  'w-full border-b border-gray-400 bg-transparent py-2 text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-black';
-const labelClass = 'block text-sm text-ink mb-1';
+const BEFORE_YOU_SUBMIT = [
+  "Your CV shows your latest role",
+  "Your email and mobile number are correct",
+  "Your cover letter is attached, if you're adding one",
+];
 
 type Props = {
   open: boolean;
@@ -41,515 +59,363 @@ type FormState = {
   noticePeriod: string;
 };
 
+type FieldKey = keyof FormState | "cv" | "coverLetter";
+
+type FormErrorState = { message: string; field: FieldKey | null; attempt: number };
+
 const emptyForm: FormState = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  city: '',
-  currentJobTitle: '',
-  totalExperience: '',
-  currentCtc: '',
-  expectedCtc: '',
-  noticePeriod: 'Immediate',
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  city: "",
+  currentJobTitle: "",
+  totalExperience: "",
+  currentCtc: "",
+  expectedCtc: "",
+  noticePeriod: "Immediate",
 };
 
+/** The three-step application for one role. Mounted fresh for each role, so it always starts empty. */
 export default function JobApplicationModal({ open, job, onClose }: Props) {
+  if (!open || !job) return null;
+  return <ApplicationDialog key={job.id} job={job} onClose={onClose} />;
+}
+
+function ApplicationDialog({ job, onClose }: { job: JobOpening; onClose: () => void }) {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [coverLetterFile, setCoverLetterFile] = useState<File | null>(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<FormErrorState | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
-  const cvInputId = useId();
-  const coverLetterInputId = useId();
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const attempts = useRef(0);
+  const uid = useId();
+  const id = (name: FieldKey) => `${uid}-${name}`;
+  const titleId = `${uid}-title`;
+  const errorId = `${uid}-error`;
 
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [open]);
+  const update = (name: keyof FormState, value: string) => {
+    setForm((current) => ({ ...current, [name]: value }));
+  };
 
-  useEffect(() => {
-    if (!open || !job) return;
-    setStep(0);
-    setForm(emptyForm);
-    setCvFile(null);
-    setCoverLetterFile(null);
-    setError('');
-    setSuccess(false);
-  }, [open, job?.id]);
+  /** Props that tie a field to the error message when it's the one to fix. */
+  const invalid = (name: FieldKey) =>
+    error?.field === name ? { "aria-invalid": true as const, "aria-describedby": errorId } : {};
 
-  const update = useCallback((name: keyof FormState, value: string) => {
-    setForm((f) => ({ ...f, [name]: value }));
-  }, []);
-
-  const handleBackdropKey = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    },
-    [onClose]
-  );
+  const fail = (message: string, field: FieldKey | null = null) => {
+    attempts.current += 1;
+    setError({ message, field, attempt: attempts.current });
+    if (field) document.getElementById(id(field))?.focus();
+    return false;
+  };
 
   const validateStep = (s: number): boolean => {
-    setError('');
-    const emailOk = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(form.email);
-    const phoneDigits = form.phone.replace(/\D/g, '');
-
+    setError(null);
     if (s === 0) {
-      if (!form.firstName.trim() || !form.lastName.trim()) {
-        setError('Please enter your first and last name.');
-        return false;
+      if (!form.firstName.trim()) return fail("Please enter your first and last name.", "firstName");
+      if (!form.lastName.trim()) return fail("Please enter your first and last name.", "lastName");
+      if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(form.email)) {
+        return fail("Please enter a valid email address.", "email");
       }
-      if (!emailOk) {
-        setError('Please enter a valid email address.');
-        return false;
+      if (form.phone.replace(/\D/g, "").length !== 10) {
+        return fail("Please enter a valid 10-digit mobile number.", "phone");
       }
-      if (phoneDigits.length !== 10) {
-        setError('Please enter a valid 10-digit mobile number.');
-        return false;
-      }
-      if (!form.city.trim()) {
-        setError('Please enter your city.');
-        return false;
-      }
+      if (!form.city.trim()) return fail("Please enter your city.", "city");
     }
     if (s === 1) {
-      if (!form.totalExperience.trim()) {
-        setError('Please enter total experience.');
-        return false;
-      }
-      if (!form.expectedCtc.trim()) {
-        setError('Please enter expected CTC.');
-        return false;
-      }
+      if (!form.totalExperience.trim()) return fail("Please enter total experience.", "totalExperience");
+      if (!form.expectedCtc.trim()) return fail("Please enter expected CTC.", "expectedCtc");
     }
     if (s === 2) {
-      if (!cvFile) {
-        setError('Please upload your CV (PDF or DOCX, max 5MB).');
-        return false;
-      }
-      const max = 5 * 1024 * 1024;
-      const extOk = (name: string) => /\.(pdf|docx?)$/i.test(name);
-      if (cvFile.size > max) {
-        setError('CV must be 5MB or smaller.');
-        return false;
-      }
-      if (!extOk(cvFile.name)) {
-        setError('CV must be a PDF or DOCX file.');
-        return false;
-      }
+      if (!cvFile) return fail("Please upload your CV (PDF or DOCX, max 5MB).", "cv");
+      if (cvFile.size > MAX_FILE_BYTES) return fail("CV must be 5MB or smaller.", "cv");
+      if (!isDocument(cvFile.name)) return fail("CV must be a PDF or DOCX file.", "cv");
       if (coverLetterFile) {
-        if (coverLetterFile.size > max) {
-          setError('Cover letter file must be 5MB or smaller.');
-          return false;
+        if (coverLetterFile.size > MAX_FILE_BYTES) {
+          return fail("Cover letter file must be 5MB or smaller.", "coverLetter");
         }
-        if (!extOk(coverLetterFile.name)) {
-          setError('Cover letter must be a PDF or DOCX file.');
-          return false;
-        }
+        if (!isDocument(coverLetterFile.name)) return fail("Cover letter must be a PDF or DOCX file.", "coverLetter");
       }
     }
     return true;
   };
 
+  const goTo = (next: number) => {
+    setStep(next);
+    if (bodyRef.current) bodyRef.current.scrollTop = 0;
+  };
+
   const next = () => {
     if (!validateStep(step)) return;
-    setStep((x) => Math.min(x + 1, STEPS.length - 1));
+    goTo(Math.min(step + 1, STEPS.length - 1));
   };
 
   const back = () => {
-    setError('');
-    setStep((x) => Math.max(x - 1, 0));
+    setError(null);
+    goTo(Math.max(step - 1, 0));
   };
 
   const handleSubmit = async () => {
-    if (!job || !validateStep(2)) return;
+    if (!validateStep(2)) return;
     setSubmitting(true);
-    setError('');
+    setError(null);
     try {
       const fd = new FormData();
-      fd.append('jobId', job.id);
-      fd.append('positionTitle', job.title);
-      fd.append('firstName', form.firstName.trim());
-      fd.append('lastName', form.lastName.trim());
-      fd.append('email', form.email.trim());
-      fd.append('phone', form.phone.replace(/\D/g, ''));
-      fd.append('city', form.city.trim());
-      fd.append('currentJobTitle', form.currentJobTitle.trim());
-      fd.append('totalExperience', form.totalExperience.trim());
-      fd.append('currentCtc', form.currentCtc.trim());
-      fd.append('expectedCtc', form.expectedCtc.trim());
-      fd.append('noticePeriod', form.noticePeriod);
-      if (cvFile) fd.append('resume', cvFile);
-      if (coverLetterFile) fd.append('coverLetter', coverLetterFile);
+      fd.append("jobId", job.id);
+      fd.append("positionTitle", job.title);
+      fd.append("firstName", form.firstName.trim());
+      fd.append("lastName", form.lastName.trim());
+      fd.append("email", form.email.trim());
+      fd.append("phone", form.phone.replace(/\D/g, ""));
+      fd.append("city", form.city.trim());
+      fd.append("currentJobTitle", form.currentJobTitle.trim());
+      fd.append("totalExperience", form.totalExperience.trim());
+      fd.append("currentCtc", form.currentCtc.trim());
+      fd.append("expectedCtc", form.expectedCtc.trim());
+      fd.append("noticePeriod", form.noticePeriod);
+      if (cvFile) fd.append("resume", cvFile);
+      if (coverLetterFile) fd.append("coverLetter", coverLetterFile);
 
-       const res = await fetch(`${env.api.crm}referrals/apply`, {
-         method: 'POST',
-         body: fd,
-       });
+      const res = await fetch(`${env.api.crm}referrals/apply`, {
+        method: "POST",
+        body: fd,
+      });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(typeof data.message === 'string' ? data.message : 'Submission failed. Please try again.');
+        fail(typeof data.message === "string" ? data.message : "Submission failed. Please try again.");
         return;
       }
       setSuccess(true);
     } catch {
-      setError('Failed to connect. Please try again later.');
+      fail("Failed to connect. Please try again later.");
     } finally {
       setSubmitting(false);
     }
   };
 
-  if (!open || !job) return null;
+  const onSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    if (step < STEPS.length - 1) next();
+    else void handleSubmit();
+  };
 
-  const subtitle = `${job.companyName} · ${job.location} · ${job.salaryCompact}`;
-
-  const footerLeft =
-    step === 0
-      ? 'Step 1 of 3 — Personal Info'
-      : step === 1
-        ? 'Step 2 of 3 — Experience & CTC'
-        : 'Step 3 of 3 — Cover letter & CV';
+  const subtitle = [job.companyName, job.location, job.salaryCompact].filter(Boolean).join(", ");
 
   return (
-    <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="job-apply-title"
-      onKeyDown={handleBackdropKey}
-    >
-      <button
-        type="button"
-        className="absolute inset-0 bg-black/50 backdrop-blur-[2px]"
-        aria-label="Close dialog"
-        onClick={onClose}
-      />
-      <div className="relative z-10 flex max-h-[min(90vh,880px)] w-full max-w-3xl flex-col overflow-y-auto rounded-2xl bg-white shadow-2xl">
-        {success ? (
-          <div className="relative flex min-h-[min(60vh,480px)] w-full flex-col items-center justify-center overflow-y-auto px-6 py-12 sm:px-10 sm:py-16">
-            <button
-              type="button"
-              onClick={onClose}
-              className="absolute right-4 top-4 z-10 rounded-lg border border-gray-200 bg-white p-2 text-gray-600 hover:bg-gray-50"
-              aria-label="Close"
-            >
-              <X className="h-5 w-5" />
-            </button>
-            <CareersApplySuccess />
-          </div>
-        ) : (
-          <>
-            <div className="shrink-0 border-b border-gray-100 px-5 pb-4 pt-5 sm:px-8 sm:pt-6">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h2 id="job-apply-title" className="text-heading font-bold text-black">
-                    {job.title}
-                  </h2>
-                  <p className="mt-1 font-inter text-sm text-gray-500 sm:text-base">{subtitle}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="shrink-0 rounded-lg border border-gray-200 p-2 text-gray-600 transition hover:bg-gray-50"
-                  aria-label="Close"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
+    <CareersDialog labelledBy={titleId} onClose={onClose}>
+      {success ? (
+        <CareersApplySuccess titleId={titleId} title="Thanks, we've got your application" onDone={onClose}>
+          Our team will review your profile and get in touch with you shortly.
+        </CareersApplySuccess>
+      ) : (
+        <>
+          <DialogHeader titleId={titleId} context="Apply for" title={job.title} description={subtitle} onClose={onClose}>
+            <ol aria-label="Application steps" className="mt-5 grid grid-cols-3 gap-2">
+              {STEPS.map((label, i) => (
+                <li key={label} aria-current={i === step ? "step" : undefined} className="flex flex-col gap-2">
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      "h-1.5 rounded-full transition-colors duration-fast",
+                      i <= step ? "bg-jade" : "bg-line",
+                    )}
+                  />
+                  <span
+                    className={cn(
+                      "text-xs font-semibold sm:text-sm",
+                      i === step ? "text-ink" : "text-grey-500",
+                    )}
+                  >
+                    {label}
+                    {i < step ? <span className="sr-only"> (done)</span> : null}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </DialogHeader>
 
-              <nav className="mt-8 flex w-full justify-center px-2 sm:px-0" aria-label="Application steps">
-                <div className="flex w-full max-w-md items-start sm:max-w-lg">
-                  {STEPS.map((label, i) => {
-                    const done = i < step;
-                    const active = i === step;
-                    const connectorComplete = step > i;
-
-                    return (
-                      <Fragment key={label}>
-                        <div className="flex w-[5.25rem] shrink-0 flex-col items-center gap-2 sm:w-24">
-                          <span
-                            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-semibold transition-colors ${
-                              done
-                                ? 'bg-black text-white'
-                                : active
-                                  ? 'border-2 border-black bg-white text-black shadow-sm'
-                                  : 'border border-gray-300 bg-white text-gray-500'
-                            }`}
-                            aria-current={active ? 'step' : undefined}
-                          >
-                            {done ? <Check className="h-4 w-4" strokeWidth={3} aria-hidden /> : i + 1}
-                          </span>
-                          <span
-                            className={`max-w-[5.25rem] text-center font-inter text-xs font-medium leading-tight sm:max-w-none sm:text-xs ${
-                              active ? 'font-semibold text-black' : done ? 'text-gray-600' : 'text-gray-500'
-                            }`}
-                          >
-                            {label}
-                          </span>
-                        </div>
-                        {i < STEPS.length - 1 ? (
-                          <div
-                            className={`mx-2 mt-[18px] h-0.5 min-w-[12px] flex-1 ${connectorComplete ? 'bg-black' : 'bg-gray-200'}`}
-                            aria-hidden
-                          />
-                        ) : null}
-                      </Fragment>
-                    );
-                  })}
-                </div>
-              </nav>
-            </div>
-
-            <div className="flex flex-col flex-1 overflow-y-auto px-5 py-5 sm:px-8 sm:py-6">
+          <form noValidate onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col">
+            <div ref={bodyRef} className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-8">
               {step === 0 && (
-                <div className="flex flex-col flex-1 space-y-6 pb-4">
-                   {/* <button
-                     type="button"
-                     className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white py-3 font-inter text-sm font-medium text-ink transition hover:bg-gray-50"
-                     onClick={() => window.open(job.linkedinLink, '_blank', 'noopener,noreferrer')}
-                   >
-                     <Linkedin className="h-5 w-5 text-[#0A66C2]" aria-hidden />
-                     Apply with LinkedIn
-                   </button> */}
-                  <div className="relative flex items-center justify-center">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-gray-200" />
-                    </div>
-                    {/* <span className="relative bg-white px-3 font-inter text-xs text-gray-500">or fill manually</span> */}
-                  </div>
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    <div>
-                      <label className={labelClass}>
-                        First Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        className={inputClass}
-                        value={form.firstName}
-                        onChange={(e) => update('firstName', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
-                        onKeyDown={(e) => { if (!/^[a-zA-Z\s]$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); }}
-                        placeholder="Akash"
-                        autoComplete="given-name"
-                      />
-                    </div>
-                    <div>
-                      <label className={labelClass}>
-                        Last Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        className={inputClass}
-                        value={form.lastName}
-                        onChange={(e) => update('lastName', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
-                        onKeyDown={(e) => { if (!/^[a-zA-Z\s]$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); }}
-                        placeholder="Tyagi"
-                        autoComplete="family-name"
-                      />
-                    </div>
-                    <div className="sm:col-span-2">
-                      <label className={labelClass}>
-                        Email Address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        className={inputClass}
-                        value={form.email}
-                        onChange={(e) => update('email', e.target.value)}
-                        placeholder="you@email.com"
-                        autoComplete="email"
-                      />
-                    </div>
-                    <div>
-                      <label className={labelClass}>
-                        Phone <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="tel"
-                        className={inputClass}
-                        value={form.phone}
-                        onChange={(e) => update('phone', e.target.value.replace(/\D/g, '').slice(0, 10))}
-                        onKeyDown={(e) => { if (!/^\d$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); if (form.phone.length >= 10 && /^\d$/.test(e.key)) e.preventDefault(); }}
-                        placeholder="+91 XXXXX XXXXX"
-                        autoComplete="tel"
-                      />
-                    </div>
-                    <div>
-                      <label className={labelClass}>
-                        City <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        className={inputClass}
-                        value={form.city}
-                        onChange={(e) => update('city', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
-                        onKeyDown={(e) => { if (!/^[a-zA-Z\s]$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); }}
-                        placeholder="Mumbai"
-                        autoComplete="address-level2"
-                      />
-                    </div>
-                  </div>
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <Field id={id("firstName")} label="First name">
+                    <input
+                      id={id("firstName")}
+                      className={fieldClass}
+                      value={form.firstName}
+                      onChange={(e) => update("firstName", e.target.value.replace(/[^a-zA-Z\s]/g, ""))}
+                      onKeyDown={allowOnly(NAME_CHARS)}
+                      autoComplete="given-name"
+                      aria-required="true"
+                      {...invalid("firstName")}
+                    />
+                  </Field>
+                  <Field id={id("lastName")} label="Last name">
+                    <input
+                      id={id("lastName")}
+                      className={fieldClass}
+                      value={form.lastName}
+                      onChange={(e) => update("lastName", e.target.value.replace(/[^a-zA-Z\s]/g, ""))}
+                      onKeyDown={allowOnly(NAME_CHARS)}
+                      autoComplete="family-name"
+                      aria-required="true"
+                      {...invalid("lastName")}
+                    />
+                  </Field>
+                  <Field id={id("email")} label="Email" className="sm:col-span-2">
+                    <input
+                      id={id("email")}
+                      type="email"
+                      className={fieldClass}
+                      value={form.email}
+                      onChange={(e) => update("email", e.target.value)}
+                      placeholder="you@email.com"
+                      autoComplete="email"
+                      aria-required="true"
+                      {...invalid("email")}
+                    />
+                  </Field>
+                  <Field id={id("phone")} label="Mobile number">
+                    <input
+                      id={id("phone")}
+                      type="tel"
+                      inputMode="numeric"
+                      className={fieldClass}
+                      value={form.phone}
+                      onChange={(e) => update("phone", toMobile(e.target.value))}
+                      onKeyDown={mobileKeys(form.phone)}
+                      placeholder="10-digit number"
+                      autoComplete="tel"
+                      aria-required="true"
+                      {...invalid("phone")}
+                    />
+                  </Field>
+                  <Field id={id("city")} label="City">
+                    <input
+                      id={id("city")}
+                      className={fieldClass}
+                      value={form.city}
+                      onChange={(e) => update("city", e.target.value.replace(/[^a-zA-Z\s]/g, ""))}
+                      onKeyDown={allowOnly(NAME_CHARS)}
+                      placeholder="e.g. Mumbai"
+                      autoComplete="address-level2"
+                      aria-required="true"
+                      {...invalid("city")}
+                    />
+                  </Field>
                 </div>
               )}
 
               {step === 1 && (
-                <div className="flex flex-col flex-1 space-y-6 pb-4">
-                  <div>
-                    <label className={labelClass}>Current Job Title</label>
-                      <input
-                        className={inputClass}
-                        value={form.currentJobTitle}
-                        onChange={(e) => update('currentJobTitle', e.target.value.replace(/[^a-zA-Z\s.,/&-]/g, ''))}
-                        onKeyDown={(e) => { if (!/^[a-zA-Z\s.,/&-]$/.test(e.key) && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(e.key)) e.preventDefault(); }}
-                        placeholder="e.g. Deputy Vice President"
-                      />
-                  </div>
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    <div>
-                      <label className={labelClass}>
-                        Total Experience (in years)<span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        className={inputClass}
-                        value={form.totalExperience}
-                        onChange={(e) => {
-                          update('totalExperience', limitDecimal(e.target.value, 1, 99.9, '99'));
-                        }}
-                        onKeyDown={(e) => {
-                          const v = form.totalExperience;
-                          if (e.key === '.' && v.includes('.')) return e.preventDefault();
-                          if (!/^\d$/.test(e.key) && e.key !== '.' && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)) return e.preventDefault();
-                          if ((parseFloat(v) >= 99 && !v.includes('.')) || v === '99' || v === '99.9') { if (/^\d$/.test(e.key)) return e.preventDefault(); }
-                        }}
-                        placeholder="e.g. 11 years"
-                      />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Current CTC (LPA)</label>
-                      <input
-                        className={inputClass}
-                        value={form.currentCtc}
-                        onChange={(e) => {
-                          update('currentCtc', limitDecimal(e.target.value, 2, 99.99, '99.99'));
-                        }}
-                        onKeyDown={(e) => {
-                          const v = form.currentCtc;
-                          if (e.key === '.' && v.includes('.')) return e.preventDefault();
-                          if (!/^\d$/.test(e.key) && e.key !== '.' && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)) return e.preventDefault();
-                          if ((parseFloat(v) >= 99 && !v.includes('.')) || v === '99' || v === '99.9' || v === '99.99') { if (/^\d$/.test(e.key)) return e.preventDefault(); }
-                          if ((v.split('.')[1]?.length ?? 0) >= 2 && /^\d$/.test(e.key)) return e.preventDefault();
-                        }}
-                        placeholder="e.g. 24"
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <Field id={id("currentJobTitle")} label="Current job title" optional className="sm:col-span-2">
+                    <input
+                      id={id("currentJobTitle")}
+                      className={fieldClass}
+                      value={form.currentJobTitle}
+                      onChange={(e) => update("currentJobTitle", e.target.value.replace(/[^a-zA-Z\s.,/&-]/g, ""))}
+                      onKeyDown={allowOnly(/[a-zA-Z\s.,/&-]/)}
+                      placeholder="e.g. Relationship manager"
+                      autoComplete="organization-title"
+                    />
+                  </Field>
+                  <Field id={id("totalExperience")} label="Total experience, in years">
+                    <input
+                      id={id("totalExperience")}
+                      inputMode="decimal"
+                      className={fieldClass}
+                      value={form.totalExperience}
+                      onChange={(e) => update("totalExperience", limitDecimal(e.target.value, 1, 99.9, "99"))}
+                      onKeyDown={decimalOnly(form.totalExperience)}
+                      placeholder="e.g. 6"
+                      aria-required="true"
+                      {...invalid("totalExperience")}
+                    />
+                  </Field>
+                  <Field id={id("noticePeriod")} label="Notice period">
+                    <div className="relative">
+                      <select
+                        id={id("noticePeriod")}
+                        className={cn(fieldClass, "cursor-pointer appearance-none !bg-none pr-11")}
+                        value={form.noticePeriod}
+                        onChange={(e) => update("noticePeriod", e.target.value)}
+                      >
+                        {NOTICE_OPTIONS.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown
+                        aria-hidden="true"
+                        className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-grey-500"
                       />
                     </div>
-                  </div>
-                  <div>
-                    <label className={labelClass}>
-                      Expected CTC (LPA) <span className="text-red-500">*</span>
-                    </label>
-                      <input
-                        className={inputClass}
-                        value={form.expectedCtc}
-                        onChange={(e) => {
-                          update('expectedCtc', limitDecimal(e.target.value, 2, 99.99, '99.99'));
-                        }}
-                        onKeyDown={(e) => {
-                          const v = form.expectedCtc;
-                          if (e.key === '.' && v.includes('.')) return e.preventDefault();
-                          if (!/^\d$/.test(e.key) && e.key !== '.' && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)) return e.preventDefault();
-                          if ((parseFloat(v) >= 99 && !v.includes('.')) || v === '99' || v === '99.9' || v === '99.99') { if (/^\d$/.test(e.key)) return e.preventDefault(); }
-                          if ((v.split('.')[1]?.length ?? 0) >= 2 && /^\d$/.test(e.key)) return e.preventDefault();
-                        }}
-                        placeholder="e.g. 32"
-                      />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Notice Period</label>
-                    <select
-                      className={`${inputClass} cursor-pointer`}
-                      value={form.noticePeriod}
-                      onChange={(e) => update('noticePeriod', e.target.value)}
-                    >
-                      {NOTICE_OPTIONS.map((o) => (
-                        <option key={o} value={o}>
-                          {o}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  </Field>
+                  <Field id={id("currentCtc")} label="Current CTC, in lakh a year" optional>
+                    <input
+                      id={id("currentCtc")}
+                      inputMode="decimal"
+                      className={fieldClass}
+                      value={form.currentCtc}
+                      onChange={(e) => update("currentCtc", limitDecimal(e.target.value, 2, 99.99, "99.99"))}
+                      onKeyDown={decimalOnly(form.currentCtc)}
+                      placeholder="e.g. 8.5"
+                    />
+                  </Field>
+                  <Field id={id("expectedCtc")} label="Expected CTC, in lakh a year">
+                    <input
+                      id={id("expectedCtc")}
+                      inputMode="decimal"
+                      className={fieldClass}
+                      value={form.expectedCtc}
+                      onChange={(e) => update("expectedCtc", limitDecimal(e.target.value, 2, 99.99, "99.99"))}
+                      onKeyDown={decimalOnly(form.expectedCtc)}
+                      placeholder="e.g. 10"
+                      aria-required="true"
+                      {...invalid("expectedCtc")}
+                    />
+                  </Field>
                 </div>
               )}
 
               {step === 2 && (
-                <div className="flex flex-col flex-1 space-y-6 pb-4">
-                  <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 bg-white px-6 py-10">
-                    <FileText className="mb-3 h-10 w-10 text-gray-500" aria-hidden />
-                    <p className="font-inter text-sm font-medium text-black">Cover letter</p>
-                    <p className="mt-1 font-inter text-xs text-gray-500">Optional · PDF or DOCX · Max 5MB</p>
-                    <input
-                      id={coverLetterInputId}
-                      type="file"
-                      accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                      className="sr-only"
-                      onChange={(e) => {
-                        const f = e.target.files?.[0];
-                        setCoverLetterFile(f ?? null);
-                        setError('');
-                      }}
-                    />
-                    <label
-                      htmlFor={coverLetterInputId}
-                      className="mt-5 inline-flex cursor-pointer rounded-full border border-black bg-white px-6 py-2 font-inter text-sm font-medium text-black transition hover:bg-neutral-100"
-                    >
-                      Browse file
-                    </label>
-                    {coverLetterFile ? (
-                      <p className="mt-3 max-w-full truncate font-inter text-xs text-black">{coverLetterFile.name}</p>
-                    ) : null}
-                  </div>
-
-                  <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 bg-neutral-50 px-6 py-10">
-                    <FileText className="mb-3 h-10 w-10 text-gray-500" aria-hidden />
-                    <p className="font-inter text-sm font-medium text-black">
-                      CV / Resume <span className="text-red-500">*</span>
-                    </p>
-                    <p className="mt-1 font-inter text-xs text-gray-500">PDF or DOCX · Max 5MB</p>
-                    <input
-                      id={cvInputId}
-                      type="file"
-                      accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                      className="sr-only"
-                      onChange={(e) => {
-                        const f = e.target.files?.[0];
-                        setCvFile(f ?? null);
-                        setError('');
-                      }}
-                    />
-                    <label
-                      htmlFor={cvInputId}
-                      className="mt-5 inline-flex cursor-pointer rounded-full border border-jade bg-jade px-6 py-2 font-inter text-sm font-medium text-white transition hover:bg-jade-hover"
-                    >
-                      Browse file
-                    </label>
-                    {cvFile ? (
-                      <p className="mt-3 max-w-full truncate font-inter text-xs text-black">{cvFile.name}</p>
-                    ) : null}
-                  </div>
-
-                  <div className="rounded-2xl border border-gray-200 bg-neutral-50 p-5">
-                    <p className="font-inter text-sm font-semibold text-black">Before you submit — quick check</p>
-                    <ul className="mt-3 space-y-2 font-inter text-sm text-gray-700">
-                      {[
-                        'Cover letter file is included if you chose to add one',
-                        'CV is updated with your latest role',
-                        'Contact details are correct',
-                      ].map((line) => (
-                        <li key={line} className="flex items-start gap-2">
-                          <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm bg-black text-white">
-                            <Check className="h-3 w-3" strokeWidth={3} />
-                          </span>
+                <div className="flex flex-col gap-4">
+                  <FilePicker
+                    id={id("cv")}
+                    label="CV"
+                    file={cvFile}
+                    invalid={error?.field === "cv"}
+                    errorId={errorId}
+                    onChange={(file) => {
+                      setCvFile(file);
+                      setError(null);
+                    }}
+                  />
+                  <FilePicker
+                    id={id("coverLetter")}
+                    label="Cover letter"
+                    optional
+                    file={coverLetterFile}
+                    invalid={error?.field === "coverLetter"}
+                    errorId={errorId}
+                    onChange={(file) => {
+                      setCoverLetterFile(file);
+                      setError(null);
+                    }}
+                  />
+                  <div className="mt-2">
+                    <h3 className="text-sm font-semibold text-ink">Before you submit</h3>
+                    <ul className="mt-3 flex flex-col gap-2">
+                      {BEFORE_YOU_SUBMIT.map((line) => (
+                        <li key={line} className="flex items-center gap-3 text-sm text-grey-600">
+                          <i
+                            aria-hidden="true"
+                            className="block h-3 w-1.5 shrink-0 -rotate-[38deg] rounded-full bg-sprout"
+                          />
                           {line}
                         </li>
                       ))}
@@ -557,51 +423,35 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                   </div>
                 </div>
               )}
-
-              {error ? <p className="pb-2 text-center text-sm text-red-600">{error}</p> : null}
             </div>
 
-            <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-t border-gray-100 bg-white px-5 py-4 sm:px-8">
-              <p className="font-inter text-xs text-gray-500 sm:text-sm">{footerLeft}</p>
-              <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
-                {step > 0 ? (
-                  <button
-                    type="button"
-                    onClick={back}
-                    data-ph-event="Back"
-                    className="btn btn-secondary btn-md"
-                  >
-                    <ArrowLeft className="h-4 w-4" />
-                    Back
-                  </button>
-                ) : null}
-                {step < STEPS.length - 1 ? (
-                  <button
-                    type="button"
-                    onClick={next}
-                    data-ph-event="Next"
-                    className="btn btn-primary btn-md"
-                  >
-                    Next
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={handleSubmit}
-                    disabled={submitting}
-                    data-ph-event="Submit Application"
-                    className="btn btn-primary btn-md"
-                  >
-                    {submitting ? 'Submitting…' : 'Submit Application'}
-                    <Check className="h-4 w-4" />
-                  </button>
-                )}
+            <div className="flex shrink-0 flex-col gap-3 border-t border-line bg-white px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 sm:px-8">
+              {error ? <FormError key={error.attempt} id={errorId} message={error.message} /> : null}
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm text-grey-500">
+                  Step {step + 1} of {STEPS.length}
+                </p>
+                <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
+                  {step > 0 ? (
+                    <button type="button" onClick={back} data-ph-event="Back" className="btn btn-secondary btn-md">
+                      Back
+                    </button>
+                  ) : null}
+                  {step < STEPS.length - 1 ? (
+                    <button type="submit" data-ph-event="Next" className="btn btn-primary btn-md">
+                      Next
+                    </button>
+                  ) : (
+                    <Button type="submit" loading={submitting} data-ph-event="Submit Application">
+                      {submitting ? "Submitting…" : "Submit application"}
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
-          </>
-        )}
-      </div>
-    </div>
+          </form>
+        </>
+      )}
+    </CareersDialog>
   );
 }
