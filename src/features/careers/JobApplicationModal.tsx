@@ -137,7 +137,8 @@ function ApplicationDialog({ job, onClose }: { job: JobOpening; onClose: () => v
         if (coverLetterFile.size > MAX_FILE_BYTES) {
           return fail("Cover letter file must be 5MB or smaller.", "coverLetter");
         }
-        if (!isDocument(coverLetterFile.name)) return fail("Cover letter must be a PDF or DOCX file.", "coverLetter");
+        if (!isDocument(coverLetterFile.name))
+          return fail("Cover letter must be a PDF or DOCX file.", "coverLetter");
       }
     }
     return true;
@@ -212,10 +213,20 @@ function ApplicationDialog({ job, onClose }: { job: JobOpening; onClose: () => v
         </CareersApplySuccess>
       ) : (
         <>
-          <DialogHeader titleId={titleId} context="Apply for" title={job.title} description={subtitle} onClose={onClose}>
+          <DialogHeader
+            titleId={titleId}
+            context="Apply for"
+            title={job.title}
+            description={subtitle}
+            onClose={onClose}
+          >
             <ol aria-label="Application steps" className="mt-5 grid grid-cols-3 gap-2">
               {STEPS.map((label, i) => (
-                <li key={label} aria-current={i === step ? "step" : undefined} className="flex flex-col gap-2">
+                <li
+                  key={label}
+                  aria-current={i === step ? "step" : undefined}
+                  className="flex flex-col gap-2"
+                >
                   <span
                     aria-hidden="true"
                     className={cn(
@@ -311,12 +322,19 @@ function ApplicationDialog({ job, onClose }: { job: JobOpening; onClose: () => v
 
               {step === 1 && (
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                  <Field id={id("currentJobTitle")} label="Current job title" optional className="sm:col-span-2">
+                  <Field
+                    id={id("currentJobTitle")}
+                    label="Current job title"
+                    optional
+                    className="sm:col-span-2"
+                  >
                     <input
                       id={id("currentJobTitle")}
                       className={fieldClass}
                       value={form.currentJobTitle}
-                      onChange={(e) => update("currentJobTitle", e.target.value.replace(/[^a-zA-Z\s.,/&-]/g, ""))}
+                      onChange={(e) =>
+                        update("currentJobTitle", e.target.value.replace(/[^a-zA-Z\s.,/&-]/g, ""))
+                      }
                       onKeyDown={allowOnly(/[a-zA-Z\s.,/&-]/)}
                       placeholder="e.g. Relationship manager"
                       autoComplete="organization-title"
@@ -433,7 +451,12 @@ function ApplicationDialog({ job, onClose }: { job: JobOpening; onClose: () => v
                 </p>
                 <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
                   {step > 0 ? (
-                    <button type="button" onClick={back} data-ph-event="Back" className="btn btn-secondary btn-md">
+                    <button
+                      type="button"
+                      onClick={back}
+                      data-ph-event="Back"
+                      className="btn btn-secondary btn-md"
+                    >
                       Back
                     </button>
                   ) : null}

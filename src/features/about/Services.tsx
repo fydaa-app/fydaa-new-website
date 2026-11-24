@@ -3,12 +3,18 @@ import { SectionHeader } from "@/components/layout/section-header";
 
 const SERVICES = [
   { title: "Investment planning", body: "Goal-based portfolios matched to your risk profile and timeline." },
-  { title: "Portfolio management", body: "Ongoing rebalancing so your portfolio stays aligned to your goals." },
+  {
+    title: "Portfolio management",
+    body: "Ongoing rebalancing so your portfolio stays aligned to your goals.",
+  },
   { title: "Financial health monitoring", body: "Track your Wealth Score and net worth in one place." },
   { title: "Debt management", body: "A clear payoff plan so loans stop working against your goals." },
   { title: "Smart budgeting", body: "Set spending limits by category and stay on track." },
   { title: "Expense management", body: "Every transaction tracked and categorised across your accounts." },
-  { title: "Emergency fund", body: "Set up a safety net sized to your life, with guidance on where to keep it." },
+  {
+    title: "Emergency fund",
+    body: "Set up a safety net sized to your life, with guidance on where to keep it.",
+  },
   { title: "Tax consulting", body: "Plan investments and declarations to keep more of what you earn." },
   { title: "Insurance", body: "Right-sized life and health cover, reviewed as your needs change." },
 ];

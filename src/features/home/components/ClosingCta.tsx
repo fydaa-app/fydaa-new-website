@@ -12,14 +12,21 @@ export default function ClosingCta() {
             Start with one goal
           </h2>
           <p className="max-w-[46ch] text-lead text-grey-600">
-            Set it up on the web in a few minutes, or in the app. You can change or stop the SIP whenever you like.
+            Set it up on the web in a few minutes, or in the app. You can change or stop the SIP whenever you
+            like.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
           <ButtonLink href={routes.signup.path} size="lg" data-ph-event="Start Investing">
             Start investing
           </ButtonLink>
-          <ButtonLink href={routes.download.path} prefetch={false} size="lg" variant="secondary" data-ph-event="Download App">
+          <ButtonLink
+            href={routes.download.path}
+            prefetch={false}
+            size="lg"
+            variant="secondary"
+            data-ph-event="Download App"
+          >
             Download the app
           </ButtonLink>
         </div>

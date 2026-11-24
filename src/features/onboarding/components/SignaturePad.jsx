@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
-export default function SignaturePad({ onChange, className = '' }) {
+export default function SignaturePad({ onChange, className = "" }) {
   const canvasRef = useRef(null);
   const drawing = useRef(false);
   const last = useRef({ x: 0, y: 0 });
@@ -15,17 +15,17 @@ export default function SignaturePad({ onChange, className = '' }) {
       const ratio = window.devicePixelRatio || 1;
       canvas.width = Math.floor(rect.width * ratio);
       canvas.height = Math.floor(rect.height * ratio);
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
       ctx.lineWidth = 2.5;
-      ctx.lineCap = 'round';
-      ctx.strokeStyle = '#0C4A3E'; // jade (canvas can't read Tailwind tokens)
-      ctx.fillStyle = '#ffffff';
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#0C4A3E"; // jade (canvas can't read Tailwind tokens)
+      ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, rect.width, rect.height);
     };
     resize();
-    window.addEventListener('resize', resize);
-    return () => window.removeEventListener('resize', resize);
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
   }, []);
 
   function pos(e) {
@@ -45,7 +45,7 @@ export default function SignaturePad({ onChange, className = '' }) {
     if (!drawing.current) return;
     e.preventDefault();
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     const p = pos(e);
     ctx.beginPath();
     ctx.moveTo(last.current.x, last.current.y);
@@ -65,13 +65,13 @@ export default function SignaturePad({ onChange, className = '' }) {
   function emit() {
     const canvas = canvasRef.current;
     if (!canvas || !onChange) return;
-    const dataUrl = canvas.toDataURL('image/png');
-    const base64 = dataUrl.replace(/^data:image\/png;base64,/, '');
+    const dataUrl = canvas.toDataURL("image/png");
+    const base64 = dataUrl.replace(/^data:image\/png;base64,/, "");
     onChange({ dataUrl, base64, blank: isBlank(canvas) });
   }
 
   function isBlank(canvas) {
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
     for (let i = 0; i < pixels.length; i += 4) {
       // non-white pixel
@@ -82,11 +82,11 @@ export default function SignaturePad({ onChange, className = '' }) {
 
   function clear() {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     const rect = canvas.getBoundingClientRect();
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, rect.width, rect.height);
-    onChange?.({ dataUrl: '', base64: '', blank: true });
+    onChange?.({ dataUrl: "", base64: "", blank: true });
   }
 
   return (

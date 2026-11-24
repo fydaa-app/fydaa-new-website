@@ -9,7 +9,9 @@ const OTP_LENGTH = 6;
 const RESEND_SECONDS = 30;
 
 function formatMobileDisplay(digits: string | number) {
-  const d = String(digits || "").replace(/\D/g, "").slice(0, 10);
+  const d = String(digits || "")
+    .replace(/\D/g, "")
+    .slice(0, 10);
   if (d.length <= 5) return `+91 ${d}`;
   return `+91 ${d.slice(0, 5)} ${d.slice(5)}`;
 }
@@ -24,7 +26,11 @@ export function MobileVerifyPage({
   onSendOtp: (mobile: string) => Promise<void>;
   initialMobile?: string;
 }) {
-  const [mobile, setMobile] = useState(String(initialMobile || "").replace(/\D/g, "").slice(0, 10));
+  const [mobile, setMobile] = useState(
+    String(initialMobile || "")
+      .replace(/\D/g, "")
+      .slice(0, 10),
+  );
   const [error, setError] = useState("");
   const [sending, setSending] = useState(false);
 

@@ -20,19 +20,30 @@ export default function HeroSection() {
             Wealth shouldn&apos;t be a privilege. It should be a possibility for all.
           </h1>
           <p className="max-w-[52ch] text-pretty text-lead text-grey-600" data-enter-item style={step(1)}>
-            We&apos;re on a mission to make smart investing accessible, understandable, and achievable, no matter
-            your income, background or experience.
+            We&apos;re on a mission to make smart investing accessible, understandable, and achievable, no
+            matter your income, background or experience.
           </p>
-          <div className="flex flex-col gap-x-6 gap-y-4 pt-2 sm:flex-row sm:items-center" data-enter-item style={step(2)}>
-            <ButtonLink href="/#book-a-call" size="lg" data-ph-event="Book a Free Call" className="self-start">
+          <div
+            className="flex flex-col gap-x-6 gap-y-4 pt-2 sm:flex-row sm:items-center"
+            data-enter-item
+            style={step(2)}
+          >
+            <ButtonLink
+              href="/#book-a-call"
+              size="lg"
+              data-ph-event="Book a Free Call"
+              className="self-start"
+            >
               Book a free call
             </ButtonLink>
             <p className="flex flex-col text-sm text-grey-500">
               <span>
-                SEBI-registered investment adviser, <span className="whitespace-nowrap">{adviser.sebiRegistrationNumber}</span>.
+                SEBI-registered investment adviser,{" "}
+                <span className="whitespace-nowrap">{adviser.sebiRegistrationNumber}</span>.
               </span>
               <span>
-                AMFI-registered mutual fund distributor, <span className="whitespace-nowrap">{distributor.arn}</span>.
+                AMFI-registered mutual fund distributor,{" "}
+                <span className="whitespace-nowrap">{distributor.arn}</span>.
               </span>
             </p>
           </div>

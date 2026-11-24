@@ -118,7 +118,15 @@ function CancelledScreen({ onBack }: { onBack: () => void }) {
   );
 }
 
-function PaymentSuccess({ name, applicationNo, onBack }: { name: string; applicationNo: string; onBack: () => void }) {
+function PaymentSuccess({
+  name,
+  applicationNo,
+  onBack,
+}: {
+  name: string;
+  applicationNo: string;
+  onBack: () => void;
+}) {
   return (
     <FlowShell>
       <div role="status" className="flex flex-col items-start">
@@ -129,8 +137,8 @@ function PaymentSuccess({ name, applicationNo, onBack }: { name: string; applica
         <h1 className="mt-6 text-heading text-ink">Payment successful</h1>
         <p className="mt-3 max-w-[52ch] text-lead text-grey-600">
           Thank you{name ? `, ${name}` : ""}. Your FYIAEP programme fee payment has been received
-          {applicationNo ? ` for ${applicationNo}` : ""}.
-          Our admissions team will review your application and reach out within 3 working days.
+          {applicationNo ? ` for ${applicationNo}` : ""}. Our admissions team will review your application and
+          reach out within 3 working days.
         </p>
       </div>
       <button type="button" onClick={onBack} className="btn btn-primary btn-lg mt-8 self-start">
@@ -153,7 +161,7 @@ export function FormPage({
   const [step, setStep] = useState(0);
   const [maxReachedStep, setMaxReachedStep] = useState(0);
   const [form, setForm] = useState<FormState>(() =>
-    verifiedMobile ? { whatsapp: verifiedMobile, mobile: verifiedMobile } : {}
+    verifiedMobile ? { whatsapp: verifiedMobile, mobile: verifiedMobile } : {},
   );
   const [uploads, setUploads] = useState<UploadsState>({});
   const [paymentCompleted, setPaymentCompleted] = useState(false);
@@ -195,9 +203,7 @@ export function FormPage({
         // Unpaid users who finished declarations (or already submitted/pending pay)
         // land on Choose Programme so they can pick 2 or 4 months again
         const landOnProgramme =
-          isFyiaepAwaitingPayment(status) ||
-          resume >= 6 ||
-          (declarationsDone && resume >= 5);
+          isFyiaepAwaitingPayment(status) || resume >= 6 || (declarationsDone && resume >= 5);
 
         if (landOnProgramme) {
           setAwaitingPayment(false);
@@ -277,9 +283,7 @@ export function FormPage({
   const isLast = step === steps.length - 1;
   const proceedDisabled =
     saving ||
-    (isLast &&
-      asStr(form.selectedProgramme) === "onfield" &&
-      !isNismCertifiedForOnField(form, uploads));
+    (isLast && asStr(form.selectedProgramme) === "onfield" && !isNismCertifiedForOnField(form, uploads));
 
   const handleApiError = (e: unknown) => {
     if (isFyiaepSessionExpiredError(e) || (e instanceof Error && e.message === FYIAEP_SESSION_EXPIRED)) {
@@ -361,9 +365,7 @@ export function FormPage({
 
     // 4-month: unchanged create payload; 2-month: courseType ON_FIELD_TRAINING
     const order = await createCoursePayment(
-      asStr(form.selectedProgramme) === "onfield"
-        ? { courseType: "ON_FIELD_TRAINING" }
-        : undefined,
+      asStr(form.selectedProgramme) === "onfield" ? { courseType: "ON_FIELD_TRAINING" } : undefined,
     );
     if (order.applicationNo) setApplicationNo(order.applicationNo);
     if (order.applicationStatus) setApplicationStatus(order.applicationStatus);
@@ -387,7 +389,9 @@ export function FormPage({
     const result = validateStep(step, form, uploads);
     if (result) {
       const map: ErrorsState = {};
-      result.fields.forEach((f) => { map[f] = true; });
+      result.fields.forEach((f) => {
+        map[f] = true;
+      });
       setErrors(map);
       showToast(result.message);
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -540,7 +544,11 @@ export function FormPage({
                   <span
                     className={cn(
                       "block truncate text-xs",
-                      i === step ? "font-semibold text-ink" : i < step ? "font-medium text-grey-600" : "font-medium text-grey-500",
+                      i === step
+                        ? "font-semibold text-ink"
+                        : i < step
+                          ? "font-medium text-grey-600"
+                          : "font-medium text-grey-500",
                     )}
                   >
                     {st.short}
@@ -590,7 +598,13 @@ export function FormPage({
             data-ph-event={isLast ? "Proceed to Pay" : "Save & Continue"}
             className="btn btn-primary btn-md flex-1 sm:flex-none"
           >
-            {saving ? (isLast ? "Processing..." : "Saving...") : isLast ? "Proceed to pay" : "Save and continue"}
+            {saving
+              ? isLast
+                ? "Processing..."
+                : "Saving..."
+              : isLast
+                ? "Proceed to pay"
+                : "Save and continue"}
           </button>
         </div>
       </div>

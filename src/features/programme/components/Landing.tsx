@@ -23,17 +23,31 @@ type ApplyProps = { onApply: () => void };
 /** The page title, set large, with the one entrance on the page. */
 function Hero({ onApply }: ApplyProps) {
   return (
-    <section aria-labelledby="programme-title" className="pb-16 pt-28 sm:pb-20 sm:pt-32 lg:pb-24 lg:pt-36" data-enter>
+    <section
+      aria-labelledby="programme-title"
+      className="pb-16 pt-28 sm:pb-20 sm:pt-32 lg:pb-24 lg:pt-36"
+      data-enter
+    >
       <Container className="flex flex-col gap-6">
-        <h1 id="programme-title" className="max-w-[16ch] text-display text-ink" data-enter-item style={step(0)}>
+        <h1
+          id="programme-title"
+          className="max-w-[16ch] text-display text-ink"
+          data-enter-item
+          style={step(0)}
+        >
           Become an <span className="whitespace-nowrap">industry-ready</span> investment adviser in 4 months
         </h1>
         <p className="max-w-[56ch] text-lead text-grey-600" data-enter-item style={step(1)}>
-          Prepare for the NISM X-A and X-B exams, train on the field in Mumbai and work with real clients under a
-          mentor. The programme is run by Fydaa, a SEBI-registered investment adviser.
+          Prepare for the NISM X-A and X-B exams, train on the field in Mumbai and work with real clients
+          under a mentor. The programme is run by Fydaa, a SEBI-registered investment adviser.
         </p>
         <div className="flex flex-wrap gap-3" data-enter-item style={step(2)}>
-          <button type="button" onClick={onApply} data-ph-event="Apply Now" className="btn btn-primary btn-lg">
+          <button
+            type="button"
+            onClick={onApply}
+            data-ph-event="Apply Now"
+            className="btn btn-primary btn-lg"
+          >
             Apply now
           </button>
           <a
@@ -149,8 +163,8 @@ function Curriculum({ onApply }: ApplyProps) {
             What the curriculum covers
           </h2>
           <p className="max-w-[44ch] text-lead text-grey-600">
-            An industry-integrated curriculum designed by SEBI-registered advisers, taught through live sessions and
-            recorded modules.
+            An industry-integrated curriculum designed by SEBI-registered advisers, taught through live
+            sessions and recorded modules.
           </p>
           <button
             type="button"
@@ -163,7 +177,10 @@ function Curriculum({ onApply }: ApplyProps) {
         </div>
         <ul className="grid content-start gap-x-8 sm:grid-cols-2">
           {CURRICULUM.map((c) => (
-            <li key={c} className="flex items-start gap-3 border-t border-grey-300/70 py-4 text-base font-medium text-ink">
+            <li
+              key={c}
+              className="flex items-start gap-3 border-t border-grey-300/70 py-4 text-base font-medium text-ink"
+            >
               <Stroke />
               <span>{c}</span>
             </li>
@@ -233,7 +250,9 @@ function AboutFydaa() {
           />
           <figcaption className="mt-4">
             <span className="block text-title text-ink">Prof. Sheetal Kunder</span>
-            <span className="mt-1 block text-sm text-grey-600">19 years in finance. Has mentored 11,000+ students.</span>
+            <span className="mt-1 block text-sm text-grey-600">
+              19 years in finance. Has mentored 11,000+ students.
+            </span>
           </figcaption>
         </figure>
       </Container>
@@ -251,8 +270,8 @@ function Programmes({ onApply }: ApplyProps) {
             Two programmes, one application
           </h2>
           <p className="max-w-[56ch] text-lead text-grey-600">
-            Submit your application and choose your programme in its last step. Our admissions team will review it and
-            get back to you.
+            Submit your application and choose your programme in its last step. Our admissions team will
+            review it and get back to you.
           </p>
         </div>
 
@@ -277,7 +296,12 @@ function Programmes({ onApply }: ApplyProps) {
                   <p className="mt-2 text-sm text-grey-500">One-time programme fee</p>
                 </div>
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <button type="button" onClick={onApply} data-ph-event="Apply Now" className="btn btn-primary btn-md">
+                  <button
+                    type="button"
+                    onClick={onApply}
+                    data-ph-event="Apply Now"
+                    className="btn btn-primary btn-md"
+                  >
                     Apply now
                   </button>
                   <a

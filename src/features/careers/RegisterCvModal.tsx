@@ -37,7 +37,9 @@ function RegisterCvDialog({ onClose }: { onClose: () => void }) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [cvFile, setCvFile] = useState<File | null>(null);
-  const [error, setError] = useState<{ message: string; field: FieldKey | null; attempt: number } | null>(null);
+  const [error, setError] = useState<{ message: string; field: FieldKey | null; attempt: number } | null>(
+    null,
+  );
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const attempts = useRef(0);
@@ -63,7 +65,8 @@ function RegisterCvDialog({ onClose }: { onClose: () => void }) {
     if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email)) {
       return fail("Please enter a valid email address.", "email");
     }
-    if (phone.replace(/\D/g, "").length !== 10) return fail("Please enter a valid 10-digit mobile number.", "phone");
+    if (phone.replace(/\D/g, "").length !== 10)
+      return fail("Please enter a valid 10-digit mobile number.", "phone");
     if (!cvFile) return fail("Please upload your CV (PDF or DOCX, max 5MB).", "cv");
     if (cvFile.size > MAX_FILE_BYTES) return fail("CV must be 5MB or smaller.", "cv");
     if (!isDocument(cvFile.name)) return fail("CV must be a PDF or DOCX file.", "cv");
@@ -188,7 +191,12 @@ function RegisterCvDialog({ onClose }: { onClose: () => void }) {
             <div className="flex shrink-0 flex-col gap-3 border-t border-line bg-white px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 sm:px-8">
               {error ? <FormError key={error.attempt} id={errorId} message={error.message} /> : null}
               <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
-                <button type="button" onClick={onClose} data-ph-event="Cancel" className="btn btn-secondary btn-md">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  data-ph-event="Cancel"
+                  className="btn btn-secondary btn-md"
+                >
                   Cancel
                 </button>
                 <Button type="submit" loading={submitting} data-ph-event="Submit">

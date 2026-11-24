@@ -3,12 +3,7 @@ import { Container } from "@/components/layout/container";
 import { siteConfig } from "@/config/site";
 import BookCallForm from "./BookCallForm";
 
-const PLAN_COVERS = [
-  "Budget and cash flow",
-  "Paying down debt",
-  "Goals and investments",
-  "Insurance cover",
-];
+const PLAN_COVERS = ["Budget and cash flow", "Paying down debt", "Goals and investments", "Insurance cover"];
 
 /**
  * Human advice: the Fydaa Direct Plan (a written plan from a SEBI-registered adviser) and the
@@ -24,8 +19,8 @@ export default function AdviceSection() {
               Talk it through with a SEBI-registered adviser
             </h2>
             <p className="max-w-[56ch] text-lead text-grey-600">
-              The Fydaa Direct Plan puts your whole financial life into one written plan, built on direct mutual funds
-              with no distributor commission. It costs ₹999 a year.
+              The Fydaa Direct Plan puts your whole financial life into one written plan, built on direct
+              mutual funds with no distributor commission. It costs ₹999 a year.
             </p>
           </div>
           <div className="relative overflow-hidden rounded-4xl bg-mist" data-allow-clip>
@@ -43,13 +38,17 @@ export default function AdviceSection() {
             <ul className="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2">
               {PLAN_COVERS.map((item) => (
                 <li key={item} className="flex items-center gap-3 text-base text-grey-600">
-                  <i aria-hidden="true" className="block h-3.5 w-1.5 shrink-0 -rotate-[38deg] rounded-full bg-sprout" />
+                  <i
+                    aria-hidden="true"
+                    className="block h-3.5 w-1.5 shrink-0 -rotate-[38deg] rounded-full bg-sprout"
+                  />
                   {item}
                 </li>
               ))}
             </ul>
             <p className="mt-4 text-sm text-grey-500">
-              Advice by {siteConfig.entities.adviser.legalName}, SEBI RIA {siteConfig.entities.adviser.sebiRegistrationNumber}.
+              Advice by {siteConfig.entities.adviser.legalName}, SEBI RIA{" "}
+              {siteConfig.entities.adviser.sebiRegistrationNumber}.
             </p>
           </div>
         </div>

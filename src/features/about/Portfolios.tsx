@@ -21,8 +21,8 @@ export default function Portfolios() {
               Different people, different portfolios
             </h2>
             <p className="max-w-[46ch] text-pretty text-lead text-grey-600">
-              After KYC, a risk assessment shows how comfortable you are with ups and downs. Your portfolio follows
-              from it, whether you want a steadier ride, a balance, or more growth.
+              After KYC, a risk assessment shows how comfortable you are with ups and downs. Your portfolio
+              follows from it, whether you want a steadier ride, a balance, or more growth.
             </p>
           </div>
           <ButtonLink href="/#book-a-call" size="lg" data-ph-event="Book a Free Call" className="self-start">
@@ -31,7 +31,10 @@ export default function Portfolios() {
         </div>
 
         <ProductWindow title="Risk profile" meta="Example" bodyClassName="p-0 sm:p-0">
-          <div aria-hidden="true" className="flex items-center justify-between gap-4 border-b border-line px-4 py-3 text-xs font-medium text-grey-500 sm:px-6">
+          <div
+            aria-hidden="true"
+            className="flex items-center justify-between gap-4 border-b border-line px-4 py-3 text-xs font-medium text-grey-500 sm:px-6"
+          >
             <span>Profile</span>
             <span className="w-24 sm:w-36">Ups and downs</span>
           </div>

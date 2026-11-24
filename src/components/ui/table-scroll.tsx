@@ -16,7 +16,7 @@ export function TableScroll({ label, children }: { label: string; children: Reac
         {children}
       </div>
       <figcaption className="mt-2 text-xs text-grey-600 md:hidden" aria-hidden="true">
-        Swipe sideways to see all columns →
+        Swipe sideways to see all columns
       </figcaption>
     </figure>
   );

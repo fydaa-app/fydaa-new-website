@@ -20,13 +20,13 @@ the app.
 
 ### What we considered and rejected
 
-| Idea | Why not |
-| --- | --- |
-| Dark "neo-bank" site, glowing green on near-black | The default look for fintech today; hard on long legal and compliance reading |
-| Gold and purple on navy (UI UX Pro Max's fintech palette) | Generic, and not Fydaa's colours |
-| Cream background with a serif display | The most common generated-page look; reads as a lifestyle brand, not money |
-| Three equal feature cards with soft shadows | Template layout; says nothing about the product |
-| A strip of big stats under the hero | We'd have to invent numbers; real facts go in sentences and the proof band |
+| Idea                                                      | Why not                                                                       |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Dark "neo-bank" site, glowing green on near-black         | The default look for fintech today; hard on long legal and compliance reading |
+| Gold and purple on navy (UI UX Pro Max's fintech palette) | Generic, and not Fydaa's colours                                              |
+| Cream background with a serif display                     | The most common generated-page look; reads as a lifestyle brand, not money    |
+| Three equal feature cards with soft shadows               | Template layout; says nothing about the product                               |
+| A strip of big stats under the hero                       | We'd have to invent numbers; real facts go in sentences and the proof band    |
 
 ### What makes it Fydaa
 
@@ -41,20 +41,20 @@ the app.
 
 ## Colour
 
-| Role | Token | Hex | Contrast on paper |
-| --- | --- | --- | --- |
-| Paper | `paper` | `#FFFFFF` | — |
-| Mist (alternate ground) | `mist` | `#F3F7F5` | — |
-| Ink (text) | `ink` | `#0E2721` | 15.8:1 |
-| Ink 2 (secondary text) | `grey-600` | `#44544F` | 8.0:1 |
-| Muted (captions) | `grey-500` | `#5E6E69` | 5.4:1 (5.0:1 on mist) |
-| Line | `line` | `#DDE6E2` | — |
-| Jade (brand, primary) | `jade` | `#0C4A3E` | 10.2:1 |
-| Emerald (links, gains) | `emerald` | `#047857` | 5.5:1 |
-| Sprout (chart strokes only) | `sprout` | `#1A9E6E` | 3.4:1 (graphics only) |
-| Marigold (the goal) | `marigold` | `#F2A93B` | never text on paper; 5.1:1 on jade |
-| Danger | `danger` | `#B42318` | 6.6:1 |
-| Warning | `warning` | `#B45309` | 5.0:1 |
+| Role                        | Token      | Hex       | Contrast on paper                  |
+| --------------------------- | ---------- | --------- | ---------------------------------- |
+| Paper                       | `paper`    | `#FFFFFF` | —                                  |
+| Mist (alternate ground)     | `mist`     | `#F3F7F5` | —                                  |
+| Ink (text)                  | `ink`      | `#0E2721` | 15.8:1                             |
+| Ink 2 (secondary text)      | `grey-600` | `#44544F` | 8.0:1                              |
+| Muted (captions)            | `grey-500` | `#5E6E69` | 5.4:1 (5.0:1 on mist)              |
+| Line                        | `line`     | `#DDE6E2` | —                                  |
+| Jade (brand, primary)       | `jade`     | `#0C4A3E` | 10.2:1                             |
+| Emerald (links, gains)      | `emerald`  | `#047857` | 5.5:1                              |
+| Sprout (chart strokes only) | `sprout`   | `#1A9E6E` | 3.4:1 (graphics only)              |
+| Marigold (the goal)         | `marigold` | `#F2A93B` | never text on paper; 5.1:1 on jade |
+| Danger                      | `danger`   | `#B42318` | 6.6:1                              |
+| Warning                     | `warning`  | `#B45309` | 5.0:1                              |
 
 Jade is the only primary colour. Green means growth or done; red means loss or error.
 
@@ -62,15 +62,15 @@ Jade is the only primary colour. Green means growth or done; red means loss or e
 
 One family: **Mona Sans** (variable weight and width), loaded with `next/font`.
 
-| Step | Token | Size | Width / weight |
-| --- | --- | --- | --- |
-| Display (page title) | `text-display` | 40 → 80px | 112 / 700, −0.035em |
-| Heading (section) | `text-heading` | 30 → 48px | 108 / 650, −0.025em |
-| Title (card, step) | `text-title` | 18 → 22px | 104 / 600 |
-| Lead | `text-lead` | 17 → 20px | 100 / 400 |
-| Body | `text-base` | 16px | 100 / 400, line height 1.6 |
-| Small | `text-sm` | 14px | 100 / 500 |
-| Figure (money) | `text-figure` | 36 → 60px | 112 / 650, tabular |
+| Step                 | Token          | Size      | Width / weight             |
+| -------------------- | -------------- | --------- | -------------------------- |
+| Display (page title) | `text-display` | 40 → 80px | 112 / 700, −0.035em        |
+| Heading (section)    | `text-heading` | 30 → 48px | 108 / 650, −0.025em        |
+| Title (card, step)   | `text-title`   | 18 → 22px | 104 / 600                  |
+| Lead                 | `text-lead`    | 17 → 20px | 100 / 400                  |
+| Body                 | `text-base`    | 16px      | 100 / 400, line height 1.6 |
+| Small                | `text-sm`      | 14px      | 100 / 500                  |
+| Figure (money)       | `text-figure`  | 36 → 60px | 112 / 650, tabular         |
 
 Sentence case everywhere. No all-caps labels. Line length under 70 characters.
 
@@ -113,11 +113,11 @@ Timing comes from transitions.dev's motion tokens (`--duration-*`, `--ease-*` in
 
 ## Skills used to make this
 
-| Skill | Source | Used for |
-| --- | --- | --- |
-| UI UX Pro Max | nextlevelbuilder/ui-ux-pro-max-skill (MIT) | Page pattern ("Trust & Authority + Conversion"), UX rules, checklist |
-| Taste | Leonxlnx/taste-skill (MIT), rules distilled into `fydaa-design` | Removing generic decisions; motion layers; copy tells |
-| Frontend Design | anthropics/skills (Apache 2.0) | Direction, plan-then-critique process, restraint |
-| Transitions | Jakubantalik/transitions.dev | Motion tokens and interaction recipes |
-| Web Artifacts Builder | anthropics/skills (Apache 2.0) | Prototypes only |
-| Fydaa brand | this repo, structured after Anthropic's brand-guidelines | Logo, colour, type, voice, compliance |
+| Skill                 | Source                                                          | Used for                                                             |
+| --------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------- |
+| UI UX Pro Max         | nextlevelbuilder/ui-ux-pro-max-skill (MIT)                      | Page pattern ("Trust & Authority + Conversion"), UX rules, checklist |
+| Taste                 | Leonxlnx/taste-skill (MIT), rules distilled into `fydaa-design` | Removing generic decisions; motion layers; copy tells                |
+| Frontend Design       | anthropics/skills (Apache 2.0)                                  | Direction, plan-then-critique process, restraint                     |
+| Transitions           | Jakubantalik/transitions.dev                                    | Motion tokens and interaction recipes                                |
+| Web Artifacts Builder | anthropics/skills (Apache 2.0)                                  | Prototypes only                                                      |
+| Fydaa brand           | this repo, structured after Anthropic's brand-guidelines        | Logo, colour, type, voice, compliance                                |

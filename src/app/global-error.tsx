@@ -40,7 +40,15 @@ export default function GlobalError({
           colorScheme: "light",
         }}
       >
-        <main style={{ width: "100%", maxWidth: "72rem", margin: "0 auto", padding: "6rem 1.5rem", boxSizing: "border-box" }}>
+        <main
+          style={{
+            width: "100%",
+            maxWidth: "72rem",
+            margin: "0 auto",
+            padding: "6rem 1.5rem",
+            boxSizing: "border-box",
+          }}
+        >
           <h1
             style={{
               fontSize: "clamp(2.25rem, 1.6rem + 2.8vw, 3.75rem)",
@@ -53,7 +61,15 @@ export default function GlobalError({
           >
             Something went wrong
           </h1>
-          <p style={{ fontSize: "1.125rem", lineHeight: 1.55, color: TOKENS.ink2, maxWidth: "52ch", margin: "0 0 2rem" }}>
+          <p
+            style={{
+              fontSize: "1.125rem",
+              lineHeight: 1.55,
+              color: TOKENS.ink2,
+              maxWidth: "52ch",
+              margin: "0 0 2rem",
+            }}
+          >
             Fydaa couldn&apos;t load this page. Try again in a moment.
           </p>
           <button

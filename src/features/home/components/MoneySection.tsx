@@ -75,7 +75,13 @@ function WealthScore() {
             <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-mist">
               <div
                 className="score-bar h-full rounded-full"
-                style={{ width: `${p.value}%`, background: TONE[p.tone as keyof typeof TONE], "--i": i } as CSSProperties}
+                style={
+                  {
+                    width: `${p.value}%`,
+                    background: TONE[p.tone as keyof typeof TONE],
+                    "--i": i,
+                  } as CSSProperties
+                }
               />
             </div>
           </li>
@@ -127,7 +133,8 @@ export default function MoneySection() {
             See all your money, and how healthy it is
           </h2>
           <p className="max-w-[56ch] text-lead text-grey-600">
-            Link your accounts once. Fydaa adds up what you own and owe, and scores how well it&apos;s working.
+            Link your accounts once. Fydaa adds up what you own and owe, and scores how well it&apos;s
+            working.
           </p>
         </div>
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-8">

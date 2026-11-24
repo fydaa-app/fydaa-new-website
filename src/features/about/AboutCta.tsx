@@ -15,8 +15,8 @@ export default function AboutCta() {
             Start with a free call
           </h2>
           <p className="max-w-[46ch] text-lead text-grey-600">
-            Leave your number and a relationship manager will call you back. Or get the app and set up your first
-            goal yourself.
+            Leave your number and a relationship manager will call you back. Or get the app and set up your
+            first goal yourself.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">

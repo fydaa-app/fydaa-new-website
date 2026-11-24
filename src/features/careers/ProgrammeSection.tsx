@@ -31,13 +31,15 @@ export default function ProgrammeSection() {
       <Container className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-16">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-3">
-            <p className="text-sm font-semibold text-emerald">FYIAEP, the Young Investment Advisor Entrepreneurship Programme</p>
+            <p className="text-sm font-semibold text-emerald">
+              FYIAEP, the Young Investment Advisor Entrepreneurship Programme
+            </p>
             <h2 id="programme-title" className="max-w-[16ch] text-heading text-ink">
               Start a career in investment advice
             </h2>
             <p className="max-w-[52ch] text-lead text-grey-600">
-              Four months that take you from NISM certification to meetings with real clients, with hands-on mentorship
-              from SEBI-registered investment advisers.
+              Four months that take you from NISM certification to meetings with real clients, with hands-on
+              mentorship from SEBI-registered investment advisers.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -75,7 +77,10 @@ export default function ProgrammeSection() {
           ))}
           <li className="grid gap-x-6 gap-y-1 border-y border-line py-5 sm:grid-cols-[7rem_minmax(0,1fr)]">
             <p className="flex items-center gap-2 self-start text-sm font-semibold text-jade sm:pt-1">
-              <i aria-hidden="true" className="ml-0.5 block h-3.5 w-1.5 -rotate-[38deg] rounded-full bg-marigold" />
+              <i
+                aria-hidden="true"
+                className="ml-0.5 block h-3.5 w-1.5 -rotate-[38deg] rounded-full bg-marigold"
+              />
               Then
             </p>
             <div>

@@ -52,7 +52,9 @@ describe("JobApplicationModal", () => {
     await user.upload(screen.getByLabelText("CV"), cv());
     await user.click(screen.getByRole("button", { name: "Submit application" }));
 
-    expect(await screen.findByRole("heading", { name: "Thanks, we've got your application" })).toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", { name: "Thanks, we've got your application" }),
+    ).toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledTimes(1);
     const [url, init] = fetchMock.mock.calls[0]!;
     expect(url).toBe(`${env.api.crm}referrals/apply`);
@@ -80,7 +82,10 @@ describe("RegisterCvModal", () => {
     await user.click(within(dialog).getByRole("button", { name: "Register CV" }));
 
     expect(await screen.findByRole("heading", { name: "Thanks, we've got your CV" })).toBeInTheDocument();
-    expect(fetchMock).toHaveBeenCalledWith("/api/careers/cv-register", expect.objectContaining({ method: "POST" }));
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/careers/cv-register",
+      expect.objectContaining({ method: "POST" }),
+    );
 
     await user.click(screen.getByRole("button", { name: "Done" }));
     expect(onClose).toHaveBeenCalled();

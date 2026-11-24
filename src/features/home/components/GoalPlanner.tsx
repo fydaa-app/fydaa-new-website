@@ -105,7 +105,12 @@ function ProjectionChart({ monthly, years, rate }: { monthly: number; years: num
   const endY = H - PAD - ((value[25] ?? 0) / max) * (H - PAD * 2);
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="block h-20 w-full sm:h-24" preserveAspectRatio="none" aria-hidden="true">
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      className="block h-20 w-full sm:h-24"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
       <defs>
         <linearGradient id={gid} x1="0" x2="0" y1="0" y2="1">
           <stop offset="0" stopColor="#1A9E6E" stopOpacity="0.18" />
@@ -122,9 +127,26 @@ function ProjectionChart({ monthly, years, rate }: { monthly: number; years: num
         strokeDasharray="1 5"
         vectorEffect="non-scaling-stroke"
       />
-      <path d={valuePath} fill="none" stroke="#1A9E6E" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      <path
+        d={valuePath}
+        fill="none"
+        stroke="#1A9E6E"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
       {/* The goal flag: the logo's round-capped stroke, in marigold. */}
-      <line x1={W - PAD} x2={W - PAD} y1={H - PAD} y2={Math.max(PAD, endY)} stroke="#F2A93B" strokeWidth="3" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+      <line
+        x1={W - PAD}
+        x2={W - PAD}
+        y1={H - PAD}
+        y2={Math.max(PAD, endY)}
+        stroke="#F2A93B"
+        strokeWidth="3"
+        strokeLinecap="round"
+        vectorEffect="non-scaling-stroke"
+      />
     </svg>
   );
 }
@@ -239,7 +261,13 @@ export default function GoalPlanner() {
 
           <div className="flex flex-col gap-2">
             <span className="text-sm font-semibold text-ink [font-stretch:104%]">For</span>
-            <SegmentedControl label="Years" options={YEAR_OPTIONS} value={years} onChange={setYears} className="grid grid-cols-6" />
+            <SegmentedControl
+              label="Years"
+              options={YEAR_OPTIONS}
+              value={years}
+              onChange={setYears}
+              className="grid grid-cols-6"
+            />
           </div>
         </div>
 
@@ -261,14 +289,19 @@ export default function GoalPlanner() {
           <div className="mt-3">
             <ProjectionChart monthly={monthly} years={years} rate={info.rate} />
           </div>
-          <Link href={signupHref} className="btn btn-primary btn-lg mt-3 w-full" data-ph-event="Start this SIP">
+          <Link
+            href={signupHref}
+            className="btn btn-primary btn-lg mt-3 w-full"
+            data-ph-event="Start this SIP"
+          >
             Start this SIP
           </Link>
         </div>
       </div>
       <p className="mt-3 text-xs leading-relaxed text-grey-500">
-        Illustration only, at an assumed {info.rate}% a year based on the category&apos;s past returns. Returns are not
-        guaranteed. Mutual fund investments are subject to market risks; read all scheme documents carefully.
+        Illustration only, at an assumed {info.rate}% a year based on the category&apos;s past returns.
+        Returns are not guaranteed. Mutual fund investments are subject to market risks; read all scheme
+        documents carefully.
       </p>
     </div>
   );

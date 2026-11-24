@@ -39,7 +39,9 @@
   }
   .btn-primary {
     @apply bg-jade text-white hover:bg-jade-hover;
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 1px 2px rgb(14 39 33 / 0.18);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.08),
+      0 1px 2px rgb(14 39 33 / 0.18);
   }
   .btn-secondary {
     @apply border border-line bg-white text-ink hover:border-grey-300 hover:bg-mist;
@@ -108,15 +110,28 @@
     scrollbar-width: thin;
     scrollbar-color: #c9d4d0 transparent;
   }
-  .scrollbar-thin::-webkit-scrollbar { width: 5px; }
-  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-  .scrollbar-thin::-webkit-scrollbar-thumb { background: #c9d4d0; border-radius: 3px; }
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #98a6a1; }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 5px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #c9d4d0;
+    border-radius: 3px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: #98a6a1;
+  }
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
@@ -184,7 +199,8 @@ html {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background: #ffffff;
@@ -355,7 +371,8 @@ body {
 }
 
 /* Both card faces - FIXED VERSION */
-.card-front, .card-back {
+.card-front,
+.card-back {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -487,11 +504,11 @@ body {
 
 /* Hide scrollbar but keep scroll functionality */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
 }
-.scrollbar-hide::-webkit-scrollbar { 
-  display: none;  /* Safari and Chrome */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
 /* Slide-in animations for Dreams component */
@@ -717,7 +734,9 @@ body.fydaa-hide-site-chrome .fydaa-auth-main {
     height: 0;
     border-radius: 9px;
     background: #ffffff;
-    box-shadow: 0 1px 2px rgb(14 39 33 / 0.1), 0 0 0 1px rgb(14 39 33 / 0.06);
+    box-shadow:
+      0 1px 2px rgb(14 39 33 / 0.1),
+      0 0 0 1px rgb(14 39 33 / 0.06);
     pointer-events: none;
     transition:
       transform var(--tabs-dur) var(--tabs-ease),

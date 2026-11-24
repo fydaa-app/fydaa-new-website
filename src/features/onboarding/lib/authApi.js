@@ -1,26 +1,22 @@
-import { ADMIN_BASE, AUTH_BASE, ONBOARDING_BASE, STOCK_BASE } from './apiHosts';
+import { ADMIN_BASE, AUTH_BASE, ONBOARDING_BASE, STOCK_BASE } from "./apiHosts";
 import {
   getAccessToken as readAccessToken,
   getTokenExpiry,
   isTokenExpired,
   PIN_SETUP_KEY as PIN_SETUP_STORAGE_KEY,
   setTokens,
-} from '@/lib/auth/token-store';
-import { endSession as endAuthSession } from '@/lib/auth/session';
+} from "@/lib/auth/token-store";
+import { endSession as endAuthSession } from "@/lib/auth/session";
 
-export {
-  getAccessToken,
-  clearTokens,
-  PIN_SETUP_KEY,
-} from '@/lib/auth/token-store';
-export { endSession } from '@/lib/auth/session';
+export { getAccessToken, clearTokens, PIN_SETUP_KEY } from "@/lib/auth/token-store";
+export { endSession } from "@/lib/auth/session";
 
-function messageFrom(data, fallback = 'Something went wrong. Please try again.') {
+function messageFrom(data, fallback = "Something went wrong. Please try again.") {
   const message = data?.message ?? data?.error;
-  if (typeof message === 'string' && message) return message;
+  if (typeof message === "string" && message) return message;
   if (Array.isArray(message) && message.length) {
     const first = message[0];
-    if (typeof first === 'string') return first;
+    if (typeof first === "string") return first;
     if (first?.message) return first.message;
   }
   return fallback;
@@ -28,15 +24,15 @@ function messageFrom(data, fallback = 'Something went wrong. Please try again.')
 
 function extractTokens(data) {
   // verifyOtp: { data: { accessToken, refreshToken }, message: "OTP verified" }
-  const body = data?.data && typeof data.data === 'object' ? data.data : data;
+  const body = data?.data && typeof data.data === "object" ? data.data : data;
   const access =
     body?.accessToken ||
     body?.access_token ||
     data?.authorisation?.token ||
     data?.authorization?.token ||
     data?.token ||
-    '';
-  const refresh = body?.refreshToken || body?.refresh_token || data?.refreshToken || '';
+    "";
+  const refresh = body?.refreshToken || body?.refresh_token || data?.refreshToken || "";
   return { access, refresh };
 }
 
@@ -57,18 +53,18 @@ export function isAccessTokenExpired() {
 
 export function resolvePinSetupType(stage = {}) {
   const type = stage?.pinSetupType;
-  if (type === 'NEW_USER' || type === 'LEGACY_MIGRATION' || type === 'COMPLETED') return type;
-  const created = stage?.isPinCreated === true || stage?.isPinCreated === 1 || stage?.isPinCreated === 'true';
-  if (created) return 'COMPLETED';
+  if (type === "NEW_USER" || type === "LEGACY_MIGRATION" || type === "COMPLETED") return type;
+  const created = stage?.isPinCreated === true || stage?.isPinCreated === 1 || stage?.isPinCreated === "true";
+  if (created) return "COMPLETED";
   const legacy =
     stage?.hasLegacyV1Pin === true ||
     stage?.hasLegacyV1Pin === 1 ||
-    stage?.hasLegacyV1Pin === 'true' ||
+    stage?.hasLegacyV1Pin === "true" ||
     stage?.hadLegacyPin === true ||
     stage?.hadLegacyPin === 1 ||
-    stage?.hadLegacyPin === 'true';
-  if (legacy) return 'LEGACY_MIGRATION';
-  return 'NEW_USER';
+    stage?.hadLegacyPin === "true";
+  if (legacy) return "LEGACY_MIGRATION";
+  return "NEW_USER";
 }
 
 async function parseJson(res) {
@@ -85,9 +81,9 @@ export async function postForm(path, fields) {
     if (value === undefined || value === null) return;
     body.append(key, String(value));
   });
-  const res = await fetch(`${AUTH_BASE}${path.replace(/^\//, '')}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
+  const res = await fetch(`${AUTH_BASE}${path.replace(/^\//, "")}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
     body,
   });
   const data = await parseJson(res);
@@ -100,17 +96,17 @@ export async function postForm(path, fields) {
 /** Form POST with Bearer token (user/* endpoints). */
 export async function postFormAuth(path, fields) {
   const token = readAccessToken();
-  if (!token) throw new Error('Authentication failed');
+  if (!token) throw new Error("Authentication failed");
   const body = new URLSearchParams();
   Object.entries(fields).forEach(([key, value]) => {
     if (value === undefined || value === null) return;
     body.append(key, String(value));
   });
-  const res = await fetch(`${AUTH_BASE}${path.replace(/^\//, '')}`, {
-    method: 'POST',
+  const res = await fetch(`${AUTH_BASE}${path.replace(/^\//, "")}`, {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Accept: 'application/json',
+      "Content-Type": "application/x-www-form-urlencoded",
+      Accept: "application/json",
       Authorization: `Bearer ${token}`,
     },
     body,
@@ -118,52 +114,56 @@ export async function postFormAuth(path, fields) {
   const data = await parseJson(res);
   if (res.status === 401) endAuthSession();
   if (!(res.status === 200 || res.status === 201) || data?.error === true || data?.status === false) {
-    throw new Error(messageFrom(data, 'Something went wrong, try again after sometime.'));
+    throw new Error(messageFrom(data, "Something went wrong, try again after sometime."));
   }
   return data;
 }
 
 export async function requestLinkEmail({ email }) {
-  return postFormAuth('user/requestLinkEmail', { email });
+  return postFormAuth("user/requestLinkEmail", { email });
 }
 
 export async function verifyLinkEmail({ email, otp }) {
-  return postFormAuth('user/verifyLinkEmail', { email, otp });
+  return postFormAuth("user/verifyLinkEmail", { email, otp });
 }
 
 export async function linkEmail({ email, provider }) {
   const { res, data } = await postJson(
-    'user/linkEmail',
+    "user/linkEmail",
     { email, provider },
-    { auth: true, base: AUTH_BASE }
+    { auth: true, base: AUTH_BASE },
   );
   if (!(res.status === 200 || res.status === 201) || data?.error === true || data?.status === false) {
-    throw new Error(messageFrom(data, 'Something went wrong, try again after sometime.'));
+    throw new Error(messageFrom(data, "Something went wrong, try again after sometime."));
   }
   return data;
 }
 
 export async function postJson(path, body, { auth = false, base = AUTH_BASE } = {}) {
   const headers = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
+    Accept: "application/json",
+    "Content-Type": "application/json",
   };
   if (auth) {
     const token = readAccessToken();
-    if (!token) throw new Error('Authentication failed');
+    if (!token) throw new Error("Authentication failed");
     headers.Authorization = `Bearer ${token}`;
   }
-  const res = await fetch(`${base}${path.replace(/^\//, '')}`, {
-    method: 'POST',
+  const res = await fetch(`${base}${path.replace(/^\//, "")}`, {
+    method: "POST",
     headers,
     body: JSON.stringify(body ?? {}),
   });
   const data = await parseJson(res);
   if (auth && res.status === 401) endAuthSession();
   const statusOk = res.status === 200 || res.status === 201;
-  const statusTrue = data?.status === true || data?.status === 'true';
+  const statusTrue = data?.status === true || data?.status === "true";
   const hasToken = Boolean(extractTokens(data).access);
-  if (!statusOk || data?.error === true || (data?.status === false && !hasToken && !statusTrue && path.includes('verifyPin') === false)) {
+  if (
+    !statusOk ||
+    data?.error === true ||
+    (data?.status === false && !hasToken && !statusTrue && path.includes("verifyPin") === false)
+  ) {
     // verifyPin / createPin handled by callers with finer rules when needed
     if (!statusOk || data?.error === true || data?.status === false) {
       if (!(statusOk && (statusTrue || hasToken))) {
@@ -175,13 +175,13 @@ export async function postJson(path, body, { auth = false, base = AUTH_BASE } = 
 }
 
 export async function getJson(path, { auth = true, base = AUTH_BASE } = {}) {
-  const headers = { Accept: 'application/json' };
+  const headers = { Accept: "application/json" };
   if (auth) {
     const token = readAccessToken();
-    if (!token) throw new Error('Authentication failed');
+    if (!token) throw new Error("Authentication failed");
     headers.Authorization = `Bearer ${token}`;
   }
-  const res = await fetch(`${base}${path.replace(/^\//, '')}`, { headers });
+  const res = await fetch(`${base}${path.replace(/^\//, "")}`, { headers });
   const data = await parseJson(res);
   if (auth && res.status === 401) endAuthSession();
   if (!(res.status === 200 || res.status === 201) || data?.error === true) {
@@ -192,16 +192,16 @@ export async function getJson(path, { auth = true, base = AUTH_BASE } = {}) {
 
 export async function putJson(path, body = {}, { auth = true, base = STOCK_BASE } = {}) {
   const headers = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
+    Accept: "application/json",
+    "Content-Type": "application/json",
   };
   if (auth) {
     const token = readAccessToken();
-    if (!token) throw new Error('Authentication failed');
+    if (!token) throw new Error("Authentication failed");
     headers.Authorization = `Bearer ${token}`;
   }
-  const res = await fetch(`${base}${path.replace(/^\//, '')}`, {
-    method: 'PUT',
+  const res = await fetch(`${base}${path.replace(/^\//, "")}`, {
+    method: "PUT",
     headers,
     body: JSON.stringify(body),
   });
@@ -217,37 +217,37 @@ export async function putJson(path, body = {}, { auth = true, base = STOCK_BASE 
 export async function checkMobile(mobileNumber) {
   const qs = new URLSearchParams({ mobileNumber: String(mobileNumber) });
   const res = await fetch(`${AUTH_BASE}auth/check-mobile?${qs}`, {
-    method: 'GET',
-    headers: { Accept: 'application/json' },
+    method: "GET",
+    headers: { Accept: "application/json" },
   });
   const data = await parseJson(res);
   if (!(res.status === 200 || res.status === 201) || data?.error === true) {
-    throw new Error(messageFrom(data, 'Could not verify mobile number. Please try again.'));
+    throw new Error(messageFrom(data, "Could not verify mobile number. Please try again."));
   }
   return data;
 }
 
 export async function requestOtp({ mobileNumber, referredBy, whatsapp = true }) {
   const fields = {
-    callingCode: '+91',
+    callingCode: "+91",
     mobileNumber,
-    deviceId: 'appSignature',
-    isWhatsappOptin: whatsapp ? 'true' : 'false',
-    fromApp: 'fydaa',
+    deviceId: "appSignature",
+    isWhatsappOptin: whatsapp ? "true" : "false",
+    fromApp: "fydaa",
   };
   if (referredBy) fields.referredBy = referredBy;
-  return postForm('auth/requestOtp', fields);
+  return postForm("auth/requestOtp", fields);
 }
 
 export async function verifyOtp({ mobileNumber, otp }) {
-  const data = await postForm('auth/verifyOtp', {
+  const data = await postForm("auth/verifyOtp", {
     mobileNumber,
     otp,
-    referralCode: '',
+    referralCode: "",
   });
   const token = storeTokens(data);
-  if (!token) throw new Error('Something went wrong. Please try again.');
-  if (typeof window !== 'undefined' && data?.data?.pinSetupType) {
+  if (!token) throw new Error("Something went wrong. Please try again.");
+  if (typeof window !== "undefined" && data?.data?.pinSetupType) {
     localStorage.setItem(PIN_SETUP_STORAGE_KEY, String(data.data.pinSetupType));
   }
   return data;
@@ -255,54 +255,57 @@ export async function verifyOtp({ mobileNumber, otp }) {
 
 export async function verifyPin({ mobileNumber, pin }) {
   const res = await fetch(`${AUTH_BASE}auth/verifyPin`, {
-    method: 'POST',
-    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { Accept: "application/json", "Content-Type": "application/json" },
     body: JSON.stringify({ mobileNumber, pin }),
   });
   const data = await parseJson(res);
-  if (res.status === 429) throw new Error(messageFrom(data, 'Too many failed attempts. Try again after 15 minutes.'));
-  if (res.status === 401) throw new Error('Wrong pin');
+  if (res.status === 429)
+    throw new Error(messageFrom(data, "Too many failed attempts. Try again after 15 minutes."));
+  if (res.status === 401) throw new Error("Wrong pin");
   if (res.status === 404) {
-    const msg = messageFrom(data, 'Invalid mobile number');
+    const msg = messageFrom(data, "Invalid mobile number");
     throw new Error(msg);
   }
   const blocked =
     data?.blocked === true ||
-    String(data?.platform || '').toLowerCase() === 'savestment' ||
-    String(data?.user_details?.[0]?.from_app || data?.user_details?.[0]?.fromApp || data?.data?.fromApp || '')
-      .toLowerCase() === 'savestment';
+    String(data?.platform || "").toLowerCase() === "savestment" ||
+    String(
+      data?.user_details?.[0]?.from_app || data?.user_details?.[0]?.fromApp || data?.data?.fromApp || "",
+    ).toLowerCase() === "savestment";
   if (blocked) throw new Error(messageFrom(data, "You can't login as you are Savestment user"));
   const token = extractTokens(data).access;
-  const ok = (res.status === 200 || res.status === 201) && (data?.status === true || data?.status === 'true' || token);
-  if (!ok) throw new Error(messageFrom(data, 'Invalid pin. Please try again.'));
+  const ok =
+    (res.status === 200 || res.status === 201) && (data?.status === true || data?.status === "true" || token);
+  if (!ok) throw new Error(messageFrom(data, "Invalid pin. Please try again."));
   storeTokens(data);
   return data;
 }
 
 export async function createPin({ pin, confirmPin }) {
-  const { res, data } = await postJson('auth/createPin', { pin, confirmPin }, { auth: true });
-  if (!(res.status === 200 || res.status === 201) || !(data?.status === true || data?.status === 'true')) {
+  const { res, data } = await postJson("auth/createPin", { pin, confirmPin }, { auth: true });
+  if (!(res.status === 200 || res.status === 201) || !(data?.status === true || data?.status === "true")) {
     throw new Error(messageFrom(data));
   }
   return data;
 }
 
 export async function getUserStage() {
-  return getJson('user/getUserStage', { auth: true, base: AUTH_BASE });
+  return getJson("user/getUserStage", { auth: true, base: AUTH_BASE });
 }
 
 export async function getUserBankDetails() {
   // Same environment as the token: a staging token must never be sent to production.
-  const { data } = await postJson('user/user-details', {}, { auth: true, base: AUTH_BASE });
+  const { data } = await postJson("user/user-details", {}, { auth: true, base: AUTH_BASE });
   return data;
 }
 
 export async function getUserDetails() {
-  return getJson('userDetails', { auth: true, base: ADMIN_BASE });
+  return getJson("userDetails", { auth: true, base: ADMIN_BASE });
 }
 
 export async function getRiskQuestionnaire() {
-  const data = await getJson('risk-profile-questionnaire/getRiskProfileQuestionnaire', {
+  const data = await getJson("risk-profile-questionnaire/getRiskProfileQuestionnaire", {
     auth: true,
     base: ONBOARDING_BASE,
   });
@@ -312,33 +315,33 @@ export async function getRiskQuestionnaire() {
 
 export async function createUserRiskProfile(option) {
   const { res, data } = await postJson(
-    'risk-profile/createUserRiskProfile',
+    "risk-profile/createUserRiskProfile",
     { option },
-    { auth: true, base: ONBOARDING_BASE }
+    { auth: true, base: ONBOARDING_BASE },
   );
   if (!(res.status === 200 || res.status === 201) || data?.error === true) {
-    throw new Error(messageFrom(data, 'Something went wrong. Try again after sometime.'));
+    throw new Error(messageFrom(data, "Something went wrong. Try again after sometime."));
   }
   return data;
 }
 
 export async function updatePortfoliosSoft() {
   try {
-    await putJson('orders/sips/update-portfolios', {}, { auth: true, base: STOCK_BASE });
+    await putJson("orders/sips/update-portfolios", {}, { auth: true, base: STOCK_BASE });
   } catch {
     /* non-blocking */
   }
 }
 
 export async function getRiskIndicators() {
-  return getJson('risk-profile/getIndicators', { auth: true, base: ONBOARDING_BASE });
+  return getJson("risk-profile/getIndicators", { auth: true, base: ONBOARDING_BASE });
 }
 
 /** Unwrap getIndicators payload whether returned flat or under `.data`. */
 function indicatorsRoot(data) {
-  if (!data || typeof data !== 'object') return null;
+  if (!data || typeof data !== "object") return null;
   if (data.riskProfile != null || data.riskProfileBasePoints != null) return data;
-  if (data.data && typeof data.data === 'object') return data.data;
+  if (data.data && typeof data.data === "object") return data.data;
   return data;
 }
 
@@ -355,19 +358,19 @@ export function scoreFromIndicators(indicators) {
 }
 
 export function bandFromScore(score) {
-  if (score <= 30) return 'Ultra Conservative';
-  if (score <= 40) return 'Very Conservative';
-  if (score <= 50) return 'Conservative';
-  if (score <= 60) return 'Moderately Conservative';
-  if (score <= 70) return 'Moderately Aggressive';
-  if (score <= 80) return 'Aggressive';
-  return 'Very Aggressive';
+  if (score <= 30) return "Ultra Conservative";
+  if (score <= 40) return "Very Conservative";
+  if (score <= 50) return "Conservative";
+  if (score <= 60) return "Moderately Conservative";
+  if (score <= 70) return "Moderately Aggressive";
+  if (score <= 80) return "Aggressive";
+  return "Very Aggressive";
 }
 
 /** Prefer API portfolio name from getIndicators; fall back to score thresholds. */
 export function bandFromIndicators(indicators) {
   const root = indicatorsRoot(indicators);
   const name = root?.assetAllocation?.smallCasePortfolioName;
-  if (typeof name === 'string' && name.trim()) return name.trim();
+  if (typeof name === "string" && name.trim()) return name.trim();
   return bandFromScore(scoreFromIndicators(indicators));
 }

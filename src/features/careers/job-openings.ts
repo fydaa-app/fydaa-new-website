@@ -45,7 +45,9 @@ export function jobSummary(job: Pick<JobOpening, "location" | "experienceRange">
  * Tags worth showing next to the job facts: drops tags that repeat the location or team, and
  * experience tags when the listing already has an experience range (they can disagree).
  */
-export function jobTags(job: Pick<JobOpening, "tags" | "location" | "division" | "experienceRange">): string[] {
+export function jobTags(
+  job: Pick<JobOpening, "tags" | "location" | "division" | "experienceRange">,
+): string[] {
   const repeats = [job.location, job.division].filter(Boolean).map((value) => value!.toLowerCase());
   return job.tags.filter((tag) => {
     if (repeats.includes(tag.toLowerCase())) return false;
@@ -77,11 +79,15 @@ function responsibilities(value: unknown): string[] | ResponsibilitiesData {
   if (Array.isArray(value)) {
     if (value.every((entry) => typeof entry === "string")) return stringList(value);
     return value
-      .filter((entry): entry is { heading?: unknown; items?: unknown } => Boolean(entry && typeof entry === "object"))
+      .filter((entry): entry is { heading?: unknown; items?: unknown } =>
+        Boolean(entry && typeof entry === "object"),
+      )
       .map((entry) => ({
         heading: text(entry.heading),
         items: (Array.isArray(entry.items) ? entry.items : [])
-          .filter((item): item is { item?: unknown; subItems?: unknown } => Boolean(item && typeof item === "object"))
+          .filter((item): item is { item?: unknown; subItems?: unknown } =>
+            Boolean(item && typeof item === "object"),
+          )
           .map((item) => ({ item: text(item.item), subItems: stringList(item.subItems) })),
       }));
   }
@@ -144,7 +150,8 @@ function escapeHtml(value: string): string {
 
 function descriptionHtml(job: JobOpening): string {
   const parts = job.about ? [`<p>${escapeHtml(job.about)}</p>`] : [];
-  const list = (items: string[]) => `<ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+  const list = (items: string[]) =>
+    `<ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
   if (job.responsibilities.length && typeof job.responsibilities[0] === "string") {
     parts.push(`<h3>Responsibilities</h3>${list(job.responsibilities as string[])}`);
   } else {

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useId, useRef } from 'react';
-import { SuccessCheck } from './UI';
+import React, { useEffect, useId, useRef } from "react";
+import { SuccessCheck } from "./UI";
 
 /**
  * The PAN check's answer: already KYC-compliant (a success check draws), needs KYC, or needs a
@@ -13,10 +13,10 @@ import { SuccessCheck } from './UI';
 export default function KycModal({
   open,
   onComplete,
-  status = 'noncompliant',
-  title = 'Complete your KYC',
-  subtitle = 'Your KYC needs to be completed before you can invest.',
-  cta = 'Complete your KYC',
+  status = "noncompliant",
+  title = "Complete your KYC",
+  subtitle = "Your KYC needs to be completed before you can invest.",
+  cta = "Complete your KYC",
 }) {
   const titleId = useId();
   const bodyId = useId();
@@ -27,14 +27,14 @@ export default function KycModal({
     ctaRef.current?.focus();
     const root = document.documentElement;
     const previousOverflow = root.style.overflow;
-    root.style.overflow = 'hidden';
+    root.style.overflow = "hidden";
     return () => {
       root.style.overflow = previousOverflow;
     };
   }, [open]);
 
   if (!open) return null;
-  const ok = status === 'compliant';
+  const ok = status === "compliant";
 
   return (
     <div className="fixed inset-0 z-[200] flex items-end justify-center p-4 sm:items-center sm:p-6">
@@ -46,7 +46,7 @@ export default function KycModal({
         aria-describedby={bodyId}
         onKeyDown={(event) => {
           // One focusable control: keep Tab on it.
-          if (event.key === 'Tab') {
+          if (event.key === "Tab") {
             event.preventDefault();
             ctaRef.current?.focus();
           }
@@ -56,7 +56,10 @@ export default function KycModal({
         {ok ? (
           <SuccessCheck className="size-14" />
         ) : (
-          <span aria-hidden="true" className="flex size-14 items-center justify-center rounded-full bg-marigold-tint">
+          <span
+            aria-hidden="true"
+            className="flex size-14 items-center justify-center rounded-full bg-marigold-tint"
+          >
             <span className="flex gap-1.5">
               <i className="block h-6 w-2 -rotate-[38deg] rounded-full bg-marigold" />
               <i className="block h-6 w-2 -rotate-[38deg] rounded-full bg-marigold/50" />

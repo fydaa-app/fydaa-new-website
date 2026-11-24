@@ -285,8 +285,19 @@ export function Upload({
               key={i}
               className="flex min-w-0 items-center gap-2 rounded-btn bg-mist py-1 pl-3 pr-1 text-sm text-grey-600"
             >
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-grey-500">
-                <path d="M4 14h8a1 1 0 001-1V5l-4-4H4a1 1 0 00-1 1v11a1 1 0 001 1z" stroke="currentColor" strokeWidth="1.2" />
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+                className="shrink-0 text-grey-500"
+              >
+                <path
+                  d="M4 14h8a1 1 0 001-1V5l-4-4H4a1 1 0 00-1 1v11a1 1 0 001 1z"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                />
                 <path d="M9 1v4h4" stroke="currentColor" strokeWidth="1.2" />
               </svg>
               <span className="min-w-0 flex-1 truncate">{f.name}</span>
@@ -298,7 +309,12 @@ export function Upload({
                 className="inline-flex size-11 shrink-0 items-center justify-center rounded-btn text-grey-500 transition-colors duration-quick hover:bg-white hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-jade"
               >
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                  <path
+                    d="M4 4l8 8M12 4l-8 8"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                  />
                 </svg>
               </button>
             </li>

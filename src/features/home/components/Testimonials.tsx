@@ -21,7 +21,10 @@ export default function Testimonials() {
           <h2 id="stories-title" className="max-w-[14ch] text-heading text-ink">
             What people investing with Fydaa say
           </h2>
-          <div className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-4xl bg-ink" data-allow-clip>
+          <div
+            className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-4xl bg-ink"
+            data-allow-clip
+          >
             <video
               ref={videoRef}
               className="size-full object-cover"
@@ -30,7 +33,10 @@ export default function Testimonials() {
               preload="none"
               aria-label="Customer story video"
             >
-              <source src="https://fydaa-v2.s3.ap-south-1.amazonaws.com/public/webVideos/IMG_2372.mp4" type="video/mp4" />
+              <source
+                src="https://fydaa-v2.s3.ap-south-1.amazonaws.com/public/webVideos/IMG_2372.mp4"
+                type="video/mp4"
+              />
             </video>
             {started ? null : (
               <button
@@ -55,7 +61,10 @@ export default function Testimonials() {
 
         <ul className="flex flex-col lg:pt-2">
           {TESTIMONIALS.map((t) => (
-            <li key={t.name} className="border-t border-line py-8 first:border-t-0 first:pt-0 lg:first:border-t lg:first:pt-8">
+            <li
+              key={t.name}
+              className="border-t border-line py-8 first:border-t-0 first:pt-0 lg:first:border-t lg:first:pt-8"
+            >
               <figure className="flex flex-col gap-5">
                 <blockquote className="text-lead leading-relaxed text-ink">
                   <p>&ldquo;{t.text}&rdquo;</p>

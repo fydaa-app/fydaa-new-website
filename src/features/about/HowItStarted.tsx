@@ -18,8 +18,8 @@ export default function HowItStarted() {
             Why we started Fydaa
           </h2>
           <p className="max-w-[46ch] text-pretty text-lead text-grey-600">
-            So that everyone, whatever their income or background, can build wealth and share in the country&apos;s
-            growth. These numbers are where we started.
+            So that everyone, whatever their income or background, can build wealth and share in the
+            country&apos;s growth. These numbers are where we started.
           </p>
         </div>
         <ul className="grid gap-x-10 sm:grid-cols-2">

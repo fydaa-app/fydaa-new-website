@@ -23,7 +23,12 @@ const ACCOUNT_USES = [
 ];
 
 function Stroke() {
-  return <i aria-hidden="true" className="mt-1.5 block h-3.5 w-1.5 shrink-0 -rotate-[38deg] rounded-full bg-sprout" />;
+  return (
+    <i
+      aria-hidden="true"
+      className="mt-1.5 block h-3.5 w-1.5 shrink-0 -rotate-[38deg] rounded-full bg-sprout"
+    />
+  );
 }
 
 /** Both registrations, from siteConfig (never typed by hand). */
@@ -82,7 +87,10 @@ function PlanWindow({ plan }: { plan: SignupPlan }) {
 export function AuthAside({ mode, plan = null }: { mode: "login" | "signup"; plan?: SignupPlan | null }) {
   const isLogin = mode === "login";
   return (
-    <aside aria-label={isLogin ? "About your account" : "About Fydaa accounts"} className="flex flex-col gap-6">
+    <aside
+      aria-label={isLogin ? "About your account" : "About Fydaa accounts"}
+      className="flex flex-col gap-6"
+    >
       {!isLogin && plan ? <PlanWindow plan={plan} /> : null}
 
       <div className="rounded-4xl bg-mist p-6 sm:p-8">
@@ -90,8 +98,8 @@ export function AuthAside({ mode, plan = null }: { mode: "login" | "signup"; pla
           <>
             <h2 className="text-title text-ink">Your investments, in your name</h2>
             <p className="mt-3 max-w-[52ch] text-base leading-relaxed text-grey-600">
-              Every SIP you start on Fydaa is paid straight to the fund house (AMC) and held in your name. Fydaa never
-              holds your money. You can see each holding on{" "}
+              Every SIP you start on Fydaa is paid straight to the fund house (AMC) and held in your name.
+              Fydaa never holds your money. You can see each holding on{" "}
               <a href="https://www.mfcentral.com/" target="_blank" rel="noopener noreferrer" className="link">
                 MF Central
               </a>

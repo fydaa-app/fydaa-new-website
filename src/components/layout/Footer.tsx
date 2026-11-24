@@ -39,7 +39,15 @@ const COMPANY_LINKS = [routes.about, routes.careers, routes.partner, routes.upiF
 const columnLink =
   "flex min-h-11 items-center text-sm text-grey-600 transition-colors duration-quick hover:text-ink lg:min-h-9";
 
-function LinkColumn({ id, title, links }: { id: string; title: string; links: readonly { path: string; label: string }[] }) {
+function LinkColumn({
+  id,
+  title,
+  links,
+}: {
+  id: string;
+  title: string;
+  links: readonly { path: string; label: string }[];
+}) {
   return (
     <nav aria-labelledby={id}>
       <h2 id={id} className="mb-2 text-sm font-semibold text-ink [font-stretch:104%]">
@@ -48,7 +56,11 @@ function LinkColumn({ id, title, links }: { id: string; title: string; links: re
       <ul>
         {links.map((route) => (
           <li key={route.path}>
-            <Link href={route.path} className={columnLink} prefetch={route.path === routes.download.path ? false : undefined}>
+            <Link
+              href={route.path}
+              className={columnLink}
+              prefetch={route.path === routes.download.path ? false : undefined}
+            >
               {route.label}
             </Link>
           </li>
@@ -68,13 +80,25 @@ export default function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] lg:gap-12">
           <div className="flex flex-col gap-5 sm:col-span-2 lg:col-span-1">
             <Link href="/" aria-label={`${siteConfig.name} home`} className="w-fit">
-              <img src="/fydaa-logo.png" alt={siteConfig.name} width={409} height={147} className="h-9 w-auto" />
+              <img
+                src="/fydaa-logo.png"
+                alt={siteConfig.name}
+                width={409}
+                height={147}
+                className="h-9 w-auto"
+              />
             </Link>
             <address className="flex flex-col gap-1 text-sm not-italic leading-relaxed text-grey-600">
-              <a href={siteConfig.contact.phoneHref} className="inline-flex min-h-11 w-fit items-center font-semibold text-ink hover:text-jade lg:min-h-8">
+              <a
+                href={siteConfig.contact.phoneHref}
+                className="inline-flex min-h-11 w-fit items-center font-semibold text-ink hover:text-jade lg:min-h-8"
+              >
                 {siteConfig.contact.phone}
               </a>
-              <a href={`mailto:${siteConfig.contact.email}`} className="inline-flex min-h-11 w-fit items-center font-semibold text-ink hover:text-jade lg:min-h-8">
+              <a
+                href={`mailto:${siteConfig.contact.email}`}
+                className="inline-flex min-h-11 w-fit items-center font-semibold text-ink hover:text-jade lg:min-h-8"
+              >
                 {siteConfig.contact.email}
               </a>
               <span className="mt-1 hidden max-w-xs sm:inline">
@@ -119,12 +143,18 @@ export default function Footer() {
               </ul>
             </nav>
             <div>
-              <h2 className="mb-3 text-sm font-semibold text-ink [font-stretch:104%]">Pay advisory fees by UPI</h2>
+              <h2 className="mb-3 text-sm font-semibold text-ink [font-stretch:104%]">
+                Pay advisory fees by UPI
+              </h2>
               <div className="flex flex-wrap gap-2">
                 <Link href={routes.upiFaq.path} className={buttonClasses({ variant: "secondary" })}>
                   UPI handles
                 </Link>
-                <button type="button" onClick={() => setQrOpen(true)} className={buttonClasses({ variant: "secondary" })}>
+                <button
+                  type="button"
+                  onClick={() => setQrOpen(true)}
+                  className={buttonClasses({ variant: "secondary" })}
+                >
                   Scan QR code
                 </button>
               </div>
@@ -139,36 +169,37 @@ export default function Footer() {
           <div className="grid gap-x-10 gap-y-3 text-xs leading-relaxed text-grey-600 sm:text-[0.8125rem] lg:grid-cols-2">
             <div className="flex flex-col gap-3">
               <p>
-                By using this website, you understand the information being presented is provided for informational
-                purposes only and agree to our Terms of Service and Privacy Policy. Fydaa relies on information from
-                various sources believed to be reliable, but cannot guarantee the accuracy and completeness of that
-                information.
+                By using this website, you understand the information being presented is provided for
+                informational purposes only and agree to our Terms of Service and Privacy Policy. Fydaa relies
+                on information from various sources believed to be reliable, but cannot guarantee the accuracy
+                and completeness of that information.
               </p>
               <p>
-                The information contained in this communication is provided for general informational purposes only,
-                and should not be construed as investment advice. Any links provided to other sites are offered as a
-                matter of convenience and are not intended to imply that Fydaa or its affiliates endorses, sponsors,
-                promotes and/or is affiliated with the owners of or participants in those sites, or endorses any
-                information contained on those sites, unless expressly stated otherwise.
+                The information contained in this communication is provided for general informational purposes
+                only, and should not be construed as investment advice. Any links provided to other sites are
+                offered as a matter of convenience and are not intended to imply that Fydaa or its affiliates
+                endorses, sponsors, promotes and/or is affiliated with the owners of or participants in those
+                sites, or endorses any information contained on those sites, unless expressly stated
+                otherwise.
               </p>
               <p>
-                ‘Registration granted by SEBI, membership of BASL and certification from NISM in no way guarantee
-                performance of the intermediary or provide any assurance of returns to investors.’
+                ‘Registration granted by SEBI, membership of BASL and certification from NISM in no way
+                guarantee performance of the intermediary or provide any assurance of returns to investors.’
               </p>
               <p>
-                “Investment in securities market are subject to market risks. Read all the related documents carefully
-                before investing.”
+                “Investment in securities market are subject to market risks. Read all the related documents
+                carefully before investing.”
               </p>
             </div>
             <dl className="grid gap-3 sm:grid-cols-2">
               <div>
                 <dt className="font-semibold text-ink">{adviser.legalName}</dt>
                 <dd>
-                  Type of Registration: Non-Individual. RIA Registration Number: {adviser.sebiRegistrationNumber},
-                  Validity: Perpetual
+                  Type of Registration: Non-Individual. RIA Registration Number:{" "}
+                  {adviser.sebiRegistrationNumber}, Validity: Perpetual
                   <br />
-                  Registered Office Address: 903, Ecostar Building, Off Aarey Road, Churi Wadi, Goregaon (East), Mumbai,
-                  Maharashtra – 400063.
+                  Registered Office Address: 903, Ecostar Building, Off Aarey Road, Churi Wadi, Goregaon
+                  (East), Mumbai, Maharashtra – 400063.
                   <br />
                   GST number: {adviser.gstin}
                 </dd>
@@ -188,8 +219,8 @@ export default function Footer() {
               <div>
                 <dt className="font-semibold text-ink">SEBI regional/local address</dt>
                 <dd>
-                  SEBI Bhavan BKC, Plot No.C4-A, ‘G’ Block, Bandra-Kurla Complex, Bandra (East), Mumbai - 400051,
-                  Maharashtra
+                  SEBI Bhavan BKC, Plot No.C4-A, ‘G’ Block, Bandra-Kurla Complex, Bandra (East), Mumbai -
+                  400051, Maharashtra
                   <br />
                   E-mail: sebi@sebi.gov.in
                 </dd>
@@ -199,7 +230,8 @@ export default function Footer() {
         </section>
 
         <p className="text-sm text-grey-500">
-          © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Fydaa. Investment advice by {adviser.legalName}.
+          © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Fydaa. Investment advice by{" "}
+          {adviser.legalName}.
         </p>
       </Container>
 
@@ -243,7 +275,8 @@ function QrDialog({ onClose }: { onClose: () => void }) {
           Scan to pay with UPI
         </h2>
         <p className="px-5 text-sm text-grey-600">
-          These QR codes pay our SEBI-validated UPI IDs. Your UPI app should show a green triangle with a thumbs-up.
+          These QR codes pay our SEBI-validated UPI IDs. Your UPI app should show a green triangle with a
+          thumbs-up.
         </p>
         <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 overflow-y-auto px-5 py-4 sm:grid-cols-2">
           {siteConfig.upi.qrCodes.map((qr) => (
@@ -258,12 +291,18 @@ function QrDialog({ onClose }: { onClose: () => void }) {
                 height={220}
                 className="h-auto w-full max-w-[220px]"
               />
-              <figcaption className="break-all text-center font-mono text-xs text-grey-600">{qr.handle}</figcaption>
+              <figcaption className="break-all text-center font-mono text-xs text-grey-600">
+                {qr.handle}
+              </figcaption>
             </figure>
           ))}
         </div>
         <div className="flex justify-end gap-2 border-t border-line px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3">
-          <Link href={routes.upiFaq.path} className={buttonClasses({ variant: "secondary" })} onClick={onClose}>
+          <Link
+            href={routes.upiFaq.path}
+            className={buttonClasses({ variant: "secondary" })}
+            onClick={onClose}
+          >
             UPI FAQs
           </Link>
           <button type="button" onClick={onClose} className={buttonClasses()}>

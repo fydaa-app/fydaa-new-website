@@ -35,7 +35,9 @@ export function AuthLayout({
  */
 export function FormPanel({ children }: { children: ReactNode }) {
   return (
-    <div className="sm:rounded-4xl sm:border sm:border-line sm:bg-paper sm:p-8 sm:shadow-window">{children}</div>
+    <div className="sm:rounded-4xl sm:border sm:border-line sm:bg-paper sm:p-8 sm:shadow-window">
+      {children}
+    </div>
   );
 }
 

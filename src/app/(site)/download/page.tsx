@@ -19,8 +19,14 @@ const step = (i: number) => ({ "--i": i }) as CSSProperties;
 /** What the app does, in the product's own names. */
 const IN_THE_APP = [
   { title: "Goal investing", body: "A SIP for each thing you're saving for, and how close each goal is." },
-  { title: "Money Vault", body: "Bank accounts, investments, loans and assets in one view, with your net worth." },
-  { title: "Wealth Score", body: "One number out of 100 for how healthy your finances are, and what to fix first." },
+  {
+    title: "Money Vault",
+    body: "Bank accounts, investments, loans and assets in one view, with your net worth.",
+  },
+  {
+    title: "Wealth Score",
+    body: "One number out of 100 for how healthy your finances are, and what to fix first.",
+  },
 ];
 
 /**
@@ -37,18 +43,28 @@ export default async function DownloadPage() {
       <section aria-labelledby="download-title" className="pb-20 pt-28 sm:pt-32 lg:pb-28 lg:pt-36" data-enter>
         <Container className="grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start lg:gap-16">
           <div className="flex flex-col gap-6">
-            <h1 id="download-title" className="max-w-[12ch] text-display text-ink" data-enter-item style={step(0)}>
+            <h1
+              id="download-title"
+              className="max-w-[12ch] text-display text-ink"
+              data-enter-item
+              style={step(0)}
+            >
               Get the Fydaa app
             </h1>
             <p className="max-w-[46ch] text-pretty text-lead text-grey-600" data-enter-item style={step(1)}>
-              Track your goals, SIPs and portfolio on your phone. Open this page on your phone and it takes you
-              straight to your app store.
+              Track your goals, SIPs and portfolio on your phone. Open this page on your phone and it takes
+              you straight to your app store.
             </p>
             <div className="flex flex-wrap gap-3 pt-2" data-enter-item style={step(2)}>
               <ButtonLink href={siteConfig.apps.android} size="lg" data-ph-event="Download App Android">
                 Get it on Google Play
               </ButtonLink>
-              <ButtonLink href={siteConfig.apps.ios} size="lg" variant="secondary" data-ph-event="Download App iOS">
+              <ButtonLink
+                href={siteConfig.apps.ios}
+                size="lg"
+                variant="secondary"
+                data-ph-event="Download App iOS"
+              >
                 Download on the App Store
               </ButtonLink>
             </div>

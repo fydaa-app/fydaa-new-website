@@ -53,9 +53,7 @@ export default function JobPageView({ job }: { job: JobOpening }) {
               <li aria-hidden="true" className="text-grey-500">
                 /
               </li>
-              <li aria-current="page">
-                {job.title}
-              </li>
+              <li aria-current="page">{job.title}</li>
             </ol>
           </nav>
           <h1 id="job-title" className="max-w-[22ch] text-heading text-ink" data-enter-item style={step(1)}>
@@ -71,10 +69,18 @@ export default function JobPageView({ job }: { job: JobOpening }) {
       <Container className="grid gap-12 pb-16 sm:pb-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:gap-16 lg:pb-28">
         <div className="min-w-0">
           <JobDetailContent job={job} headingLevel={2} />
-          <div ref={endRef} className="mt-12 flex flex-col items-start gap-4 rounded-4xl bg-mist p-6 sm:p-8 lg:hidden">
+          <div
+            ref={endRef}
+            className="mt-12 flex flex-col items-start gap-4 rounded-4xl bg-mist p-6 sm:p-8 lg:hidden"
+          >
             <h2 className="text-title text-ink">Apply for this role</h2>
             <p className="text-base text-grey-600">{CV_NOTE}</p>
-            <button type="button" onClick={apply} data-ph-event="Apply now" className="btn btn-primary btn-lg">
+            <button
+              type="button"
+              onClick={apply}
+              data-ph-event="Apply now"
+              className="btn btn-primary btn-lg"
+            >
               Apply now
             </button>
           </div>
@@ -86,7 +92,12 @@ export default function JobPageView({ job }: { job: JobOpening }) {
               <p className="text-title text-ink">{job.title}</p>
               {summary ? <p className="mt-1 text-sm text-grey-600">{summary}</p> : null}
             </div>
-            <button type="button" onClick={apply} data-ph-event="Apply now" className="btn btn-primary btn-lg w-full">
+            <button
+              type="button"
+              onClick={apply}
+              data-ph-event="Apply now"
+              className="btn btn-primary btn-lg w-full"
+            >
               Apply now
             </button>
             <p className="text-sm text-grey-500">{CV_NOTE}</p>

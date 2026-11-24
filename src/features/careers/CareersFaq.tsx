@@ -12,7 +12,8 @@ const FAQS = [
   {
     id: "apply",
     question: "How do I apply for a role?",
-    answer: "Open the role you're interested in and select “Apply now”. You'll fill in a short form and upload your CV.",
+    answer:
+      "Open the role you're interested in and select “Apply now”. You'll fill in a short form and upload your CV.",
   },
   {
     id: "no-match",
@@ -22,7 +23,8 @@ const FAQS = [
   {
     id: "location",
     question: "Where are the roles based, and how much experience do I need?",
-    answer: "Each listing shows its location and the experience range we're looking for, so you can check fit before applying.",
+    answer:
+      "Each listing shows its location and the experience range we're looking for, so you can check fit before applying.",
   },
   {
     id: "programme",

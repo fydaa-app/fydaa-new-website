@@ -31,9 +31,7 @@ export function SectionHeader({
   return (
     <div className={cn("flex flex-col gap-3", align === "center" && "items-center text-center", className)}>
       {eyebrow ? <p className="text-sm font-semibold text-emerald">{eyebrow}</p> : null}
-      <Heading className={cn("text-ink", level === 1 ? "text-display" : "text-heading")}>
-        {title}
-      </Heading>
+      <Heading className={cn("text-ink", level === 1 ? "text-display" : "text-heading")}>{title}</Heading>
       {description ? (
         <p
           className={cn(

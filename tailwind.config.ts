@@ -26,8 +26,14 @@ const config: Config = {
        * Titles and money use the fluid semantic steps; width (font-stretch) is set in globals.css.
        */
       fontSize: {
-        display: ["var(--text-display)", { lineHeight: "1.02", letterSpacing: "-0.035em", fontWeight: "700" }],
-        heading: ["var(--text-heading)", { lineHeight: "1.08", letterSpacing: "-0.025em", fontWeight: "650" }],
+        display: [
+          "var(--text-display)",
+          { lineHeight: "1.02", letterSpacing: "-0.035em", fontWeight: "700" },
+        ],
+        heading: [
+          "var(--text-heading)",
+          { lineHeight: "1.08", letterSpacing: "-0.025em", fontWeight: "650" },
+        ],
         title: ["var(--text-title)", { lineHeight: "1.25", letterSpacing: "-0.012em", fontWeight: "600" }],
         lead: ["var(--text-lead)", { lineHeight: "1.55" }],
         figure: ["var(--text-figure)", { lineHeight: "1", letterSpacing: "-0.03em", fontWeight: "650" }],

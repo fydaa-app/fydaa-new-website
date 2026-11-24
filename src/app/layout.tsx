@@ -7,7 +7,6 @@ import { rootMetadata } from "@/lib/seo/metadata";
 import { siteGraphJsonLd } from "@/lib/seo/structured-data";
 import PostHogProvider from "@/features/analytics/PostHogProvider";
 
-
 export const metadata: Metadata = rootMetadata();
 
 export const viewport = {
@@ -17,21 +16,11 @@ export const viewport = {
   viewportFit: "cover" as const,
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-IN" data-scroll-behavior="smooth">
-
-      <body
-        className={`${monaSans.variable} m-0 p-0 font-sans text-ink antialiased`}
-      >
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-DMWN4CQK6D"
-          strategy="afterInteractive"
-        />
+      <body className={`${monaSans.variable} m-0 p-0 font-sans text-ink antialiased`}>
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-DMWN4CQK6D" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
@@ -41,11 +30,8 @@ export default function RootLayout({
           `}
         </Script>
         <JsonLd data={siteGraphJsonLd()} />
-        <PostHogProvider>
-          {children}
-        </PostHogProvider>
+        <PostHogProvider>{children}</PostHogProvider>
       </body>
     </html>
   );
 }
-

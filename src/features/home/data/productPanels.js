@@ -3,13 +3,13 @@
 // simple on purpose so swapping in real data is a drop-in replacement.
 
 export const MONEY_VAULT = {
-  netWorth: '₹18,42,600',
-  monthChange: '+₹3.2 L this month',
+  netWorth: "₹18,42,600",
+  monthChange: "+₹3.2 L this month",
   rows: [
-    { key: 'Assets', value: '₹24,15,000', tone: 'green' },
-    { key: 'Liabilities', value: '₹5,72,400', tone: 'error' },
-    { key: 'Investments', value: '₹8,64,200', tone: 'default' },
-    { key: 'Bank Accounts', value: '3 linked', tone: 'default' },
+    { key: "Assets", value: "₹24,15,000", tone: "green" },
+    { key: "Liabilities", value: "₹5,72,400", tone: "error" },
+    { key: "Investments", value: "₹8,64,200", tone: "default" },
+    { key: "Bank Accounts", value: "3 linked", tone: "default" },
   ],
 };
 
@@ -21,10 +21,10 @@ export const WEALTH_SCORE = {
   score: 78,
   max: 100,
   pillars: [
-    { key: 'Net worth strength', value: 81, tone: 'good' },
-    { key: 'Asset quality', value: 74, tone: 'good' },
-    { key: 'Liquidity & safety', value: 88, tone: 'good' },
-    { key: 'Leverage', value: 58, tone: 'warn' },
-    { key: 'Goal readiness', value: 72, tone: 'good' },
+    { key: "Net worth strength", value: 81, tone: "good" },
+    { key: "Asset quality", value: 74, tone: "good" },
+    { key: "Liquidity & safety", value: 88, tone: "good" },
+    { key: "Leverage", value: 58, tone: "warn" },
+    { key: "Goal readiness", value: 72, tone: "good" },
   ],
 };

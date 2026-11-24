@@ -20,7 +20,12 @@ const DEFAULT_ITEMS: ProofItem[] = [
     body: (
       <>
         Every holding shows up on{" "}
-        <a href="https://www.mfcentral.com/" target="_blank" rel="noopener noreferrer" className="font-semibold text-white underline decoration-white/40 underline-offset-4 hover:decoration-white">
+        <a
+          href="https://www.mfcentral.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
+        >
           MF Central
         </a>
         , the industry&apos;s official portal run by the registrars.
@@ -53,8 +58,14 @@ export function ProofBand({
   return (
     <section id={id} aria-labelledby="proof-title" className="section">
       <Container>
-        <div className="relative isolate overflow-hidden rounded-section bg-jade px-6 py-12 text-white sm:px-10 sm:py-16 lg:px-16 lg:py-20" data-allow-clip>
-          <span aria-hidden="true" className="pointer-events-none absolute -right-10 -top-24 -z-10 hidden gap-10 sm:flex">
+        <div
+          className="relative isolate overflow-hidden rounded-section bg-jade px-6 py-12 text-white sm:px-10 sm:py-16 lg:px-16 lg:py-20"
+          data-allow-clip
+        >
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-10 -top-24 -z-10 hidden gap-10 sm:flex"
+          >
             <i className="block h-[26rem] w-24 -rotate-[38deg] rounded-full bg-white/[0.06]" />
             <i className="block h-[26rem] w-24 translate-y-16 -rotate-[38deg] rounded-full bg-white/[0.04]" />
           </span>

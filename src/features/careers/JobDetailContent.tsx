@@ -27,14 +27,20 @@ function StrokeList({ items }: { items: Array<{ item: string; subItems?: string[
     <ul className="mt-3 flex flex-col gap-2.5">
       {items.map(({ item, subItems = [] }, i) => (
         <li key={`${i}-${item}`} className="grid grid-cols-[0.75rem_minmax(0,1fr)] gap-x-3">
-          <i aria-hidden="true" className="mt-1.5 block h-3 w-1.5 -rotate-[38deg] justify-self-center rounded-full bg-sprout" />
+          <i
+            aria-hidden="true"
+            className="mt-1.5 block h-3 w-1.5 -rotate-[38deg] justify-self-center rounded-full bg-sprout"
+          />
           <div>
             {item}
             {subItems.length > 0 ? (
               <ul className="mt-2 flex flex-col gap-1.5">
                 {subItems.map((sub, j) => (
                   <li key={`${j}-${sub}`} className="grid grid-cols-[0.75rem_minmax(0,1fr)] gap-x-3">
-                    <i aria-hidden="true" className="mt-3 block h-0.5 w-2 justify-self-center rounded-full bg-grey-400" />
+                    <i
+                      aria-hidden="true"
+                      className="mt-3 block h-0.5 w-2 justify-self-center rounded-full bg-grey-400"
+                    />
                     <span>{sub}</span>
                   </li>
                 ))}
@@ -73,11 +79,19 @@ function StructuredResponsibilities({ data, level }: { data: ResponsibilitiesDat
 }
 
 /** The job description: about the role, responsibilities (flat, structured or legacy) and skills. */
-export default function JobDetailContent({ job, headingLevel = 4 }: { job: JobOpening; headingLevel?: Level }) {
+export default function JobDetailContent({
+  job,
+  headingLevel = 4,
+}: {
+  job: JobOpening;
+  headingLevel?: Level;
+}) {
   const isOldFlatArray = Array.isArray(job.responsibilities) && typeof job.responsibilities[0] === "string";
   const isNewArray = Array.isArray(job.responsibilities) && typeof job.responsibilities[0] === "object";
   const isLegacyObject =
-    job.responsibilities !== null && !Array.isArray(job.responsibilities) && typeof job.responsibilities === "object";
+    job.responsibilities !== null &&
+    !Array.isArray(job.responsibilities) &&
+    typeof job.responsibilities === "object";
 
   let structuredData: ResponsibilitiesData | null = null;
   let flatData: string[] | null = null;

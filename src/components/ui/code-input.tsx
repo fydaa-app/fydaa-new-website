@@ -66,7 +66,10 @@ export function CodeInput({
       <label htmlFor={inputId} className={labelHidden ? "sr-only" : labelClasses}>
         {label}
       </label>
-      <div className="relative grid w-full max-w-[22rem] gap-1.5 sm:gap-2.5" style={{ gridTemplateColumns: `repeat(${length}, minmax(0, 1fr))` }}>
+      <div
+        className="relative grid w-full max-w-[22rem] gap-1.5 sm:gap-2.5"
+        style={{ gridTemplateColumns: `repeat(${length}, minmax(0, 1fr))` }}
+      >
         {Array.from({ length }, (_, index) => {
           const char = value[index] ?? "";
           return (

@@ -16,7 +16,12 @@ export default function FundHouses() {
               className="flex h-11 items-center justify-center rounded-btn bg-white px-1.5 ring-1 ring-line sm:h-14 sm:rounded-card sm:px-2"
               title={amc.name}
             >
-              <img src={amc.src} alt={amc.name} className="max-h-6 w-auto max-w-full object-contain sm:max-h-8" loading="lazy" />
+              <img
+                src={amc.src}
+                alt={amc.name}
+                className="max-h-6 w-auto max-w-full object-contain sm:max-h-8"
+                loading="lazy"
+              />
             </li>
           ))}
         </ul>

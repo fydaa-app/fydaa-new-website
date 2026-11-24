@@ -29,7 +29,8 @@ export function ErrorView({ error, reset }: ErrorViewProps) {
           {error.digest ? (
             <>
               {" "}
-              and quote reference <span className="break-all font-mono text-base text-ink">{error.digest}</span>
+              and quote reference{" "}
+              <span className="break-all font-mono text-base text-ink">{error.digest}</span>
             </>
           ) : null}
           .

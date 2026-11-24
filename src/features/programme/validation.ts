@@ -53,7 +53,11 @@ export function isNismCertifiedForOnField(form: FormState, uploads: UploadsState
 
 /** Indian PAN: 5 letters + 4 digits + 1 letter (e.g. ABCDE1234F) */
 function isValidPan(val: unknown) {
-  return /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(String(val ?? "").trim().toUpperCase());
+  return /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(
+    String(val ?? "")
+      .trim()
+      .toUpperCase(),
+  );
 }
 
 /** Last 4 digits of Aadhaar only */
@@ -62,7 +66,10 @@ function isValidAadhaarLast4(val: unknown) {
 }
 
 export function normalizePanInput(raw: string) {
-  return raw.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
+  return raw
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "")
+    .slice(0, 10);
 }
 
 export function normalizeAadhaarLast4Input(raw: string) {
@@ -104,10 +111,25 @@ export function validateStep(step: number, form: FormState, uploads: UploadsStat
 
   if (step === 0) {
     need([
-      "fullName", "gender", "dob", "whatsapp", "email", "pan", "aadhaar",
-      "maritalStatus", "guardian", "emergencyContact", "emergencyRelation",
-      "emergencyPhone", "medicalCondition",
-      "permHouse", "permStreet", "permCity", "permDistrict", "permState", "permPin",
+      "fullName",
+      "gender",
+      "dob",
+      "whatsapp",
+      "email",
+      "pan",
+      "aadhaar",
+      "maritalStatus",
+      "guardian",
+      "emergencyContact",
+      "emergencyRelation",
+      "emergencyPhone",
+      "medicalCondition",
+      "permHouse",
+      "permStreet",
+      "permCity",
+      "permDistrict",
+      "permState",
+      "permPin",
     ]);
     if (form.medicalCondition === "Yes" && !isFilled(form.medicalDetails)) {
       missing.push("medicalDetails");
@@ -128,10 +150,14 @@ export function validateStep(step: number, form: FormState, uploads: UploadsStat
     const ep = String(form.emergencyPhone || "").replace(/\D/g, "");
     if (isFilled(form.emergencyPhone) && !isValidMobile10(ep)) {
       if (!missing.includes("emergencyPhone")) missing.push("emergencyPhone");
-      if (message === "Please fill all required fields marked with * before continuing." || message.startsWith("Enter a valid 10-digit WhatsApp")) {
-        message = missing.includes("whatsapp") && !isValidMobile10(wa)
-          ? "Enter valid 10-digit WhatsApp and emergency contact numbers."
-          : "Enter a valid 10-digit emergency contact number.";
+      if (
+        message === "Please fill all required fields marked with * before continuing." ||
+        message.startsWith("Enter a valid 10-digit WhatsApp")
+      ) {
+        message =
+          missing.includes("whatsapp") && !isValidMobile10(wa)
+            ? "Enter valid 10-digit WhatsApp and emergency contact numbers."
+            : "Enter a valid 10-digit emergency contact number.";
       }
     }
 
@@ -159,10 +185,20 @@ export function validateStep(step: number, form: FormState, uploads: UploadsStat
 
   if (step === 2) {
     need([
-      "professionalStatus", "currentOrg", "designation", "workExperience", "industry",
-      "workMode", "fieldActivities", "reasonJoining",
-      "currentCity", "currentState", "willingToTravel", "needTravelSupport",
-      "clientFacing", "preferredLang",
+      "professionalStatus",
+      "currentOrg",
+      "designation",
+      "workExperience",
+      "industry",
+      "workMode",
+      "fieldActivities",
+      "reasonJoining",
+      "currentCity",
+      "currentState",
+      "willingToTravel",
+      "needTravelSupport",
+      "clientFacing",
+      "preferredLang",
     ]);
   }
 
@@ -181,10 +217,7 @@ export function validateStep(step: number, form: FormState, uploads: UploadsStat
     if (!isFilled(form.selectedProgramme)) {
       missing.push("selectedProgramme");
       message = "Please select a programme to continue.";
-    } else if (
-      form.selectedProgramme === "onfield" &&
-      !isNismCertifiedForOnField(form, uploads)
-    ) {
+    } else if (form.selectedProgramme === "onfield" && !isNismCertifiedForOnField(form, uploads)) {
       missing.push("selectedProgramme");
       message = "This programme is only for NISM certified candidates";
     }

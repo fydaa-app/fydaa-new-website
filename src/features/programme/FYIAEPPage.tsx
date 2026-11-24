@@ -54,17 +54,19 @@ export default function FYIAEPPage() {
     <div className="min-h-screen bg-white text-ink">
       {page === "landing" && <ProgrammeLanding onApply={startApply} />}
       {page === "verify-mobile" && (
-        <MobileVerifyPage
-          onBack={showLanding}
-          onSendOtp={handleSendOtp}
-          initialMobile={verifiedMobile}
-        />
+        <MobileVerifyPage onBack={showLanding} onSendOtp={handleSendOtp} initialMobile={verifiedMobile} />
       )}
       {page === "enter-otp" && (
         <OtpVerifyPage
           mobile={verifiedMobile}
-          onBack={() => { setPage("verify-mobile"); window.scrollTo(0, 0); }}
-          onChangeMobile={() => { setPage("verify-mobile"); window.scrollTo(0, 0); }}
+          onBack={() => {
+            setPage("verify-mobile");
+            window.scrollTo(0, 0);
+          }}
+          onChangeMobile={() => {
+            setPage("verify-mobile");
+            window.scrollTo(0, 0);
+          }}
           onVerified={handleOtpVerified}
           onResend={handleResendOtp}
         />

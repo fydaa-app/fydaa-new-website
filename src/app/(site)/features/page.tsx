@@ -30,9 +30,13 @@ export default function FeaturesPage() {
           <h1 id="features-title" className="max-w-[14ch] text-display text-ink" data-enter-item>
             What you can do with Fydaa
           </h1>
-          <p className="max-w-[56ch] text-lead text-grey-600" data-enter-item style={{ ["--i" as string]: 1 }}>
-            Invest for each goal, see everything you own and owe in one place, know how healthy your finances are,
-            and get a written plan from a SEBI-registered adviser.
+          <p
+            className="max-w-[56ch] text-lead text-grey-600"
+            data-enter-item
+            style={{ ["--i" as string]: 1 }}
+          >
+            Invest for each goal, see everything you own and owe in one place, know how healthy your finances
+            are, and get a written plan from a SEBI-registered adviser.
           </p>
           <nav aria-label="On this page" data-enter-item style={{ ["--i" as string]: 2 }}>
             <ul className="flex flex-wrap gap-2">

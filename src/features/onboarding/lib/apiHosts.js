@@ -2,9 +2,9 @@
  * Legacy API host exports, now backed by the validated config in `@/config/env`.
  * New code should import `env` directly; these names remain for existing callers.
  */
-import { env } from '@/config/env';
+import { env } from "@/config/env";
 
-export const appEnv = env.appEnv === 'staging' ? 'stage' : 'prod';
+export const appEnv = env.appEnv === "staging" ? "stage" : "prod";
 
 export const AUTH_BASE = env.api.auth;
 export const ONBOARDING_BASE = env.api.onboarding;
@@ -18,9 +18,9 @@ export const PAYMENT_BASE = env.api.payment;
  * Production builds always call the stock API directly.
  */
 export function getStockBase() {
-  if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
+  if (process.env.NODE_ENV === "development" && typeof window !== "undefined") {
     const host = window.location.hostname;
-    if (host === 'localhost' || host === '127.0.0.1') return '/api/proxy/stock/';
+    if (host === "localhost" || host === "127.0.0.1") return "/api/proxy/stock/";
   }
   return STOCK_BASE_REMOTE;
 }

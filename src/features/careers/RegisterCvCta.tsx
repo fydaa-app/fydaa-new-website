@@ -14,7 +14,12 @@ export default function RegisterCvCta({ onRegisterCv }: { onRegisterCv: () => vo
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <button type="button" onClick={onRegisterCv} data-ph-event="Register your CV" className="btn btn-primary btn-lg">
+          <button
+            type="button"
+            onClick={onRegisterCv}
+            data-ph-event="Register your CV"
+            className="btn btn-primary btn-lg"
+          >
             Register your CV
           </button>
         </div>

@@ -15,7 +15,9 @@ export function JobFacts({ job, className }: { job: JobOpening; className?: stri
 
   if (facts.length === 0) return null;
   return (
-    <dl className={cn("grid grid-cols-2 gap-x-6 gap-y-4 border-y border-line py-4 sm:grid-cols-4", className)}>
+    <dl
+      className={cn("grid grid-cols-2 gap-x-6 gap-y-4 border-y border-line py-4 sm:grid-cols-4", className)}
+    >
       {facts.map((fact) => (
         <div key={fact.label} className="min-w-0">
           <dt className="text-sm text-grey-500">{fact.label}</dt>
@@ -49,7 +51,7 @@ export function JobDetail({ job, onApply }: { job: JobOpening; onApply: () => vo
         <div className="flex min-w-0 max-w-[36ch] flex-col">
           <h3
             id={`job-${job.id}-title`}
-            className="stretch-semi text-2xl font-semibold leading-tight tracking-tight text-ink xl:text-3xl"
+            className="text-2xl font-semibold leading-tight tracking-tight text-ink stretch-semi xl:text-3xl"
           >
             {job.title}
           </h3>

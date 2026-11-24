@@ -46,7 +46,10 @@ function EmptyState({
   onRegisterCv: () => void;
 }) {
   return (
-    <div role={alert ? "alert" : undefined} className="flex flex-col items-start gap-4 rounded-4xl bg-mist p-6 sm:p-10">
+    <div
+      role={alert ? "alert" : undefined}
+      className="flex flex-col items-start gap-4 rounded-4xl bg-mist p-6 sm:p-10"
+    >
       <h3 className="text-title text-ink">{title}</h3>
       <p className="max-w-[56ch] text-base leading-relaxed text-grey-600">{children}</p>
       <div className="flex flex-wrap gap-3 pt-2">
@@ -123,13 +126,18 @@ export default function OpenPositionsSection({ jobs, error, onRegisterCv }: Prop
         </div>
 
         {error ? (
-          <EmptyState title="Open roles are unavailable right now" alert onRetry={() => router.refresh()} onRegisterCv={onRegisterCv}>
+          <EmptyState
+            title="Open roles are unavailable right now"
+            alert
+            onRetry={() => router.refresh()}
+            onRegisterCv={onRegisterCv}
+          >
             {error} You can also register your CV and we&apos;ll reach out.
           </EmptyState>
         ) : jobs.length === 0 ? (
           <EmptyState title="We're not hiring right now" onRegisterCv={onRegisterCv}>
-            There are no open roles at the moment. Check back later, or register your CV and we&apos;ll reach out
-            when one opens.
+            There are no open roles at the moment. Check back later, or register your CV and we&apos;ll reach
+            out when one opens.
           </EmptyState>
         ) : (
           <>
@@ -144,13 +152,12 @@ export default function OpenPositionsSection({ jobs, error, onRegisterCv }: Prop
                       className="flex items-center gap-4 px-4 py-4 transition-colors duration-quick hover:bg-mist focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-jade sm:px-6 sm:py-5"
                     >
                       <span className="flex min-w-0 flex-1 flex-col gap-1">
-                        <span className="text-base font-semibold text-ink [font-stretch:104%]">{job.title}</span>
+                        <span className="text-base font-semibold text-ink [font-stretch:104%]">
+                          {job.title}
+                        </span>
                         {summary ? <span className="text-sm text-grey-500">{summary}</span> : null}
                       </span>
-                      <ChevronRight
-                        aria-hidden="true"
-                        className="size-5 shrink-0 text-grey-500"
-                      />
+                      <ChevronRight aria-hidden="true" className="size-5 shrink-0 text-grey-500" />
                     </Link>
                   </li>
                 );
@@ -159,7 +166,10 @@ export default function OpenPositionsSection({ jobs, error, onRegisterCv }: Prop
 
             {/* Desktop: the list and the selected role side by side, each pane scrolling on its own. */}
             <div className="hidden h-[min(46rem,calc(100dvh-8rem))] overflow-hidden rounded-4xl border border-line lg:grid lg:grid-cols-[minmax(0,21rem)_minmax(0,1fr)]">
-              <ul aria-label="Open roles" className="min-h-0 overflow-y-auto overscroll-contain border-r border-line bg-mist">
+              <ul
+                aria-label="Open roles"
+                className="min-h-0 overflow-y-auto overscroll-contain border-r border-line bg-mist"
+              >
                 {jobs.map((job) => {
                   const active = job.id === selectedJob?.id;
                   const summary = jobSummary(job);
@@ -181,7 +191,9 @@ export default function OpenPositionsSection({ jobs, error, onRegisterCv }: Prop
                             active ? "opacity-100" : "opacity-0",
                           )}
                         />
-                        <span className="text-base font-semibold text-ink [font-stretch:104%]">{job.title}</span>
+                        <span className="text-base font-semibold text-ink [font-stretch:104%]">
+                          {job.title}
+                        </span>
                         {summary ? <span className="text-sm text-grey-500">{summary}</span> : null}
                       </button>
                     </li>

@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
 
 export const ARN_PARTNER_API_URL = `${BASE_URL}arn/partner`;
 
@@ -38,61 +38,47 @@ export interface VerifyEmailOtpResponse {
 
 async function postRequest<T>(url: string, body: unknown): Promise<T> {
   const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
 
   const result = await res.json().catch(() => ({}));
 
   if (!res.ok || !result.success) {
-    const msg =
-      result.message || result.error || 'An unexpected error occurred';
+    const msg = result.message || result.error || "An unexpected error occurred";
     throw new Error(msg);
   }
 
   return result as T;
 }
 
-async function postRequestAllowSoftFail<T>(
-  url: string,
-  body: unknown,
-): Promise<T> {
+async function postRequestAllowSoftFail<T>(url: string, body: unknown): Promise<T> {
   const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
 
   const result = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    const msg =
-      result.message || result.error || 'An unexpected error occurred';
+    const msg = result.message || result.error || "An unexpected error occurred";
     throw new Error(msg);
   }
 
   return result as T;
 }
 
-export async function sendEmailOtp(
-  arnNumber: string,
-  email: string,
-): Promise<SendEmailOtpResponse> {
-  return postRequest<SendEmailOtpResponse>(
-    `${ARN_PARTNER_API_URL}/send-email-otp`,
-    { arnNumber, email },
-  );
+export async function sendEmailOtp(arnNumber: string, email: string): Promise<SendEmailOtpResponse> {
+  return postRequest<SendEmailOtpResponse>(`${ARN_PARTNER_API_URL}/send-email-otp`, { arnNumber, email });
 }
 
-export async function verifyEmailOtp(
-  partnerId: number,
-  emailOtp: string,
-): Promise<VerifyEmailOtpResponse> {
-  return postRequest<VerifyEmailOtpResponse>(
-    `${ARN_PARTNER_API_URL}/verify-email-otp`,
-    { partnerId, emailOtp },
-  );
+export async function verifyEmailOtp(partnerId: number, emailOtp: string): Promise<VerifyEmailOtpResponse> {
+  return postRequest<VerifyEmailOtpResponse>(`${ARN_PARTNER_API_URL}/verify-email-otp`, {
+    partnerId,
+    emailOtp,
+  });
 }
 
 export interface SendMobileOtpRequest {
@@ -134,22 +120,23 @@ export interface VerifyMobileOtpResponse {
 export async function sendMobileOtp(
   partnerId: number,
   mobileNumber: string,
-  callingCode: string = '+91',
+  callingCode: string = "+91",
 ): Promise<SendMobileOtpResponse> {
-  return postRequest<SendMobileOtpResponse>(
-    `${ARN_PARTNER_API_URL}/send-mobile-otp`,
-    { partnerId, mobileNumber, callingCode },
-  );
+  return postRequest<SendMobileOtpResponse>(`${ARN_PARTNER_API_URL}/send-mobile-otp`, {
+    partnerId,
+    mobileNumber,
+    callingCode,
+  });
 }
 
 export async function verifyMobileOtp(
   partnerId: number,
   mobileOtp: string,
 ): Promise<VerifyMobileOtpResponse> {
-  return postRequest<VerifyMobileOtpResponse>(
-    `${ARN_PARTNER_API_URL}/verify-mobile-otp`,
-    { partnerId, mobileOtp },
-  );
+  return postRequest<VerifyMobileOtpResponse>(`${ARN_PARTNER_API_URL}/verify-mobile-otp`, {
+    partnerId,
+    mobileOtp,
+  });
 }
 
 export interface ConfirmArnDetailsResponse {
@@ -167,13 +154,8 @@ export interface ConfirmArnDetailsResponse {
   };
 }
 
-export async function confirmArnDetails(
-  partnerId: number,
-): Promise<ConfirmArnDetailsResponse> {
-  return postRequest<ConfirmArnDetailsResponse>(
-    `${ARN_PARTNER_API_URL}/confirm-arn-details`,
-    { partnerId },
-  );
+export async function confirmArnDetails(partnerId: number): Promise<ConfirmArnDetailsResponse> {
+  return postRequest<ConfirmArnDetailsResponse>(`${ARN_PARTNER_API_URL}/confirm-arn-details`, { partnerId });
 }
 
 export interface SavePartnerDetailsRequest {
@@ -197,10 +179,7 @@ export interface SavePartnerDetailsResponse {
 export async function savePartnerDetails(
   dto: SavePartnerDetailsRequest,
 ): Promise<SavePartnerDetailsResponse> {
-  return postRequest<SavePartnerDetailsResponse>(
-    `${ARN_PARTNER_API_URL}/details`,
-    dto,
-  );
+  return postRequest<SavePartnerDetailsResponse>(`${ARN_PARTNER_API_URL}/details`, dto);
 }
 
 export interface SaveBankDetailsRequest {
@@ -221,13 +200,8 @@ export interface SaveBankDetailsResponse {
   };
 }
 
-export async function saveBankDetails(
-  dto: SaveBankDetailsRequest,
-): Promise<SaveBankDetailsResponse> {
-  return postRequest<SaveBankDetailsResponse>(
-    `${ARN_PARTNER_API_URL}/bank-details`,
-    dto,
-  );
+export async function saveBankDetails(dto: SaveBankDetailsRequest): Promise<SaveBankDetailsResponse> {
+  return postRequest<SaveBankDetailsResponse>(`${ARN_PARTNER_API_URL}/bank-details`, dto);
 }
 
 export interface SaveNomineeRequest {
@@ -249,11 +223,6 @@ export interface SaveNomineeResponse {
   };
 }
 
-export async function saveNominee(
-  dto: SaveNomineeRequest,
-): Promise<SaveNomineeResponse> {
-  return postRequestAllowSoftFail<SaveNomineeResponse>(
-    `${ARN_PARTNER_API_URL}/nominee`,
-    dto,
-  );
+export async function saveNominee(dto: SaveNomineeRequest): Promise<SaveNomineeResponse> {
+  return postRequestAllowSoftFail<SaveNomineeResponse>(`${ARN_PARTNER_API_URL}/nominee`, dto);
 }

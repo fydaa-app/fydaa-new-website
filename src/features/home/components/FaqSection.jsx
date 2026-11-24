@@ -1,8 +1,8 @@
-import { Container } from '@/components/layout/container';
-import { SectionHeader } from '@/components/layout/section-header';
-import { FaqList } from '@/components/ui/faq-list';
-import { siteConfig } from '@/config/site';
-import { FAQS } from '../data/content';
+import { Container } from "@/components/layout/container";
+import { SectionHeader } from "@/components/layout/section-header";
+import { FaqList } from "@/components/ui/faq-list";
+import { siteConfig } from "@/config/site";
+import { FAQS } from "../data/content";
 
 // One answer per question at every width; answers stay in the HTML for search engines.
 const items = FAQS.map((faq) => ({ id: faq.q, title: faq.q, content: <p>{faq.a}</p> }));
@@ -15,10 +15,10 @@ export default function FaqSection() {
           title={<span id="home-faqs">Questions people ask first</span>}
           description={
             <>
-              Something else on your mind? Email{' '}
+              Something else on your mind? Email{" "}
               <a href={`mailto:${siteConfig.contact.email}`} className="link">
                 {siteConfig.contact.email}
-              </a>{' '}
+              </a>{" "}
               and we&apos;ll get back to you.
             </>
           }

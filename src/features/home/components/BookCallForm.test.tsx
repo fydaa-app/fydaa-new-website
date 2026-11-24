@@ -3,7 +3,11 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import BookCallForm from "./BookCallForm";
 
-vi.mock("@/lib/posthog", () => ({ captureEvent: vi.fn(), captureNamedButton: vi.fn(), toEventName: vi.fn() }));
+vi.mock("@/lib/posthog", () => ({
+  captureEvent: vi.fn(),
+  captureNamedButton: vi.fn(),
+  toEventName: vi.fn(),
+}));
 
 let fetchMock: ReturnType<typeof vi.fn>;
 beforeEach(() => {

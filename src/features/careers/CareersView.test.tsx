@@ -17,7 +17,10 @@ describe("CareersView", () => {
   it("lists jobs with a link to each job page", () => {
     render(<CareersView jobs={[job]} error={null} />);
     expect(screen.getByText("Showing 1 job")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /View full job page/ })).toHaveAttribute("href", "/careers/jobs/4");
+    expect(screen.getByRole("link", { name: /View full job page/ })).toHaveAttribute(
+      "href",
+      "/careers/jobs/4",
+    );
   });
 
   it("shows a friendly, recoverable error instead of a misleading zero", async () => {
