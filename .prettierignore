@@ -19,7 +19,6 @@ src/types/
 src/features/about/
 src/features/analytics/
 src/features/careers/
-src/features/chatbot/
 src/features/dashboard/
 src/features/home/
 src/features/onboarding/
@@ -28,7 +27,6 @@ src/features/partner-site/
 src/features/programme/
 src/components/layout/Footer.tsx
 src/components/layout/site-nav.css
-src/components/legacy/
 src/components/HashScroll.tsx
 src/app/(site)/legal/
 src/app/(transactional)/Successpagemandate/

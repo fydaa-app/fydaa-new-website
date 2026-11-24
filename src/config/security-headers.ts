@@ -62,7 +62,6 @@ export function fullCspDirectives({ isDev = false }: { isDev?: boolean } = {}): 
       ...apiOrigins,
       origin(env.posthog.host),
       "https://*.posthog.com",
-      origin(env.chatbotUrl),
       "https://www.google-analytics.com",
       "https://*.google-analytics.com",
       "https://*.analytics.google.com",

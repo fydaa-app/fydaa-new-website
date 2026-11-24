@@ -78,7 +78,6 @@ const envSchema = z.object({
     payment: baseUrl,
     crm: baseUrl,
   }),
-  chatbotUrl: z.optional(httpUrl),
   posthog: z.object({
     key: optionalString,
     host: originUrl,
@@ -135,7 +134,6 @@ const raw = {
         process.env.NEXT_PUBLIC_BASE_URL,
       ) ?? defaults.crm,
   },
-  chatbotUrl: process.env.NEXT_PUBLIC_CHATBOT_API_URL?.trim() || undefined,
   posthog: {
     key: process.env.NEXT_PUBLIC_POSTHOG_KEY?.trim() || undefined,
     host: process.env.NEXT_PUBLIC_POSTHOG_HOST?.trim() || "https://us.i.posthog.com",
