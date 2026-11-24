@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { legacyRedirects } from "./src/config/routes";
 import { securityHeaders } from "./src/config/security-headers";
 
 const nextConfig: NextConfig = {
@@ -16,6 +17,7 @@ const nextConfig: NextConfig = {
       { source: "/carrers", destination: "/careers", permanent: true },
       { source: "/fydaaFYIP", destination: "/programme", permanent: true },
       { source: "/fydaaFYIP/:path*", destination: "/programme", permanent: true },
+      ...legacyRedirects(),
     ];
   },
   images: {

@@ -38,6 +38,7 @@ export default function ConditionalLayout({
     'dashboard',
     'upi-faq',
     'quicklinks',
+    'legal',
     'api',
   ]);
 

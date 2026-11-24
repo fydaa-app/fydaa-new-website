@@ -10,8 +10,9 @@ const PUBLIC_ROUTES = [
   "/partner",
   "/login",
   "/signup",
-  "/quicklinks/PrivacyPolicy",
-  "/quicklinks/Complaints",
+  "/legal/privacy-policy",
+  "/legal/terms-and-conditions",
+  "/legal/complaints",
 ];
 
 for (const path of PUBLIC_ROUTES) {

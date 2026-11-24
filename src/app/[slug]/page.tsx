@@ -17,6 +17,7 @@ const RESERVED_SLUGS = new Set([
   'dashboard',
   'upi-faq',
   'quicklinks',
+  'legal',
   'api',
   'favicon.ico',
   'robots.txt',
