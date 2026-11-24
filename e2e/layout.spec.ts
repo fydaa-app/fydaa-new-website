@@ -29,9 +29,12 @@ for (const path of PAGES) {
     test.skip(isMobile, "widths are set explicitly; one project is enough");
     const failures: string[] = [];
     await page.goto(path);
+    // Measure the settled layout: web fonts loaded and hydration finished.
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(300);
     for (const width of WIDTHS) {
       await page.setViewportSize({ width, height: 800 });
-      await page.waitForTimeout(150);
+      await page.waitForTimeout(250);
       const result = await page.evaluate(() => {
         const viewport = document.documentElement.clientWidth;
         const clipped: string[] = [];
@@ -51,5 +54,27 @@ for (const path of PAGES) {
       for (const entry of result.clipped.slice(0, 3)) failures.push(`${width}px: clips ${entry}`);
     }
     expect(failures, failures.join("\n")).toEqual([]);
+  });
+}
+
+// iOS Safari zooms the whole page when a focused control's text is under 16px.
+for (const path of ["/", "/login", "/signup", "/partner", "/careers"]) {
+  test(`${path} form controls are at least 16px on phones`, async ({ page, isMobile }) => {
+    test.skip(!isMobile, "phone layout");
+    await page.goto(path);
+    const small = await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLElement>("input, select, textarea")]
+        .filter((el) => {
+          const type = el.getAttribute("type");
+          if (type && ["checkbox", "radio", "range", "hidden", "file"].includes(type)) return false;
+          const box = el.getBoundingClientRect();
+          return box.width > 0 && box.height > 0 && parseFloat(getComputedStyle(el).fontSize) < 16;
+        })
+        .map(
+          (el) =>
+            `${el.id || el.getAttribute("name") || el.getAttribute("placeholder")}: ${getComputedStyle(el).fontSize}`,
+        ),
+    );
+    expect(small, small.join("\n")).toEqual([]);
   });
 }

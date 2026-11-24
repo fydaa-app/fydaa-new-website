@@ -92,7 +92,7 @@ export function JobDetail({
           {showPermalink ? (
             <Link
               href={jobPath(job.id)}
-              className="mt-1 inline-block text-sm font-semibold text-jade underline-offset-4 hover:underline"
+              className="inline-flex min-h-11 items-center text-sm font-semibold text-jade underline-offset-4 hover:underline"
             >
               View full job page<span className="sr-only">: {job.title}</span>
             </Link>

@@ -7,51 +7,57 @@ interface Props {
   currentStep: number;
 }
 
-const STEP_ACTIVE_BG = 'bg-white';
-const STEP_ACTIVE_BORDER = 'border border-gray-200';
-
+/**
+ * Registration progress. Phones and tablets get a one-line "Step n of 4" with a progress
+ * bar, so the form starts near the top of the screen; desktops get the full step list.
+ */
 export default function StepIndicator({ currentStep }: Props) {
+  const total = PARTNER_STEPS.length;
+  const current = PARTNER_STEPS.find((step) => step.id === currentStep) ?? PARTNER_STEPS[0];
+
   return (
-    <nav className="flex flex-col w-full space-y-2">
-      {PARTNER_STEPS.map((step: StepConfig) => {
-        const isActive = step.id === currentStep;
-        const isCompleted = step.id < currentStep;
-
-        const baseRowClass =
-          'flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all duration-200';
-
-        const rowClass = isActive
-          ? `${STEP_ACTIVE_BG} ${STEP_ACTIVE_BORDER}`
-          : '';
-
-        const textClass = isActive
-          ? 'text-ink font-medium'
-          : isCompleted
-          ? 'text-white font-medium'
-          : 'text-white';
-
-        return (
-          <div
-            key={step.id}
-            className={`${baseRowClass} ${rowClass} cursor-default`}
-          >
+    <>
+      <div className="lg:hidden">
+        <p className="text-sm font-medium text-white">
+          Step {current?.id} of {total}: <span className="font-semibold">{current?.label}</span>
+        </p>
+        <div className="mt-3 grid grid-cols-4 gap-1.5" aria-hidden>
+          {PARTNER_STEPS.map((step) => (
             <span
-              className={`flex items-center text-base font-inter ${textClass} truncate`}
-            >
-              <span className="mr-2 whitespace-nowrap">{step.id}.</span>
-              <span>{step.label}</span>
-            </span>
+              key={step.id}
+              className={`h-1.5 rounded-full ${step.id <= currentStep ? 'bg-white' : 'bg-white/30'}`}
+            />
+          ))}
+        </div>
+      </div>
 
-            {isCompleted ? (
-              <Check className="w-4 h-4 text-[#1AAA70] shrink-0" />
-            ) : isActive ? (
-              <ChevronRight className="w-4 h-4 text-ink shrink-0" />
-            ) : (
-              <CircleDashed className="w-4 h-4 text-white shrink-0" />
-            )}
-          </div>
-        );
-      })}
-    </nav>
+      <ol aria-label="Registration steps" className="hidden w-full flex-col space-y-2 lg:flex">
+        {PARTNER_STEPS.map((step: StepConfig) => {
+          const isActive = step.id === currentStep;
+          const isCompleted = step.id < currentStep;
+          return (
+            <li
+              key={step.id}
+              aria-current={isActive ? 'step' : undefined}
+              className={`flex w-full items-center justify-between rounded-xl px-4 py-3 ${
+                isActive ? 'border border-grey-200 bg-white' : ''
+              }`}
+            >
+              <span className={`flex items-center truncate text-base ${isActive ? 'font-medium text-ink' : 'text-white'}`}>
+                <span className="mr-2 whitespace-nowrap">{step.id}.</span>
+                <span>{step.label}</span>
+              </span>
+              {isCompleted ? (
+                <Check className="h-4 w-4 shrink-0 text-jade-300" aria-label="Completed" />
+              ) : isActive ? (
+                <ChevronRight className="h-4 w-4 shrink-0 text-ink" aria-hidden />
+              ) : (
+                <CircleDashed className="h-4 w-4 shrink-0 text-white" aria-hidden />
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </>
   );
 }

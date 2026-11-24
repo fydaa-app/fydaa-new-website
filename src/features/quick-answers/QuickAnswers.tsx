@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { Accordion } from "@/components/ui/accordion";
 import { siteConfig } from "@/config/site";
+import { useScrollState } from "@/lib/hooks/use-scroll-direction";
+import { cn } from "@/lib/utils/cn";
 import { QUICK_ANSWERS } from "./answers";
 
 const items = QUICK_ANSWERS.map((entry) => ({
@@ -15,12 +18,17 @@ const items = QUICK_ANSWERS.map((entry) => ({
 const contactLinkClass =
   "flex items-center justify-center rounded-btn border border-grey-200 bg-white px-3 py-2 text-sm font-semibold text-jade hover:border-jade focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade";
 
+/** Focused-task pages where a floating help button would compete with the form. */
+const HIDDEN_ON = ["/login", "/signup", "/partner", "/download"];
+
 /**
  * Floating "Quick answers" help panel: curated answers plus ways to reach a person.
  * A non-modal disclosure (not a chat), so it is labelled honestly and never claims to
  * be live or AI-driven.
  */
 export default function QuickAnswers() {
+  const pathname = usePathname();
+  const scroll = useScrollState();
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const titleId = useId();
@@ -40,8 +48,14 @@ export default function QuickAnswers() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
+  if (HIDDEN_ON.some((path) => pathname === path || pathname?.startsWith(`${path}/`))) return null;
+
+  // On phones the launcher stays out of the first screen (hero CTAs, calculator) and
+  // steps aside while the visitor reads down the page; it returns on scroll up.
+  const tucked = scroll !== "up" && !open;
+
   return (
-    <div className="fixed bottom-4 right-4 z-[60] flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
+    <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-[60] flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
       {open ? (
         <div
           ref={panelRef}
@@ -116,7 +130,11 @@ export default function QuickAnswers() {
         aria-expanded={open}
         aria-controls={open ? panelId : undefined}
         aria-label={open ? "Close quick answers" : "Quick answers"}
-        className="flex size-14 items-center justify-center rounded-full bg-ink text-white shadow-modal transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade"
+        className={cn(
+          "flex size-12 items-center justify-center rounded-full bg-ink text-white shadow-modal transition-[transform,opacity] duration-200 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade sm:size-14",
+          tucked &&
+            "max-md:pointer-events-none max-md:translate-y-20 max-md:opacity-0 max-md:focus-visible:pointer-events-auto max-md:focus-visible:translate-y-0 max-md:focus-visible:opacity-100",
+        )}
       >
         <svg
           aria-hidden="true"

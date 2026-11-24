@@ -7,10 +7,10 @@
   -webkit-font-smoothing: antialiased;
 }
 .fydaa-home img { max-width: 100%; display: block; }
-.fydaa-home a { text-decoration: none; color: inherit; }
+:where(.fydaa-home) a:not(.btn) { text-decoration: none; color: inherit; }
 
 .fydaa-home img{max-width:100%;display:block}
-.fydaa-home a{text-decoration:none;color:inherit}
+:where(.fydaa-home) a:not(.btn){text-decoration:none;color:inherit}
 .fydaa-home{
   --g:#0C4A3E;--g-dark:#0A3D33;--g-deep:#065F46;--emerald:#047857;
   --g-light:#ECFDF5;--g-pale:#F0FDF4;--g-mint:#6EE7B7;--g-200:#A7F3D0;
@@ -217,7 +217,7 @@
 .fydaa-home .advisory-form-sub{font-size:.875rem;color:var(--ink3);line-height:1.5;margin-bottom:24px}
 .fydaa-home .advisory-field{margin-bottom:16px}
 .fydaa-home .advisory-field label{display:block;font-size:.75rem;font-weight:600;color:var(--ink2);margin-bottom:6px}
-.fydaa-home .advisory-input{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:inherit;font-size:.875rem;color:var(--ink);background:var(--bg);outline:none;transition:border-color .2s,box-shadow .2s}
+.fydaa-home .advisory-input{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:inherit;font-size:1rem;color:var(--ink);background:var(--bg);outline:none;transition:border-color .2s,box-shadow .2s}
 .fydaa-home .advisory-input:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(12,74,62,.08)}
 .fydaa-home .advisory-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:10px;font-family:inherit;font-weight:600;font-size:1rem;cursor:pointer;transition:background-color .2s,border-color .2s;width:100%;margin-top:4px;background:var(--g);color:#fff;border:none}
 .fydaa-home .advisory-submit:hover{background:var(--g-dark)}
@@ -499,7 +499,7 @@
   .fydaa-home .trust-grid{grid-template-columns:1fr}
   .fydaa-home .advisory{padding:40px 0}
   .fydaa-home .advisory-form-card{padding:20px;border-radius:14px}
-  .fydaa-home .advisory-input{padding:12px 14px;font-size:.875rem}
+  .fydaa-home .advisory-input{padding:12px 14px}
   .fydaa-home .final-cta-card{border-radius:24px;padding:36px 16px}
   .fydaa-home .final-cta-card h2{line-height:32px}
   .fydaa-home .final-cta-card p{margin-bottom:20px}
@@ -543,3 +543,30 @@
 
 /* The fund card deliberately overhangs its column; never let it overhang past the section edge. */
 @media (min-width:769px) and (max-width:1279px){.fydaa-home .purpose-fund-card{max-width:100%}}
+
+/* Calculator slider: 44px touch area, visible 6px track and 22px thumb. */
+.fydaa-home .hc-range{-webkit-appearance:none;appearance:none;height:44px;background:transparent;cursor:pointer;accent-color:var(--g)}
+.fydaa-home .hc-range::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:var(--border)}
+.fydaa-home .hc-range::-moz-range-track{height:6px;border-radius:999px;background:var(--border)}
+.fydaa-home .hc-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;margin-top:-8px;border-radius:50%;background:var(--g);border:3px solid #fff;box-shadow:0 1px 4px rgba(10,10,10,.25)}
+.fydaa-home .hc-range::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--g);border:3px solid #fff;box-shadow:0 1px 4px rgba(10,10,10,.25)}
+.fydaa-home .hc-range:focus-visible{outline:2px solid var(--g);outline-offset:2px;border-radius:6px}
+
+/* Testimonial video: branded cover with a play button until the visitor starts it (no black box). */
+.fydaa-home .testi-video-cover{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;border:0;cursor:pointer;color:#fff;background:radial-gradient(120% 80% at 50% 20%,var(--g-deep) 0%,var(--g) 55%,var(--g-dark) 100%)}
+.fydaa-home .testi-video-play{display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:#fff;color:var(--g);box-shadow:0 8px 24px rgba(0,0,0,.25);transition:transform .2s}
+.fydaa-home .testi-video-cover:hover .testi-video-play{transform:scale(1.06)}
+.fydaa-home .testi-video-label{font-size:.875rem;font-weight:600}
+.fydaa-home .testi-video-cover:focus-visible{outline:3px solid #fff;outline-offset:-6px}
+
+/* Phones: trust cards in a 2x2 grid with tighter padding. */
+@media (max-width:480px){
+  .fydaa-home .trust-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+  .fydaa-home .trust-card{padding:18px 12px}
+}
+
+/* Phones: the advisory illustration is decorative; lead with the booking form. Smaller video tile. */
+@media (max-width:640px){
+  .fydaa-home .advisory-visual{display:none}
+  .fydaa-home .testi-video-frame{width:min(200px,100%)}
+}

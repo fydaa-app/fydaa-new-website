@@ -30,7 +30,7 @@ const GOALS = [
 /** "For your dreams and aspirations": three goal horizons and one call to action. */
 export default function DreamsSection() {
   return (
-    <section aria-labelledby="dreams-title" className="bg-white py-16 sm:py-20 lg:py-24">
+    <section aria-labelledby="dreams-title" className="bg-white py-12 sm:py-20 lg:py-24">
       <Container className="flex flex-col gap-10 sm:gap-12">
         <SectionHeader
           align="center"
@@ -42,12 +42,20 @@ export default function DreamsSection() {
             <li
               key={goal.id}
               id={goal.id}
-              className="flex flex-col gap-3 rounded-card border border-grey-200 bg-grey-50 p-5 sm:p-6 lg:last:col-span-1 sm:last:col-span-2 lg:[&:last-child]:col-span-1"
+              className="flex gap-4 rounded-card border border-grey-200 bg-grey-50 p-4 sm:flex-col sm:gap-3 sm:p-6 sm:last:col-span-2 lg:last:col-span-1"
             >
-              <Image src={goal.image} alt="" width={56} height={56} className="size-14 object-contain" />
-              <h3 className="text-title font-bold text-ink">{goal.title}</h3>
-              <p className="text-sm font-medium text-jade">{goal.tagline}</p>
-              <p className="text-base leading-relaxed text-grey-600">{goal.body}</p>
+              <Image
+                src={goal.image}
+                alt=""
+                width={56}
+                height={56}
+                className="size-11 shrink-0 object-contain sm:size-14"
+              />
+              <div className="flex flex-col gap-1 sm:gap-2">
+                <h3 className="text-title font-bold text-ink">{goal.title}</h3>
+                <p className="text-sm font-medium text-jade">{goal.tagline}</p>
+                <p className="text-sm leading-relaxed text-grey-600 sm:text-base">{goal.body}</p>
+              </div>
             </li>
           ))}
         </ul>

@@ -2,6 +2,7 @@ import { Container } from "@/components/layout/container";
 import { SectionHeader } from "@/components/layout/section-header";
 import { buttonClasses } from "@/components/ui/button";
 import { FaqList } from "@/components/ui/faq-list";
+import { siteConfig } from "@/config/site";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = pageMetadata({
@@ -14,15 +15,6 @@ export const metadata = pageMetadata({
 
 const PDF_PATH = "/documents/upi-intimation-to-investors.pdf";
 const SEBI_CHECK_URL = "https://siportal.sebi.gov.in/intermediary/sebi-check";
-
-const UPI_IDS = [
-  "multistrato.rzp1.ia@validicici",
-  "multistrato.rzp2.ia@validicici",
-  "multistrato.capitaladvisors.ia@validyes",
-  "multistrato.ia@validyes",
-  "savestment.ia@validyes",
-  "fydaa.ia@validyes",
-];
 
 const FAQS = [
   {
@@ -95,7 +87,7 @@ export default function UpiFaqPage() {
             Our validated UPI IDs
           </h2>
           <ul className="mt-4 grid gap-2">
-            {UPI_IDS.map((id) => (
+            {siteConfig.upi.handles.map((id) => (
               <li
                 key={id}
                 className="break-all rounded-btn bg-grey-50 px-4 py-3 font-mono text-sm text-ink sm:text-base"

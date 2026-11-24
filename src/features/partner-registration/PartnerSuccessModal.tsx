@@ -27,7 +27,7 @@ export default function PartnerSuccessModal({
         <p className="font-inter text-gray-600 mb-6">{message}</p>
         <button
           onClick={onOk}
-          className="w-full h-12 bg-black text-white rounded-xl font-medium font-inter hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
+          className="btn btn-primary btn-lg w-full"
         >
           OK
         </button>

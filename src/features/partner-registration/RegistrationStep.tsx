@@ -409,7 +409,7 @@ export default function RegistrationStep({
               handleInputChange('registration_number', e.target.value)
             }
             readOnly={arnLocked}
-            className={`flex-1 h-12 min-w-0 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-r-xl text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink transition-colors font-inter ${
+            className={`flex-1 h-12 min-w-0 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-r-xl text-base sm:text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink transition-colors font-inter ${
               arnLocked ? 'bg-gray-100 cursor-not-allowed' : ''
             } ${
               errors.registration_number
@@ -430,14 +430,14 @@ export default function RegistrationStep({
         <label htmlFor="email" className={LABEL_CLASS}>
           Email ( Registered with AMFI ) <span className="text-red-500">*</span>
         </label>
-        <div className="flex">
+        <div className="flex flex-col gap-2 sm:flex-row sm:gap-0">
           <input
             type="email"
             id="email"
             value={formData.email}
             onChange={(e) => handleInputChange('email', e.target.value)}
             readOnly={arnLocked}
-            className={`flex-1 h-12 min-w-0 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-l-xl text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink transition-colors font-inter ${
+            className={`flex-1 h-12 min-w-0 px-3 sm:px-4 border border-gray-300 rounded-xl sm:rounded-r-none text-base sm:text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink transition-colors font-inter ${
               arnLocked ? 'bg-gray-100 cursor-not-allowed' : ''
             } ${
               errors.email
@@ -446,7 +446,7 @@ export default function RegistrationStep({
             }`}
             placeholder="AMFI Registered Email Address"
           />
-          <div className="flex items-center h-12 px-3 border border-gray-300 border-l-0 rounded-r-xl bg-gray-50">
+          <div className="flex min-h-11 items-center justify-center rounded-xl border border-gray-300 bg-gray-50 px-3 sm:h-12 sm:rounded-l-none sm:border-l-0">
             {emailVerified ? (
               <div className="flex items-center gap-1 text-green-600 font-inter text-sm">
                 <svg
@@ -471,7 +471,7 @@ export default function RegistrationStep({
                 type="button"
                 onClick={handleRequestEmailOtp}
                 disabled={isLoading || !formData.registration_number.trim() || !formData.email.trim()}
-                className="text-ink font-inter text-sm underline underline-offset-2 hover:no-underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="min-h-11 w-full px-2 text-sm font-semibold text-jade underline underline-offset-2 hover:no-underline disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Verify
               </button>
@@ -501,7 +501,7 @@ export default function RegistrationStep({
             type="button"
             onClick={handleVerifyEmailOtp}
             disabled={isLoading || formData.email_otp.length !== OTP_LENGTH}
-            className={`mt-3 w-full h-12 bg-black text-white rounded-xl font-medium font-inter hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`btn btn-primary btn-lg mt-3 w-full`}
           >
             {isLoading ? 'Verifying...' : 'Verify OTP'}
           </button>
@@ -570,7 +570,7 @@ export default function RegistrationStep({
                   !formData.phone.trim() ||
                   !/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))
                 }
-                className="text-ink font-inter text-sm underline underline-offset-2 hover:no-underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="min-h-11 w-full px-2 text-sm font-semibold text-jade underline underline-offset-2 hover:no-underline disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isLoading ? 'Sending...' : 'Verify'}
               </button>
@@ -602,7 +602,7 @@ export default function RegistrationStep({
             disabled={
               isLoading || (formData.mobile_otp || '').length !== OTP_LENGTH
             }
-            className={`mt-3 w-full h-12 bg-black text-white rounded-xl font-medium font-inter hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`btn btn-primary btn-lg mt-3 w-full`}
           >
             {isLoading ? 'Verifying...' : 'Verify OTP'}
           </button>
@@ -631,15 +631,15 @@ export default function RegistrationStep({
       )}
 
       <div className="space-y-4 pt-4">
-        <label className="flex items-start gap-3">
+        <label className="flex cursor-pointer items-start gap-3 py-1">
           <input
             type="checkbox"
             checked={agreeCheckbox}
             onChange={(e) => setAgreeCheckbox(e.target.checked)}
-            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-ink focus:ring-ink"
+            className="mt-0.5 h-5 w-5 shrink-0 rounded border-gray-300 text-jade focus:ring-jade"
           />
           <span className="font-inter text-sm text-gray-700 leading-relaxed">
-            By clicking Continue, you will be creating an account with Fydaa,
+            By continuing, you will be creating an account with Fydaa,
             an AMFI registered Mutual Fund Distribution Platform and agree to our{' '}
             <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/TermsAndConditions.pdf" className="text-ink underline">
               Terms &amp; Conditions
@@ -657,12 +657,12 @@ export default function RegistrationStep({
           </span>
         </label>
 
-        <label className="flex items-start gap-3">
+        <label className="flex cursor-pointer items-start gap-3 py-1">
           <input
             type="checkbox"
             checked={indiaResidentCheckbox}
             onChange={(e) => setIndiaResidentCheckbox(e.target.checked)}
-            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-ink focus:ring-ink"
+            className="mt-0.5 h-5 w-5 shrink-0 rounded border-gray-300 text-jade focus:ring-jade"
           />
           <span className="font-inter text-sm text-gray-700 leading-relaxed">
             I confirm that I am an individual residing in India for tax purposes{' '}

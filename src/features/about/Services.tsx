@@ -121,7 +121,7 @@ export default function Services() {
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-white font-inter">
       <div className="max-w-[1120px] 2xl:max-w-[1280px] mx-auto px-4 sm:px-6">
-        <div className="max-w-[560px] mb-12">
+        <div className="max-w-[560px] mb-8 sm:mb-12">
           <h2 className="text-heading mb-3 font-bold text-ink">
             Your 360° personal finance partner
           </h2>
@@ -130,20 +130,20 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
           {SERVICES.map((s) => (
-            <div
+            <li
               key={s.title}
-              className="block bg-white border border-grey-200 rounded-2xl px-6 py-7 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all"
+              className="rounded-card border border-grey-200 bg-white p-4 shadow-card sm:px-6 sm:py-7"
             >
-              <div className="w-10 h-10 rounded-xl bg-jade-tint text-jade flex items-center justify-center mb-3.5">
+              <div className="mb-3 flex size-9 items-center justify-center rounded-xl bg-jade-tint text-jade sm:size-10">
                 {s.icon}
               </div>
-              <h3 className="mb-1.5 text-base font-bold text-ink">{s.title}</h3>
-              <p className="text-sm text-grey-500 leading-[1.5]">{s.body}</p>
-            </div>
+              <h3 className="mb-1 text-sm font-bold text-ink sm:text-base">{s.title}</h3>
+              <p className="text-sm leading-normal text-grey-600">{s.body}</p>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

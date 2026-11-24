@@ -127,7 +127,7 @@ function AccountSwitch({ isLogin }) {
       </span>
       <Link
         href={isLogin ? '/signup' : '/login'}
-        className="font-semibold text-jade"
+        className="inline-flex min-h-11 items-center px-1 font-semibold text-jade underline-offset-4 hover:underline"
         data-ph-event={isLogin ? 'Sign up' : 'Log in'}
       >
         {isLogin ? 'Sign up' : 'Log in'}

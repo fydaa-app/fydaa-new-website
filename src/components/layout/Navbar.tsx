@@ -6,6 +6,7 @@ import { useEffect, useId, useState, useSyncExternalStore } from "react";
 import { mainNavigation, routes } from "@/config/routes";
 import { siteConfig } from "@/config/site";
 import { useAuthStatus } from "@/lib/auth/use-auth-status";
+import { buttonClasses } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 import "./site-nav.css";
 
@@ -57,11 +58,19 @@ export default function Navbar() {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpenFor(null);
     };
+    // The page behind an open menu must not scroll.
+    const root = document.documentElement;
+    const previousOverflow = root.style.overflow;
+    root.style.overflow = "hidden";
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    return () => {
+      root.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [open]);
 
-  const account = auth === "authenticated" ? routes.dashboard : routes.login;
+  const authenticated = auth === "authenticated";
+  const account = authenticated ? routes.dashboard : routes.login;
 
   return (
     <div className="site-nav">
@@ -85,9 +94,24 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            <Link href={account.path} className="nav-menu-account" data-ph-event={account.label}>
-              {account.label}
-            </Link>
+            <div className="nav-menu-actions">
+              <Link
+                href={account.path}
+                className={buttonClasses({ variant: authenticated ? "primary" : "secondary", size: "lg" })}
+                data-ph-event={account.label}
+              >
+                {account.label}
+              </Link>
+              {authenticated ? null : (
+                <Link
+                  href={routes.signup.path}
+                  className={buttonClasses({ size: "lg" })}
+                  data-ph-event="Sign up"
+                >
+                  {routes.signup.label}
+                </Link>
+              )}
+            </div>
           </div>
 
           <div className="nav-right">
@@ -137,6 +161,7 @@ export default function Navbar() {
           </button>
         </div>
       </nav>
+      {open ? <div className="nav-backdrop" aria-hidden="true" onClick={() => setOpenFor(null)} /> : null}
     </div>
   );
 }

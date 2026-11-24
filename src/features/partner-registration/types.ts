@@ -43,16 +43,16 @@ export const PARTNER_STEPS: StepConfig[] = [
 ];
 
 export const INPUT_CLASS =
-  'w-full h-12 px-4 border border-gray-300 rounded-[12px] text-sm text-[#001E3C] placeholder:text-gray-500 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter';
+  'w-full h-12 px-4 border border-gray-300 rounded-xl text-base sm:text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-jade focus:ring-1 focus:ring-jade transition-colors';
 
 export const LABEL_CLASS =
-  'block text-sm font-medium text-gray-700 mb-1 font-inter';
+  'block text-sm font-medium text-grey-800 mb-1';
 
 export const PRIMARY_BUTTON_CLASS =
-  'w-full h-12 bg-black text-white rounded-[12px] font-medium font-inter hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300';
+  'btn btn-primary btn-lg w-full';
 
 export const SECONDARY_BUTTON_CLASS =
-  'w-full h-12 border border-gray-300 text-gray-700 rounded-[12px] font-medium font-inter hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300';
+  'btn btn-secondary btn-lg w-full';
 
 export const inputClassWithError = (hasError: boolean = false) =>
   hasError

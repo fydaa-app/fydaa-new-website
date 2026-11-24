@@ -149,8 +149,12 @@
   border-color: var(--g);
 }
 
-/* Account link inside the mobile menu (the bar has no room for it on phones). */
-.site-nav .nav-center .nav-menu-account {
+/* Account actions inside the mobile menu (the bar has no room for them on phones). */
+.site-nav .nav-center .nav-menu-actions {
+  display: none;
+}
+
+.site-nav .nav-backdrop {
   display: none;
 }
 
@@ -199,9 +203,6 @@
     font-size:.875rem;
   }
 
-  .site-nav .nav-logo {
-    margin-left: 8;
-  }
 }
 
 /* Tablet + mobile: hamburger */
@@ -232,7 +233,7 @@
     z-index: 100;
   }
 
-  .site-nav .nav-center.open a {
+  .site-nav .nav-center.open a:not(.btn) {
     padding: 14px 0;
     border-bottom: 1px solid var(--border);
     white-space: normal;
@@ -240,6 +241,22 @@
 
   .site-nav .nav-center.open a.active::after {
     display: none;
+  }
+
+  .site-nav .nav-center.open .nav-menu-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 8px;
+    padding-top: 16px;
+  }
+
+  /* Dims and blocks the page behind the open menu; tapping it closes the menu. */
+  .site-nav .nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 76px 0 0;
+    z-index: 99;
+    background: rgba(10, 10, 10, 0.4);
   }
 }
 
@@ -258,6 +275,10 @@
     max-width: min(170px, 58vw);
   }
 
+  .site-nav .nav-backdrop {
+    inset: 68px 0 0;
+  }
+
   .site-nav .nav-center.open {
     top: 68px;
     max-height: calc(100dvh - 68px);
@@ -268,10 +289,4 @@
     display: none;
   }
 
-  .site-nav .nav-center.open .nav-menu-account {
-    display: flex;
-    font-weight: 700;
-    color: var(--g);
-    border-bottom: none;
-  }
 }

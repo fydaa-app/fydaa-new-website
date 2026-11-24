@@ -42,6 +42,21 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/fydaaofficial/",
     facebook: "https://www.facebook.com/fydaaofficial/",
   },
+  /** SEBI-validated UPI IDs for payments (shown on /upi-faq and in the footer QR dialog). */
+  upi: {
+    handles: [
+      "multistrato.rzp1.ia@validicici",
+      "multistrato.rzp2.ia@validicici",
+      "multistrato.capitaladvisors.ia@validyes",
+      "multistrato.ia@validyes",
+      "savestment.ia@validyes",
+      "fydaa.ia@validyes",
+    ],
+    qrCodes: [
+      { src: "/images/upi-qr-rzp1.png", handle: "multistrato.rzp1.ia@validicici" },
+      { src: "/images/upi-qr-rzp2.png", handle: "multistrato.rzp2.ia@validicici" },
+    ],
+  },
   apps: {
     ios: "https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190",
     android: "https://play.google.com/store/apps/details?id=com.app.fydaa",

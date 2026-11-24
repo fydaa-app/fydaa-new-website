@@ -25,13 +25,19 @@ export function StatusPage({ eyebrow, title, description, actions }: StatusPageP
         <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium">
           {helpfulLinks.map((route) => (
             <li key={route.path}>
-              <Link href={route.path} className="text-jade underline-offset-4 hover:underline">
+              <Link
+                href={route.path}
+                className="inline-flex min-h-11 items-center text-jade underline-offset-4 hover:underline"
+              >
                 {route.label}
               </Link>
             </li>
           ))}
           <li>
-            <a href={siteConfig.contact.phoneHref} className="text-jade underline-offset-4 hover:underline">
+            <a
+              href={siteConfig.contact.phoneHref}
+              className="inline-flex min-h-11 items-center text-jade underline-offset-4 hover:underline"
+            >
               Call {siteConfig.contact.phone}
             </a>
           </li>

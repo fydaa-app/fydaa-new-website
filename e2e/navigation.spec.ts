@@ -10,7 +10,10 @@ test.describe("global navigation", () => {
     await expect(page).toHaveURL(/\/login$/);
   });
 
-  test("mobile menu exposes Login, closes on Escape and on navigation", async ({ page, isMobile }) => {
+  test("mobile menu offers Login and Sign up, locks the page, closes on backdrop, Escape and navigation", async ({
+    page,
+    isMobile,
+  }) => {
     test.skip(!isMobile, "mobile layout");
     await page.goto("/about");
     const toggle = page.getByRole("button", { name: "Open menu" });
@@ -20,7 +23,18 @@ test.describe("global navigation", () => {
     const close = page.getByRole("button", { name: "Close menu" });
     await expect(close).toHaveAttribute("aria-expanded", "true");
     await expect(page.locator("nav#nav .nav-center").getByRole("link", { name: "Login" })).toBeVisible();
+    await expect(page.locator("nav#nav .nav-center").getByRole("link", { name: "Sign up" })).toBeVisible();
 
+    // The page behind is locked and dimmed; tapping the backdrop closes the menu.
+    await expect(page.locator("html")).toHaveCSS("overflow", "hidden");
+    const backdrop = page.locator(".nav-backdrop");
+    const box = (await backdrop.boundingBox())!;
+    // Below the open menu panel, which covers the top of the backdrop.
+    await backdrop.click({ position: { x: 20, y: box.height - 20 } });
+    await expect(page.getByRole("button", { name: "Open menu" })).toHaveAttribute("aria-expanded", "false");
+    await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");
+
+    await page.getByRole("button", { name: "Open menu" }).click();
     await page.keyboard.press("Escape");
     await expect(page.getByRole("button", { name: "Open menu" })).toHaveAttribute("aria-expanded", "false");
 

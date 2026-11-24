@@ -100,7 +100,7 @@ export function LinkText({ children, onClick, className = '', ...rest }) {
     <button
       type="button"
       onClick={onClick}
-      className={`text-sm text-emerald-700 font-semibold cursor-pointer inline-block mb-6 bg-transparent border-0 p-0 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade ${className}`}
+      className={`text-sm text-emerald-700 font-semibold cursor-pointer inline-flex min-h-11 items-center mb-4 bg-transparent border-0 p-0 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade ${className}`}
       {...rest}
     >
       {children}
@@ -197,7 +197,7 @@ export function FieldInput({ label, prefix, className = '', id, ...rest }) {
       <div className="relative">
         {prefix && <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-neutral-500 pointer-events-none">{prefix}</span>}
         <input
-          className={`w-full h-12 border-[1.5px] border-neutral-200 rounded-xl px-3.5 text-sm font-medium text-neutral-950 outline-none focus:border-jade transition-colors ${
+          className={`w-full h-12 border-[1.5px] border-neutral-200 rounded-xl px-3.5 text-base sm:text-sm font-medium text-neutral-950 outline-none focus:border-jade transition-colors ${
             prefix ? 'pl-12' : ''
           } ${className}`}
           id={inputId}
@@ -216,7 +216,7 @@ export function FieldSelect({ label, children, id, ...rest }) {
       {label && <FieldLabel htmlFor={selectId}>{label}</FieldLabel>}
       <select
         id={selectId}
-        className="w-full h-12 border-[1.5px] border-neutral-200 rounded-xl px-3.5 text-sm font-medium text-neutral-950 outline-none focus:border-jade bg-white"
+        className="w-full h-12 border-[1.5px] border-neutral-200 rounded-xl px-3.5 text-base sm:text-sm font-medium text-neutral-950 outline-none focus:border-jade bg-white"
         {...rest}
       >
         {children}

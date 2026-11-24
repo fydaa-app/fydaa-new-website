@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useId } from 'react';
 import { LABEL_CLASS, INPUT_CLASS } from './types';
 
 interface PhoneInputProps {
@@ -24,6 +24,7 @@ export default function PhoneInput({
   readOnly = false,
   actionButton,
 }: PhoneInputProps) {
+  const inputId = useId();
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const numericValue = e.target.value.replace(/\D/g, '').slice(0, 10);
     onChange(numericValue);
@@ -31,16 +32,18 @@ export default function PhoneInput({
 
   return (
     <div>
-      <label className={LABEL_CLASS}>
+      <label htmlFor={inputId} className={LABEL_CLASS}>
         {label} {required && <span className="text-red-500">*</span>}
       </label>
-      <div className="flex">
+      <div className="flex flex-col gap-2 sm:flex-row sm:gap-0">
         <input
-          type="text"
+          id={inputId}
+          type="tel"
+          autoComplete="tel-national"
           value={value}
           onChange={handlePhoneChange}
           readOnly={readOnly}
-          className={`flex-1 min-w-0 h-12 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-l-xl text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink transition-colors font-inter ${
+          className={`flex-1 min-w-0 h-12 px-3 sm:px-4 border border-gray-300 rounded-xl sm:rounded-r-none text-base sm:text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink transition-colors font-inter ${
             readOnly ? 'bg-gray-100 cursor-not-allowed' : ''
           } ${
             error
@@ -52,7 +55,7 @@ export default function PhoneInput({
           maxLength={10}
         />
         {actionButton && (
-          <div className="flex items-center h-12 px-3 border border-gray-300 border-l-0 rounded-r-xl bg-gray-50">
+          <div className="flex min-h-11 items-center justify-center rounded-xl border border-gray-300 bg-gray-50 px-3 sm:h-12 sm:rounded-l-none sm:border-l-0">
             {actionButton}
           </div>
         )}
