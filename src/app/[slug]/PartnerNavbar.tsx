@@ -34,7 +34,7 @@ export default function PartnerNavbar({
       const ids = NAV_LINKS.filter((l) => showReviews || l.href !== '#reviews').map(
         (l) => l.href.slice(1),
       );
-      let current = ids[0];
+      let current = ids[0] ?? '';
       for (const id of ids) {
         const el = document.getElementById(id);
         if (!el) continue;

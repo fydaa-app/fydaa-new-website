@@ -1,7 +1,19 @@
 import { ADMIN_BASE, AUTH_BASE, AUTH_PROD_BASE, ONBOARDING_BASE, STOCK_BASE } from './apiHosts';
+import {
+  getAccessToken as readAccessToken,
+  getTokenExpiry,
+  isTokenExpired,
+  PIN_SETUP_KEY as PIN_SETUP_STORAGE_KEY,
+  setTokens,
+} from '@/lib/auth/token-store';
+import { endSession as endAuthSession } from '@/lib/auth/session';
 
-const TOKEN_KEY = 'fydaa-auth-token';
-const REFRESH_KEY = 'fydaa-refresh-token';
+export {
+  getAccessToken,
+  clearTokens,
+  PIN_SETUP_KEY,
+} from '@/lib/auth/token-store';
+export { endSession } from '@/lib/auth/session';
 
 function messageFrom(data, fallback = 'Something went wrong. Please try again.') {
   const message = data?.message ?? data?.error;
@@ -28,54 +40,19 @@ function extractTokens(data) {
   return { access, refresh };
 }
 
-export function getAccessToken() {
-  if (typeof window === 'undefined') return '';
-  return localStorage.getItem(TOKEN_KEY) || '';
-}
-
 export function storeTokens(data) {
   const { access, refresh } = extractTokens(data);
-  if (access) localStorage.setItem(TOKEN_KEY, access);
-  if (refresh) localStorage.setItem(REFRESH_KEY, refresh);
+  if (access) setTokens({ accessToken: access, refreshToken: refresh || undefined });
   return access;
-}
-
-export function clearTokens() {
-  if (typeof window === 'undefined') return;
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem(REFRESH_KEY);
-  localStorage.removeItem('fydaa-pin-setup');
 }
 
 /** Milliseconds when the JWT access token expires, or null if it has no exp claim. */
 export function accessTokenExpiresAt() {
-  const token = getAccessToken();
-  const payload = token.split('.')[1];
-  if (!payload) return null;
-  try {
-    const json = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
-    const exp = Number(json?.exp);
-    return Number.isFinite(exp) ? exp * 1000 : null;
-  } catch {
-    return null;
-  }
+  return getTokenExpiry(readAccessToken());
 }
 
 export function isAccessTokenExpired() {
-  const exp = accessTokenExpiresAt();
-  return exp != null && Date.now() >= exp;
-}
-
-let sessionEnding = false;
-
-/** Clear the saved session and open login. Used when the access token is expired. */
-export function endSession() {
-  if (typeof window === 'undefined' || sessionEnding) return;
-  sessionEnding = true;
-  clearTokens();
-  if (!window.location.pathname.startsWith('/login')) {
-    window.location.replace('/login');
-  }
+  return isTokenExpired(readAccessToken());
 }
 
 export function resolvePinSetupType(stage = {}) {
@@ -122,7 +99,7 @@ export async function postForm(path, fields) {
 
 /** Form POST with Bearer token (user/* endpoints). */
 export async function postFormAuth(path, fields) {
-  const token = getAccessToken();
+  const token = readAccessToken();
   if (!token) throw new Error('Authentication failed');
   const body = new URLSearchParams();
   Object.entries(fields).forEach(([key, value]) => {
@@ -139,7 +116,7 @@ export async function postFormAuth(path, fields) {
     body,
   });
   const data = await parseJson(res);
-  if (res.status === 401) endSession();
+  if (res.status === 401) endAuthSession();
   if (!(res.status === 200 || res.status === 201) || data?.error === true || data?.status === false) {
     throw new Error(messageFrom(data, 'Something went wrong, try again after sometime.'));
   }
@@ -172,7 +149,7 @@ export async function postJson(path, body, { auth = false, base = AUTH_BASE } = 
     'Content-Type': 'application/json',
   };
   if (auth) {
-    const token = getAccessToken();
+    const token = readAccessToken();
     if (!token) throw new Error('Authentication failed');
     headers.Authorization = `Bearer ${token}`;
   }
@@ -182,7 +159,7 @@ export async function postJson(path, body, { auth = false, base = AUTH_BASE } = 
     body: JSON.stringify(body ?? {}),
   });
   const data = await parseJson(res);
-  if (auth && res.status === 401) endSession();
+  if (auth && res.status === 401) endAuthSession();
   const statusOk = res.status === 200 || res.status === 201;
   const statusTrue = data?.status === true || data?.status === 'true';
   const hasToken = Boolean(extractTokens(data).access);
@@ -200,13 +177,13 @@ export async function postJson(path, body, { auth = false, base = AUTH_BASE } = 
 export async function getJson(path, { auth = true, base = AUTH_BASE } = {}) {
   const headers = { Accept: 'application/json' };
   if (auth) {
-    const token = getAccessToken();
+    const token = readAccessToken();
     if (!token) throw new Error('Authentication failed');
     headers.Authorization = `Bearer ${token}`;
   }
   const res = await fetch(`${base}${path.replace(/^\//, '')}`, { headers });
   const data = await parseJson(res);
-  if (auth && res.status === 401) endSession();
+  if (auth && res.status === 401) endAuthSession();
   if (!(res.status === 200 || res.status === 201) || data?.error === true) {
     throw new Error(messageFrom(data));
   }
@@ -219,7 +196,7 @@ export async function putJson(path, body = {}, { auth = true, base = STOCK_BASE 
     'Content-Type': 'application/json',
   };
   if (auth) {
-    const token = getAccessToken();
+    const token = readAccessToken();
     if (!token) throw new Error('Authentication failed');
     headers.Authorization = `Bearer ${token}`;
   }
@@ -229,7 +206,7 @@ export async function putJson(path, body = {}, { auth = true, base = STOCK_BASE 
     body: JSON.stringify(body),
   });
   const data = await parseJson(res);
-  if (auth && res.status === 401) endSession();
+  if (auth && res.status === 401) endAuthSession();
   return { res, data };
 }
 
@@ -271,7 +248,7 @@ export async function verifyOtp({ mobileNumber, otp }) {
   const token = storeTokens(data);
   if (!token) throw new Error('Something went wrong. Please try again.');
   if (typeof window !== 'undefined' && data?.data?.pinSetupType) {
-    localStorage.setItem('fydaa-pin-setup', String(data.data.pinSetupType));
+    localStorage.setItem(PIN_SETUP_STORAGE_KEY, String(data.data.pinSetupType));
   }
   return data;
 }

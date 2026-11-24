@@ -1,0 +1,44 @@
+# Build output and dependencies
+.next/
+out/
+build/
+coverage/
+node_modules/
+playwright-report/
+test-results/
+blob-report/
+package-lock.json
+public/
+next-env.d.ts
+
+# Legacy code not yet migrated to the new conventions.
+# Remove an entry when that area is rewritten so CI enforces formatting on it.
+src/animations/
+src/types/
+src/app/\[slug\]/
+src/app/about/
+src/app/api/
+src/app/careers/
+src/app/components/
+src/app/config/
+src/app/dashboard/
+src/app/features/
+src/app/home/
+src/app/layout/
+src/app/login/
+src/app/partner/
+src/app/programme/
+src/app/quicklinks/
+src/app/signup/
+src/app/Successpage*/
+src/app/upi-faq/
+src/app/globals.css
+src/app/layout.tsx
+src/app/page.tsx
+src/lib/posthog.ts
+tsconfig.json
+eslint.config.mjs
+tailwind.config.ts
+postcss.config.js
+next.config.ts
+README.md

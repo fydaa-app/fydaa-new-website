@@ -5,6 +5,14 @@ import { ArrowLeft, ArrowRight, Check, FileText, Linkedin, X } from 'lucide-reac
 import type { JobOpening } from './jobsData';
 import CareersApplySuccess from './CareersApplySuccess';
 
+/** Keep digits and one decimal point, cap decimals and clamp to `max` (replaced by `overflow`). */
+function limitDecimal(raw: string, maxDecimals: number, max: number, overflow: string): string {
+  const [whole = '', decimals] = raw.replace(/[^\d.]/g, '').split('.');
+  const value = decimals === undefined ? whole : `${whole}.${decimals.slice(0, maxDecimals)}`;
+  return parseFloat(value) > max ? overflow : value;
+}
+
+
 const STEPS = ['Personal Info', 'Experience', 'Upload'] as const;
 
 const NOTICE_OPTIONS = ['Immediate', '15 days', '30 days', '60 days', '90 days'];
@@ -406,12 +414,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                         className={inputClass}
                         value={form.totalExperience}
                         onChange={(e) => {
-                          let val = e.target.value.replace(/[^\d.]/g, '');
-                          const parts = val.split('.');
-                          if (parts.length > 2) val = parts.slice(0, 2).join('.');
-                          if (parts[1]?.length > 1) val = parts[0] + '.' + parts[1][0];
-                          if (parseFloat(val) > 99.9) val = '99';
-                          update('totalExperience', val);
+                          update('totalExperience', limitDecimal(e.target.value, 1, 99.9, '99'));
                         }}
                         onKeyDown={(e) => {
                           const v = form.totalExperience;
@@ -428,19 +431,14 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                         className={inputClass}
                         value={form.currentCtc}
                         onChange={(e) => {
-                          let val = e.target.value.replace(/[^\d.]/g, '');
-                          const parts = val.split('.');
-                          if (parts.length > 2) val = parts.slice(0, 2).join('.');
-                          if (parts[1]?.length > 2) val = parts[0] + '.' + parts[1][0] + parts[1][1];
-                          if (parseFloat(val) > 99.99) val = '99.99';
-                          update('currentCtc', val);
+                          update('currentCtc', limitDecimal(e.target.value, 2, 99.99, '99.99'));
                         }}
                         onKeyDown={(e) => {
                           const v = form.currentCtc;
                           if (e.key === '.' && v.includes('.')) return e.preventDefault();
                           if (!/^\d$/.test(e.key) && e.key !== '.' && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)) return e.preventDefault();
                           if ((parseFloat(v) >= 99 && !v.includes('.')) || v === '99' || v === '99.9' || v === '99.99') { if (/^\d$/.test(e.key)) return e.preventDefault(); }
-                          if (v.includes('.') && v.split('.')[1]?.length >= 2 && /^\d$/.test(e.key)) return e.preventDefault();
+                          if ((v.split('.')[1]?.length ?? 0) >= 2 && /^\d$/.test(e.key)) return e.preventDefault();
                         }}
                         placeholder="e.g. 24"
                       />
@@ -454,19 +452,14 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                         className={inputClass}
                         value={form.expectedCtc}
                         onChange={(e) => {
-                          let val = e.target.value.replace(/[^\d.]/g, '');
-                          const parts = val.split('.');
-                          if (parts.length > 2) val = parts.slice(0, 2).join('.');
-                          if (parts[1]?.length > 2) val = parts[0] + '.' + parts[1][0] + parts[1][1];
-                          if (parseFloat(val) > 99.99) val = '99.99';
-                          update('expectedCtc', val);
+                          update('expectedCtc', limitDecimal(e.target.value, 2, 99.99, '99.99'));
                         }}
                         onKeyDown={(e) => {
                           const v = form.expectedCtc;
                           if (e.key === '.' && v.includes('.')) return e.preventDefault();
                           if (!/^\d$/.test(e.key) && e.key !== '.' && !['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)) return e.preventDefault();
                           if ((parseFloat(v) >= 99 && !v.includes('.')) || v === '99' || v === '99.9' || v === '99.99') { if (/^\d$/.test(e.key)) return e.preventDefault(); }
-                          if (v.includes('.') && v.split('.')[1]?.length >= 2 && /^\d$/.test(e.key)) return e.preventDefault();
+                          if ((v.split('.')[1]?.length ?? 0) >= 2 && /^\d$/.test(e.key)) return e.preventDefault();
                         }}
                         placeholder="e.g. 32"
                       />

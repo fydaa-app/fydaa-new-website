@@ -512,8 +512,8 @@ export function inferResumeStepFromStatus(
     submitted: 6,
   };
 
-  if (raw && raw in statusToStep) {
-    const step = statusToStep[raw];
+  const step = raw ? statusToStep[raw] : undefined;
+  if (step !== undefined) {
     // Declarations complete → land on programme selection
     if (step === 5 && (form.allAnnex_agree || form.esign_name || form.selectedProgramme)) {
       return 6;

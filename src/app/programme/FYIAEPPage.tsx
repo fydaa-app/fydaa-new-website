@@ -1514,7 +1514,7 @@ function OtpVerifyPage({
     if (digits.length > 1) {
       const next = [...otp];
       for (let i = 0; i < digits.length && index + i < OTP_LENGTH; i++) {
-        next[index + i] = digits[i];
+        next[index + i] = digits.charAt(i);
       }
       setOtp(next);
       setError("");
@@ -1659,7 +1659,7 @@ function OtpVerifyPage({
 }
 
 function firstNameFromForm(form: FormState) {
-  return asStr(form.fullName).split(" ")[0];
+  return asStr(form.fullName).split(" ")[0] ?? "";
 }
 
 function PaymentScreen({
@@ -1885,7 +1885,8 @@ function FormPage({
   };
 
   const steps = getSteps(form, set, pick, uploads, addFile, rmFile, chk, errors);
-  const s = steps[step];
+  const s = steps[Math.min(step, steps.length - 1)];
+  if (!s) return null;
   const isLast = step === steps.length - 1;
   const proceedDisabled =
     saving ||

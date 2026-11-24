@@ -68,7 +68,7 @@ export default function JobDetailContent({ job }: { job: JobOpening }) {
       heading,
       items: Object.keys(obj[heading] || {}).map((item) => ({
         item,
-        subItems: obj[heading][item] || [],
+        subItems: obj[heading]?.[item] || [],
       })),
     }));
   } else if (isOldFlatArray || !job.responsibilities) {
