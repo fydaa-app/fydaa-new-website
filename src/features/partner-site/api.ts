@@ -1,6 +1,4 @@
-import { cache } from 'react';
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '';
+import { env } from '@/config/env';
 
 export type PublicPartnerReview = {
   id: number;
@@ -30,7 +28,7 @@ export type BookPartnerConsultationPayload = {
 };
 
 function getCrmBaseUrl(): string {
-  return BASE_URL.endsWith('/') ? BASE_URL : `${BASE_URL}/`;
+  return env.api.crm;
 }
 
 export type PartnerMobileCheckStatus =
@@ -43,35 +41,6 @@ export type PartnerMobileCheckResult = {
   status: PartnerMobileCheckStatus;
   message: string;
 };
-
-async function loadPublicPartnerWebsite(
-  slug: string,
-): Promise<PublicPartnerWebsite | null> {
-  const normalized = String(slug || '').trim().toLowerCase();
-  if (!normalized) return null;
-
-  const url = `${getCrmBaseUrl()}arn/public/partner-website/${encodeURIComponent(normalized)}`;
-
-  try {
-    const res = await fetch(url, {
-      method: 'GET',
-      cache: 'no-store',
-      headers: { Accept: 'application/json' },
-    });
-
-    if (res.status === 404) return null;
-    if (!res.ok) return null;
-
-    const payload = await res.json();
-    if (!payload?.success || !payload?.data) return null;
-    return payload.data as PublicPartnerWebsite;
-  } catch {
-    return null;
-  }
-}
-
-/** Request-scoped memoisation so generateMetadata and the page share one fetch. */
-export const fetchPublicPartnerWebsite = cache(loadPublicPartnerWebsite);
 
 export async function checkPartnerMobile(
   slug: string,

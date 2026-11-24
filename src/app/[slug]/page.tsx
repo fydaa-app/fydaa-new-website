@@ -1,52 +1,23 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { pageMetadata } from "@/lib/seo/metadata";
-import { fetchPublicPartnerWebsite } from "@/features/partner-site/api";
+import { getPartnerWebsite } from "@/features/partner-site/partner-website.server";
 import PartnerWebsite from "@/features/partner-site/PartnerWebsite";
 
-export const dynamic = "force-dynamic";
+/** Incrementally generated and cached for 5 minutes (including "not found"). */
+export const revalidate = 300;
 
-const RESERVED_SLUGS = new Set([
-  "about",
-  "careers",
-  "carrers",
-  "features",
-  "partner",
-  "programme",
-  "fydaafyip",
-  "login",
-  "signup",
-  "dashboard",
-  "upi-faq",
-  "quicklinks",
-  "legal",
-  "api",
-  "favicon.ico",
-  "robots.txt",
-  "sitemap.xml",
-  "successpagedigi",
-  "successpagefund",
-  "successpagemandate",
-  "successpagensdl",
-  "successpagesetu",
-  "successpagelumpsum",
-]);
+export function generateStaticParams() {
+  return [];
+}
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-function isReservedSlug(slug: string): boolean {
-  const value = slug.trim().toLowerCase();
-  if (RESERVED_SLUGS.has(value)) return true;
-  if (value.startsWith("successpage")) return true;
-  return false;
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const slug = String((await params)?.slug || "").trim();
-  if (!slug || isReservedSlug(slug)) notFound();
-  const data = await fetchPublicPartnerWebsite(slug);
+  const data = await getPartnerWebsite(slug);
   // Unknown partner: hand over to the 404 boundary so its metadata (title, noindex) applies.
   if (!data) notFound();
   const name = data.name?.trim() || "Fydaa Partner";
@@ -63,17 +34,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function PartnerWebsitePage({ params }: PageProps) {
-  const resolved = await params;
-  const slug = String(resolved?.slug || "").trim();
-
-  if (!slug || isReservedSlug(slug)) {
-    notFound();
-  }
-
-  const data = await fetchPublicPartnerWebsite(slug);
-  if (!data) {
-    notFound();
-  }
-
+  const slug = String((await params)?.slug || "").trim();
+  const data = await getPartnerWebsite(slug);
+  if (!data) notFound();
   return <PartnerWebsite data={data} slug={slug} />;
 }
