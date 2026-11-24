@@ -1,6 +1,5 @@
 import ProductSection from './ProductSection';
 import DirectPlanPanel from './panels/DirectPlanPanel';
-import { DIRECT_PLAN } from '../data/productPanels';
 
 export default function DirectPlanSection() {
   return (
@@ -16,14 +15,7 @@ export default function DirectPlanSection() {
         'Investments, wealth growth & goal tracking',
         'Insurance & financial protection review',
       ]}
-      // ctaText="Build my plan →"
-      ctaHref="/direct-plan"
       reverse
-      extraCta={
-        <span style={{ fontSize: '.85rem', color: 'var(--ink3)', borderLeft: '1px solid var(--border)', paddingLeft: 16 }}>
-          {DIRECT_PLAN.priceLabel}
-        </span>
-      }
     >
       <DirectPlanPanel />
     </ProductSection>
