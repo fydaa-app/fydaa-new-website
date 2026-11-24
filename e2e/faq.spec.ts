@@ -1,25 +1,17 @@
 import { expect, test } from "@playwright/test";
 
-test("home FAQ answers are in the server HTML for search engines", async ({ request }) => {
+test("home questions and answers are in the server HTML for search engines", async ({ request }) => {
   const html = await (await request.get("/")).text();
-  expect(html).toContain("How much do I need to start?");
-  expect(html).toMatch(/aria-expanded="false"/);
+  expect(html).toContain("How much do I need to start a SIP?");
+  expect(html).toContain("There is no account minimum");
 });
 
-test("home FAQ is keyboard operable and opens one answer at a time", async ({ page }) => {
+test("home questions show every answer open, with no accordion", async ({ page }) => {
   await page.goto("/");
-  const first = page.getByRole("button", { name: "How much do I need to start?" });
-  const second = page.getByRole("button", { name: "Is my money safe?" });
-
-  await first.focus();
-  await page.keyboard.press("Enter");
-  await expect(first).toHaveAttribute("aria-expanded", "true");
-  await expect(page.getByRole("region", { name: "How much do I need to start?" })).toBeVisible();
-
-  await second.focus();
-  await page.keyboard.press(" ");
-  await expect(second).toHaveAttribute("aria-expanded", "true");
-  await expect(first).toHaveAttribute("aria-expanded", "false");
+  const questions = page.locator("#questions");
+  await expect(questions.getByRole("heading", { name: "Where does my SIP money go?" })).toBeVisible();
+  await expect(questions.getByText(/Straight to the fund house, never to Fydaa/)).toBeVisible();
+  await expect(questions.locator("[aria-expanded]")).toHaveCount(0);
 });
 
 test("about hero copy has no missing spaces at phone width", async ({ page }) => {

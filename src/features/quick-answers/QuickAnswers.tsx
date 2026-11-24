@@ -21,6 +21,12 @@ const contactLinkClass = buttonClasses({ variant: "secondary", size: "md", class
 /** Focused-task pages where a floating help button would compete with the form. */
 const HIDDEN_ON = ["/login", "/signup", "/partner", "/download", "/careers/jobs"];
 
+/**
+ * Pages that answer the questions in a section of their own: the home page has its "Questions"
+ * section and nothing fixed but the header and the phone bar (tasteskill's page shell).
+ */
+const HIDDEN_EXACT = ["/"];
+
 function CloseIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -64,6 +70,7 @@ export default function QuickAnswers() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
+  if (HIDDEN_EXACT.includes(pathname ?? "")) return null;
   if (HIDDEN_ON.some((path) => pathname === path || pathname?.startsWith(`${path}/`))) return null;
 
   // On phones the launcher stays out of the first screen (hero CTAs, calculator) and

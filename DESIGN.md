@@ -12,6 +12,30 @@ registered adviser.
 **Who:** salaried 25 to 40 year olds, many investing for the first time, on phones more than laptops.
 **The page's job:** start a goal SIP, or book a free call with an adviser.
 
+## Home page and site chrome: Editorial and exact (tasteskill 2.5.1)
+
+The home page, the header and the footer follow [taste-skill](https://github.com/Leonxlnx/taste-skill)
+(installed in `.agents/skills/design-taste-frontend`, MIT) as a software page. Every other page keeps
+"Light and precise" below until it is moved over.
+
+- **Ground and ink:** warm off-white `canvas` (`#F7F6F2`), one step darker `canvas.alt` for the one
+  surface band, forest ink for text, jade the only accent (primary button, focus, chart strokes).
+  The footer is the one dark ground. No gradients, glows or shadows; 1px hairlines and white UI
+  windows carry the structure.
+- **Type:** Mona Sans for everything, headlines at weight 500 and width 104 with tight tracking;
+  DM Mono only for registration numbers, chips and codes. Money stays Mona Sans, tabular, width 112.
+- **Layout:** one 1280px `.wrap` on a 12-column grid (80px gutters at 1440); every section exactly
+  one or two screens tall at 1440x900, its h2 first; the hero alone on the first screen. Corners
+  sharp (4/6/8px). On a phone the hero is two screens: the words, then the whole SIP planner.
+- **Sections:** split hero with the live SIP planner (assumption and market-risk line inside it),
+  the Goals screen as one app window, four feature cards with UI fragments, the adviser call on the
+  surface band, three steps, open questions, then the footer as the close ("Get the app" and the
+  name set across the page) with both registrations and the full disclaimer.
+- **Motion:** the hero's entrance, one dealt moment (`line-carries-colour` on the advisers band,
+  loaded after hydration from `public/assets/moments`), and the hover layer. Nothing else moves.
+- **Checks:** `node .agents/skills/design-taste-frontend/scripts/consistency.mjs http://localhost:3300/
+--page software` and `gate.mjs`; waivers and their reasons are in the PR description.
+
 ## Direction: Light and precise
 
 White paper, forest-ink type, big rupee figures set in tabular numbers, real product UI, and one

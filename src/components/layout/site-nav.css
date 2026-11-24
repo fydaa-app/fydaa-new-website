@@ -1,544 +1,285 @@
-.site-nav {
-  --g: theme("colors.jade.DEFAULT");
-  --g-dark: theme("colors.jade.hover");
-  --g-light: theme("colors.jade.tint");
-  --ink: theme("colors.ink");
-  --ink2: theme("colors.grey.600");
-  --ink3: theme("colors.grey.500");
-  --border: theme("colors.line");
-  --card: #fff;
-  --surface: theme("colors.mist");
+/*
+ * The site header (tasteskill nav-mega, DESIGN.md "Editorial and exact"). Fixed, opaque, --nav tall
+ * with a hairline under it from the first paint; no blur, transparency, shrink, hide or shadow. Its
+ * .wrap is the page's, so the logo sits on the left line and the button ends on the right one.
+ */
+.site-header {
+  --header-bg: #ffffff;
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  height: var(--nav);
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--canvas-rule);
+  color: var(--canvas-ink);
   font-family: var(--font-sans), system-ui, sans-serif;
 }
-
-/* Plain links take the bar's colour; buttons (.btn) keep their own. */
-:where(.site-nav) a:not(.btn) {
-  text-decoration: none;
-  color: inherit;
+:root:has(main.home) .site-header {
+  --header-bg: var(--canvas);
 }
 
-.site-nav nav {
-  position: fixed;
-  top: 0;
+.site-header .nav-bar {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 24px;
+}
+
+/* Out of the layout until the first Tab, then over the logo: it never pushes the logo off its line. */
+.site-header .skip-link {
+  position: absolute;
+  left: var(--gut);
+  top: 14px;
+  z-index: 2;
+  padding: 10px 16px;
+  border-radius: 4px;
+  background: var(--canvas-ink);
+  color: var(--canvas);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.site-header .skip-link:focus-visible {
+  transform: none;
+  outline: 2px solid var(--canvas-ink);
+  outline-offset: 2px;
+}
+
+.site-header .nav-logo {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  flex-shrink: 0;
+}
+.site-header .nav-logo img {
+  display: block;
+  height: 28px;
+  width: auto;
+}
+
+.site-header .nav-words {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-left: 24px;
+}
+
+/* A plain word: 15px/500, never wraps; on hover a 1px line draws 4px under it (left to right in,
+   leaving to the right); the current page keeps a 2px bar. */
+.site-header .nav-word {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+.site-header .nav-word::after {
+  content: "";
+  position: absolute;
   left: 0;
   right: 0;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.86);
-  backdrop-filter: saturate(1.4) blur(16px);
-  -webkit-backdrop-filter: saturate(1.4) blur(16px);
-  border-bottom: 1px solid transparent;
-  transition:
-    border-color var(--duration-medium) var(--ease-out),
-    background-color var(--duration-medium) var(--ease-out);
+  bottom: 8px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 120ms var(--ease-out);
 }
-
-.site-nav nav.scrolled {
-  border-bottom-color: var(--border);
-}
-
-/* Same box as <Container>: 72rem wide with 16/24/32px gutters, so the header lines up with page content. */
-.site-nav .nav-inner {
-  max-width: 72rem;
-  margin: 0 auto;
-  padding: 0 32px;
-  display: flex;
-  align-items: stretch;
-  justify-content: flex-start;
-  height: 72px;
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.site-nav .nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-  margin-right: auto;
-  margin-left: 0;
-  z-index: 2;
-}
-
-.site-nav .nav-logo img {
-  height: 40px;
-  width: auto;
-  max-width: 160px;
-  display: block;
-  object-fit: contain;
-}
-
-.site-nav .nav-center {
-  display: flex;
-  gap: 32px;
-  align-items: stretch;
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  transform: translateX(-50%);
-}
-
-.site-nav .nav-center a {
-  font-size: 0.9375rem;
-  font-weight: 550;
-  font-stretch: 104%;
-  color: var(--ink2);
-  transition: color var(--duration-quick) var(--ease-out);
-  display: flex;
-  align-items: center;
-  position: relative;
-  white-space: nowrap;
-}
-
-.site-nav .nav-center a:hover {
-  color: var(--ink);
-}
-
-.site-nav .nav-center a.active {
-  color: var(--ink);
-}
-
-/* The active page carries the logo's round-capped stroke, not a full underline. */
-.site-nav .nav-center a.active::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  width: 14px;
-  height: 3px;
-  margin-left: -7px;
-  background: var(--g);
-  border-radius: 999px;
-}
-
-.site-nav .nav-right {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  z-index: 2;
-}
-
-.site-nav .nav-download {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  font-stretch: 104%;
-  color: #fff;
-  background: var(--g);
-  height: 40px;
-  padding: 0 16px;
-  white-space: nowrap;
-  border-radius: 8px;
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.08),
-    0 1px 2px rgb(14 39 33 / 0.18);
-  transition:
-    background-color var(--duration-quick) var(--ease-out),
-    transform var(--duration-quick) var(--ease-smooth-out);
-}
-
-.site-nav .nav-download:hover {
-  background: var(--g-dark);
-  transform: translateY(-1px);
-}
-
-.site-nav .nav-download:active {
-  transform: scale(0.98);
-}
-
-.site-nav .nav-login {
-  display: inline-flex;
-  align-items: center;
-  font-size: 0.875rem;
-  font-weight: 600;
-  font-stretch: 104%;
-  color: var(--ink);
-  height: 40px;
-  padding: 0 14px;
-  border-radius: 8px;
-  transition: background-color var(--duration-quick) var(--ease-out);
-}
-
-.site-nav .nav-login:hover {
-  background: var(--surface);
-}
-
-/* Account actions inside the mobile menu (the bar has no room for them on phones). */
-.site-nav .nav-center .nav-menu-actions {
-  display: none;
-}
-
-.site-nav .nav-backdrop {
-  display: none;
-}
-
-.site-nav :is(a, button):focus-visible {
-  outline: 2px solid var(--g);
-  outline-offset: 2px;
-  border-radius: 6px;
-}
-
-.site-nav .nav-hamburger {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  margin-left: auto;
-  z-index: 3;
-  min-width: 44px;
-  min-height: 44px;
-  align-items: center;
-  justify-content: center;
-}
-
-.site-nav .nav-hamburger svg {
-  width: 24px;
-  height: 24px;
-  stroke: var(--ink);
-}
-
-@media (min-width: 1536px) {
-  .site-nav .nav-center {
-    gap: 40px;
+@media (hover: hover) and (pointer: fine) {
+  .site-header .nav-word:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+    transition-duration: var(--duration-quick);
   }
 }
-
-@media (min-width: 1025px) and (max-width: 1280px) {
-  .site-nav .nav-center {
-    gap: 20px;
-  }
-
-  .site-nav .nav-center a {
-    font-size: 0.875rem;
-  }
+.site-header .nav-word.is-current::after {
+  height: 2px;
+  transform: none;
 }
-
-/* Tablet + mobile: hamburger */
-@media (max-width: 1024px) {
-  .site-nav .nav-hamburger {
-    display: flex;
-  }
-
-  /*
-   * Menu panel: always rendered on small screens so it can open with the transitions.dev
-   * dropdown (fade + 0.97 scale from the top edge); `visibility` keeps closed links out of the
-   * tab order.
-   */
-  .site-nav .nav-center {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 72px;
-    left: 0;
-    right: 0;
-    bottom: auto;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 24px 40px -24px rgb(14 39 33 / 0.25);
-    padding: 8px 24px 16px;
-    gap: 0;
-    max-height: calc(100dvh - 72px);
-    overflow-y: auto;
-    z-index: 100;
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(calc(var(--distance-base) * -1)) scale(var(--scale-tiny));
-    transform-origin: top center;
-    transition:
-      opacity var(--duration-quick) var(--ease-smooth-out),
-      transform var(--duration-quick) var(--ease-smooth-out),
-      visibility 0s linear var(--duration-quick);
-  }
-
-  .site-nav .nav-center.open {
-    visibility: visible;
-    opacity: 1;
-    transform: none;
-    transition:
-      opacity var(--duration-fast) var(--ease-smooth-out),
-      transform var(--duration-fast) var(--ease-smooth-out),
-      visibility 0s;
-  }
-
-  .site-nav .nav-center.open a:not(.btn) {
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border);
-    white-space: normal;
-    font-size: 1.0625rem;
-    color: var(--ink);
-  }
-
-  .site-nav .nav-center.open a.active::after {
-    display: none;
-  }
-
-  .site-nav .nav-center .nav-menu-actions {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-    gap: 8px;
-    padding-top: 16px;
-  }
-
-  /* Dims and blocks the page behind the open menu; tapping it closes the menu. */
-  .site-nav .nav-backdrop {
-    display: block;
-    position: fixed;
-    inset: 72px 0 0;
-    z-index: 99;
-    background: rgb(14 39 33 / 0.35);
-    animation: nav-backdrop-in var(--duration-fast) var(--ease-out) both;
-  }
-}
-
-@keyframes nav-backdrop-in {
-  from {
-    opacity: 0;
-  }
-}
-
-@media (max-width: 1024px) and (prefers-reduced-motion: reduce) {
-  .site-nav .nav-center,
-  .site-nav .nav-center.open {
-    transition: none;
-    transform: none;
-  }
-  .site-nav .nav-backdrop {
-    animation: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .site-nav .nav-inner {
-    padding: 0 16px;
-    height: 64px;
-  }
-
-  .site-nav .nav-logo {
-    margin-left: 0;
-  }
-
-  .site-nav .nav-logo img {
-    height: 34px;
-    max-width: min(140px, 50vw);
-  }
-
-  .site-nav .nav-backdrop {
-    inset: 64px 0 0;
-  }
-
-  .site-nav .nav-center {
-    top: 64px;
-    max-height: calc(100dvh - 64px);
-    padding: 8px 16px 16px;
-  }
-
-  .site-nav .nav-right .nav-login {
-    display: none;
-  }
-}
-
-@media (min-width: 640px) and (max-width: 1023px) {
-  .site-nav .nav-inner {
-    padding: 0 24px;
-  }
-}
-
-/* Smallest phones: the download button drops its icon so the bar never wraps. */
-@media (max-width: 374px) {
-  .site-nav .nav-download {
-    padding: 0 12px;
-  }
-  .site-nav .nav-download svg {
-    display: none;
-  }
-}
-
-/* "Get the app" in the bar: 40px tall like the rest of the header. */
-.site-nav .nav-get-app {
-  height: 40px;
-  padding: 0 16px;
-}
-
-/*
- * "For professionals": a dropdown on desktop (transitions.dev menu dropdown: fade + 0.97 scale from
- * the trigger), a labelled group inside the phone menu.
- */
-.site-nav .nav-group {
-  position: relative;
-  display: flex;
-  align-items: stretch;
-}
-
-.site-nav .nav-group-toggle {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.9375rem;
-  font-weight: 550;
-  font-stretch: 104%;
-  color: var(--ink2);
-  white-space: nowrap;
-  background: none;
-  border: 0;
-  cursor: pointer;
-  transition: color var(--duration-quick) var(--ease-out);
-}
-
-.site-nav .nav-group-toggle:hover,
-.site-nav .nav-group.open .nav-group-toggle,
-.site-nav .nav-group-toggle.active {
-  color: var(--ink);
-}
-
-.site-nav .nav-group-toggle.active::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  width: 14px;
-  height: 3px;
-  margin-left: -7px;
-  background: var(--g);
-  border-radius: 999px;
-}
-
-.site-nav .nav-group-chevron {
+.site-header .nav-chev {
   width: 14px;
   height: 14px;
-  transition: transform var(--duration-fast) var(--ease-smooth-out);
+}
+.site-header .nav-menu.is-open .nav-chev {
+  transform: rotate(180deg);
 }
 
-.site-nav .nav-group.open .nav-group-chevron {
-  transform: scaleY(-1);
+.site-header .nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-left: auto;
 }
 
-.site-nav .nav-group-panel {
+/* "Professionals": a full-width flat panel under the bar, its ground and a 1px line, no shadow. */
+.site-header .nav-panel {
   position: absolute;
-  top: calc(100% - 10px);
-  left: 50%;
-  width: 320px;
-  margin-left: -160px;
-  padding: 8px;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow:
-    0 1px 2px rgb(14 39 33 / 0.06),
-    0 16px 40px -12px rgb(14 39 33 / 0.18);
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(-4px) scale(0.97);
-  transform-origin: top center;
-  transition:
-    opacity var(--duration-quick) var(--ease-smooth-out),
-    transform var(--duration-quick) var(--ease-smooth-out),
-    visibility 0s linear var(--duration-quick);
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--canvas-rule);
+  padding-block: 32px 40px;
+  animation: nav-drop 200ms var(--ease-smooth-out) both;
 }
-
-.site-nav .nav-group.open .nav-group-panel {
-  visibility: visible;
-  opacity: 1;
-  transform: none;
-  transition:
-    opacity var(--duration-fast) var(--ease-smooth-out),
-    transform var(--duration-fast) var(--ease-smooth-out),
-    visibility 0s;
-}
-
-.site-nav .nav-group-label {
+.site-header .nav-panel[hidden] {
   display: none;
 }
-
-.site-nav .nav-center .nav-group-panel a {
+@keyframes nav-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+.site-header .nav-panel__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+.site-header .nav-panel__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--canvas-muted);
+  padding-top: 10px;
+}
+.site-header .nav-panel__links {
+  display: contents;
+  list-style: none;
+}
+.site-header .nav-panel__links a {
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  white-space: normal;
-  transition: background-color var(--duration-quick) var(--ease-out);
+  gap: 4px;
+  min-height: 44px;
+  padding: 8px 0;
+  color: inherit;
+  text-decoration: none;
+}
+.site-header .nav-panel__title {
+  font-size: 16px;
+  font-weight: 500;
+}
+.site-header .nav-panel__desc {
+  font-size: 14px;
+  color: var(--canvas-muted);
+}
+@media (hover: hover) and (pointer: fine) {
+  .site-header .nav-panel__links a:hover .nav-panel__title {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
 }
 
-.site-nav .nav-center .nav-group-panel a:hover,
-.site-nav .nav-center .nav-group-panel a.active {
-  background: var(--surface);
+/* The menu button takes the secondary button's look: 44x44, a 1px line. */
+.site-header .nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--canvas-rule);
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.site-header .nav-toggle svg {
+  width: 22px;
+  height: 22px;
 }
 
-.site-nav .nav-center .nav-group-panel a.active::after {
+/* The sheet: full screen under the bar, 56px rows closed by a hairline. */
+.site-header .nav-sheet {
+  position: fixed;
+  inset: var(--nav) 0 0;
+  overflow-y: auto;
+  background: var(--header-bg);
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+}
+.site-header .nav-sheet[hidden] {
   display: none;
 }
-
-.site-nav .nav-group-title {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--ink);
+.site-header .nav-sheet__rows {
+  display: flex;
+  flex-direction: column;
+}
+.site-header .nav-sheet__row {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  border-bottom: 1px solid var(--canvas-rule);
+  font-size: 18px;
+  font-weight: 500;
+  color: inherit;
+  text-decoration: none;
+}
+.site-header .nav-sheet__row[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+.site-header .nav-sheet__row--sub {
+  font-size: 16px;
+}
+.site-header .nav-sheet__group {
+  padding-top: 24px;
+  padding-bottom: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--canvas-muted);
+}
+.site-header .nav-sheet__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding-top: 24px;
 }
 
-.site-nav .nav-group-desc {
-  font-size: 0.8125rem;
-  font-weight: 450;
-  color: var(--ink3);
+@media (max-width: 1023px) {
+  .site-header .nav-words,
+  .site-header .nav-account {
+    display: none;
+  }
+  .site-header .nav-toggle {
+    display: inline-flex;
+  }
+  .site-header .nav-actions {
+    gap: 12px;
+  }
+}
+@media (min-width: 1024px) {
+  .site-header .nav-sheet {
+    display: none;
+  }
+}
+/* A phone: the bar is the logo and the menu; "Get the app" sits in the hero and the phone bar. */
+@media (max-width: 639px) {
+  .site-header .nav-actions > .get-app {
+    display: none;
+  }
+  .site-header .nav-logo img {
+    height: 24px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-nav .nav-group-panel,
-  .site-nav .nav-group-chevron {
+  .site-header .nav-panel {
+    animation: none;
+  }
+  .site-header .nav-word::after {
     transition: none;
-  }
-}
-
-@media (max-width: 1024px) {
-  .site-nav .nav-group {
-    display: block;
-  }
-
-  .site-nav .nav-group-toggle {
-    display: none;
-  }
-
-  .site-nav .nav-group-panel {
-    position: static;
-    width: auto;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    visibility: inherit;
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
-  .site-nav .nav-group-label {
-    display: block;
-    padding: 20px 0 4px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--ink3);
-  }
-
-  .site-nav .nav-center.open .nav-group-panel a:not(.btn) {
-    padding: 12px 0;
-    border-radius: 0;
-  }
-
-  .site-nav .nav-center .nav-group-panel a:hover,
-  .site-nav .nav-center .nav-group-panel a.active {
-    background: none;
-  }
-}
-
-@media (max-width: 374px) {
-  .site-nav .nav-get-app {
-    padding: 0 12px;
-  }
-  .site-nav .nav-get-app svg {
-    display: none;
   }
 }

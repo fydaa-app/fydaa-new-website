@@ -196,6 +196,67 @@
   --blur-small: 2px;
   --blur-medium: 3px;
   --blur-large: 8px;
+
+  /*
+   * The site chrome and home page (tasteskill revamp, DESIGN.md "Editorial and exact"). One content
+   * box, `.wrap`, for the header, the home sections and the footer: `--container` wide with `--gut`
+   * on each side. On every other page it matches <Container> (72rem, 16/24/32px gutters) so the
+   * header lines up with the page; the home page widens it to the 12-column 1280px grid.
+   */
+  /* <Container> is 72rem including its padding, so its content box is 72rem less two gutters. */
+  --container: calc(72rem - 2 * var(--gut));
+  --gut: 16px;
+  --nav: 72px;
+  --canvas: #f7f6f2;
+  --canvas-alt: #eeede7;
+  --canvas-ink: #0e2721;
+  --canvas-muted: #55635e;
+  --canvas-rule: rgb(14 39 33 / 0.12);
+  --canvas-inv: #0e2721;
+  --canvas-inv-alt: #1d332d;
+  --canvas-inv-ink: #f7f6f2;
+  --canvas-inv-muted: #a3ada8;
+  --canvas-inv-rule: rgb(247 246 242 / 0.14);
+}
+@media (min-width: 640px) {
+  :root {
+    --gut: 24px;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --gut: 32px;
+  }
+}
+:root:has(main.home) {
+  --container: 1280px;
+  --gut: 24px;
+  /* Anchors land on a section's top, the screen the section was built for. */
+  scroll-behavior: auto;
+  scroll-padding-top: 0;
+}
+@media (min-width: 640px) {
+  :root:has(main.home) {
+    --gut: 48px;
+  }
+}
+@media (min-width: 1024px) {
+  :root:has(main.home) {
+    --gut: 80px;
+  }
+}
+@media (max-width: 639px) {
+  :root {
+    --nav: 56px;
+  }
+}
+:root:has(main.home) body {
+  background: var(--canvas);
+}
+
+.wrap {
+  width: min(100% - 2 * var(--gut), var(--container));
+  margin-inline: auto;
 }
 
 html {
@@ -247,7 +308,7 @@ body {
     filter: blur(var(--blur-medium));
   }
 }
-[data-enter] [data-enter-item] {
+html.m-enter [data-enter] [data-enter-item] {
   animation: enter-rise var(--duration-very-slow) var(--ease-smooth-out) both;
   animation-delay: calc(120ms + var(--i, 0) * 90ms);
 }

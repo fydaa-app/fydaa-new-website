@@ -10,6 +10,7 @@ export const MONEY_VAULT = {
     { key: "Liabilities", value: "₹5,72,400", tone: "error" },
     { key: "Investments", value: "₹8,64,200", tone: "default" },
     { key: "Bank Accounts", value: "3 linked", tone: "default" },
+    { key: "Loans", value: "2 tracked", tone: "default" },
   ],
 };
 

@@ -43,3 +43,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# taste-skill working folder (deal history, gate state, Chrome profiles, screenshots)
+.taste-skill/

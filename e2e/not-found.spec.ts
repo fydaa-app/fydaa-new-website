@@ -7,7 +7,7 @@ for (const path of ["/direct-plan", "/about/does-not-exist"]) {
 
     await expect(page.getByRole("heading", { level: 1, name: "We couldn't find that page" })).toBeVisible();
     // Exactly one site header and footer: no missing or duplicated chrome.
-    await expect(page.locator("nav#nav")).toHaveCount(1);
+    await expect(page.locator("header.site-header")).toHaveCount(1);
     await expect(page.locator("footer#footer")).toHaveCount(1);
     await expect(page).toHaveTitle(/Page not found/);
 

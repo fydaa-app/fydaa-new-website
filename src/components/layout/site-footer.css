@@ -1,0 +1,240 @@
+/*
+ * The site footer (tasteskill footer-dark): the one dark ground, the link columns, both
+ * registrations and the full disclaimer. On the home page it is also the closing section
+ * (`footer.closing.g2`, two screens: the close, then the directory); the screen heights and
+ * paddings for that come from home.css.
+ */
+.site-footer {
+  position: relative;
+  z-index: 1;
+  background: var(--canvas-inv);
+  color: var(--canvas-inv-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  padding-block: 72px 48px;
+}
+.site-footer :focus-visible {
+  outline: 2px solid var(--canvas-inv-ink);
+  outline-offset: 2px;
+}
+
+/* ---- the close (home only) */
+.site-footer .closing__cta {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-height: 0;
+}
+.site-footer .close__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.site-footer .close__title {
+  font-size: clamp(30px, 1.72vw + 23.3px, 48px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.028em;
+  font-stretch: 104%;
+  text-wrap: balance;
+}
+/* The name set across the content box, hand-set to the box's width (never scaled by transform). */
+.site-footer .close__name {
+  font-size: calc((min(100vw, var(--container) + 2 * var(--gut)) - 2 * var(--gut)) * 0.34);
+  font-weight: 500;
+  font-stretch: 112%;
+  font-variation-settings: "wdth" 112;
+  /* the line box holds the face's whole ascent and descent, so nothing of the name hangs outside it */
+  line-height: 1.4;
+  letter-spacing: -0.055em;
+  white-space: nowrap;
+  color: var(--canvas-inv-ink);
+  user-select: none;
+}
+/* On the dark ground the primary inverts: light fill, ink label. */
+.site-footer .btn-primary {
+  background: var(--canvas-inv-ink);
+  color: var(--canvas-inv);
+  box-shadow: none;
+}
+.site-footer .btn-primary:hover {
+  background: color-mix(in oklab, var(--canvas-inv-ink) 86%, var(--canvas-inv));
+}
+
+/* ---- the directory */
+.site-footer .footer__directory {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-height: 0;
+}
+.site-footer .footer__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 24px;
+  row-gap: 32px;
+}
+.site-footer .footer__company {
+  grid-column: span 3;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.site-footer .footer__logo {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  width: fit-content;
+}
+.site-footer .footer__logo img {
+  height: 32px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+.site-footer .footer__contact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-style: normal;
+  font-size: 14px;
+  color: var(--canvas-inv-muted);
+}
+.site-footer .footer__col {
+  grid-column: span 2;
+}
+.site-footer .footer__col--legal {
+  grid-column: span 5;
+}
+.site-footer .footer__col--legal ul {
+  columns: 2;
+  column-gap: 24px;
+}
+.site-footer .footer__col--legal li {
+  break-inside: avoid;
+}
+.site-footer .footer__head {
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--canvas-inv-muted);
+}
+.site-footer ul {
+  list-style: none;
+}
+/* Footer words rest bare and draw a 1px line 4px under them on hover. */
+.site-footer .footer__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--canvas-inv-ink);
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  transition: text-decoration-color 120ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .site-footer .footer__link:hover {
+    text-decoration-color: currentColor;
+    transition-duration: var(--duration-quick);
+  }
+}
+
+.site-footer .footer__legal-text {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 24px;
+  row-gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--canvas-inv-rule);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--canvas-inv-muted);
+}
+.site-footer .footer__legal-text > .footer__head {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+.site-footer .footer__entities {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px 24px;
+}
+.site-footer .footer__entities dt {
+  color: var(--canvas-inv-ink);
+  font-weight: 500;
+}
+.site-footer .footer__disclaimer {
+  grid-column: 1 / -1;
+  columns: 2;
+  column-gap: 24px;
+}
+.site-footer .footer__disclaimer p {
+  break-inside: avoid;
+  margin-bottom: 8px;
+}
+
+.site-footer .footer__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  font-size: 13px;
+  color: var(--canvas-inv-muted);
+}
+.site-footer .footer__social,
+.site-footer .footer__inline {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 24px;
+}
+
+@media (max-width: 1023px) {
+  .site-footer .footer__company,
+  .site-footer .footer__col--legal {
+    grid-column: span 12;
+  }
+  .site-footer .footer__col {
+    grid-column: span 4;
+  }
+  .site-footer .footer__entities {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 639px) {
+  .site-footer {
+    padding-block: 56px 32px;
+  }
+  .site-footer .close__head {
+    flex-direction: column;
+  }
+  .site-footer .close__head .get-app,
+  .site-footer .close__head .btn {
+    width: 100%;
+  }
+  .site-footer .footer__col {
+    grid-column: span 6;
+  }
+  .site-footer .footer__col--legal ul {
+    columns: 1;
+  }
+  .site-footer .footer__entities {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .site-footer .footer__disclaimer {
+    columns: 1;
+  }
+  .site-footer .footer__link {
+    min-height: 44px;
+  }
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { appLinkHref } from "@/config/app-link";
 import { useScrollState } from "@/lib/hooks/use-scroll-direction";
 import { cn } from "@/lib/utils/cn";
@@ -12,20 +12,50 @@ const HIDDEN_ON = ["/login", "/signup", "/partner", "/download", "/careers/jobs"
 /** Height the bar takes, published as --app-bar-h so the Quick answers launcher can sit above it. */
 const BAR_HEIGHT = "4.5rem";
 
+/** Phones only: from 640px the header keeps its own "Get the app" button. */
+const PHONE = "(max-width: 639px)";
+
 /**
- * Phones and tablets: once the visitor is past the first screen, "Get the app" stays in thumb reach
- * at the bottom. It slides in and out with the motion tokens; desktops use the header button.
+ * True while another "Get the app" button (the hero's, the close's) is on screen, so one screen
+ * never shows the action twice.
+ */
+function useOtherActionInView(pathname: string | null) {
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) return;
+    const targets = [...document.querySelectorAll("main .get-app, footer .get-app")];
+    if (!targets.length) {
+      setInView(false);
+      return;
+    }
+    const visible = new Set<Element>();
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) visible.add(entry.target);
+        else visible.delete(entry.target);
+      }
+      setInView(visible.size > 0);
+    });
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, [pathname]);
+  return inView;
+}
+
+/**
+ * Phones: once the visitor is past the first screen, "Get the app" stays in thumb reach at the
+ * bottom (tasteskill's phone bar), and steps aside while another "Get the app" is on screen.
  */
 export function MobileAppBar() {
   const pathname = usePathname();
   const scroll = useScrollState();
+  const otherInView = useOtherActionInView(pathname);
   const hidden = HIDDEN_ON.some((path) => pathname === path || pathname?.startsWith(`${path}/`));
-  const shown = !hidden && scroll !== "top";
+  const shown = !hidden && scroll !== "top" && !otherInView;
 
   useEffect(() => {
     const root = document.documentElement;
-    if (shown && window.matchMedia("(max-width: 1023px)").matches)
-      root.style.setProperty("--app-bar-h", BAR_HEIGHT);
+    if (shown && window.matchMedia(PHONE).matches) root.style.setProperty("--app-bar-h", BAR_HEIGHT);
     else root.style.removeProperty("--app-bar-h");
     return () => {
       root.style.removeProperty("--app-bar-h");
@@ -35,26 +65,22 @@ export function MobileAppBar() {
   if (hidden) return null;
 
   return (
-    <div
+    <nav
+      aria-label="Get the app"
       className={cn(
-        "fixed inset-x-0 bottom-0 z-[55] border-t border-line bg-white/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur transition-[transform,opacity] duration-fast ease-smooth-out motion-reduce:transition-none lg:hidden",
+        "actionbar fixed inset-x-0 bottom-0 z-[55] border-t border-line bg-white px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 transition-[transform,opacity] duration-fast ease-smooth-out motion-reduce:transition-none sm:hidden",
         shown ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0",
       )}
       aria-hidden={shown ? undefined : true}
       inert={shown ? undefined : true}
     >
-      <div className="mx-auto flex max-w-xl items-center gap-3">
-        <img src="/fydaa-logo.png" alt="" width={409} height={147} className="h-7 w-auto" />
-        <p className="hidden flex-1 text-sm text-grey-600 sm:block">Plan goals and start SIPs</p>
-        <span className="flex-1 sm:hidden" />
-        <a
-          href={appLinkHref({ source: "web_bar" })}
-          className="btn btn-primary btn-md h-11 shrink-0 px-4"
-          data-ph-event="Download App"
-        >
-          Get the app
-        </a>
-      </div>
-    </div>
+      <a
+        href={appLinkHref({ source: "web_bar" })}
+        className="btn btn-primary btn-md h-12 w-full"
+        data-ph-event="Download App"
+      >
+        Get the app
+      </a>
+    </nav>
   );
 }

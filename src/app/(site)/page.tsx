@@ -1,51 +1,47 @@
+import type { Viewport } from "next";
 import "@/features/home/styles/home.css";
-import { Inter } from "next/font/google";
-import Hero from "@/features/home/components/Hero";
-import AmcStrip from "@/features/home/components/AmcStrip";
-import DreamsSection from "@/features/home/components/DreamsSection";
-import DirectPlanSection from "@/features/home/components/DirectPlanSection";
-import PurposeSection from "@/features/home/components/PurposeSection";
-import TrustSection from "@/features/home/components/TrustSection";
-import AdvisorySection from "@/features/home/components/AdvisorySection";
-import Testimonials from "@/features/home/components/Testimonials";
-import FaqSection from "@/features/home/components/FaqSection";
-import FinalCta from "@/features/home/components/FinalCta";
 import HashScroll from "@/components/HashScroll";
-import { FAQS } from "@/features/home/data/content";
-import { JsonLd } from "@/lib/seo/json-ld";
-import { faqPageJsonLd } from "@/lib/seo/structured-data";
 import { siteConfig } from "@/config/site";
+import { Advisers } from "@/features/home/sections/Advisers";
+import { Features } from "@/features/home/sections/Features";
+import { GoalsApp } from "@/features/home/sections/GoalsApp";
+import { Hero } from "@/features/home/sections/Hero";
+import { MomentLoader } from "@/features/home/sections/MomentLoader";
+import { HOME_QUESTIONS, Questions } from "@/features/home/sections/Questions";
+import { Steps } from "@/features/home/sections/Steps";
+import { JsonLd } from "@/lib/seo/json-ld";
 import { pageMetadata } from "@/lib/seo/metadata";
+import { faqPageJsonLd } from "@/lib/seo/structured-data";
+
+/** The browser's chrome takes the page's ground (canvas in tailwind.config.ts). */
+export const viewport: Viewport = { themeColor: "#F7F6F2" };
 
 export const metadata = pageMetadata({
-  title: "Fydaa: Goal-Based Investing & Financial Planning",
+  title: "Fydaa: goal-based mutual fund SIPs and a SEBI-registered adviser",
   description: siteConfig.description,
   path: "/",
   absoluteTitle: true,
 });
 
-/**
- * The homepage keeps fydaa.com's own typeface, Inter (the rest of the site uses Mona Sans). Loaded
- * here so only this route downloads it.
+/*
+ * The home page, built to tasteskill 2.5.1 (DESIGN.md, "Editorial and exact").
+ * kind software · palette: Fydaa's own (warm off-white, forest ink, jade) · type Mona Sans + DM Mono
+ * hero split · nav nav-mega · footer footer-dark · close close-word · rhythm surface-pairs
+ * buttons solid · mark: the logo · effect none · moment line-carries-colour (advisers)
+ * Each section is one or two screens tall at 1440x900; the footer is the closing section.
  */
-const inter = Inter({ variable: "--font-inter", subsets: ["latin", "latin-ext"], display: "swap" });
-
-/** fydaa.com's homepage design, with the audit fixes (responsive, accessible, faster). */
 export default function HomePage() {
   return (
-    <main className={`${inter.variable} fydaa-home relative m-0 w-full p-0`}>
+    <main id="top" className="home">
       <HashScroll />
       <Hero />
-      <AmcStrip />
-      <DreamsSection />
-      <DirectPlanSection />
-      <PurposeSection />
-      <AdvisorySection />
-      <TrustSection />
-      <Testimonials />
-      <FinalCta />
-      <FaqSection />
-      <JsonLd data={faqPageJsonLd(FAQS.map((faq) => ({ question: faq.q, answer: faq.a })))} />
+      <GoalsApp />
+      <Features />
+      <Advisers />
+      <Steps />
+      <Questions />
+      <JsonLd data={faqPageJsonLd(HOME_QUESTIONS.map((item) => ({ question: item.q, answer: item.a })))} />
+      <MomentLoader />
     </main>
   );
 }

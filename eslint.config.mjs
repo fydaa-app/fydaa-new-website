@@ -5,7 +5,19 @@ import nextTypescript from "eslint-config-next/typescript";
 export default defineConfig([
   ...nextCoreWebVitals,
   ...nextTypescript,
-  globalIgnores([".next/**", "out/**", "build/**", "coverage/**", "next-env.d.ts"]),
+  globalIgnores([
+    ".next/**",
+    "out/**",
+    "build/**",
+    "coverage/**",
+    "next-env.d.ts",
+    // Third-party agent skills (taste-skill) and their working folder: not our code.
+    ".agents/**",
+    ".claude/skills/**",
+    ".taste-skill/**",
+    // The dealt moment's loader, copied from the skill's kit unchanged (served as plain files).
+    "public/assets/**",
+  ]),
   {
     // Legacy relaxations carried over unchanged from the previous config.
     // They are removed in the foundation step as each area is rewritten.

@@ -132,14 +132,20 @@ export function legacyRedirects() {
   });
 }
 
-/** Primary navigation, in display order. */
-/** Investor-facing links in the header. */
-export const mainNavigation = [routes.features, routes.about] as const;
+/**
+ * Investor-facing words in the header, in display order: one plain word each. Goals and Advisers
+ * are sections of the home page (its `#goals` and `#advisers`), so they work from every page.
+ */
+export const mainNavigation = [
+  { path: "/#goals", label: "Goals" },
+  { path: "/#advisers", label: "Advisers" },
+  routes.about,
+] as const satisfies readonly { path: `/${string}`; label: string }[];
 
-/** Grouped under "For professionals" in the header: people who work with or for Fydaa. */
+/** Grouped under "Professionals" in the header: people who work with or for Fydaa. Lines ≤ 30 chars. */
 export const professionalNavigation = [
-  { ...routes.partner, label: "Partners", description: "Mutual fund distributors: grow with Fydaa" },
-  { ...routes.programme, description: "FYIAEP: become an investment adviser in 4 months" },
+  { ...routes.partner, label: "Partners", description: "For mutual fund distributors" },
+  { ...routes.programme, description: "Train as an investment adviser" },
   { ...routes.careers, description: "Open roles at Fydaa" },
 ] as const;
 

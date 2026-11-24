@@ -7,7 +7,7 @@ export const SIP_CATEGORIES = {
   gold: { label: "Gold", rate: 9, tagline: "A pinch of gold. Every single day.", rateLabel: "9% CAGR" },
   hybrid: { label: "Hybrid", rate: 10, tagline: "Equity and debt. One balance.", rateLabel: "10% CAGR" },
   multi: {
-    label: "Multi-Asset",
+    label: "Multi-asset",
     rate: 10,
     tagline: "Equity, debt, gold. One holding.",
     rateLabel: "10% CAGR",

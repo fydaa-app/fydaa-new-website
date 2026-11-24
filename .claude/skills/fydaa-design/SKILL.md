@@ -19,6 +19,17 @@ working checklist. When they disagree, fix whichever is wrong in the same change
 | 5 | `web-artifacts-builder` | Only for throwaway prototypes shared as a claude.ai artifact. Production code is this Next.js app. |
 | 6 | `fydaa-brand` | Keep it recognisably Fydaa: logo, colour, type, voice, compliance. Last check before shipping. |
 
+## The home page and the site chrome: Editorial and exact
+
+The home page (`src/app/(site)/page.tsx`, `src/features/home/sections/`, `styles/home.css`), the
+header and the footer are built to the `design-taste-frontend` skill (taste-skill 2.5.1, software
+page): canvas ground, forest ink, jade accent, Mona Sans 500 headlines with DM Mono for numbers that
+are codes, sharp corners, one 1280px `.wrap`, every section one or two screens at 1440x900, a dark
+footer that is also the close. Load that skill when you change any of them, and run its
+`consistency.mjs` and `gate.mjs` before you finish. Fydaa's own rules still win where they meet
+(`fydaa-brand`: compliance lines, registrations, the real phone number, no arrows on buttons). The
+rest of the site follows "Light and precise" below.
+
 ## The design language: Light and precise
 
 Fydaa's site reads like a well-made statement of your money: white paper, forest-ink type,

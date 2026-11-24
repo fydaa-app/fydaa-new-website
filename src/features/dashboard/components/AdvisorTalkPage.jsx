@@ -4,7 +4,7 @@ import { ArrowLeft, Clock, Headphones, Phone, ShieldCheck, CheckCircle2 } from "
 import { jadeGradient } from "../lib/tokens";
 import { PAGE_SHELL } from "../lib/layoutClasses";
 
-/** Same scheduling link as the marketing site (HeroCalculator / About). */
+/** Same scheduling link as the marketing site (About). */
 export const BOOK_CALL_URL = "https://www.cal.eu/fydaa/30min?overlayCalendar=true";
 export const ADVISOR_PHONE = "+919004501770";
 export const WHATSAPP_URL = `https://wa.me/${ADVISOR_PHONE.replace(/\D/g, "")}`;

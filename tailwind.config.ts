@@ -19,7 +19,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         inter: ["var(--font-sans)", "system-ui", "sans-serif"],
-        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
       },
       /*
        * Body and UI text use Tailwind's steps (xs 12 · sm 14 · base 16 · lg 18 · xl 20 · 2xl 24).
@@ -40,6 +40,12 @@ const config: Config = {
       },
       colors: {
         paper: "#FFFFFF",
+        // The home page and site chrome (tasteskill revamp): warm off-white ground, one step darker
+        // for the alternate band; the footer's dark ground is ink.
+        canvas: {
+          DEFAULT: "#F7F6F2",
+          alt: "#EEEDE7",
+        },
         mist: "#F3F7F5",
         line: "#DDE6E2",
         ink: "#0E2721",

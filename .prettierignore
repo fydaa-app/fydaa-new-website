@@ -11,6 +11,9 @@ package-lock.json
 public/
 next-env.d.ts
 .claude/
+.agents/
+.taste-skill/
+skills-lock.json
 
 # Legacy code not yet migrated to the new conventions.
 # Remove an entry when that area is rewritten so CI enforces formatting on it.
