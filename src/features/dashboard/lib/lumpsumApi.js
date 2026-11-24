@@ -58,26 +58,52 @@ function paymentPostbackUrl() {
 }
 
 const PENDING_LUMPSUM_KEY = "fydaa.pendingLumpsumPayment";
+/** Long enough for a slow UPI/net-banking round trip, short enough not to go stale. */
+const PENDING_LUMPSUM_TTL_MS = 2 * 60 * 60 * 1000;
 
-export function setPendingLumpsumPayment(payload) {
-  if (typeof sessionStorage === "undefined") return;
-  sessionStorage.setItem(PENDING_LUMPSUM_KEY, JSON.stringify({ ...payload, at: Date.now() }));
-}
-
-export function getPendingLumpsumPayment() {
-  if (typeof sessionStorage === "undefined") return null;
+function browserStorage(kind) {
+  if (typeof window === "undefined") return null;
   try {
-    const raw = sessionStorage.getItem(PENDING_LUMPSUM_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw);
+    return window[kind];
   } catch {
     return null;
   }
 }
 
+/**
+ * The pending payment survives the round trip to the payment gateway. It lives in
+ * localStorage (not sessionStorage) so it is still found when the gateway or a UPI app
+ * returns the user in a new tab.
+ */
+export function setPendingLumpsumPayment(payload) {
+  browserStorage("localStorage")?.setItem(
+    PENDING_LUMPSUM_KEY,
+    JSON.stringify({ ...payload, at: Date.now() }),
+  );
+}
+
+export function getPendingLumpsumPayment() {
+  for (const kind of ["localStorage", "sessionStorage"]) {
+    const store = browserStorage(kind);
+    try {
+      const raw = store?.getItem(PENDING_LUMPSUM_KEY);
+      if (!raw) continue;
+      const pending = JSON.parse(raw);
+      if (!pending?.at || Date.now() - Number(pending.at) > PENDING_LUMPSUM_TTL_MS) {
+        store.removeItem(PENDING_LUMPSUM_KEY);
+        continue;
+      }
+      return pending;
+    } catch {
+      // Corrupt entry: ignore it.
+    }
+  }
+  return null;
+}
+
 export function clearPendingLumpsumPayment() {
-  if (typeof sessionStorage === "undefined") return;
-  sessionStorage.removeItem(PENDING_LUMPSUM_KEY);
+  browserStorage("localStorage")?.removeItem(PENDING_LUMPSUM_KEY);
+  browserStorage("sessionStorage")?.removeItem(PENDING_LUMPSUM_KEY);
 }
 
 export async function checkLumpsumReadiness() {

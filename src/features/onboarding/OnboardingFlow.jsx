@@ -1212,7 +1212,8 @@ export default function OnboardingFlow({
       const popup = openPopup(url, 'fydaa-nsdl');
       await waitForPopupClose(popup, { isDoneUrl: isNsdlCallback });
       const status = await getNsdlEsignStatus();
-      const st = String(status?.status || 'successful').toLowerCase();
+      // A missing status is not a success: only an explicit completed state counts.
+      const st = String(status?.status || '').toLowerCase();
       if (!['successful', 'success', 'completed'].includes(st)) {
         throw new Error('E-sign was not completed. Please try again.');
       }

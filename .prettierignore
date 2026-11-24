@@ -33,7 +33,7 @@ src/components/legacy/
 src/components/HashScroll.tsx
 src/app/api/careers/
 src/app/(site)/legal/
-src/app/(transactional)/Successpage*/
+src/app/(transactional)/Successpagemandate/
 src/app/upi-faq/
 src/app/globals.css
 src/app/layout.tsx
