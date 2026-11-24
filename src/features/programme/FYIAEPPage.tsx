@@ -266,7 +266,7 @@ function Highlights() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 mt-8 sm:mt-10 md:mt-12">
         {HIGHLIGHTS.map(([title, desc]) => (
           <div key={title} className="p-5 sm:p-6 rounded-[14px] border border-grey-200 bg-white text-left hover:border-jade-200 hover:shadow-card-hover transition-all">
-            <h4 className="text-base font-bold text-ink tracking-[-0.01em] mb-1.5">{title}</h4>
+            <h3 className="text-base font-bold text-ink tracking-[-0.01em] mb-1.5">{title}</h3>
             <p className="text-sm text-grey-600 leading-relaxed">{desc}</p>
           </div>
         ))}

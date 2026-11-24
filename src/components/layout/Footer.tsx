@@ -92,9 +92,9 @@ const Footer: React.FC = () => {
 
           {/* Middle — Quick Links */}
           <div className="min-w-0">
-            <h3 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-inter font-semibold mb-4 sm:mb-5">
+            <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-inter font-semibold mb-4 sm:mb-5">
               Quick Links
-            </h3>
+            </h2>
             <div className="space-y-3">
               {legalRoutes.map((route) => (
                 <Link
@@ -129,9 +129,9 @@ const Footer: React.FC = () => {
 
         {/* Disclaimer Section */}
         <div className="mb-6 sm:mb-8">
-          <h3 className="text-white text-sm sm:text-base font-inter font-normal mb-4 text-center">
+          <h2 className="text-white text-sm sm:text-base font-inter font-normal mb-4 text-center">
             Disclaimer
-          </h3>
+          </h2>
           <div className="space-y-3 text-xs sm:text-sm md:text-base font-inter font-normal text-white leading-relaxed text-left break-words">
             <p>
               By using this website, you understand the information being

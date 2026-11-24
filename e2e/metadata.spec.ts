@@ -68,3 +68,20 @@ test("careers list is server-rendered and job pages carry JobPosting data", asyn
   expect(data).toHaveProperty("hiringOrganization");
   expect(new URL(String(data.url)).pathname).toBe(jobLink);
 });
+
+for (const path of [
+  "/",
+  "/about",
+  "/features",
+  "/programme",
+  "/careers",
+  "/partner",
+  "/login",
+  "/signup",
+  "/legal/privacy-policy",
+]) {
+  test(`${path} has exactly one h1 in the server HTML`, async ({ request }) => {
+    const html = await (await request.get(path)).text();
+    expect(html.match(/<h1[\s>]/g) ?? []).toHaveLength(1);
+  });
+}
