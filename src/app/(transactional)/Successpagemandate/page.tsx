@@ -2,13 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import SipSuccessView from "@/app/dashboard/components/SipSuccessView";
+import SipSuccessView from "@/features/dashboard/components/SipSuccessView";
 import {
   fetchSipSuccessViewData,
   getPendingSipFirstDebit,
   runPendingSipFirstDebit,
   userFacingMessage,
-} from "@/app/dashboard/lib/sipInvestApi";
+} from "@/features/dashboard/lib/sipInvestApi";
 
 type Phase = "working" | "success" | "error";
 

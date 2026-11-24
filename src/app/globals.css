@@ -24,6 +24,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* The site has no dark theme: keep native controls and UA defaults light. */
+  color-scheme: light;
 }
 
 /* Import Gilroy fonts */

@@ -3,9 +3,8 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { rootMetadata } from "@/lib/seo/metadata";
-import ConditionalLayout from "./components/ConditionalLayout";
-import Chatbot from "./components/Chatbot";
-import PostHogProvider from "./components/PostHogProvider";
+import Chatbot from "@/features/chatbot/Chatbot";
+import PostHogProvider from "@/features/analytics/PostHogProvider";
 
 
 // Load Google fonts with CSS variable support
@@ -44,7 +43,7 @@ export default function RootLayout({
     <html lang="en-IN" data-scroll-behavior="smooth">
 
       <body
-        className={`text-black font-sans m-0 p-0 ${geistSans.variable} ${geistMono.variable} ${inter.variable}`}
+        className={`text-ink font-sans m-0 p-0 ${geistSans.variable} ${geistMono.variable} ${inter.variable}`}
       >
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-DMWN4CQK6D"
@@ -59,9 +58,7 @@ export default function RootLayout({
           `}
         </Script>
         <PostHogProvider>
-          <ConditionalLayout>
-            {children}
-          </ConditionalLayout>
+          {children}
           <Chatbot />
         </PostHogProvider>
       </body>
