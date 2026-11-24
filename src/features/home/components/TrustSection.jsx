@@ -37,14 +37,7 @@ export default function TrustSection() {
               <div className="trust-card-icon">{ICONS[i]}</div>
               <h3>{card.title}</h3>
               <p>
-                {card.mobileDesc ? (
-                  <>
-                    <span className="copy-desktop">{card.desc}</span>
-                    <span className="copy-mobile">{card.mobileDesc}</span>
-                  </>
-                ) : (
-                  card.desc
-                )}
+                {card.desc}
               </p>
             </div>
           ))}

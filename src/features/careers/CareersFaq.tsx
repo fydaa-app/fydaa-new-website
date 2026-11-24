@@ -1,74 +1,81 @@
+import Link from "next/link";
+import { Container } from "@/components/layout/container";
+import { SectionHeader } from "@/components/layout/section-header";
+import { FaqList } from "@/components/ui/faq-list";
+import { routes } from "@/config/routes";
+import { siteConfig } from "@/config/site";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { faqPageJsonLd } from "@/lib/seo/structured-data";
+
+/** Questions candidates ask. Answers only state what the careers and programme pages already offer. */
 const FAQS = [
   {
-    q: "Is Fydaa registered with any financial regulators in India?",
-    a: "Yes. Fydaa is offered by Multistrato Capital Advisors Pvt. Ltd., a SEBI-Registered Investment Adviser (INA000015969), and is also a member of BASL and NISM-certified.",
+    id: "apply",
+    question: "How do I apply for a role?",
+    answer: "Open the role you're interested in and select “Apply now”. You'll fill in a short form and upload your CV.",
   },
   {
-    q: "How is Fydaa different from a broker or mutual fund distributor?",
-    a: "Brokers and distributors typically earn commissions from the products they sell, which can bias recommendations. As a Registered Investment Adviser, Fydaa charges a transparent fee directly to you and does not earn hidden commissions from fund houses.",
+    id: "no-match",
+    question: "I don't see a role that fits me. What can I do?",
+    answer: "Register your CV with us. When a role that matches your profile opens, our team will reach out.",
   },
   {
-    q: "How does Fydaa make money?",
-    a: "Fydaa earns through transparent advisory and subscription fees paid directly by clients, such as the Fydaa Direct Plan, rather than through commissions embedded in the products it recommends.",
+    id: "location",
+    question: "Where are the roles based, and how much experience do I need?",
+    answer: "Each listing shows its location and the experience range we're looking for, so you can check fit before applying.",
   },
   {
-    q: "What is the fee for Fydaa?",
-    a: "Fees vary by plan and are shown upfront before you subscribe, with no hidden costs. Get in touch with our team for a quote tailored to your goals.",
+    id: "programme",
+    question: "I'm new to advisory. Is there a way in?",
+    answer:
+      "Our FYIAEP programme prepares you for the NISM Series X-A and X-B certifications and gives you on-field advisory experience, with a path to a role at Fydaa.",
+    link: { href: routes.programme.path, label: "Explore the programme" },
   },
   {
-    q: "Can I get a fee refund?",
-    a: "Refunds follow Fydaa's published Refund Policy. Check that page for eligibility and timelines.",
-  },
-  {
-    q: "Is there an account minimum to use Fydaa's services?",
-    a: "SIPs can start from as little as 1,000 rupees/month or 100 rupees/day, so there is no large account minimum to get started.",
-  },
-  {
-    q: "What if I don't have a broker or demat account?",
-    a: "Fydaa can help you set one up as part of onboarding, so you don't need to arrive with one already.",
-  },
-  {
-    q: "How do I add or withdraw investments from my Fydaa account?",
-    a: "Deposits and withdrawals are managed directly from within the Fydaa app.",
+    id: "regulated",
+    question: "Is Fydaa a regulated company?",
+    answer: `Yes. Fydaa is offered by ${siteConfig.entities.adviser.legalName}, a SEBI Registered Investment Adviser (${siteConfig.entities.adviser.sebiRegistrationNumber}).`,
   },
 ];
 
 export default function CareersFaq() {
   return (
-    <section className="bg-grey-100 px-6 py-16 font-inter">
-        <JsonLd data={faqPageJsonLd(FAQS.map((faq) => ({ question: faq.q, answer: faq.a })))} />
-      <div className="mx-auto max-w-5xl">
-        <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-jade-deep">
-          FAQs
-        </span>
-        <h2 className="text-heading mt-3.5 font-bold text-ink">Common questions</h2>
-        <p className="mt-2.5 max-w-[48ch] text-base text-grey-600">
-          Feel free to reach out if you have questions after reviewing these.
-        </p>
-
-        <div className="mt-11 grid gap-6 md:grid-cols-[0.85fr_1.5fr] md:gap-14">
-          <div />
-          <div className="flex flex-col gap-2.5">
-            {FAQS.map((entry) => (
-              <details
-                key={entry.q}
-                className="group rounded-2xl border border-grey-200 bg-white px-5 py-[18px] shadow-card open:border-jade-200"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left [&::-webkit-details-marker]:hidden">
-                  <span className="text-base font-semibold text-ink">{entry.q}</span>
-                  <span className="relative h-5 w-5 shrink-0">
-                    <span className="absolute left-1 top-[9px] h-0.5 w-3 bg-grey-500" />
-                    <span className="absolute left-[9px] top-1 h-3 w-0.5 bg-grey-500 transition-transform group-open:rotate-90 group-open:opacity-0" />
-                  </span>
-                </summary>
-                <p className="mt-3 max-w-[60ch] text-sm leading-relaxed text-grey-600">{entry.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </div>
+    <section aria-labelledby="careers-faq" className="bg-grey-100 py-16">
+      <JsonLd data={faqPageJsonLd(FAQS.map((faq) => ({ question: faq.question, answer: faq.answer })))} />
+      <Container className="flex flex-col gap-8">
+        <SectionHeader
+          eyebrow="FAQs"
+          title={<span id="careers-faq">Questions from candidates</span>}
+          description={
+            <>
+              Can&apos;t find your answer? Email{" "}
+              <a href={`mailto:${siteConfig.contact.email}`} className="font-semibold text-jade underline">
+                {siteConfig.contact.email}
+              </a>
+              .
+            </>
+          }
+        />
+        <FaqList
+          items={FAQS.map((faq) => ({
+            id: faq.id,
+            title: faq.question,
+            content: (
+              <p>
+                {faq.answer}
+                {faq.link ? (
+                  <>
+                    {" "}
+                    <Link href={faq.link.href} className="font-semibold text-jade underline">
+                      {faq.link.label}
+                    </Link>
+                  </>
+                ) : null}
+              </p>
+            ),
+          }))}
+        />
+      </Container>
     </section>
   );
 }

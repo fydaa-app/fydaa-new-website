@@ -5,11 +5,8 @@
 export default function AuthFallback({ mode }: { mode: "login" | "signup" }) {
   return (
     <div className="mx-auto max-w-[640px] px-6 pt-10">
-      <p className="mb-2 text-xs font-bold uppercase tracking-wider text-neutral-600">
-        {mode === "login" ? "Login" : "Sign up"}
-      </p>
-      <h1 className="text-heading mb-1.5 font-bold text-neutral-950">
-        Tell us your mobile number
+      <h1 className="text-heading mb-1.5 font-bold text-ink">
+        {mode === "login" ? "Log in to Fydaa" : "Create your Fydaa account"}
       </h1>
       <p role="status" className="text-sm text-neutral-600">
         Loading…

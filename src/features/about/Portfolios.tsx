@@ -9,11 +9,11 @@ const PORTFOLIOS = [
 export default function Portfolios() {
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-grey-50 font-inter">
-      <div className="max-w-[1120px] 2xl:max-w-[1280px] mx-auto px-4 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-[1.1fr_0.9fr] gap-8 md:gap-14 items-center">
           <div className="text-center md:text-left">
             <h2 className="text-heading mb-3.5 font-bold text-ink">
-              Different People, Different Portfolios
+              Different people, different portfolios
             </h2>
             <p className="max-w-[440px] mx-auto md:mx-0 mb-6 text-grey-600 leading-[1.75] text-sm sm:text-base">
               Fydaa is an investment app that adapts to your appetite for investing, whether you play it safe, stay

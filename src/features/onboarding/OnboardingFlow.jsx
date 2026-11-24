@@ -1450,8 +1450,7 @@ export default function OnboardingFlow({
       {/* MOBILE NUMBER */}
       {screen === 'mobile' && (
         <form noValidate className="contents" onSubmit={submitWith(isLogin ? submitLoginPin : submitSignupMobile)}>
-          <Overline>{entryLabel}</Overline>
-          <PageHeading>Tell us your mobile number</PageHeading>
+          <PageHeading>{isLogin ? 'Log in to Fydaa' : 'Create your Fydaa account'}</PageHeading>
           <PageSub>
             {isLogin ? 'Enter the mobile number linked to your account' : 'We will send you an OTP to verify'}
           </PageSub>

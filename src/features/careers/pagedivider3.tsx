@@ -9,9 +9,9 @@ export default function PageDivider() {
   return (
     <>
       <RegisterCvModal open={registerCvOpen} onClose={() => setRegisterCvOpen(false)} />
-      <section className="px-6 py-16 font-inter">
+      <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <div
-          className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-8 rounded-4xl bg-jade p-12"
+          className="flex flex-wrap items-center justify-between gap-6 rounded-4xl bg-jade p-6 sm:gap-8 sm:p-12"
           style={{
             backgroundImage:
               "radial-gradient(ellipse 120% 80% at 20% 110%, #0C4A3E 0%, transparent 60%), radial-gradient(ellipse 80% 100% at 90% 0%, #047857 0%, transparent 50%)",
@@ -29,7 +29,7 @@ export default function PageDivider() {
             type="button"
             onClick={() => setRegisterCvOpen(true)}
             data-ph-event="Register your CV"
-            className="btn btn-inverse btn-md"
+            className="btn btn-inverse btn-lg"
           >
             Register your CV
           </button>

@@ -278,12 +278,7 @@ export default function PurposeSection() {
               Give your savings a <span className="serif">purpose</span>
             </h2>
             <p className="purpose-sub">
-              <span className="purpose-sub-line">
-                Every SIP should be connected to something meaningful. With Fydaa, you can link an
-              </span>
-              <span className="purpose-sub-line">
-                existing SIP to a financial goal or start a new SIP with the goal assigned from day one.
-              </span>
+              Every SIP should be connected to something meaningful. With Fydaa, you can link an existing SIP to a financial goal or start a new SIP with the goal assigned from day one.
             </p>
           </div>
 

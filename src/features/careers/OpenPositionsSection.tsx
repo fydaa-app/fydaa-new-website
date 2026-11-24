@@ -45,29 +45,28 @@ function ChipRow({ job }: { job: JobOpening }) {
   );
 }
 
-function JobCard({
-  job,
-  active,
-  onSelect,
-}: {
-  job: JobOpening;
-  active: boolean;
-  onSelect: () => void;
-}) {
+const cardClass = (active: boolean) =>
+  `block w-full rounded-card border p-5 text-left shadow-card transition hover:shadow-card-hover ${
+    active ? "border-jade-200 bg-jade-tint" : "border-grey-200 bg-white"
+  }`;
+
+function JobCardBody({ job }: { job: JobOpening }) {
   return (
-    <button
-      type="button"
-      onClick={onSelect}
-      aria-pressed={active}
-      className={`w-full rounded-2xl border p-5 text-left shadow-card transition hover:-translate-y-0.5 hover:shadow-card-hover ${
-        active ? "border-jade-200 bg-jade-tint" : "border-grey-200 bg-white"
-      }`}
-    >
+    <>
       <p className="mb-2.5 text-base font-bold tracking-tight text-ink">{job.title}</p>
       <ChipRow job={job} />
-      <span className="text-xs font-medium text-grey-500">
+      <span className="text-xs font-medium text-grey-600">
         {[job.division, job.posted].filter(Boolean).join(" · ")}
       </span>
+    </>
+  );
+}
+
+/** Desktop master list: selects the job shown in the detail pane. */
+function JobCard({ job, active, onSelect }: { job: JobOpening; active: boolean; onSelect: () => void }) {
+  return (
+    <button type="button" onClick={onSelect} aria-pressed={active} className={cardClass(active)}>
+      <JobCardBody job={job} />
     </button>
   );
 }
@@ -88,7 +87,7 @@ export function JobDetail({
     <>
       <div className="mb-4 flex flex-wrap items-start justify-between gap-5">
         <div>
-          <Heading className="text-title font-extrabold tracking-tight text-ink">{job.title}</Heading>
+          <Heading className={`${headingLevel === 1 ? "text-heading" : "text-title"} font-bold text-ink`}>{job.title}</Heading>
           {showPermalink ? (
             <Link
               href={jobPath(job.id)}
@@ -175,13 +174,13 @@ export default function OpenPositionsSection({ jobs, error }: Props) {
   };
 
   return (
-    <section className="px-6 py-16 font-inter">
+    <section className="py-16">
       <JobApplicationModal open={applyJob !== null} job={applyJob} onClose={closeApply} />
       <Suspense fallback={null}>
         <ApplyFromQuery jobs={jobs} onApply={showApplication} />
       </Suspense>
 
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-baseline justify-between gap-5">
           <div>
             <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-jade-deep">
@@ -219,23 +218,35 @@ export default function OpenPositionsSection({ jobs, error }: Props) {
             </p>
           </div>
         ) : (
-          <div className="mt-11 grid items-stretch gap-5 md:h-[min(680px,calc(100vh-10rem))] md:grid-cols-[minmax(0,320px)_1fr] lg:grid-cols-[360px_1fr]">
-            <div className="flex min-h-0 max-h-[320px] flex-col gap-3 overflow-y-auto overscroll-contain pr-1 md:max-h-none">
+          <>
+            {/* Phones and tablets: a normal flowing list; each role opens its own page. */}
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:hidden">
               {jobs.map((job) => (
-                <JobCard
-                  key={job.id}
-                  job={job}
-                  active={job.id === selectedJob?.id}
-                  onSelect={() => setSelectedId(job.id)}
-                />
+                <li key={job.id}>
+                  <Link href={jobPath(job.id)} className={cardClass(false)}>
+                    <JobCardBody job={job} />
+                  </Link>
+                </li>
               ))}
+            </ul>
+
+            {/* Desktop: list and detail side by side, each pane scrolling independently. */}
+            <div className="mt-11 hidden h-[min(680px,calc(100vh-10rem))] grid-cols-[360px_1fr] items-stretch gap-5 lg:grid">
+              <div className="flex min-h-0 flex-col gap-3 overflow-y-auto overscroll-contain pr-1">
+                {jobs.map((job) => (
+                  <JobCard
+                    key={job.id}
+                    job={job}
+                    active={job.id === selectedJob?.id}
+                    onSelect={() => setSelectedId(job.id)}
+                  />
+                ))}
+              </div>
+              <div className="min-h-0 overflow-y-auto overscroll-contain rounded-4xl border border-grey-200 bg-white p-10 shadow-card">
+                {selectedJob ? <JobDetail job={selectedJob} onApply={() => openApply(selectedJob)} /> : null}
+              </div>
             </div>
-            <div className="min-h-0 max-h-[70vh] overflow-y-auto overscroll-contain rounded-4xl border border-grey-200 bg-white p-9 shadow-card md:max-h-none md:p-10">
-              {selectedJob ? (
-                <JobDetail job={selectedJob} onApply={() => openApply(selectedJob)} />
-              ) : null}
-            </div>
-          </div>
+          </>
         )}
       </div>
     </section>

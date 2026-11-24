@@ -1,3 +1,6 @@
+import { Container } from "@/components/layout/container";
+import { SectionHeader } from "@/components/layout/section-header";
+import { FaqList } from "@/components/ui/faq-list";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { faqPageJsonLd } from "@/lib/seo/structured-data";
 const FAQS = [
@@ -21,24 +24,15 @@ const FAQS = [
 
 export default function AboutFaq() {
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-white font-inter">
-        <JsonLd data={faqPageJsonLd(FAQS.map((faq) => ({ question: faq.q, answer: faq.a })))} />
-      <div className="max-w-[1120px] 2xl:max-w-[1280px] mx-auto px-4 sm:px-6">
-        <h2 className="text-heading mb-2 font-bold text-ink">FAQs</h2>
-        <p className="mb-8 text-grey-600">Feel free to reach out if you have any other questions.</p>
-        <div className="max-w-[760px]">
-          {FAQS.map((f) => (
-            <details key={f.q} className="group border-b border-grey-200 py-[18px]">
-              <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-semibold text-ink text-base [&::-webkit-details-marker]:hidden">
-                {f.q}
-                <span className="text-jade text-xl font-normal shrink-0 group-open:hidden">+</span>
-                <span className="text-jade text-xl font-normal shrink-0 hidden group-open:inline">−</span>
-              </summary>
-              <p className="mt-3 text-sm text-grey-600 leading-[1.7]">{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
+    <section aria-labelledby="about-faqs" className="bg-white py-12 sm:py-16 md:py-20">
+      <JsonLd data={faqPageJsonLd(FAQS.map((faq) => ({ question: faq.q, answer: faq.a })))} />
+      <Container size="content" className="flex flex-col gap-8">
+        <SectionHeader
+          title={<span id="about-faqs">FAQs</span>}
+          description="Feel free to reach out if you have any other questions."
+        />
+        <FaqList className="max-w-3xl" items={FAQS.map((faq) => ({ id: faq.q, title: faq.q, content: <p>{faq.a}</p> }))} />
+      </Container>
     </section>
   );
 }

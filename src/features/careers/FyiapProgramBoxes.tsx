@@ -25,8 +25,8 @@ function CheckIcon() {
 export default function FyiapProgramBoxes() {
   return (
     <div className="bg-grey-100 font-inter">
-      <section className="px-6 py-16">
-        <div className="mx-auto grid max-w-5xl items-start gap-10 md:grid-cols-2">
+      <section className="py-16">
+        <div className="mx-auto grid w-full max-w-6xl items-start gap-10 px-4 sm:px-6 md:grid-cols-2 lg:px-8">
           <div>
             <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-jade-deep">
               FYIAEP: Young Investment Advisor Entrepreneurship Programme

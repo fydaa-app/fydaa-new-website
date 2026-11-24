@@ -1,59 +1,30 @@
-"use client";
-
-import { Accordion } from '@/components/ui/accordion';
+import { Container } from '@/components/layout/container';
+import { SectionHeader } from '@/components/layout/section-header';
+import { FaqList } from '@/components/ui/faq-list';
+import { siteConfig } from '@/config/site';
 import { FAQS } from '../data/content';
 
-const items = FAQS.map((faq) => ({
-  id: faq.q,
-  title: faq.q,
-  content: (
-    <div className="faq-a-inner">
-      {faq.mobileA ? (
-        <>
-          <span className="copy-desktop">{faq.a}</span>
-          <span className="copy-mobile">{faq.mobileA}</span>
-        </>
-      ) : (
-        faq.a
-      )}
-    </div>
-  ),
-}));
+// One answer per question at every width; answers stay in the HTML for search engines.
+const items = FAQS.map((faq) => ({ id: faq.q, title: faq.q, content: <p>{faq.a}</p> }));
 
 export default function FaqSection() {
   return (
-    <section className="faqs" id="faqs">
-      <div className="container">
-        <div className="faq-grid">
-          <div className="faq-left">
-            <h2>Questions?</h2>
-            <p>
-              If you don&apos;t find what you&apos;re looking for, reach out to us at{' '}
-              <a href="mailto:support@fydaa.com" style={{ textDecoration: 'underline' }}>support@fydaa.com</a>{' '}
+    <section className="faqs" id="faqs" aria-labelledby="home-faqs">
+      <Container className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] lg:gap-16">
+        <SectionHeader
+          title={<span id="home-faqs">Questions?</span>}
+          description={
+            <>
+              If you don&apos;t find what you&apos;re looking for, email{' '}
+              <a href={`mailto:${siteConfig.contact.email}`} className="font-semibold text-jade underline">
+                {siteConfig.contact.email}
+              </a>{' '}
               and we&apos;ll get back to you quickly.
-            </p>
-          </div>
-
-          {/* One panel open at a time; answers stay in the HTML for search engines. */}
-          <Accordion
-            items={items}
-            collapse="css"
-            icon={() => (
-              <span className="arr" aria-hidden="true">
-                ▼
-              </span>
-            )}
-            classNames={{
-              root: 'faq-list',
-              item: 'faq-item',
-              openItem: 'open',
-              heading: 'faq-heading',
-              trigger: 'faq-q',
-              panel: 'faq-a',
-            }}
-          />
-        </div>
-      </div>
+            </>
+          }
+        />
+        <FaqList items={items} />
+      </Container>
     </section>
   );
 }

@@ -1,18 +1,18 @@
 const ITEMS = [
   {
-    title: "SEBI Registered",
+    title: "SEBI-registered",
     body: "Regulated by the Securities and Exchange Board of India. Advice you can trust from certified professionals.",
   },
   {
-    title: "No Hidden Commissions",
+    title: "No hidden commissions",
     body: "We work for you, not for banks or fund houses. Transparent fee structure with no embedded costs.",
   },
   {
-    title: "Accessible to Everyone",
+    title: "Accessible to everyone",
     body: "Start a SIP from ₹1,000/month, or ₹100/day. Designed for first-time investors and experienced ones alike.",
   },
   {
-    title: "Tech + Human Guidance",
+    title: "Tech + human guidance",
     body: "An app-first experience powered by AI, backed by human advisors when you need them.",
   },
 ];
@@ -20,7 +20,7 @@ const ITEMS = [
 export default function WhyFydaa() {
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-grey-50 font-inter">
-      <div className="max-w-[1120px] 2xl:max-w-[1280px] mx-auto px-4 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-heading mb-8 md:mb-10 font-bold text-ink">
           Why people choose Fydaa
         </h2>

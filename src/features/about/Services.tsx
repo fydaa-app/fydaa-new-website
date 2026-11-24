@@ -27,7 +27,7 @@ function IconRound({ children }: { children: ReactNode }) {
 
 const SERVICES = [
   {
-    title: "Investment Planning",
+    title: "Investment planning",
     body: "Goal-based portfolios matched to your risk profile and timeline.",
     icon: (
       <Icon>
@@ -37,7 +37,7 @@ const SERVICES = [
     ),
   },
   {
-    title: "Financial Health Monitoring",
+    title: "Financial health monitoring",
     body: "Track your Wealth Score and net worth in one dashboard.",
     icon: (
       <Icon>
@@ -46,7 +46,7 @@ const SERVICES = [
     ),
   },
   {
-    title: "Debt Management",
+    title: "Debt management",
     body: "A clear payoff plan so loans stop working against your goals.",
     icon: (
       <Icon>
@@ -56,7 +56,7 @@ const SERVICES = [
     ),
   },
   {
-    title: "Smart Budgeting",
+    title: "Smart budgeting",
     body: "Set spending limits by category and stay on track automatically.",
     icon: (
       <Icon>
@@ -66,7 +66,7 @@ const SERVICES = [
     ),
   },
   {
-    title: "Expense Management",
+    title: "Expense management",
     body: "Every transaction auto-tracked and categorised across accounts.",
     icon: (
       <Icon>
@@ -77,7 +77,7 @@ const SERVICES = [
     ),
   },
   {
-    title: "Emergency Fund Setup & Guidance",
+    title: "Emergency fund setup & guidance",
     body: "Build a safety net sized to your life, on autopilot.",
     icon: (
       <Icon>
@@ -86,7 +86,7 @@ const SERVICES = [
     ),
   },
   {
-    title: "Tax Consulting",
+    title: "Tax consulting",
     body: "Plan investments and declarations to keep more of what you earn.",
     icon: (
       <Icon>
@@ -105,7 +105,7 @@ const SERVICES = [
     ),
   },
   {
-    title: "Portfolio Management",
+    title: "Portfolio management",
     body: "Ongoing rebalancing so your portfolio stays aligned to your goals.",
     icon: (
       <IconRound>
@@ -120,7 +120,7 @@ const SERVICES = [
 export default function Services() {
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-white font-inter">
-      <div className="max-w-[1120px] 2xl:max-w-[1280px] mx-auto px-4 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-[560px] mb-8 sm:mb-12">
           <h2 className="text-heading mb-3 font-bold text-ink">
             Your 360° personal finance partner

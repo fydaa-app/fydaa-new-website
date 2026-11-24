@@ -55,14 +55,7 @@ export default function Testimonials() {
                     ★★★★★
                   </div>
                   <p className="testi-text">
-                    {t.mobileText ? (
-                      <>
-                        <span className="copy-desktop">{t.text}</span>
-                        <span className="copy-mobile">{t.mobileText}</span>
-                      </>
-                    ) : (
-                      t.text
-                    )}
+                    {t.text}
                   </p>
                   <div className="testi-author">
                     <div className="testi-avatar" aria-hidden="true">

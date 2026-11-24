@@ -1,5 +1,6 @@
 
 import { legalPageSeo } from "@/config/routes";
+import { TableScroll } from "@/components/ui/table-scroll";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = pageMetadata(legalPageSeo("/legal/complaints"));
@@ -159,8 +160,8 @@ const auditDisclosures: Array<{ financialYear: string; status: string; remarks: 
 ];
 
 const tableHeadClass =
-  'border border-gray-300 bg-gray-100 px-3 py-3 text-left text-sm font-semibold text-gray-900';
-const tableCellClass = 'border border-gray-300 px-3 py-3 text-sm text-gray-800';
+  'border border-gray-300 bg-gray-100 px-3 py-2.5 text-left align-bottom text-sm font-semibold text-gray-900';
+const tableCellClass = 'whitespace-nowrap border border-gray-300 px-3 py-2.5 text-sm text-gray-800';
 const tableRowClass = 'bg-white even:bg-gray-50';
 
 export default function Complaints() {
@@ -169,14 +170,14 @@ export default function Complaints() {
   const monthlyComplaintTrend = buildMonthlyComplaintTrend(reference);
 
   return (
-    <main className="min-h-screen w-full bg-white pb-8 pl-2 pr-2 pt-24 text-gray-900 sm:pt-28 md:pt-32">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 md:px-8">
+    <main className="w-full bg-white pb-12 pt-24 text-gray-900 sm:pt-28 md:pt-32">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <h1 className="text-heading mb-3 text-center font-bold">Complaint Data</h1>
         <p className="mb-8 text-center text-gray-600">
           Data for the month ending – {reportingMonthLabel}
         </p>
 
-        <div className="mb-10 overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+        <TableScroll label="Complaints for the reporting month">
           <table className="w-full min-w-[720px] border-collapse">
             <thead>
               <tr>
@@ -205,12 +206,12 @@ export default function Complaints() {
               ))}
             </tbody>
           </table>
-        </div>
+        </TableScroll>
 
         <h2 className="mb-2 mt-10 text-base font-semibold text-gray-900">
           Trend of monthly disposal of complaints
         </h2>
-        <div className="mb-10 overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+        <TableScroll label="Trend of monthly disposal of complaints">
           <table className="w-full min-w-[640px] border-collapse">
             <thead>
               <tr>
@@ -235,12 +236,12 @@ export default function Complaints() {
               ))}
             </tbody>
           </table>
-        </div>
+        </TableScroll>
 
         <h2 className="mb-2 mt-10 text-base font-semibold text-gray-900">
           Trend of annual disposal of complaints
         </h2>
-        <div className="mb-10 overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+        <TableScroll label="Trend of annual disposal of complaints">
           <table className="w-full min-w-[560px] border-collapse">
             <thead>
               <tr>
@@ -265,7 +266,7 @@ export default function Complaints() {
               ))}
             </tbody>
           </table>
-        </div>
+        </TableScroll>
 
         <p className="mb-2 text-sm text-gray-600">RIA Audit Status Disclosure</p>
         <p className="mb-4 text-sm text-gray-600">
@@ -274,7 +275,7 @@ export default function Complaints() {
           REGULATIONS, 2013:&rdquo;
         </p>
 
-        <div className="mb-10 overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+        <TableScroll label="RIA annual compliance audit status">
           <table className="w-full border-collapse">
             <thead>
               <tr>
@@ -295,7 +296,7 @@ export default function Complaints() {
               ))}
             </tbody>
           </table>
-        </div>
+        </TableScroll>
 
         <p className="text-center text-sm text-gray-600">
           You can submit your grievance/complaints with us at{' '}

@@ -5,8 +5,8 @@ type Props = {
 
 export default function CareerHeroCard({ jobCount }: Props) {
   return (
-    <section className="px-4 sm:px-6 pb-12 sm:pb-16 pt-24 sm:pt-28 font-inter">
-      <div className="mx-auto max-w-5xl 2xl:max-w-6xl">
+    <section className="pb-12 pt-24 sm:pb-16 sm:pt-28">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-jade-deep">
           Careers at Fydaa
         </span>

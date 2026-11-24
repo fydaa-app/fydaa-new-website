@@ -11,17 +11,13 @@ const HeroSection: React.FC = () => {
         {/* Hero Text Content */}
         <div className="text-center mb-12 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 2xl:mb-20">
           <div className="space-y-6 sm:space-y-4 md:space-y-5 lg:space-y-6 xl:space-y-8 2xl:space-y-10">
-            <h1 className="text-display font-bold text-ink font-inter">
-              <span className="block">Wealth Shouldn&apos;t Be a Privilege</span>
-              <span className="block">
-                It Should Be a <span className="text-jade">Possibility</span> For All
-              </span>
+            <h1 className="mx-auto max-w-[20ch] text-balance text-display font-bold text-ink">
+              Wealth shouldn&apos;t be a privilege. It should be a{" "}
+              <span className="text-jade">possibility</span> for all.
             </h1>
-            <p className="text-sm md:text-base xl:text-lg 2xl:text-xl text-grey-600 font-inter font-normal leading-[1.8] max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto px-2 sm:px-4">
-              We&apos;re on a mission to make smart investing accessible,
-              understandable,{" "}
-              <br className="hidden sm:block" />
-              and achievable – no matter your income, background, or experience.
+            <p className="mx-auto max-w-2xl text-pretty text-lead text-grey-600">
+              We&apos;re on a mission to make smart investing accessible, understandable, and achievable – no matter
+              your income, background, or experience.
             </p>
           </div>
         </div>

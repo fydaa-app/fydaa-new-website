@@ -19,7 +19,7 @@ const contactLinkClass =
   "flex items-center justify-center rounded-btn border border-grey-200 bg-white px-3 py-2 text-sm font-semibold text-jade hover:border-jade focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade";
 
 /** Focused-task pages where a floating help button would compete with the form. */
-const HIDDEN_ON = ["/login", "/signup", "/partner", "/download"];
+const HIDDEN_ON = ["/login", "/signup", "/partner", "/download", "/careers/jobs"];
 
 /**
  * Floating "Quick answers" help panel: curated answers plus ways to reach a person.

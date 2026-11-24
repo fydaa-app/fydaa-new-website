@@ -104,7 +104,7 @@ const TWO_MONTH_PROGRAMME_PDF = "/brochure/2monthpdf.pdf";
    ══════════════════════════════════════ */
 function Hero({ onApply }: { onApply: () => void }) {
   return (
-    <section className="pt-24 sm:pt-28 md:pt-[140px] px-4 sm:px-6 md:px-8 pb-12 sm:pb-16 md:pb-[88px] relative overflow-hidden bg-jade">
+    <section className="pt-24 sm:pt-28 md:pt-[140px] pb-12 sm:pb-16 md:pb-[88px] relative overflow-hidden bg-jade">
       {/* Hero image: same full-bleed cover on all sizes; mobile focuses on the person */}
       <div
         className="absolute inset-0 bg-cover bg-[70%_20%] sm:bg-[60%_25%] md:bg-[center_30%]"
@@ -112,7 +112,7 @@ function Hero({ onApply }: { onApply: () => void }) {
       />
       <div className="absolute inset-0 bg-gradient-to-br from-ink/70 via-jade/55 to-ink/50 md:from-ink/55 md:via-jade/45 md:to-ink/40" />
 
-      <div className="max-w-[800px] md:pl-12 lg:pl-20 relative z-[1]">
+      <div className="relative z-[1] mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <h1 className="text-display text-white mb-4 sm:mb-5 md:mb-[22px] max-w-[680px]">
           <span className="font-normal">Become an industry-ready</span>
           <span className="font-normal block">investment adviser</span>
@@ -172,7 +172,7 @@ const JOURNEY = [
 
 function Journey() {
   return (
-    <section id="journey" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-[1000px] mx-auto">
+    <section id="journey" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-6xl mx-auto">
       <Pill>Programme Structure</Pill>
       <h2 className="text-heading font-bold text-ink mt-3.5">Your 4-month journey</h2>
       <p className="text-sm sm:text-base text-grey-600 mt-2 leading-relaxed max-w-[440px]">
@@ -214,7 +214,7 @@ const CURRICULUM = [
 function Curriculum({ onApply }: { onApply: () => void }) {
   return (
     <section className="bg-grey-100">
-      <div className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-[1000px] mx-auto">
+      <div className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-start">
           <div>
             <Pill>Curriculum</Pill>
@@ -250,17 +250,17 @@ function Curriculum({ onApply }: { onApply: () => void }) {
    HIGHLIGHTS
    ══════════════════════════════════════ */
 const HIGHLIGHTS = [
-  ["Hybrid Learning", "Live sessions combined with recorded modules. Learn at your pace without losing expert access."],
-  ["NISM Dual Certification", "Complete preparation for both NISM Series X-A and X-B examinations."],
-  ["Real Client Exposure", "Interact with actual clients under guided mentorship, not simulations."],
-  ["Business Development", "Learn client acquisition, professional documentation, and CRM tools."],
-  ["Expert Mentorship", "Guidance from SEBI-registered investment advisers and industry practitioners."],
-  ["Career Launchpad", "Graduate industry-ready with real advisory experience on your resume."],
+  ["Hybrid learning", "Live sessions combined with recorded modules. Learn at your pace without losing expert access."],
+  ["NISM dual certification", "Complete preparation for both NISM Series X-A and X-B examinations."],
+  ["Real client exposure", "Interact with actual clients under guided mentorship, not simulations."],
+  ["Business development", "Learn client acquisition, professional documentation, and CRM tools."],
+  ["Expert mentorship", "Guidance from SEBI-registered investment advisers and industry practitioners."],
+  ["Career launchpad", "Graduate industry-ready with real advisory experience on your resume."],
 ];
 
 function Highlights() {
   return (
-    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-[1000px] mx-auto text-center">
+    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-6xl mx-auto text-center">
       <Pill>Why FYIAEP</Pill>
       <h2 className="text-heading font-bold mt-3.5 mx-auto">Not just another certification course</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 mt-8 sm:mt-10 md:mt-12">
@@ -295,7 +295,7 @@ function WhoIsThisFor() {
           "radial-gradient(ellipse 100% 120% at 0% 100%, rgba(4,120,87,0.35) 0%, transparent 55%), radial-gradient(ellipse 80% 100% at 100% 0%, rgba(12,74,62,0.25) 0%, transparent 50%)",
       }}
     >
-      <div className="max-w-[1000px] mx-auto py-14 sm:py-16 md:py-[72px] px-5 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center">
+      <div className="max-w-6xl mx-auto py-14 sm:py-16 md:py-[72px] px-5 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center">
         <div className="min-w-0">
           <p
             className="text-xs font-semibold uppercase mb-3 tracking-[0.08em]"
@@ -332,12 +332,12 @@ function WhoIsThisFor() {
    ══════════════════════════════════════ */
 function AboutFydaa() {
   return (
-    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-[1000px] mx-auto">
+    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-6xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         <div className="min-w-0">
           <Pill>About Fydaa</Pill>
           <h2 className="text-heading font-bold mt-3.5">
-            Learn from a SEBI Registered Investment Adviser
+            Learn from a SEBI-registered investment adviser
           </h2>
           <p className="text-sm sm:text-base text-grey-600 leading-[1.7] mt-3">
             Fydaa (Multistrato Capital Advisors Pvt. Ltd.) is committed to making financial planning
@@ -380,7 +380,7 @@ function AboutFydaa() {
 function ProgrammeFooter() {
   return (
     <footer className="py-7 px-6 border-t border-grey-200">
-      <div className="max-w-[1000px] mx-auto flex justify-center items-center flex-wrap gap-6 sm:gap-8">
+      <div className="max-w-6xl mx-auto flex justify-center items-center flex-wrap gap-6 sm:gap-8">
         <div className="flex gap-1.5 items-center">
           <PhoneIcon />
           <span className="text-xs text-grey-500">Counsellor</span>
@@ -429,7 +429,7 @@ function CTACard({ onApply }: { onApply: () => void }) {
 
   return (
     <section className="px-4 sm:px-6 pt-12 sm:pt-16 md:pt-20 pb-12 sm:pb-20">
-      <div className="max-w-[1000px] mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="text-center max-w-[560px] mx-auto mb-8 sm:mb-10">
           <p className="text-xs font-semibold tracking-[0.08em] uppercase text-grey-500 mb-3">
             Ready to start your advisory career?

@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function AboutCta() {
   return (
     <section className="py-12 sm:py-16 md:py-20 text-center text-white font-inter bg-jade">
-      <div className="max-w-[1120px] 2xl:max-w-[1280px] mx-auto px-4 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-2.5 text-base sm:text-xl font-medium text-white/85">Bharosa Humara, Fydaa Aapka</div>
         <h2 className="text-heading mb-3 font-bold text-white">
           Your financial journey starts here

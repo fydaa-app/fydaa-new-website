@@ -23,12 +23,7 @@ export default function AdvisorySection() {
               <span className="serif">Real people</span> behind your money.
             </h2>
             <p className="advisory-sub">
-              <span className="advisory-sub-line">
-                Fydaa combines digital financial tools with human guidance. Relationship managers can
-              </span>
-              <span className="advisory-sub-line">
-                understand your goals, answer questions and help you make informed decisions when you need support.
-              </span>
+              Fydaa combines digital financial tools with human guidance. Relationship managers can understand your goals, answer questions and help you make informed decisions when you need support.
             </p>
           </div>
 
