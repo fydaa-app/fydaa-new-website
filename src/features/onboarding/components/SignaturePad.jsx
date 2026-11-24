@@ -105,7 +105,7 @@ export default function SignaturePad({ onChange, className = '' }) {
       <button
         type="button"
         onClick={clear}
-        className="mt-2 text-[13px] font-semibold text-emerald-700"
+        className="mt-2 text-sm font-semibold text-emerald-700"
       >
         Clear
       </button>

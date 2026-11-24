@@ -114,7 +114,7 @@ export default function MandateSuccessPage() {
       <div className="fixed inset-0 w-full h-full bg-bg flex items-center justify-center px-4">
         <div className="w-full max-w-md bg-white border border-border rounded-card shadow-card p-6 sm:p-8 text-center">
           <div className="w-12 h-12 rounded-full border-2 border-jade border-t-transparent animate-spin mx-auto mb-4" />
-          <h1 className="text-xl sm:text-2xl font-bold text-ink mb-2">Setting up your SIP</h1>
+          <h1 className="text-heading font-bold text-ink mb-2">Setting up your SIP</h1>
           <p className="text-sm text-muted">{status}</p>
         </div>
       </div>
@@ -125,12 +125,12 @@ export default function MandateSuccessPage() {
     return (
       <div className="fixed inset-0 w-full h-full bg-bg flex items-center justify-center px-4">
         <div className="w-full max-w-md bg-white border border-border rounded-card shadow-card p-6 sm:p-8 text-center">
-          <h1 className="text-xl sm:text-2xl font-bold text-ink mb-2">{status}</h1>
+          <h1 className="text-heading font-bold text-ink mb-2">{status}</h1>
           {error ? <p className="text-sm text-red-600 mb-6">{error}</p> : null}
           <button
             type="button"
             onClick={goDashboard}
-            className="w-full h-12 rounded-btn bg-jade text-white text-[15px] font-semibold hover:bg-jade-hover"
+            className="w-full h-12 rounded-btn bg-jade text-white text-base font-semibold hover:bg-jade-hover"
           >
             Go to Dashboard
           </button>

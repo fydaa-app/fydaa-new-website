@@ -121,13 +121,13 @@ const RELATIONS = NOMINEE_RELATIONS.map((r) => r.label);
 
 function AccountSwitch({ isLogin }) {
   return (
-    <p className="text-center text-[15px] mt-6">
+    <p className="text-center text-base mt-6">
       <span className="text-neutral-500">
         {isLogin ? 'New to Fydaa? ' : 'Already have an account? '}
       </span>
       <Link
         href={isLogin ? '/signup' : '/login'}
-        className="font-semibold text-[#0C4A3E]"
+        className="font-semibold text-jade"
         data-ph-event={isLogin ? 'Sign up' : 'Log in'}
       >
         {isLogin ? 'Sign up' : 'Log in'}
@@ -1415,7 +1415,7 @@ export default function OnboardingFlow({
         <button
           type="button"
           onClick={exitToDashboard}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-[#0C4A3E] mb-5"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-jade mb-5"
         >
           <BackIcon className="w-[16px] h-[16px]" />
           Back to dashboard
@@ -1582,7 +1582,7 @@ export default function OnboardingFlow({
                   onClick={() => pickRiskOption(i)}
                   className={`text-left rounded-2xl border-[1.5px] px-4 py-[18px] text-sm font-semibold transition-colors ${
                     riskSel === i
-                      ? 'border-emerald-700 bg-emerald-50 text-[#0C4A3E]'
+                      ? 'border-emerald-700 bg-emerald-50 text-jade'
                       : 'border-neutral-200 text-neutral-600 hover:border-neutral-300'
                   }`}
                 >
@@ -1604,7 +1604,7 @@ export default function OnboardingFlow({
       {screen === 'score' && (
         <div className="flex flex-col items-center text-center">
           <ScoreRing score={riskScore} max={100} />
-          <div className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 rounded-full px-[18px] py-2 text-[13px] font-bold text-[#0C4A3E]">
+          <div className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 rounded-full px-[18px] py-2 text-sm font-bold text-jade">
             <ShieldIcon className="w-4 h-4" />
             {riskBand || 'Your risk profile'}
           </div>
@@ -1690,9 +1690,9 @@ export default function OnboardingFlow({
                 onChange={(next) => { setEmailOtp(next); setAuthError(''); }}
               />
               {emailResendSecs > 0 ? (
-                <p className="text-[12.5px] text-neutral-500 font-medium">
+                <p className="text-xs text-neutral-500 font-medium">
                   Resend code in{' '}
-                  <b className="text-[#0C4A3E]">
+                  <b className="text-jade">
                     00:{String(emailResendSecs).padStart(2, '0')}
                   </b>
                 </p>
@@ -1754,7 +1754,7 @@ export default function OnboardingFlow({
                   }}
                 />
               </FieldRow>
-              <p className="text-[12px] text-neutral-500 font-medium -mt-2">
+              <p className="text-xs text-neutral-500 font-medium -mt-2">
                 You must be 18 years or older.
               </p>
             </div>
@@ -1900,7 +1900,7 @@ export default function OnboardingFlow({
       {/* E-SIGN bridge */}
       {screen === 'esign' && (
         <>
-          <PageHeading size="text-[22px]">Almost done</PageHeading>
+          <PageHeading size="text-2xl">Almost done</PageHeading>
           <PageSub>Continue to add your bank account.</PageSub>
           <Button phEvent="Continue" onClick={() => go('bank')}>Continue</Button>
         </>
@@ -1934,8 +1934,8 @@ export default function OnboardingFlow({
                 <p className="-mt-2 mb-4 text-xs text-red-600">{ifscLookupError}</p>
               )}
               {!ifscLookupBusy && ifscInfo && (
-                <div className="-mt-2 mb-4 rounded-[11px] border border-[#0C4A3E]/15 bg-[#0C4A3E]/[0.04] px-3.5 py-3 text-left">
-                  <div className="text-sm font-semibold text-[#0C4A3E]">
+                <div className="-mt-2 mb-4 rounded-xl border border-jade/15 bg-jade/[0.04] px-3.5 py-3 text-left">
+                  <div className="text-sm font-semibold text-jade">
                     {[ifscInfo.bank, ifscInfo.branch].filter(Boolean).join(' · ')}
                   </div>
                   {(ifscInfo.city || ifscInfo.state) && (

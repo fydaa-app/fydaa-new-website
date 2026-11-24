@@ -21,7 +21,7 @@ export default function WhyFydaa() {
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-grey-50 font-inter">
       <div className="max-w-[1120px] 2xl:max-w-[1280px] mx-auto px-4 sm:px-6">
-        <h2 className="mb-8 md:mb-10 text-[clamp(1.5rem,3vw,2.05rem)] font-bold tracking-[-0.02em] text-ink">
+        <h2 className="text-heading mb-8 md:mb-10 font-bold text-ink">
           Why people choose Fydaa
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
@@ -31,7 +31,7 @@ export default function WhyFydaa() {
               className="px-6 py-7 border border-grey-200 rounded-2xl bg-white shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all"
             >
               <h3 className="mb-2 text-base font-bold text-ink">{it.title}</h3>
-              <p className="text-[0.82rem] text-grey-600 leading-[1.5]">{it.body}</p>
+              <p className="text-sm text-grey-600 leading-[1.5]">{it.body}</p>
             </div>
           ))}
         </div>

@@ -4,7 +4,7 @@ import { captureButtonClick, labelFromChildren } from '@/lib/posthog';
 
 /**
  * Shared primitives for the Fydaa KYC onboarding flow.
- * Colors are written as Tailwind arbitrary values (bg-[#0C4A3E] etc.) so this
+ * Colors are written as Tailwind arbitrary values (bg-jade etc.) so this
  * drops into any Tailwind config with no theme changes required. If you'd
  * rather use semantic tokens, add this to tailwind.config.js and swap the
  * arbitrary values for e.g. bg-jade / text-jade:
@@ -87,8 +87,8 @@ export function Overline({ children, emerald = false, className = '' }) {
   );
 }
 
-export function PageHeading({ children, size = 'text-[28px]' }) {
-  return <h1 className={`${size} font-bold tracking-tight mb-1.5 leading-tight text-neutral-950`}>{children}</h1>;
+export function PageHeading({ children, size = 'text-heading' }) {
+  return <h1 className={`${size} font-bold mb-1.5 text-ink`}>{children}</h1>;
 }
 
 export function PageSub({ children }) {
@@ -100,7 +100,7 @@ export function LinkText({ children, onClick, className = '', ...rest }) {
     <button
       type="button"
       onClick={onClick}
-      className={`text-[13px] text-emerald-700 font-semibold cursor-pointer inline-block mb-6 bg-transparent border-0 p-0 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0C4A3E] ${className}`}
+      className={`text-sm text-emerald-700 font-semibold cursor-pointer inline-block mb-6 bg-transparent border-0 p-0 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jade ${className}`}
       {...rest}
     >
       {children}
@@ -124,7 +124,7 @@ export function Button({ children, onClick, className = '', phEvent, ...rest }) 
         captureButtonClick(label || 'Button', { button_variant: 'primary' });
         onClick?.(e);
       }}
-      className={`w-full h-[52px] rounded-xl bg-[#0C4A3E] text-white text-[15px] font-bold hover:bg-[#0A3D33] transition-colors mt-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#0C4A3E] ${className}`}
+      className={`w-full h-[52px] rounded-xl bg-jade text-white text-base font-bold hover:bg-jade-hover transition-colors mt-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-jade ${className}`}
     >
       {children}
     </button>
@@ -146,7 +146,7 @@ export function OutlineButton({ children, onClick, className = '', phEvent, ...r
         captureButtonClick(label || 'Button', { button_variant: 'outline' });
         onClick?.(e);
       }}
-      className={`w-full h-[52px] rounded-xl bg-white text-neutral-800 text-[15px] font-semibold border-[1.5px] border-neutral-200 hover:border-neutral-300 transition-colors mt-2 flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`w-full h-[52px] rounded-xl bg-white text-neutral-800 text-base font-semibold border-[1.5px] border-neutral-200 hover:border-neutral-300 transition-colors mt-2 flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
     >
       {children}
     </button>
@@ -197,7 +197,7 @@ export function FieldInput({ label, prefix, className = '', id, ...rest }) {
       <div className="relative">
         {prefix && <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-neutral-500 pointer-events-none">{prefix}</span>}
         <input
-          className={`w-full h-12 border-[1.5px] border-neutral-200 rounded-[11px] px-3.5 text-sm font-medium text-neutral-950 outline-none focus:border-[#0C4A3E] transition-colors ${
+          className={`w-full h-12 border-[1.5px] border-neutral-200 rounded-xl px-3.5 text-sm font-medium text-neutral-950 outline-none focus:border-jade transition-colors ${
             prefix ? 'pl-12' : ''
           } ${className}`}
           id={inputId}
@@ -216,7 +216,7 @@ export function FieldSelect({ label, children, id, ...rest }) {
       {label && <FieldLabel htmlFor={selectId}>{label}</FieldLabel>}
       <select
         id={selectId}
-        className="w-full h-12 border-[1.5px] border-neutral-200 rounded-[11px] px-3.5 text-sm font-medium text-neutral-950 outline-none focus:border-[#0C4A3E] bg-white"
+        className="w-full h-12 border-[1.5px] border-neutral-200 rounded-xl px-3.5 text-sm font-medium text-neutral-950 outline-none focus:border-jade bg-white"
         {...rest}
       >
         {children}
@@ -255,8 +255,8 @@ export function Chip({ label, selected, onClick }) {
       type="button"
       onClick={onClick}
       aria-pressed={Boolean(selected)}
-      className={`h-9 px-4 rounded-full text-[13px] font-semibold border-[1.5px] transition-colors ${
-        selected ? 'bg-[#0C4A3E] border-[#0C4A3E] text-white' : 'bg-white border-neutral-200 text-neutral-600'
+      className={`h-9 px-4 rounded-full text-sm font-semibold border-[1.5px] transition-colors ${
+        selected ? 'bg-jade border-jade text-white' : 'bg-white border-neutral-200 text-neutral-600'
       }`}
     >
       {label}
@@ -275,13 +275,13 @@ export function Checkbox({ checked, onChange, children }) {
       />
       <span
         aria-hidden="true"
-        className={`w-5 h-5 rounded-[5px] border-[1.5px] flex items-center justify-center mt-0.5 flex-shrink-0 transition-colors peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[#0C4A3E] ${
-          checked ? 'bg-[#0C4A3E] border-[#0C4A3E]' : 'bg-white border-neutral-300'
+        className={`w-5 h-5 rounded-md border-[1.5px] flex items-center justify-center mt-0.5 flex-shrink-0 transition-colors peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-jade ${
+          checked ? 'bg-jade border-jade' : 'bg-white border-neutral-300'
         }`}
       >
         {checked && <CheckIcon className="w-3 h-3 text-white" />}
       </span>
-      <span className="text-[12.5px] leading-relaxed text-neutral-600">{children}</span>
+      <span className="text-xs leading-relaxed text-neutral-600">{children}</span>
     </label>
   );
 }
@@ -290,11 +290,11 @@ export function QuestionCard({ icon, title, subtitle, counter, children }) {
   return (
     <div className="bg-white border border-neutral-200 rounded-2xl p-6 mb-5 shadow-sm">
       <div className="flex items-center justify-between mb-3.5">
-        <div className="w-[42px] h-[42px] bg-emerald-50 rounded-[11px] flex items-center justify-center text-emerald-700">{icon}</div>
-        {counter && <span className="text-[13px] font-semibold text-neutral-500">{counter}</span>}
+        <div className="w-[42px] h-[42px] bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-700">{icon}</div>
+        {counter && <span className="text-sm font-semibold text-neutral-500">{counter}</span>}
       </div>
-      <div className="text-[17px] font-bold text-neutral-950 leading-snug mb-1.5">{title}</div>
-      {subtitle && <div className="text-[13px] text-neutral-500 font-medium">{subtitle}</div>}
+      <div className="text-lg font-bold text-neutral-950 leading-snug mb-1.5">{title}</div>
+      {subtitle && <div className="text-sm text-neutral-500 font-medium">{subtitle}</div>}
       {children}
     </div>
   );
@@ -314,7 +314,7 @@ export function ScoreRing({ score = 75, max = 100 }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-4xl font-extrabold text-[#0C4A3E] tracking-tight">{score}</span>
+        <span className="text-4xl font-extrabold text-jade tracking-tight">{score}</span>
         <span className="text-xs text-neutral-500 mt-0.5">out of {max}</span>
       </div>
     </div>

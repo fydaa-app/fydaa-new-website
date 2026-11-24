@@ -12,9 +12,9 @@ export default function Terms() {
             <main className="w-full flex flex-col items-center p-10 pt-20">
                 <section className="flex flex-col items-start">
                     <br /> <br /> <br /> <br />
-                    <h1 className="w-full font-bold text-5xl text-center">Terms &amp; Conditions</h1>
+                    <h1 className="text-heading w-full font-bold text-center">Terms &amp; Conditions</h1>
                     <br /> <br />
-                    <h2 className="w-full text-center font-semibod text-2xl mb-8">
+                    <h2 className="text-heading w-full text-center font-semibod mb-8">
                         Multistrato Capital Advisers Private Limited / fydaa Terms of Service
                     </h2>
                     <p className="text-left">

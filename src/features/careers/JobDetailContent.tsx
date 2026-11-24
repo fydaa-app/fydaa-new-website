@@ -20,9 +20,9 @@ function StructuredResponsibilities({ data }: { data: ResponsibilitiesData }) {
 
         return (
           <div key={idx}>
-            <h4 className="mt-7 text-[15px] font-bold text-ink">{heading}</h4>
+            <h4 className="mt-7 text-base font-bold text-ink">{heading}</h4>
             {items.length > 0 && (
-              <ul className="mt-3 list-disc pl-6 text-[15.5px] leading-relaxed text-grey-600">
+              <ul className="mt-3 list-disc pl-6 text-base leading-relaxed text-grey-600">
                 {items.map((itemObj, i) => {
                   const { item, subItems } = itemObj;
                   return (
@@ -79,8 +79,8 @@ export default function JobDetailContent({ job }: { job: JobOpening }) {
     <>
       {job.about && (
         <div>
-          <h4 className="mb-3 text-[15px] font-bold text-ink">About the role</h4>
-          <p className="max-w-[66ch] text-[15.5px] leading-relaxed text-grey-600">{job.about}</p>
+          <h4 className="mb-3 text-base font-bold text-ink">About the role</h4>
+          <p className="max-w-[66ch] text-base leading-relaxed text-grey-600">{job.about}</p>
         </div>
       )}
 
@@ -90,8 +90,8 @@ export default function JobDetailContent({ job }: { job: JobOpening }) {
 
       {flatData && hasMeaningfulFlatList(flatData) && (
         <>
-          <h4 className="mt-7 text-[15px] font-bold text-ink">Key responsibilities</h4>
-          <ul className="mt-3 list-disc pl-6 text-[15.5px] leading-relaxed text-grey-600">
+          <h4 className="mt-7 text-base font-bold text-ink">Key responsibilities</h4>
+          <ul className="mt-3 list-disc pl-6 text-base leading-relaxed text-grey-600">
             {flatData.map((line) => (
               <li key={line}>{line}</li>
             ))}
@@ -101,8 +101,8 @@ export default function JobDetailContent({ job }: { job: JobOpening }) {
 
       {hasMeaningfulFlatList(job.skills) && (
         <>
-          <h4 className="mt-7 text-[15px] font-bold text-ink">Skills required</h4>
-          <ul className="mt-3 list-disc pl-6 text-[15.5px] leading-relaxed text-grey-600">
+          <h4 className="mt-7 text-base font-bold text-ink">Skills required</h4>
+          <ul className="mt-3 list-disc pl-6 text-base leading-relaxed text-grey-600">
             {(job.skills || []).map((skill) => (
               <li key={skill}>{skill}</li>
             ))}

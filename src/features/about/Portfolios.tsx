@@ -12,7 +12,7 @@ export default function Portfolios() {
       <div className="max-w-[1120px] 2xl:max-w-[1280px] mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-[1.1fr_0.9fr] gap-8 md:gap-14 items-center">
           <div className="text-center md:text-left">
-            <h2 className="mb-3.5 text-[clamp(1.5rem,3vw,2.05rem)] font-bold tracking-[-0.02em] text-ink">
+            <h2 className="text-heading mb-3.5 font-bold text-ink">
               Different People, Different Portfolios
             </h2>
             <p className="max-w-[440px] mx-auto md:mx-0 mb-6 text-grey-600 leading-[1.75] text-sm sm:text-base">
@@ -21,7 +21,7 @@ export default function Portfolios() {
             </p>
             <Link
               href="/#book-a-call"
-              className="inline-flex bg-jade text-white px-7 py-[13px] rounded-[10px] font-bold text-sm hover:bg-jade-hover transition-colors min-h-[44px] items-center"
+              className="inline-flex bg-jade text-white px-7 py-[13px] rounded-btn font-bold text-sm hover:bg-jade-hover transition-colors min-h-[44px] items-center"
               data-ph-event="Book a Free Call"
             >
               Book a Free Call

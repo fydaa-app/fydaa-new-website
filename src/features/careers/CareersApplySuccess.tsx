@@ -6,7 +6,7 @@ export default function CareersApplySuccess() {
       <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-black text-white">
         <Check className="h-8 w-8" strokeWidth={2.5} aria-hidden />
       </div>
-      <h2 className="text-2xl font-semibold text-black">Thank you!</h2>
+      <h2 className="text-heading font-bold text-black">Thank you!</h2>
       <p className="mt-3 text-base font-medium text-gray-800">
         Your application has been successfully submitted.
       </p>

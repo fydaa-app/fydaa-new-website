@@ -21,7 +21,7 @@ function BookCallButton() {
   return (
     <button
       type="button"
-      className="px-4 py-2 sm:px-6 sm:py-2 bg-jade text-white font-medium text-[12px] sm:text-[14px] font-gilroy rounded-full hover:bg-jade-hover transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
+      className="px-4 py-2 sm:px-6 sm:py-2 bg-jade text-white font-medium text-xs sm:text-sm rounded-full hover:bg-jade-hover transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pointer-events-auto"
       data-ph-event="Book a Free Call"
       onClick={scrollToBookCall}
     >
@@ -183,11 +183,11 @@ export default function Dreams() {
         <div className="max-w-4xl mx-auto text-center">
           <h2
             ref={headerTitleRef}
-            className="!font-gilroy !font-semibold !text-2xl sm:!text-3xl md:!text-4xl lg:!text-5xl xl:!text-[56px] !leading-tight text-gray-900 mb-4 sm:mb-6"
+            className="text-heading !font-semibold text-gray-900 mb-4 sm:mb-6"
           >
             For Your Dreams And Aspirations
           </h2>
-          <p className="!font-inter text-gray-600 max-w-xs sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto !text-sm sm:!text-base md:!text-lg lg:!text-[18px] !font-normal !leading-relaxed px-2">
+          <p className="!font-inter text-gray-600 max-w-xs sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto !text-sm sm:!text-base md:!text-lg lg:!text-lg !font-normal !leading-relaxed px-2">
             At Fydaa, we help you direct every rupee with purpose - whether
             you&apos;re spending on today, saving for tomorrow, or investing for
             the future.
@@ -240,7 +240,7 @@ export default function Dreams() {
               id="short-term"
               className="md:absolute top-[30px] sm:top-[50px] left-0 sm:left-4 md:left-8 lg:left-16 w-full max-w-full md:max-w-[300px] lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[550px] animate-slide-in-left max-md:[animation:none] px-4 md:px-0 pt-8 md:pt-0 mb-16 md:mb-0 text-center md:text-left"
             >
-              <h3 className="!font-gilroy !font-medium !text-sm sm:!text-sm md:!text-lg lg:!text-2xl xl:!text-2xl 2xl:!text-3xl text-gray-900 mb-1">
+              <h3 className=" !font-medium !text-sm sm:!text-sm md:!text-lg lg:!text-2xl xl:!text-2xl 2xl:!text-3xl text-gray-900 mb-1">
                 Consume Mindfully
               </h3>
               <p
@@ -264,7 +264,7 @@ export default function Dreams() {
               id="medium-term"
               className="md:absolute top-[400px] sm:top-[600px] md:top-[700px] right-0 md:right-0 lg:right-48 w-full max-w-full md:max-w-[300px] lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[550px] animate-slide-in-right delay-200 max-md:[animation:none] px-4 md:px-0 mb-16 md:mb-0 text-center md:text-left"
             >
-              <h3 className="!font-gilroy !font-medium !text-sm sm:!text-sm md:!text-lg lg:!text-2xl xl:!text-2xl 2xl:!text-3xl text-gray-900 mb-1">
+              <h3 className=" !font-medium !text-sm sm:!text-sm md:!text-lg lg:!text-2xl xl:!text-2xl 2xl:!text-3xl text-gray-900 mb-1">
                 Strategic Saving
               </h3>
               <p
@@ -288,7 +288,7 @@ export default function Dreams() {
               id="long-term"
               className="md:absolute top-[700px] sm:top-[1000px] md:top-[1320px] left-0 sm:left-4 md:left-8 lg:left-16 w-full max-w-full md:max-w-[300px] lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[550px] animate-slide-in-left delay-300 max-md:[animation:none] px-4 md:px-0 mb-16 md:mb-0 text-center md:text-left"
             >
-              <h3 className="!font-gilroy !font-medium !text-sm sm:!text-sm md:!text-lg lg:!text-2xl xl:!text-2xl 2xl:!text-3xl text-gray-900 mb-1">
+              <h3 className=" !font-medium !text-sm sm:!text-sm md:!text-lg lg:!text-2xl xl:!text-2xl 2xl:!text-3xl text-gray-900 mb-1">
                 Invest to Build Wealth
               </h3>
               <p

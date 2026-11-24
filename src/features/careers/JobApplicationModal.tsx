@@ -19,8 +19,8 @@ const STEPS = ['Personal Info', 'Experience', 'Upload'] as const;
 const NOTICE_OPTIONS = ['Immediate', '15 days', '30 days', '60 days', '90 days'];
 
 const inputClass =
-  'w-full border-b border-gray-400 bg-transparent py-2 text-sm text-[#001E3C] placeholder:text-gray-500 focus:outline-none focus:border-black';
-const labelClass = 'block text-sm text-[#001E3C] mb-1';
+  'w-full border-b border-gray-400 bg-transparent py-2 text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-black';
+const labelClass = 'block text-sm text-ink mb-1';
 
 type Props = {
   open: boolean;
@@ -248,10 +248,10 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
             <div className="shrink-0 border-b border-gray-100 px-5 pb-4 pt-5 sm:px-8 sm:pt-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h2 id="job-apply-title" className="font-gilroy text-2xl font-semibold text-black sm:text-[28px]">
+                  <h2 id="job-apply-title" className="text-heading font-bold text-black">
                     {job.title}
                   </h2>
-                  <p className="mt-1 font-inter text-sm text-gray-500 sm:text-[15px]">{subtitle}</p>
+                  <p className="mt-1 font-inter text-sm text-gray-500 sm:text-base">{subtitle}</p>
                 </div>
                 <button
                   type="button"
@@ -311,7 +311,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                 <div className="flex flex-col flex-1 space-y-6 pb-4">
                    {/* <button
                      type="button"
-                     className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white py-3 font-inter text-sm font-medium text-[#001E3C] transition hover:bg-gray-50"
+                     className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white py-3 font-inter text-sm font-medium text-ink transition hover:bg-gray-50"
                      onClick={() => window.open(job.linkedinLink, '_blank', 'noopener,noreferrer')}
                    >
                      <Linkedin className="h-5 w-5 text-[#0A66C2]" aria-hidden />
@@ -569,7 +569,7 @@ export default function JobApplicationModal({ open, job, onClose }: Props) {
                     type="button"
                     onClick={back}
                     data-ph-event="Back"
-                    className="inline-flex items-center gap-1 rounded-full border border-gray-300 bg-white px-4 py-2 font-inter text-sm font-medium text-[#001E3C] transition hover:bg-gray-50"
+                    className="inline-flex items-center gap-1 rounded-full border border-gray-300 bg-white px-4 py-2 font-inter text-sm font-medium text-ink transition hover:bg-gray-50"
                   >
                     <ArrowLeft className="h-4 w-4" />
                     Back

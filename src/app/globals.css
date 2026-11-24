@@ -22,10 +22,24 @@
   animation: marquee 30s linear infinite;
 }
 
+/*
+ * Design tokens: the single source for fluid heading and lead sizes. Tailwind's
+ * `text-display | text-heading | text-title | text-lead` and the scoped page stylesheets
+ * both read these, so a page title looks the same on every page and at every width.
+ */
+:root {
+  --text-display: clamp(2rem, 1.25rem + 3.2vw, 3.5rem);
+  --text-heading: clamp(1.625rem, 1.2rem + 1.8vw, 2.5rem);
+  --text-title: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --text-lead: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+}
+
 html {
   scroll-behavior: smooth;
   /* The site has no dark theme: keep native controls and UA defaults light. */
   color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 /* Fonts are loaded via next/font (src/app/fonts.ts). */
@@ -360,9 +374,6 @@ body {
 }
 
 /* Font utility classes */
-.font-gilroy {
-  font-family: var(--font-gilroy), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-}
 
 .font-inter {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;

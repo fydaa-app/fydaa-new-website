@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
   const [showQrModal, setShowQrModal] = useState(false);
 
   const footerBtnClass =
-    "flex items-center justify-center cursor-pointer transition-transform duration-300 ease-in-out w-full sm:w-auto sm:min-w-[150px] h-[40px] sm:h-[42px] md:h-[45px] xl:h-[48px] bg-black rounded-lg border border-white text-white font-semibold text-[12px] sm:text-[13px] md:text-[14px] xl:text-[16px] shadow-lg hover:scale-105 px-4";
+    "flex items-center justify-center cursor-pointer transition-transform duration-300 ease-in-out w-full sm:w-auto sm:min-w-[150px] h-[40px] sm:h-[42px] md:h-[45px] xl:h-[48px] bg-black rounded-lg border border-white text-white font-semibold text-xs sm:text-sm md:text-sm xl:text-base shadow-lg hover:scale-105 px-4";
 
   return (
     <footer id="footer" className="bg-black text-white py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-24 relative z-50">
@@ -79,14 +79,14 @@ const Footer: React.FC = () => {
             </div>
 
             <div className="space-y-1 sm:space-y-2">
-              <p className="text-white text-[14px] sm:text-[16px] md:text-[18px] xl:text-[19px] 2xl:text-[20px] font-inter font-normal">
+              <p className="text-white text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-xl font-inter font-normal">
                 Registered office
               </p>
-              <p className="text-white text-[14px] sm:text-[16px] md:text-[18px] xl:text-[19px] 2xl:text-[20px] font-inter font-normal leading-relaxed max-w-xl">
+              <p className="text-white text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-xl font-inter font-normal leading-relaxed max-w-xl">
                 #903, Ecostar Building, Off Aarey Road, Churi Wadi, Goregaon
                 (East), Mumbai, Maharashtra - 400063.
               </p>
-              <p className="text-white text-[14px] sm:text-[16px] md:text-[18px] xl:text-[19px] 2xl:text-[20px] font-inter font-normal">
+              <p className="text-white text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-xl font-inter font-normal">
                 Phone:{" "}
                 <a
                   href={siteConfig.contact.phoneHref}
@@ -100,7 +100,7 @@ const Footer: React.FC = () => {
 
           {/* Middle — Quick Links */}
           <div className="min-w-0">
-            <h2 className="text-white text-[16px] sm:text-[18px] md:text-[20px] font-inter font-semibold mb-4 sm:mb-5">
+            <h2 className="text-white text-base sm:text-lg md:text-xl font-inter font-semibold mb-4 sm:mb-5">
               Quick Links
             </h2>
             <div className="space-y-3">
@@ -108,7 +108,7 @@ const Footer: React.FC = () => {
                 <Link
                   key={route.path}
                   href={route.path}
-                  className="block text-white hover:text-gray-300 transition-colors duration-200 text-[12px] sm:text-[13px] md:text-[14px] xl:text-[15px] 2xl:text-[16px] font-inter font-medium"
+                  className="block text-white hover:text-gray-300 transition-colors duration-200 text-xs sm:text-sm md:text-sm xl:text-base 2xl:text-base font-inter font-medium"
                 >
                   {route.label}
                 </Link>
@@ -204,7 +204,7 @@ const Footer: React.FC = () => {
 
         {/* Bottom Section - Copyright */}
         <div className="flex justify-center">
-          <p className="text-white text-[16px] font-inter font-normal">
+          <p className="text-white text-base font-inter font-normal">
             © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Fydaa · {siteConfig.entities.adviser.legalName}
           </p>
         </div>
@@ -226,7 +226,7 @@ const Footer: React.FC = () => {
           >
             <h2
               id="upi-handles-title"
-              className="shrink-0 text-center text-white font-semibold px-4 pt-5 pb-3 text-[18px] sm:text-[22px] md:text-[24px]"
+              className="text-heading shrink-0 text-center text-white font-semibold px-4 pt-5 pb-3"
             >
               Verified UPI Handles
             </h2>
@@ -235,9 +235,9 @@ const Footer: React.FC = () => {
               {UPI_HANDLES.map((handle) => (
                 <div
                   key={handle}
-                  className="rounded border border-[#333] bg-[#1a1a1a] px-3 py-3 sm:px-4 sm:py-3.5"
+                  className="rounded border border-grey-800 bg-ink px-3 py-3 sm:px-4 sm:py-3.5"
                 >
-                  <p className="break-all text-white font-medium text-[12px] leading-snug sm:text-[13px] md:text-[14px]">
+                  <p className="break-all text-white font-medium text-xs leading-snug sm:text-sm md:text-sm">
                     {handle}
                   </p>
                 </div>
@@ -249,14 +249,14 @@ const Footer: React.FC = () => {
                 href="/upi-faq"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-center text-[12px] sm:text-[13px] text-white underline underline-offset-2 hover:text-gray-300 transition-colors leading-snug px-1"
+                className="text-center text-xs sm:text-sm text-white underline underline-offset-2 hover:text-gray-300 transition-colors leading-snug px-1"
               >
                 Read FAQs to Understand the Validated UPI Handle System
               </a>
               <button
                 type="button"
                 onClick={() => setShowEmailModal(false)}
-                className="min-h-[44px] min-w-[100px] rounded-lg border border-white bg-white px-8 py-2.5 text-[15px] font-medium text-black transition-colors hover:bg-gray-100"
+                className="min-h-[44px] min-w-[100px] rounded-lg border border-white bg-white px-8 py-2.5 text-base font-medium text-black transition-colors hover:bg-gray-100"
               >
                 Close
               </button>
@@ -281,7 +281,7 @@ const Footer: React.FC = () => {
           >
             <h2
               id="scan-qr-title"
-              className="shrink-0 text-center text-white font-semibold px-4 pt-4 pb-2 text-[18px] sm:pt-5 sm:pb-3 sm:text-[22px] md:text-[24px]"
+              className="text-heading shrink-0 text-center text-white font-semibold px-4 pt-4 pb-2 sm:pt-5 sm:pb-3"
             >
               Scan QR Code
             </h2>
@@ -300,7 +300,7 @@ const Footer: React.FC = () => {
                 ].map((qr) => (
                   <div
                     key={qr.handle}
-                    className="mx-auto flex w-full max-w-[260px] sm:max-w-none flex-col items-center rounded-lg border border-[#333] bg-white p-2 sm:p-3"
+                    className="mx-auto flex w-full max-w-[260px] sm:max-w-none flex-col items-center rounded-lg border border-grey-800 bg-white p-2 sm:p-3"
                   >
                     <img
                       src={qr.src}
@@ -318,7 +318,7 @@ const Footer: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowQrModal(false)}
-                className="min-h-[44px] min-w-[100px] rounded-lg border border-white bg-white px-8 py-2.5 text-[15px] font-medium text-black transition-colors hover:bg-gray-100"
+                className="min-h-[44px] min-w-[100px] rounded-lg border border-white bg-white px-8 py-2.5 text-base font-medium text-black transition-colors hover:bg-gray-100"
               >
                 Close
               </button>

@@ -21,7 +21,7 @@ const OTP_LENGTH = 6;
 const RESEND_COUNTDOWN_SECONDS = 30;
 
 const otpInputClass =
-  'w-10 sm:w-12 h-10 sm:h-12 border border-gray-300 rounded-[12px] text-center text-sm text-[#001E3C] placeholder:text-gray-500 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter';
+  'w-10 sm:w-12 h-10 sm:h-12 border border-gray-300 rounded-xl text-center text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink transition-colors font-inter';
 
 interface OtpRowProps {
   value: string;
@@ -385,7 +385,7 @@ export default function RegistrationStep({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-gilroy font-semibold text-2xl text-[#001E3C]">
+        <h2 className="text-heading font-bold text-ink">
           ARN Details
         </h2>
         <p className="font-inter text-sm text-gray-600 mt-1">
@@ -398,7 +398,7 @@ export default function RegistrationStep({
           Registration Number <span className="text-red-500">*</span>
         </label>
         <div className="flex">
-          <span className="flex items-center h-12 px-3 sm:px-4 border border-gray-300 border-r-0 rounded-l-[12px] bg-gray-100 text-sm text-[#001E3C] font-inter">
+          <span className="flex items-center h-12 px-3 sm:px-4 border border-gray-300 border-r-0 rounded-l-xl bg-gray-100 text-sm text-ink font-inter">
             ARN-
           </span>
           <input
@@ -409,7 +409,7 @@ export default function RegistrationStep({
               handleInputChange('registration_number', e.target.value)
             }
             readOnly={arnLocked}
-            className={`flex-1 h-12 min-w-0 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-r-[12px] text-sm text-[#001E3C] placeholder:text-gray-500 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter ${
+            className={`flex-1 h-12 min-w-0 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-r-xl text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink transition-colors font-inter ${
               arnLocked ? 'bg-gray-100 cursor-not-allowed' : ''
             } ${
               errors.registration_number
@@ -437,7 +437,7 @@ export default function RegistrationStep({
             value={formData.email}
             onChange={(e) => handleInputChange('email', e.target.value)}
             readOnly={arnLocked}
-            className={`flex-1 h-12 min-w-0 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-l-[12px] text-sm text-[#001E3C] placeholder:text-gray-500 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter ${
+            className={`flex-1 h-12 min-w-0 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-l-xl text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink transition-colors font-inter ${
               arnLocked ? 'bg-gray-100 cursor-not-allowed' : ''
             } ${
               errors.email
@@ -446,7 +446,7 @@ export default function RegistrationStep({
             }`}
             placeholder="AMFI Registered Email Address"
           />
-          <div className="flex items-center h-12 px-3 border border-gray-300 border-l-0 rounded-r-[12px] bg-gray-50">
+          <div className="flex items-center h-12 px-3 border border-gray-300 border-l-0 rounded-r-xl bg-gray-50">
             {emailVerified ? (
               <div className="flex items-center gap-1 text-green-600 font-inter text-sm">
                 <svg
@@ -471,7 +471,7 @@ export default function RegistrationStep({
                 type="button"
                 onClick={handleRequestEmailOtp}
                 disabled={isLoading || !formData.registration_number.trim() || !formData.email.trim()}
-                className="text-[#001E3C] font-inter text-sm underline underline-offset-2 hover:no-underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="text-ink font-inter text-sm underline underline-offset-2 hover:no-underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Verify
               </button>
@@ -501,7 +501,7 @@ export default function RegistrationStep({
             type="button"
             onClick={handleVerifyEmailOtp}
             disabled={isLoading || formData.email_otp.length !== OTP_LENGTH}
-            className={`mt-3 w-full h-12 bg-black text-white rounded-[12px] font-medium font-inter hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`mt-3 w-full h-12 bg-black text-white rounded-xl font-medium font-inter hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             {isLoading ? 'Verifying...' : 'Verify OTP'}
           </button>
@@ -515,7 +515,7 @@ export default function RegistrationStep({
                 type="button"
                 onClick={handleResendEmailOtp}
                 disabled={isLoading}
-                className="text-sm text-[#001E3C] font-inter underline underline-offset-2 hover:no-underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="text-sm text-ink font-inter underline underline-offset-2 hover:no-underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Resend
               </button>
@@ -570,7 +570,7 @@ export default function RegistrationStep({
                   !formData.phone.trim() ||
                   !/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))
                 }
-                className="text-[#001E3C] font-inter text-sm underline underline-offset-2 hover:no-underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="text-ink font-inter text-sm underline underline-offset-2 hover:no-underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? 'Sending...' : 'Verify'}
               </button>
@@ -602,7 +602,7 @@ export default function RegistrationStep({
             disabled={
               isLoading || (formData.mobile_otp || '').length !== OTP_LENGTH
             }
-            className={`mt-3 w-full h-12 bg-black text-white rounded-[12px] font-medium font-inter hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`mt-3 w-full h-12 bg-black text-white rounded-xl font-medium font-inter hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             {isLoading ? 'Verifying...' : 'Verify OTP'}
           </button>
@@ -616,7 +616,7 @@ export default function RegistrationStep({
                 type="button"
                 onClick={handleResendMobileOtp}
                 disabled={isLoading}
-                className="text-sm text-[#001E3C] font-inter underline underline-offset-2 hover:no-underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="text-sm text-ink font-inter underline underline-offset-2 hover:no-underline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Resend
               </button>
@@ -636,22 +636,22 @@ export default function RegistrationStep({
             type="checkbox"
             checked={agreeCheckbox}
             onChange={(e) => setAgreeCheckbox(e.target.checked)}
-            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#001E3C] focus:ring-[#001E3C]"
+            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-ink focus:ring-ink"
           />
           <span className="font-inter text-sm text-gray-700 leading-relaxed">
             By clicking Continue, you will be creating an account with Fydaa,
             an AMFI registered Mutual Fund Distribution Platform and agree to our{' '}
-            <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/TermsAndConditions.pdf" className="text-[#001E3C] underline">
+            <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/TermsAndConditions.pdf" className="text-ink underline">
               Terms &amp; Conditions
             </a>{', '}
-            <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/PrivacyPolicyFydaa.pdf" className="text-[#001E3C] underline">
+            <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/PrivacyPolicyFydaa.pdf" className="text-ink underline">
               Privacy Policy
             </a>{', '}
-            <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/Disclaimer.pdf" className="text-[#001E3C] underline">
+            <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/Disclaimer.pdf" className="text-ink underline">
               Disclaimer
             </a>
             {' and '}
-            <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/PartnerAgreementFydaa.pdf" className="text-[#001E3C] underline">
+            <a href="https://fydaa.s3.ap-south-1.amazonaws.com/fydaa-term-doc/PartnerAgreementFydaa.pdf" className="text-ink underline">
               Agreement
             </a>
           </span>
@@ -662,7 +662,7 @@ export default function RegistrationStep({
             type="checkbox"
             checked={indiaResidentCheckbox}
             onChange={(e) => setIndiaResidentCheckbox(e.target.checked)}
-            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#001E3C] focus:ring-[#001E3C]"
+            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-ink focus:ring-ink"
           />
           <span className="font-inter text-sm text-gray-700 leading-relaxed">
             I confirm that I am an individual residing in India for tax purposes{' '}
@@ -686,7 +686,7 @@ export default function RegistrationStep({
           isLoading ||
           isConfirming
         }
-        className={`w-full h-12 rounded-[12px] font-medium font-inter transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 ${
+        className={`w-full h-12 rounded-xl font-medium font-inter transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 ${
           bothVerified &&
           !isConfirming &&
           agreeCheckbox &&

@@ -74,7 +74,7 @@ export function CodeInput({
               key={index}
               aria-hidden="true"
               className={cn(
-                "flex h-[52px] w-[46px] items-center justify-center rounded-[10px] border-[1.5px] border-grey-300 bg-white text-lg font-bold text-ink transition-colors",
+                "flex h-[52px] w-[46px] items-center justify-center rounded-btn border-[1.5px] border-grey-300 bg-white text-lg font-bold text-ink transition-colors",
                 focused && index === activeIndex && "border-jade ring-2 ring-jade/20",
                 error && "border-red-600",
                 disabled && "bg-grey-100",
@@ -100,7 +100,7 @@ export function CodeInput({
           onChange={(event) => handleChange(event.target.value)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          className="absolute inset-0 size-full cursor-text rounded-[10px] bg-transparent text-transparent caret-transparent outline-none selection:bg-transparent"
+          className="absolute inset-0 size-full cursor-text rounded-btn bg-transparent text-transparent caret-transparent outline-none selection:bg-transparent"
         />
       </div>
       {error ? (

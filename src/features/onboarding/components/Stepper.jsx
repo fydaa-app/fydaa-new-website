@@ -11,7 +11,7 @@ const STEP_ICONS = [RiskIcon, PersonalIcon, EsignIcon, BankIcon];
  */
 export default function Stepper({ activeStep, headline, progress }) {
   return (
-    <div className="bg-gradient-to-br from-[#0C4A3E] to-[#0A3D33] rounded-[20px] px-7 pt-7 pb-5 mb-8 text-white">
+    <div className="bg-gradient-to-br from-jade to-jade-hover rounded-4xl px-7 pt-7 pb-5 mb-8 text-white">
       <div className="flex items-start justify-between">
         {STEP_LABELS.map((label, i) => {
           const num = i + 1;
@@ -52,7 +52,7 @@ export default function Stepper({ activeStep, headline, progress }) {
           );
         })}
       </div>
-      {headline && <div className="text-[15px] font-semibold text-white/85 leading-snug mt-[18px]">{headline}</div>}
+      {headline && <div className="text-base font-semibold text-white/85 leading-snug mt-[18px]">{headline}</div>}
       {progress != null && (
         <div className="w-full h-1 bg-white/15 rounded-full mt-4 overflow-hidden">
           <div className="h-full bg-white/60 rounded-full transition-all" style={{ width: `${progress}%` }} />

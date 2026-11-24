@@ -63,9 +63,9 @@ function JobCard({
         active ? "border-jade-200 bg-jade-tint" : "border-grey-200 bg-white"
       }`}
     >
-      <p className="mb-2.5 text-[16.5px] font-bold tracking-tight text-ink">{job.title}</p>
+      <p className="mb-2.5 text-base font-bold tracking-tight text-ink">{job.title}</p>
       <ChipRow job={job} />
-      <span className="text-[12.5px] font-medium text-grey-500">
+      <span className="text-xs font-medium text-grey-500">
         {[job.division, job.posted].filter(Boolean).join(" · ")}
       </span>
     </button>
@@ -88,7 +88,7 @@ export function JobDetail({
     <>
       <div className="mb-4 flex flex-wrap items-start justify-between gap-5">
         <div>
-          <Heading className="text-[clamp(22px,2.6vw,27px)] font-extrabold tracking-tight text-ink">{job.title}</Heading>
+          <Heading className="text-title font-extrabold tracking-tight text-ink">{job.title}</Heading>
           {showPermalink ? (
             <Link
               href={jobPath(job.id)}
@@ -102,7 +102,7 @@ export function JobDetail({
           type="button"
           onClick={onApply}
           data-ph-event="Apply now"
-          className="flex items-center gap-1.5 rounded-[10px] bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
+          className="flex items-center gap-1.5 rounded-btn bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
         >
           Apply now
         </button>
@@ -111,7 +111,7 @@ export function JobDetail({
       <ChipRow job={job} />
 
       {job.division ? (
-        <span className="my-4 inline-block rounded-md bg-jade-tint px-3 py-1 text-[13.5px] font-semibold text-jade-deep">
+        <span className="my-4 inline-block rounded-md bg-jade-tint px-3 py-1 text-sm font-semibold text-jade-deep">
           {job.division}
         </span>
       ) : null}
@@ -119,15 +119,15 @@ export function JobDetail({
       <div className="mb-7 mt-4 grid grid-cols-1 xs:grid-cols-2 gap-3 sm:grid-cols-3">
         <div className="rounded-xl bg-grey-100 px-4 py-4">
           <div className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-grey-500">Experience</div>
-          <div className="text-[19px] font-bold tracking-tight text-ink">{job.experienceRange || "—"}</div>
+          <div className="text-xl font-bold tracking-tight text-ink">{job.experienceRange || "—"}</div>
         </div>
         <div className="rounded-xl bg-grey-100 px-4 py-4">
           <div className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-grey-500">Location</div>
-          <div className="text-[19px] font-bold tracking-tight text-ink">{job.location || "—"}</div>
+          <div className="text-xl font-bold tracking-tight text-ink">{job.location || "—"}</div>
         </div>
         <div className="rounded-xl bg-grey-100 px-4 py-4">
           <div className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-grey-500">Posted</div>
-          <div className="text-[19px] font-bold tracking-tight text-ink">{job.posted || "—"}</div>
+          <div className="text-xl font-bold tracking-tight text-ink">{job.posted || "—"}</div>
         </div>
       </div>
 
@@ -187,7 +187,7 @@ export default function OpenPositionsSection({ jobs, error }: Props) {
             <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-jade-deep">
               Open Positions
             </span>
-            <h2 className="mt-3.5 text-[clamp(26px,3.4vw,32px)] font-bold tracking-tight text-ink">See where you fit</h2>
+            <h2 className="text-heading mt-3.5 font-bold text-ink">See where you fit</h2>
           </div>
           {error ? null : (
             <span className="text-sm font-medium text-grey-600">
@@ -199,22 +199,22 @@ export default function OpenPositionsSection({ jobs, error }: Props) {
         {error ? (
           <div
             role="alert"
-            className="mt-11 rounded-[20px] border border-grey-200 bg-white p-10 text-center shadow-card"
+            className="mt-11 rounded-4xl border border-grey-200 bg-white p-10 text-center shadow-card"
           >
             <h3 className="text-xl font-bold text-ink">Open roles are unavailable right now</h3>
-            <p className="mt-3 text-[15px] text-grey-600">{error} You can also register your CV below and we&apos;ll reach out.</p>
+            <p className="mt-3 text-base text-grey-600">{error} You can also register your CV below and we&apos;ll reach out.</p>
             <button
               type="button"
               onClick={() => router.refresh()}
-              className="mt-6 rounded-[10px] bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
+              className="mt-6 rounded-btn bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
             >
               Try again
             </button>
           </div>
         ) : jobs.length === 0 ? (
-          <div className="mt-11 rounded-[20px] border border-grey-200 bg-white p-10 text-center shadow-card">
+          <div className="mt-11 rounded-4xl border border-grey-200 bg-white p-10 text-center shadow-card">
             <h3 className="text-xl font-bold text-ink">We&apos;re not hiring right now</h3>
-            <p className="mt-3 text-[15px] text-grey-600">
+            <p className="mt-3 text-base text-grey-600">
               There are currently no active job openings. Please check back later, or register your CV below.
             </p>
           </div>
@@ -230,7 +230,7 @@ export default function OpenPositionsSection({ jobs, error }: Props) {
                 />
               ))}
             </div>
-            <div className="min-h-0 max-h-[70vh] overflow-y-auto overscroll-contain rounded-[20px] border border-grey-200 bg-white p-9 shadow-card md:max-h-none md:p-10">
+            <div className="min-h-0 max-h-[70vh] overflow-y-auto overscroll-contain rounded-4xl border border-grey-200 bg-white p-9 shadow-card md:max-h-none md:p-10">
               {selectedJob ? (
                 <JobDetail job={selectedJob} onApply={() => openApply(selectedJob)} />
               ) : null}

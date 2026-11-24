@@ -12,7 +12,7 @@ export default function Disclosure() {
             <main className="w-full flex flex-col items-center p-16">
                 <section className="terms-content">
                     <div className="container">
-                        <h1 className="text-center text-3xl font-bold mb-12 mt-8">Disclosure to Clients</h1>
+                        <h1 className="text-heading text-center font-bold mb-12 mt-8">Disclosure to Clients</h1>
 
                         <p className="text-center text-brandblack-700 leading-relaxed mb-8">
                             Multistrato Capital Advisers Private Limited <br />

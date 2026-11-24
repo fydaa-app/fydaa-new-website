@@ -43,8 +43,8 @@ export default function CareersFaq() {
         <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-jade-deep">
           FAQs
         </span>
-        <h2 className="mt-3.5 text-[clamp(26px,3.4vw,32px)] font-bold tracking-tight text-ink">Common questions</h2>
-        <p className="mt-2.5 max-w-[48ch] text-[15px] text-grey-600">
+        <h2 className="text-heading mt-3.5 font-bold text-ink">Common questions</h2>
+        <p className="mt-2.5 max-w-[48ch] text-base text-grey-600">
           Feel free to reach out if you have questions after reviewing these.
         </p>
 
@@ -57,13 +57,13 @@ export default function CareersFaq() {
                 className="group rounded-2xl border border-grey-200 bg-white px-5 py-[18px] shadow-card open:border-jade-200"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left [&::-webkit-details-marker]:hidden">
-                  <span className="text-[15.5px] font-semibold text-ink">{entry.q}</span>
+                  <span className="text-base font-semibold text-ink">{entry.q}</span>
                   <span className="relative h-5 w-5 shrink-0">
                     <span className="absolute left-1 top-[9px] h-0.5 w-3 bg-grey-500" />
                     <span className="absolute left-[9px] top-1 h-3 w-0.5 bg-grey-500 transition-transform group-open:rotate-90 group-open:opacity-0" />
                   </span>
                 </summary>
-                <p className="mt-3 max-w-[60ch] text-[14.5px] leading-relaxed text-grey-600">{entry.a}</p>
+                <p className="mt-3 max-w-[60ch] text-sm leading-relaxed text-grey-600">{entry.a}</p>
               </details>
             ))}
           </div>

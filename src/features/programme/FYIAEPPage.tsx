@@ -113,13 +113,13 @@ function Hero({ onApply }: { onApply: () => void }) {
       <div className="absolute inset-0 bg-gradient-to-br from-ink/70 via-jade/55 to-ink/50 md:from-ink/55 md:via-jade/45 md:to-ink/40" />
 
       <div className="max-w-[800px] md:pl-12 lg:pl-20 relative z-[1]">
-        <h1 className="text-[28px] sm:text-[36px] md:text-[clamp(30px,5.5vw,52px)] leading-[1.12] sm:leading-[1.08] text-white tracking-[-0.035em] mb-4 sm:mb-5 md:mb-[22px] max-w-[680px]">
+        <h1 className="text-display text-white mb-4 sm:mb-5 md:mb-[22px] max-w-[680px]">
           <span className="font-normal">Become an industry-ready</span>
           <span className="font-normal block">investment adviser</span>
           <span className="font-bold text-jade-300">in 4 months.</span>
         </h1>
 
-        <p className="text-[14px] sm:text-[16px] md:text-[17px] text-white/70 leading-relaxed max-w-[480px] mb-6 sm:mb-8 md:mb-9">
+        <p className="text-sm sm:text-base md:text-lg text-white/70 leading-relaxed max-w-[480px] mb-6 sm:mb-8 md:mb-9">
           Get NISM certified, gain real client experience, and launch your financial advisory career.
           Powered by Fydaa, a SEBI Registered Investment Adviser.
         </p>
@@ -129,7 +129,7 @@ function Hero({ onApply }: { onApply: () => void }) {
             type="button"
             onClick={onApply}
             data-ph-event="Apply Now"
-            className="w-full sm:w-auto justify-center px-6 sm:px-9 py-3 sm:py-3.5 bg-white text-jade border-none rounded-[10px] text-[14px] sm:text-[15px] font-bold cursor-pointer font-sans tracking-[-0.01em] inline-flex items-center hover:-translate-y-px transition-transform"
+            className="w-full sm:w-auto justify-center px-6 sm:px-9 py-3 sm:py-3.5 bg-white text-jade border-none rounded-btn text-sm sm:text-base font-bold cursor-pointer font-sans tracking-[-0.01em] inline-flex items-center hover:-translate-y-px transition-transform"
           >
             Apply Now <ArrowIcon />
           </button>
@@ -138,7 +138,7 @@ function Hero({ onApply }: { onApply: () => void }) {
             target="_blank"
             rel="noopener noreferrer"
             data-ph-event="Learn more"
-            className="w-full sm:w-auto justify-center px-6 sm:px-9 py-3 sm:py-3.5 bg-transparent border border-white/30 rounded-[10px] text-[14px] sm:text-[15px] font-semibold text-white cursor-pointer font-sans hover:bg-white/10 transition-colors inline-flex items-center text-center no-underline"
+            className="w-full sm:w-auto justify-center px-6 sm:px-9 py-3 sm:py-3.5 bg-transparent border border-white/30 rounded-btn text-sm sm:text-base font-semibold text-white cursor-pointer font-sans hover:bg-white/10 transition-colors inline-flex items-center text-center no-underline"
           >
             Learn more
           </a>
@@ -152,7 +152,7 @@ function Hero({ onApply }: { onApply: () => void }) {
           ].map(([val, label]) => (
             <div key={val}>
               <div className="text-lg sm:text-xl font-bold text-white tracking-[-0.03em]">{val}</div>
-              <div className="text-[12px] sm:text-[13px] text-white/70 mt-0.5 font-medium">{label}</div>
+              <div className="text-xs sm:text-sm text-white/70 mt-0.5 font-medium">{label}</div>
             </div>
           ))}
         </div>
@@ -174,8 +174,8 @@ function Journey() {
   return (
     <section id="journey" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-[1000px] mx-auto">
       <Pill>Programme Structure</Pill>
-      <h2 className="text-[22px] sm:text-[26px] md:text-[28px] font-bold tracking-[-0.03em] text-ink mt-3.5">Your 4-month journey</h2>
-      <p className="text-[14px] sm:text-[15px] text-grey-600 mt-2 leading-relaxed max-w-[440px]">
+      <h2 className="text-heading font-bold text-ink mt-3.5">Your 4-month journey</h2>
+      <p className="text-sm sm:text-base text-grey-600 mt-2 leading-relaxed max-w-[440px]">
         Each phase builds on the last, from theory to certification to real-world practice.
       </p>
 
@@ -183,10 +183,10 @@ function Journey() {
         {JOURNEY.map((j) => (
           <div key={j.num} className="bg-white rounded-2xl p-5 sm:p-7 border border-grey-200 shadow-card flex flex-col gap-4 hover:shadow-card-hover hover:-translate-y-0.5 transition-all">
             <div className="flex justify-between items-start">
-              <span className="text-3xl sm:text-4xl font-bold text-[#949494] tracking-[-0.04em] leading-none">{j.num}</span>
+              <span className="text-3xl sm:text-4xl font-bold text-grey-500 tracking-[-0.04em] leading-none">{j.num}</span>
               <span className="text-xs font-semibold text-grey-500 bg-grey-100 px-2.5 py-1 rounded-md">{j.period}</span>
             </div>
-            <h3 className="text-[16px] sm:text-[17px] font-bold text-ink tracking-[-0.01em]">{j.title}</h3>
+            <h3 className="text-base sm:text-lg font-bold text-ink tracking-[-0.01em]">{j.title}</h3>
             <ul className="flex flex-col gap-2">
               {j.points.map((p) => (
                 <li key={p} className="flex gap-2 text-sm text-grey-600 leading-relaxed">
@@ -218,15 +218,15 @@ function Curriculum({ onApply }: { onApply: () => void }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-start">
           <div>
             <Pill>Curriculum</Pill>
-            <h2 className="text-[22px] sm:text-[26px] md:text-[28px] font-bold tracking-[-0.03em] mt-3.5">What you'll learn</h2>
-            <p className="text-[14px] sm:text-[15px] text-grey-600 mt-2 leading-relaxed">
+            <h2 className="text-heading font-bold mt-3.5">What you'll learn</h2>
+            <p className="text-sm sm:text-base text-grey-600 mt-2 leading-relaxed">
               An industry-integrated curriculum designed by SEBI-registered advisers.
             </p>
             <button
               type="button"
               onClick={onApply}
               data-ph-event="Start your application"
-              className="mt-5 sm:mt-6 w-full sm:w-auto justify-center px-6 sm:px-7 py-3 bg-jade text-white border-none rounded-[10px] text-[14px] sm:text-[15px] font-bold cursor-pointer font-sans tracking-[-0.01em] inline-flex items-center hover:bg-jade-hover transition-colors"
+              className="mt-5 sm:mt-6 w-full sm:w-auto justify-center px-6 sm:px-7 py-3 bg-jade text-white border-none rounded-btn text-sm sm:text-base font-bold cursor-pointer font-sans tracking-[-0.01em] inline-flex items-center hover:bg-jade-hover transition-colors"
             >
               Start your application <ArrowIcon />
             </button>
@@ -234,7 +234,7 @@ function Curriculum({ onApply }: { onApply: () => void }) {
           <div className="bg-white rounded-2xl p-4 sm:p-6 border border-grey-200 shadow-card">
             <ul>
               {CURRICULUM.map((c, i) => (
-                <li key={c} className={`flex gap-2.5 items-start py-3 text-[14px] sm:text-[15px] text-ink font-medium leading-normal ${i < CURRICULUM.length - 1 ? "border-b border-grey-200" : ""}`}>
+                <li key={c} className={`flex gap-2.5 items-start py-3 text-sm sm:text-base text-ink font-medium leading-normal ${i < CURRICULUM.length - 1 ? "border-b border-grey-200" : ""}`}>
                   <CheckIcon /><span>{c}</span>
                 </li>
               ))}
@@ -262,10 +262,10 @@ function Highlights() {
   return (
     <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-[1000px] mx-auto text-center">
       <Pill>Why FYIAEP</Pill>
-      <h2 className="text-[22px] sm:text-[26px] md:text-[28px] font-bold tracking-[-0.03em] mt-3.5 mx-auto">Not just another certification course</h2>
+      <h2 className="text-heading font-bold mt-3.5 mx-auto">Not just another certification course</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 mt-8 sm:mt-10 md:mt-12">
         {HIGHLIGHTS.map(([title, desc]) => (
-          <div key={title} className="p-5 sm:p-6 rounded-[14px] border border-grey-200 bg-white text-left hover:border-jade-200 hover:shadow-card-hover transition-all">
+          <div key={title} className="p-5 sm:p-6 rounded-card border border-grey-200 bg-white text-left hover:border-jade-200 hover:shadow-card-hover transition-all">
             <h3 className="text-base font-bold text-ink tracking-[-0.01em] mb-1.5">{title}</h3>
             <p className="text-sm text-grey-600 leading-relaxed">{desc}</p>
           </div>
@@ -304,7 +304,7 @@ function WhoIsThisFor() {
             Who is this for
           </p>
           <h2
-            className="text-[24px] sm:text-[26px] font-bold tracking-[-0.03em] leading-[1.15]"
+            className="text-heading font-bold"
             style={{ color: "#FFFFFF" }}
           >
             Students, graduates, career switchers, and finance enthusiasts
@@ -314,7 +314,7 @@ function WhoIsThisFor() {
           {AUDIENCES.map((a) => (
             <li
               key={a}
-              className="flex gap-2.5 items-start text-[14px] sm:text-[15px] leading-relaxed"
+              className="flex gap-2.5 items-start text-sm sm:text-base leading-relaxed"
               style={{ color: "rgba(255,255,255,0.75)" }}
             >
               <CheckIcon dark />
@@ -336,10 +336,10 @@ function AboutFydaa() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         <div className="min-w-0">
           <Pill>About Fydaa</Pill>
-          <h2 className="text-[22px] sm:text-[24px] md:text-[26px] font-bold tracking-[-0.03em] mt-3.5">
+          <h2 className="text-heading font-bold mt-3.5">
             Learn from a SEBI Registered Investment Adviser
           </h2>
-          <p className="text-[14px] sm:text-[15px] text-grey-600 leading-[1.7] mt-3">
+          <p className="text-sm sm:text-base text-grey-600 leading-[1.7] mt-3">
             Fydaa (Multistrato Capital Advisors Pvt. Ltd.) is committed to making financial planning
             accessible through technology and expert guidance.
           </p>
@@ -362,10 +362,10 @@ function AboutFydaa() {
               sizes="260px"
             />
           </div>
-          <p className="mt-3 text-[15px] sm:text-base font-bold text-ink tracking-[-0.02em]">
+          <p className="mt-3 text-base sm:text-base font-bold text-ink tracking-[-0.02em]">
             Prof. Sheetal Kunder
           </p>
-          <p className="mt-1 text-[13px] text-grey-500">
+          <p className="mt-1 text-sm text-grey-500">
             19 Years in Finance | Mentored 11,000+ Students
           </p>
         </div>
@@ -434,10 +434,10 @@ function CTACard({ onApply }: { onApply: () => void }) {
           <p className="text-xs font-semibold tracking-[0.08em] uppercase text-grey-500 mb-3">
             Ready to start your advisory career?
           </p>
-          <h2 className="text-[24px] sm:text-[28px] md:text-[30px] font-bold tracking-[-0.03em] leading-[1.2] text-ink mb-3">
+          <h2 className="text-heading font-bold text-ink mb-3">
             From training to your career at Fydaa.
           </h2>
-          <p className="text-[14px] sm:text-[15px] text-grey-600 leading-relaxed">
+          <p className="text-sm sm:text-base text-grey-600 leading-relaxed">
             Submit your application today. Our admissions team will review it and get back to you.
           </p>
         </div>
@@ -446,7 +446,7 @@ function CTACard({ onApply }: { onApply: () => void }) {
           {cards.map((card) => (
             <div
               key={card.title}
-              className="rounded-[20px] sm:rounded-[22px] p-5 sm:p-6 flex flex-col"
+              className="rounded-4xl sm:rounded-3xl p-5 sm:p-6 flex flex-col"
               style={{
                 backgroundColor: "#0C4A3E",
                 backgroundImage:
@@ -458,14 +458,14 @@ function CTACard({ onApply }: { onApply: () => void }) {
                 {card.badge}
               </span>
 
-              <h3 className="text-[20px] sm:text-[22px] font-bold text-white tracking-[-0.03em] leading-snug mb-2.5">
+              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-[-0.03em] leading-snug mb-2.5">
                 {card.title}
               </h3>
-              <p className="text-[13px] sm:text-[14px] leading-relaxed mb-5" style={{ color: "rgba(255,255,255,0.7)" }}>
+              <p className="text-sm sm:text-sm leading-relaxed mb-5" style={{ color: "rgba(255,255,255,0.7)" }}>
                 {card.description}
               </p>
 
-              <div className="bg-white rounded-[14px] p-4 sm:p-5 mb-5">
+              <div className="bg-white rounded-card p-4 sm:p-5 mb-5">
                 <div className="flex justify-between items-center mb-2 gap-2">
                   <div className="text-xs font-semibold text-grey-500 tracking-[0.06em] uppercase">
                     Programme Fee
@@ -474,11 +474,11 @@ function CTACard({ onApply }: { onApply: () => void }) {
                     One-time
                   </span>
                 </div>
-                <div className="text-[22px] sm:text-[24px] font-bold text-ink tracking-[-0.02em]">
+                <div className="text-2xl sm:text-2xl font-bold text-ink tracking-[-0.02em]">
                   {card.fee}{" "}
-                  <span className="text-[14px] font-medium text-grey-500">+ taxes</span>
+                  <span className="text-sm font-medium text-grey-500">+ taxes</span>
                 </div>
-                <p className="text-[12px] text-grey-500 leading-relaxed mt-2">
+                <p className="text-xs text-grey-500 leading-relaxed mt-2">
                   {card.feeNote}
                 </p>
               </div>
@@ -488,7 +488,7 @@ function CTACard({ onApply }: { onApply: () => void }) {
                   type="button"
                   onClick={onApply}
                   data-ph-event="Apply Now"
-                  className="w-full sm:flex-1 justify-center px-5 py-3 border-none rounded-[10px] text-sm font-bold cursor-pointer font-sans inline-flex items-center hover:-translate-y-px transition-transform bg-white text-ink"
+                  className="w-full sm:flex-1 justify-center px-5 py-3 border-none rounded-btn text-sm font-bold cursor-pointer font-sans inline-flex items-center hover:-translate-y-px transition-transform bg-white text-ink"
                 >
                   Apply Now <ArrowIcon />
                 </button>
@@ -497,7 +497,7 @@ function CTACard({ onApply }: { onApply: () => void }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-ph-event="Details"
-                  className="w-full sm:flex-1 justify-center px-5 py-3 rounded-[10px] text-sm font-semibold cursor-pointer font-sans inline-flex items-center gap-1.5 transition-colors no-underline text-white border border-white/30 hover:bg-white/10"
+                  className="w-full sm:flex-1 justify-center px-5 py-3 rounded-btn text-sm font-semibold cursor-pointer font-sans inline-flex items-center gap-1.5 transition-colors no-underline text-white border border-white/30 hover:bg-white/10"
                 >
                   Details <ArrowIcon />
                 </a>
@@ -545,7 +545,7 @@ function Field({
 }) {
   return (
     <div className="mb-4">
-      <label className="block text-[13px] font-semibold text-grey-800 mb-1 tracking-[-0.01em]">
+      <label className="block text-sm font-semibold text-grey-800 mb-1 tracking-[-0.01em]">
         {label}{required && <RequiredMark />}
       </label>
       <input
@@ -559,7 +559,7 @@ function Field({
           const raw = e.target.value;
           onChange(name, transform ? transform(raw) : raw);
         }}
-        className={`w-full py-[11px] px-3.5 border rounded-[10px] text-[15px] font-sans text-ink outline-none bg-white transition-all focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] placeholder:text-grey-500 ${
+        className={`w-full py-[11px] px-3.5 border rounded-btn text-base font-sans text-ink outline-none bg-white transition-all focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] placeholder:text-grey-500 ${
           error ? "border-red-400" : "border-grey-200"
         }`}
       />
@@ -586,12 +586,12 @@ function Select({
 }) {
   return (
     <div className="mb-4">
-      <label className="block text-[13px] font-semibold text-grey-800 mb-1 tracking-[-0.01em]">
+      <label className="block text-sm font-semibold text-grey-800 mb-1 tracking-[-0.01em]">
         {label}{required && <RequiredMark />}
       </label>
       <select
         value={asStr(value)} onChange={(e) => onChange(name, e.target.value)}
-        className={`w-full py-[11px] px-3.5 border rounded-[10px] text-[15px] font-sans text-ink outline-none bg-white cursor-pointer focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] ${
+        className={`w-full py-[11px] px-3.5 border rounded-btn text-base font-sans text-ink outline-none bg-white cursor-pointer focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] ${
           error ? "border-red-400" : "border-grey-200"
         }`}
       >
@@ -621,7 +621,7 @@ function Chips({
 }) {
   return (
     <div className="mb-4">
-      <label className="block text-[13px] font-semibold text-grey-800 mb-1 tracking-[-0.01em]">
+      <label className="block text-sm font-semibold text-grey-800 mb-1 tracking-[-0.01em]">
         {label}{required && <RequiredMark />}
       </label>
       <div className={`flex flex-wrap gap-1.5 mt-0.5 ${error ? "rounded-xl p-1 ring-1 ring-red-300" : ""}`}>
@@ -659,13 +659,13 @@ function TextArea({
 }) {
   return (
     <div className="mb-4">
-      <label className="block text-[13px] font-semibold text-grey-800 mb-1 tracking-[-0.01em]">
+      <label className="block text-sm font-semibold text-grey-800 mb-1 tracking-[-0.01em]">
         {label}{required && <RequiredMark />}
       </label>
       <textarea
         placeholder={placeholder} value={asStr(value)}
         onChange={(e) => onChange(name, e.target.value)}
-        className={`w-full py-[11px] px-3.5 border rounded-[10px] text-[15px] font-sans text-ink outline-none bg-white min-h-[80px] resize-y transition-all focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] placeholder:text-grey-500 ${
+        className={`w-full py-[11px] px-3.5 border rounded-btn text-base font-sans text-ink outline-none bg-white min-h-[80px] resize-y transition-all focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] placeholder:text-grey-500 ${
           error ? "border-red-400" : "border-grey-200"
         }`}
       />
@@ -692,7 +692,7 @@ function Upload({
 }) {
   return (
     <div className="mb-4">
-      <label className="block text-[13px] font-semibold text-grey-800 mb-1 tracking-[-0.01em]">
+      <label className="block text-sm font-semibold text-grey-800 mb-1 tracking-[-0.01em]">
         {label}{required && <RequiredMark />}
       </label>
       <div className={`border-[1.5px] border-dashed rounded-xl p-5 text-center cursor-pointer transition-all ${
@@ -711,10 +711,10 @@ function Upload({
           }}
         />
         <span className="text-sm font-semibold text-jade">Click to upload</span>
-        <p className="text-[13px] text-grey-500 mt-1">PDF, JPG, PNG up to 5 MB</p>
+        <p className="text-sm text-grey-500 mt-1">PDF, JPG, PNG up to 5 MB</p>
       </div>
       {(files || []).map((f, i) => (
-        <div key={i} className="flex items-center gap-2 px-3 py-2 bg-grey-100 rounded-lg mt-1.5 text-[13px] text-grey-600">
+        <div key={i} className="flex items-center gap-2 px-3 py-2 bg-grey-100 rounded-lg mt-1.5 text-sm text-grey-600">
           <FileIcon />
           <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">{f.name}</span>
           <button onClick={() => onRemove(name, i)} className="bg-none border-none text-grey-500 cursor-pointer text-sm px-1.5">✕</button>
@@ -761,7 +761,7 @@ function AnnexureBlock({
   items: string[];
 }) {
   return (
-    <div className="bg-grey-50 border border-grey-200 rounded-[14px] p-6 mb-4">
+    <div className="bg-grey-50 border border-grey-200 rounded-card p-6 mb-4">
       <h4 className="text-base font-bold text-ink tracking-[-0.01em] mb-2.5">{title}</h4>
       <div className="text-sm text-grey-600 leading-relaxed mb-3.5">{body}</div>
       {items.length > 0 && (
@@ -1213,7 +1213,7 @@ function getSteps(
             items={["Treat clients, prospects, trainers, staff, and fellow participants respectfully.", "Not make false promises, return guarantees, or unauthorised financial claims.", "Not share confidential information with unauthorised persons.", "Use programme resources only for legitimate learning and authorised activities.", "Not misuse the Fydaa name, logo, client data, or programme material.", "Follow all instructions relating to ethical conduct and advisory practices.", "Not record, circulate, or distribute training content without written permission."]} />
 
           <AnnexureBlock title="Annexure 4: Parent / Guardian Consent" body={<p>I confirm awareness of the candidate's application to the Fydaa Investment Adviser Programme. I understand the programme includes classroom learning, NISM certification prep, Mumbai on-field training, and client-facing learning. I give my consent for participation.</p>} items={[]} />
-          <div className="bg-grey-50 border border-grey-200 rounded-[14px] p-6 mb-4">
+          <div className="bg-grey-50 border border-grey-200 rounded-card p-6 mb-4">
             <h4 className="text-base font-bold text-ink mb-2.5">Parent / Guardian Details (if applicable)</h4>
             <div className="grid grid-cols-2 gap-3 max-sm:grid-cols-1">
               <Field label="Parent / Guardian Name" name="parentName" value={form.parentName} onChange={set} />
@@ -1223,7 +1223,7 @@ function getSteps(
           </div>
 
           <AnnexureBlock title="Annexure 5: Employer No-Objection Certificate" body={<p>This certifies the employee has informed their employer of participation. The employer has no objection, subject to operational requirements. This NOC does not create any obligation on the employer to bear programme costs.</p>} items={[]} />
-          <div className="bg-grey-50 border border-grey-200 rounded-[14px] p-6 mb-4">
+          <div className="bg-grey-50 border border-grey-200 rounded-card p-6 mb-4">
             <h4 className="text-base font-bold text-ink mb-2.5">Employer Details (if applicable)</h4>
             <div className="grid grid-cols-2 gap-3 max-sm:grid-cols-1">
               <Field label="Authorised Signatory Name" name="empSignatory" value={form.empSignatory} onChange={set} />
@@ -1233,9 +1233,9 @@ function getSteps(
           </div>
 
           {/* Combined agreement + e-sign */}
-          <div className="border border-grey-200 rounded-[14px] p-6 mt-6 bg-white">
+          <div className="border border-grey-200 rounded-card p-6 mt-6 bg-white">
             <h4 className="text-base font-bold text-ink mb-4">Agreement & Electronic Signature</h4>
-            <label className="flex gap-2.5 items-center p-3.5 bg-jade-tint rounded-[10px] border border-jade-200 cursor-pointer mb-4">
+            <label className="flex gap-2.5 items-center p-3.5 bg-jade-tint rounded-btn border border-jade-200 cursor-pointer mb-4">
               <input type="checkbox" checked={!!form.allAnnex_agree} onChange={(e) => chk("allAnnex_agree", e.target.checked)}
                 className={`w-[18px] h-[18px] accent-jade cursor-pointer ${err("allAnnex_agree") ? "outline outline-2 outline-red-400" : ""}`} />
               <span className="text-sm font-semibold text-jade-deep">I have read and agree to the Candidate Declaration and all Annexures (1 through 5) above</span>
@@ -1249,7 +1249,7 @@ function getSteps(
             <div className="grid grid-cols-2 gap-3 max-sm:grid-cols-1">
               <Field label="Place" name="esign_place" value={form.esign_place} onChange={set} required error={err("esign_place")} />
               <div className="mb-4">
-                <label className="block text-[13px] font-semibold text-grey-800 mb-1 tracking-[-0.01em]">Signature (type your full name) <span className="text-red-500">*</span></label>
+                <label className="block text-sm font-semibold text-grey-800 mb-1 tracking-[-0.01em]">Signature (type your full name) <span className="text-red-500">*</span></label>
                 <div className={`border rounded-lg h-14 bg-white overflow-hidden ${err("esign_sig") ? "border-red-400" : "border-grey-200"}`}>
                   <input type="text" value={asStr(form.esign_sig)} onChange={(e) => set("esign_sig", e.target.value)}
                     placeholder="Type full name as signature"
@@ -1287,7 +1287,7 @@ function getSteps(
                       pick("selectedProgramme", option.id);
                       persistSelectedProgramme(option.id);
                     }}
-                    className={`text-left rounded-[14px] border p-4 sm:p-5 transition-all cursor-pointer ${
+                    className={`text-left rounded-card border p-4 sm:p-5 transition-all cursor-pointer ${
                       isSelected
                         ? "border-jade bg-jade-tint shadow-[0_0_0_1px_rgba(12,74,62,0.15)]"
                         : err("selectedProgramme")
@@ -1316,24 +1316,24 @@ function getSteps(
                         )}
                       </span>
                     </div>
-                    <h4 className="text-[16px] font-bold text-ink tracking-[-0.02em] mb-2">
+                    <h4 className="text-base font-bold text-ink tracking-[-0.02em] mb-2">
                       {option.title}
                     </h4>
-                    <p className="text-[13px] text-grey-600 leading-relaxed mb-4">
+                    <p className="text-sm text-grey-600 leading-relaxed mb-4">
                       {option.description}
                     </p>
-                    <div className="text-[22px] font-extrabold text-ink tracking-[-0.03em]">
+                    <div className="text-2xl font-extrabold text-ink tracking-[-0.03em]">
                       {option.feeLabel}{" "}
-                      <span className="text-[13px] font-medium text-grey-500">+ taxes</span>
+                      <span className="text-sm font-medium text-grey-500">+ taxes</span>
                     </div>
-                    <p className="text-[12px] text-grey-500 mt-1">One-time fee</p>
+                    <p className="text-xs text-grey-500 mt-1">One-time fee</p>
                   </button>
                 );
               })}
             </div>
 
             {selectedOption && (
-              <div className="flex items-start gap-2.5 rounded-[12px] bg-jade-tint border border-jade-200 px-4 py-3 mb-3">
+              <div className="flex items-start gap-2.5 rounded-xl bg-jade-tint border border-jade-200 px-4 py-3 mb-3">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5">
                   <circle cx="12" cy="12" r="10" fill="#0C4A3E" />
                   <path d="M8 12.5l2.5 2.5L16 9.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -1411,22 +1411,22 @@ function MobileVerifyPage({
           <ChevronLeft /> Back
         </button>
 
-        <div className="w-12 h-12 rounded-[14px] bg-jade-tint flex items-center justify-center mb-5">
+        <div className="w-12 h-12 rounded-card bg-jade-tint flex items-center justify-center mb-5">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
             <rect x="7" y="2" width="10" height="20" rx="2" stroke="#0C4A3E" strokeWidth="1.6" />
             <path d="M10 18h4" stroke="#0C4A3E" strokeWidth="1.6" strokeLinecap="round" />
           </svg>
         </div>
 
-        <h2 className="text-[22px] sm:text-[24px] font-extrabold tracking-[-0.03em] text-ink mb-2">
+        <h2 className="text-heading font-bold text-ink mb-2">
           Verify your mobile number
         </h2>
-        <p className="text-[14px] sm:text-[15px] text-grey-500 leading-relaxed mb-8 max-w-[320px]">
+        <p className="text-sm sm:text-base text-grey-500 leading-relaxed mb-8 max-w-[320px]">
           We&apos;ll save your progress so you can continue later if needed.
         </p>
 
         <div className="w-full flex gap-2.5 mb-3">
-          <div className="w-[72px] shrink-0 h-[50px] border border-grey-200 rounded-[12px] flex items-center justify-center text-[15px] font-semibold text-grey-800 bg-white">
+          <div className="w-[72px] shrink-0 h-[50px] border border-grey-200 rounded-xl flex items-center justify-center text-base font-semibold text-grey-800 bg-white">
             +91
           </div>
           <input
@@ -1443,7 +1443,7 @@ function MobileVerifyPage({
               if (e.key === "Enter") handleSend();
             }}
             placeholder="10-digit mobile number"
-            className={`flex-1 min-w-0 h-[50px] px-4 border rounded-[12px] text-[15px] font-sans text-ink outline-none bg-white placeholder:text-grey-500 focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] ${
+            className={`flex-1 min-w-0 h-[50px] px-4 border rounded-xl text-base font-sans text-ink outline-none bg-white placeholder:text-grey-500 focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] ${
               error ? "border-red-400" : "border-grey-200"
             }`}
           />
@@ -1456,7 +1456,7 @@ function MobileVerifyPage({
           onClick={handleSend}
           disabled={sending || mobile.length !== 10}
           data-ph-event="Send OTP"
-          className="w-full mt-2 h-[50px] bg-jade text-white border-none rounded-[12px] text-[15px] font-bold cursor-pointer font-sans hover:bg-jade-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full mt-2 h-[50px] bg-jade text-white border-none rounded-xl text-base font-bold cursor-pointer font-sans hover:bg-jade-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {sending ? "Sending..." : "Send OTP"}
         </button>
@@ -1577,26 +1577,26 @@ function OtpVerifyPage({
           <ChevronLeft /> Back
         </button>
 
-        <div className="w-12 h-12 rounded-[14px] bg-jade-tint flex items-center justify-center mb-5">
+        <div className="w-12 h-12 rounded-card bg-jade-tint flex items-center justify-center mb-5">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
             <rect x="4" y="4" width="16" height="16" rx="3" stroke="#0C4A3E" strokeWidth="1.6" />
             <path d="M8 12.5l2.5 2.5L16 9.5" stroke="#0C4A3E" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
 
-        <h2 className="text-[22px] sm:text-[24px] font-extrabold tracking-[-0.03em] text-ink mb-2">
+        <h2 className="text-heading font-bold text-ink mb-2">
           Enter OTP
         </h2>
-        <p className="text-[14px] sm:text-[15px] text-grey-500 leading-relaxed mb-5">
+        <p className="text-sm sm:text-base text-grey-500 leading-relaxed mb-5">
           We&apos;ve sent a 6-digit code to your mobile number.
         </p>
 
         <div className="inline-flex items-center gap-2 bg-grey-100 rounded-full px-4 py-2 mb-8">
-          <span className="text-[14px] font-medium text-grey-800">{formatMobileDisplay(mobile)}</span>
+          <span className="text-sm font-medium text-grey-800">{formatMobileDisplay(mobile)}</span>
           <button
             type="button"
             onClick={onChangeMobile}
-            className="text-[14px] font-semibold text-jade-deep border-none bg-none cursor-pointer hover:underline"
+            className="text-sm font-semibold text-jade-deep border-none bg-none cursor-pointer hover:underline"
           >
             Change
           </button>
@@ -1618,7 +1618,7 @@ function OtpVerifyPage({
                 e.preventDefault();
                 handleChange(i, e.clipboardData.getData("text"));
               }}
-              className={`w-11 h-12 sm:w-12 sm:h-14 text-center text-lg font-semibold border rounded-[12px] outline-none bg-white text-ink transition-colors focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] ${
+              className={`w-11 h-12 sm:w-12 sm:h-14 text-center text-lg font-semibold border rounded-xl outline-none bg-white text-ink transition-colors focus:border-jade focus:ring-[3px] focus:ring-jade/[.08] ${
                 digit ? "border-jade" : "border-grey-200"
               }`}
             />
@@ -1632,12 +1632,12 @@ function OtpVerifyPage({
           onClick={handleVerify}
           disabled={verifying || otpValue.length !== OTP_LENGTH}
           data-ph-event="Verify & Continue"
-          className="w-full mt-2 h-[50px] bg-jade text-white border-none rounded-[12px] text-[15px] font-bold cursor-pointer font-sans hover:bg-jade-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full mt-2 h-[50px] bg-jade text-white border-none rounded-xl text-base font-bold cursor-pointer font-sans hover:bg-jade-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {verifying ? "Verifying..." : "Verify & Continue"}
         </button>
 
-        <p className="mt-5 text-[13px] sm:text-[14px] text-grey-500">
+        <p className="mt-5 text-sm sm:text-sm text-grey-500">
           Didn&apos;t receive it?{" "}
           {resendLeft > 0 ? (
             <span>Resend OTP ({resendLeft}s)</span>
@@ -1688,10 +1688,10 @@ function PaymentScreen({
           <path d="M12 3v18M3 12h18" stroke="#0C4A3E" strokeWidth="2" strokeLinecap="round" />
         </svg>
       </div>
-      <h2 className="text-2xl font-extrabold tracking-[-0.03em] mb-2">
+      <h2 className="text-heading font-bold mb-2">
         {failed ? "Payment unsuccessful" : "Complete your payment"}
       </h2>
-      <p className="text-[15px] text-grey-600 leading-relaxed max-w-[420px] mx-auto mb-4">
+      <p className="text-base text-grey-600 leading-relaxed max-w-[420px] mx-auto mb-4">
         {failed
           ? `The previous payment attempt did not go through${name ? `, ${name}` : ""}. You can try again to complete the FYIAEP programme fee.`
           : `Your application has been submitted${name ? `, ${name}` : ""}. Pay the programme fee to confirm your seat.`}
@@ -1699,8 +1699,8 @@ function PaymentScreen({
       {applicationNo && (
         <p className="text-sm text-grey-500 mb-5 font-medium">Application {applicationNo}</p>
       )}
-      <p className="text-[28px] font-extrabold tracking-[-0.03em] text-ink mb-1">
-        {feeLabel} <span className="text-[14px] font-normal text-grey-500">+ applicable taxes</span>
+      <p className="text-3xl font-extrabold tracking-[-0.03em] text-ink mb-1">
+        {feeLabel} <span className="text-sm font-normal text-grey-500">+ applicable taxes</span>
       </p>
       <p className="text-xs text-grey-500 mb-7 max-w-[380px] mx-auto">
         Please keep this page open until payment is confirmed.
@@ -1711,7 +1711,7 @@ function PaymentScreen({
           onClick={onPay}
           disabled={paying}
           data-ph-event={failed ? "Retry Payment" : "Pay Programme Fee"}
-          className="px-9 py-3.5 bg-jade text-white border-none rounded-[10px] text-[15px] font-bold cursor-pointer font-sans hover:bg-jade-hover disabled:opacity-50"
+          className="px-9 py-3.5 bg-jade text-white border-none rounded-btn text-base font-bold cursor-pointer font-sans hover:bg-jade-hover disabled:opacity-50"
         >
           {paying ? "Opening payment…" : failed ? "Retry Payment" : "Pay Programme Fee"}
         </button>
@@ -1720,13 +1720,13 @@ function PaymentScreen({
           onClick={onBack}
           disabled={paying}
           data-ph-event="Back to programme page"
-          className="px-9 py-3.5 bg-white border border-grey-200 rounded-[10px] text-[15px] font-semibold cursor-pointer font-sans text-grey-800 hover:border-grey-300 disabled:opacity-50"
+          className="px-9 py-3.5 bg-white border border-grey-200 rounded-btn text-base font-semibold cursor-pointer font-sans text-grey-800 hover:border-grey-300 disabled:opacity-50"
         >
           Back to programme page
         </button>
       </div>
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-ink text-white px-5 py-2.5 rounded-[10px] text-sm font-semibold z-50 animate-fade-in">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-ink text-white px-5 py-2.5 rounded-btn text-sm font-semibold z-50 animate-fade-in">
           {toast}
         </div>
       )}
@@ -1737,13 +1737,13 @@ function PaymentScreen({
 function CancelledScreen({ onBack }: { onBack: () => void }) {
   return (
     <div className="pt-24 sm:pt-28 px-4 sm:px-6 pb-12 sm:pb-[60px] max-w-[720px] mx-auto text-center">
-      <h2 className="text-2xl font-extrabold tracking-[-0.03em] mb-2">Application cancelled</h2>
-      <p className="text-[15px] text-grey-600 leading-relaxed max-w-[420px] mx-auto mb-7">
+      <h2 className="text-heading font-bold mb-2">Application cancelled</h2>
+      <p className="text-base text-grey-600 leading-relaxed max-w-[420px] mx-auto mb-7">
         This application cannot be paid. Please contact admissions if you need help.
       </p>
       <button
         onClick={onBack}
-        className="px-9 py-3.5 bg-jade text-white border-none rounded-[10px] text-[15px] font-bold cursor-pointer font-sans"
+        className="px-9 py-3.5 bg-jade text-white border-none rounded-btn text-base font-bold cursor-pointer font-sans"
       >
         Back to programme page
       </button>
@@ -2090,15 +2090,15 @@ function FormPage({
         <div className="w-16 h-16 rounded-2xl bg-jade-tint flex items-center justify-center mx-auto mb-6">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#0C4A3E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </div>
-        <h2 className="text-2xl font-extrabold tracking-[-0.03em] mb-2">
+        <h2 className="text-heading font-bold mb-2">
           Payment Successful
         </h2>
-        <p className="text-[15px] text-grey-600 leading-relaxed max-w-[420px] mx-auto mb-7">
+        <p className="text-base text-grey-600 leading-relaxed max-w-[420px] mx-auto mb-7">
           Thank you{name ? `, ${name}` : ""}. Your FYIAEP programme fee payment has been received
           {applicationNo ? ` for ${applicationNo}` : ""}.
           Our admissions team will review your application and reach out within 3 working days.
         </p>
-        <button onClick={onBack} className="px-9 py-3.5 bg-jade text-white border-none rounded-[10px] text-[15px] font-bold cursor-pointer font-sans">
+        <button onClick={onBack} className="px-9 py-3.5 bg-jade text-white border-none rounded-btn text-base font-bold cursor-pointer font-sans">
           Back to Programme page
         </button>
       </div>
@@ -2137,7 +2137,7 @@ function FormPage({
     <div className="pt-24 sm:pt-28 px-4 sm:px-6 pb-12 sm:pb-[60px] max-w-[720px] mx-auto">
       {/* Top bar */}
       <div className="flex items-center justify-between mb-6 sm:mb-8 flex-wrap gap-3">
-        <h2 className="text-[18px] sm:text-[22px] font-extrabold tracking-[-0.03em] text-ink">FYIAEP Application</h2>
+        <h2 className="text-heading font-bold text-ink">FYIAEP Application</h2>
         <button onClick={onBack} className="text-sm text-grey-500 cursor-pointer border-none bg-none font-sans flex items-center gap-1 hover:text-jade">
           <ChevronLeft /> Back to Programme page
         </button>
@@ -2178,7 +2178,7 @@ function FormPage({
           disabled={step === 0 || saving}
           onClick={() => goToStep(step - 1)}
           data-ph-event="Back"
-          className="px-6 py-2.5 bg-white border border-grey-200 rounded-[10px] text-sm font-sans text-grey-800 font-medium cursor-pointer flex items-center gap-1.5 hover:border-grey-300 disabled:text-grey-300 disabled:border-grey-150 disabled:cursor-default"
+          className="px-6 py-2.5 bg-white border border-grey-200 rounded-btn text-sm font-sans text-grey-800 font-medium cursor-pointer flex items-center gap-1.5 hover:border-grey-300 disabled:text-grey-300 disabled:border-grey-150 disabled:cursor-default"
         >
           <ChevronLeft /> Back
         </button>
@@ -2188,7 +2188,7 @@ function FormPage({
             onClick={saveProgress}
             disabled={saving}
             data-ph-event="Save progress"
-            className="px-6 py-2.5 bg-white border border-jade-200 rounded-[10px] text-sm font-sans text-jade-deep font-semibold cursor-pointer hover:bg-jade-tint transition-colors max-sm:flex-1 disabled:opacity-50"
+            className="px-6 py-2.5 bg-white border border-jade-200 rounded-btn text-sm font-sans text-jade-deep font-semibold cursor-pointer hover:bg-jade-tint transition-colors max-sm:flex-1 disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save progress"}
           </button>
@@ -2197,7 +2197,7 @@ function FormPage({
             onClick={goNext}
             disabled={proceedDisabled}
             data-ph-event={isLast ? "Proceed to Pay" : "Save & Continue"}
-            className="px-7 py-2.5 bg-jade text-white border-none rounded-[10px] text-sm font-bold font-sans tracking-[-0.01em] cursor-pointer flex items-center gap-1.5 hover:bg-jade-hover transition-colors max-sm:flex-1 disabled:opacity-50"
+            className="px-7 py-2.5 bg-jade text-white border-none rounded-btn text-sm font-bold font-sans tracking-[-0.01em] cursor-pointer flex items-center gap-1.5 hover:bg-jade-hover transition-colors max-sm:flex-1 disabled:opacity-50"
           >
             {saving ? (isLast ? "Processing..." : "Saving...") : isLast ? "Proceed to Pay" : "Save & Continue"} {!saving && <ChevronRight />}
           </button>
@@ -2206,7 +2206,7 @@ function FormPage({
 
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-ink text-white px-5 py-2.5 rounded-[10px] text-sm font-semibold z-50 animate-fade-in">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-ink text-white px-5 py-2.5 rounded-btn text-sm font-semibold z-50 animate-fade-in">
           {toast}
         </div>
       )}

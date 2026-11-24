@@ -25,7 +25,7 @@ export default function StepIndicator({ currentStep }: Props) {
           : '';
 
         const textClass = isActive
-          ? 'text-[#001E3C] font-medium'
+          ? 'text-ink font-medium'
           : isCompleted
           ? 'text-white font-medium'
           : 'text-white';
@@ -36,7 +36,7 @@ export default function StepIndicator({ currentStep }: Props) {
             className={`${baseRowClass} ${rowClass} cursor-default`}
           >
             <span
-              className={`flex items-center text-[15px] font-inter ${textClass} truncate`}
+              className={`flex items-center text-base font-inter ${textClass} truncate`}
             >
               <span className="mr-2 whitespace-nowrap">{step.id}.</span>
               <span>{step.label}</span>
@@ -45,7 +45,7 @@ export default function StepIndicator({ currentStep }: Props) {
             {isCompleted ? (
               <Check className="w-4 h-4 text-[#1AAA70] shrink-0" />
             ) : isActive ? (
-              <ChevronRight className="w-4 h-4 text-[#001E3C] shrink-0" />
+              <ChevronRight className="w-4 h-4 text-ink shrink-0" />
             ) : (
               <CircleDashed className="w-4 h-4 text-white shrink-0" />
             )}

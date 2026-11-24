@@ -23,7 +23,7 @@ export default async function DownloadPage() {
 
   return (
     <main className="mx-auto flex min-h-[70vh] max-w-xl flex-col items-center justify-center px-6 pb-16 pt-28 text-center">
-      <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">Get the Fydaa app</h1>
+      <h1 className="text-display font-bold text-ink">Get the Fydaa app</h1>
       <p className="mt-4 text-base leading-relaxed text-grey-600">
         Track your goals, SIPs and portfolio on the go. Open this page on your phone to go straight to your
         app store.

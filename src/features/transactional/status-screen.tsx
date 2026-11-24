@@ -71,7 +71,7 @@ export function StatusScreen({ tone, title, message, actions, busy = false, chil
         <p className="mt-6 text-xs font-semibold uppercase tracking-wide text-grey-600">
           {busy ? "Please wait" : config.label}
         </p>
-        <h1 className="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">{title}</h1>
+        <h1 className="mt-2 text-heading font-bold text-ink">{title}</h1>
         <div className="mt-3 text-base leading-relaxed text-grey-600">{message}</div>
         {children}
         {actions ? <div className="mt-8 flex flex-wrap justify-center gap-3">{actions}</div> : null}

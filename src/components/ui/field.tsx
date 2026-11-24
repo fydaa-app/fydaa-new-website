@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils/cn";
 export const labelClasses = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-grey-600";
 
 export const inputClasses =
-  "h-12 w-full rounded-[11px] border border-grey-300 bg-white px-3.5 text-sm font-medium text-ink " +
+  "h-12 w-full rounded-xl border border-grey-300 bg-white px-3.5 text-sm font-medium text-ink " +
   "placeholder:text-grey-500 transition-colors focus:border-jade focus:outline-none focus:ring-2 " +
   "focus:ring-jade/20 aria-[invalid=true]:border-red-600 disabled:bg-grey-100";
 

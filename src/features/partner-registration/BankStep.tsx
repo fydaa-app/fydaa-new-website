@@ -107,7 +107,7 @@ export default function BankStep({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-gilroy font-semibold text-2xl text-[#001E3C]">
+        <h2 className="text-heading font-bold text-ink">
           Bank Details
         </h2>
         <p className="font-inter text-sm text-gray-600 mt-1">

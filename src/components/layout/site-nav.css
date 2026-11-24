@@ -76,7 +76,7 @@
 }
 
 .site-nav .nav-center a {
-  font-size: 0.9375rem;
+  font-size:1rem;
   font-weight: 500;
   color: var(--ink2);
   transition: color 0.2s;
@@ -117,7 +117,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.875rem;
+  font-size:.875rem;
   font-weight: 600;
   color: #fff;
   background: var(--g);
@@ -133,7 +133,7 @@
 .site-nav .nav-login {
   display: inline-flex;
   align-items: center;
-  font-size: 0.875rem;
+  font-size:.875rem;
   font-weight: 600;
   color: var(--g);
   background: var(--card);
@@ -194,7 +194,7 @@
   }
 
   .site-nav .nav-center a {
-    font-size: 0.8125rem;
+    font-size:.875rem;
   }
 
   .site-nav .nav-logo {

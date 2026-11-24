@@ -11,7 +11,7 @@ export default function VigilanceAwarenessWeek() {
       <main className="w-full flex flex-col items-center p-16">
         <section className="terms-content">
           <div className="container">
-            <h1 className="text-center text-3xl font-bold mb-12 mt-8">
+            <h1 className="text-heading text-center font-bold mb-12 mt-8">
               Vigilance Awareness Week 2025
             </h1>
 

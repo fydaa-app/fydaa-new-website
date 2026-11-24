@@ -8,7 +8,7 @@ export default function AuthFallback({ mode }: { mode: "login" | "signup" }) {
       <p className="mb-2 text-xs font-bold uppercase tracking-wider text-neutral-600">
         {mode === "login" ? "Login" : "Sign up"}
       </p>
-      <h1 className="mb-1.5 text-[28px] font-bold leading-tight tracking-tight text-neutral-950">
+      <h1 className="text-heading mb-1.5 font-bold text-neutral-950">
         Tell us your mobile number
       </h1>
       <p role="status" className="text-sm text-neutral-600">

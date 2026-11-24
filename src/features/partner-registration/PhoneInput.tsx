@@ -40,7 +40,7 @@ export default function PhoneInput({
           value={value}
           onChange={handlePhoneChange}
           readOnly={readOnly}
-          className={`flex-1 min-w-0 h-12 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-l-[12px] text-sm text-[#001E3C] placeholder:text-gray-500 focus:outline-none focus:border-[#001E3C] focus:ring-1 focus:ring-[#001E3C] transition-colors font-inter ${
+          className={`flex-1 min-w-0 h-12 px-3 sm:px-4 border border-gray-300 border-l-0 rounded-l-xl text-sm text-ink placeholder:text-gray-500 focus:outline-none focus:border-ink focus:ring-1 focus:ring-ink transition-colors font-inter ${
             readOnly ? 'bg-gray-100 cursor-not-allowed' : ''
           } ${
             error
@@ -52,7 +52,7 @@ export default function PhoneInput({
           maxLength={10}
         />
         {actionButton && (
-          <div className="flex items-center h-12 px-3 border border-gray-300 border-l-0 rounded-r-[12px] bg-gray-50">
+          <div className="flex items-center h-12 px-3 border border-gray-300 border-l-0 rounded-r-xl bg-gray-50">
             {actionButton}
           </div>
         )}

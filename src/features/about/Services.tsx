@@ -122,7 +122,7 @@ export default function Services() {
     <section className="py-12 sm:py-16 md:py-20 bg-white font-inter">
       <div className="max-w-[1120px] 2xl:max-w-[1280px] mx-auto px-4 sm:px-6">
         <div className="max-w-[560px] mb-12">
-          <h2 className="mb-3 text-[clamp(1.5rem,3vw,2.05rem)] font-bold tracking-[-0.02em] text-ink">
+          <h2 className="text-heading mb-3 font-bold text-ink">
             Your 360° personal finance partner
           </h2>
           <p className="text-grey-600 leading-[1.7]">
@@ -140,7 +140,7 @@ export default function Services() {
                 {s.icon}
               </div>
               <h3 className="mb-1.5 text-base font-bold text-ink">{s.title}</h3>
-              <p className="text-[0.82rem] text-grey-500 leading-[1.5]">{s.body}</p>
+              <p className="text-sm text-grey-500 leading-[1.5]">{s.body}</p>
             </div>
           ))}
         </div>

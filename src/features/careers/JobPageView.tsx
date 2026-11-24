@@ -27,7 +27,7 @@ export default function JobPageView({ job }: { job: JobOpening }) {
             </li>
           </ol>
         </nav>
-        <article className="rounded-[20px] border border-grey-200 bg-white p-7 shadow-card md:p-10">
+        <article className="rounded-4xl border border-grey-200 bg-white p-7 shadow-card md:p-10">
           <JobDetail job={job} onApply={() => setApplying(true)} headingLevel={1} showPermalink={false} />
         </article>
       </div>

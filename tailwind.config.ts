@@ -10,11 +10,23 @@ const config: Config = {
         '3xl': '1680px',
         '4xl': '1920px',
       },
+      // One typeface site-wide. `font-inter` is kept as an alias for existing markup.
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'sans-serif'],
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        inter: ['var(--font-inter)', 'system-ui', 'sans-serif'],
         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
-        inter: ['var(--font-inter)', 'sans-serif'],
-        gilroy: ['var(--font-gilroy)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
+      },
+      /*
+       * Type scale. Body and UI text use Tailwind's steps (xs 12 · sm 14 · base 16 · lg 18 ·
+       * xl 20 · 2xl 24 · 3xl 30 · 4xl 36 · 5xl 48). Headings use the fluid semantic steps
+       * below so every page title and section title matches at every width.
+       */
+      fontSize: {
+        // Values live in globals.css (:root) so CSS modules and Tailwind share them.
+        display: ['var(--text-display)', { lineHeight: '1.08', letterSpacing: '-0.03em' }],
+        heading: ['var(--text-heading)', { lineHeight: '1.15', letterSpacing: '-0.02em' }],
+        title: ['var(--text-title)', { lineHeight: '1.3', letterSpacing: '-0.01em' }],
+        lead: ['var(--text-lead)', { lineHeight: '1.6' }],
       },
       colors: {
         jade: {
@@ -50,10 +62,12 @@ const config: Config = {
         emerald: '#047857',
         tint: '#ECFDF5',
       },
+      // Radius set: controls (btn) · cards · large feature panels (section).
       borderRadius: {
         '4xl': '20px',
         card: '14px',
         btn: '10px',
+        section: '32px',
       },
       boxShadow: {
         card: '0 1px 3px rgba(10,10,10,.04), 0 0 1px rgba(10,10,10,.06)',

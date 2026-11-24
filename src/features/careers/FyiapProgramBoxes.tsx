@@ -31,10 +31,10 @@ export default function FyiapProgramBoxes() {
             <span className="inline-block rounded-full bg-jade-tint px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-jade-deep">
               FYIAEP: Young Investment Advisor Entrepreneurship Programme
             </span>
-            <h2 className="mt-3.5 text-[clamp(24px,3vw,30px)] font-bold tracking-tight text-ink">
+            <h2 className="text-heading mt-3.5 font-bold text-ink">
               From learning to live advisory exposure
             </h2>
-            <p className="mt-2.5 text-[15px] leading-relaxed text-grey-600">
+            <p className="mt-2.5 text-base leading-relaxed text-grey-600">
               A 4-month programme combining financial markets knowledge, NISM certification, practical advisory training and real
               client exposure.
             </p>
@@ -43,7 +43,7 @@ export default function FyiapProgramBoxes() {
               <Link
                 href="/programme"
                 data-ph-event="Apply now"
-                className="inline-flex items-center gap-1.5 rounded-[10px] bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
+                className="inline-flex items-center gap-1.5 rounded-btn bg-jade px-6 py-3 text-sm font-bold text-white hover:bg-jade-hover"
               >
                 Apply now
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0">
@@ -59,21 +59,21 @@ export default function FyiapProgramBoxes() {
               <Link
                 href="/programme"
                 data-ph-event="Learn more"
-                className="rounded-[10px] border border-grey-300 px-6 py-3 text-sm font-bold text-ink hover:border-jade hover:text-jade"
+                className="rounded-btn border border-grey-300 px-6 py-3 text-sm font-bold text-ink hover:border-jade hover:text-jade"
               >
                 Learn more
               </Link>
             </div>
-            <p className="mt-4 text-[12.5px] text-grey-500">35,000 rupees one-time programme fee, plus applicable taxes.</p>
+            <p className="mt-4 text-xs text-grey-500">35,000 rupees one-time programme fee, plus applicable taxes.</p>
           </div>
 
           <div className="rounded-2xl border border-grey-200 bg-white p-6 shadow-card">
-            <p className="mb-[18px] text-[12px] font-bold uppercase tracking-wide text-grey-500">Programme highlights</p>
+            <p className="mb-[18px] text-xs font-bold uppercase tracking-wide text-grey-500">Programme highlights</p>
             <ul className="flex flex-col gap-3.5">
               {PROGRAMME_HIGHLIGHTS.map((item, i) => (
                 <li
                   key={item}
-                  className={`flex items-start gap-2.5 text-[15px] font-medium leading-snug text-ink ${
+                  className={`flex items-start gap-2.5 text-base font-medium leading-snug text-ink ${
                     i < PROGRAMME_HIGHLIGHTS.length - 1 ? "border-b border-grey-100 pb-3.5" : ""
                   }`}
                 >
