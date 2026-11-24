@@ -11,8 +11,10 @@ export interface CodeInputProps {
   onChange: (value: string) => void;
   /** Called once all digits are filled. */
   onComplete?: (value: string) => void;
-  /** Visible label, also the input's accessible name. */
+  /** The input's accessible name; shown above the boxes unless `labelHidden`. */
   label: string;
+  /** Keep the label for screen readers only (e.g. when a page heading already says it). */
+  labelHidden?: boolean;
   /** "otp" enables SMS one-time-code autofill; "pin" masks the digits. */
   kind?: "otp" | "pin";
   error?: string | null;
@@ -36,6 +38,7 @@ export function CodeInput({
   onChange,
   onComplete,
   label,
+  labelHidden = false,
   kind = "otp",
   error,
   disabled,
@@ -60,7 +63,7 @@ export function CodeInput({
 
   return (
     <div className={cn("mb-4", className)}>
-      <label htmlFor={inputId} className={labelClasses}>
+      <label htmlFor={inputId} className={labelHidden ? "sr-only" : labelClasses}>
         {label}
       </label>
       <div className="relative inline-flex gap-2.5">

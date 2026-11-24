@@ -1369,6 +1369,12 @@ export default function OnboardingFlow({
   const cfg = STEP_MAP[screen];
   const isLogin = mode === 'login';
   const entryLabel = isLogin ? 'Login' : 'Sign up';
+  /** Real <form> submit: Enter / the phone keyboard's "Go" key run the screen's action. */
+  const submitWith = (handler) => (event) => {
+    event.preventDefault();
+    if (!authBusy) handler();
+  };
+
   const showRiskBack = screen === 'risk' && riskIndex > 0;
   const backTarget = isLogin
     ? screen === 'otp'
@@ -1443,7 +1449,7 @@ export default function OnboardingFlow({
 
       {/* MOBILE NUMBER */}
       {screen === 'mobile' && (
-        <>
+        <form noValidate className="contents" onSubmit={submitWith(isLogin ? submitLoginPin : submitSignupMobile)}>
           <Overline>{entryLabel}</Overline>
           <PageHeading>Tell us your mobile number</PageHeading>
           <PageSub>
@@ -1453,6 +1459,9 @@ export default function OnboardingFlow({
             label="Mobile Number"
             prefix="+91"
             type="tel"
+            name="mobile"
+            inputMode="numeric"
+            autoComplete="tel-national"
             maxLength={10}
             placeholder="Enter mobile number"
             value={mobileNumber}
@@ -1460,10 +1469,13 @@ export default function OnboardingFlow({
           />
           {isLogin && (
             <div className="mb-2">
-              <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-600 mb-3">
-                4-digit PIN
-              </label>
-              <CodeInputs count={4} value={pin} onChange={(next) => { setPin(next); setAuthError(''); }} />
+              <CodeInputs
+                count={4}
+                kind="pin"
+                label="4-digit PIN"
+                value={pin}
+                onChange={(next) => { setPin(next); setAuthError(''); }}
+              />
             </div>
           )}
           {!isLogin && (
@@ -1480,27 +1492,30 @@ export default function OnboardingFlow({
             </>
           )}
           {authError && screen === 'mobile' && (
-            <p className="text-sm text-red-600 mb-3">{authError}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
           <Button
             phEvent={isLogin ? 'Login Proceed' : 'Sign up Proceed'}
-            onClick={isLogin ? submitLoginPin : submitSignupMobile}
+            type="submit"
             disabled={Boolean(authBusy)}
           >
             {authBusy === 'pin' || authBusy === 'otp-request' ? 'Please wait...' : 'Proceed'}
           </Button>
           <AccountSwitch isLogin={isLogin} />
-        </>
+        </form>
       )}
 
       {/* OTP — signup first visit / login after PIN */}
       {screen === 'otp' && (
-        <>
+        <form noValidate className="contents" onSubmit={submitWith(submitSignupOtp)}>
           <Overline>{entryLabel}</Overline>
           <PageHeading>Enter the OTP sent to</PageHeading>
           <PageSub>{mobileNumber ? `+91 ${mobileNumber}` : '+91'}</PageSub>
           <CodeInputs
             count={6}
+            label="6-digit OTP"
+            labelHidden
+            autoFocus
             value={otp}
             onChange={(next) => { setOtp(next); setAuthError(''); }}
           />
@@ -1508,45 +1523,43 @@ export default function OnboardingFlow({
             {authBusy === 'resend' ? 'Sending...' : 'Resend OTP'}
           </LinkText>
           {authError && screen === 'otp' && (
-            <p className="text-sm text-red-600 mb-3">{authError}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button phEvent="Verify OTP" onClick={submitSignupOtp} disabled={Boolean(authBusy)}>
+          <Button phEvent="Verify OTP" type="submit" disabled={Boolean(authBusy)}>
             {authBusy === 'otp' ? 'Verifying...' : 'Proceed'}
           </Button>
           <AccountSwitch isLogin={isLogin} />
-        </>
+        </form>
       )}
 
       {/* PIN — create / legacy migrate; then home (not risk quiz) */}
       {screen === 'pin' && (
-        <>
+        <form noValidate className="contents" onSubmit={submitWith(submitCreatePin)}>
           <PageHeading>{pinTitle}</PageHeading>
           <PageSub>{pinSub}</PageSub>
           <div className="bg-white border border-neutral-200 rounded-2xl p-6 mb-5 shadow-sm">
-            <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-600 mb-3">
-              Enter 4-Digit PIN
-            </label>
             <CodeInputs
               count={4}
+              kind="pin"
+              label="Enter 4-digit PIN"
               value={createPinValue}
               onChange={(next) => { setCreatePinValue(next); setAuthError(''); }}
             />
-            <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-600 mb-3">
-              Re-Enter PIN
-            </label>
             <CodeInputs
               count={4}
+              kind="pin"
+              label="Re-enter PIN"
               value={confirmPin}
               onChange={(next) => { setConfirmPin(next); setAuthError(''); }}
             />
           </div>
           {authError && screen === 'pin' && (
-            <p className="text-sm text-red-600 mb-3">{authError}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button phEvent="Create PIN" onClick={submitCreatePin} disabled={Boolean(authBusy)}>
+          <Button phEvent="Create PIN" type="submit" disabled={Boolean(authBusy)}>
             {authBusy === 'create-pin' ? 'Saving...' : 'Get Started'}
           </Button>
-        </>
+        </form>
       )}
 
       {/* RISK QUESTIONS — API questionnaire, one at a time */}
@@ -1613,7 +1626,7 @@ export default function OnboardingFlow({
 
       {/* EMAIL */}
       {screen === 'email' && (
-        <>
+        <form noValidate className="contents" onSubmit={submitWith(submitRequestEmailOtp)}>
           <QuestionCard
             icon={<EnvelopeIcon className="w-[21px] h-[21px]" />}
             title="Verify Your Email address"
@@ -1623,6 +1636,8 @@ export default function OnboardingFlow({
               <FieldInput
                 label="Email"
                 type="email"
+                name="email"
+                autoComplete="email"
                 placeholder="Enter your email-id"
                 value={email}
                 onChange={(e) => { setEmail(e.target.value); setAuthError(''); }}
@@ -1630,9 +1645,9 @@ export default function OnboardingFlow({
             </div>
           </QuestionCard>
           {authError && screen === 'email' && (
-            <p className="text-sm text-red-600 mb-3">{authError}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button phEvent="Send Email OTP" onClick={submitRequestEmailOtp} disabled={Boolean(authBusy)}>
+          <Button phEvent="Send Email OTP" type="submit" disabled={Boolean(authBusy)}>
             {authBusy === 'email-request' ? 'Sending...' : 'Next'}
           </Button>
           <div className="flex items-center gap-3 my-4">
@@ -1654,12 +1669,12 @@ export default function OnboardingFlow({
             <AppleIcon />
             {authBusy === 'apple' ? 'Connecting...' : 'Continue with Apple'}
           </OutlineButton>
-        </>
+        </form>
       )}
 
       {/* EMAIL OTP */}
       {screen === 'emailotp' && (
-        <>
+        <form noValidate className="contents" onSubmit={submitWith(submitVerifyEmailOtp)}>
           <QuestionCard
             icon={<EnvelopeIcon className="w-[21px] h-[21px]" />}
             title="Verify Your Email address"
@@ -1668,6 +1683,9 @@ export default function OnboardingFlow({
             <div className="mt-4">
               <CodeInputs
                 count={6}
+                label="6-digit email code"
+                labelHidden
+                autoFocus
                 value={emailOtp}
                 onChange={(next) => { setEmailOtp(next); setAuthError(''); }}
               />
@@ -1686,17 +1704,17 @@ export default function OnboardingFlow({
             </div>
           </QuestionCard>
           {authError && screen === 'emailotp' && (
-            <p className="text-sm text-red-600 mb-3">{authError}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button phEvent="Verify Email OTP" onClick={submitVerifyEmailOtp} disabled={Boolean(authBusy)}>
+          <Button phEvent="Verify Email OTP" type="submit" disabled={Boolean(authBusy)}>
             {authBusy === 'email-verify' ? 'Verifying...' : 'Verify'}
           </Button>
-        </>
+        </form>
       )}
 
       {/* PAN + NAME + DOB */}
       {screen === 'pan' && (
-        <>
+        <form noValidate className="contents" onSubmit={submitWith(submitPanDetails)}>
           <PageHeading size="text-2xl">Complete Your KYC</PageHeading>
           <QuestionCard
             icon={<DocIcon className="w-[21px] h-[21px]" />}
@@ -1742,17 +1760,17 @@ export default function OnboardingFlow({
             </div>
           </QuestionCard>
           {authError && screen === 'pan' && (
-            <p className="text-sm text-red-600 mb-3">{authError}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button phEvent="Submit PAN" onClick={submitPanDetails} disabled={Boolean(authBusy)}>
+          <Button phEvent="Submit PAN" type="submit" disabled={Boolean(authBusy)}>
             {authBusy === 'pan' ? 'Verifying...' : 'Verify'}
           </Button>
-        </>
+        </form>
       )}
 
       {/* KYC EXTRA QUESTIONS */}
       {screen === 'kyc' && (
-        <>
+        <form noValidate className="contents" onSubmit={submitWith(submitKycExtra)}>
           <PageHeading size="text-2xl">Complete Your KYC</PageHeading>
           <QuestionCard
             icon={<DocIcon className="w-[21px] h-[21px]" />}
@@ -1816,12 +1834,12 @@ export default function OnboardingFlow({
             I am not a politically exposed person
           </Checkbox>
           {authError && screen === 'kyc' && (
-            <p className="text-sm text-red-600 mb-3">{authError}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button phEvent="Continue KYC" onClick={submitKycExtra} disabled={Boolean(authBusy)}>
+          <Button phEvent="Continue KYC" type="submit" disabled={Boolean(authBusy)}>
             {authBusy === 'kyc-extra' ? 'Saving...' : 'Continue'}
           </Button>
-        </>
+        </form>
       )}
 
       {/* DIGILOCKER */}
@@ -1832,7 +1850,7 @@ export default function OnboardingFlow({
             Link your Aadhaar via DigiLocker to continue KYC. A secure window will open.
           </PageSub>
           {authError && screen === 'digilocker' && (
-            <p className="text-sm text-red-600 mb-3">{authError}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
           <Button phEvent="Start DigiLocker" onClick={startDigiLocker} disabled={Boolean(authBusy)}>
             {authBusy === 'digilocker' ? 'Waiting for DigiLocker...' : 'Continue DigiLocker'}
@@ -1853,7 +1871,7 @@ export default function OnboardingFlow({
             }}
           />
           {authError && screen === 'signature' && (
-            <p className="text-sm text-red-600 mb-3">{authError}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
           <Button phEvent="Submit Signature" onClick={submitSignatureAndNsdl} disabled={Boolean(authBusy)}>
             {authBusy === 'signature' || authBusy === 'nsdl' ? 'Please wait...' : 'Continue to e-sign'}
@@ -1871,7 +1889,7 @@ export default function OnboardingFlow({
               : 'If the window closed early, tap below to try again.'}
           </PageSub>
           {authError && screen === 'nsdl' && (
-            <p className="text-sm text-red-600 mb-3">{authError}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
           <Button phEvent="NSDL eSign" onClick={runNsdlEsign} disabled={Boolean(authBusy)}>
             {authBusy === 'nsdl' ? 'Waiting…' : 'Continue e-sign'}
@@ -1890,7 +1908,7 @@ export default function OnboardingFlow({
 
       {/* BANK */}
       {screen === 'bank' && (
-        <>
+        <form noValidate className="contents" onSubmit={submitWith(submitBank)}>
           <Overline emerald>Connected</Overline>
           <PageHeading>Add Bank Details</PageHeading>
           <FieldRow>
@@ -1977,17 +1995,17 @@ export default function OnboardingFlow({
             </Checkbox>
           </div>
           {authError && screen === 'bank' && (
-            <p className="text-sm text-red-600 mb-3">{authError}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button phEvent="Submit Bank" onClick={submitBank} disabled={Boolean(authBusy)}>
+          <Button phEvent="Submit Bank" type="submit" disabled={Boolean(authBusy)}>
             {authBusy === 'bank' || authBusy === 'nominee' ? 'Saving...' : 'Add Bank Details'}
           </Button>
-        </>
+        </form>
       )}
 
       {/* NOMINEE */}
       {screen === 'nominee' && (
-        <>
+        <form noValidate className="contents" onSubmit={submitWith(() => submitNominee())}>
           <Overline>Add a trusted person</Overline>
           <PageHeading>Add Nominee</PageHeading>
           <div className="mb-5">
@@ -2075,12 +2093,12 @@ export default function OnboardingFlow({
           )}
 
           {authError && screen === 'nominee' && (
-            <p className="text-sm text-red-600 mb-3">{authError}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3">{authError}</p>
           )}
-          <Button phEvent="Submit Nominee" onClick={() => submitNominee()} disabled={Boolean(authBusy)}>
+          <Button phEvent="Submit Nominee" type="submit" disabled={Boolean(authBusy)}>
             {authBusy === 'nominee' ? 'Saving...' : 'Submit Nominee'}
           </Button>
-        </>
+        </form>
       )}
 
       <KycModal

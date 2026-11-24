@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useId } from 'react';
+import { CodeInput } from '@/components/ui/code-input';
 import { captureButtonClick, labelFromChildren } from '@/lib/posthog';
 
 /**
@@ -94,11 +95,16 @@ export function PageSub({ children }) {
   return <p className="text-sm text-neutral-500 mb-8">{children}</p>;
 }
 
-export function LinkText({ children, onClick, className = '' }) {
+export function LinkText({ children, onClick, className = '', ...rest }) {
   return (
-    <span onClick={onClick} className={`text-[13px] text-emerald-700 font-semibold cursor-pointer inline-block mb-6 ${className}`}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={`text-[13px] text-emerald-700 font-semibold cursor-pointer inline-block mb-6 bg-transparent border-0 p-0 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0C4A3E] ${className}`}
+      {...rest}
+    >
       {children}
-    </span>
+    </button>
   );
 }
 
@@ -178,20 +184,23 @@ export function AppleIcon({ className = 'w-5 h-5' }) {
   );
 }
 
-export function FieldLabel({ children }) {
-  return <label className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-600 mb-1.5">{children}</label>;
+export function FieldLabel({ children, htmlFor }) {
+  return <label htmlFor={htmlFor} className="block text-[11px] font-semibold uppercase tracking-wide text-neutral-600 mb-1.5">{children}</label>;
 }
 
-export function FieldInput({ label, prefix, className = '', ...rest }) {
+export function FieldInput({ label, prefix, className = '', id, ...rest }) {
+  const generatedId = useId();
+  const inputId = id || generatedId;
   return (
     <div className="mb-4">
-      {label && <FieldLabel>{label}</FieldLabel>}
+      {label && <FieldLabel htmlFor={inputId}>{label}</FieldLabel>}
       <div className="relative">
         {prefix && <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-neutral-500 pointer-events-none">{prefix}</span>}
         <input
           className={`w-full h-12 border-[1.5px] border-neutral-200 rounded-[11px] px-3.5 text-sm font-medium text-neutral-950 outline-none focus:border-[#0C4A3E] transition-colors ${
             prefix ? 'pl-12' : ''
           } ${className}`}
+          id={inputId}
           {...rest}
         />
       </div>
@@ -199,11 +208,14 @@ export function FieldInput({ label, prefix, className = '', ...rest }) {
   );
 }
 
-export function FieldSelect({ label, children, ...rest }) {
+export function FieldSelect({ label, children, id, ...rest }) {
+  const generatedId = useId();
+  const selectId = id || generatedId;
   return (
     <div className="mb-4">
-      {label && <FieldLabel>{label}</FieldLabel>}
+      {label && <FieldLabel htmlFor={selectId}>{label}</FieldLabel>}
       <select
+        id={selectId}
         className="w-full h-12 border-[1.5px] border-neutral-200 rounded-[11px] px-3.5 text-sm font-medium text-neutral-950 outline-none focus:border-[#0C4A3E] bg-white"
         {...rest}
       >
@@ -217,41 +229,23 @@ export function FieldRow({ children }) {
   return <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">{children}</div>;
 }
 
-export function CodeInputs({ count, value = '', onChange }) {
-  const controlled = typeof onChange === 'function';
-  const chars = Array.from({ length: count }, (_, i) => (controlled ? value[i] || '' : ''));
-
-  function writeAt(index, digit, input) {
-    const next = chars.slice();
-    next[index] = digit;
-    onChange(next.join(''));
-    if (digit && input.nextElementSibling) input.nextElementSibling.focus();
-  }
-
+/**
+ * Segmented OTP/PIN entry (keeps the legacy API). Backed by the shared CodeInput: one
+ * real input, so paste and SMS autofill fill every box, PINs are masked and assistive
+ * tech gets a single labelled field.
+ */
+export function CodeInputs({ count, value = '', onChange, label = 'Code', labelHidden = false, kind = 'otp', autoFocus = false, error }) {
   return (
-    <div className="flex gap-2.5 flex-wrap mb-4">
-      {chars.map((char, i) => (
-        <input
-          key={i}
-          type="tel"
-          inputMode="numeric"
-          maxLength={1}
-          value={controlled ? char : undefined}
-          className="w-[46px] h-[52px] border-[1.5px] border-neutral-200 rounded-[10px] text-center text-lg font-bold text-neutral-950 outline-none focus:border-[#0C4A3E]"
-          onChange={(e) => {
-            if (!controlled) return;
-            const digit = e.target.value.replace(/\D/g, '').slice(-1);
-            writeAt(i, digit, e.target);
-          }}
-          onKeyDown={(e) => {
-            if (!controlled) return;
-            if (e.key === 'Backspace' && !chars[i] && e.target.previousElementSibling) {
-              e.target.previousElementSibling.focus();
-            }
-          }}
-        />
-      ))}
-    </div>
+    <CodeInput
+      length={count}
+      value={value}
+      onChange={(next) => onChange?.(next)}
+      label={label}
+      labelHidden={labelHidden}
+      kind={kind}
+      autoFocus={autoFocus}
+      error={error}
+    />
   );
 }
 
@@ -260,6 +254,7 @@ export function Chip({ label, selected, onClick }) {
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={Boolean(selected)}
       className={`h-9 px-4 rounded-full text-[13px] font-semibold border-[1.5px] transition-colors ${
         selected ? 'bg-[#0C4A3E] border-[#0C4A3E] text-white' : 'bg-white border-neutral-200 text-neutral-600'
       }`}
@@ -272,9 +267,15 @@ export function Chip({ label, selected, onClick }) {
 export function Checkbox({ checked, onChange, children }) {
   return (
     <label className="flex items-start gap-3 cursor-pointer mb-5">
+      <input
+        type="checkbox"
+        className="peer sr-only"
+        checked={Boolean(checked)}
+        onChange={() => onChange?.()}
+      />
       <span
-        onClick={onChange}
-        className={`w-5 h-5 rounded-[5px] border-[1.5px] flex items-center justify-center mt-0.5 flex-shrink-0 transition-colors ${
+        aria-hidden="true"
+        className={`w-5 h-5 rounded-[5px] border-[1.5px] flex items-center justify-center mt-0.5 flex-shrink-0 transition-colors peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[#0C4A3E] ${
           checked ? 'bg-[#0C4A3E] border-[#0C4A3E]' : 'bg-white border-neutral-300'
         }`}
       >
