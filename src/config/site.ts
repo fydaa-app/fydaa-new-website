@@ -42,6 +42,7 @@ export const siteConfig = {
   },
   apps: {
     ios: "https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190",
+    android: "https://play.google.com/store/apps/details?id=com.app.fydaa",
   },
 } as const;
 

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function FinalCta() {
   return (
     <section className="final-cta" id="final">
@@ -20,12 +22,11 @@ export default function FinalCta() {
           >
             Book a Free Call
           </a>
-          <a
-            href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
+          <Link
+            href="/download"
+            prefetch={false}
             className="final-cta-btn"
             data-ph-event="Download App"
-            target="_blank"
-            rel="noopener noreferrer"
           >
             <svg
               width="16"
@@ -41,7 +42,7 @@ export default function FinalCta() {
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
             Download App
-          </a>
+          </Link>
         </div>
       </div>
     </section>

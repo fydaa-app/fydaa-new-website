@@ -29,6 +29,8 @@ export const routes = {
   signup: { path: "/signup", label: "Sign up" },
   dashboard: { path: "/dashboard", label: "Dashboard" },
   upiFaq: { path: "/upi-faq", label: "UPI handle FAQs" },
+  /** Smart app link: redirects phones to their store, shows both stores on desktop. */
+  download: { path: "/download", label: "Download App" },
 } as const satisfies Record<string, SiteRoute>;
 
 const legal = { priority: 0.3, changeFrequency: "yearly" } as const;

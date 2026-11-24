@@ -20,10 +20,9 @@ export default function AboutCta() {
           >
             Book a Free Call
           </Link>
-          <a
-            href="https://apps.apple.com/in/app/fydaa-your-money-for-tomorrow/id1622175190"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/download"
+            prefetch={false}
             data-ph-event="Download App"
             className="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/[.18] text-white px-7 py-3.5 rounded-[10px] font-bold text-[0.95rem] hover:bg-white/[.18] transition-all min-h-[44px]"
           >
@@ -33,7 +32,7 @@ export default function AboutCta() {
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
             Download App
-          </a>
+          </Link>
         </div>
       </div>
     </section>

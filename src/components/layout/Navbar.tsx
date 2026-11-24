@@ -94,16 +94,15 @@ export default function Navbar() {
             <Link href={account.path} className="nav-login" data-ph-event={account.label}>
               {account.label}
             </Link>
-            <a
-              href={siteConfig.apps.ios}
+            <Link
+              href={routes.download.path}
+              prefetch={false}
               className="nav-download"
               data-ph-event="Download App"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               {DownloadIcon}
               Download App
-            </a>
+            </Link>
           </div>
 
           <button
