@@ -267,6 +267,7 @@ export async function verifyOtp({ mobileNumber, otp }) {
     mobileNumber,
     otp,
     referralCode: '',
+    fromApp: 'fydaa',
   });
   const token = storeTokens(data);
   if (!token) throw new Error('Something went wrong. Please try again.');
@@ -280,7 +281,7 @@ export async function verifyPin({ mobileNumber, pin }) {
   const res = await fetch(`${AUTH_BASE}auth/verifyPin`, {
     method: 'POST',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-    body: JSON.stringify({ mobileNumber, pin }),
+    body: JSON.stringify({ mobileNumber, pin, fromApp: 'fydaa' }),
   });
   const data = await parseJson(res);
   if (res.status === 429) throw new Error(messageFrom(data, 'Too many failed attempts. Try again after 15 minutes.'));
