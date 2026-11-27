@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 import { Home, Target, Clock, User, Shield, X, Flag } from "lucide-react";
 import { captureButtonClick } from "../../../lib/posthog";
@@ -44,7 +45,7 @@ export default function Sidebar({ activePage, setActivePage, showKyc, user, open
             onClick={() => go("home", "Fydaa home")}
             aria-label="Fydaa home"
           >
-            <img src="/fydaa-logo.png" alt="Fydaa" className="h-8 sm:h-9 w-auto object-contain" />
+            <Image src="/fydaa-logo.png" alt="Fydaa" width={144} height={52} className="h-8 sm:h-9 w-auto object-contain" priority />
           </button>
           <button
             type="button"

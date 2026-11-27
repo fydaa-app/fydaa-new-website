@@ -1,0 +1,27 @@
+# FYD-149 — Netlify security & build config for fydaa.com
+[build]
+  command = "npm run build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Secret scanning: fail the build if known secret patterns appear in the deploy
+[build.environment]
+  SECRETS_SCAN_ENABLED = "true"
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_POSTHOG_KEY,NEXT_PUBLIC_GOOGLE_CLIENT_ID,NEXT_PUBLIC_APPLE_CLIENT_ID"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    # Report-Only first so we can tighten without breaking GA/PostHog/Razorpay/OAuth
+    Content-Security-Policy-Report-Only = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://*.fydaa.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://*.posthog.com https://checkout.razorpay.com https://accounts.google.com https://appleid.cdn-apple.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://fydaa-v2.s3.ap-south-1.amazonaws.com https://*.google-analytics.com https://*.googletagmanager.com https://*.posthog.com; connect-src 'self' https://*.fydaa.com https://fydaa.in https://*.posthog.com https://*.google-analytics.com https://www.google-analytics.com https://api.razorpay.com https://accounts.google.com https://appleid.apple.com; frame-src https://api.razorpay.com https://checkout.razorpay.com https://accounts.google.com https://appleid.apple.com; worker-src 'self' blob:"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-store"

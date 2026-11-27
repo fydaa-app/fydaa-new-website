@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import "./site-nav.css";
 
@@ -38,7 +39,7 @@ export default function Navbar() {
             onClick={() => setOpen(false)}
             aria-label="Fydaa home"
           >
-            <img src="/fydaa-logo.png" alt="Fydaa" />
+            <Image src="/fydaa-logo.png" alt="Fydaa" width={120} height={43} priority />
           </Link>
 
           <div className={`nav-center${open ? " open" : ""}`}>
